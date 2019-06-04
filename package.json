@@ -1,0 +1,116 @@
+{
+  "name": "sjitapp",
+  "version": "3.0.0",
+  "main": "app.js",
+  "description": "An application for the San Jose Ice Team.",
+  "repository": "https://github.com/mattcarlotta/SJITApp",
+  "author": "Matt Carlotta",
+  "license": "MIT",
+  "private": true,
+  "engines": {
+    "node": ">=8",
+    "npm": ">=3"
+  },
+  "scripts": {
+    "dev": "better-npm-run dev",
+    "initialize": "yarn install && cd client && yarn install && cd ..",
+    "start": "better-npm-run start",
+    "server": "better-npm-run server",
+    "client": "npm run dev --prefix client",
+    "build": "npm run build --prefix client",
+    "lint": "npm run lint-front --silent && npm run lint-back --silent",
+    "lint:front": "npm run pre-commit --prefix client",
+    "lint:back": "lint-staged",
+    "test": "better-npm-run test",
+    "test:front": "npm run test --prefix client"
+  },
+  "betterScripts": {
+    "dev": {
+      "command": "concurrently \"better-npm-run server\" \"npm run client\"",
+      "env": {
+        "HOST": "http://localhost:",
+        "CLIENT": "http://localhost:3000",
+        "DATABASE": "mongodb://localhost/sjitapp-dev-db",
+        "NODE_ENV": "development",
+        "APIPORT": 5000
+      }
+    },
+    "start": {
+      "command": "node app.js",
+      "env": {
+        "HOST": "http://localhost:",
+        "CLIENT": "http://example.com",
+        "DATABASE": "mongodb://localhost/sjitapp-prod-db",
+        "NODE_ENV": "production",
+        "APIPORT": 8080
+      }
+    },
+    "server": {
+      "command": "nodemon ./app.js",
+      "env": {
+        "DATABASE": "mongodb://localhost/sjitapp-dev-db",
+        "NODE_ENV": "development",
+        "APIPORT": 5000
+      }
+    },
+    "test": {
+      "command": "jest --config ./jest.json --runInBand --watchAll",
+      "env": {
+        "CLIENT": "http://localhost:5001",
+        "DATABASE": "mongodb://localhost/sjitapp-test-db",
+        "NODE_ENV": "test",
+        "APIPORT": 5001
+      }
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "cross-env NODE_ENV=test DATABASE=mongodb://localhost/sjitapp-test-db jest --config ./jest.json --runInBand --bail --findRelatedTests",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint:front --silent && npm run lint:back --silent"
+    }
+  },
+  "dependencies": {
+    "@babel/core": "^7.4.3",
+    "@babel/preset-env": "^7.4.3",
+    "@babel/register": "^7.4.0",
+    "@sendgrid/mail": "^6.4.0",
+    "babel-plugin-module-resolver": "^3.2.0",
+    "bcryptjs": "^2.4.3",
+    "better-npm-run": "^0.1.1",
+    "bluebird": "^3.5.3",
+    "body-parser": "^1.18.3",
+    "concurrently": "^4.1.0",
+    "connect-mongo": "^2.0.3",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "express-session": "^1.16.1",
+    "lodash": "^4.17.11",
+    "moment": "^2.24.0",
+    "mongoose": "^5.4.15",
+    "morgan": "^1.9.1",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "supertest": "^4.0.2"
+  },
+  "devDependencies": {
+    "babel-jest": "^24.7.1",
+    "cross-env": "^5.2.0",
+    "eslint": "^5.14.1",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-import-resolver-babel-module": "^5.0.1",
+    "eslint-plugin-import": "^2.16.0",
+    "husky": "^2.3.0",
+    "jest": "^24.7.1",
+    "lint-staged": "^8.1.4",
+    "mongodb": "^3.2.3",
+    "nodemon": "^1.18.10",
+    "prettier": "^1.16.4",
+    "react-dev-utils": "^9.0.1"
+  }
+}
