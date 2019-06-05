@@ -5,10 +5,18 @@ import passport from "passport";
 import session from "express-session";
 import connectRedis from "connect-redis";
 import mongodbConnection from "database";
+import mailer from "@sendgrid/mail";
+// import {
+//   localLogin,
+//   localSignup,
+//   resetPassword,
+//   resetToken,
+// } from "services/strategies";
+
 import config from "env";
 // import userModel from "models/user";
 
-const { CLIENT, NODE_ENV } = process.env;
+const { CLIENT, NODE_ENV, protocol } = process.env;
 const inTesting = NODE_ENV === "test";
 
 const RedisStore = connectRedis(session);
@@ -18,6 +26,7 @@ const RedisStore = connectRedis(session);
 export default (app) => {
   mongodbConnection();
   // userModel();
+  mailer.setApiKey(config[NODE_ENV].sendgridAPIKey);
   app.use(
     session({
       secret: config[NODE_ENV].cookieKey,
@@ -27,7 +36,7 @@ export default (app) => {
       cookie: {
         path: "/",
         httpOnly: true,
-        secure: process.env.protocol === "https",
+        secure: protocol === "https",
         maxAge: 30 * 24 * 60 * 60 * 1000, // expire after 30 days, 30days/24hr/60m/60s/1000ms
       },
       store: new RedisStore({

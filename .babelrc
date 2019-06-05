@@ -20,7 +20,9 @@
           "models": "./models",
           "middlewares": "./middlewares",
           "routes": "./routes",
+          "shared": "./shared",
           "seeds": "./seeds",
+          "services": "./services",
           "server": "./server",
           "utils": "./utils"
         }

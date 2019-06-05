@@ -1,11 +1,17 @@
 import { Schema, model } from "mongoose";
+import { badCredentials } from "shared/authErrors";
 import bcrypt from "bcryptjs";
 
 const userSchema = new Schema({
-  email: String,
+  availability: [{ type: Schema.Types.ObjectId, ref: "Schedule" }],
+  email: { type: String, unique: true, lowercase: true },
+  role: { type: String, default: "member" },
   firstName: String,
   lastName: String,
-  password: String
+  password: String,
+  scheduledEvents: [{ type: Schema.Types.ObjectId, ref: "Event" }],
+  timesAvailable: Number,
+  timesUnavailable: Number,
 });
 
 userSchema.statics.createUser = async function newUser(user) {
@@ -45,4 +51,4 @@ userSchema.methods.comparePassword = async function compare(incomingPassword) {
   }
 };
 
-export default model("user", userSchema);
+export default model("User", userSchema);
