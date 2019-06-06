@@ -5,7 +5,17 @@ import passport from "passport";
 import User from "models/user";
 import { alreadyLoggedIn, badCredentials } from "shared/authErrors";
 
-export default () => passport.use(
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+
+passport.deserializeUser((user, done) => {
+  User.findById(user.id, (err, existingUser) => {
+    done(err, existingUser);
+  });
+});
+
+passport.use(
   "local-login",
   new LocalStrategy(
     {
@@ -41,3 +51,5 @@ export default () => passport.use(
     },
   ),
 );
+
+export default passport.authenticate("local-login");

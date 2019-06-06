@@ -5,7 +5,7 @@
 // import { findUserByToken, updateUserPassword } from "queries";
 // import { invalidToken, missingToken, notUniquePassword } from "authErrors";
 
-// export default () => passport.use(
+// passport.use(
 //   "reset-password",
 //   new LocalStrategy(
 //     {
@@ -48,3 +48,5 @@
 //     },
 //   ),
 // );
+
+// export default passport.authenticate("reset-password");

@@ -1,5 +1,6 @@
 import { Schema, model } from "mongoose";
 
+// current season year
 const seasonSchema = new Schema({
   season: { type: String, unique: true, lowercase: true },
 });

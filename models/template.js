@@ -1,5 +1,6 @@
 import { Schema, model } from "mongoose";
 
+// email templates
 const templateSchema = new Schema({
   icon: String,
   subject: String,

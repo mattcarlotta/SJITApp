@@ -1,5 +1,6 @@
 import { Schema, model } from "mongoose";
 
+// monthly schedule
 const scheduleSchema = new Schema({
   beginMonth: Date,
   endMonth: Date,

@@ -16,11 +16,11 @@ const createUser = async (req, res, done) => {
 
   if (
     !email
-    || !firstName
-    || !lastName
-    || !userName
-    || !backgroundInfo
-    || isEmpty(address)
+		|| !firstName
+		|| !lastName
+		|| !userName
+		|| !backgroundInfo
+		|| isEmpty(address)
   ) return sendError("Missing user card creation parameters.", res, done);
 
   try {
@@ -55,7 +55,7 @@ const deleteUser = async (req, res, done) => {
   }
 };
 
-const getUsers = async (req, res, done) => {
+const getAllUsers = async (req, res, done) => {
   try {
     const users = await User.find({});
 
@@ -64,6 +64,8 @@ const getUsers = async (req, res, done) => {
     return sendError(err, res, done);
   }
 };
+
+const getUser = async (req, res, done) => sendError("Route not setup.", res, done);
 
 const seedDatabase = async (req, res, done) => {
   try {
@@ -100,5 +102,10 @@ const updateUser = async (req, res, done) => {
 };
 
 export {
-  createUser, deleteUser, getUsers, seedDatabase, updateUser,
+  createUser,
+  deleteUser,
+  getAllUsers,
+  getUser,
+  seedDatabase,
+  updateUser,
 };

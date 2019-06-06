@@ -1,15 +1,17 @@
 import {
   createUser,
   deleteUser,
-  getUsers,
+  getAllUsers,
+  getUser,
   seedDatabase,
   updateUser,
 } from "controllers/user";
 
-module.exports = (app) => {
-  app.get("/api/users", getUsers);
-  app.post("/api/users/create", createUser);
-  app.put("/api/users/update/:id", updateUser);
-  app.delete("/api/users/delete/:id", deleteUser);
-  app.post("/api/users/seed", seedDatabase);
+export default app => {
+  app.post("/api/user/create", createUser);
+  app.delete("/api/user/delete/:id", deleteUser);
+  app.get("/api/user/all", getAllUsers);
+  app.get("/api/user/:id", getUser);
+  app.put("/api/user/update/:id", updateUser);
+  app.post("/api/user/seed", seedDatabase);
 };

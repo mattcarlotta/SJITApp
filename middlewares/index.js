@@ -4,29 +4,20 @@ import morgan from "morgan";
 import passport from "passport";
 import session from "express-session";
 import connectRedis from "connect-redis";
-import mongodbConnection from "database";
 import mailer from "@sendgrid/mail";
-// import {
-//   localLogin,
-//   localSignup,
-//   resetPassword,
-//   resetToken,
-// } from "services/strategies";
-
 import config from "env";
-// import userModel from "models/user";
+import "database";
 
 const { CLIENT, NODE_ENV, protocol } = process.env;
 const inTesting = NODE_ENV === "test";
 
 const RedisStore = connectRedis(session);
+
+mailer.setApiKey(config[NODE_ENV].sendgridAPIKey);
 //= ===========================================================//
 /* APP MIDDLEWARE */
 //= ===========================================================//
-export default (app) => {
-  mongodbConnection();
-  // userModel();
-  mailer.setApiKey(config[NODE_ENV].sendgridAPIKey);
+export default app => {
   app.use(
     session({
       secret: config[NODE_ENV].cookieKey,
@@ -56,5 +47,6 @@ export default (app) => {
   app.use(bodyParser.json()); // parses header requests (req.body)
   app.use(bodyParser.urlencoded({ extended: true })); // allows objects and arrays to be URL-encoded
   app.use(passport.initialize()); // initialize passport routes to accept req/res/next
+  app.use(passport.session()); // start passport session
   app.set("json spaces", 2); // sets JSON spaces for clarity
 };

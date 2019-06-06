@@ -1,17 +1,26 @@
 import { Schema, model } from "mongoose";
-import { badCredentials } from "shared/authErrors";
 import bcrypt from "bcryptjs";
+import { badCredentials } from "shared/authErrors";
+import { convertDateToISO } from "shared/helpers";
 
 const userSchema = new Schema({
-  availability: [{ type: Schema.Types.ObjectId, ref: "Schedule" }],
-  email: { type: String, unique: true, lowercase: true },
+  email: {
+    type: String,
+    unique: true,
+    lowercase: true,
+    required: true,
+  },
+  events: [{ type: Schema.Types.ObjectId, ref: "Event" }],
   role: { type: String, default: "member" },
-  firstName: String,
-  lastName: String,
-  password: String,
-  scheduledEvents: [{ type: Schema.Types.ObjectId, ref: "Event" }],
+  firstName: { type: String, required: true },
+  lastName: { type: String, required: true },
+  password: { type: String, required: true },
+  registered: { type: Date, default: convertDateToISO(Date.now()) },
+  schedule: [{ type: Schema.Types.ObjectId, ref: "Schedule" }],
+  season: [{ type: Schema.Types.ObjectId, ref: "Season" }],
   timesAvailable: Number,
   timesUnavailable: Number,
+  verified: { type: Boolean, default: false },
 });
 
 userSchema.statics.createUser = async function newUser(user) {
@@ -28,10 +37,10 @@ userSchema.statics.createUser = async function newUser(user) {
 userSchema.statics.createPassword = async function createNewPassword(password) {
   try {
     const salt = await bcrypt.genSalt(12);
-    if (!salt) throw new Error("Unable to generate password salt!");
+    if (!salt) throw "Unable to generate password salt!";
 
     const newPassword = await bcrypt.hash(password, salt, null);
-    if (!newPassword) throw new Error("Unable to generate a secure password!");
+    if (!newPassword) throw "Unable to generate a secure password!";
 
     return newPassword;
   } catch (err) {
@@ -43,7 +52,7 @@ userSchema.statics.createPassword = async function createNewPassword(password) {
 userSchema.methods.comparePassword = async function compare(incomingPassword) {
   try {
     const isMatch = await bcrypt.compare(incomingPassword, this.password);
-    if (!isMatch) throw new Error(badCredentials);
+    if (!isMatch) throw badCredentials;
 
     return isMatch;
   } catch (err) {
