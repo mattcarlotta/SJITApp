@@ -1,9 +1,11 @@
+import isEmpty from "lodash/isEmpty";
 import bcrypt from "bcryptjs";
 import { Strategy as LocalStrategy } from "passport-local";
 import passport from "passport";
 import User from "models/user";
+import { sendError } from "shared/helpers";
 import {
-  // alreadyLoggedIn,
+  alreadyLoggedIn,
   badCredentials,
   emailConfirmationReq,
 } from "shared/authErrors";
@@ -12,17 +14,14 @@ passport.use(
   "local-login",
   new LocalStrategy(
     {
-      // override username with email
       usernameField: "email",
       passwordField: "password",
       passReqToCallback: true,
     },
     async (req, email, password, done) => {
-      // if (!email || !password) return done(badCredentials, false);
-
       try {
-        // if (!isEmpty(req.session)) return done(alreadyLoggedIn, false);
         // check to see if user is logged in from another session
+        if (!isEmpty(req.session.userid)) return done(alreadyLoggedIn, false);
 
         // check to see if the user already exists
         const existingUser = await User.findOne({ email });
@@ -45,16 +44,16 @@ passport.use(
 );
 
 const localLogin = (req, res, next) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) return sendError(badCredentials, res);
+
   passport.authenticate("local-login", (err, user) => {
-    if (err) {
-      req.err = err;
-    } else {
-      req.session.userid = user._id;
-    }
+    if (err) return sendError(err, res);
+
+    req.session.userid = user._id;
     next();
   })(req, res, next);
-  //   ? sendError(err || badCredentials, res, done)
-  //   : res.status(201).json({ ...req.session })))(req, res, done);
 };
 
 export default localLogin;

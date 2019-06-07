@@ -1,34 +1,15 @@
-import isEmpty from "lodash/isEmpty";
 import bcrypt from "bcryptjs";
 import { Strategy as LocalStrategy } from "passport-local";
 import passport from "passport";
 // import mailer from "@sendgrid/mail";
 import { User, Season } from "models";
 import { emailAlreadyTaken, invalidSeason } from "shared/authErrors";
-import { createRandomToken } from "shared/helpers";
+import { createRandomToken, sendError } from "shared/helpers";
 // import newUser from "emailTemplates/newUser";
 // import config from "env";
 
 // const env = process.env.NODE_ENV;
 // const { portal } = config[env];
-
-// passport.serializeUser((user, done) => {
-//   done(null, user);
-// });
-
-// passport.deserializeUser((user, done) => {
-//   done(null, user);
-// });
-
-// passport.serializeUser((user, done) => {
-//   done(null, user.id);
-// });
-
-// passport.deserializeUser((user, done) => {
-//   User.findById(user.id, (err, existingUser) => {
-//     done(err, existingUser);
-//   });
-// });
 
 passport.use(
   "local-signup",
@@ -40,17 +21,14 @@ passport.use(
       passReqToCallback: true, // allows us to send request to the callback
     },
     async (req, email, password, done) => {
-      const { firstName, lastName, season } = req.body;
-
-      if (!email || !firstName || !lastName || !season) return done("Missing creation params.", done);
+      const { season } = req.body;
 
       const token = createRandomToken(); // a token used for email verification
 
-      // check to see if the email is already in use
-
       try {
-        const existingUser = await User.find({ email });
-        if (!isEmpty(existingUser)) return done(emailAlreadyTaken, false);
+        // check to see if the email is already in use
+        const existingUser = await User.findOne({ email });
+        if (existingUser) return done(emailAlreadyTaken, false);
 
         // find currently selected season
         const currentSeason = await Season.findOne({ season });
@@ -79,7 +57,7 @@ passport.use(
         // // attempts to send a verification email to newly created user
         // await mailer.send(msg);
 
-        return done(null, newUser.email);
+        return done(null, newUser);
       } catch (err) {
         return done(err, false);
       }
@@ -87,4 +65,24 @@ passport.use(
   ),
 );
 
-export default passport.authenticate("local-signup", { session: false });
+const localSignup = (req, res, next) => {
+  const {
+    email, firstName, lastName, season,
+  } = req.body;
+
+  if (!email || !firstName || !lastName || !season) {
+    return sendError(
+      "Invalid signup credentials. You must supply a valid email, first name, last name and a season.",
+      res,
+    );
+  }
+
+  passport.authenticate("local-signup", (err, user) => {
+    if (err) return sendError(err, res);
+
+    req.user = user;
+    next();
+  })(req, res, next);
+};
+
+export default localSignup;

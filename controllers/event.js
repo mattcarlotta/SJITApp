@@ -1,14 +1,14 @@
 import { sendError } from "shared/helpers";
 
-const createEvent = (req, res, done) => sendError("Route not setup.", res, done);
+const createEvent = (req, res) => sendError("Route not setup.", res);
 
-const deleteEvent = (req, res, done) => sendError("Route not setup.", res, done);
+const deleteEvent = (req, res) => sendError("Route not setup.", res);
 
-const getAllEvents = (req, res, done) => sendError("Route not setup.", res, done);
+const getAllEvents = (req, res) => sendError("Route not setup.", res);
 
-const getEvent = (req, res, done) => sendError("Route not setup.", res, done);
+const getEvent = (req, res) => sendError("Route not setup.", res);
 
-const updateEvent = (req, res, done) => sendError("Route not setup.", res, done);
+const updateEvent = (req, res) => sendError("Route not setup.", res);
 
 export {
   createEvent, deleteEvent, getAllEvents, getEvent, updateEvent,

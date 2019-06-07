@@ -1,4 +1,4 @@
-import passport from "passport";
+// import passport from "passport";
 import isEmpty from "lodash/isEmpty";
 // import { User } from "models";
 import {
@@ -13,7 +13,7 @@ import { thanksForReg } from "shared/authSuccess";
 import { sendError } from "shared/helpers";
 
 // CREATES A NEW USER
-const create = (req, res, done) => {
+const create = (req, res) => {
   res
     .status(201)
     .json(thanksForReg(req.body.email, req.body.firstName, req.body.lastName));
@@ -29,37 +29,26 @@ const create = (req, res, done) => {
 };
 
 // ALLOWS A USER TO LOG INTO THE APP
-const login = (req, res, done) => {
-  if (req.err) return sendError(req.err, res);
-  console.log("req.session", req.session);
+const login = (req, res) => {
+  // if (req.err) return sendError(req.err, res);
 
   res.status(201).json({ ...req.session });
-  // const { email, password } = req.body;
-  // if (!email || !password) return sendError(badCredentials, res, done);
-
-  // passport.authenticate("local-login", err => (err || !req.session || isEmpty(req.session)
-  //   ? sendError(err || badCredentials, res, done)
-  //   : res.status(201).json({ ...req.session })))(req, res, done);
 };
 
 // REMOVES USER FROM SESSION AND DELETES CLIENT COOKIE
 const logout = (req, res) => {
-  console.log(req.session);
   req.session.destroy();
 
-  res
-    .status(200)
-    .clearCookie("SJITApp", { path: "/" })
-    .send("Session ended.");
+  res.status(200).send("Session ended.");
 };
 
 // ALLOWS A USER TO LOG INTO THE APP ON REFRESH
-const loggedin = (req, res, done) => (!req.session || isEmpty(req.session)
-  ? sendError(badCredentials, res, done)
+const loggedin = (req, res) => (!req.session || isEmpty(req.session)
+  ? sendError(badCredentials, res)
   : res.status(201).json({ ...req.session }));
 
 // ALLOWS A USER TO UPDATE THEIR PASSWORD WITH A TOKEN
-const resetPassword = (req, res, done) => sendError("Route not setup.", res, done);
+const resetPassword = (req, res) => sendError("Route not setup.", res);
 // const { token } = req.query;
 // if (!token) return sendError(missingToken, res, done);
 
@@ -72,7 +61,7 @@ const resetPassword = (req, res, done) => sendError("Route not setup.", res, don
 // 		: res.status(201).json({ message: passwordResetSuccess(existingEmail) }),
 // )(req, res, done);
 // EMAILS A USER A TOKEN TO RESET THEIR PASSWORD
-const resetToken = (req, res, done) => sendError("Route not setup.", res, done);
+const resetToken = (req, res) => sendError("Route not setup.", res);
 // const { email } = req.body;
 // if (!email) return sendError(missingEmailCreds, res, done);
 
@@ -82,7 +71,7 @@ const resetToken = (req, res, done) => sendError("Route not setup.", res, done);
 // 		: res.status(201).json(passwordResetToken(email)),
 // )(req, res, done);
 // VERIFIES THE USER HAS A VALID EMAIL BEFORE GIVING LOGIN ACCESS
-const verifyAccount = async (req, res, done) => sendError("Route not setup.", res, done);
+const verifyAccount = async (req, res) => sendError("Route not setup.", res);
 // const { token } = req.query;
 // if (!token) return sendError(missingToken, res, done);
 

@@ -25,11 +25,12 @@ export default app => {
       name: "SJITApp",
       saveUninitialized: false, // don't create session until something stored
       resave: false, // don't save session if unmodified
+      unset: "destroy",
       cookie: {
         path: "/",
         httpOnly: true,
         secure: protocol === "https",
-        maxAge: 30 * 24 * 60 * 60 * 1000, // expire after 30 days, 30days/24hr/60m/60s/1000ms
+        maxAge: 30 * 24 * 60 * 60 * 1000, // 30 * 24 * 60 * 60 * 1000 expire after 30 days, 30days/24hr/60m/60s/1000ms
       },
       store: new RedisStore({
         db: 0,

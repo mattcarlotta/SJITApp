@@ -6,7 +6,7 @@ const companyAlreadyExists = "That company has already been registered and is as
 
 const emailAlreadyTaken = "That email is already in use and is associated with an active account.";
 
-const emailConfirmationReq = "You must verify your email before attempting to do log in.";
+const emailConfirmationReq = "You must verify your email before attempting to log in.";
 
 const invalidPassword = "The current password you've supplied does not match our records. Please try again.";
 
