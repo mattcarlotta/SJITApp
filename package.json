@@ -1,8 +1,8 @@
 {
-  "name": "sjitapp",
-  "version": "3.0.0",
+  "name": "sjsitapp",
+  "version": "1.0.0",
   "main": "app.js",
-  "description": "An application for the San Jose Ice Team.",
+  "description": "An application for the San Jose Sharks Ice Team.",
   "repository": "https://github.com/mattcarlotta/SJITApp",
   "author": "Matt Carlotta",
   "license": "MIT",

@@ -1,20 +1,12 @@
-// import passport from "passport";
-import isEmpty from "lodash/isEmpty";
-import { User } from "models";
 import mailer from "@sendgrid/mail";
+import { alreadyVerified, invalidEmail, invalidToken } from "shared/authErrors";
 import {
-  alreadyVerified,
-  badCredentials,
-  invalidEmail,
-  // invalidPassword,
-  invalidToken,
-  // missingEmailCreds,
-  missingToken,
-} from "shared/authErrors";
-import { resentVerificationEmail, thanksForReg } from "shared/authSuccess";
-// import { passwordResetSuccess, passwordResetToken } from "shared/authSuccess";
+  resentVerificationEmail, thanksForReg, passwordResetSuccess, passwordResetToken,
+} from "shared/authSuccess";
+
 import { sendError } from "shared/helpers";
 import { newUserTemplate } from "services/templates";
+import { User } from "models";
 
 const { CLIENT } = process.env;
 
@@ -22,23 +14,17 @@ const { CLIENT } = process.env;
 const create = (req, res) => {
   res
     .status(201)
-    .json(thanksForReg(req.body.email, req.body.firstName, req.body.lastName));
-  // passport.authenticate("local-signup", err =>
-  //   err || !req.session || isEmpty(req.session)
-  //     ? sendError(err || badCredentials, res, done)
-  //     : res
-  //         .status(201)
-  //         .json(
-  //           thanksForReg(req.body.email, req.body.firstName, req.body.lastName),
-  //         ),
-  // )(req, res, done);
+    .json(thanksForReg(req.user.email, req.user.firstName, req.user.lastName));
+};
+
+// EMAILS A USER A TOKEN TO RESET THEIR PASSWORD
+const emailResetToken = (req, res) => {
+  res.status(201).json(passwordResetToken(req.user));
 };
 
 // ALLOWS A USER TO LOG INTO THE APP
 const login = (req, res) => {
-  // if (req.err) return sendError(req.err, res);
-
-  res.status(201).json({ ...req.session });
+  res.status(201).json({ ...req.session.user });
 };
 
 // REMOVES USER FROM SESSION AND DELETES CLIENT COOKIE
@@ -49,9 +35,9 @@ const logout = (req, res) => {
 };
 
 // ALLOWS A USER TO LOG INTO THE APP ON REFRESH
-const loggedin = (req, res) => (!req.session || isEmpty(req.session)
-  ? sendError(badCredentials, res)
-  : res.status(201).json({ ...req.session }));
+const loggedin = (req, res) => {
+  res.status(201).json({ ...req.session.user });
+};
 
 // RESENDS A VERFICATION EMAIL
 const resendEmailVerification = async (req, res) => {
@@ -84,33 +70,14 @@ const resendEmailVerification = async (req, res) => {
 };
 
 // ALLOWS A USER TO UPDATE THEIR PASSWORD WITH A TOKEN
-const resetPassword = (req, res) => sendError("Route not setup.", res);
-// const { token } = req.query;
-// if (!token) return sendError(missingToken, res, done);
-
-// const { email, password } = req.body;
-// if (!email || !password) return sendError(invalidPassword, res, done);
-
-// passport.authenticate("reset-password", (err, existingEmail) =>
-// 	err || !existingEmail
-// 		? sendError(err || "No user found!", res, done)
-// 		: res.status(201).json({ message: passwordResetSuccess(existingEmail) }),
-// )(req, res, done);
-// EMAILS A USER A TOKEN TO RESET THEIR PASSWORD
-const resetToken = (req, res) => sendError("Route not setup.", res);
-// const { email } = req.body;
-// if (!email) return sendError(missingEmailCreds, res, done);
-
-// passport.authenticate("reset-token", (err, existingEmail) =>
-// 	err || !existingEmail
-// 		? sendError(err || "No user found!", res, done)
-// 		: res.status(201).json(passwordResetToken(email)),
-// )(req, res, done);
+const updatePassword = (req, res) => {
+  res.status(201).json({ message: passwordResetSuccess(req.user) });
+};
 
 // VERIFIES THE USER HAS A VALID EMAIL BEFORE GIVING LOGIN ACCESS
 const verifyAccount = async (req, res) => {
   const { token } = req.query;
-  if (!token) return sendError(missingToken, res);
+  if (!token) return sendError(invalidToken, res);
 
   try {
     const existingUser = await User.findOne({ token });
@@ -136,11 +103,11 @@ const verifyAccount = async (req, res) => {
 
 export {
   create,
+  emailResetToken,
   login,
   loggedin,
   logout,
   resendEmailVerification,
-  resetToken,
-  resetPassword,
+  updatePassword,
   verifyAccount,
 };

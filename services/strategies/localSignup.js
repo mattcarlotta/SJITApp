@@ -13,10 +13,9 @@ passport.use(
   "local-signup",
   new LocalStrategy(
     {
-      // override username with email
       usernameField: "email",
       passwordField: "password",
-      passReqToCallback: true, // allows us to send request to the callback
+      passReqToCallback: true,
     },
     async (req, email, password, done) => {
       const { season } = req.body;
@@ -81,11 +80,11 @@ const localSignup = async (req, res, next) => {
   }
 
   try {
-    const existingUser = await new Promise((resolve, reject) => {
+    const newUser = await new Promise((resolve, reject) => {
       passport.authenticate("local-signup", (err, user) => (err ? reject(err) : resolve(user)))(req, res, next);
     });
 
-    req.user = existingUser;
+    req.user = newUser;
 
     next();
   } catch (err) {

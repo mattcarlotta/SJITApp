@@ -10,6 +10,8 @@ const emailAlreadyTaken = "That email is already in use and is associated with a
 
 const emailConfirmationReq = "You must verify your email before attempting to log in.";
 
+const emptyPassword = "You must supply a new password in order to reset the old. Please try again.";
+
 const invalidEmail = "That email is not associated with an active account. Please make sure to supply a valid registered email in order to resend a verification!";
 
 const invalidPassword = "The current password you've supplied does not match our records. Please try again.";
@@ -43,6 +45,7 @@ export {
   companyAlreadyExists,
   emailAlreadyTaken,
   emailConfirmationReq,
+  emptyPassword,
   invalidEmail,
   invalidPassword,
   invalidSeason,
