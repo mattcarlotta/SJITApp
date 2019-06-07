@@ -20,6 +20,16 @@ import { createRandomToken } from "shared/helpers";
 //   done(null, user);
 // });
 
+// passport.serializeUser((user, done) => {
+//   done(null, user.id);
+// });
+
+// passport.deserializeUser((user, done) => {
+//   User.findById(user.id, (err, existingUser) => {
+//     done(err, existingUser);
+//   });
+// });
+
 passport.use(
   "local-signup",
   new LocalStrategy(
@@ -76,3 +86,5 @@ passport.use(
     },
   ),
 );
+
+export default passport.authenticate("local-signup", { session: false });

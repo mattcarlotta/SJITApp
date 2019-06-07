@@ -8,16 +8,6 @@ import {
   emailConfirmationReq,
 } from "shared/authErrors";
 
-// passport.serializeUser((user, done) => {
-//   done(null, user.id);
-// });
-
-// passport.deserializeUser((user, done) => {
-//   User.findById(user.id, (err, existingUser) => {
-//     done(err, existingUser);
-//   });
-// });
-
 passport.use(
   "local-login",
   new LocalStrategy(
@@ -46,12 +36,25 @@ passport.use(
         );
         if (!validPassword) return done(badCredentials, false);
 
-        req.session.active = existingUser._id;
-
-        return done(null, existingUser.email);
+        return done(null, existingUser);
       } catch (err) {
         return done(err, false);
       }
     },
   ),
 );
+
+const localLogin = (req, res, next) => {
+  passport.authenticate("local-login", (err, user) => {
+    if (err) {
+      req.err = err;
+    } else {
+      req.session.userid = user._id;
+    }
+    next();
+  })(req, res, next);
+  //   ? sendError(err || badCredentials, res, done)
+  //   : res.status(201).json({ ...req.session })))(req, res, done);
+};
+
+export default localLogin;

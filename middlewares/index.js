@@ -7,7 +7,7 @@ import connectRedis from "connect-redis";
 import mailer from "@sendgrid/mail";
 import config from "env";
 import "database";
-import "services/strategies";
+// import "services/strategies";
 
 const { CLIENT, NODE_ENV, protocol } = process.env;
 const inTesting = NODE_ENV === "test";
@@ -49,6 +49,5 @@ export default app => {
   app.use(bodyParser.json()); // parses header requests (req.body)
   app.use(bodyParser.urlencoded({ extended: true })); // allows objects and arrays to be URL-encoded
   app.use(passport.initialize()); // initialize passport routes to accept req/res/next
-  app.use(passport.session()); // start passport session
   app.set("json spaces", 2); // sets JSON spaces for clarity
 };

@@ -14,31 +14,39 @@ import { sendError } from "shared/helpers";
 
 // CREATES A NEW USER
 const create = (req, res, done) => {
-  passport.authenticate("local-signup", err => (err || !req.session || isEmpty(req.session)
-    ? sendError(err || badCredentials, res, done)
-    : res
-      .status(201)
-      .json(
-        thanksForReg(req.body.email, req.body.firstName, req.body.lastName),
-      )))(req, res, done);
+  res
+    .status(201)
+    .json(thanksForReg(req.body.email, req.body.firstName, req.body.lastName));
+  // passport.authenticate("local-signup", err =>
+  //   err || !req.session || isEmpty(req.session)
+  //     ? sendError(err || badCredentials, res, done)
+  //     : res
+  //         .status(201)
+  //         .json(
+  //           thanksForReg(req.body.email, req.body.firstName, req.body.lastName),
+  //         ),
+  // )(req, res, done);
 };
 
 // ALLOWS A USER TO LOG INTO THE APP
 const login = (req, res, done) => {
-  const { email, password } = req.body;
-  if (!email || !password) return sendError(badCredentials, res, done);
+  if (req.err) return sendError(req.err, res);
+  console.log("req.session", req.session);
 
-  passport.authenticate("local-login", err => (err || !req.session || isEmpty(req.session)
-    ? sendError(err || badCredentials, res, done)
-    : res.status(201).json({ ...req.session })))(req, res, done);
+  res.status(201).json({ ...req.session });
+  // const { email, password } = req.body;
+  // if (!email || !password) return sendError(badCredentials, res, done);
+
+  // passport.authenticate("local-login", err => (err || !req.session || isEmpty(req.session)
+  //   ? sendError(err || badCredentials, res, done)
+  //   : res.status(201).json({ ...req.session })))(req, res, done);
 };
 
 // REMOVES USER FROM SESSION AND DELETES CLIENT COOKIE
 const logout = (req, res) => {
-  if (req.session) {
-    req.session.destroy();
-    delete req.session;
-  }
+  console.log(req.session);
+  req.session.destroy();
+
   res
     .status(200)
     .clearCookie("SJITApp", { path: "/" })
