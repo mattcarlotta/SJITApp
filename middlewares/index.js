@@ -7,6 +7,7 @@ import connectRedis from "connect-redis";
 import mailer from "@sendgrid/mail";
 import config from "env";
 import "database";
+import "services/strategies";
 
 const { CLIENT, NODE_ENV, protocol } = process.env;
 const inTesting = NODE_ENV === "test";
@@ -34,6 +35,7 @@ export default app => {
         db: 0,
         host: "127.0.0.1",
         port: 6379,
+        ttl: 30,
       }),
     }),
   );

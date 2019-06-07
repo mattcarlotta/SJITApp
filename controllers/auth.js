@@ -1,5 +1,6 @@
-// import passport from "passport";
+import passport from "passport";
 import isEmpty from "lodash/isEmpty";
+// import { User } from "models";
 import {
   badCredentials,
   // invalidPassword,
@@ -7,33 +8,41 @@ import {
   // missingEmailCreds,
   // missingToken,
 } from "shared/authErrors";
+import { thanksForReg } from "shared/authSuccess";
 // import { passwordResetSuccess, passwordResetToken } from "shared/authSuccess";
 import { sendError } from "shared/helpers";
 
 // CREATES A NEW USER
 const create = (req, res, done) => {
-  console.log(req, res); // eslint-disable-line no-console
-  return sendError("Route not setup.", res, done);
+  passport.authenticate("local-signup", err => (err || !req.session || isEmpty(req.session)
+    ? sendError(err || badCredentials, res, done)
+    : res
+      .status(201)
+      .json(
+        thanksForReg(req.body.email, req.body.firstName, req.body.lastName),
+      )))(req, res, done);
 };
 
 // ALLOWS A USER TO LOG INTO THE APP
 const login = (req, res, done) => {
-  console.log(req, res); // eslint-disable-line no-console
-  return sendError("Route not setup.", res, done);
-  // const { email, password } = req.body;
-  // if (!email || !password) return sendError(badCredentials, res, done);
+  const { email, password } = req.body;
+  if (!email || !password) return sendError(badCredentials, res, done);
 
-  // passport.authenticate("local-login", err =>
-  // 	err || !req.session || isEmpty(req.session)
-  // 		? sendError(err || badCredentials, res, done)
-  // 		: res.status(201).json({ ...req.session }),
-  // )(req, res, done);
+  passport.authenticate("local-login", err => (err || !req.session || isEmpty(req.session)
+    ? sendError(err || badCredentials, res, done)
+    : res.status(201).json({ ...req.session })))(req, res, done);
 };
 
 // REMOVES USER FROM SESSION AND DELETES CLIENT COOKIE
 const logout = (req, res) => {
-  req.logout();
-  res.status(200).send("Session ended.");
+  if (req.session) {
+    req.session.destroy();
+    delete req.session;
+  }
+  res
+    .status(200)
+    .clearCookie("SJITApp", { path: "/" })
+    .send("Session ended.");
 };
 
 // ALLOWS A USER TO LOG INTO THE APP ON REFRESH

@@ -6,9 +6,11 @@ const companyAlreadyExists = "That company has already been registered and is as
 
 const emailAlreadyTaken = "That email is already in use and is associated with an active account.";
 
-const emailConfirmationReq = "You must verify your email before attempting to do that.";
+const emailConfirmationReq = "You must verify your email before attempting to do log in.";
 
 const invalidPassword = "The current password you've supplied does not match our records. Please try again.";
+
+const invalidSeason = "There was a problem assigning you to a season. If you've already selected a season, but are unable to continue, please contact the webmaster: carlotta.matt@gmail.com.";
 
 const invalidToken = "There was a problem authenticating your request. The token that was supplied was invalid.";
 
@@ -37,6 +39,7 @@ export {
   emailAlreadyTaken,
   emailConfirmationReq,
   invalidPassword,
+  invalidSeason,
   invalidToken,
   missingCredentials,
   missingEmailCreds,
