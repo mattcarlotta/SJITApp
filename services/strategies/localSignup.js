@@ -1,15 +1,13 @@
 import bcrypt from "bcryptjs";
 import { Strategy as LocalStrategy } from "passport-local";
 import passport from "passport";
-// import mailer from "@sendgrid/mail";
+import mailer from "@sendgrid/mail";
 import { User, Season } from "models";
 import { emailAlreadyTaken, invalidSeason } from "shared/authErrors";
 import { createRandomToken, sendError } from "shared/helpers";
-// import newUser from "emailTemplates/newUser";
-// import config from "env";
+import { newUserTemplate } from "services/templates";
 
-// const env = process.env.NODE_ENV;
-// const { portal } = config[env];
+const { CLIENT } = process.env;
 
 passport.use(
   "local-signup",
@@ -47,15 +45,20 @@ passport.use(
         await Season.addUser(currentSeason._id, newUser._id);
 
         // creates an email template for a new user signup
-        // const msg = {
-        //   to: `${email}`,
-        //   from: "helpdesk@subskribble.com",
-        //   subject: "Please verify your email address",
-        //   html: newUser(portal, firstName, lastName, token),
-        // };
+        const msg = {
+          to: `${newUser.email}`,
+          from: "noreply@sjsiceteam.com",
+          subject: "Please verify your email address",
+          html: newUserTemplate(
+            CLIENT,
+            newUser.firstName,
+            newUser.lastName,
+            newUser.token,
+          ),
+        };
 
-        // // attempts to send a verification email to newly created user
-        // await mailer.send(msg);
+        // attempts to send a verification email to newly created user
+        await mailer.send(msg);
 
         return done(null, newUser);
       } catch (err) {
@@ -65,7 +68,7 @@ passport.use(
   ),
 );
 
-const localSignup = (req, res, next) => {
+const localSignup = async (req, res, next) => {
   const {
     email, firstName, lastName, season,
   } = req.body;
@@ -77,12 +80,17 @@ const localSignup = (req, res, next) => {
     );
   }
 
-  passport.authenticate("local-signup", (err, user) => {
-    if (err) return sendError(err, res);
+  try {
+    const existingUser = await new Promise((resolve, reject) => {
+      passport.authenticate("local-signup", (err, user) => (err ? reject(err) : resolve(user)))(req, res, next);
+    });
 
-    req.user = user;
+    req.user = existingUser;
+
     next();
-  })(req, res, next);
+  } catch (err) {
+    return sendError(err, res);
+  }
 };
 
 export default localSignup;

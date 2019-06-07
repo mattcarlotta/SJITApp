@@ -43,17 +43,26 @@ passport.use(
   ),
 );
 
-const localLogin = (req, res, next) => {
+const localLogin = async (req, res, next) => {
   const { email, password } = req.body;
 
   if (!email || !password) return sendError(badCredentials, res);
 
-  passport.authenticate("local-login", (err, user) => {
-    if (err) return sendError(err, res);
+  try {
+    const existingUser = await new Promise((resolve, reject) => {
+      passport.authenticate("local-login", (err, user) => (err ? reject(err) : resolve(user)))(req, res, next);
+    });
 
-    req.session.userid = user._id;
+    req.session.user = {
+      id: existingUser._id,
+      email: existingUser.email,
+      firstName: existingUser.firstName,
+      lastName: existingUser.lastName,
+    };
     next();
-  })(req, res, next);
+  } catch (err) {
+    return sendError(err, res);
+  }
 };
 
 export default localLogin;

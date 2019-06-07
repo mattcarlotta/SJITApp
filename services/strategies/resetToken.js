@@ -50,3 +50,7 @@
 //     },
 //   ),
 // );
+
+// const resetToken = async (req,res,next) => {
+//   const { token } = req.query;
+// }

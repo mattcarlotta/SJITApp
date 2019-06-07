@@ -3,9 +3,10 @@ import {
   login,
   logout,
   // loggedin,
+  resendEmailVerification,
   // resetPassword,
   // resetToken,
-  // verifyAccount,
+  verifyAccount,
 } from "controllers/auth";
 import { localLogin, localSignup } from "services/strategies";
 
@@ -15,6 +16,7 @@ export default app => {
   // app.get('/api/loggedin', requireRelogin, loggedin);
   app.get("/api/logout", logout);
   // app.put('/api/reset-password/verify?', resetPassword);
-  // app.put('/api/reset-token', resetToken);
-  // app.put('/api/email/verify?', verifyAccount);
+  // app.put("/api/reset-token?", resetToken);
+  app.post("/api/email/resendverification", resendEmailVerification);
+  app.put("/api/email/verify?", verifyAccount);
 };

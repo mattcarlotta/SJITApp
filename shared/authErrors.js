@@ -1,5 +1,7 @@
 const alreadyLoggedIn = "It looks like you are already logged in to another session. Please refresh your browser.";
 
+const alreadyVerified = "It looks like you have already been verified. You can log into your account at any time.";
+
 const badCredentials = "There was a problem with your login credentials. Please make sure your username and password are correct.";
 
 const companyAlreadyExists = "That company has already been registered and is associated with an active account.";
@@ -7,6 +9,8 @@ const companyAlreadyExists = "That company has already been registered and is as
 const emailAlreadyTaken = "That email is already in use and is associated with an active account.";
 
 const emailConfirmationReq = "You must verify your email before attempting to log in.";
+
+const invalidEmail = "That email is not associated with an active account. Please make sure to supply a valid registered email in order to resend a verification!";
 
 const invalidPassword = "The current password you've supplied does not match our records. Please try again.";
 
@@ -34,10 +38,12 @@ const unableToRemove = "There was a problem deleting your account. Please try ag
 
 export {
   alreadyLoggedIn,
+  alreadyVerified,
   badCredentials,
   companyAlreadyExists,
   emailAlreadyTaken,
   emailConfirmationReq,
+  invalidEmail,
   invalidPassword,
   invalidSeason,
   invalidToken,

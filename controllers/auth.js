@@ -1,16 +1,22 @@
 // import passport from "passport";
 import isEmpty from "lodash/isEmpty";
-// import { User } from "models";
+import { User } from "models";
+import mailer from "@sendgrid/mail";
 import {
+  alreadyVerified,
   badCredentials,
+  invalidEmail,
   // invalidPassword,
-  // invalidToken,
+  invalidToken,
   // missingEmailCreds,
-  // missingToken,
+  missingToken,
 } from "shared/authErrors";
-import { thanksForReg } from "shared/authSuccess";
+import { resentVerificationEmail, thanksForReg } from "shared/authSuccess";
 // import { passwordResetSuccess, passwordResetToken } from "shared/authSuccess";
 import { sendError } from "shared/helpers";
+import { newUserTemplate } from "services/templates";
+
+const { CLIENT } = process.env;
 
 // CREATES A NEW USER
 const create = (req, res) => {
@@ -47,6 +53,36 @@ const loggedin = (req, res) => (!req.session || isEmpty(req.session)
   ? sendError(badCredentials, res)
   : res.status(201).json({ ...req.session }));
 
+// RESENDS A VERFICATION EMAIL
+const resendEmailVerification = async (req, res) => {
+  const { email } = req.body;
+  if (!email) return sendError(invalidEmail, res);
+
+  try {
+    const existingUser = await User.findOne({ email });
+    if (!existingUser) return sendError(invalidEmail, res);
+
+    const msg = {
+      to: `${existingUser.email}`,
+      from: "noreply@sjsiceteam.com",
+      subject: "Please verify your email address",
+      html: newUserTemplate(
+        CLIENT,
+        existingUser.firstName,
+        existingUser.lastName,
+        existingUser.token,
+      ),
+    };
+
+    // attempts to resend a verification email to an existing user
+    await mailer.send(msg);
+
+    res.status(200).json(resentVerificationEmail(existingUser.email));
+  } catch (err) {
+    return sendError(err, res);
+  }
+};
+
 // ALLOWS A USER TO UPDATE THEIR PASSWORD WITH A TOKEN
 const resetPassword = (req, res) => sendError("Route not setup.", res);
 // const { token } = req.query;
@@ -70,31 +106,40 @@ const resetToken = (req, res) => sendError("Route not setup.", res);
 // 		? sendError(err || "No user found!", res, done)
 // 		: res.status(201).json(passwordResetToken(email)),
 // )(req, res, done);
+
 // VERIFIES THE USER HAS A VALID EMAIL BEFORE GIVING LOGIN ACCESS
-const verifyAccount = async (req, res) => sendError("Route not setup.", res);
-// const { token } = req.query;
-// if (!token) return sendError(missingToken, res, done);
+const verifyAccount = async (req, res) => {
+  const { token } = req.query;
+  if (!token) return sendError(missingToken, res);
 
-// try {
-// 	const existingUser = await User.find({ token: token });
-// 	if (!existingUser) {
-// 		return sendError(invalidToken, res, done);
-// 	}
-// 	if (existingUser.verified) {
-// 		return res.status(201).json({ email: existingUser.email });
-// 	}
+  try {
+    const existingUser = await User.findOne({ token });
+    if (!existingUser) {
+      return sendError(invalidToken, res);
+    }
+    if (existingUser.verified) {
+      return res
+        .status(200)
+        .json({ email: existingUser.email, message: alreadyVerified });
+    }
 
-// 	await User.update({ _id: existingUser.id }, { $set: { verified: true } });
+    await User.updateOne(
+      { _id: existingUser.id },
+      { $set: { verified: true } },
+    );
 
-// 	res.status(201).json({ email: existingUser.email });
-// } catch (err) {
-// 	return sendError(err, res, done);
-// }
+    res.status(201).json({ email: existingUser.email });
+  } catch (err) {
+    return sendError(err, res);
+  }
+};
+
 export {
   create,
   login,
   loggedin,
   logout,
+  resendEmailVerification,
   resetToken,
   resetPassword,
   verifyAccount,
