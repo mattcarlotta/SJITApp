@@ -1,8 +1,8 @@
 {
-  "name": "sjitapp",
-  "version": "3.0.0",
+  "name": "sjsitapp",
+  "version": "1.0.0",
   "main": "app.js",
-  "description": "An application for the San Jose Ice Team.",
+  "description": "An application for the San Jose Sharks Ice Team.",
   "repository": "https://github.com/mattcarlotta/SJITApp",
   "author": "Matt Carlotta",
   "license": "MIT",
@@ -30,7 +30,7 @@
       "env": {
         "HOST": "http://localhost:",
         "CLIENT": "http://localhost:3000",
-        "DATABASE": "mongodb://localhost/sjitapp-dev-db",
+        "DATABASE": "mongodb://localhost/sjsitapp-dev-db",
         "NODE_ENV": "development",
         "APIPORT": 5000
       }
@@ -40,7 +40,7 @@
       "env": {
         "HOST": "http://localhost:",
         "CLIENT": "http://example.com",
-        "DATABASE": "mongodb://localhost/sjitapp-prod-db",
+        "DATABASE": "mongodb://localhost/sjsitapp-prod-db",
         "NODE_ENV": "production",
         "APIPORT": 8080
       }
@@ -48,7 +48,7 @@
     "server": {
       "command": "nodemon ./app.js",
       "env": {
-        "DATABASE": "mongodb://localhost/sjitapp-dev-db",
+        "DATABASE": "mongodb://localhost/sjsitapp-dev-db",
         "NODE_ENV": "development",
         "APIPORT": 5000
       }
@@ -57,7 +57,7 @@
       "command": "jest --config ./jest.json --runInBand --watchAll",
       "env": {
         "CLIENT": "http://localhost:5001",
-        "DATABASE": "mongodb://localhost/sjitapp-test-db",
+        "DATABASE": "mongodb://localhost/sjsitapp-test-db",
         "NODE_ENV": "test",
         "APIPORT": 5001
       }
@@ -107,7 +107,6 @@
     "husky": "^2.3.0",
     "jest": "^24.7.1",
     "lint-staged": "^8.1.4",
-    "mongodb": "^3.2.3",
     "nodemon": "^1.18.10",
     "prettier": "^1.16.4",
     "react-dev-utils": "^9.0.1"

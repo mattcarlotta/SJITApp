@@ -39,10 +39,7 @@ const parseStringToFloat = str => parseFloat(str);
 
 const parseStringToNum = str => parseInt(str, 10);
 
-const sendError = (err, res, done) => {
-  return res.status(400).json({ err: err.toString() });
-  done(); /* eslint-disable-line no-unreachable */
-};
+const sendError = (err, res) => res.status(400).json({ err: err.toString() });
 
 export {
   beginofMonth,

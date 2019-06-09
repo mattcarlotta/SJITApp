@@ -3,37 +3,30 @@ import bcrypt from "bcryptjs";
 import { Strategy as LocalStrategy } from "passport-local";
 import passport from "passport";
 import User from "models/user";
-import { alreadyLoggedIn, badCredentials } from "shared/authErrors";
-
-passport.serializeUser((user, done) => {
-  done(null, user.id);
-});
-
-passport.deserializeUser((user, done) => {
-  User.findById(user.id, (err, existingUser) => {
-    done(err, existingUser);
-  });
-});
+import { sendError } from "shared/helpers";
+import {
+  alreadyLoggedIn,
+  badCredentials,
+  emailConfirmationReq,
+} from "shared/authErrors";
 
 passport.use(
   "local-login",
   new LocalStrategy(
     {
-      // override username with email
       usernameField: "email",
       passwordField: "password",
       passReqToCallback: true,
     },
     async (req, email, password, done) => {
-      // if (!email || !password) return done(badCredentials, false);
-
       try {
-        if (!isEmpty(req.session)) return done(alreadyLoggedIn, false);
         // check to see if user is logged in from another session
+        if (!isEmpty(req.session.userid)) return done(alreadyLoggedIn, false);
 
         // check to see if the user already exists
         const existingUser = await User.findOne({ email });
         if (!existingUser) return done(badCredentials, false);
+        if (!existingUser.verified) return done(emailConfirmationReq, false);
 
         // compare password to existingUser password
         const validPassword = await bcrypt.compare(
@@ -42,9 +35,7 @@ passport.use(
         );
         if (!validPassword) return done(badCredentials, false);
 
-        req.session = { ...existingUser };
-
-        return done(null, true);
+        return done(null, existingUser);
       } catch (err) {
         return done(err, false);
       }
@@ -52,4 +43,26 @@ passport.use(
   ),
 );
 
-export default passport.authenticate("local-login");
+const localLogin = async (req, res, next) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) return sendError(badCredentials, res);
+
+  try {
+    const existingUser = await new Promise((resolve, reject) => {
+      passport.authenticate("local-login", (err, user) => (err ? reject(err) : resolve(user)))(req, res, next);
+    });
+
+    req.session.user = {
+      id: existingUser._id,
+      email: existingUser.email,
+      firstName: existingUser.firstName,
+      lastName: existingUser.lastName,
+    };
+    next();
+  } catch (err) {
+    return sendError(err, res);
+  }
+};
+
+export default localLogin;

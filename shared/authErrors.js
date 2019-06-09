@@ -1,14 +1,22 @@
 const alreadyLoggedIn = "It looks like you are already logged in to another session. Please refresh your browser.";
 
+const alreadyVerified = "It looks like you have already been verified. You can log into your account at any time.";
+
 const badCredentials = "There was a problem with your login credentials. Please make sure your username and password are correct.";
 
 const companyAlreadyExists = "That company has already been registered and is associated with an active account.";
 
 const emailAlreadyTaken = "That email is already in use and is associated with an active account.";
 
-const emailConfirmationReq = "You must verify your email before attempting to do that.";
+const emailConfirmationReq = "You must verify your email before attempting to log in.";
+
+const emptyPassword = "You must supply a new password in order to reset the old. Please try again.";
+
+const invalidEmail = "That email is not associated with an active account. Please make sure to supply a valid registered email in order to resend a verification!";
 
 const invalidPassword = "The current password you've supplied does not match our records. Please try again.";
+
+const invalidSeason = "There was a problem assigning you to a season. If you've already selected a season, but are unable to continue, please contact the webmaster: carlotta.matt@gmail.com.";
 
 const invalidToken = "There was a problem authenticating your request. The token that was supplied was invalid.";
 
@@ -32,11 +40,15 @@ const unableToRemove = "There was a problem deleting your account. Please try ag
 
 export {
   alreadyLoggedIn,
+  alreadyVerified,
   badCredentials,
   companyAlreadyExists,
   emailAlreadyTaken,
   emailConfirmationReq,
+  emptyPassword,
+  invalidEmail,
   invalidPassword,
+  invalidSeason,
   invalidToken,
   missingCredentials,
   missingEmailCreds,

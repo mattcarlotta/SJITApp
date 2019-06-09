@@ -10,6 +10,10 @@ const passwordResetToken = email => ({
 
 const removedAccountSuccess = "Your Subskribble account has been successfully removed. Thank you for using our services.";
 
+const resentVerificationEmail = email => ({
+  message: `A verification email has been resent. Please check ${email} for the verification link.`,
+});
+
 const thanksForReg = (email, firstName, lastName) => ({
   message: `Thank you for registering, ${firstName} ${lastName}. Please check ${email} for a verification link.`,
 });
@@ -23,6 +27,7 @@ export {
   passwordResetSuccess,
   passwordResetToken,
   removedAccountSuccess,
+  resentVerificationEmail,
   thanksForReg,
   updatedAccount,
   updatedAccountDetails,
