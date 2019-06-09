@@ -1,9 +1,11 @@
 import mailer from "@sendgrid/mail";
 import { alreadyVerified, invalidEmail, invalidToken } from "shared/authErrors";
 import {
-  resentVerificationEmail, thanksForReg, passwordResetSuccess, passwordResetToken,
+  resentVerificationEmail,
+  thanksForReg,
+  passwordResetSuccess,
+  passwordResetToken,
 } from "shared/authSuccess";
-
 import { sendError } from "shared/helpers";
 import { newUserTemplate } from "services/templates";
 import { User } from "models";
