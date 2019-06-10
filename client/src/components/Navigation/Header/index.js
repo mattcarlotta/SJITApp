@@ -12,17 +12,17 @@ import {
 } from '../index.js';
 
 const navitems = [
-	{ to: '/home', text: 'Home' },
+	{ to: '/', text: 'Home' },
 	{ to: '/about', text: 'About' },
 	{ to: '/contact', text: 'Contact' },
-	{ to: '/employee', text: 'Employees' },
+	{ to: '/employee', text: 'Employee Portal' },
 ];
 
 const Header = () => (
 	<NavBarContainer>
 		<NavBar>
 			<NavTitle>
-				<Link to="/">San Jose Sharks Ice Team</Link>
+				<Link to="/">Sharks Ice Team</Link>
 			</NavTitle>
 			<NavContainer>
 				<Nav>

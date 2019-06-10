@@ -23,6 +23,7 @@
 		}
 	],
 	"rules": {
+		"quotes": ["error", "double"],
 		"arrow-parens": ["warn", "as-needed"],
 		"indent": 0,
 		"no-param-reassign": 0,

@@ -7,7 +7,7 @@ const NavTitle = styled.div`
 		margin-bottom: 20px;
 	}
 
-	color: #03a9f3;
+	letter-spacing: 1px;
 	display: flex;
 	-ms-flex-direction: column;
 	flex-direction: column;
@@ -15,7 +15,7 @@ const NavTitle = styled.div`
 	justify-content: center;
 	-ms-flex-align: center;
 	align-items: center;
-	margin-right: 90px;
+	margin-right: 140px;
 `;
 
 export default NavTitle;

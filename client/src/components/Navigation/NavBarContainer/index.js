@@ -2,9 +2,10 @@ import styled from 'styled-components';
 
 const NavBarContainer = styled.header`
 	width: 100%;
-	background-color: #f9f9f9;
-	-webkit-box-shadow: 0 0.25rem 0.125rem 0 rgba(0, 0, 0, 0.05);
-	box-shadow: 0 0.25rem 0.125rem 0 rgba(0, 0, 0, 0.05);
+	background-color: #025f6d;
+	-webkit-box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.4);
+	-moz-box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.4);
+	box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.4);
 	position: fixed;
 	top: 0;
 	z-index: 1000;
