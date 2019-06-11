@@ -1,7 +1,7 @@
-import React, { Fragment } from 'react';
-import Helmet from 'react-helmet';
-import Placeholder from 'images/placeholder.png';
-import { Center } from 'components/Body';
+import React, { Fragment } from "react";
+import Helmet from "react-helmet";
+import Placeholder from "images/placeholder.png";
+import { Center } from "components/Body";
 
 const Home = () => (
 	<Fragment>

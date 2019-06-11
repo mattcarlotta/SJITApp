@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 // import { connect } from "react-redux";
-import App from 'components/App';
-import { Loading } from 'components/Auth';
+import App from "components/App";
+import { Loading } from "components/Auth";
 // import { authenticateUser } from "actions/authActions";
 
 export class ProtectedRoutes extends Component {

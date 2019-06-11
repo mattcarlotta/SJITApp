@@ -11,7 +11,7 @@ const {
 // CREATE EXPRESS SERVER                                       //
 //= ===========================================================//
 
-export default (app) => {
+export default app => {
   const currentDirectory = process.cwd();
   const inProduction = NODE_ENV === "production";
 
@@ -24,7 +24,7 @@ export default (app) => {
     app.get("*", (req, res) => res.sendFile(resolve(`${currentDirectory}/client/dist/index.html`))); // express will serve up the front-end index.html file if it doesn't recognize the route
   }
 
-  app.listen(APIPORT, (err) => {
+  app.listen(APIPORT, err => {
     if (!err) {
       const API = `${HOST}${APIPORT}`;
       if (inProduction) {

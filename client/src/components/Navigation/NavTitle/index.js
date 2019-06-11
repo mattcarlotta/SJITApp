@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const NavTitle = styled.div`
 	@media (max-width: 725px) {

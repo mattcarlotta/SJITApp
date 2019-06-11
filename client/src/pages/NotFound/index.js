@@ -1,7 +1,7 @@
-import React from 'react';
-import Helmet from 'react-helmet';
-import { Link } from 'react-router-dom';
-import { Center } from 'components/Body';
+import React from "react";
+import Helmet from "react-helmet";
+import { Link } from "react-router-dom";
+import { Center } from "components/Body";
 
 const NotFound = () => (
 	<Center>

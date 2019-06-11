@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Label } from 'components/Body';
+import React from "react";
+import PropTypes from "prop-types";
+import { Label } from "components/Body";
 
 const Input = ({
 	className,
@@ -17,8 +17,8 @@ const Input = ({
 	<div className={className} style={containerStyle}>
 		{label && <Label htmlFor={name}>{label}</Label>}
 		<input
-			type={type || 'text'}
-			name={name || ''}
+			type={type || "text"}
+			name={name || ""}
 			onChange={onChange}
 			placeholder={placeholder}
 			value={value}

@@ -1,6 +1,6 @@
-import React from 'react';
-import SapLogoCenter from 'images/SAPCenterLogo.png';
-import SharksLogo from 'images/SharksLogo.png';
+import React from "react";
+import SapLogoCenter from "images/SAPCenterLogo.png";
+import SharksLogo from "images/SharksLogo.png";
 import {
 	Link,
 	NavBar,
@@ -9,13 +9,13 @@ import {
 	Nav,
 	NavItem,
 	NavTitle,
-} from '../index.js';
+} from "../index.js";
 
 const navitems = [
-	{ to: '/', text: 'Home' },
-	{ to: '/about', text: 'About' },
-	{ to: '/contact', text: 'Contact' },
-	{ to: '/employee', text: 'Employee Portal' },
+	{ to: "/", text: "Home" },
+	{ to: "/about", text: "About" },
+	{ to: "/contact", text: "Contact" },
+	{ to: "/employee", text: "Employee Portal" },
 ];
 
 const Header = () => (

@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import LinkComponent from './LinkComponent';
+import styled from "styled-components";
+import LinkComponent from "./LinkComponent";
 
 const StyledLink = styled(LinkComponent)`
 	color: #fff;

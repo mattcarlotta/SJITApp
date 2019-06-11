@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import { Button } from 'components/Body';
-import { Input } from 'components/Forms';
+import React, { Component } from "react";
+import { Button } from "components/Body";
+import { Input } from "components/Forms";
 
 class LoginForm extends Component {
 	state = {
-		email: '',
-		password: '',
+		email: "",
+		password: "",
 	};
 
 	handleChange = ({ target: { name, value } }) => {

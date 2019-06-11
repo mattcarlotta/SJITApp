@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const Paragraph = styled.div`
 	margin-top: 5px;

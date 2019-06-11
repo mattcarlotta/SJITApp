@@ -1,13 +1,13 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
 
 class ClickHandler extends PureComponent {
 	componentDidMount() {
-		document.addEventListener('mousedown', this.handleClickOutside);
+		document.addEventListener("mousedown", this.handleClickOutside);
 	}
 
 	componentWillUnmount() {
-		document.removeEventListener('mousedown', this.handleClickOutside);
+		document.removeEventListener("mousedown", this.handleClickOutside);
 	}
 
 	handleClickOutside = ({ target }) => {

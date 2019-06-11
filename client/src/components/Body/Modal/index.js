@@ -1,17 +1,17 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
-import { FaTimes } from 'react-icons/fa';
-import BackgroundOverlay from '../BackgroundOverlay';
-import CloseModalButton from './CloseModalButton';
-import ClickHandler from './ClickHandler';
-import ModalContent from './ModalContent';
-import ModalContainer from './ModalContainer';
-import WindowContainer from './WindowContainer';
+import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
+import { withRouter } from "react-router-dom";
+import { FaTimes } from "react-icons/fa";
+import BackgroundOverlay from "../BackgroundOverlay";
+import CloseModalButton from "./CloseModalButton";
+import ClickHandler from "./ClickHandler";
+import ModalContent from "./ModalContent";
+import ModalContainer from "./ModalContainer";
+import WindowContainer from "./WindowContainer";
 
 class Modal extends PureComponent {
 	handleCloseModal = () => {
-		this.props.history.push('/');
+		this.props.history.push("/");
 	};
 
 	render = () => (
@@ -46,7 +46,7 @@ Modal.propTypes = {
 			pathname: PropTypes.string,
 			search: PropTypes.string,
 			hash: PropTypes.string,
-			state: PropTypes.oneOf(['object', 'undefined']),
+			state: PropTypes.oneOf(["object", "undefined"]),
 		}),
 		push: PropTypes.func,
 		replace: PropTypes.func,

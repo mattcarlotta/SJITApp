@@ -1,4 +1,4 @@
-import * as types from 'types';
+import * as types from "types";
 
 /**
  * @function resetPopMessages - resets all server messages.
@@ -11,8 +11,8 @@ export const resetPopMessages = () => ({ type: types.RESET_SERVER_MESSAGES });
  * @returns {object}
  */
 export const setPopMessage = message => ({
-  type: types.SERVER_MESSAGE,
-  payload: message,
+	type: types.SERVER_MESSAGE,
+	payload: message,
 });
 
 /**
@@ -20,6 +20,6 @@ export const setPopMessage = message => ({
  * @returns {object}
  */
 export const setPopErrorMessage = err => ({
-  type: types.SERVER_ERROR,
-  payload: err,
+	type: types.SERVER_ERROR,
+	payload: err,
 });

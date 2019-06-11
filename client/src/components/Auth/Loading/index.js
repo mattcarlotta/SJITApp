@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
 	Center,
 	Line,
@@ -6,8 +6,8 @@ import {
 	Paragraph,
 	Spinner,
 	Title,
-} from 'components/Body';
-import { LoginForm } from 'containers/Forms';
+} from "components/Body";
+import { LoginForm } from "containers/Forms";
 
 export default class AppLoading extends Component {
 	state = { requestTimeout: false };
@@ -34,10 +34,10 @@ export default class AppLoading extends Component {
 		this.state.requestTimeout && !this.props.loggedinUser ? (
 			<Modal>
 				<Center
-					style={{ borderBottom: '1px solid #e8edf2', marginBottom: '25px' }}
+					style={{ borderBottom: "1px solid #e8edf2", marginBottom: "25px" }}
 				>
 					<Title>Welcome!</Title>
-					<Paragraph style={{ color: '#9facbd' }}>
+					<Paragraph style={{ color: "#9facbd" }}>
 						Sign into your account here.
 					</Paragraph>
 				</Center>

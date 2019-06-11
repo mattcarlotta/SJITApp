@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const NavBarContainer = styled.header`
 	width: 100%;
@@ -13,7 +13,7 @@ const NavBarContainer = styled.header`
 	&::after {
 		display: block;
 		clear: both;
-		content: '';
+		content: "";
 	}
 `;
 

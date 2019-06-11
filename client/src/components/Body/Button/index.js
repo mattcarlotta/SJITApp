@@ -11,7 +11,6 @@ const Button = styled(StyledButton)`
 	}};
 	text-decoration: none;
 	margin-right: 20px;
-	padding: 8px 16px;
 	transition: all 0.2s ease-in-out;
 	border-radius: 4px;
 	border: 2px solid

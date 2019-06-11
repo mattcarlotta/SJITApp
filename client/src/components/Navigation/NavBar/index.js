@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const NavBar = styled.nav`
 	@media (max-width: 725px) {

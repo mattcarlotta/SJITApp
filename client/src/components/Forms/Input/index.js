@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import Input from './Input';
+import styled from "styled-components";
+import Input from "./Input";
 
 const StyledInput = styled(Input)`
 	@media (max-width: 768px) {

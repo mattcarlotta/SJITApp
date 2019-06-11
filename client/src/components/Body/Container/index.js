@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const Container = styled.div`
 	@media (max-width: 768px) {
@@ -12,7 +12,7 @@ const Container = styled.div`
 	margin-right: auto;
 	padding: 0px 30px;
 	margin-bottom: 80px;
-	width: ${({ width }) => width || '100%'};
+	width: ${({ width }) => width || "100%"};
 	margin-top: 120px;
 `;
 
