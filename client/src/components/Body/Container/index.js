@@ -13,7 +13,7 @@ const Container = styled.div`
 	padding: 0px 30px;
 	margin-bottom: 80px;
 	width: ${({ width }) => width || '100%'};
-	margin-top: 110px;
+	margin-top: 120px;
 `;
 
 export default Container;

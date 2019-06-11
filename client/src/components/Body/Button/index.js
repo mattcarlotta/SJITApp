@@ -33,7 +33,7 @@ const Button = styled(StyledButton)`
 			if (props.danger) return '#d24b2e';
 			return 'transparent';
 		}};
-		border: 2px solid ${props => (props.danger ? '#d24b2e' : '#04515d')}};
+		border: 2px solid ${props => (props.danger ? '#d24b2e' : '#04515d')};
 	}
 
 	&:focus {
