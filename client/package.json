@@ -53,7 +53,6 @@
 	},
 	"lint-staged": {
 		"*.{js,jsx}": [
-			"prettier --write --single-quote",
 			"eslint --fix",
 			"jest --config ./jest.json /src",
 			"git add"
