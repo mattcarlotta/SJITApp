@@ -1,5 +1,4 @@
 export { default as Header } from './Header';
-export { default as Line } from './Line';
 export { default as Link } from './Link';
 export { default as Nav } from './Nav';
 export { default as NavBar } from './NavBar';

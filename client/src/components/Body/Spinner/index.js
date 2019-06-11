@@ -1,0 +1,60 @@
+import styled from 'styled-components';
+import Spinner from './Spinner';
+
+const StyledSpinner = styled(Spinner)`
+	margin: 0 auto;
+	width: 60px;
+	height: 50px;
+	text-align: center;
+	font-size: 10px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	-webkit-transform: translateY(-50%) translateX(-50%);
+
+	& > div {
+		height: 100%;
+		width: 8px;
+		display: inline-block;
+		float: left;
+		margin-left: 2px;
+		-webkit-animation: delay 0.8s infinite ease-in-out;
+		animation: delay 0.8s infinite ease-in-out;
+	}
+
+	& .bar1 {
+		background-color: #006e7f;
+	}
+
+	& .bar2 {
+		background-color: #09b7bf;
+		-webkit-animation-delay: -0.7s;
+		animation-delay: -0.7s;
+	}
+
+	& .bar3 {
+		background-color: #90d36b;
+		-webkit-animation-delay: -0.6s;
+		animation-delay: -0.6s;
+	}
+
+	& .bar4 {
+		background-color: #f2d40d;
+		-webkit-animation-delay: -0.5s;
+		animation-delay: -0.5s;
+	}
+
+	& .bar5 {
+		background-color: #fcb12b;
+		-webkit-animation-delay: -0.4s;
+		animation-delay: -0.4s;
+	}
+
+	& .bar6 {
+		background-color: #f58311;
+		-webkit-animation-delay: -0.3s;
+		animation-delay: -0.3s;
+	}
+`;
+
+export default StyledSpinner;
