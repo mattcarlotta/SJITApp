@@ -1,5 +1,5 @@
-import isEmpty from "lodash/isEmpty";
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { Button, ButtonContainer, Submitting } from "components/Body";
 import { Input } from "components/Forms";
 import { fields, validator } from "./fields";
@@ -10,6 +10,9 @@ class LoginForm extends Component {
 		isFocused: "",
 		isSubmitting: false,
 	};
+
+	static getDerivedStateFromProps = props =>
+		props.serverMessage ? { isSubmitting: false } : null;
 
 	handleChange = ({ target: { name, value } }) => {
 		this.setState(prevState => ({
@@ -29,16 +32,20 @@ class LoginForm extends Component {
 		const { validatedFields, errors } = validator(this.state.fields);
 
 		this.setState({ fields: validatedFields, isSubmitting: !errors }, () => {
-			if (!errors) {
-				const signinFields = this.state.fields.reduce(
-					(acc, { name, value }) => {
-						acc[name] = value;
+			const { fields: loginFields } = this.state;
+			const { hideServerMessage, serverMessage } = this.props;
 
-						return acc;
-					},
-					{},
-				);
-				this.props.signinUser(signinFields);
+			if (!errors) {
+				const signinFields = loginFields.reduce((acc, { name, value }) => {
+					acc[name] = value;
+
+					return acc;
+				}, {});
+
+				if (serverMessage) hideServerMessage();
+				setTimeout(() => {
+					this.props.signinUser(signinFields);
+				}, 350);
 			}
 		});
 	};
@@ -67,5 +74,10 @@ class LoginForm extends Component {
 		</form>
 	);
 }
+
+LoginForm.propTypes = {
+	hideServerMessage: PropTypes.func.isRequired,
+	serverMessage: PropTypes.string,
+};
 
 export default LoginForm;

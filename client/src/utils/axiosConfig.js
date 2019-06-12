@@ -3,7 +3,10 @@ import axios from "axios";
 import { inDevelopment, APIPORT } from "../../config/envs";
 
 export const app = axios.create({
-	baseURL: `http://localhost:${APIPORT}/api/`,
+	baseURL: inDevelopment
+		? `http://localhost:${APIPORT}/api/`
+		: "https://example.com",
+	withCredentials: true,
 });
 
 app.interceptors.response.use(

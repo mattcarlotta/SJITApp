@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Label } from "components/Body";
+import { Errors } from "components/Forms";
 import { FaUserCircle, FaUnlockAlt, FaBug } from "react-icons/fa";
 
 const iconType = type => {
@@ -48,7 +49,7 @@ const Input = ({
 				value={value}
 				style={inputStyle}
 			/>
-			{errors && <p>{errors}</p>}
+			{errors && <Errors>{errors}</Errors>}
 		</div>
 	</div>
 );

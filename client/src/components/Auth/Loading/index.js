@@ -9,6 +9,7 @@ export default class AppLoading extends Component {
 
 	shouldComponentUpdate = (nextProps, nextState) =>
 		nextProps.loggedinUser !== this.props.loggedinUser ||
+		nextProps.serverMessage !== this.props.serverMessage ||
 		(this.props.loggedinUser !== false &&
 			nextState.requestTimeout !== this.state.requestTimeout);
 

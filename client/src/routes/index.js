@@ -6,6 +6,7 @@ import { Home, NotFound } from "pages";
 import { Container, ScrollHandler } from "components/Body";
 import { Header } from "components/Navigation";
 import { ProtectedRoutes } from "containers/Auth";
+import { ServerMessages } from "containers/App";
 import GlobalStyles from "styles/theme/globalStyles";
 
 const config = {
@@ -33,6 +34,7 @@ const Routes = () => (
 					<Route component={NotFound} />
 				</Switch>
 			</ScrollHandler>
+			<ServerMessages />
 		</Container>
 	</Fragment>
 );

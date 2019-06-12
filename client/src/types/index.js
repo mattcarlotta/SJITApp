@@ -3,6 +3,6 @@ export const SIGNIN = "SIGIN";
 export const SIGNOUT = "SIGNOUT";
 
 // server messages
-export const RESET_SERVER_MESSAGES = "RESET_SERVER_MESSAGES";
-export const SERVER_ERROR = "SERVER_ERROR";
-export const SERVER_MESSAGE = "SERVER_MESSAGE";
+export const HIDE_MESSAGE = "HIDE_MESSAGE";
+export const SET_MESSAGE = "SET_MESSAGE";
+export const RESET_MESSAGE = "RESET_MESSAGE";

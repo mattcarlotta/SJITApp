@@ -44,13 +44,6 @@ const StyledInput = styled(Input)`
 		}
 	}
 
-	p {
-		margin: 0;
-		padding: 0;
-		color: #d14023;
-		text-align: right;
-	}
-
 	.focused {
 		svg {
 			color: #1e90ff;

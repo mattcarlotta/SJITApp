@@ -1,11 +1,11 @@
 import { combineReducers } from "redux";
 import { connectRouter } from "connected-react-router";
 import authReducer from "./auth";
-import serverReducer from "./server";
+import serverMessageReducer from "./messages";
 
 const reducers = {
 	auth: authReducer,
-	server: serverReducer,
+	server: serverMessageReducer,
 };
 
 export default history =>

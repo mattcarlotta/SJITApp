@@ -6,6 +6,8 @@ const StyledSubmitting = styled(Submitting)`
 	width: 54px;
 	height: 54px;
 	margin: 0 auto;
+	-webkit-animation: fadeIn 1s 0s ease-in-out forwards;
+	animation: fadeIn 1s 0s ease-in-out forwards;
 
 	& > div {
 		display: inline-block;
