@@ -1,12 +1,5 @@
 import React, { Component } from "react";
-import {
-	Center,
-	Line,
-	Modal,
-	Paragraph,
-	Spinner,
-	Title,
-} from "components/Body";
+import { Center, Modal, Paragraph, Spinner, Title } from "components/Body";
 import { LoginForm } from "components/Forms";
 
 export default class AppLoading extends Component {
@@ -14,9 +7,10 @@ export default class AppLoading extends Component {
 
 	componentDidMount = () => this.setTimer();
 
-	componentDidUpdate = nextProps => {
-		if (this.props.serverError !== nextProps.serverError) this.notAuthed();
-	};
+	shouldComponentUpdate = (nextProps, nextState) =>
+		nextProps.loggedinUser !== this.props.loggedinUser ||
+		(this.props.loggedinUser !== false &&
+			nextState.requestTimeout !== this.state.requestTimeout);
 
 	componentWillUnmount = () => this.clearTimer();
 
@@ -28,10 +22,10 @@ export default class AppLoading extends Component {
 	timer = () =>
 		this.setState({ requestTimeout: true }, () => this.clearTimer());
 
-	setTimer = () => (this.timeout = setTimeout(this.timer, 1000));
+	setTimer = () => (this.timeout = setTimeout(this.timer, 5000));
 
 	render = () =>
-		this.state.requestTimeout && !this.props.loggedinUser ? (
+		this.state.requestTimeout || this.props.loggedinUser === false ? (
 			<Modal>
 				<Center
 					style={{ borderBottom: "1px solid #e8edf2", marginBottom: "25px" }}

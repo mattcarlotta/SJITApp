@@ -8,6 +8,8 @@ const WindowContainer = styled.div`
 	z-index: 1300;
 	position: fixed;
 	overflow: hidden;
+	-webkit-animation: fadeIn 0.2s 0s ease-in-out forwards;
+	animation: fadeIn 0.2s 0s ease-in-out forwards;
 `;
 
 export default WindowContainer;

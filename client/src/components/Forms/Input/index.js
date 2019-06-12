@@ -4,7 +4,7 @@ import Input from "./Input";
 const StyledInput = styled(Input)`
 	position: relative;
 	display: inline-block;
-	height: 120px;
+	height: 105px;
 	width: 100%;
 
 	svg {

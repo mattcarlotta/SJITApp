@@ -54,6 +54,26 @@ const GlobalStyle = createGlobalStyle`
     }
   }
 
+  @-webkit-keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+  
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+  
+    to {
+      opacity: 1;
+    }
+  }
+
   *, ::after, ::before {
     box-sizing: border-box;
   }

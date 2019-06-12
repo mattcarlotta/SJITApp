@@ -10,6 +10,8 @@ const StyledSpinner = styled(Spinner)`
 	position: absolute;
 	top: 50%;
 	left: 50%;
+	-webkit-animation: fadeIn 1s 0s ease-in-out forwards;
+	animation: fadeIn 1s 0s ease-in-out forwards;
 	-webkit-transform: translateY(-50%) translateX(-50%);
 
 	& > div {

@@ -54,7 +54,7 @@
 	"lint-staged": {
 		"*.{js,jsx}": [
 			"eslint --fix",
-			"jest --config ./jest.json /src",
+			"jest --config ./jest.json /src --passWithNoTests",
 			"git add"
 		],
 		"*.scss": [

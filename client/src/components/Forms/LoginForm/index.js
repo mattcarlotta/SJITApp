@@ -30,43 +30,42 @@ class LoginForm extends Component {
 
 		this.setState({ fields: validatedFields, isSubmitting: !errors }, () => {
 			if (!errors) {
-				// alert(JSON.stringify(this.state, null, 4));
+				const signinFields = this.state.fields.reduce(
+					(acc, { name, value }) => {
+						acc[name] = value;
+
+						return acc;
+					},
+					{},
+				);
+				this.props.signinUser(signinFields);
 			}
 		});
 	};
 
-	render = () => {
-		const { isFocused, isSubmitting } = this.state;
-
-		return (
-			<form onSubmit={this.handleSubmit}>
-				{this.state.fields.map(({ name, type, label, icon, value, errors }) => (
-					<Input
-						key={name}
-						type={type}
-						name={name}
-						label={label}
-						icon={icon}
-						isFocused={isFocused}
-						onChange={this.handleChange}
-						onBlur={this.handleBlur}
-						onFocus={this.handleFocus}
-						value={value}
-						errors={errors}
-					/>
-				))}
-				<ButtonContainer style={{ background: "#025f6d" }}>
-					{isSubmitting ? (
-						<Submitting />
-					) : (
-						<Button primary="true" type="submit">
-							Submit
-						</Button>
-					)}
-				</ButtonContainer>
-			</form>
-		);
-	};
+	render = () => (
+		<form onSubmit={this.handleSubmit}>
+			{this.state.fields.map(props => (
+				<Input
+					{...props}
+					key={props.name}
+					isFocused={this.state.isFocused}
+					onChange={this.handleChange}
+					onBlur={this.handleBlur}
+					onFocus={this.handleFocus}
+				/>
+			))}
+			<ButtonContainer style={{ marginTop: 5 }} primary="true">
+				{this.state.isSubmitting ? (
+					<Submitting />
+				) : (
+					<Button primary="true" type="submit">
+						Submit
+					</Button>
+				)}
+			</ButtonContainer>
+		</form>
+	);
 }
 
 export default LoginForm;

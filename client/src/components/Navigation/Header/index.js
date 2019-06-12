@@ -9,7 +9,7 @@ import {
 	Nav,
 	NavItem,
 	NavTitle,
-} from "../index.js";
+} from "components/Navigation";
 
 const navitems = [
 	{ to: "/", text: "Home" },
