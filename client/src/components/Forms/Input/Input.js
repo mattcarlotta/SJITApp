@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Label } from "components/Body";
-import { FaUserCircle, FaUnlockAlt } from "react-icons/fa";
+import { FaUserCircle, FaUnlockAlt, FaBug } from "react-icons/fa";
 
 const iconType = type => {
 	switch (type) {
@@ -10,7 +10,7 @@ const iconType = type => {
 		case "unlock":
 			return <FaUnlockAlt />;
 		default:
-			break;
+			return <FaBug />;
 	}
 };
 
@@ -25,21 +25,25 @@ const Input = ({
 	name,
 	onBlur,
 	onChange,
-	onClick,
+	onFocus,
 	placeholder,
 	type,
 	value,
 }) => (
 	<div className={className} style={containerStyle}>
-		<div className={`${isFocused === name ? "focused" : ""}`}>
+		<div
+			className={`${isFocused === name ? "focused" : ""} ${
+				errors ? "error" : ""
+			}`}
+		>
 			{label && <Label htmlFor={name}>{label}</Label>}
 			{icon && iconType(icon)}
 			<input
 				type={type || "text"}
 				name={name || ""}
-				onClick={onClick}
 				onBlur={onBlur}
 				onChange={onChange}
+				onFocus={onFocus}
 				placeholder={placeholder}
 				value={value}
 				style={inputStyle}
@@ -59,7 +63,7 @@ Input.propTypes = {
 	name: PropTypes.string,
 	onBlur: PropTypes.func,
 	onChange: PropTypes.func.isRequired,
-	onClick: PropTypes.func,
+	onFocus: PropTypes.func,
 	placeholder: PropTypes.string,
 	type: PropTypes.string,
 	value: PropTypes.string,

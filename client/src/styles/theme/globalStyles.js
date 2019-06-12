@@ -8,6 +8,30 @@ const GlobalStyle = createGlobalStyle`
     font-family: "Karla Regular", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   }
 
+  @-webkit-keyframes pop {
+    0% {
+      top: 6px;
+      height: 41px;
+    }
+
+    50%, 100% {
+      top: 19px;
+      height: 16px;
+    }
+  }
+
+  @keyframes pop {
+    0% {
+      top: 6px;
+      height: 41px;
+    }
+    
+    50%, 100% {
+      top: 19px;
+      height: 16px;
+    }
+  }
+
   @-webkit-keyframes delay {
     0%, 40%, 100% { 
       -webkit-transform: scaleY(0.05);

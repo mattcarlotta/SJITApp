@@ -7,7 +7,7 @@ import {
 	Spinner,
 	Title,
 } from "components/Body";
-import { LoginForm } from "containers/Forms";
+import { LoginForm } from "components/Forms";
 
 export default class AppLoading extends Component {
 	state = { requestTimeout: false };
@@ -36,9 +36,9 @@ export default class AppLoading extends Component {
 				<Center
 					style={{ borderBottom: "1px solid #e8edf2", marginBottom: "25px" }}
 				>
-					<Title>Welcome!</Title>
+					<Title style={{ color: "#025f6d" }}>Welcome!</Title>
 					<Paragraph style={{ color: "#9facbd" }}>
-						Sign into your account here.
+						Sign into your account below.
 					</Paragraph>
 				</Center>
 				<LoginForm {...this.props} />

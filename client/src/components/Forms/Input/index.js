@@ -10,7 +10,7 @@ const StyledInput = styled(Input)`
 	svg {
 		color: #d3dce6;
 		position: absolute;
-		top: 48px;
+		top: 46px;
 		left: 16px;
 		transition: all 0.2s ease;
 		z-index: 2;
@@ -22,7 +22,7 @@ const StyledInput = styled(Input)`
 
 	input {
 		position: relative;
-		padding: ${({ icon }) => (icon ? "16px 0 18px 48px" : "16px 0 18px 17px")};
+		padding: ${({ icon }) => (icon ? "14px 0 14px 48px" : "14px 0 14px 17px")};
 		width: 100%;
 		font-size: 18px;
 		background: #fff;
@@ -47,16 +47,27 @@ const StyledInput = styled(Input)`
 	p {
 		margin: 0;
 		padding: 0;
-		color: #f56342;
+		color: #d14023;
+		text-align: right;
 	}
 
 	.focused {
 		svg {
-			color: #10a5e8;
+			color: #1e90ff;
 		}
 
 		input {
-			border: 1px solid #10a5e8;
+			border: 1px solid #1e90ff;
+		}
+	}
+
+	.error {
+		svg {
+			color: #d14023 !important;
+		}
+
+		input {
+			border: 1px solid #d14023 !important;
 		}
 	}
 `;
