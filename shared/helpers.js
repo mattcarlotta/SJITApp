@@ -33,6 +33,11 @@ const currentDate = () => moment()
   .utcOffset(-7)
   .toISOString(true);
 
+const createSignupToken = () => `${tokenGenerator(
+  "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$/.",
+  12,
+)}${Date.now()}`;
+
 const endofMonth = () => moment().endOf("month");
 
 const parseStringToFloat = str => parseFloat(str);
@@ -45,6 +50,7 @@ export {
   beginofMonth,
   convertDateToISO,
   createRandomToken,
+  createSignupToken,
   createUniqueTemplateName,
   currentDate,
   endofMonth,

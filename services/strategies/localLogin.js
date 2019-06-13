@@ -58,6 +58,7 @@ const localLogin = async (req, res, next) => {
       email: existingUser.email,
       firstName: existingUser.firstName,
       lastName: existingUser.lastName,
+      role: existingUser.role,
     };
     next();
   } catch (err) {

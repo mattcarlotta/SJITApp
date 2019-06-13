@@ -1,9 +1,14 @@
-import bcrypt from "bcryptjs";
 import { Strategy as LocalStrategy } from "passport-local";
 import passport from "passport";
 import mailer from "@sendgrid/mail";
-import { User, Season } from "models";
-import { emailAlreadyTaken, invalidSeason } from "shared/authErrors";
+import { User, Season, Token } from "models";
+import {
+  emailAlreadyTaken,
+  invalidSeason,
+  invalidToken,
+  missingSignupCreds,
+  tokenAlreadyUsed,
+} from "shared/authErrors";
 import { createRandomToken, sendError } from "shared/helpers";
 import { newUserTemplate } from "services/templates";
 
@@ -18,11 +23,16 @@ passport.use(
       passReqToCallback: true,
     },
     async (req, email, password, done) => {
-      const { season } = req.body;
+      const { season, token } = req.body;
 
-      const token = createRandomToken(); // a token used for email verification
+      const newToken = createRandomToken(); // a token used for email verification
 
       try {
+        // check to see if the token is valid and hasn't been used already
+        const validToken = await Token.findOne({ token });
+        if (!validToken) return done(invalidToken, false);
+        if (validToken.email) return done(tokenAlreadyUsed, false);
+
         // check to see if the email is already in use
         const existingUser = await User.findOne({ email });
         if (existingUser) return done(emailAlreadyTaken, false);
@@ -32,13 +42,18 @@ passport.use(
         if (!currentSeason) return done(invalidSeason, false);
 
         // hash password before attempting to create the user
-        const newPassword = await bcrypt.hash(password, 12);
+        const newPassword = await User.createPassword(password);
+
         // create new user
         const newUser = await User.createUser({
           ...req.body,
           password: newPassword,
-          token,
+          role: validToken.role,
+          token: newToken,
         });
+
+        // assign signup token to current user
+        await Token.updateOne({ token }, { $set: { email: newUser.email } });
 
         // add user to selected season
         await Season.addUser(currentSeason._id, newUser._id);
@@ -69,14 +84,11 @@ passport.use(
 
 const localSignup = async (req, res, next) => {
   const {
-    email, firstName, lastName, season,
+    email, firstName, lastName, season, token,
   } = req.body;
 
-  if (!email || !firstName || !lastName || !season) {
-    return sendError(
-      "Invalid signup credentials. You must supply a valid email, first name, last name and a season.",
-      res,
-    );
+  if (!email || !firstName || !lastName || !season || !token) {
+    return sendError(missingSignupCreds, res);
   }
 
   try {
@@ -84,7 +96,11 @@ const localSignup = async (req, res, next) => {
       passport.authenticate("local-signup", (err, user) => (err ? reject(err) : resolve(user)))(req, res, next);
     });
 
-    req.user = newUser;
+    req.user = {
+      email: newUser.email,
+      firstName: newUser.firstName,
+      lastName: newUser.lastName,
+    };
 
     next();
   } catch (err) {

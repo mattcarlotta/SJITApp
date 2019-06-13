@@ -20,7 +20,7 @@ const invalidSeason = "There was a problem assigning you to a season. If you've 
 
 const invalidToken = "There was a problem authenticating your request. The token that was supplied was invalid.";
 
-const missingCredentials = "You must supply a valid first name, last name, email, password and company name in order to sign up.";
+const missingSignupCreds = "Invalid sign up request. You must supply a valid: email, first name, last name, current season, and a token.";
 
 const missingEmailCreds = "That email is not associated with an active account. Please make sure the email address is spelled correctly.";
 
@@ -33,6 +33,8 @@ const missingToken = "There was a problem authenticating your request.";
 const notAdmin = "You DO NOT have permission to do that.";
 
 const notUniquePassword = "Your new password must not match your current password. Please try again.";
+
+const tokenAlreadyUsed = "The supplied token has already been used and is associated with an active account. Please contact the webmaster if this error continues: carlotta.matt@gmail.com.";
 
 const unableLocatePass = "Unable to verify current password. Please try again or contact us at = helpdesk@subskribble.com";
 
@@ -50,13 +52,14 @@ export {
   invalidPassword,
   invalidSeason,
   invalidToken,
-  missingCredentials,
   missingEmailCreds,
   missingPasswords,
   missingSidebarState,
+  missingSignupCreds,
   missingToken,
   notAdmin,
   notUniquePassword,
+  tokenAlreadyUsed,
   unableLocatePass,
   unableToRemove,
 };

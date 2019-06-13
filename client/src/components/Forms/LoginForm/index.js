@@ -1,6 +1,14 @@
-import React, { Component } from "react";
+import React, { Fragment, Component } from "react";
+import Helmet from "react-helmet";
 import PropTypes from "prop-types";
-import { Button, ButtonContainer, Submitting } from "components/Body";
+import {
+	Button,
+	ButtonContainer,
+	Center,
+	Paragraph,
+	Submitting,
+	Title,
+} from "components/Body";
 import { Input } from "components/Forms";
 import { fields, validator } from "./fields";
 
@@ -43,35 +51,44 @@ class LoginForm extends Component {
 				}, {});
 
 				if (serverMessage) hideServerMessage();
-				setTimeout(() => {
-					this.props.signinUser(signinFields);
-				}, 350);
+				setTimeout(() => this.props.signinUser(signinFields), 350);
 			}
 		});
 	};
 
 	render = () => (
-		<form onSubmit={this.handleSubmit}>
-			{this.state.fields.map(props => (
-				<Input
-					{...props}
-					key={props.name}
-					isFocused={this.state.isFocused}
-					onChange={this.handleChange}
-					onBlur={this.handleBlur}
-					onFocus={this.handleFocus}
-				/>
-			))}
-			<ButtonContainer style={{ marginTop: 5 }} primary="true">
-				{this.state.isSubmitting ? (
-					<Submitting />
-				) : (
-					<Button primary="true" type="submit">
-						Submit
-					</Button>
-				)}
-			</ButtonContainer>
-		</form>
+		<Fragment>
+			<Helmet title="Employee Log In" />
+			<Center
+				style={{ borderBottom: "1px solid #e8edf2", marginBottom: "25px" }}
+			>
+				<Title style={{ color: "#025f6d" }}>Welcome!</Title>
+				<Paragraph style={{ color: "#9facbd" }}>
+					Sign into your account below.
+				</Paragraph>
+			</Center>
+			<form onSubmit={this.handleSubmit}>
+				{this.state.fields.map(props => (
+					<Input
+						{...props}
+						key={props.name}
+						isFocused={this.state.isFocused}
+						onChange={this.handleChange}
+						onBlur={this.handleBlur}
+						onFocus={this.handleFocus}
+					/>
+				))}
+				<ButtonContainer style={{ marginTop: 5 }} primary="true">
+					{this.state.isSubmitting ? (
+						<Submitting />
+					) : (
+						<Button primary="true" type="submit">
+							Submit
+						</Button>
+					)}
+				</ButtonContainer>
+			</form>
+		</Fragment>
 	);
 }
 
