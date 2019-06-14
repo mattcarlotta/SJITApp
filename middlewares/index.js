@@ -22,10 +22,9 @@ export default app => {
   app.use(
     session({
       secret: config[NODE_ENV].cookieKey,
-      name: "SJITApp",
+      name: "SJSITApp",
       saveUninitialized: false, // don't create session until something stored
       resave: false, // don't save session if unmodified
-      unset: "destroy",
       cookie: {
         path: "/",
         httpOnly: true,
@@ -36,7 +35,7 @@ export default app => {
         db: 0,
         host: "127.0.0.1",
         port: 6379,
-        ttl: 5,
+        // ttl: 5,
       }),
     }),
   );

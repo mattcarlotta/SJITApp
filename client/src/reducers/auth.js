@@ -18,7 +18,7 @@ const authReducer = (state = authInitialState, { payload, type }) => {
 		case types.SIGNIN:
 			return { ...state, ...payload };
 		case types.SIGNOUT:
-			return authInitialState;
+			return { ...authInitialState, email: false };
 		default:
 			return state;
 	}

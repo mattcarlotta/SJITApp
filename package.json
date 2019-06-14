@@ -48,6 +48,8 @@
     "server": {
       "command": "nodemon ./app.js",
       "env": {
+        "HOST": "http://localhost:",
+        "CLIENT": "http://localhost:3000",
         "DATABASE": "mongodb://localhost/sjsitapp-dev-db",
         "NODE_ENV": "development",
         "APIPORT": 5000

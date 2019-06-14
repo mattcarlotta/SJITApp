@@ -1,3 +1,7 @@
+# vs code
+.vscode
+.vscode/
+
 # Mac OS BS
 *.DS_Store
 

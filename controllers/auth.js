@@ -24,23 +24,6 @@ const emailResetToken = (req, res) => {
   res.status(201).json(passwordResetToken(req.user));
 };
 
-// ALLOWS A USER TO LOG INTO THE APP
-const login = (req, res) => {
-  res.status(201).json({ ...req.session.user });
-};
-
-// REMOVES USER FROM SESSION AND DELETES CLIENT COOKIE
-const logout = (req, res) => {
-  req.session.destroy();
-
-  res.status(200).send("Session ended.");
-};
-
-// ALLOWS A USER TO LOG INTO THE APP ON REFRESH
-const loggedin = (req, res) => {
-  res.status(201).json({ ...req.session.user });
-};
-
 // RESENDS A VERFICATION EMAIL
 const resendEmailVerification = async (req, res) => {
   const { email } = req.body;
@@ -103,13 +86,33 @@ const verifyAccount = async (req, res) => {
   }
 };
 
+// ALLOWS A USER TO LOG INTO THE APP ON REFRESH
+const signedin = (req, res) => {
+  res.status(201).json({ ...req.session.user });
+};
+
+// ALLOWS A USER TO LOG INTO THE APP
+const signin = (req, res) => {
+  res.status(201).json({ ...req.session.user });
+};
+
+// REMOVES USER FROM SESSION AND DELETES CLIENT COOKIE
+const signout = (req, res) => {
+  req.session.destroy();
+
+  res
+    .clearCookie("SJSITApp", { path: "/" })
+    .status(200)
+    .send("Session ended.");
+};
+
 export {
   create,
   emailResetToken,
-  login,
-  loggedin,
-  logout,
   resendEmailVerification,
+  signedin,
+  signin,
+  signout,
   updatePassword,
   verifyAccount,
 };

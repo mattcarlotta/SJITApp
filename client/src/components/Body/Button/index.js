@@ -18,17 +18,20 @@ const Button = styled(StyledButton)`
 		${props => {
 			if (props.primary) return "#025f6d";
 			if (props.danger) return "#f56342";
-			return "#025f6d";
+			return "transparent";
 		}};
 	width: 100%;
-	padding: 16px 18px 17px;
+	padding: ${({ padding }) => padding || "16px 18px 17px"};
 	font-size: 18px;
 	letter-spacing: 1px;
 	min-height: 58px;
 
 	&:hover {
-		color: ${props =>
-			!props.primary && !props.danger ? "#04515d" : "#ffffff"};
+		color: ${props => {
+			if (props.primary) return "#04515d";
+			if (props.danger) return "#d24b2e";
+			return "#04515d";
+		}};
 		background-color: ${props => {
 			if (props.primary) return "#04515d";
 			if (props.danger) return "#d24b2e";

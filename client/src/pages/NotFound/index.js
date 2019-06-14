@@ -1,16 +1,22 @@
-import React from "react";
+import React, { Fragment } from "react";
 import Helmet from "react-helmet";
 import { Link } from "react-router-dom";
-import { Center } from "components/Body";
+import { Header } from "components/Navigation";
+import { Center, Container } from "components/Body";
 
 const NotFound = () => (
-	<Center>
+	<Fragment>
+		<Header />
 		<Helmet title="Page Not Found" />
-		<div>
-			<h1>404 - Page Not Found!</h1>
-			<Link to="/">Go Back</Link>
-		</div>
-	</Center>
+		<Container>
+			<Center>
+				<div>
+					<h1>404 - Page Not Found!</h1>
+					<Link to="/">Go Back</Link>
+				</div>
+			</Center>
+		</Container>
+	</Fragment>
 );
 
 export default NotFound;

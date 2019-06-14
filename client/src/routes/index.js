@@ -3,8 +3,7 @@ import { Route, Switch } from "react-router-dom";
 import Helmet from "react-helmet";
 
 import { Home, NotFound } from "pages";
-import { Container, ScrollHandler } from "components/Body";
-import { Header } from "components/Navigation";
+import { ScrollHandler } from "components/Body";
 import { ProtectedRoutes } from "containers/Auth";
 import { ServerMessages } from "containers/App";
 import GlobalStyles from "styles/theme/globalStyles";
@@ -25,17 +24,14 @@ const Routes = () => (
 	<Fragment>
 		<Helmet {...config} />
 		<GlobalStyles />
-		<Header />
-		<Container>
-			<ScrollHandler>
-				<Switch>
-					<Route exact path="/" component={Home} />
-					<Route exact path="/employee" component={ProtectedRoutes} />
-					<Route component={NotFound} />
-				</Switch>
-			</ScrollHandler>
-			<ServerMessages />
-		</Container>
+		<ScrollHandler>
+			<Switch>
+				<Route exact path="/" component={Home} />
+				<Route exact path="/employee" component={ProtectedRoutes} />
+				<Route component={NotFound} />
+			</Switch>
+		</ScrollHandler>
+		<ServerMessages />
 	</Fragment>
 );
 
