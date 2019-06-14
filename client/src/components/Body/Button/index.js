@@ -28,7 +28,7 @@ const Button = styled(StyledButton)`
 
 	&:hover {
 		color: ${props => {
-			if (props.primary) return "#04515d";
+			if (props.primary) return "#fff";
 			if (props.danger) return "#d24b2e";
 			return "#04515d";
 		}};
