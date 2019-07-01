@@ -1,8 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const StyledButton = ({ className, children, type, ...rest }) => (
-	<button {...rest} className={className} type={!type ? "button" : type}>
+const StyledButton = ({ className, children, onClick, type }) => (
+	<button
+		className={className}
+		type={!type ? "button" : type}
+		onClick={onClick}
+	>
 		{children}
 	</button>
 );
@@ -10,6 +14,7 @@ const StyledButton = ({ className, children, type, ...rest }) => (
 StyledButton.propTypes = {
 	className: PropTypes.string.isRequired,
 	children: PropTypes.oneOfType([PropTypes.node, PropTypes.string]).isRequired,
+	onClick: PropTypes.func,
 	type: PropTypes.string,
 };
 

@@ -9,6 +9,12 @@ const Button = styled(StyledButton)`
 		if (props.danger) return "#f56342";
 		return "transparent";
 	}};
+	text-transform: ${props => {
+		if (props.uppercase) return "uppercase";
+		if (props.lowercase) return "lowercase";
+		if (props.captialize) return "captialize";
+		return "normal";
+	}};
 	text-decoration: none;
 	margin-right: 20px;
 	transition: color 0.2s ease-in-out, background 0.2s ease-in-out,
@@ -22,9 +28,8 @@ const Button = styled(StyledButton)`
 		}};
 	width: 100%;
 	padding: ${({ padding }) => padding || "16px 18px 17px"};
-	font-size: 18px;
+	font-size: ${({ fontSize }) => (fontSize ? fontSize : "18px")};
 	letter-spacing: 1px;
-	min-height: 58px;
 
 	&:hover {
 		color: ${props => {
@@ -35,7 +40,7 @@ const Button = styled(StyledButton)`
 		background-color: ${props => {
 			if (props.primary) return "#04515d";
 			if (props.danger) return "#d24b2e";
-			return "transparent";
+			return "#F9F9F9";
 		}};
 		border: 2px solid
 			${props => {

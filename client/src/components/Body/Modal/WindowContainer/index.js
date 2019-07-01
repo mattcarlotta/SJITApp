@@ -5,7 +5,6 @@ const WindowContainer = styled.div`
 	left: 0;
 	right: 0;
 	bottom: 0;
-	z-index: 1300;
 	position: fixed;
 	overflow: hidden;
 	-webkit-animation: fadeIn 0.2s 0s ease-in-out forwards;

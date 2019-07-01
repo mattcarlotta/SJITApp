@@ -1,15 +1,21 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { Tooltip } from "antd";
 import { Label } from "components/Body";
 import { Errors } from "components/Forms";
-import { FaUserCircle, FaUnlockAlt, FaBug } from "react-icons/fa";
+import { FaUserCircle, FaLock, FaBug, FaEnvelope, FaKey } from "react-icons/fa";
+import { GoQuestion } from "react-icons/go";
 
 const iconType = type => {
 	switch (type) {
+		case "key":
+			return <FaKey />;
+		case "lock":
+			return <FaLock />;
+		case "mail":
+			return <FaEnvelope />;
 		case "user":
 			return <FaUserCircle />;
-		case "unlock":
-			return <FaUnlockAlt />;
 		default:
 			return <FaBug />;
 	}
@@ -29,6 +35,7 @@ const Input = ({
 	onFocus,
 	placeholder,
 	type,
+	tooltip,
 	value,
 }) => (
 	<div className={className} style={containerStyle}>
@@ -37,7 +44,25 @@ const Input = ({
 				errors ? "error" : ""
 			}`}
 		>
-			{label && <Label htmlFor={name}>{label}</Label>}
+			{label && (
+				<Label htmlFor={name}>
+					{label}
+					{tooltip && (
+						<span className="tooltip">
+							<Tooltip
+								placement="top"
+								title={
+									<p style={{ textAlign: "center", margin: 0, padding: 0 }}>
+										{tooltip}
+									</p>
+								}
+							>
+								<GoQuestion />
+							</Tooltip>
+						</span>
+					)}
+				</Label>
+			)}
 			{icon && iconType(icon)}
 			<input
 				type={type || "text"}
@@ -66,6 +91,7 @@ Input.propTypes = {
 	onChange: PropTypes.func.isRequired,
 	onFocus: PropTypes.func,
 	placeholder: PropTypes.string,
+	tooltip: PropTypes.string,
 	type: PropTypes.string,
 	value: PropTypes.string,
 };

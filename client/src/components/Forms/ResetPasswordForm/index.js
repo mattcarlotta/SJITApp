@@ -11,7 +11,6 @@ import {
 } from "components/Body";
 import { Input } from "components/Forms";
 import { Link } from "components/Navigation";
-import { FaUnlockAlt } from "react-icons/fa";
 import validator from "utils/fieldvalidator";
 
 const fields = [
@@ -23,17 +22,9 @@ const fields = [
 		value: "",
 		errors: "",
 	},
-	{
-		name: "password",
-		type: "password",
-		label: "Password",
-		icon: "lock",
-		value: "",
-		errors: "",
-	},
 ];
 
-class LoginForm extends Component {
+class ResetPasswordForm extends Component {
 	state = {
 		fields,
 		isFocused: "",
@@ -65,27 +56,31 @@ class LoginForm extends Component {
 			const { hideServerMessage, serverMessage } = this.props;
 
 			if (!errors) {
-				const signinFields = formFields.reduce((acc, { name, value }) => {
-					acc[name] = value;
+				const resetPasswordFields = formFields.reduce(
+					(acc, { name, value }) => {
+						acc[name] = value;
 
-					return acc;
-				}, {});
+						return acc;
+					},
+					{},
+				);
 
 				if (serverMessage) hideServerMessage();
-				setTimeout(() => this.props.signinUser(signinFields), 350);
+				// TODO: Add reset password redux action
+				// setTimeout(() => this.props.signinUser(signinFields), 350);
 			}
 		});
 	};
 
 	render = () => (
 		<Fragment>
-			<Helmet title="Log In" />
+			<Helmet title="Reset Password" />
 			<Center
 				style={{ borderBottom: "1px solid #e8edf2", marginBottom: "25px" }}
 			>
-				<Title style={{ color: "#025f6d" }}>Welcome!</Title>
+				<Title style={{ color: "#025f6d" }}>Reset Password</Title>
 				<Paragraph style={{ color: "#9facbd" }}>
-					Sign into your account below.
+					Enter your email to request a password reset.
 				</Paragraph>
 			</Center>
 			<form onSubmit={this.handleSubmit}>
@@ -99,20 +94,25 @@ class LoginForm extends Component {
 						onFocus={this.handleFocus}
 					/>
 				))}
-				<Link
-					blue
-					style={{ padding: 0, margin: 0, fontSize: 16 }}
-					to="/employee/resetpassword"
-				>
-					<FaUnlockAlt />
-					&nbsp; Forgot your password?
-				</Link>
+				<span>
+					<p style={{ margin: 0, padding: 0, fontSize: 16, display: "inline" }}>
+						Already have an account?
+					</p>
+					&nbsp;
+					<Link
+						blue
+						style={{ padding: 0, margin: 0, fontSize: 16 }}
+						to="/employee/login"
+					>
+						Log in
+					</Link>
+				</span>
 				<ButtonContainer style={{ marginTop: 5, minHeight: 63 }} primary>
 					{this.state.isSubmitting ? (
 						<Submitting />
 					) : (
 						<Button primary fontSize="22px" type="submit">
-							Submit
+							Reset Password
 						</Button>
 					)}
 				</ButtonContainer>
@@ -127,9 +127,9 @@ class LoginForm extends Component {
 	);
 }
 
-LoginForm.propTypes = {
+ResetPasswordForm.propTypes = {
 	hideServerMessage: PropTypes.func.isRequired,
 	serverMessage: PropTypes.string,
 };
 
-export default LoginForm;
+export default ResetPasswordForm;

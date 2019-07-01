@@ -16,6 +16,32 @@ import validator from "utils/fieldvalidator";
 
 const fields = [
 	{
+		name: "token",
+		type: "text",
+		label: "Authorization Key",
+		tooltip:
+			"The authorization key is supplied by your supervisor to allow you to register.",
+		icon: "key",
+		value: "",
+		errors: "",
+	},
+	{
+		name: "firstName",
+		type: "text",
+		label: "First Name",
+		icon: "user",
+		value: "",
+		errors: "",
+	},
+	{
+		name: "lastName",
+		type: "text",
+		label: "Last Name",
+		icon: "user",
+		value: "",
+		errors: "",
+	},
+	{
 		name: "email",
 		type: "text",
 		label: "Email",
@@ -33,7 +59,7 @@ const fields = [
 	},
 ];
 
-class LoginForm extends Component {
+class SignupForm extends Component {
 	state = {
 		fields,
 		isFocused: "",
@@ -65,27 +91,28 @@ class LoginForm extends Component {
 			const { hideServerMessage, serverMessage } = this.props;
 
 			if (!errors) {
-				const signinFields = formFields.reduce((acc, { name, value }) => {
+				const signupFields = formFields.reduce((acc, { name, value }) => {
 					acc[name] = value;
 
 					return acc;
 				}, {});
 
 				if (serverMessage) hideServerMessage();
-				setTimeout(() => this.props.signinUser(signinFields), 350);
+				// TODO: Add signup user action
+				// setTimeout(() => this.props.signinUser(signinFields), 350);
 			}
 		});
 	};
 
 	render = () => (
 		<Fragment>
-			<Helmet title="Log In" />
+			<Helmet title="Sign Up" />
 			<Center
 				style={{ borderBottom: "1px solid #e8edf2", marginBottom: "25px" }}
 			>
-				<Title style={{ color: "#025f6d" }}>Welcome!</Title>
+				<Title style={{ color: "#025f6d" }}>Sign Up</Title>
 				<Paragraph style={{ color: "#9facbd" }}>
-					Sign into your account below.
+					Fill out all the fields below to register.
 				</Paragraph>
 			</Center>
 			<form onSubmit={this.handleSubmit}>
@@ -112,24 +139,24 @@ class LoginForm extends Component {
 						<Submitting />
 					) : (
 						<Button primary fontSize="22px" type="submit">
-							Submit
+							Register
 						</Button>
 					)}
 				</ButtonContainer>
 			</form>
 			<Center style={{ marginTop: 20 }}>
-				Don't have an account? &nbsp;
-				<Link blue style={{ padding: 0, margin: 0 }} to="/employee/signup">
-					Sign up
+				Already have an account? &nbsp;
+				<Link blue style={{ padding: 0, margin: 0 }} to="/employee/login">
+					Log in
 				</Link>
 			</Center>
 		</Fragment>
 	);
 }
 
-LoginForm.propTypes = {
+SignupForm.propTypes = {
 	hideServerMessage: PropTypes.func.isRequired,
 	serverMessage: PropTypes.string,
 };
 
-export default LoginForm;
+export default SignupForm;

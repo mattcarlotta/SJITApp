@@ -49,7 +49,7 @@ class Message extends Component {
 
 	timer = () => this.clearTimer();
 
-	setTimer = () => (this.timeout = setTimeout(this.timer, 3000));
+	setTimer = () => (this.timeout = setTimeout(this.timer, 5000));
 
 	render = () => (
 		<Transition

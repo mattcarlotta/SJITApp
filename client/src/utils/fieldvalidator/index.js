@@ -1,23 +1,4 @@
-export const fields = [
-	{
-		name: "email",
-		type: "text",
-		label: "Email",
-		icon: "user",
-		value: "",
-		errors: "",
-	},
-	{
-		name: "password",
-		type: "password",
-		label: "Password",
-		icon: "unlock",
-		value: "",
-		errors: "",
-	},
-];
-
-export const validator = fields => {
+export default fields => {
 	const validatedFields = fields.map(field => {
 		let errors = "";
 		if (!field.value) {

@@ -2,7 +2,7 @@ import styled from "styled-components";
 import LinkComponent from "./LinkComponent";
 
 const StyledLink = styled(LinkComponent)`
-	color: #fff;
+	color: ${({ blue }) => (blue ? "#1890ff" : "#fff")};
 	white-space: nowrap;
 	text-decoration: none;
 	margin-right: 20px;
@@ -11,7 +11,7 @@ const StyledLink = styled(LinkComponent)`
 	border-radius: 4px;
 
 	&:hover {
-		color: #62c0ce;
+		color: ${({ blue }) => (blue ? "#40a9ff" : "#62c0ce")};
 	}
 `;
 

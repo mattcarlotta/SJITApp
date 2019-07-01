@@ -27,7 +27,7 @@ const Routes = () => (
 		<ScrollHandler>
 			<Switch>
 				<Route exact path="/" component={Home} />
-				<Route exact path="/employee" component={ProtectedRoutes} />
+				<Route path="/employee" component={ProtectedRoutes} />
 				<Route component={NotFound} />
 			</Switch>
 		</ScrollHandler>

@@ -11,24 +11,24 @@ const GlobalStyle = createGlobalStyle`
   @-webkit-keyframes pop {
     0% {
       top: 6px;
-      height: 41px;
+      height: 46px;
     }
 
     50%, 100% {
       top: 19px;
-      height: 16px;
+      height: 21px;
     }
   }
 
   @keyframes pop {
     0% {
       top: 6px;
-      height: 41px;
+      height: 46px;
     }
     
     50%, 100% {
       top: 19px;
-      height: 16px;
+      height: 21px;
     }
   }
 

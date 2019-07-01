@@ -6,7 +6,11 @@ import { signoutUser } from "actions/auth";
 import { Button } from "components/Body";
 
 const AccountButton = ({ signoutUser }) => (
-	<Button padding="0" onClick={signoutUser}>
+	<Button
+		style={{ height: "64px", marginRight: "45px" }}
+		padding="0"
+		onClick={signoutUser}
+	>
 		<FaSignOutAlt />
 	</Button>
 );

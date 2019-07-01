@@ -15,7 +15,7 @@ const navitems = [
 	{ to: "/", text: "Home" },
 	{ to: "/about", text: "About" },
 	{ to: "/contact", text: "Contact" },
-	{ to: "/employee", text: "Employee Portal" },
+	{ to: "/employee/login", text: "Employee Portal" },
 ];
 
 const Header = () => (

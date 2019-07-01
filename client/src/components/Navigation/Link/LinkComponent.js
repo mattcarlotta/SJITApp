@@ -10,8 +10,10 @@ const LinkComponent = ({ className, children, style, to }) => (
 
 LinkComponent.propTypes = {
 	className: PropTypes.string.isRequired,
-	children: PropTypes.string.isRequired,
-	style: PropTypes.objectOf(PropTypes.string),
+	children: PropTypes.oneOfType([PropTypes.node, PropTypes.string]).isRequired,
+	style: PropTypes.objectOf(
+		PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+	),
 	to: PropTypes.string.isRequired,
 };
 

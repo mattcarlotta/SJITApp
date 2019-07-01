@@ -1,9 +1,9 @@
-import React, { Fragment, Component } from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Modal, Spinner } from "components/Body";
+import { Spinner } from "components/Body";
 import { LoginForm } from "components/Forms";
 
-class AppLoading extends Component {
+class AppLoader extends Component {
 	state = { requestTimeout: false };
 
 	componentDidMount = () => this.setTimer();
@@ -25,17 +25,15 @@ class AppLoading extends Component {
 
 	render = () =>
 		this.state.requestTimeout || this.props.loggedinUser === false ? (
-			<Modal>
-				<LoginForm {...this.props} />
-			</Modal>
+			<LoginForm {...this.props} />
 		) : (
 			<Spinner />
 		);
 }
 
-AppLoading.propTypes = {
+AppLoader.propTypes = {
 	loggedinUser: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 	serverMessage: PropTypes.string,
 };
 
-export default AppLoading;
+export default AppLoader;
