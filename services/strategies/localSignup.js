@@ -23,7 +23,7 @@ passport.use(
       passReqToCallback: true,
     },
     async (req, email, password, done) => {
-      const { season, token } = req.body;
+      const { token } = req.body;
 
       const newToken = createRandomToken(); // a token used for email verification
 
@@ -31,15 +31,19 @@ passport.use(
         // check to see if the token is valid and hasn't been used already
         const validToken = await Token.findOne({ token });
         if (!validToken) return done(invalidToken, false);
+        if (validToken.authorized !== email) return done(invalidToken, false);
         if (validToken.email) return done(tokenAlreadyUsed, false);
 
         // check to see if the email is already in use
         const existingUser = await User.findOne({ email });
         if (existingUser) return done(emailAlreadyTaken, false);
 
+        // TODO: Make sure validToken.seasonId is still valid
         // find currently selected season
-        const currentSeason = await Season.findOne({ season });
-        if (!currentSeason) return done(invalidSeason, false);
+        const season = await Season.findOne({
+          seasonId: validToken.seasonId,
+        });
+        if (!season) return done(invalidSeason, false);
 
         // hash password before attempting to create the user
         const newPassword = await User.createPassword(password);
@@ -56,19 +60,14 @@ passport.use(
         await Token.updateOne({ token }, { $set: { email: newUser.email } });
 
         // add user to selected season
-        await Season.addUser(currentSeason._id, newUser._id);
+        await Season.addUser(season._id, newUser._id);
 
-        // creates an email template for a new user signup
+        // send an email template for a new user signup
         const msg = {
           to: `${newUser.email}`,
-          from: "noreply@sjsiceteam.com",
-          subject: "Please verify your email address",
-          html: newUserTemplate(
-            CLIENT,
-            newUser.firstName,
-            newUser.lastName,
-            newUser.token,
-          ),
+          from: "San Jose Sharks Ice Team <noreply@sjsiceteam.com>",
+          subject: "Welcome to the San Jose Sharks Ice Team!",
+          html: newUserTemplate(CLIENT, newUser.firstName, newUser.lastName),
         };
 
         // attempts to send a verification email to newly created user
@@ -84,10 +83,10 @@ passport.use(
 
 const localSignup = async (req, res, next) => {
   const {
-    email, firstName, lastName, season, token,
+    email, firstName, lastName, password, token,
   } = req.body;
 
-  if (!email || !firstName || !lastName || !season || !token) {
+  if (!email || !firstName || !lastName || !password || !token) {
     return sendError(missingSignupCreds, res);
   }
 

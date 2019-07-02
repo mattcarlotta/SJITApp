@@ -1,17 +1,18 @@
 import React, { Component, Fragment } from "react";
 import Helmet from "react-helmet";
 import PropTypes from "prop-types";
+import { FaUnlockAlt } from "react-icons/fa";
 import {
 	Button,
 	ButtonContainer,
 	Center,
+	Modal,
 	Paragraph,
 	Submitting,
 	Title,
 } from "components/Body";
 import { Input } from "components/Forms";
 import { Link } from "components/Navigation";
-import { FaUnlockAlt } from "react-icons/fa";
 import validator from "utils/fieldvalidator";
 
 const fields = [
@@ -78,7 +79,7 @@ class LoginForm extends Component {
 	};
 
 	render = () => (
-		<Fragment>
+		<Modal>
 			<Helmet title="Log In" />
 			<Center
 				style={{ borderBottom: "1px solid #e8edf2", marginBottom: "25px" }}
@@ -123,7 +124,7 @@ class LoginForm extends Component {
 					Sign up
 				</Link>
 			</Center>
-		</Fragment>
+		</Modal>
 	);
 }
 

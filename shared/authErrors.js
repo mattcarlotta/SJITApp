@@ -18,7 +18,7 @@ const invalidPassword = "The current password you've supplied does not match our
 
 const invalidSeason = "There was a problem assigning you to a season. If you've already selected a season, but are unable to continue, please contact the webmaster: carlotta.matt@gmail.com.";
 
-const invalidToken = "There was a problem authenticating your request. The token that was supplied was invalid.";
+const invalidToken = "There was a problem authenticating your request. The authorized key and/or email that was supplied was invalid.";
 
 const missingSignupCreds = "Invalid sign up request. You must supply a valid: email, first name, last name, current season, and a token.";
 

@@ -33,10 +33,10 @@ const currentDate = () => moment()
   .utcOffset(-7)
   .toISOString(true);
 
-const createSignupToken = () => `${tokenGenerator(
-  "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$/.",
-  12,
-)}${Date.now()}`;
+const createSignupToken = () => tokenGenerator(
+  "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+  32,
+);
 
 const endofMonth = () => moment().endOf("month");
 

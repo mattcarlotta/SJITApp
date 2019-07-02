@@ -79,6 +79,23 @@ const StyledInput = styled(Input)`
 			}
 		}
 	}
+
+	.disabled {
+		& .icon > svg {
+			cursor: not-allowed;
+			color: #7182ac;
+		}
+
+		input {
+			cursor: not-allowed;
+			color: #7182ac;
+			background: #ebebeb;
+
+			&:hover {
+				border: 1px solid transparent;
+			}
+		}
+	}
 `;
 
 export default StyledInput;

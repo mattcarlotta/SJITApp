@@ -6,7 +6,15 @@ import { LoginForm } from "components/Forms";
 class AppLoader extends Component {
 	state = { requestTimeout: false };
 
-	componentDidMount = () => this.setTimer();
+	componentDidMount = () => {
+		const { authenticateUser, loggedinUser } = this.props;
+
+		if (!loggedinUser) {
+			authenticateUser();
+		}
+
+		this.setTimer();
+	};
 
 	shouldComponentUpdate = (nextProps, nextState) =>
 		nextProps.loggedinUser !== this.props.loggedinUser ||

@@ -15,7 +15,7 @@ const resentVerificationEmail = email => ({
 });
 
 const thanksForReg = (email, firstName, lastName) => ({
-  message: `Thank you for registering, ${firstName} ${lastName}. Please check ${email} for a verification link.`,
+  message: `Thank you for registering, ${firstName} ${lastName}. Your account is currently being processed. Please check ${email} for a final confirmation email.`,
 });
 
 const updatedAccount = "Successfully updated your account. You must reverify your email address before logging into your account again.";

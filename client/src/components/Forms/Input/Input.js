@@ -25,6 +25,7 @@ const Input = ({
 	className,
 	containerStyle,
 	errors,
+	disabled,
 	icon,
 	inputStyle,
 	isFocused,
@@ -40,9 +41,13 @@ const Input = ({
 }) => (
 	<div className={className} style={containerStyle}>
 		<div
-			className={`${isFocused === name ? "focused" : ""} ${
-				errors ? "error" : ""
-			}`}
+			className={[
+				isFocused === name && "focused",
+				errors && "error",
+				disabled && "disabled",
+			]
+				.filter(c => !!c)
+				.join(" ")}
 		>
 			{label && (
 				<Label htmlFor={name}>
@@ -63,7 +68,7 @@ const Input = ({
 					)}
 				</Label>
 			)}
-			{icon && iconType(icon)}
+			{icon && <span className="icon">{iconType(icon)}</span>}
 			<input
 				type={type || "text"}
 				name={name || ""}
@@ -73,6 +78,7 @@ const Input = ({
 				placeholder={placeholder}
 				value={value}
 				style={inputStyle}
+				disabled={disabled || false}
 			/>
 			{errors && <Errors>{errors}</Errors>}
 		</div>
@@ -82,6 +88,7 @@ const Input = ({
 Input.propTypes = {
 	className: PropTypes.string.isRequired,
 	containerStyle: PropTypes.objectOf(PropTypes.string),
+	disabled: PropTypes.bool,
 	icon: PropTypes.node,
 	inputStyle: PropTypes.objectOf(PropTypes.string),
 	isFocused: PropTypes.string,

@@ -2,8 +2,8 @@ import Season from "models/season";
 import { sendError } from "shared/helpers";
 
 const createSeason = async (req, res) => {
-  const { season } = req.body;
-  if (!season) return sendError("Missing creation params", res);
+  const { seasonId, startDate, endDate } = req.body;
+  if (!seasonId || !startDate || !endDate) return sendError("Missing creation params", res);
 
   try {
     await Season.create(req.body);

@@ -14,7 +14,7 @@ passport.use(
     {
       usernameField: "email",
     },
-    async (email, password, done) => {
+    async (email, _, done) => {
       try {
         // create a new token for email reset
         const token = createRandomToken();
@@ -28,7 +28,7 @@ passport.use(
         // creates an email template for a password reset
         const msg = {
           to: `${existingUser.email}`,
-          from: "noreply@sjsiceteam.com",
+          from: "San Jose Sharks Ice Team <noreply@sjsiceteam.com>",
           subject: "Password Reset Confirmation",
           html: newTokenTemplate(
             CLIENT,

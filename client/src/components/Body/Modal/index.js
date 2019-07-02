@@ -1,4 +1,4 @@
-import React, { PureComponent } from "react";
+import React, { PureComponent, Fragment } from "react";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import { FaTimes } from "react-icons/fa";
@@ -15,17 +15,19 @@ class Modal extends PureComponent {
 	};
 
 	render = () => (
-		<WindowContainer>
+		<Fragment>
 			<BackgroundOverlay />
-			<ModalContainer>
-				<ModalContent>
-					<CloseModalButton onClick={this.handleCloseModal}>
-						<FaTimes />
-					</CloseModalButton>
-					{this.props.children}
-				</ModalContent>
-			</ModalContainer>
-		</WindowContainer>
+			<WindowContainer>
+				<ModalContainer>
+					<ModalContent {...this.props}>
+						<CloseModalButton onClick={this.handleCloseModal}>
+							<FaTimes />
+						</CloseModalButton>
+						{this.props.children}
+					</ModalContent>
+				</ModalContainer>
+			</WindowContainer>
+		</Fragment>
 	);
 }
 

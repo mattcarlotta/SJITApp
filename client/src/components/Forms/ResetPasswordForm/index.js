@@ -5,6 +5,7 @@ import {
 	Button,
 	ButtonContainer,
 	Center,
+	Modal,
 	Paragraph,
 	Submitting,
 	Title,
@@ -66,14 +67,13 @@ class ResetPasswordForm extends Component {
 				);
 
 				if (serverMessage) hideServerMessage();
-				// TODO: Add reset password redux action
-				// setTimeout(() => this.props.signinUser(signinFields), 350);
+				setTimeout(() => this.props.resetPassword(resetPasswordFields), 350);
 			}
 		});
 	};
 
 	render = () => (
-		<Fragment>
+		<Modal>
 			<Helmet title="Reset Password" />
 			<Center
 				style={{ borderBottom: "1px solid #e8edf2", marginBottom: "25px" }}
@@ -123,7 +123,7 @@ class ResetPasswordForm extends Component {
 					Sign up
 				</Link>
 			</Center>
-		</Fragment>
+		</Modal>
 	);
 }
 

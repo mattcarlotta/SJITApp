@@ -1,23 +1,43 @@
+import mailer from "@sendgrid/mail";
 import { sendError, createSignupToken } from "shared/helpers";
-import { Token } from "models";
+import { newAuthorizationKeyTemplate } from "services/templates";
+import { Token, Season } from "models";
+
+const { CLIENT } = process.env;
 
 const createToken = async (req, res) => {
-  const { role } = req.body;
+  const { email, role, seasonId } = req.body;
 
-  if (!role) {
+  if (!email || !role || !seasonId) {
     return sendError(
-      "You must supply a role before you can create a new signup token.",
+      "You must supply an email, a role, and a season before you can create an authorization token.",
       res,
     );
   }
 
   try {
-    const token = createSignupToken();
-    await Token.create({ token, role });
+    const seasonExists = await Season.findOne({ seasonId });
+    if (!seasonExists) return sendError("Invalid season.", res);
 
-    res
-      .status(201)
-      .json({ message: "Succesfully created a new signup token." });
+    const token = createSignupToken();
+    await Token.create({
+      authorized: email, token, role, seasonId,
+    });
+
+    const msg = {
+      to: `${email}`,
+      from: "San Jose Sharks Ice Team <noreply@sjsiceteam.com>",
+      subject:
+        "Congratulations, you have been selected to join the San Jose Sharks Ice Team!",
+      html: newAuthorizationKeyTemplate(CLIENT, token),
+    };
+
+    // attempts to resend a verification email to an existing user
+    await mailer.send(msg);
+
+    res.status(201).json({
+      message: `Succesfully created and sent an authorization key to ${email}.`,
+    });
   } catch (err) {
     return sendError(err, res);
   }

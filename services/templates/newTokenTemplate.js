@@ -27,11 +27,11 @@ export default (CLIENT, firstName, lastName, token) => `
                   <span style="font-style: italic;">The San Jose Sharks Ice Team</span>
                 </p>
                 <div style="margin-bottom: 20px; text-align: center">
-                  <a style="font-size: 18px; text-decoration: none; line-height: 40px; width: 200px; color: #FFFFFF; background-color: #006d75; display: inline-block;" href="${CLIENT}/sjsitapp/password/verify?token=${token}">Create New Password</a>
+                  <a style="font-size: 18px; text-decoration: none; line-height: 40px; width: 200px; color: #FFFFFF; background-color: #006d75; display: inline-block;" href="${CLIENT}/employee/email/reset-password/verify?token=${token}">Create New Password</a>
                 </div>
                 <small style="color: #999999; font-size: 11px; text-align: center">
                   Or click on this link:
-                  <a style="color: #999999; text-decoration: underline; margin-left: 4px;" href="${CLIENT}/sjsitapp/password/verify?token=${token}">${CLIENT}/sjsitapp/password/verify?token=${token}</a>
+                  <a style="color: #999999; text-decoration: underline; margin-left: 4px;" href="${CLIENT}/employee/email/reset-password/verify?token=${token}">${CLIENT}/employee/email/reset-password/verify?token=${token}</a>
                 </small>
               </div>
             </div>

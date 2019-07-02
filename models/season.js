@@ -2,7 +2,9 @@ import { Schema, model } from "mongoose";
 
 // current season year
 const seasonSchema = new Schema({
-  season: { type: String, unique: true, lowercase: true },
+  seasonId: { type: String, unique: true, lowercase: true },
+  startDate: Date,
+  endDate: Date,
   members: [{ type: Schema.Types.ObjectId, ref: "User" }],
 });
 

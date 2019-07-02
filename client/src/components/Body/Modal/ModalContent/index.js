@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const ModalContent = styled.div`
-	max-width: 485px;
+	max-width: ${({ maxWidth }) => maxWidth || "500px"};
 	flex: 0 1 auto;
 	max-height: calc(100% - 96px);
 	padding: 25px;

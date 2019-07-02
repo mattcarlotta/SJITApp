@@ -19,7 +19,6 @@ const userSchema = new Schema({
   token: { type: String, unique: true },
   timesAvailable: Number,
   timesUnavailable: Number,
-  verified: { type: Boolean, default: false },
 });
 
 userSchema.statics.createUser = async function newUser(user) {

@@ -1,70 +1,88 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import Helmet from "react-helmet";
+import qs from "qs";
 import PropTypes from "prop-types";
+import { FaUnlockAlt } from "react-icons/fa";
 import {
 	Button,
 	ButtonContainer,
 	Center,
+	Modal,
 	Paragraph,
 	Submitting,
 	Title,
 } from "components/Body";
 import { Input } from "components/Forms";
 import { Link } from "components/Navigation";
-import { FaUnlockAlt } from "react-icons/fa";
 import validator from "utils/fieldvalidator";
 
-const fields = [
-	{
-		name: "token",
-		type: "text",
-		label: "Authorization Key",
-		tooltip:
-			"The authorization key is supplied by your supervisor to allow you to register.",
-		icon: "key",
-		value: "",
-		errors: "",
-	},
-	{
-		name: "firstName",
-		type: "text",
-		label: "First Name",
-		icon: "user",
-		value: "",
-		errors: "",
-	},
-	{
-		name: "lastName",
-		type: "text",
-		label: "Last Name",
-		icon: "user",
-		value: "",
-		errors: "",
-	},
-	{
-		name: "email",
-		type: "text",
-		label: "Email",
-		icon: "mail",
-		value: "",
-		errors: "",
-	},
-	{
-		name: "password",
-		type: "password",
-		label: "Password",
-		icon: "lock",
-		value: "",
-		errors: "",
-	},
-];
+const parseToken = search => {
+	const { token } = qs.parse(search, {
+		ignoreQueryPrefix: true,
+	});
+
+	return token;
+};
 
 class SignupForm extends Component {
-	state = {
-		fields,
-		isFocused: "",
-		isSubmitting: false,
-	};
+	constructor(props) {
+		super(props);
+
+		const { search } = props.history.location;
+		const token = search ? parseToken(search) : "";
+
+		this.state = {
+			fields: [
+				{
+					name: "token",
+					type: "text",
+					label: "Authorization Key",
+					tooltip:
+						"The authorization key is supplied via email upon staff approval.",
+					icon: "key",
+					value: token,
+					errors: "",
+					disabled: !!token,
+				},
+				{
+					name: "email",
+					type: "text",
+					label: "Authorized Email",
+					tooltip:
+						"The email below needs to match the email that has been staff approved.",
+					icon: "mail",
+					value: "",
+					errors: "",
+				},
+				{
+					name: "firstName",
+					type: "text",
+					label: "First Name",
+					icon: "user",
+					value: "",
+					errors: "",
+				},
+				{
+					name: "lastName",
+					type: "text",
+					label: "Last Name",
+					icon: "user",
+					value: "",
+					errors: "",
+				},
+				{
+					name: "password",
+					type: "password",
+					label: "Password",
+					icon: "lock",
+					value: "",
+					errors: "",
+				},
+			],
+			isFocused: "",
+			isSubmitting: false,
+		};
+	}
 
 	static getDerivedStateFromProps = props =>
 		props.serverMessage ? { isSubmitting: false } : null;
@@ -98,14 +116,16 @@ class SignupForm extends Component {
 				}, {});
 
 				if (serverMessage) hideServerMessage();
-				// TODO: Add signup user action
-				// setTimeout(() => this.props.signinUser(signinFields), 350);
+				setTimeout(
+					() => this.props.signupUser(signupFields, this.props.history),
+					350,
+				);
 			}
 		});
 	};
 
 	render = () => (
-		<Fragment>
+		<Modal maxWidth="750px">
 			<Helmet title="Sign Up" />
 			<Center
 				style={{ borderBottom: "1px solid #e8edf2", marginBottom: "25px" }}
@@ -150,7 +170,7 @@ class SignupForm extends Component {
 					Log in
 				</Link>
 			</Center>
-		</Fragment>
+		</Modal>
 	);
 }
 

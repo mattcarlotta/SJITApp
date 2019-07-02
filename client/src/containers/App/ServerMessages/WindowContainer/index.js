@@ -4,17 +4,17 @@ const animateMessage = state => {
 	switch (state) {
 		case "entering":
 			return css`
-				bottom: -50px;
+				top: -200px;
 				opacity: 0.01;
 			`;
 		case "entered":
 			return css`
-				bottom: 10px;
+				top: 25px;
 				opacity: 1;
 			`;
 		case "exiting":
 			return css`
-				bottom: -200px;
+				top: -200px;
 				transition: 0.9s;
 				opacity: 0.01;
 			`;
