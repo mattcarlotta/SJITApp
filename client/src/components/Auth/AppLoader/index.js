@@ -40,6 +40,7 @@ class AppLoader extends Component {
 }
 
 AppLoader.propTypes = {
+	authenticateUser: PropTypes.func.isRequired,
 	loggedinUser: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 	serverMessage: PropTypes.string,
 };

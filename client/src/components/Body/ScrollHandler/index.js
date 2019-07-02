@@ -2,7 +2,7 @@ import { PureComponent } from "react";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 
-class ScrollHandler extends PureComponent {
+export class ScrollHandler extends PureComponent {
 	componentDidMount = () => this.handleScroll();
 
 	componentDidUpdate = prevProps => {

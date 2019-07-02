@@ -1,6 +1,7 @@
 import { JSDOM } from "jsdom";
 import { configure } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
+import { sleep } from "utils";
 import { createStoreFactory, mountWrap, shallowWrap } from "utils/testing";
 import mockAxios from "utils/__mocks__/mockAxios.js";
 
@@ -21,6 +22,7 @@ global.document = document;
 global.window = document.defaultView;
 global.HTMLElement = window.HTMLElement;
 global.HTMLAnchorElement = window.HTMLAnchorElement;
+global.sleep = sleep;
 global.createStoreFactory = createStoreFactory;
 global.shallow = shallowWrap;
 global.mount = mountWrap;
@@ -28,7 +30,7 @@ global.mockAxios = mockAxios;
 global.React = require("react");
 global.Provider = require("react-redux").Provider;
 global.ConnectedRouter = require("connected-react-router").ConnectedRouter;
-global.Router = require("react-router").Router;
+global.Router = require("react-router").MemoryRouter;
 global.Route = require("react-router-dom").Route;
 global.Switch = require("react-router-dom").Switch;
 

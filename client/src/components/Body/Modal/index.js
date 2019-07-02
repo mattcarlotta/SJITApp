@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from "react";
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import { FaTimes } from "react-icons/fa";
@@ -9,27 +9,21 @@ import ModalContent from "./ModalContent";
 import ModalContainer from "./ModalContainer";
 import WindowContainer from "./WindowContainer";
 
-class Modal extends PureComponent {
-	handleCloseModal = () => {
-		this.props.history.push("/");
-	};
-
-	render = () => (
-		<Fragment>
-			<BackgroundOverlay />
-			<WindowContainer>
-				<ModalContainer>
-					<ModalContent {...this.props}>
-						<CloseModalButton onClick={this.handleCloseModal}>
-							<FaTimes />
-						</CloseModalButton>
-						{this.props.children}
-					</ModalContent>
-				</ModalContainer>
-			</WindowContainer>
-		</Fragment>
-	);
-}
+export const Modal = ({ children, history, maxWidth }) => (
+	<Fragment>
+		<BackgroundOverlay />
+		<WindowContainer>
+			<ModalContainer>
+				<ModalContent maxWidth={maxWidth}>
+					<CloseModalButton onClick={() => history.push("/")}>
+						<FaTimes />
+					</CloseModalButton>
+					{children}
+				</ModalContent>
+			</ModalContainer>
+		</WindowContainer>
+	</Fragment>
+);
 
 Modal.propTypes = {
 	children: PropTypes.node.isRequired,
@@ -51,6 +45,7 @@ Modal.propTypes = {
 		push: PropTypes.func,
 		replace: PropTypes.func,
 	}),
+	maxWidth: PropTypes.string,
 };
 
 export default withRouter(Modal);
