@@ -13,7 +13,7 @@ import {
 } from "components/Body";
 import { Input } from "components/Forms";
 import { Link } from "components/Navigation";
-import validator from "utils/fieldvalidator";
+import { fieldValidator, parseFields } from "utils";
 
 const fields = [
 	{
@@ -59,18 +59,14 @@ class LoginForm extends Component {
 
 	handleSubmit = e => {
 		e.preventDefault();
-		const { validatedFields, errors } = validator(this.state.fields);
+		const { validatedFields, errors } = fieldValidator(this.state.fields);
 
 		this.setState({ fields: validatedFields, isSubmitting: !errors }, () => {
 			const { fields: formFields } = this.state;
 			const { hideServerMessage, serverMessage } = this.props;
 
 			if (!errors) {
-				const signinFields = formFields.reduce((acc, { name, value }) => {
-					acc[name] = value;
-
-					return acc;
-				}, {});
+				const signinFields = parseFields(formFields);
 
 				if (serverMessage) hideServerMessage();
 				setTimeout(() => this.props.signinUser(signinFields), 350);

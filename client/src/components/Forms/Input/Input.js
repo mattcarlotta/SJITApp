@@ -1,10 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Tooltip } from "antd";
-import { Label } from "components/Body";
-import { Errors } from "components/Forms";
 import { FaUserCircle, FaLock, FaBug, FaEnvelope, FaKey } from "react-icons/fa";
 import { GoQuestion } from "react-icons/go";
+import { Label } from "components/Body";
+import { Errors } from "components/Forms";
 
 const iconType = type => {
 	switch (type) {

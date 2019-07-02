@@ -9,7 +9,7 @@ class AppLoader extends Component {
 	componentDidMount = () => {
 		const { authenticateUser, loggedinUser } = this.props;
 
-		if (!loggedinUser) {
+		if (!loggedinUser && loggedinUser !== false) {
 			authenticateUser();
 		}
 

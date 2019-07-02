@@ -1,4 +1,4 @@
-import Season from "models/season";
+import { Season } from "models";
 import { sendError } from "shared/helpers";
 
 const createSeason = async (req, res) => {

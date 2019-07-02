@@ -14,15 +14,7 @@ import {
 } from "components/Body";
 import { Input } from "components/Forms";
 import { Link } from "components/Navigation";
-import validator from "utils/fieldvalidator";
-
-const parseToken = search => {
-	const { token } = qs.parse(search, {
-		ignoreQueryPrefix: true,
-	});
-
-	return token;
-};
+import { fieldValidator, parseFields, parseToken } from "utils";
 
 class SignupForm extends Component {
 	constructor(props) {
@@ -102,18 +94,14 @@ class SignupForm extends Component {
 
 	handleSubmit = e => {
 		e.preventDefault();
-		const { validatedFields, errors } = validator(this.state.fields);
+		const { validatedFields, errors } = fieldValidator(this.state.fields);
 
 		this.setState({ fields: validatedFields, isSubmitting: !errors }, () => {
 			const { fields: formFields } = this.state;
 			const { hideServerMessage, serverMessage } = this.props;
 
 			if (!errors) {
-				const signupFields = formFields.reduce((acc, { name, value }) => {
-					acc[name] = value;
-
-					return acc;
-				}, {});
+				const signupFields = parseFields(formFields);
 
 				if (serverMessage) hideServerMessage();
 				setTimeout(

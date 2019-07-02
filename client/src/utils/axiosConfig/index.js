@@ -1,8 +1,8 @@
 import get from "lodash/get";
 import axios from "axios";
-import { inDevelopment, APIPORT } from "../../config/envs";
+import { inDevelopment, APIPORT } from "../../../config/envs";
 
-export const app = axios.create({
+const app = axios.create({
 	baseURL: inDevelopment
 		? `http://localhost:${APIPORT}/api/`
 		: "https://example.com",

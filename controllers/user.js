@@ -1,5 +1,5 @@
 import isEmpty from "lodash/isEmpty";
-import User from "models/user";
+import { User } from "models";
 import { emailAlreadyTaken } from "shared/authErrors";
 import { sendError } from "shared/helpers";
 import seeds from "seeds/data";

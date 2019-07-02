@@ -1,6 +1,5 @@
 import { Schema, model } from "mongoose";
 import bcrypt from "bcryptjs";
-import { badCredentials } from "shared/authErrors";
 import { convertDateToISO } from "shared/helpers";
 
 const userSchema = new Schema({
@@ -47,11 +46,11 @@ userSchema.statics.createPassword = async function createNewPassword(password) {
 };
 
 // Set a compare password method on the model
-userSchema.methods.comparePassword = async function compare(incomingPassword) {
+userSchema.methods.comparePassword = async function compareNewPassword(
+  incomingPassword,
+) {
   try {
     const isMatch = await bcrypt.compare(incomingPassword, this.password);
-    if (!isMatch) throw badCredentials;
-
     return isMatch;
   } catch (err) {
     throw new Error(err);

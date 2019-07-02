@@ -1,4 +1,4 @@
-import app from "utils/axiosConfig";
+import { app } from "utils";
 import * as types from "types";
 import { setServerMessage } from "actions/messages";
 
@@ -14,12 +14,13 @@ export const authenticateUser = () => async dispatch => {
 	}
 };
 
-export const resetPassword = props => async dispatch => {
+export const resetPassword = (props, history) => async dispatch => {
 	try {
-		const res = await app.put("email/reset-password", {
+		const res = await app.put("reset-password", {
 			...props,
 		});
-		dispatch(setServerMessage({ type: "alert", message: res.data.message }));
+		dispatch(setServerMessage({ type: "info", message: res.data.message }));
+		history.push("/employee/login");
 	} catch (err) {
 		dispatch(setServerMessage({ type: "error", message: err.toString() }));
 	}
@@ -53,8 +54,20 @@ export const signupUser = (props, history) => async dispatch => {
 		const res = await app.post("signup", {
 			...props,
 		});
-		dispatch(setServerMessage({ type: "alert", message: res.data.message }));
+		dispatch(setServerMessage({ type: "success", message: res.data.message }));
 		history.push("/");
+	} catch (err) {
+		dispatch(setServerMessage({ type: "error", message: err.toString() }));
+	}
+};
+
+export const updateUserPassword = (props, history) => async dispatch => {
+	try {
+		const res = await app.put("new-password", {
+			...props,
+		});
+		dispatch(setServerMessage({ type: "success", message: res.data.message }));
+		history.push("/employee/login");
 	} catch (err) {
 		dispatch(setServerMessage({ type: "error", message: err.toString() }));
 	}

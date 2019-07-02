@@ -11,26 +11,35 @@ import {
 	Title,
 } from "components/Body";
 import { Input } from "components/Forms";
-import { Link } from "components/Navigation";
-import { fieldValidator, parseFields } from "utils";
+import { fieldValidator, parseFields, parseToken } from "utils";
 
 const fields = [
 	{
-		name: "email",
-		type: "text",
-		label: "Email",
-		icon: "mail",
+		name: "password",
+		type: "password",
+		label: "New Password",
+		icon: "lock",
 		value: "",
 		errors: "",
 	},
 ];
 
-class ResetPasswordForm extends Component {
-	state = {
-		fields,
-		isFocused: "",
-		isSubmitting: false,
-	};
+class NewPasswordForm extends Component {
+	constructor(props) {
+		super(props);
+
+		const { search } = props.history.location;
+		const token = search ? parseToken(search) : "";
+
+		if (!token) props.history.push("/employee/login");
+
+		this.state = {
+			fields,
+			token,
+			isFocused: "",
+			isSubmitting: false,
+		};
+	}
 
 	static getDerivedStateFromProps = props =>
 		props.serverMessage ? { isSubmitting: false } : null;
@@ -53,16 +62,19 @@ class ResetPasswordForm extends Component {
 		const { validatedFields, errors } = fieldValidator(this.state.fields);
 
 		this.setState({ fields: validatedFields, isSubmitting: !errors }, () => {
-			const { fields: formFields } = this.state;
+			const { fields: formFields, token } = this.state;
 			const { hideServerMessage, serverMessage } = this.props;
 
 			if (!errors) {
-				const resetPasswordFields = parseFields(formFields);
+				const newPasswordFields = parseFields(formFields);
 
 				if (serverMessage) hideServerMessage();
 				setTimeout(
 					() =>
-						this.props.resetPassword(resetPasswordFields, this.props.history),
+						this.props.updateUserPassword(
+							{ ...newPasswordFields, token },
+							this.props.history,
+						),
 					350,
 				);
 			}
@@ -71,13 +83,13 @@ class ResetPasswordForm extends Component {
 
 	render = () => (
 		<Modal>
-			<Helmet title="Reset Password" />
+			<Helmet title="Update Password" />
 			<Center
 				style={{ borderBottom: "1px solid #e8edf2", marginBottom: "25px" }}
 			>
-				<Title style={{ color: "#025f6d" }}>Reset Password</Title>
+				<Title style={{ color: "#025f6d" }}>Update Password</Title>
 				<Paragraph style={{ color: "#9facbd" }}>
-					Enter your email to request a password reset.
+					Enter a new password to update your current password.
 				</Paragraph>
 			</Center>
 			<form onSubmit={this.handleSubmit}>
@@ -91,42 +103,23 @@ class ResetPasswordForm extends Component {
 						onFocus={this.handleFocus}
 					/>
 				))}
-				<span>
-					<p style={{ margin: 0, padding: 0, fontSize: 16, display: "inline" }}>
-						Already have an account?
-					</p>
-					&nbsp;
-					<Link
-						blue
-						style={{ padding: 0, margin: 0, fontSize: 16 }}
-						to="/employee/login"
-					>
-						Log in
-					</Link>
-				</span>
 				<ButtonContainer style={{ marginTop: 5, minHeight: 63 }} primary>
 					{this.state.isSubmitting ? (
 						<Submitting />
 					) : (
 						<Button primary fontSize="22px" type="submit">
-							Reset Password
+							Update Password
 						</Button>
 					)}
 				</ButtonContainer>
 			</form>
-			<Center style={{ marginTop: 20 }}>
-				Don't have an account? &nbsp;
-				<Link blue style={{ padding: 0, margin: 0 }} to="/employee/signup">
-					Sign up
-				</Link>
-			</Center>
 		</Modal>
 	);
 }
 
-ResetPasswordForm.propTypes = {
+NewPasswordForm.propTypes = {
 	hideServerMessage: PropTypes.func.isRequired,
 	serverMessage: PropTypes.string,
 };
 
-export default ResetPasswordForm;
+export default NewPasswordForm;

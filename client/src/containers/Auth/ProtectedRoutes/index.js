@@ -4,13 +4,17 @@ import { connect } from "react-redux";
 import { Redirect, Route, Switch } from "react-router-dom";
 import App from "components/App";
 import { AppLoader } from "components/Auth";
-import { Modal } from "components/Body";
-import { ResetPasswordForm, SignupForm } from "components/Forms";
+import {
+	NewPasswordForm,
+	ResetPasswordForm,
+	SignupForm,
+} from "components/Forms";
 import {
 	authenticateUser,
 	resetPassword,
 	signinUser,
 	signupUser,
+	updateUserPassword,
 } from "actions/auth";
 import { hideServerMessage } from "actions/messages";
 
@@ -25,6 +29,10 @@ export class ProtectedRoutes extends PureComponent {
 						<Route
 							path={`${match.url}/login`}
 							render={props => <AppLoader {...this.props} {...props} />}
+						/>
+						<Route
+							path={`${match.url}/newpassword`}
+							render={props => <NewPasswordForm {...this.props} {...props} />}
 						/>
 						<Route
 							path={`${match.url}/resetpassword`}
@@ -54,6 +62,7 @@ ProtectedRoutes.propTypes = {
 	signinUser: PropTypes.func.isRequired,
 	signupUser: PropTypes.func.isRequired,
 	serverMessage: PropTypes.string,
+	updateUserPassword: PropTypes.func.isRequired,
 };
 
 export default connect(
@@ -69,5 +78,6 @@ export default connect(
 		resetPassword,
 		signinUser,
 		signupUser,
+		updateUserPassword,
 	},
 )(ProtectedRoutes);

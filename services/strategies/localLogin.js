@@ -2,7 +2,7 @@ import isEmpty from "lodash/isEmpty";
 import bcrypt from "bcryptjs";
 import { Strategy as LocalStrategy } from "passport-local";
 import passport from "passport";
-import User from "models/user";
+import { User } from "models";
 import { sendError } from "shared/helpers";
 import { alreadyLoggedIn, badCredentials } from "shared/authErrors";
 

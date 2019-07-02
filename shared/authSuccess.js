@@ -2,10 +2,10 @@ const passwordReset = email => ({
   message: `Password has been reset for ${email}. Please login into your account again.`,
 });
 
-const passwordResetSuccess = email => `Password has been reset for ${email}. Please login into your account again.`;
+const passwordResetSuccess = email => `The password has been reset for ${email}. Please sign into your account with your new password.`;
 
 const passwordResetToken = email => ({
-  message: `Password reset confirmed. Please check ${email} for a reset link.`,
+  message: `The password reset request has been accepted. Your request is being processed. Please check ${email} for a confirmation link to set up a new password.`,
 });
 
 const removedAccountSuccess = "Your Subskribble account has been successfully removed. Thank you for using our services.";

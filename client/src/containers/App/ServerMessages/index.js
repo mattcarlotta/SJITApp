@@ -2,9 +2,10 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import {
-	FaBell,
-	FaExclamationCircle,
 	FaExclamationTriangle,
+	FaCheckCircle,
+	FaTimesCircle,
+	FaInfoCircle,
 } from "react-icons/fa";
 import { Transition } from "react-transition-group";
 import { hideServerMessage, resetServerMessage } from "actions/messages";
@@ -33,12 +34,14 @@ class Message extends Component {
 	alertType = () => {
 		const { type } = this.props;
 		switch (type) {
-			case "alert":
-				return <FaBell />;
+			case "success":
+				return <FaCheckCircle />;
 			case "warning":
 				return <FaExclamationTriangle />;
+			case "info":
+				return <FaInfoCircle />;
 			default:
-				return <FaExclamationCircle />;
+				return <FaTimesCircle />;
 		}
 	};
 

@@ -3,7 +3,7 @@ import passport from "passport";
 import mailer from "@sendgrid/mail";
 import { missingEmailCreds } from "shared/authErrors";
 import { createRandomToken, sendError } from "shared/helpers";
-import { newTokenTemplate } from "services/templates";
+import { newPasswordTemplate } from "services/templates";
 import { User } from "models";
 
 const { CLIENT } = process.env;
@@ -30,7 +30,7 @@ passport.use(
           to: `${existingUser.email}`,
           from: "San Jose Sharks Ice Team <noreply@sjsiceteam.com>",
           subject: "Password Reset Confirmation",
-          html: newTokenTemplate(
+          html: newPasswordTemplate(
             CLIENT,
             existingUser.firstName,
             existingUser.lastName,

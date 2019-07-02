@@ -4,7 +4,7 @@ import seasonRoutes from "./season";
 // import teamRoutes from "./team";
 // import templateRoutes from "./template";
 import tokenRoutes from "./token";
-import userRoutes from "./user";
+// import userRoutes from "./user";
 
 export default app => {
   authRoutes(app);
@@ -13,5 +13,5 @@ export default app => {
   // teamRoutes(app);
   // templateRoutes(app);
   tokenRoutes(app);
-  userRoutes(app);
+  // userRoutes(app);
 };

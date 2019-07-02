@@ -1,4 +1,3 @@
-import bcrypt from "bcryptjs";
 import { Strategy as LocalStrategy } from "passport-local";
 import passport from "passport";
 import {
@@ -13,26 +12,21 @@ passport.use(
   "reset-password",
   new LocalStrategy(
     {
-      usernameField: "email",
+      usernameField: "token",
       passwordField: "password",
-      passReqToCallback: true, // allows us to send request to the callback
     },
-    async (req, email, password, done) => {
+    async (token, password, done) => {
       try {
-        const { token } = req.query;
         // check to see if email exists in the db
         const existingUser = await User.findOne({ token });
         if (!existingUser) return done(invalidToken, false);
 
         // compare newpassword to existingUser password
-        const validPassword = await bcrypt.compare(
-          password,
-          existingUser.password,
-        );
-        if (validPassword) return done(notUniquePassword, false);
+        const samePassword = await existingUser.comparePassword(password);
+        if (samePassword) return done(notUniquePassword, false);
 
-        // hash password before attempting to create the user
-        const newPassword = await bcrypt.hash(password, 12);
+        // hash new password before saving
+        const newPassword = await User.createPassword(password);
 
         // update user's password
         await User.updateOne(
@@ -48,13 +42,12 @@ passport.use(
   ),
 );
 
-const resetPassword = async (req, res, next) => {
-  const { token } = req.query;
-  const { password } = req.body;
-  req.body.email = "reset-email-password";
+const updatePassword = async (req, res, next) => {
+  const { token, password } = req.body;
 
   if (!token) return sendError(invalidToken, res);
   if (!password) return sendError(emptyPassword, res);
+  req.body.email = token;
 
   try {
     const existingUser = await new Promise((resolve, reject) => {
@@ -69,4 +62,4 @@ const resetPassword = async (req, res, next) => {
   }
 };
 
-export default resetPassword;
+export default updatePassword;
