@@ -1,3 +1,5 @@
+import { createElement } from "react";
+import { MemoryRouter } from "react-router-dom";
 import { shallow, mount } from "enzyme";
 import thunk from "redux-thunk";
 import { createBrowserHistory } from "history";
@@ -44,5 +46,28 @@ export const shallowWrap = (Component, state = null) => {
 export const mountWrap = (Component, state = null) => {
 	const wrapper = mount(Component);
 	if (state) wrapper.setState(state);
+	return wrapper;
+};
+
+/**
+ * Factory function to create a Mounted MemoryRouter Wrapper for a component
+ * @function HOCWrap
+ * @param {node} Component - Component to be mounted
+ * @param {object} initialProps - Component props specific to this setup.
+ * @param {object} state - Component initial state for setup.
+ * @returns {MountedRouterWrapper}
+ */
+export const HOCWrap = (Component, initialProps = {}, state = null) => {
+	const wrapper = mount(
+		createElement(
+			props => (
+				<MemoryRouter>
+					<Component {...props} />
+				</MemoryRouter>
+			),
+			initialProps,
+		),
+	);
+	if (state) wrapper.find(Component).setState(state);
 	return wrapper;
 };

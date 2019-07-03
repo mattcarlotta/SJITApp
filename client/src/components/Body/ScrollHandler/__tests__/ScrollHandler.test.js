@@ -19,7 +19,7 @@ describe("Scroll Handler", () => {
 	it("it renders children and initially scrolls to 0,0", async () => {
 		await sleep(150);
 		expect(window.scrollTo).toHaveBeenCalledTimes(1);
-		expect(wrapper.find("h1").text()).toEqual("Sample ScrollHandler Example");
+		expect(wrapper.find("h1").exists()).toBeTruthy();
 	});
 
 	it("it scrolls to 0,0 if the pathname has changed", () => {

@@ -127,6 +127,7 @@ class LoginForm extends Component {
 LoginForm.propTypes = {
 	hideServerMessage: PropTypes.func.isRequired,
 	serverMessage: PropTypes.string,
+	signinUser: PropTypes.func,
 };
 
 export default LoginForm;

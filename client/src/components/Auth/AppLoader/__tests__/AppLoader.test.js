@@ -27,17 +27,17 @@ describe("App Loader", () => {
 	});
 
 	it("initially renders a Spinner", () => {
-		expect(wrapper.find("Spinner__StyledSpinner")).toHaveLength(1);
+		expect(wrapper.find("Spinner__StyledSpinner").exists()).toBeTruthy();
 	});
 
 	it("renders a login form after a 5 second timer", () => {
 		jest.runOnlyPendingTimers();
 		expect(wrapper.state("requestTimeout")).toBeTruthy();
-		expect(wrapper.find("LoginForm")).toHaveLength(1);
+		expect(wrapper.find("LoginForm").exists()).toBeTruthy();
 	});
 
 	it("renders a login form if the loggedinUser is determined to be false via API", () => {
 		wrapper.setProps({ loggedinUser: false });
-		expect(wrapper.find("LoginForm")).toHaveLength(1);
+		expect(wrapper.find("LoginForm").exists()).toBeTruthy();
 	});
 });
