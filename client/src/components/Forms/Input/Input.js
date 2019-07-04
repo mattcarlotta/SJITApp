@@ -89,6 +89,7 @@ Input.propTypes = {
 	className: PropTypes.string.isRequired,
 	containerStyle: PropTypes.objectOf(PropTypes.string),
 	disabled: PropTypes.bool,
+	errors: PropTypes.string,
 	icon: PropTypes.node,
 	inputStyle: PropTypes.objectOf(PropTypes.string),
 	isFocused: PropTypes.string,

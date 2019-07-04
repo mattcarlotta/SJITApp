@@ -1,46 +1,34 @@
 import React, { Component, Fragment } from "react";
 import Helmet from "react-helmet";
 import PropTypes from "prop-types";
-import {
-	Button,
-	ButtonContainer,
-	Center,
-	Modal,
-	Paragraph,
-	Submitting,
-	Title,
-} from "components/Body";
+import { Center, Modal, Paragraph, SubmitButton, Title } from "components/Body";
 import { Input } from "components/Forms";
 import { Link } from "components/Navigation";
-import { fieldValidator, parseFields } from "utils";
-
-const fields = [
-	{
-		name: "email",
-		type: "text",
-		label: "Email",
-		icon: "mail",
-		value: "",
-		errors: "",
-	},
-];
+import { fieldValidator, fieldUpdater, parseFields } from "utils";
 
 class ResetPasswordForm extends Component {
 	state = {
-		fields,
+		fields: [
+			{
+				name: "email",
+				type: "text",
+				label: "Email",
+				icon: "mail",
+				value: "",
+				errors: "",
+			},
+		],
 		isFocused: "",
 		isSubmitting: false,
 	};
 
-	static getDerivedStateFromProps = props =>
-		props.serverMessage ? { isSubmitting: false } : null;
+	static getDerivedStateFromProps = ({ serverMessage }) =>
+		serverMessage ? { isSubmitting: false } : null;
 
 	handleChange = ({ target: { name, value } }) => {
 		this.setState(prevState => ({
 			...prevState,
-			fields: prevState.fields.map(field =>
-				field.name === name ? { ...field, value, errors: "" } : field,
-			),
+			fields: fieldUpdater(prevState.fields, name, value),
 		}));
 	};
 
@@ -54,17 +42,18 @@ class ResetPasswordForm extends Component {
 
 		this.setState({ fields: validatedFields, isSubmitting: !errors }, () => {
 			const { fields: formFields } = this.state;
-			const { hideServerMessage, serverMessage } = this.props;
+			const {
+				hideServerMessage,
+				history,
+				resetPassword,
+				serverMessage,
+			} = this.props;
 
 			if (!errors) {
 				const resetPasswordFields = parseFields(formFields);
 
 				if (serverMessage) hideServerMessage();
-				setTimeout(
-					() =>
-						this.props.resetPassword(resetPasswordFields, this.props.history),
-					350,
-				);
+				setTimeout(() => resetPassword(resetPasswordFields, history), 350);
 			}
 		});
 	};
@@ -104,15 +93,10 @@ class ResetPasswordForm extends Component {
 						Log in
 					</Link>
 				</span>
-				<ButtonContainer style={{ marginTop: 5, minHeight: 63 }} primary>
-					{this.state.isSubmitting ? (
-						<Submitting />
-					) : (
-						<Button primary fontSize="22px" type="submit">
-							Reset Password
-						</Button>
-					)}
-				</ButtonContainer>
+				<SubmitButton
+					isSubmitting={this.state.isSubmitting}
+					title="Reset Password"
+				/>
 			</form>
 			<Center style={{ marginTop: 20 }}>
 				Don't have an account? &nbsp;
@@ -126,6 +110,24 @@ class ResetPasswordForm extends Component {
 
 ResetPasswordForm.propTypes = {
 	hideServerMessage: PropTypes.func.isRequired,
+	history: PropTypes.shape({
+		action: PropTypes.string,
+		block: PropTypes.func,
+		createHref: PropTypes.func,
+		go: PropTypes.func,
+		goBack: PropTypes.func,
+		goForward: PropTypes.func,
+		length: PropTypes.number,
+		listen: PropTypes.func,
+		location: PropTypes.shape({
+			pathname: PropTypes.string,
+			search: PropTypes.string,
+			hash: PropTypes.string,
+			state: PropTypes.oneOf(["object", "undefined"]),
+		}),
+		push: PropTypes.func,
+		replace: PropTypes.func,
+	}),
 	serverMessage: PropTypes.string,
 };
 

@@ -10,6 +10,7 @@ const userSchema = new Schema({
   },
   events: [{ type: Schema.Types.ObjectId, ref: "Event" }],
   role: { type: String, default: "member" },
+  status: { type: String, default: "active" },
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
   password: { type: String, required: true },

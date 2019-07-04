@@ -17,7 +17,6 @@ const seedAdmin = async () => {
       firstName: "Matt",
       lastName: "Carlotta",
       role: "admin",
-      verified: true,
     };
 
     await User.create(administrator);
@@ -27,9 +26,7 @@ const seedAdmin = async () => {
     );
   } catch (err) {
     console.log(
-      `\n\x1b[7m\x1b[31;1m FAIL \x1b[0m \x1b[2mutils/\x1b[0m\x1b[31;1madmin.js\x1b[0m\x1b[31m\n${
-        err.toString()
-      }\x1b[0m`,
+      `\n\x1b[7m\x1b[31;1m FAIL \x1b[0m \x1b[2mutils/\x1b[0m\x1b[31;1madmin.js\x1b[0m\x1b[31m\n${err.toString()}\x1b[0m`,
     );
   }
 };

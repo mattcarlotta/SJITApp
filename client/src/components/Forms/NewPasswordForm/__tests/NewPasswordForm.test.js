@@ -1,19 +1,43 @@
-import LoginForm from "../index";
+import NewPasswordForm from "../index";
 
 const hideServerMessage = jest.fn();
-const signinUser = jest.fn();
+const updateUserPassword = jest.fn();
+const push = jest.fn();
 
 const initProps = {
 	hideServerMessage,
+	history: {
+		location: {
+			search:
+				"?token=GHPtUGSNGwkA1VC4P2O$f05eBQT/HLDR6sdKz2.v8.KzmWn36KsEVCROrLaQzVH5",
+		},
+		push,
+	},
 	serverMessage: "",
-	signinUser,
+	updateUserPassword,
 };
 
-describe("Login Form", () => {
+const initState = {
+	fields: [
+		{
+			name: "password",
+			type: "password",
+			label: "New Password",
+			icon: "lock",
+			value: "",
+			errors: "",
+		},
+	],
+	token: "",
+	isFocused: "",
+	isSubmitting: false,
+};
+
+describe("New Password Form", () => {
 	let wrapper;
 	let submitForm;
 	beforeEach(() => {
-		wrapper = HOCWrap(LoginForm, initProps);
+		wrapper = HOCWrap(NewPasswordForm, initProps);
 		submitForm = () => wrapper.find("form").simulate("submit");
 	});
 
@@ -21,41 +45,32 @@ describe("Login Form", () => {
 		expect(wrapper.find("form").exists()).toBeTruthy();
 	});
 
-	// it("validates email and password fields and displays 'Required' errors when they're empty", () => {
+	it("if token is missing from URL, it redirects back to login", () => {
+		wrapper = HOCWrap(NewPasswordForm, {
+			...initProps,
+			history: {
+				location: {
+					search: "",
+				},
+				push,
+			},
+		});
+		expect(push).toHaveBeenCalledWith("/employee/login");
+	});
+
+	// it("validates password field and displays a 'Required' error if it's empty", () => {
 	// 	submitForm();
-	// 	expect(wrapper.find("Errors")).toHaveLength(2);
-	// });
-
-	// it("displays an 'Invalid Email.' error", () => {
-	// 	wrapper
-	// 		.find("input")
-	// 		.first()
-	// 		.simulate("change", { target: { name: "email", value: "bad-email" } });
-
-	// 	submitForm();
-
-	// 	expect(
-	// 		wrapper
-	// 			.find("Errors")
-	// 			.first()
-	// 			.text(),
-	// 	).toEqual("Invalid email.");
+	// 	expect(wrapper.find("Errors").text()).toEqual("Required");
 	// });
 
 	// it("displays a 'Password too short.' error if password is less than 5 characters", () => {
 	// 	wrapper
 	// 		.find("input")
-	// 		.first()
 	// 		.simulate("change", { target: { name: "password", value: "1234" } });
 
 	// 	submitForm();
 
-	// 	expect(
-	// 		wrapper
-	// 			.find("Errors")
-	// 			.at(1)
-	// 			.text(),
-	// 	).toEqual("Password too short.");
+	// 	expect(wrapper.find("Errors").text()).toEqual("Password too short.");
 	// });
 
 	describe("Successful Form Submission", () => {
@@ -63,14 +78,6 @@ describe("Login Form", () => {
 			jest.useFakeTimers();
 			wrapper
 				.find("input")
-				.first()
-				.simulate("change", {
-					target: { name: "email", value: "test@email.com" },
-				});
-
-			wrapper
-				.find("input")
-				.at(1)
 				.simulate("change", { target: { name: "password", value: "12345" } });
 
 			submitForm();
@@ -78,19 +85,21 @@ describe("Login Form", () => {
 		});
 
 		afterEach(() => {
-			signinUser.mockClear();
+			updateUserPassword.mockClear();
 			hideServerMessage.mockClear();
 		});
 
 		it("submits the form after a successful validation", () => {
-			expect(wrapper.find("LoginForm").state("isSubmitting")).toBeTruthy();
-			expect(signinUser).toHaveBeenCalledTimes(1);
+			expect(
+				wrapper.find("NewPasswordForm").state("isSubmitting"),
+			).toBeTruthy();
+			expect(updateUserPassword).toHaveBeenCalledTimes(1);
 		});
 
 		it("on submission error, enables the form submit button", () => {
 			wrapper.setProps({ serverMessage: "Example error message." });
 
-			expect(wrapper.find("LoginForm").state("isSubmitting")).toBeFalsy();
+			expect(wrapper.find("NewPasswordForm").state("isSubmitting")).toBeFalsy();
 			expect(wrapper.find("button[type='submit']").exists()).toBeTruthy();
 		});
 

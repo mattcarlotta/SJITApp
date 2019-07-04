@@ -1,27 +1,17 @@
 import React, { Component } from "react";
 import Helmet from "react-helmet";
-import qs from "qs";
 import PropTypes from "prop-types";
 import { FaUnlockAlt } from "react-icons/fa";
-import {
-	Button,
-	ButtonContainer,
-	Center,
-	Modal,
-	Paragraph,
-	Submitting,
-	Title,
-} from "components/Body";
+import { Center, Modal, Paragraph, SubmitButton, Title } from "components/Body";
 import { Input } from "components/Forms";
 import { Link } from "components/Navigation";
-import { fieldValidator, parseFields, parseToken } from "utils";
+import { fieldValidator, fieldUpdater, parseFields, parseToken } from "utils";
 
 class SignupForm extends Component {
 	constructor(props) {
 		super(props);
 
-		const { search } = props.history.location;
-		const token = search ? parseToken(search) : "";
+		const token = parseToken(props.history.location.search);
 
 		this.state = {
 			fields: [
@@ -40,8 +30,7 @@ class SignupForm extends Component {
 					name: "email",
 					type: "text",
 					label: "Authorized Email",
-					tooltip:
-						"The email below needs to match the email that has been staff approved.",
+					tooltip: "The email below needs to match a staff approved email.",
 					icon: "mail",
 					value: "",
 					errors: "",
@@ -76,15 +65,13 @@ class SignupForm extends Component {
 		};
 	}
 
-	static getDerivedStateFromProps = props =>
-		props.serverMessage ? { isSubmitting: false } : null;
+	static getDerivedStateFromProps = ({ serverMessage }) =>
+		serverMessage ? { isSubmitting: false } : null;
 
 	handleChange = ({ target: { name, value } }) => {
 		this.setState(prevState => ({
 			...prevState,
-			fields: prevState.fields.map(field =>
-				field.name === name ? { ...field, value, errors: "" } : field,
-			),
+			fields: fieldUpdater(prevState.fields, name, value),
 		}));
 	};
 
@@ -98,16 +85,18 @@ class SignupForm extends Component {
 
 		this.setState({ fields: validatedFields, isSubmitting: !errors }, () => {
 			const { fields: formFields } = this.state;
-			const { hideServerMessage, serverMessage } = this.props;
+			const {
+				hideServerMessage,
+				history,
+				signupUser,
+				serverMessage,
+			} = this.props;
 
 			if (!errors) {
 				const signupFields = parseFields(formFields);
 
 				if (serverMessage) hideServerMessage();
-				setTimeout(
-					() => this.props.signupUser(signupFields, this.props.history),
-					350,
-				);
+				setTimeout(() => signupUser(signupFields, history), 350);
 			}
 		});
 	};
@@ -142,15 +131,7 @@ class SignupForm extends Component {
 					<FaUnlockAlt />
 					&nbsp; Forgot your password?
 				</Link>
-				<ButtonContainer style={{ marginTop: 5, minHeight: 63 }} primary>
-					{this.state.isSubmitting ? (
-						<Submitting />
-					) : (
-						<Button primary fontSize="22px" type="submit">
-							Register
-						</Button>
-					)}
-				</ButtonContainer>
+				<SubmitButton isSubmitting={this.state.isSubmitting} title="Register" />
 			</form>
 			<Center style={{ marginTop: 20 }}>
 				Already have an account? &nbsp;
@@ -164,6 +145,24 @@ class SignupForm extends Component {
 
 SignupForm.propTypes = {
 	hideServerMessage: PropTypes.func.isRequired,
+	history: PropTypes.shape({
+		action: PropTypes.string,
+		block: PropTypes.func,
+		createHref: PropTypes.func,
+		go: PropTypes.func,
+		goBack: PropTypes.func,
+		goForward: PropTypes.func,
+		length: PropTypes.number,
+		listen: PropTypes.func,
+		location: PropTypes.shape({
+			pathname: PropTypes.string,
+			search: PropTypes.string,
+			hash: PropTypes.string,
+			state: PropTypes.oneOf(["object", "undefined"]),
+		}),
+		push: PropTypes.func,
+		replace: PropTypes.func,
+	}),
 	serverMessage: PropTypes.string,
 };
 

@@ -11,5 +11,6 @@ export { default as Paragraph } from "./Paragraph";
 export { default as ScrollHandler } from "./ScrollHandler";
 export { default as SideMenu } from "./SideMenu";
 export { default as Spinner } from "./Spinner";
+export { default as SubmitButton } from "./SubmitButton";
 export { default as Submitting } from "./Submitting";
 export { default as Title } from "./Title";

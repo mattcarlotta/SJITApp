@@ -1,55 +1,41 @@
 import React, { Component, Fragment } from "react";
 import Helmet from "react-helmet";
 import PropTypes from "prop-types";
-import {
-	Button,
-	ButtonContainer,
-	Center,
-	Modal,
-	Paragraph,
-	Submitting,
-	Title,
-} from "components/Body";
+import { Center, Modal, Paragraph, SubmitButton, Title } from "components/Body";
 import { Input } from "components/Forms";
-import { fieldValidator, parseFields, parseToken } from "utils";
-
-const fields = [
-	{
-		name: "password",
-		type: "password",
-		label: "New Password",
-		icon: "lock",
-		value: "",
-		errors: "",
-	},
-];
+import { fieldValidator, fieldUpdater, parseFields, parseToken } from "utils";
 
 class NewPasswordForm extends Component {
 	constructor(props) {
 		super(props);
 
-		const { search } = props.history.location;
-		const token = search ? parseToken(search) : "";
-
+		const token = parseToken(props.history.location.search);
 		if (!token) props.history.push("/employee/login");
 
 		this.state = {
-			fields,
+			fields: [
+				{
+					name: "password",
+					type: "password",
+					label: "New Password",
+					icon: "lock",
+					value: "",
+					errors: "",
+				},
+			],
 			token,
 			isFocused: "",
 			isSubmitting: false,
 		};
 	}
 
-	static getDerivedStateFromProps = props =>
-		props.serverMessage ? { isSubmitting: false } : null;
+	static getDerivedStateFromProps = ({ serverMessage }) =>
+		serverMessage ? { isSubmitting: false } : null;
 
 	handleChange = ({ target: { name, value } }) => {
 		this.setState(prevState => ({
 			...prevState,
-			fields: prevState.fields.map(field =>
-				field.name === name ? { ...field, value, errors: "" } : field,
-			),
+			fields: fieldUpdater(prevState.fields, name, value),
 		}));
 	};
 
@@ -63,18 +49,19 @@ class NewPasswordForm extends Component {
 
 		this.setState({ fields: validatedFields, isSubmitting: !errors }, () => {
 			const { fields: formFields, token } = this.state;
-			const { hideServerMessage, serverMessage } = this.props;
+			const {
+				hideServerMessage,
+				history,
+				serverMessage,
+				updateUserPassword,
+			} = this.props;
 
 			if (!errors) {
 				const newPasswordFields = parseFields(formFields);
 
 				if (serverMessage) hideServerMessage();
 				setTimeout(
-					() =>
-						this.props.updateUserPassword(
-							{ ...newPasswordFields, token },
-							this.props.history,
-						),
+					() => updateUserPassword({ ...newPasswordFields, token }, history),
 					350,
 				);
 			}
@@ -103,15 +90,7 @@ class NewPasswordForm extends Component {
 						onFocus={this.handleFocus}
 					/>
 				))}
-				<ButtonContainer style={{ marginTop: 5, minHeight: 63 }} primary>
-					{this.state.isSubmitting ? (
-						<Submitting />
-					) : (
-						<Button primary fontSize="22px" type="submit">
-							Update Password
-						</Button>
-					)}
-				</ButtonContainer>
+				<SubmitButton isSubmitting={this.state.isSubmitting} title="Submit" />
 			</form>
 		</Modal>
 	);
@@ -119,6 +98,24 @@ class NewPasswordForm extends Component {
 
 NewPasswordForm.propTypes = {
 	hideServerMessage: PropTypes.func.isRequired,
+	history: PropTypes.shape({
+		action: PropTypes.string,
+		block: PropTypes.func,
+		createHref: PropTypes.func,
+		go: PropTypes.func,
+		goBack: PropTypes.func,
+		goForward: PropTypes.func,
+		length: PropTypes.number,
+		listen: PropTypes.func,
+		location: PropTypes.shape({
+			pathname: PropTypes.string,
+			search: PropTypes.string,
+			hash: PropTypes.string,
+			state: PropTypes.oneOf(["object", "undefined"]),
+		}),
+		push: PropTypes.func,
+		replace: PropTypes.func,
+	}),
 	serverMessage: PropTypes.string,
 };
 
