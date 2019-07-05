@@ -5,7 +5,7 @@ import { FaSignOutAlt } from "react-icons/fa";
 import { signoutUser } from "actions/auth";
 import { Button } from "components/Body";
 
-const AccountButton = ({ signoutUser }) => (
+export const AccountButton = ({ signoutUser }) => (
 	<Button
 		style={{ height: "64px", marginRight: "45px" }}
 		padding="0"

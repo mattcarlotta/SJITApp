@@ -39,7 +39,7 @@ describe("Styled Button", () => {
 		});
 	});
 
-	it("displays a primary button, when passed a 'primary' prop", () => {
+	it("displays a primary button when passed a 'primary' prop", () => {
 		wrapper.setProps({ primary: true });
 		const StyledButton = findStyledButton();
 
@@ -60,7 +60,7 @@ describe("Styled Button", () => {
 		});
 	});
 
-	it("displays a danger button, when passed a 'danger' prop", () => {
+	it("displays a danger button when passed a 'danger' prop", () => {
 		wrapper.setProps({ danger: true });
 		const StyledButton = findStyledButton();
 
@@ -103,11 +103,11 @@ describe("Styled Button", () => {
 		expect(StyledButton).toHaveStyleRule("font-size", "10px");
 	});
 
-	it("transforms the button when passed a 'uppercase', 'lowercase', or 'capitalize' prop", () => {
-		const transformations = ["uppercase", "lowercase", "capitalize"];
+	it("transforms the button text when passed a 'uppercase', 'lowercase', or 'capitalize' prop", () => {
+		const textTransformations = ["uppercase", "lowercase", "capitalize"];
 
 		const tansformButtonText = type => {
-			const props = transformations.reduce((acc, name) => {
+			const props = textTransformations.reduce((acc, name) => {
 				acc[name] = name === type;
 
 				return acc;
@@ -120,7 +120,7 @@ describe("Styled Button", () => {
 			);
 		};
 
-		transformations.forEach(transformation => {
+		textTransformations.forEach(transformation => {
 			tansformButtonText(transformation);
 		});
 	});

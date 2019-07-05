@@ -6,7 +6,7 @@ const hideServerMessage = jest.fn();
 const initProps = {
 	authenticateUser,
 	hideServerMessage,
-	loggedinUser: null,
+	loggedinUser: "",
 	serverMessage: "",
 };
 
@@ -24,10 +24,15 @@ describe("App Loader", () => {
 
 	afterEach(() => {
 		jest.runAllTimers();
+		authenticateUser.mockClear();
 	});
 
 	it("initially renders a Spinner", () => {
 		expect(wrapper.find("Spinner__StyledSpinner").exists()).toBeTruthy();
+	});
+
+	it("attempts to automatically log the user in from a previous session", () => {
+		expect(authenticateUser).toHaveBeenCalledTimes(1);
 	});
 
 	it("renders a login form after a 5 second timer", () => {

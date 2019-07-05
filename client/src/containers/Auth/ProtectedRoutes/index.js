@@ -58,6 +58,12 @@ ProtectedRoutes.propTypes = {
 	hideServerMessage: PropTypes.func.isRequired,
 	lastName: PropTypes.string,
 	loggedinUser: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+	match: PropTypes.shape({
+		isExact: PropTypes.bool,
+		params: PropTypes.oneOf(["object"]),
+		path: PropTypes.string,
+		url: PropTypes.string,
+	}).isRequired,
 	resetPassword: PropTypes.func.isRequired,
 	signinUser: PropTypes.func.isRequired,
 	signupUser: PropTypes.func.isRequired,

@@ -1,0 +1,113 @@
+import { ServerMessages } from "../index";
+
+const hideServerMessage = jest.fn();
+const resetServerMessage = jest.fn();
+
+const initProps = {
+	hideServerMessage,
+	message: "",
+	resetServerMessage,
+	show: false,
+	type: "",
+};
+
+describe("Server Messages", () => {
+	let wrapper;
+	let findMsgCtnr;
+	beforeEach(() => {
+		wrapper = mount(<ServerMessages {...initProps} />);
+		findMsgCtnr = () => wrapper.find("MessageContainer");
+	});
+
+	afterEach(() => {
+		hideServerMessage.mockClear();
+		resetServerMessage.mockClear();
+	});
+
+	it("initially renders nothing", () => {
+		const SrvrMsgComponent = wrapper.find("ServerMessages");
+		expect(SrvrMsgComponent.exists()).toBeTruthy();
+		expect(SrvrMsgComponent.prop("messages")).toBeFalsy();
+	});
+
+	it("renders a message", () => {
+		wrapper.setProps({
+			message: "Testing.",
+			show: true,
+			type: "",
+		});
+
+		expect(wrapper.find("TextContainer").text()).toEqual("Testing.");
+	});
+
+	it("renders a red 'error' message", () => {
+		wrapper.setProps({
+			message: "You do not have permission to do that.",
+			show: true,
+			type: "",
+		});
+
+		expect(findMsgCtnr()).toHaveStyleRule("background", "#D32F2F");
+	});
+
+	it("renders a green 'success' message", () => {
+		wrapper.setProps({
+			message: "Added a new game!",
+			show: true,
+			type: "success",
+		});
+
+		expect(findMsgCtnr()).toHaveStyleRule("background", "#43A047");
+	});
+
+	it("renders a yellow 'warning' message", () => {
+		wrapper.setProps({
+			message: "Unable to locate that game.",
+			show: true,
+			type: "warning",
+		});
+
+		expect(findMsgCtnr()).toHaveStyleRule("background", "#FFA000");
+	});
+
+	it("renders a blue 'info' message", () => {
+		wrapper.setProps({
+			message: "A new event has been added to the schedule.",
+			show: true,
+			type: "info",
+		});
+
+		expect(findMsgCtnr()).toHaveStyleRule("background", "#2979ff");
+	});
+
+	it("closes the alert when the 'X' button has been clicked", () => {
+		wrapper.setProps({
+			message: "This message is manually closable.",
+			show: true,
+			type: "info",
+		});
+
+		wrapper.find("button").simulate("click");
+
+		expect(hideServerMessage).toHaveBeenCalledTimes(1);
+	});
+
+	it("automatically closes after 10 seconds", () => {
+		jest.useFakeTimers();
+		wrapper.setProps({
+			message: "This message auto closes in 10 seconds.",
+			show: true,
+			type: "info",
+		});
+		jest.advanceTimersByTime(10500);
+
+		expect(hideServerMessage).toHaveBeenCalledTimes(1);
+		wrapper.setProps({
+			show: false,
+		});
+
+		jest.advanceTimersByTime(400);
+		expect(resetServerMessage).toHaveBeenCalledTimes(1);
+		jest.runAllTimers();
+	});
+});

@@ -12,7 +12,7 @@ const wrapper = mount(<Modal {...initProps} />);
 
 describe("Modal", () => {
 	it("renders a modal with some sample content without errors", () => {
-		expect(wrapper.find("h1").exists()).toBeTruthy();
+		expect(wrapper.find("Modal").exists()).toBeTruthy();
 	});
 
 	it("redirects the user back to home if closed", () => {

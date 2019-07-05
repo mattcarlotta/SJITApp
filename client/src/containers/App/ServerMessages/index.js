@@ -29,7 +29,7 @@ const alertType = type => {
 	}
 };
 
-class Message extends Component {
+export class ServerMessages extends Component {
 	componentDidUpdate = prevProps => {
 		if (prevProps.message !== this.props.message && this.props.message !== "") {
 			if (this.timeout) clearTimeout(this.timeout);
@@ -74,7 +74,7 @@ class Message extends Component {
 	);
 }
 
-Message.propTypes = {
+ServerMessages.propTypes = {
 	hideServerMessage: PropTypes.func.isRequired,
 	message: PropTypes.string,
 	resetServerMessage: PropTypes.func.isRequired,
@@ -89,4 +89,4 @@ export default connect(
 		type: server.type,
 	}),
 	{ hideServerMessage, resetServerMessage },
-)(Message);
+)(ServerMessages);
