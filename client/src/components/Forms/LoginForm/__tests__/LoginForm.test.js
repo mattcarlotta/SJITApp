@@ -58,7 +58,7 @@ describe("Login Form", () => {
 	// 	).toEqual("Password too short.");
 	// });
 
-	describe("Successful Form Submission", () => {
+	describe("Form Submission", () => {
 		beforeEach(() => {
 			jest.useFakeTimers();
 			wrapper

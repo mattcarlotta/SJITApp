@@ -73,7 +73,7 @@ describe("New Password Form", () => {
 	// 	expect(wrapper.find("Errors").text()).toEqual("Password too short.");
 	// });
 
-	describe("Successful Form Submission", () => {
+	describe("Form Submission", () => {
 		beforeEach(() => {
 			jest.useFakeTimers();
 			wrapper

@@ -142,6 +142,7 @@
 		"jest-enzyme": "7.0.2",
 		"jest-haste-map": "^24.5.0",
 		"jest-resolve": "^24.5.0",
+		"jest-styled-components": "^6.3.3",
 		"jsdom": "^15.1.1",
 		"lint-staged": "^8.1.5",
 		"mini-css-extract-plugin": "^0.7.0",

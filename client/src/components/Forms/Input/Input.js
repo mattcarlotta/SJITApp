@@ -56,11 +56,7 @@ const Input = ({
 						<span className="tooltip">
 							<Tooltip
 								placement="top"
-								title={
-									<p style={{ textAlign: "center", margin: 0, padding: 0 }}>
-										{tooltip}
-									</p>
-								}
+								title={<span style={{ textAlign: "center" }}>{tooltip}</span>}
 							>
 								<GoQuestion />
 							</Tooltip>

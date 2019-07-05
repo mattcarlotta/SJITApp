@@ -22,13 +22,13 @@ class SignupForm extends Component {
 					tooltip:
 						"The authorization key is supplied via email upon staff approval.",
 					icon: "key",
-					value: token,
+					value: token || "",
 					errors: "",
 					disabled: !!token,
 				},
 				{
 					name: "email",
-					type: "text",
+					type: "email",
 					label: "Authorized Email",
 					tooltip: "The email below needs to match a staff approved email.",
 					icon: "mail",
@@ -164,6 +164,7 @@ SignupForm.propTypes = {
 		replace: PropTypes.func,
 	}),
 	serverMessage: PropTypes.string,
+	signupUser: PropTypes.func,
 };
 
 export default SignupForm;

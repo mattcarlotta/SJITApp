@@ -16,6 +16,19 @@ import TextContainer from "./TextContainer";
 import ButtonContainer from "./ButtonContainer";
 import CloseButton from "./CloseButton";
 
+const alertType = type => {
+	switch (type) {
+		case "success":
+			return <FaCheckCircle />;
+		case "warning":
+			return <FaExclamationTriangle />;
+		case "info":
+			return <FaInfoCircle />;
+		default:
+			return <FaTimesCircle />;
+	}
+};
+
 class Message extends Component {
 	componentDidUpdate = prevProps => {
 		if (prevProps.message !== this.props.message && this.props.message !== "") {
@@ -31,28 +44,12 @@ class Message extends Component {
 		nextProps.show !== this.props.show ||
 		nextProps.serverMessage !== this.props.serverMessage;
 
-	alertType = () => {
-		const { type } = this.props;
-		switch (type) {
-			case "success":
-				return <FaCheckCircle />;
-			case "warning":
-				return <FaExclamationTriangle />;
-			case "info":
-				return <FaInfoCircle />;
-			default:
-				return <FaTimesCircle />;
-		}
-	};
-
 	clearTimer = () => {
 		clearTimeout(this.timeout);
 		this.props.hideServerMessage();
 	};
 
-	timer = () => this.clearTimer();
-
-	setTimer = () => (this.timeout = setTimeout(this.timer, 10000));
+	setTimer = () => (this.timeout = setTimeout(this.clearTimer, 10000));
 
 	render = () => (
 		<Transition
@@ -65,7 +62,7 @@ class Message extends Component {
 			{state => (
 				<WindowContainer state={state}>
 					<MessageContainer type={this.props.type}>
-						<AlertContainer>{this.alertType()}</AlertContainer>
+						<AlertContainer>{alertType(this.props.type)}</AlertContainer>
 						<TextContainer>{this.props.message}</TextContainer>
 						<ButtonContainer>
 							<CloseButton handleClick={this.clearTimer} />

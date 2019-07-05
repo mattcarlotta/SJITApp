@@ -3,7 +3,7 @@ import StyledButton from "./Button";
 
 const Button = styled(StyledButton)`
 	cursor: ${({ disabled }) => (!disabled ? "pointer" : "not-allowed")};
-	color: ${props => (!props.primary && !props.danger ? "#025f6d" : "#ffffff")};
+	color: ${props => (!props.primary && !props.danger ? "#025f6d" : "#fff")};
 	background-color: ${props => {
 		if (props.primary) return "#025f6d";
 		if (props.danger) return "#f56342";
@@ -12,7 +12,7 @@ const Button = styled(StyledButton)`
 	text-transform: ${props => {
 		if (props.uppercase) return "uppercase";
 		if (props.lowercase) return "lowercase";
-		if (props.captialize) return "captialize";
+		if (props.capitalize) return "capitalize";
 		return "normal";
 	}};
 	text-decoration: none;
@@ -33,8 +33,7 @@ const Button = styled(StyledButton)`
 
 	&:hover {
 		color: ${props => {
-			if (props.primary) return "#fff";
-			if (props.danger) return "#d24b2e";
+			if (props.primary || props.danger) return "#fff";
 			return "#04515d";
 		}};
 		background-color: ${props => {

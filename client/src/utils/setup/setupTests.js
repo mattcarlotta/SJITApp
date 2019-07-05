@@ -9,6 +9,7 @@ import {
 	shallowWrap,
 } from "utils/testing";
 import mockAxios from "utils/__mocks__/mockAxios.js";
+import "jest-styled-components";
 
 configure({ adapter: new Adapter() });
 
