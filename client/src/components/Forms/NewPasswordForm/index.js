@@ -21,6 +21,7 @@ class NewPasswordForm extends Component {
 					icon: "lock",
 					value: "",
 					errors: "",
+					required: true
 				},
 			],
 			token,

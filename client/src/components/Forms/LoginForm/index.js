@@ -17,6 +17,7 @@ class LoginForm extends Component {
 				icon: "mail",
 				value: "",
 				errors: "",
+				required: true
 			},
 			{
 				name: "password",
@@ -25,6 +26,7 @@ class LoginForm extends Component {
 				icon: "lock",
 				value: "",
 				errors: "",
+				required: true
 			},
 		],
 		isFocused: "",

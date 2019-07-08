@@ -5,7 +5,7 @@ export default (req, res, next) => {
     return res
       .status(200)
       .clearCookie("SJSITApp", { path: "/" })
-      .send(null);
+      .json({ role: "guest" });
   }
   next();
 };

@@ -3,6 +3,7 @@ export { default as Button } from "./Button";
 export { default as ButtonContainer } from "./ButtonContainer";
 export { default as Center } from "./Center";
 export { default as Container } from "./Container";
+export { default as ImageContainer } from "./ImageContainer";
 export { default as Float } from "./Float";
 export { default as Label } from "./Label";
 export { default as Line } from "./Line";

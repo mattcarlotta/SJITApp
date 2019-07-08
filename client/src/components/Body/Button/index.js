@@ -13,7 +13,7 @@ const Button = styled(StyledButton)`
 		if (props.uppercase) return "uppercase";
 		if (props.lowercase) return "lowercase";
 		if (props.capitalize) return "capitalize";
-		return "normal";
+		return "none";
 	}};
 	text-decoration: none;
 	margin-right: 20px;

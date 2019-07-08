@@ -1,26 +1,32 @@
+import isEmpty from "lodash/isEmpty";
+
 export default fields => {
-	const validatedFields = fields.map(field => {
-		let errors = "";
-		if (!field.value) {
-			errors = "Required";
-		} else {
-			if (
-				field.name === "email" &&
-				!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(field.value)
-			)
-				errors = "Invalid email.";
+	try {
+		if (isEmpty(fields)) throw new Error("You must supply an array of fields!");
+		let errorCount = null;
 
-			if (field.name === "password" && field.value.length < 5)
-				errors = "Password too short.";
-		}
+		const validatedFields = fields.map(field => {
+			let errors = "";
+			if (!field.value && field.required) {
+				errors = "Required";
+			} else {
+				if (
+					field.name === "email" &&
+					!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(field.value)
+				)
+					errors = "Invalid email.";
 
-		return { ...field, errors };
-	});
+				if (field.name === "password" && field.value.length < 5)
+					errors = "Password too short.";
+			}
 
-	let errors = null;
-	validatedFields.forEach(({ errors: hasError }) => {
-		if (hasError) errors += 1;
-	});
+			if (errors) errorCount += 1;
 
-	return { validatedFields, errors };
+			return { ...field, errors };
+		});
+
+		return { validatedFields, errors: errorCount };
+	} catch (err) {
+		return err.toString()
+	}
 };

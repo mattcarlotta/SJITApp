@@ -10,10 +10,8 @@ const NotFound = () => (
 		<Helmet title="Page Not Found" />
 		<Container>
 			<Center>
-				<div>
-					<h1>404 - Page Not Found!</h1>
-					<Link to="/">Go Back</Link>
-				</div>
+				<h1>404 - Page Not Found!</h1>
+				<Link to="/">Go Back</Link>
 			</Center>
 		</Container>
 	</Fragment>

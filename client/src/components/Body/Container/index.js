@@ -5,7 +5,7 @@ const Container = styled.div`
 		margin-top: 150px;
 	}
 	@media (min-width: 1340px) {
-		max-width: 1260px;
+		max-width: 1000px;
 	}
 
 	margin-left: auto;

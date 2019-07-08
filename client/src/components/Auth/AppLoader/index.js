@@ -7,9 +7,9 @@ class AppLoader extends Component {
 	state = { requestTimeout: false };
 
 	componentDidMount = () => {
-		const { authenticateUser, loggedinUser } = this.props;
+		const { authenticateUser, role } = this.props;
 
-		if (!loggedinUser && loggedinUser !== false) {
+		if (role !== "guest") {
 			authenticateUser();
 		}
 
@@ -17,9 +17,9 @@ class AppLoader extends Component {
 	};
 
 	shouldComponentUpdate = (nextProps, nextState) =>
-		nextProps.loggedinUser !== this.props.loggedinUser ||
 		nextProps.serverMessage !== this.props.serverMessage ||
-		(this.props.loggedinUser !== false &&
+		nextProps.role !== this.props.role || (
+			nextProps.role !== "guest" &&
 			nextState.requestTimeout !== this.state.requestTimeout);
 
 	componentWillUnmount = () => this.clearTimer();
@@ -32,7 +32,7 @@ class AppLoader extends Component {
 	setTimer = () => (this.timeout = setTimeout(this.timer, 5000));
 
 	render = () =>
-		this.state.requestTimeout || this.props.loggedinUser === false ? (
+		this.state.requestTimeout || this.props.role === "guest" ? (
 			<LoginForm {...this.props} />
 		) : (
 			<Spinner />
@@ -41,7 +41,7 @@ class AppLoader extends Component {
 
 AppLoader.propTypes = {
 	authenticateUser: PropTypes.func.isRequired,
-	loggedinUser: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+	role: PropTypes.string,
 	serverMessage: PropTypes.string,
 };
 

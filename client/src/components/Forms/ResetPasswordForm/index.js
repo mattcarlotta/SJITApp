@@ -16,6 +16,7 @@ class ResetPasswordForm extends Component {
 				icon: "mail",
 				value: "",
 				errors: "",
+				required: true
 			},
 		],
 		isFocused: "",

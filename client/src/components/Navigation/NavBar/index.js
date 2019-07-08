@@ -6,7 +6,7 @@ const NavBar = styled.nav`
 		display: block;
 	}
 	@media (min-width: 1340px) {
-		max-width: 1260px;
+		max-width: 1000px;
 	}
 	display: -ms-flexbox;
 	display: flex;

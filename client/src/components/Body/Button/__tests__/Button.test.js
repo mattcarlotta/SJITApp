@@ -25,7 +25,7 @@ describe("Styled Button", () => {
 		expect(StyledButton).toHaveStyleRule("cursor", "pointer");
 		expect(StyledButton).toHaveStyleRule("color", "#025f6d");
 		expect(StyledButton).toHaveStyleRule("background-color", "transparent");
-		expect(StyledButton).toHaveStyleRule("text-transform", "normal");
+		expect(StyledButton).toHaveStyleRule("text-transform", "none");
 		expect(StyledButton).toHaveStyleRule("border", "2px solid transparent");
 
 		expect(StyledButton).toHaveStyleRule("color", "#04515d", {
@@ -46,7 +46,7 @@ describe("Styled Button", () => {
 		expect(StyledButton).toHaveStyleRule("cursor", "pointer");
 		expect(StyledButton).toHaveStyleRule("color", "#fff");
 		expect(StyledButton).toHaveStyleRule("background-color", "#025f6d");
-		expect(StyledButton).toHaveStyleRule("text-transform", "normal");
+		expect(StyledButton).toHaveStyleRule("text-transform", "none");
 		expect(StyledButton).toHaveStyleRule("border", "2px solid #025f6d");
 
 		expect(StyledButton).toHaveStyleRule("color", "#fff", {
@@ -67,7 +67,7 @@ describe("Styled Button", () => {
 		expect(StyledButton).toHaveStyleRule("cursor", "pointer");
 		expect(StyledButton).toHaveStyleRule("color", "#fff");
 		expect(StyledButton).toHaveStyleRule("background-color", "#f56342");
-		expect(StyledButton).toHaveStyleRule("text-transform", "normal");
+		expect(StyledButton).toHaveStyleRule("text-transform", "none");
 		expect(StyledButton).toHaveStyleRule("border", "2px solid #f56342");
 
 		expect(StyledButton).toHaveStyleRule("color", "#fff", {

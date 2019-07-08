@@ -1,4 +1,4 @@
-import React, { PureComponent } from "react";
+import React, { Fragment, PureComponent } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Redirect, Route, Switch } from "react-router-dom";
@@ -20,11 +20,11 @@ import { hideServerMessage } from "actions/messages";
 
 export class ProtectedRoutes extends PureComponent {
 	render = () => {
-		const { loggedinUser, match } = this.props;
+		const { role, match } = this.props;
 
 		return (
-			<div className="app">
-				{!loggedinUser ? (
+			<Fragment>
+				{!role || role === "guest" ? (
 					<Switch>
 						<Route
 							path={`${match.url}/login`}
@@ -47,7 +47,7 @@ export class ProtectedRoutes extends PureComponent {
 				) : (
 					<App {...this.props} />
 				)}
-			</div>
+			</Fragment>
 		);
 	};
 }
@@ -60,11 +60,12 @@ ProtectedRoutes.propTypes = {
 	loggedinUser: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 	match: PropTypes.shape({
 		isExact: PropTypes.bool,
-		params: PropTypes.oneOf(["object"]),
+		params: PropTypes.any,
 		path: PropTypes.string,
 		url: PropTypes.string,
 	}).isRequired,
 	resetPassword: PropTypes.func.isRequired,
+	role: PropTypes.string,
 	signinUser: PropTypes.func.isRequired,
 	signupUser: PropTypes.func.isRequired,
 	serverMessage: PropTypes.string,
@@ -73,9 +74,10 @@ ProtectedRoutes.propTypes = {
 
 export default connect(
 	state => ({
-		loggedinUser: state.auth.email,
 		firstName: state.auth.firstName,
 		lastName: state.auth.lastName,
+		loggedinUser: state.auth.email,
+		role: state.auth.role,
 		serverMessage: state.server.message,
 	}),
 	{

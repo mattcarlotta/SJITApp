@@ -7,7 +7,7 @@ export const authenticateUser = () => async dispatch => {
 		const signedinUser = await app.get("signedin");
 		dispatch({
 			type: types.SIGNIN,
-			payload: signedinUser.data ? signedinUser.data : { email: false },
+			payload: signedinUser.data ? signedinUser.data : {},
 		});
 	} catch (err) {
 		dispatch(setServerMessage({ type: "error", message: err.toString() }));

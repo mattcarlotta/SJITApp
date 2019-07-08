@@ -7,7 +7,7 @@ import { Button } from "components/Body";
 
 export const AccountButton = ({ signoutUser }) => (
 	<Button
-		style={{ height: "64px", marginRight: "45px" }}
+		style={{ height: "63px", marginRight: "45px", fontSize: "21px" }}
 		padding="0"
 		onClick={signoutUser}
 	>

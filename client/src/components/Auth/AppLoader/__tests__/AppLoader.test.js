@@ -7,6 +7,7 @@ const initProps = {
 	authenticateUser,
 	hideServerMessage,
 	loggedinUser: "",
+	role: "",
 	serverMessage: "",
 };
 
@@ -42,7 +43,7 @@ describe("App Loader", () => {
 	});
 
 	it("renders a login form if the loggedinUser is determined to be false via API", () => {
-		wrapper.setProps({ loggedinUser: false });
+		wrapper.setProps({ loggedinUser: false, role: "guest" });
 		expect(wrapper.find("LoginForm").exists()).toBeTruthy();
 	});
 });
