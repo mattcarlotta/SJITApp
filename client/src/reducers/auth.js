@@ -10,7 +10,7 @@ const authInitialState = {
 
 /**
  * @function authReducer
- * @param {object} state - an object containing error or server messages.
+ * @param {object} state - an object containing current user session state.
  * @param {object} action - type and payload to be reduced.
  * @returns {object} - user session state.
  */

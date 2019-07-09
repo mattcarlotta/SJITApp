@@ -1,5 +1,13 @@
 import isEmpty from "lodash/isEmpty";
 
+/**
+ * Helper function to validate form fields.
+ *
+ * @function
+ * @param {array} fields - an array containing fields.
+ * @returns {object} - validated fields and number of errors.
+ * @throws {error}
+ */
 export default fields => {
 	try {
 		if (isEmpty(fields)) throw new Error("You must supply an array of fields!");
@@ -27,6 +35,6 @@ export default fields => {
 
 		return { validatedFields, errors: errorCount };
 	} catch (err) {
-		return err.toString()
+		return err.toString();
 	}
 };
