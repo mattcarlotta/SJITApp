@@ -1,3 +1,4 @@
+import isEmpty from "lodash/isEmpty";
 import { app } from "utils";
 import * as types from "types";
 
@@ -34,7 +35,7 @@ export const resetPassword = (props, history) => ({
  */
 export const signin = data => ({
 	type: types.USER_SIGNIN,
-	payload: data ? data : {},
+	payload: !isEmpty(data) ? data : { role: "guest" },
 });
 
 /**

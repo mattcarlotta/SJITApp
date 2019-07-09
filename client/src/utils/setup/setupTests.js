@@ -6,9 +6,10 @@ import {
 	createStoreFactory,
 	HOCWrap,
 	mountWrap,
+	recordSaga,
 	shallowWrap,
 } from "utils/testing";
-import mockAxios from "utils/__mocks__/mockAxios.js";
+import mockApp from "utils/__mocks__/mockAxios.js";
 import "jest-styled-components";
 
 configure({ adapter: new Adapter() });
@@ -32,8 +33,9 @@ global.sleep = sleep;
 global.createStoreFactory = createStoreFactory;
 global.HOCWrap = HOCWrap;
 global.shallow = shallowWrap;
+// global.recordSaga = recordSaga;
 global.mount = mountWrap;
-global.mockAxios = mockAxios;
+global.mockApp = mockApp;
 global.React = require("react");
 global.Provider = require("react-redux").Provider;
 global.ConnectedRouter = require("connected-react-router").ConnectedRouter;

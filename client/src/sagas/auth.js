@@ -16,7 +16,7 @@ import * as types from "types";
  * @yields {action} - A redux action to set the current user.
  * @throws {action} - A redux action to display a server message by type.
  */
-function* authenticateUser() {
+export function* authenticateUser() {
 	try {
 		const res = yield call(app.get, "signedin");
 		const data = parseData(res);
@@ -39,7 +39,7 @@ function* authenticateUser() {
  * @yields {action} - A redux action to display a server message by type.
  * @throws {action} - A redux action to display a server message by type.
  */
-function* resetPassword({ props, history }) {
+export function* resetPassword({ props, history }) {
 	try {
 		const res = yield call(app.put, "reset-password", { ...props });
 		const message = parseMessage(res);
@@ -68,7 +68,7 @@ function* resetPassword({ props, history }) {
  * @yields {action} -  A redux action to set the current user.
  * @throws {action} - A redux action to display a server message by type.
  */
-function* signinUser({ props }) {
+export function* signinUser({ props }) {
 	try {
 		const res = yield call(app.post, "signin", { ...props });
 		const data = parseData(res);
@@ -87,7 +87,7 @@ function* signinUser({ props }) {
  * @yields {object} - A redux action to remove the current user from state.
  * @throws {action} - A redux action to display a server message by type.
  */
-function* signoutUser() {
+export function* signoutUser() {
 	try {
 		yield call(app.get, "signout");
 		yield put({ type: types.USER_SIGNOUT });
@@ -108,7 +108,7 @@ function* signoutUser() {
  * @yields {action} - A redux action to display a server message by type.
  * @throws {action} - A redux action to display a server message by type.
  */
-function* signupUser({ props, history }) {
+export function* signupUser({ props, history }) {
 	try {
 		const res = yield call(app.post, "signup", { ...props });
 		const message = parseMessage(res);
@@ -137,7 +137,7 @@ function* signupUser({ props, history }) {
  * @yields {action} - A redux action to display a server message by type.
  * @throws {action} - A redux action to display a server message by type.
  */
-function* updateUserPassword({ props, history }) {
+export function* updateUserPassword({ props, history }) {
 	try {
 		const res = yield call(app.put, "new-password", { ...props });
 		const message = parseMessage(res);

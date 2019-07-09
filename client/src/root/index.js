@@ -7,11 +7,11 @@ import { createBrowserHistory } from "history";
 import createSagaMiddleware from "redux-saga";
 // import thunk from "redux-thunk";
 import createRootReducer from "reducers";
-import rootSaga from "sagas";
+import rootSagas from "sagas";
 import Routes from "routes";
 
 const history = createBrowserHistory();
-const saga = createSagaMiddleware();
+export const saga = createSagaMiddleware();
 const middlewares = applyMiddleware(saga, routerMiddleware(history));
 
 export const store = createStore(
@@ -19,7 +19,7 @@ export const store = createStore(
 	composeWithDevTools(middlewares),
 );
 
-saga.run(rootSaga);
+saga.run(rootSagas);
 
 const Root = () => (
 	<Provider store={store}>

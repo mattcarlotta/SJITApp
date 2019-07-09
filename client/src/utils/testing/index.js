@@ -1,19 +1,42 @@
+import { runSaga } from "redux-saga";
 import { createElement } from "react";
 import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
 import { shallow, mount } from "enzyme";
-import thunk from "redux-thunk";
 import { createBrowserHistory } from "history";
 import { createStore, applyMiddleware } from "redux";
-import { store } from "root";
+import { saga, store } from "root";
 import rootReducer from "reducers";
+import rootSagas from "sagas";
 
 const history = createBrowserHistory();
-const middlewares = applyMiddleware(thunk);
+const middlewares = applyMiddleware(saga);
 
 //= =============================================================================//
 // CUSTOM TESTING FUNCTIONS                                                       /
 //= =============================================================================//
+
+/**
+ * Creates a testing platform to record sagas.
+ * @function recordSaga
+ * @async
+ * @param {object} saga - saga function.
+ * @param {object} initialAction - initial action creator.
+ * @returns {array} - a record of dispatched actions.
+ */
+export const recordSaga = async (saga, initialAction) => {
+	const dispatched = [];
+
+	await runSaga(
+		{
+			dispatch: action => dispatched.push(action),
+		},
+		saga,
+		initialAction,
+	).done;
+
+	return dispatched;
+};
 
 /**
  * Create a testing store with imported reducers, initial state, and middleware(s).
@@ -23,6 +46,7 @@ const middlewares = applyMiddleware(thunk);
  */
 export const createStoreFactory = initialState =>
 	createStore(rootReducer(history), initialState, middlewares);
+saga.run(rootSagas);
 
 /**
  * Factory function to create a ShallowWrapper for a component
