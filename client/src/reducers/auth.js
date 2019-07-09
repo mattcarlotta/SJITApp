@@ -5,7 +5,7 @@ const authInitialState = {
 	email: "",
 	firstName: "",
 	lastName: "",
-	role: ""
+	role: "",
 };
 
 /**
@@ -16,9 +16,9 @@ const authInitialState = {
  */
 const authReducer = (state = authInitialState, { payload, type }) => {
 	switch (type) {
-		case types.SIGNIN:
+		case types.USER_SIGNIN:
 			return { ...state, ...payload };
-		case types.SIGNOUT:
+		case types.USER_SIGNOUT:
 			return { ...authInitialState, email: false };
 		default:
 			return state;

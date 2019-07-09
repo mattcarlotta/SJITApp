@@ -25,7 +25,7 @@ class SignupForm extends Component {
 					value: token || "",
 					errors: "",
 					disabled: !!token,
-					required: true
+					required: true,
 				},
 				{
 					name: "email",
@@ -35,7 +35,7 @@ class SignupForm extends Component {
 					icon: "mail",
 					value: "",
 					errors: "",
-					required: true
+					required: true,
 				},
 				{
 					name: "firstName",
@@ -44,7 +44,7 @@ class SignupForm extends Component {
 					icon: "user",
 					value: "",
 					errors: "",
-					required: true
+					required: true,
 				},
 				{
 					name: "lastName",
@@ -53,7 +53,7 @@ class SignupForm extends Component {
 					icon: "user",
 					value: "",
 					errors: "",
-					required: true
+					required: true,
 				},
 				{
 					name: "password",
@@ -62,7 +62,7 @@ class SignupForm extends Component {
 					icon: "lock",
 					value: "",
 					errors: "",
-					required: true
+					required: true,
 				},
 			],
 			isFocused: "",

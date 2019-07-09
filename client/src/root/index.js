@@ -4,17 +4,22 @@ import { ConnectedRouter, routerMiddleware } from "connected-react-router";
 import { createStore, applyMiddleware } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension/developmentOnly";
 import { createBrowserHistory } from "history";
-import thunk from "redux-thunk";
+import createSagaMiddleware from "redux-saga";
+// import thunk from "redux-thunk";
 import createRootReducer from "reducers";
+import rootSaga from "sagas";
 import Routes from "routes";
 
 const history = createBrowserHistory();
-const middlewares = applyMiddleware(thunk, routerMiddleware(history));
+const saga = createSagaMiddleware();
+const middlewares = applyMiddleware(saga, routerMiddleware(history));
 
 export const store = createStore(
 	createRootReducer(history),
 	composeWithDevTools(middlewares),
 );
+
+saga.run(rootSaga);
 
 const Root = () => (
 	<Provider store={store}>

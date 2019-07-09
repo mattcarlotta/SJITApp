@@ -1,14 +1,14 @@
 import * as types from "../types";
 
 export const hideServerMessage = () => ({
-	type: types.HIDE_MESSAGE,
-});
-
-export const setServerMessage = ({ message, type }) => ({
-	type: types.SET_MESSAGE,
-	payload: { message, type },
+	type: types.MESSAGE_HIDE,
 });
 
 export const resetServerMessage = () => ({
-	type: types.RESET_MESSAGE,
+	type: types.MESSAGE_RESET,
+});
+
+export const setServerMessage = ({ message, type }) => ({
+	type: types.MESSAGE_SET,
+	payload: { message, type },
 });
