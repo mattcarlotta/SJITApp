@@ -1,2 +1,2 @@
 require("@babel/register");
-require("./utils/startServer");
+require("./server/server");
