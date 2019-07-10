@@ -32,7 +32,7 @@ const alertType = type => {
 export class ServerMessages extends Component {
 	componentDidUpdate = prevProps => {
 		if (prevProps.message !== this.props.message && this.props.message !== "") {
-			if (this.timeout) clearTimeout(this.timeout);
+			clearTimeout(this.timeout);
 			this.setTimer();
 		}
 	};

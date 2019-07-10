@@ -58,20 +58,12 @@ describe("New Password Form", () => {
 		expect(push).toHaveBeenCalledWith("/employee/login");
 	});
 
-	// it("validates password field and displays a 'Required' error if it's empty", () => {
-	// 	submitForm();
-	// 	expect(wrapper.find("Errors").text()).toEqual("Required");
-	// });
+	it("if there are errors, it doesn't submit the form", () => {
+		submitForm();
 
-	// it("displays a 'Password too short.' error if password is less than 5 characters", () => {
-	// 	wrapper
-	// 		.find("input")
-	// 		.simulate("change", { target: { name: "password", value: "1234" } });
-
-	// 	submitForm();
-
-	// 	expect(wrapper.find("Errors").text()).toEqual("Password too short.");
-	// });
+		expect(hideServerMessage).toHaveBeenCalledTimes(0);
+		expect(updateUserPassword).toHaveBeenCalledTimes(0);
+	});
 
 	describe("Form Submission", () => {
 		beforeEach(() => {

@@ -22,8 +22,6 @@ const animateMessage = state => {
 			return css`
 				opacity: 0;
 			`;
-		default:
-			break;
 	}
 };
 

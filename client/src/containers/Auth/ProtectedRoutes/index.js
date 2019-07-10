@@ -72,20 +72,24 @@ ProtectedRoutes.propTypes = {
 	updateUserPassword: PropTypes.func.isRequired,
 };
 
+const mapStateToProps = state => ({
+	firstName: state.auth.firstName,
+	lastName: state.auth.lastName,
+	loggedinUser: state.auth.email,
+	role: state.auth.role,
+	serverMessage: state.server.message,
+});
+
+const mapDispatchToProps = {
+	authenticateUser,
+	hideServerMessage,
+	resetPassword,
+	signinUser,
+	signupUser,
+	updateUserPassword,
+};
+
 export default connect(
-	state => ({
-		firstName: state.auth.firstName,
-		lastName: state.auth.lastName,
-		loggedinUser: state.auth.email,
-		role: state.auth.role,
-		serverMessage: state.server.message,
-	}),
-	{
-		authenticateUser,
-		hideServerMessage,
-		resetPassword,
-		signinUser,
-		signupUser,
-		updateUserPassword,
-	},
+	mapStateToProps,
+	mapDispatchToProps,
 )(ProtectedRoutes);

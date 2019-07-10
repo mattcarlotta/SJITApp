@@ -18,8 +18,8 @@ class AppLoader extends Component {
 
 	shouldComponentUpdate = (nextProps, nextState) =>
 		nextProps.serverMessage !== this.props.serverMessage ||
-		nextProps.role !== this.props.role || (
-			nextProps.role !== "guest" &&
+		nextProps.role !== this.props.role ||
+		(nextProps.role !== "guest" &&
 			nextState.requestTimeout !== this.state.requestTimeout);
 
 	componentWillUnmount = () => this.clearTimer();

@@ -35,10 +35,6 @@ describe("Protected Routes", () => {
 	});
 
 	describe("Unauthenticated", () => {
-		beforeEach(() => {
-			authenticateUser.mockClear();
-		});
-
 		it("initially renders the employee login", () => {
 			expect(wrapper.find("AppLoader").exists()).toBeTruthy();
 		});

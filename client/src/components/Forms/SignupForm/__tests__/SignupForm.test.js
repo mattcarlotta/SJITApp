@@ -89,6 +89,13 @@ describe("Signup Form", () => {
 		expect(tokenField.prop("value")).toEqual(token);
 	});
 
+	it("if there are errors, it doesn't submit the form", () => {
+		submitForm();
+
+		expect(hideServerMessage).toHaveBeenCalledTimes(0);
+		expect(signupUser).toHaveBeenCalledTimes(0);
+	});
+
 	describe("Form Submission", () => {
 		beforeEach(() => {
 			jest.useFakeTimers();

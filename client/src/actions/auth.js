@@ -51,13 +51,23 @@ export const signinUser = props => ({
 });
 
 /**
- * Signs user out of current session.
+ * Attempts to signs user out of current session.
  *
  * @function signoutUser
  * @returns {object}
  */
 export const signoutUser = () => ({
 	type: types.USER_SIGNOUT_SESSION,
+});
+
+/**
+ * Signs user out of current session.
+ *
+ * @function signout
+ * @returns {object}
+ */
+export const signout = () => ({
+	type: types.USER_SIGNOUT,
 });
 
 /**

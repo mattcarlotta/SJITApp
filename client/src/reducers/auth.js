@@ -1,6 +1,6 @@
 import * as types from "types";
 
-const authInitialState = {
+export const initialState = {
 	id: "",
 	email: "",
 	firstName: "",
@@ -14,12 +14,12 @@ const authInitialState = {
  * @param {object} action - type and payload to be reduced.
  * @returns {object} - user session state.
  */
-const authReducer = (state = authInitialState, { payload, type }) => {
+const authReducer = (state = initialState, { payload, type }) => {
 	switch (type) {
 		case types.USER_SIGNIN:
 			return { ...state, ...payload };
 		case types.USER_SIGNOUT:
-			return authInitialState;
+			return initialState;
 		default:
 			return state;
 	}

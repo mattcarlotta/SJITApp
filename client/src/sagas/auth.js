@@ -1,7 +1,7 @@
 import get from "lodash/get";
 import { all, put, call, takeLatest } from "redux-saga/effects";
 import { app } from "utils";
-import { signin } from "actions/auth";
+import { signin, signout } from "actions/auth";
 import { setServerMessage } from "actions/messages";
 import { parseData, parseMessage } from "utils/parseResponse";
 import * as types from "types";
@@ -19,7 +19,7 @@ import * as types from "types";
 export function* authenticateUser() {
 	try {
 		const res = yield call(app.get, "signedin");
-		const data = parseData(res);
+		const data = yield call(parseData, res);
 
 		yield put(signin(data));
 	} catch (e) {
@@ -42,16 +42,16 @@ export function* authenticateUser() {
 export function* resetPassword({ props, history }) {
 	try {
 		const res = yield call(app.put, "reset-password", { ...props });
-		const message = parseMessage(res);
-		const messageType = message ? "info" : "error";
-		const error =
-			"Unable to complete a password reset. Please try again in a few minutes.";
+		const message = yield call(parseMessage, res);
 
 		yield put(
-			setServerMessage({ type: messageType, message: message || error }),
+			setServerMessage({
+				type: "info",
+				message,
+			}),
 		);
 
-		if (message) history.push("/employee/login");
+		if (message) yield call(history.push, "/employee/login");
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
@@ -62,7 +62,7 @@ export function* resetPassword({ props, history }) {
  *
  * @generator
  * @function signinUser
- * @param {object} props - contains user session data (id, email, first/last name, and role).
+ * @param {object} props - contains user credentials (email and password).
  * @yields {object} - A response from a call to the API.
  * @function parseData - Returns a parsed res.data.
  * @yields {action} -  A redux action to set the current user.
@@ -71,7 +71,7 @@ export function* resetPassword({ props, history }) {
 export function* signinUser({ props }) {
 	try {
 		const res = yield call(app.post, "signin", { ...props });
-		const data = parseData(res);
+		const data = yield call(parseData, res);
 
 		yield put(signin(data));
 	} catch (e) {
@@ -90,8 +90,8 @@ export function* signinUser({ props }) {
 export function* signoutUser() {
 	try {
 		yield call(app.get, "signout");
-		yield put({ type: types.USER_SIGNOUT });
-	} catch (err) {
+		yield put(signout());
+	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
 }
@@ -111,15 +111,16 @@ export function* signoutUser() {
 export function* signupUser({ props, history }) {
 	try {
 		const res = yield call(app.post, "signup", { ...props });
-		const message = parseMessage(res);
-		const messageType = message ? "success" : "error";
-		const error =
-			"Unable to complete a signup request. Please try again in a few minutes.";
+		const message = yield call(parseMessage, res);
 
 		yield put(
-			setServerMessage({ type: messageType, message: message || error }),
+			setServerMessage({
+				type: "success",
+				message,
+			}),
 		);
-		if (message) history.push("/");
+
+		if (message) yield call(history.push, "/");
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
@@ -140,15 +141,15 @@ export function* signupUser({ props, history }) {
 export function* updateUserPassword({ props, history }) {
 	try {
 		const res = yield call(app.put, "new-password", { ...props });
-		const message = parseMessage(res);
-		const messageType = message ? "success" : "error";
-		const error =
-			"Unable to complete a signup request. Please try again in a few minutes.";
+		const message = yield call(parseMessage, res);
 
 		yield put(
-			setServerMessage({ type: messageType, message: message || error }),
+			setServerMessage({
+				type: "success",
+				message,
+			}),
 		);
-		if (message) history.push("/employee/login");
+		if (message) yield call(history.push, "/employee/login");
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}

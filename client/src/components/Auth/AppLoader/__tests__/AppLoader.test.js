@@ -11,6 +11,11 @@ const initProps = {
 	serverMessage: "",
 };
 
+const nextProps = {
+	...initProps,
+	role: "guest",
+};
+
 const initState = {
 	requestTimeout: false,
 };
@@ -32,6 +37,12 @@ describe("App Loader", () => {
 		expect(wrapper.find("Spinner__StyledSpinner").exists()).toBeTruthy();
 	});
 
+	it("doesn't call authenticateUser if 'role' is set", () => {
+		authenticateUser.mockClear();
+		wrapper = shallow(<AppLoader {...nextProps} />, initState);
+		expect(authenticateUser).toHaveBeenCalledTimes(0);
+	});
+
 	it("attempts to automatically log the user in from a previous session", () => {
 		expect(authenticateUser).toHaveBeenCalledTimes(1);
 	});
@@ -43,7 +54,7 @@ describe("App Loader", () => {
 	});
 
 	it("renders a login form if the loggedinUser is determined to be false via API", () => {
-		wrapper.setProps({ loggedinUser: false, role: "guest" });
+		wrapper.setProps({ role: "guest" });
 		expect(wrapper.find("LoginForm").exists()).toBeTruthy();
 	});
 });

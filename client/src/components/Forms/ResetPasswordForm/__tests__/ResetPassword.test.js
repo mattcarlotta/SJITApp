@@ -22,14 +22,19 @@ describe("Reset Password Form", () => {
 		expect(wrapper.find("form").exists()).toBeTruthy();
 	});
 
+	it("if there are errors, it doesn't submit the form", () => {
+		submitForm();
+
+		expect(hideServerMessage).toHaveBeenCalledTimes(0);
+		expect(resetPassword).toHaveBeenCalledTimes(0);
+	});
+
 	describe("Form Submission", () => {
 		beforeEach(() => {
 			jest.useFakeTimers();
-			wrapper
-				.find("input")
-				.simulate("change", {
-					target: { name: "email", value: "example@test.com" },
-				});
+			wrapper.find("input").simulate("change", {
+				target: { name: "email", value: "example@test.com" },
+			});
 
 			submitForm();
 			jest.runOnlyPendingTimers();

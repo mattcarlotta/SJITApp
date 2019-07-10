@@ -3,25 +3,23 @@ import React from "react";
 import { FaBars } from "react-icons/fa";
 import { Layout, Icon } from "antd";
 // import { Switch, Route } from 'react-router-dom';
-import { SideMenu, Title } from "components/Body";
-import { RightMenu } from "components/Navigation";
-
-const { Content, Header } = Layout;
+import { Title } from "components/Body";
+import { RightMenu, SideMenu } from "components/Navigation";
 
 const App = ({ firstName, lastName }) => (
 	<Layout>
 		<SideMenu />
 		<Layout>
-			<Header style={{ background: "#fff", padding: 0 }}>
+			<Layout.Header style={{ background: "#fff", padding: 0 }}>
 				<FaBars />
 				<RightMenu />
-			</Header>
-			<Content>
+			</Layout.Header>
+			<Layout.Content>
 				<Title>
 					Welcome {firstName}
 					{lastName}!
 				</Title>
-			</Content>
+			</Layout.Content>
 		</Layout>
 	</Layout>
 );

@@ -22,7 +22,8 @@
     "lint:front": "npm run pre-commit --prefix client",
     "lint:back": "lint-staged",
     "test": "better-npm-run test",
-    "test:front": "npm run test --prefix client"
+    "test:front": "npm run test --prefix client",
+    "test:frontcov": "npm run test:coverage --prefix client"
   },
   "betterScripts": {
     "dev": {

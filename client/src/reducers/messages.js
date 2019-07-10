@@ -1,6 +1,6 @@
 import * as types from "../types";
 
-const initialState = {
+export const initialState = {
 	message: "",
 	show: false,
 	type: "",

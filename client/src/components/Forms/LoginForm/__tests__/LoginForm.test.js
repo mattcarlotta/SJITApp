@@ -21,42 +21,12 @@ describe("Login Form", () => {
 		expect(wrapper.find("form").exists()).toBeTruthy();
 	});
 
-	// it("validates email and password fields and displays 'Required' errors when they're empty", () => {
-	// 	submitForm();
-	// 	expect(wrapper.find("Errors")).toHaveLength(2);
-	// });
+	it("if there are errors, it doesn't submit the form", () => {
+		submitForm();
 
-	// it("displays an 'Invalid Email.' error", () => {
-	// 	wrapper
-	// 		.find("input")
-	// 		.first()
-	// 		.simulate("change", { target: { name: "email", value: "bad-email" } });
-
-	// 	submitForm();
-
-	// 	expect(
-	// 		wrapper
-	// 			.find("Errors")
-	// 			.first()
-	// 			.text(),
-	// 	).toEqual("Invalid email.");
-	// });
-
-	// it("displays a 'Password too short.' error if password is less than 5 characters", () => {
-	// 	wrapper
-	// 		.find("input")
-	// 		.first()
-	// 		.simulate("change", { target: { name: "password", value: "1234" } });
-
-	// 	submitForm();
-
-	// 	expect(
-	// 		wrapper
-	// 			.find("Errors")
-	// 			.at(1)
-	// 			.text(),
-	// 	).toEqual("Password too short.");
-	// });
+		expect(hideServerMessage).toHaveBeenCalledTimes(0);
+		expect(signinUser).toHaveBeenCalledTimes(0);
+	});
 
 	describe("Form Submission", () => {
 		beforeEach(() => {

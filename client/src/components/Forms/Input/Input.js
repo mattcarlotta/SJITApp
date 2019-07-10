@@ -66,8 +66,8 @@ const Input = ({
 			)}
 			{icon && <span className="icon">{iconType(icon)}</span>}
 			<input
-				type={type || "text"}
-				name={name || ""}
+				type={type}
+				name={name}
 				onBlur={onBlur}
 				onChange={onChange}
 				onFocus={onFocus}

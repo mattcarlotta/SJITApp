@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import { Layout, Menu, Icon } from "antd";
 import { Center, Title } from "components/Body";
 
-const { Sider } = Layout;
-
 class SideMenu extends Component {
 	state = { selectedKey: ["1"], collapsed: false };
 
@@ -12,7 +10,7 @@ class SideMenu extends Component {
 	};
 
 	render = () => (
-		<Sider
+		<Layout.Sider
 			style={{ height: "100vh" }}
 			trigger={null}
 			collapsible
@@ -35,7 +33,7 @@ class SideMenu extends Component {
 					<span>nav 3</span>
 				</Menu.Item>
 			</Menu>
-		</Sider>
+		</Layout.Sider>
 	);
 }
 

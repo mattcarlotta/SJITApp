@@ -80,7 +80,35 @@ describe("Server Messages", () => {
 		expect(findMsgCtnr()).toHaveStyleRule("background", "#2979ff");
 	});
 
+	it("if missing a 'type' prop, renders a 'FaTimesCircle' icon", () => {
+		wrapper.setProps({
+			message: "A new event has been added to the schedule.",
+			show: true,
+			type: "",
+		});
+
+		expect(wrapper.find("FaTimesCircle").exists()).toBeTruthy();
+	});
+
 	it("closes the alert when the 'X' button has been clicked", () => {
+		wrapper.setProps({
+			message: "This message is manually closable.",
+			show: true,
+			type: "info",
+		});
+
+		wrapper.find("button").simulate("click");
+
+		expect(hideServerMessage).toHaveBeenCalledTimes(1);
+	});
+
+	it("doesn't update if props haven't changed", () => {
+		wrapper.setProps({
+			message: "This message is manually closable.",
+			show: true,
+			type: "info",
+		});
+
 		wrapper.setProps({
 			message: "This message is manually closable.",
 			show: true,

@@ -22,10 +22,14 @@ describe("Scroll Handler", () => {
 		expect(wrapper.find("h1").exists()).toBeTruthy();
 	});
 
-	it("it scrolls to 0,0 if the pathname has changed", () => {
+	it("it only scrolls to 0,0 if the pathname has changed", () => {
+		const nextLocation = { location: { pathname: "/test" } };
 		jest.useFakeTimers();
-		wrapper.setProps({ location: { pathname: "/test" } });
+		wrapper.setProps(nextLocation);
 		jest.runOnlyPendingTimers();
+		expect(window.scrollTo).toHaveBeenCalledTimes(1);
+
+		wrapper.setProps(nextLocation);
 		expect(window.scrollTo).toHaveBeenCalledTimes(1);
 	});
 });
