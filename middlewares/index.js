@@ -7,10 +7,9 @@ import connectRedis from "connect-redis";
 import mailer from "@sendgrid/mail";
 import config from "env";
 import "database";
-// import "services/strategies";
 
 const { CLIENT, NODE_ENV, protocol } = process.env;
-const inTesting = NODE_ENV === "test";
+const inTesting = NODE_ENV === "testing";
 
 const RedisStore = connectRedis(session);
 

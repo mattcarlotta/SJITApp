@@ -57,11 +57,12 @@
       }
     },
     "test": {
-      "command": "jest --config ./jest.json --runInBand --watchAll",
+      "command": "jest --config ./jest.json --passWithNoTests --runInBand --watchAll",
       "env": {
         "CLIENT": "http://localhost:5001",
         "DATABASE": "mongodb://localhost/sjsitapp-test-db",
-        "NODE_ENV": "test",
+        "NODE_ENV": "testing",
+        "WATCHING": "true",
         "APIPORT": 5001
       }
     }

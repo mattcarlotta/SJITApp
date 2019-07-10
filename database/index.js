@@ -3,16 +3,18 @@ import bluebird from "bluebird";
 import mongoose from "mongoose";
 
 const { DATABASE, NODE_ENV } = process.env;
-const inTesting = NODE_ENV === "test";
+const inTesting = NODE_ENV === "testing";
+
+export const options = {
+  useNewUrlParser: true, // avoids DeprecationWarning: current URL string parser is deprecated
+  useCreateIndex: true, // avoids DeprecationWarning: collection.ensureIndex is deprecated.
+  useFindAndModify: false, // avoids DeprecationWarning: collection.findAndModify is deprecated.
+};
 
 //= ===========================================================//
 //* MONGO DB CONFIG */
 //= ===========================================================//
-mongoose.connect(DATABASE, {
-  useNewUrlParser: true, // avoids DeprecationWarning: current URL string parser is deprecated
-  useCreateIndex: true, // avoids DeprecationWarning: collection.ensureIndex is deprecated.
-  useFindAndModify: false, // avoids DeprecationWarning: collection.findAndModify is deprecated.
-}); // connect to our mongodb database
+mongoose.connect(DATABASE, options); // connect to our mongodb database
 
 mongoose.Promise = bluebird; // bluebird for mongoose promises
 

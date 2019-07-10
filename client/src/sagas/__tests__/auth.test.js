@@ -9,10 +9,8 @@ import authReducer from "reducers/auth";
 import messageReducer from "reducers/messages";
 import { parseData, parseMessage } from "utils/parseResponse";
 
-const push = jest.fn();
-
 const history = {
-	push,
+	push: jest.fn(),
 };
 
 describe("Auth Sagas", () => {
