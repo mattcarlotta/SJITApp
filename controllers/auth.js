@@ -16,11 +16,6 @@ const emailResetToken = (req, res) => {
   res.status(201).json(passwordResetToken(req.user));
 };
 
-// ALLOWS A USER TO UPDATE THEIR PASSWORD WITH A TOKEN
-const updatePassword = (req, res) => {
-  res.status(201).json({ message: passwordResetSuccess(req.user) });
-};
-
 // ALLOWS A USER TO LOG INTO THE APP ON REFRESH
 const signedin = (req, res) => {
   res.status(201).json({ ...req.session.user });
@@ -39,6 +34,11 @@ const signout = (req, res) => {
     .clearCookie("SJSITApp", { path: "/" })
     .status(200)
     .send("Session ended.");
+};
+
+// ALLOWS A USER TO UPDATE THEIR PASSWORD WITH A TOKEN
+const updatePassword = (req, res) => {
+  res.status(201).json({ message: passwordResetSuccess(req.user) });
 };
 
 export {

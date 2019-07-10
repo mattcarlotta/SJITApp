@@ -5,11 +5,12 @@ import {
   getEvent,
   updateEvent,
 } from "controllers/event";
+import { requireStaffRole } from "services/strategies";
 
 export default app => {
-  app.post("/api/event/create", createEvent);
-  app.delete("/api/event/delete/:id", deleteEvent);
-  app.get("/api/event/all", getAllEvents);
-  app.get("/api/event/:id", getEvent);
-  app.put("/api/event/update/:id", updateEvent);
+  app.post("/api/event/create", requireStaffRole, createEvent);
+  app.delete("/api/event/delete/:id", requireStaffRole, deleteEvent);
+  app.get("/api/events/all", requireStaffRole, getAllEvents);
+  app.get("/api/event/:id", requireStaffRole, getEvent);
+  app.put("/api/event/update/:id", requireStaffRole, updateEvent);
 };

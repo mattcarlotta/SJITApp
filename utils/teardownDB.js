@@ -4,10 +4,13 @@ import { options } from "database";
 const { DATABASE, WATCHING } = process.env;
 
 const teardownDB = async () => {
-  const conn = mongoose.createConnection(DATABASE, options);
+  const connection = mongoose.createConnection(
+    `mongodb://localhost/${DATABASE}`,
+    options,
+  );
   try {
-    await conn.dropDatabase();
-    await conn.close();
+    await connection.dropDatabase();
+    await connection.close();
     return console.log(
       "\n\x1b[7m\x1b[32;1m PASS \x1b[0m \x1b[2mutils/\x1b[0m\x1b[1mteardownDB.js",
     );

@@ -4,5 +4,5 @@ import { requireStaffRole } from "services/strategies";
 export default app => {
   app.post("/api/token/create", requireStaffRole, createToken);
   app.delete("/api/token/delete/:id", requireStaffRole, deleteToken);
-  app.get("/api/token/all", requireStaffRole, getAllTokens);
+  app.get("/api/tokens/all", requireStaffRole, getAllTokens);
 };

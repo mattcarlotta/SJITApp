@@ -14,7 +14,7 @@ export const options = {
 //= ===========================================================//
 //* MONGO DB CONFIG */
 //= ===========================================================//
-mongoose.connect(DATABASE, options); // connect to our mongodb database
+mongoose.connect(`mongodb://localhost/${DATABASE}`, options); // connect to our mongodb database
 
 mongoose.Promise = bluebird; // bluebird for mongoose promises
 
