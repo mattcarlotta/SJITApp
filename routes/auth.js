@@ -1,5 +1,5 @@
 import {
-  create,
+  createUser,
   emailResetToken,
   signedin,
   signin,
@@ -16,7 +16,7 @@ import {
 } from "services/strategies";
 
 export default app => {
-  app.post("/api/signup", localSignup, create);
+  app.post("/api/signup", localSignup, createUser);
   app.put("/api/reset-password", resetToken, emailResetToken);
   app.post("/api/signin", localLogin, signin);
   app.get("/api/signedin", requireRelogin, signedin);

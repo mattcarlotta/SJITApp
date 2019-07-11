@@ -1,16 +1,12 @@
 /* eslint-disable */
-import mongoose from "mongoose";
-import { options } from "database";
-const { DATABASE, WATCHING } = process.env;
+import { connectDatabase } from "database";
+const { WATCHING } = process.env;
 
 const teardownDB = async () => {
-  const connection = mongoose.createConnection(
-    `mongodb://localhost/${DATABASE}`,
-    options,
-  );
+  const db = connectDatabase();
   try {
-    await connection.dropDatabase();
-    await connection.close();
+    await db.dropDatabase();
+    await db.close();
     return console.log(
       "\n\x1b[7m\x1b[32;1m PASS \x1b[0m \x1b[2mutils/\x1b[0m\x1b[1mteardownDB.js",
     );
@@ -20,6 +16,7 @@ const teardownDB = async () => {
     );
   } finally {
     if (!WATCHING) {
+      await db.close();
       process.exit(0);
     }
   }

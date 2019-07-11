@@ -1,13 +1,14 @@
 /* eslint-disable no-console */
+import { connectDatabase } from "database";
 import { User } from "models";
 import config from "env";
-import "database";
 
 const { NODE_ENV, WATCHING } = process.env;
 
 const { admin, password } = config[NODE_ENV];
 
 const seedDB = async () => {
+  const db = connectDatabase();
   try {
     const newPassword = await User.createPassword(password);
 
@@ -20,6 +21,7 @@ const seedDB = async () => {
     };
 
     await User.create(administrator);
+    await db.close();
 
     return console.log(
       "\n\x1b[7m\x1b[32;1m PASS \x1b[0m \x1b[2mutils/\x1b[0m\x1b[1mseedDB.js",
@@ -29,7 +31,10 @@ const seedDB = async () => {
       `\n\x1b[7m\x1b[31;1m FAIL \x1b[0m \x1b[2mutils/\x1b[0m\x1b[31;1mseedDB.js\x1b[0m\x1b[31m\n${err.toString()}\x1b[0m`,
     );
   } finally {
-    if (!WATCHING) process.exit(0);
+    if (!WATCHING) {
+      await db.close();
+      process.exit(0);
+    }
   }
 };
 

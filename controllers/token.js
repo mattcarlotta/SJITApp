@@ -1,31 +1,36 @@
 import mailer from "@sendgrid/mail";
 import { sendError, createSignupToken } from "shared/helpers";
+import {
+  invalidAuthTokenRequest,
+  invalidDeleteTokenRequest,
+  invalidSeasonId,
+} from "shared/authErrors";
 import { newAuthorizationKeyTemplate } from "services/templates";
 import { Token, Season } from "models";
 
 const { CLIENT } = process.env;
 
 const createToken = async (req, res) => {
-  const { email, role, seasonId } = req.body;
+  const { authorizedEmail, role, seasonId } = req.body;
 
-  if (!email || !role || !seasonId) {
-    return sendError(
-      "You must supply an email, a role, and a season before you can create an authorization token.",
-      res,
-    );
+  if (!authorizedEmail || !role || !seasonId) {
+    return sendError(invalidAuthTokenRequest, res);
   }
 
   try {
     const seasonExists = await Season.findOne({ seasonId });
-    if (!seasonExists) return sendError("Invalid season.", res);
+    if (!seasonExists) return sendError(invalidSeasonId, res);
 
     const token = createSignupToken();
     await Token.create({
-      authorized: email, token, role, seasonId,
+      authorizedEmail,
+      token,
+      role,
+      seasonId,
     });
 
     const msg = {
-      to: `${email}`,
+      to: `${authorizedEmail}`,
       from: "San Jose Sharks Ice Team <noreply@sjsiceteam.com>",
       subject:
         "Congratulations, you have been selected to join the San Jose Sharks Ice Team!",
@@ -36,7 +41,7 @@ const createToken = async (req, res) => {
     await mailer.send(msg);
 
     res.status(201).json({
-      message: `Succesfully created and sent an authorization key to ${email}.`,
+      message: `Succesfully created and sent an authorization key to ${authorizedEmail}.`,
     });
   } catch (err) {
     return sendError(err, res);
@@ -47,16 +52,19 @@ const deleteToken = async (req, res) => {
   const { id } = req.params;
 
   if (!id) {
-    return sendError(
-      "You must supply a valid token id before you can delete a signup token.",
-      res,
-    );
+    return sendError(invalidDeleteTokenRequest, res);
   }
 
   try {
-    await Token.deleteOne({ _id: id });
+    const token = await Token.findOne({ _id: id });
+    if (!token) return sendError(invalidDeleteTokenRequest, res);
 
-    res.status(202).json({ message: "Successfully deleted the signup token." });
+    const { _id } = token;
+    await Token.deleteOne({ _id });
+
+    res
+      .status(202)
+      .json({ message: "Successfully deleted the authorization key." });
   } catch (err) {
     return sendError(err, res);
   }
@@ -66,7 +74,7 @@ const getAllTokens = async (req, res) => {
   try {
     const tokens = await Token.find({});
 
-    res.status(201).send({ tokens });
+    res.status(201).json({ tokens });
   } catch (err) {
     return sendError(err, res);
   }

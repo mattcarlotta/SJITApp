@@ -20,6 +20,9 @@ mongoose.connect(`mongodb://localhost/${DATABASE}`, options); // connect to our 
 
 mongoose.Promise = bluebird; // bluebird for mongoose promises
 
+export const connectDatabase = () =>
+  mongoose.createConnection(`mongodb://localhost/${DATABASE}`, options);
+
 if (!inTesting) {
   mongoose.connection.on(
     "connected",

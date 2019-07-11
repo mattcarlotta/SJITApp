@@ -12,11 +12,17 @@ const emailConfirmationReq = "You must verify your email before attempting to lo
 
 const emptyPassword = "You must supply a new password in order to reset the old. Please try again.";
 
+const invalidAuthTokenRequest = "You must supply an email, a role, and a season before you can create an authorization token.";
+
+const invalidDeleteTokenRequest = "Unable to delete the authorization key. The supplied authorization key does not exist.";
+
 const invalidEmail = "That email is not associated with an active account. Please make sure to supply a valid registered email in order to resend a verification!";
 
 const invalidPassword = "The current password you've supplied does not match our records. Please try again.";
 
 const invalidSeason = "There was a problem assigning you to a season. If you've already selected a season, but are unable to continue, please contact the webmaster: carlotta.matt@gmail.com.";
+
+const invalidSeasonId = "Invalid season. The selected season does not exist.";
 
 const invalidToken = "There was a problem authenticating your request. The authorized key and/or email that was supplied was invalid.";
 
@@ -48,9 +54,12 @@ export {
   emailAlreadyTaken,
   emailConfirmationReq,
   emptyPassword,
+  invalidAuthTokenRequest,
+  invalidDeleteTokenRequest,
   invalidEmail,
   invalidPassword,
   invalidSeason,
+  invalidSeasonId,
   invalidToken,
   missingEmailCreds,
   missingPasswords,

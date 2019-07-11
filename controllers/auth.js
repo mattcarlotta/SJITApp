@@ -5,7 +5,7 @@ import {
 } from "shared/authSuccess";
 
 // CREATES A NEW USER
-const create = (req, res) => {
+const createUser = (req, res) => {
   res
     .status(201)
     .json(thanksForReg(req.user.email, req.user.firstName, req.user.lastName));
@@ -42,5 +42,10 @@ const updatePassword = (req, res) => {
 };
 
 export {
-  create, emailResetToken, signedin, signin, signout, updatePassword,
+  createUser,
+  emailResetToken,
+  signedin,
+  signin,
+  signout,
+  updatePassword,
 };
