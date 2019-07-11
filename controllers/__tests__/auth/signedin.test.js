@@ -1,5 +1,4 @@
 import { signedin } from "controllers/auth";
-import { mockRequest, mockResponse } from "../../__mocks__/controllers.mocks";
 
 const session = {
   user: {

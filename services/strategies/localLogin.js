@@ -1,4 +1,4 @@
-import isEmpty from "lodash/isEmpty";
+import get from "lodash/get";
 import bcrypt from "bcryptjs";
 import { Strategy as LocalStrategy } from "passport-local";
 import passport from "passport";
@@ -17,7 +17,8 @@ passport.use(
     async (req, email, password, done) => {
       try {
         // check to see if user is logged in from another session
-        if (!isEmpty(req.session.userid)) return done(alreadyLoggedIn, false);
+        const user = get(req, ["session", "user"]);
+        if (user) return done(alreadyLoggedIn, false);
 
         // check to see if the user already exists
         const existingUser = await User.findOne({ email });
@@ -38,7 +39,7 @@ passport.use(
   ),
 );
 
-const localLogin = async (req, res, next) => {
+export const localLogin = async (req, res, next) => {
   const { email, password } = req.body;
 
   if (!email || !password) return sendError(badCredentials, res);

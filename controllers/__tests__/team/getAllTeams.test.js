@@ -1,5 +1,4 @@
 import { getAllTeams } from "controllers/team";
-import { mockRequest, mockResponse } from "../../__mocks__/controllers.mocks";
 
 describe("Get All Teams Controller", () => {
   it("handles valid get all teams requests", () => {

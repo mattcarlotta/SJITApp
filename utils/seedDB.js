@@ -10,17 +10,28 @@ const { admin, password } = config[NODE_ENV];
 const seedDB = async () => {
   const db = connectDatabase();
   try {
-    const newPassword = await User.createPassword(password);
+    const adminPassword = await User.createPassword(password);
 
     const administrator = {
       email: admin,
-      password: newPassword,
+      password: adminPassword,
       firstName: "Matt",
       lastName: "Carlotta",
       role: "admin",
     };
 
+    const memberPassword = await User.createPassword(password);
+
+    const member = {
+      email: "member@example.com",
+      password: memberPassword,
+      firstName: "Member",
+      lastName: "Member",
+      role: "member",
+    };
+
     await User.create(administrator);
+    await User.create(member);
     await db.close();
 
     return console.log(

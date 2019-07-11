@@ -1,5 +1,4 @@
 import { getAllSeasons } from "controllers/season";
-import { mockRequest, mockResponse } from "../../__mocks__/controllers.mocks";
 
 describe("Get All Seasons Controller", () => {
   it("handles valid get all seasons requests", () => {

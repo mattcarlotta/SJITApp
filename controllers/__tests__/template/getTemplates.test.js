@@ -1,5 +1,4 @@
 import { getTemplate } from "controllers/template";
-import { mockRequest, mockResponse } from "../../__mocks__/controllers.mocks";
 
 describe("Get Template Controller", () => {
   it("handles valid get template requests", () => {

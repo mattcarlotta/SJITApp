@@ -1,6 +1,5 @@
 import { emailResetToken } from "controllers/auth";
 import { passwordResetToken } from "shared/authSuccess";
-import { mockRequest, mockResponse } from "../../__mocks__/controllers.mocks";
 
 const newUser = {
   email: "test@example.com",

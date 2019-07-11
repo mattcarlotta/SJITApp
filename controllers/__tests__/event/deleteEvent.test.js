@@ -1,5 +1,4 @@
 import { deleteEvent } from "controllers/event";
-import { mockRequest, mockResponse } from "../../__mocks__/controllers.mocks";
 
 describe("Delete Event Controller", () => {
   it("handles valid delete event requests", () => {

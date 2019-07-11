@@ -1,5 +1,4 @@
 import { updateTeam } from "controllers/team";
-import { mockRequest, mockResponse } from "../../__mocks__/controllers.mocks";
 
 describe("Update Team Controller", () => {
   it("handles valid update team requests", () => {

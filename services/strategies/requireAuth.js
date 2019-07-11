@@ -1,9 +1,10 @@
-import isEmpty from "lodash/isEmpty";
+import get from "lodash/get";
 import { badCredentials } from "shared/authErrors";
 
 export default (req, res, next) => {
-  if (isEmpty(req.session.user)) {
-    return res.status(401).send({ err: badCredentials });
-  }
+  const user = get(req, ["session", "user"]);
+
+  if (!user) return res.status(401).send({ err: badCredentials });
+
   next();
 };

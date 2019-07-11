@@ -1,5 +1,4 @@
 import { updateSeason } from "controllers/season";
-import { mockRequest, mockResponse } from "../../__mocks__/controllers.mocks";
 
 describe("Update Season Controller", () => {
   it("handles valid update season requests", () => {

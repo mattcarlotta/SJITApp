@@ -1,5 +1,4 @@
 import { getEvent } from "controllers/event";
-import { mockRequest, mockResponse } from "../../__mocks__/controllers.mocks";
 
 describe("Get Event Controller", () => {
   it("handles valid get event requests", () => {

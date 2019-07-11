@@ -1,5 +1,4 @@
 import { signout } from "controllers/auth";
-import { mockRequest, mockResponse } from "../../__mocks__/controllers.mocks";
 
 const destroy = jest.fn();
 

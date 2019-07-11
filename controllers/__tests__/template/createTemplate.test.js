@@ -1,5 +1,4 @@
 import { deleteTemplate } from "controllers/template";
-import { mockRequest, mockResponse } from "../../__mocks__/controllers.mocks";
 
 describe("Delete Template Controller", () => {
   it("handles valid create template requests", () => {

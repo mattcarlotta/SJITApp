@@ -1,5 +1,4 @@
 import { deleteSeason } from "controllers/season";
-import { mockRequest, mockResponse } from "../../__mocks__/controllers.mocks";
 
 describe("Delete Season Controller", () => {
   it("handles valid delete season requests", () => {

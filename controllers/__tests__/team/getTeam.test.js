@@ -1,5 +1,4 @@
 import { getTeam } from "controllers/team";
-import { mockRequest, mockResponse } from "../../__mocks__/controllers.mocks";
 
 describe("Get Team Controller", () => {
   it("handles valid get team requests", () => {

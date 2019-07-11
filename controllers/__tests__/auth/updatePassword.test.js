@@ -1,6 +1,5 @@
 import { updatePassword } from "controllers/auth";
 import { passwordResetSuccess } from "shared/authSuccess";
-import { mockRequest, mockResponse } from "../../__mocks__/controllers.mocks";
 
 const updateUserPassword = {
   email: "test@example.com",

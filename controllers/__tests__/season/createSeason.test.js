@@ -1,8 +1,12 @@
 import { Season } from "models";
 import { createSeason } from "controllers/season";
-import { mockRequest, mockResponse } from "../../__mocks__/controllers.mocks";
 
 describe("Create Season Controller", () => {
+  let res;
+  beforeEach(() => {
+    res = mockResponse();
+  });
+
   let db;
   beforeAll(() => {
     db = connectDatabase();
@@ -19,7 +23,6 @@ describe("Create Season Controller", () => {
       endDate: "",
     };
 
-    const res = mockResponse();
     const req = mockRequest(null, null, emptyBody);
 
     await createSeason(req, res);
@@ -36,7 +39,6 @@ describe("Create Season Controller", () => {
       endDate: new Date(2020, 7, 6),
     };
 
-    const res = mockResponse();
     const req = mockRequest(null, null, newSeason);
 
     await createSeason(req, res);

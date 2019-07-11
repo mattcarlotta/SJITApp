@@ -2,9 +2,13 @@ import mailer from "@sendgrid/mail";
 import { Token, Season } from "models";
 import { createToken } from "controllers/token";
 import { invalidAuthTokenRequest, invalidSeasonId } from "shared/authErrors";
-import { mockRequest, mockResponse } from "../../__mocks__/controllers.mocks";
 
 describe("Create Token Controller", () => {
+  let res;
+  beforeEach(() => {
+    res = mockResponse();
+  });
+
   let db;
   beforeAll(() => {
     db = connectDatabase();
@@ -21,7 +25,6 @@ describe("Create Token Controller", () => {
       seasonId: "",
     };
 
-    const res = mockResponse();
     const req = mockRequest(null, null, emptyBody);
 
     await createToken(req, res);
@@ -39,7 +42,6 @@ describe("Create Token Controller", () => {
       seasonId: "00000000",
     };
 
-    const res = mockResponse();
     const req = mockRequest(null, null, invalidSeason);
 
     await createToken(req, res);
@@ -64,7 +66,6 @@ describe("Create Token Controller", () => {
       seasonId: newSeason.seasonId,
     };
 
-    const res = mockResponse();
     const req = mockRequest(null, null, newHire);
 
     await createToken(req, res);

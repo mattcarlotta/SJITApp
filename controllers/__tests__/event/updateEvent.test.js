@@ -1,5 +1,4 @@
 import { updateEvent } from "controllers/event";
-import { mockRequest, mockResponse } from "../../__mocks__/controllers.mocks";
 
 describe("Update Event Controller", () => {
   it("handles valid update event requests", () => {

@@ -1,7 +1,6 @@
 import { Token, Season } from "models";
 import { getAllTokens } from "controllers/token";
 import { createSignupToken } from "shared/helpers";
-import { mockRequest, mockResponse } from "../../__mocks__/controllers.mocks";
 
 describe("Get All Tokens Controller", () => {
   let db;

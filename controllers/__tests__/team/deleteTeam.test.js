@@ -1,5 +1,4 @@
 import { deleteTeam } from "controllers/team";
-import { mockRequest, mockResponse } from "../../__mocks__/controllers.mocks";
 
 describe("Delete Team Controller", () => {
   it("handles valid delete team requests", () => {

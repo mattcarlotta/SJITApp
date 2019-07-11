@@ -3,9 +3,13 @@ import { Token, Season } from "models";
 import { deleteToken } from "controllers/token";
 import { invalidDeleteTokenRequest } from "shared/authErrors";
 import { createSignupToken } from "shared/helpers";
-import { mockRequest, mockResponse } from "../../__mocks__/controllers.mocks";
 
 describe("Delete Token Controller", () => {
+  let res;
+  beforeEach(() => {
+    res = mockResponse();
+  });
+
   let db;
   beforeAll(() => {
     db = connectDatabase();
@@ -20,7 +24,6 @@ describe("Delete Token Controller", () => {
       id: "",
     };
 
-    const res = mockResponse();
     const req = mockRequest(null, null, null, null, emptyParams);
 
     await deleteToken(req, res);
@@ -36,7 +39,6 @@ describe("Delete Token Controller", () => {
       id: Types.ObjectId(),
     };
 
-    const res = mockResponse();
     const req = mockRequest(null, null, null, null, invalidId);
 
     await deleteToken(req, res);
@@ -68,7 +70,6 @@ describe("Delete Token Controller", () => {
       authorizedEmail: newHire.authorizedEmail,
     });
 
-    const res = mockResponse();
     const req = mockRequest(null, null, null, null, { id: newToken._id });
 
     await deleteToken(req, res);

@@ -1,5 +1,4 @@
 import { updateTemplate } from "controllers/template";
-import { mockRequest, mockResponse } from "../../__mocks__/controllers.mocks";
 
 describe("Update Template Controller", () => {
   it("handles valid update template requests", () => {
