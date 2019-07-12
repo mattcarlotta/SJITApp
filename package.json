@@ -65,11 +65,23 @@
         "WATCHING": "true",
         "APIPORT": 5001
       }
+    },
+    "testall": {
+      "command": "jest --config ./jest.json --findRelatedTests",
+      "env": {
+        "CLIENT": "http://localhost:5001",
+        "DATABASE": "sjsitapp-test-db",
+        "NODE_ENV": "testing",
+        "WATCHING": "false",
+        "COMMITTING": "true",
+        "APIPORT": 5001
+      }
     }
   },
   "lint-staged": {
     "*.js": [
       "eslint --fix",
+      "better-npm-run testall",
       "git add"
     ]
   },
