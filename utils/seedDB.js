@@ -8,6 +8,15 @@ const { NODE_ENV, WATCHING } = process.env;
 
 const { admin, password } = config[NODE_ENV];
 
+/**
+ * Function to seed the testing Mongo database.
+ *
+ * @function
+ * @async
+ * @returns {string} - displays a:  PASS  utils/seedDB.js message to console.
+ * @throws {error} - displays a:  FAIL  utils/seedDB.js message to console with the error.
+ */
+
 const seedDB = async () => {
   const db = connectDatabase();
   try {

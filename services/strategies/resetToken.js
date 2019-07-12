@@ -18,6 +18,7 @@ passport.use(
       try {
         // create a new token for email reset
         const token = createRandomToken();
+
         // check to see if email exists in the db
         const existingUser = await User.findOne({ email });
         if (!existingUser) return done(missingEmailCreds, false);
