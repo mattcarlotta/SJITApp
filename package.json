@@ -14,6 +14,7 @@
   "scripts": {
     "dev": "better-npm-run dev",
     "db:drop": "better-npm-run db:drop",
+    "db:droptestdb": "better-npm-run db:droptestdb",
     "db:seed": "better-npm-run db:seed",
     "initialize": "yarn install && cd client && yarn install && cd ..",
     "pre-commit": "npm run lint:front --silent && npm run lint:back --silent && npm run test:back && npm run test:front",
@@ -39,6 +40,15 @@
         "CLIENT": "http://localhost:5000",
         "DATABASE": "sjsitapp-dev-db",
         "NODE_ENV": "development",
+        "DROPDB": "true"
+      }
+    },
+    "db:droptestdb": {
+      "command": "node ./utils/globalTeardown.js",
+      "env": {
+        "CLIENT": "http://localhost:5000",
+        "DATABASE": "sjsitapp-test-db",
+        "NODE_ENV": "testing",
         "DROPDB": "true"
       }
     },

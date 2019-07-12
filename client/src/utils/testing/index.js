@@ -17,38 +17,6 @@ const middlewares = applyMiddleware(saga);
 //= =============================================================================//
 
 /**
- * Creates a testing platform to record sagas.
- * @function recordSaga
- * @async
- * @param {object} saga - saga function.
- * @param {object} initialAction - initial action creator.
- * @returns {array} - a record of dispatched actions.
- */
-export const recordSaga = async (saga, initialAction) => {
-	const dispatched = [];
-
-	await runSaga(
-		{
-			dispatch: action => dispatched.push(action),
-		},
-		saga,
-		initialAction,
-	).done;
-
-	return dispatched;
-};
-
-/**
- * Create a testing store with imported reducers, initial state, and middleware(s).
- * @function createStoreFactory
- * @param {object} initialState - Initial store state.
- * @returns {store} - redux store with
- */
-export const createStoreFactory = initialState =>
-	createStore(rootReducer(history), initialState, middlewares);
-saga.run(rootSagas);
-
-/**
  * Factory function to create a ShallowWrapper for a component
  * @function shallowWrap
  * @param {node} Component - Component to be shallowed

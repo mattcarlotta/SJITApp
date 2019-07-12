@@ -9,11 +9,7 @@ const seasonSchema = new Schema({
 });
 
 seasonSchema.statics.addUser = async function AddUser(_id, userId) {
-  try {
-    await this.updateOne({ _id }, { $addToSet: { members: userId } });
-  } catch (error) {
-    throw new Error(error);
-  }
+  await this.updateOne({ _id }, { $addToSet: { members: userId } });
 };
 
 export default model("Season", seasonSchema);

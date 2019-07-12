@@ -34,6 +34,21 @@ describe("Delete Token Controller", () => {
     });
   });
 
+  it("handles invalid ids", async () => {
+    const invalidId = {
+      id: "12345",
+    };
+
+    const req = mockRequest(null, null, null, null, invalidId);
+
+    await deleteToken(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.json).toHaveBeenCalledWith({
+      err: expect.stringContaining("CastError"),
+    });
+  });
+
   it("handles invalid param token ids", async () => {
     const invalidId = {
       id: Types.ObjectId(),

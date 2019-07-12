@@ -21,7 +21,11 @@ const fields = [
 
 describe("Field Updater Helper", () => {
 	it("throws an error if missing required parameters", () => {
+		console.error = jest.fn();
+
 		const nextFields = fieldUpdater();
+
+		expect(console.error).toHaveBeenCalledTimes(1);
 		expect(nextFields).toEqual(
 			"Error: You must supply a field array and name of field to update!",
 		);

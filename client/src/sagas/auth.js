@@ -51,7 +51,7 @@ export function* resetPassword({ props, history }) {
 			}),
 		);
 
-		if (message) yield call(history.push, "/employee/login");
+		yield call(history.push, "/employee/login");
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
@@ -120,7 +120,7 @@ export function* signupUser({ props, history }) {
 			}),
 		);
 
-		if (message) yield call(history.push, "/");
+		yield call(history.push, "/");
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
@@ -149,7 +149,8 @@ export function* updateUserPassword({ props, history }) {
 				message,
 			}),
 		);
-		if (message) yield call(history.push, "/employee/login");
+
+		yield call(history.push, "/employee/login");
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}

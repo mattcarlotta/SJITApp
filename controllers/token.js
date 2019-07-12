@@ -75,13 +75,8 @@ const deleteToken = async (req, res) => {
 };
 
 const getAllTokens = async (req, res) => {
-  try {
-    const tokens = await Token.find({});
-
-    res.status(201).json({ tokens });
-  } catch (err) {
-    return sendError(err, res);
-  }
+  const tokens = await Token.find({});
+  res.status(201).json({ tokens });
 };
 
 export { createToken, deleteToken, getAllTokens };

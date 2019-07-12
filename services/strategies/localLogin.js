@@ -15,26 +15,22 @@ passport.use(
       passReqToCallback: true,
     },
     async (req, email, password, done) => {
-      try {
-        // check to see if user is logged in from another session
-        const user = get(req, ["session", "user"]);
-        if (user) return done(alreadyLoggedIn, false);
+      // check to see if user is logged in from another session
+      const user = get(req, ["session", "user"]);
+      if (user) return done(alreadyLoggedIn, false);
 
-        // check to see if the user already exists
-        const existingUser = await User.findOne({ email });
-        if (!existingUser) return done(badCredentials, false);
+      // check to see if the user already exists
+      const existingUser = await User.findOne({ email });
+      if (!existingUser) return done(badCredentials, false);
 
-        // compare password to existingUser password
-        const validPassword = await bcrypt.compare(
-          password,
-          existingUser.password,
-        );
-        if (!validPassword) return done(badCredentials, false);
+      // compare password to existingUser password
+      const validPassword = await bcrypt.compare(
+        password,
+        existingUser.password,
+      );
+      if (!validPassword) return done(badCredentials, false);
 
-        return done(null, existingUser);
-      } catch (err) {
-        return done(err, false);
-      }
+      return done(null, existingUser);
     },
   ),
 );

@@ -32,6 +32,22 @@ describe("Create Season Controller", () => {
     });
   });
 
+  it("handles invalid body requests", async () => {
+    const emptyBody = {
+      seasonId: { hello: 2001 },
+      startDate: 88,
+      endDate: 99,
+    };
+
+    const req = mockRequest(null, null, emptyBody);
+
+    await createSeason(req, res);
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.json).toHaveBeenCalledWith({
+      err: expect.stringContaining("ValidationError"),
+    });
+  });
+
   it("handles valid create season requests", async () => {
     const newSeason = {
       seasonId: "20192020",

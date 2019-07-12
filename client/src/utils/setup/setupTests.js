@@ -2,13 +2,7 @@ import { JSDOM } from "jsdom";
 import { configure } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 import { sleep } from "utils";
-import {
-	createStoreFactory,
-	HOCWrap,
-	mountWrap,
-	recordSaga,
-	shallowWrap,
-} from "utils/testing";
+import { HOCWrap, mountWrap, shallowWrap } from "utils/testing";
 import mockApp from "utils/__mocks__/mockAxios.js";
 import "jest-styled-components";
 
@@ -30,10 +24,8 @@ global.window = document.defaultView;
 global.HTMLElement = window.HTMLElement;
 global.HTMLAnchorElement = window.HTMLAnchorElement;
 global.sleep = sleep;
-global.createStoreFactory = createStoreFactory;
 global.HOCWrap = HOCWrap;
 global.shallow = shallowWrap;
-// global.recordSaga = recordSaga;
 global.mount = mountWrap;
 global.mockApp = mockApp;
 global.React = require("react");

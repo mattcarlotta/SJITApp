@@ -14,7 +14,7 @@ app.interceptors.response.use(
 	error => {
 		const err = get(error, ["response", "data", "err"]);
 
-		return err ? Promise.reject(err) : Promise.reject(error.message);
+		return Promise.reject(err ? err : error.message);
 	},
 );
 

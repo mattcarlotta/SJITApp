@@ -15,37 +15,33 @@ passport.use(
       usernameField: "email",
     },
     async (email, _, done) => {
-      try {
-        // create a new token for email reset
-        const token = createRandomToken();
+      // create a new token for email reset
+      const token = createRandomToken();
 
-        // check to see if email exists in the db
-        const existingUser = await User.findOne({ email });
-        if (!existingUser) return done(missingEmailCreds, false);
+      // check to see if email exists in the db
+      const existingUser = await User.findOne({ email });
+      if (!existingUser) return done(missingEmailCreds, false);
 
-        // add token to user
-        await User.updateOne({ email }, { $set: { token } });
+      // add token to user
+      await User.updateOne({ email }, { $set: { token } });
 
-        // creates an email template for a password reset
-        const msg = {
-          to: `${existingUser.email}`,
-          from: "San Jose Sharks Ice Team <noreply@sjsiceteam.com>",
-          subject: "Password Reset Confirmation",
-          html: newPasswordTemplate(
-            CLIENT,
-            existingUser.firstName,
-            existingUser.lastName,
-            token,
-          ),
-        };
+      // creates an email template for a password reset
+      const msg = {
+        to: `${existingUser.email}`,
+        from: "San Jose Sharks Ice Team <noreply@sjsiceteam.com>",
+        subject: "Password Reset Confirmation",
+        html: newPasswordTemplate(
+          CLIENT,
+          existingUser.firstName,
+          existingUser.lastName,
+          token,
+        ),
+      };
 
-        // attempts to send a verification email to newly created user
-        await mailer.send(msg);
+      // attempts to send a verification email to newly created user
+      await mailer.send(msg);
 
-        return done(null, existingUser.email);
-      } catch (err) {
-        return done(err, false);
-      }
+      return done(null, existingUser.email);
     },
   ),
 );

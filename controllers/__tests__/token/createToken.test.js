@@ -56,6 +56,23 @@ describe("Create Token Controller", () => {
     });
   });
 
+  it("handles requests with invalid bodies", async () => {
+    const invalidSeason = {
+      authorizedEmail: { email: "test@example.com" },
+      role: "member",
+      seasonId: "20002001",
+    };
+
+    const req = mockRequest(null, null, invalidSeason);
+
+    await createToken(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.json).toHaveBeenCalledWith({
+      err: expect.stringContaining("CastError"),
+    });
+  });
+
   it("handles requests with emails that are already associated with an active account", async () => {
     const emailInUse = {
       authorizedEmail: "member@example.com",

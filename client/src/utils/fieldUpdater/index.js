@@ -23,7 +23,7 @@ export default (fields, name, value) => {
 		);
 		return updatedFields;
 	} catch (err) {
-		if (inDevelopment) console.error(err.toString());
+		console.error(err.toString());
 		return err.toString();
 	}
 };

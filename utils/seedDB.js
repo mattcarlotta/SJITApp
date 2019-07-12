@@ -69,9 +69,19 @@ const seedDB = async () => {
       token: createRandomToken(),
     };
 
+    const member3 = {
+      email: "member3@example.com",
+      password: memberPassword,
+      firstName: "Member3",
+      lastName: "Member3",
+      role: "member",
+      token: createRandomToken(),
+    };
+
     await User.create(administrator);
     await User.create(member);
     await User.create(member2);
+    await User.create(member3);
     await db.close();
 
     return console.log(
