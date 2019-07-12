@@ -18,6 +18,8 @@ const invalidDeleteTokenRequest = "Unable to delete the authorization key. The s
 
 const invalidEmail = "That email is not associated with an active account. Please make sure to supply a valid registered email in order to resend a verification!";
 
+const invalidSignupEmail = "There was a problem authenticating your request. The authorized key that was supplied does not match the staff approved email.";
+
 const invalidPassword = "The current password you've supplied does not match our records. Please try again.";
 
 const invalidSeason = "There was a problem assigning you to a season. If you've already selected a season, but are unable to continue, please contact the webmaster: carlotta.matt@gmail.com.";
@@ -26,7 +28,7 @@ const invalidSeasonId = "Invalid season. The selected season does not exist.";
 
 const invalidToken = "There was a problem authenticating your request. The authorized key and/or email that was supplied was invalid.";
 
-const missingSignupCreds = "Invalid sign up request. You must supply a valid: email, first name, last name, current season, and a token.";
+const missingSignupCreds = "Invalid sign up request. You must supply a valid: authorization key, authorized email, first name, last name and password.";
 
 const missingEmailCreds = "That email is not associated with an active account. Please make sure the email address is spelled correctly.";
 
@@ -60,6 +62,7 @@ export {
   invalidPassword,
   invalidSeason,
   invalidSeasonId,
+  invalidSignupEmail,
   invalidToken,
   missingEmailCreds,
   missingPasswords,

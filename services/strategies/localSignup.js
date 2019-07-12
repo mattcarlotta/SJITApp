@@ -1,16 +1,15 @@
-import { Strategy as LocalStrategy } from "passport-local";
 import passport from "passport";
+import { Strategy as LocalStrategy } from "passport-local";
 import mailer from "@sendgrid/mail";
-import { User, Season, Token } from "models";
 import {
-  emailAlreadyTaken,
-  invalidSeason,
+  invalidSignupEmail,
   invalidToken,
   missingSignupCreds,
   tokenAlreadyUsed,
 } from "shared/authErrors";
 import { createRandomToken, sendError } from "shared/helpers";
 import { newUserTemplate } from "services/templates";
+import { User, Season, Token } from "models";
 
 const { CLIENT } = process.env;
 
@@ -31,19 +30,18 @@ passport.use(
         // check to see if the token is valid and hasn't been used already
         const validToken = await Token.findOne({ token });
         if (!validToken) return done(invalidToken, false);
-        if (validToken.authorized !== email) return done(invalidToken, false);
-        if (validToken.email) return done(tokenAlreadyUsed, false);
+
+        // check to see if authorizedEmail equals supplied email
+        if (validToken.authorizedEmail !== email) return done(invalidSignupEmail, false);
 
         // check to see if the email is already in use
-        const existingUser = await User.findOne({ email });
-        if (existingUser) return done(emailAlreadyTaken, false);
+        if (validToken.email) return done(tokenAlreadyUsed, false);
 
         // TODO: Make sure validToken.seasonId is still valid
         // find currently selected season
         const season = await Season.findOne({
           seasonId: validToken.seasonId,
         });
-        if (!season) return done(invalidSeason, false);
 
         // hash password before attempting to create the user
         const newPassword = await User.createPassword(password);
@@ -81,7 +79,7 @@ passport.use(
   ),
 );
 
-const localSignup = async (req, res, next) => {
+export const localSignup = async (req, res, next) => {
   const {
     email, firstName, lastName, password, token,
   } = req.body;

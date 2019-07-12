@@ -49,7 +49,7 @@ passport.use(
   ),
 );
 
-const resetToken = async (req, res, next) => {
+export const resetToken = async (req, res, next) => {
   const { email } = req.body;
   req.body.password = "reset-password";
 

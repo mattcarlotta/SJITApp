@@ -1,6 +1,7 @@
 import mailer from "@sendgrid/mail";
 import { sendError, createSignupToken } from "shared/helpers";
 import {
+  emailAlreadyTaken,
   invalidAuthTokenRequest,
   invalidDeleteTokenRequest,
   invalidSeasonId,
@@ -20,6 +21,9 @@ const createToken = async (req, res) => {
   try {
     const seasonExists = await Season.findOne({ seasonId });
     if (!seasonExists) return sendError(invalidSeasonId, res);
+
+    const emailExists = await Token.findOne({ authorizedEmail });
+    if (emailExists) return sendError(emailAlreadyTaken, res);
 
     const token = createSignupToken();
     await Token.create({

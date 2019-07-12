@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import { connectDatabase } from "database";
-import { User } from "models";
+import { User, Season, Token } from "models";
+import { createSignupToken, createRandomToken } from "shared/helpers";
 import config from "env";
 
 const { NODE_ENV, WATCHING } = process.env;
@@ -10,6 +11,24 @@ const { admin, password } = config[NODE_ENV];
 const seedDB = async () => {
   const db = connectDatabase();
   try {
+    const newSeason = {
+      seasonId: "20002001",
+      startDate: new Date(2000, 9, 6),
+      endDate: new Date(2001, 7, 6),
+    };
+
+    await Season.create(newSeason);
+
+    const newHire = {
+      authorizedEmail: "member@example.com",
+      email: "member@example.com",
+      role: "member",
+      seasonId: newSeason.seasonId,
+      token: createSignupToken(),
+    };
+
+    await Token.create(newHire);
+
     const adminPassword = await User.createPassword(password);
 
     const administrator = {
@@ -18,6 +37,7 @@ const seedDB = async () => {
       firstName: "Matt",
       lastName: "Carlotta",
       role: "admin",
+      token: createRandomToken(),
     };
 
     const memberPassword = await User.createPassword(password);
@@ -28,10 +48,21 @@ const seedDB = async () => {
       firstName: "Member",
       lastName: "Member",
       role: "member",
+      token: createRandomToken(),
+    };
+
+    const member2 = {
+      email: "member2@example.com",
+      password: memberPassword,
+      firstName: "Member2",
+      lastName: "Member2",
+      role: "member",
+      token: createRandomToken(),
     };
 
     await User.create(administrator);
     await User.create(member);
+    await User.create(member2);
     await db.close();
 
     return console.log(

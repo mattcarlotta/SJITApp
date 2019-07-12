@@ -1,7 +1,11 @@
 import mailer from "@sendgrid/mail";
 import { Token, Season } from "models";
 import { createToken } from "controllers/token";
-import { invalidAuthTokenRequest, invalidSeasonId } from "shared/authErrors";
+import {
+  emailAlreadyTaken,
+  invalidAuthTokenRequest,
+  invalidSeasonId,
+} from "shared/authErrors";
 
 describe("Create Token Controller", () => {
   let res;
@@ -49,6 +53,23 @@ describe("Create Token Controller", () => {
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith({
       err: invalidSeasonId,
+    });
+  });
+
+  it("handles requests with emails that are already associated with an active account", async () => {
+    const emailInUse = {
+      authorizedEmail: "member@example.com",
+      role: "member",
+      seasonId: "20002001",
+    };
+
+    const req = mockRequest(null, null, emailInUse);
+
+    await createToken(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.json).toHaveBeenCalledWith({
+      err: emailAlreadyTaken,
     });
   });
 
