@@ -4,7 +4,7 @@ import { User, Season, Token } from "models";
 import { createSignupToken, createRandomToken } from "shared/helpers";
 import config from "env";
 
-const { COMMITTING, NODE_ENV, WATCHING } = process.env;
+const { NODE_ENV, SEEDING } = process.env;
 
 const { admin, password } = config[NODE_ENV];
 
@@ -82,12 +82,15 @@ const seedDB = async () => {
       `\n\x1b[7m\x1b[31;1m FAIL \x1b[0m \x1b[2mutils/\x1b[0m\x1b[31;1mseedDB.js\x1b[0m\x1b[31m\n${err.toString()}\x1b[0m`,
     );
   } finally {
-    if (!WATCHING && !COMMITTING) {
-      await db.close();
+    if (SEEDING) {
       process.exit(0);
     }
   }
 };
+
+/*
+
+*/
 
 export default seedDB;
 /* eslint-enable no-console */

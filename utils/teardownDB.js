@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { connectDatabase } from "database";
-const { WATCHING, COMMITTING } = process.env;
+const { TESTONCE } = process.env;
 
 /**
  * Function to tear down the testing Mongo database.
@@ -27,8 +27,7 @@ const teardownDB = async () => {
       `\n\x1b[7m\x1b[31;1m FAIL \x1b[0m \x1b[2mutils/\x1b[0m\x1b[31;1mteardownDB.js\x1b[0m\x1b[31m\n${err.toString()}\x1b[0m`,
     );
   } finally {
-    if (!WATCHING && !COMMITTING) {
-      await db.close();
+    if (TESTONCE) {
       process.exit(0);
     }
   }

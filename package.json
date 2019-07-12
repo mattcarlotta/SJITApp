@@ -21,9 +21,13 @@
     "lint": "npm run lint-front --silent && npm run lint-back --silent",
     "lint:front": "npm run pre-commit --prefix client",
     "lint:back": "lint-staged",
-    "test": "better-npm-run test",
+    "test": "npm run test:back && npm run test --prefix client",
+    "test:back": "better-npm-run test:back",
+    "test:backcov": "better-npm-run test:backcov",
+    "test:backwatch": "better-npm-run test:backwatch",
     "test:front": "npm run test --prefix client",
-    "test:frontcov": "npm run test:coverage --prefix client"
+    "test:frontcov": "npm run test:coverage --prefix client",
+    "test:frontwatch": "npm run test:watch --prefix client"
   },
   "betterScripts": {
     "dev": {
@@ -56,24 +60,32 @@
         "APIPORT": 5000
       }
     },
-    "test": {
+    "test:back": {
+      "command": "jest --config ./jest.json",
+      "env": {
+        "CLIENT": "http://localhost:5001",
+        "DATABASE": "sjsitapp-test-db",
+        "NODE_ENV": "testing",
+        "TESTONCE": "true",
+        "APIPORT": 5001
+      }
+    },
+    "test:backcov": {
+      "command": "jest --config ./jest.json --coverage",
+      "env": {
+        "CLIENT": "http://localhost:5001",
+        "DATABASE": "sjsitapp-test-db",
+        "NODE_ENV": "testing",
+        "TESTONCE": "true",
+        "APIPORT": 5001
+      }
+    },
+    "test:backwatch": {
       "command": "jest --config ./jest.json --passWithNoTests --watchAll",
       "env": {
         "CLIENT": "http://localhost:5001",
         "DATABASE": "sjsitapp-test-db",
         "NODE_ENV": "testing",
-        "WATCHING": "true",
-        "APIPORT": 5001
-      }
-    },
-    "testall": {
-      "command": "jest --config ./jest.json --findRelatedTests",
-      "env": {
-        "CLIENT": "http://localhost:5001",
-        "DATABASE": "sjsitapp-test-db",
-        "NODE_ENV": "testing",
-        "WATCHING": "false",
-        "COMMITTING": "true",
         "APIPORT": 5001
       }
     }
@@ -81,13 +93,12 @@
   "lint-staged": {
     "*.js": [
       "eslint --fix",
-      "better-npm-run testall",
       "git add"
     ]
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint:front --silent && npm run lint:back --silent"
+      "pre-commit": "npm run lint:front --silent && npm run lint:back --silent && npm run test:back && npm run test:front"
     }
   },
   "dependencies": {

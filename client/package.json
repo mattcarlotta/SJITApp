@@ -16,6 +16,7 @@
 		"initialize": "yarn install",
 		"build": "better-npm-run build",
 		"test": "better-npm-run test",
+		"test:watch": "better-npm-run test:watch",
 		"test:coverage": "better-npm-run test:coverage",
 		"format": "prettier --write 'src/**/*.js'",
 		"lintjs": "eslint 'src/**/*.js' --fix",
@@ -39,13 +40,19 @@
 			}
 		},
 		"test": {
-			"command": "jest --config ./jest.json --watchAll",
+			"command": "jest --config ./jest.json",
 			"env": {
 				"NODE_ENV": "testing"
 			}
 		},
 		"test:coverage": {
 			"command": "jest --config ./jest.json --coverage",
+			"env": {
+				"NODE_ENV": "testing"
+			}
+		},
+		"test:watch": {
+			"command": "jest --config ./jest.json --watchAll",
 			"env": {
 				"NODE_ENV": "testing"
 			}
