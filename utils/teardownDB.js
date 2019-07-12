@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { connectDatabase } from "database";
-const { TESTONCE } = process.env;
+const { DROPDB } = process.env;
 
 /**
  * Function to tear down the testing Mongo database.
@@ -27,11 +27,13 @@ const teardownDB = async () => {
       `\n\x1b[7m\x1b[31;1m FAIL \x1b[0m \x1b[2mutils/\x1b[0m\x1b[31;1mteardownDB.js\x1b[0m\x1b[31m\n${err.toString()}\x1b[0m`,
     );
   } finally {
-    if (TESTONCE) {
+    if (DROPDB) {
       process.exit(0);
     }
   }
 };
+
+if (DROPDB) teardownDB();
 
 export default teardownDB;
 /* eslint-enable no-console */

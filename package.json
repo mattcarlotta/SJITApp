@@ -13,6 +13,8 @@
   },
   "scripts": {
     "dev": "better-npm-run dev",
+    "db:drop": "better-npm-run db:drop",
+    "db:seed": "better-npm-run db:seed",
     "initialize": "yarn install && cd client && yarn install && cd ..",
     "start": "better-npm-run start",
     "server": "better-npm-run server",
@@ -30,6 +32,24 @@
     "test:frontwatch": "npm run test:watch --prefix client"
   },
   "betterScripts": {
+    "db:drop": {
+      "command": "node ./utils/globalTeardown.js",
+      "env": {
+        "CLIENT": "http://localhost:5000",
+        "DATABASE": "sjsitapp-dev-db",
+        "NODE_ENV": "development",
+        "DROPDB": "true"
+      }
+    },
+    "db:seed": {
+      "command": "node ./utils/globalSetup.js",
+      "env": {
+        "CLIENT": "http://localhost:5000",
+        "DATABASE": "sjsitapp-dev-db",
+        "NODE_ENV": "development",
+        "SEED": "true"
+      }
+    },
     "dev": {
       "command": "concurrently \"better-npm-run server\" \"npm run client\"",
       "env": {
@@ -66,7 +86,7 @@
         "CLIENT": "http://localhost:5001",
         "DATABASE": "sjsitapp-test-db",
         "NODE_ENV": "testing",
-        "TESTONCE": "true",
+        "DROPDB": "true",
         "APIPORT": 5001
       }
     },
@@ -76,7 +96,7 @@
         "CLIENT": "http://localhost:5001",
         "DATABASE": "sjsitapp-test-db",
         "NODE_ENV": "testing",
-        "TESTONCE": "true",
+        "DROPDB": "true",
         "APIPORT": 5001
       }
     },
