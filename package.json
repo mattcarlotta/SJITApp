@@ -16,6 +16,7 @@
     "db:drop": "better-npm-run db:drop",
     "db:seed": "better-npm-run db:seed",
     "initialize": "yarn install && cd client && yarn install && cd ..",
+    "pre-commit": "npm run lint:front --silent && npm run lint:back --silent && npm run test:back && npm run test:front",
     "start": "better-npm-run start",
     "server": "better-npm-run server",
     "client": "npm run dev --prefix client",
@@ -118,7 +119,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint:front --silent && npm run lint:back --silent && npm run test:back && npm run test:front"
+      "pre-commit": "npm run pre-commit"
     }
   },
   "dependencies": {
