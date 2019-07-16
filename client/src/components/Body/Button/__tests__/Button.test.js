@@ -31,7 +31,7 @@ describe("Styled Button", () => {
 		expect(StyledButton).toHaveStyleRule("color", "#04515d", {
 			modifier: ":hover",
 		});
-		expect(StyledButton).toHaveStyleRule("background-color", "#F9F9F9", {
+		expect(StyledButton).toHaveStyleRule("background-color", "#d8d8d8", {
 			modifier: ":hover",
 		});
 		expect(StyledButton).toHaveStyleRule("border", "2px solid transparent", {

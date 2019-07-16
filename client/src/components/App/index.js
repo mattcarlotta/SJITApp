@@ -1,33 +1,46 @@
-import React from "react";
-// import PropTypes from 'prop-types';
-import { FaBars } from "react-icons/fa";
-import { Layout, Icon } from "antd";
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+
+import { Layout } from "antd";
 // import { Switch, Route } from 'react-router-dom';
 import { Title } from "components/Body";
-import { RightMenu, SideMenu } from "components/Navigation";
+import { LeftMenu, RightMenu, SideMenu } from "components/Navigation";
 
-const App = ({ firstName, lastName }) => (
-	<Layout>
-		<SideMenu />
-		<Layout>
-			<Layout.Header style={{ background: "#fff", padding: 0 }}>
-				<FaBars />
-				<RightMenu />
-			</Layout.Header>
-			<Layout.Content>
-				<Title>
-					Welcome {firstName}
-					{lastName}!
-				</Title>
-			</Layout.Content>
-		</Layout>
-	</Layout>
-);
+class App extends Component {
+	state = {
+		isCollapsed: false,
+	};
 
-// App.propTypes = {
-//   collapseSideNav: PropTypes.bool.isRequired,
-//   saveSidebarState: PropTypes.func.isRequired,
-//   children: PropTypes.node,
-// };
+	toggleSideMenu = () =>
+		this.setState(prevState => ({
+			isCollapsed: !prevState.isCollapsed,
+		}));
+
+	render = () => {
+		const { isCollapsed } = this.state;
+
+		return (
+			<Layout>
+				<SideMenu isCollapsed={isCollapsed} />{" "}
+				<Layout>
+					<Layout.Header>
+						<LeftMenu toggleSideMenu={this.toggleSideMenu} />{" "}
+						<RightMenu {...this.props} />{" "}
+					</Layout.Header>{" "}
+					<Layout.Content>
+						<Title>
+							Welcome {this.props.firstName} {this.props.lastName}!
+						</Title>{" "}
+					</Layout.Content>{" "}
+				</Layout>{" "}
+			</Layout>
+		);
+	};
+}
+
+App.propTypes = {
+	firstName: PropTypes.string.isRequired,
+	lastName: PropTypes.string.isRequired,
+};
 
 export default App;

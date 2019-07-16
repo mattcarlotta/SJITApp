@@ -39,7 +39,7 @@ const Button = styled(StyledButton)`
 		background-color: ${props => {
 			if (props.primary) return "#04515d";
 			if (props.danger) return "#d24b2e";
-			return "#F9F9F9";
+			return "#d8d8d8";
 		}};
 		border: 2px solid
 			${props => {

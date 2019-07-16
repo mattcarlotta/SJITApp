@@ -1,6 +1,8 @@
 # vs code
 .vscode
 .vscode/
+*microsoft.gpg
+
 
 # Mac OS BS
 *.DS_Store

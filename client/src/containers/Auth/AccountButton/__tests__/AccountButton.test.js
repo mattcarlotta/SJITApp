@@ -13,11 +13,18 @@ describe("Account Button", () => {
 	});
 
 	it("renders without errors", () => {
-		expect(wrapper.find("Button").exists()).toBeTruthy();
+		expect(wrapper.find("AccountButton").exists()).toBeTruthy();
 	});
 
 	it("signs out the user when clicked", () => {
-		wrapper.find("button").simulate("click");
+		wrapper
+			.find("Dropdown")
+			.at(0)
+			.simulate("click");
+		wrapper
+			.find("button")
+			.at(1)
+			.simulate("click");
 
 		expect(signoutUser).toHaveBeenCalled();
 	});

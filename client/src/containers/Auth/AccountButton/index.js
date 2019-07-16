@@ -1,19 +1,36 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { FaSignOutAlt } from "react-icons/fa";
+import { Menu, Dropdown } from "antd";
+import { FaUserCircle, FaSignOutAlt } from "react-icons/fa";
 import { signoutUser } from "actions/auth";
-import { Button } from "components/Body";
+import { Float, MenuButton } from "components/Body";
 
-export const AccountButton = ({ signoutUser }) => (
-	<Button
-		style={{ height: "63px", marginRight: "45px", fontSize: "21px" }}
-		padding="0"
-		onClick={signoutUser}
-	>
-		<FaSignOutAlt />
-	</Button>
-);
+export const AccountButton = ({ firstName, lastName, signoutUser }) => {
+	const options = (
+		<Menu style={{ padding: 0 }}>
+			<Menu.Item>
+				<MenuButton height="30px" onClick={signoutUser}>
+					<Float direction="left" style={{ paddingLeft: 10 }}>
+						<FaSignOutAlt />
+					</Float>
+					<Float direction="right">Logout</Float>
+				</MenuButton>
+			</Menu.Item>
+		</Menu>
+	);
+
+	return (
+		<Dropdown overlay={options} trigger={["click"]} placement="bottomRight">
+			<MenuButton hoverable style={{ marginRight: 38 }}>
+				<FaUserCircle style={{ position: "relative", top: 3 }} />
+				<span style={{ marginLeft: 10 }}>
+					{firstName} {lastName}
+				</span>
+			</MenuButton>
+		</Dropdown>
+	);
+};
 
 AccountButton.propTypes = {
 	signoutUser: PropTypes.func.isRequired,

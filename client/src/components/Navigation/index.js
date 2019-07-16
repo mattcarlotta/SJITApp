@@ -1,5 +1,6 @@
 export { default as Header } from "./Header";
 export { default as Link } from "./Link";
+export { default as LeftMenu } from "./LeftMenu";
 export { default as Nav } from "./Nav";
 export { default as NavBar } from "./NavBar";
 export { default as NavBarContainer } from "./NavBarContainer";
