@@ -7,7 +7,15 @@ import { LeftMenu, RightMenu, SideMenu } from "components/Navigation";
 const Header = Layout.Header;
 const Content = Layout.Content;
 
-const TABS = ["dashboard", "games", "forms", "schedule", "settings"];
+const TABS = [
+	"dashboard",
+	"games",
+	"forms",
+	"schedule",
+	"seasons/new",
+	"seasons/members",
+	"settings",
+];
 
 const selectedTab = path => TABS.filter(tab => path.indexOf(tab) >= 1);
 

@@ -28,22 +28,25 @@ export class ProtectedRoutes extends PureComponent {
 				{!role || role === "guest" ? (
 					<Switch>
 						<Route
-							path={`${match.url}/login`}
-							render={props => <AppLoader {...this.props} {...props} />}
-						/>
-						<Route
+							exact
 							path={`${match.url}/newpassword`}
 							render={props => <NewPasswordForm {...this.props} {...props} />}
 						/>
 						<Route
+							exact
 							path={`${match.url}/resetpassword`}
 							render={props => <ResetPasswordForm {...this.props} {...props} />}
 						/>
 						<Route
+							exact
 							path={`${match.url}/signup`}
 							render={props => <SignupForm {...this.props} {...props} />}
 						/>
-						<Redirect from={`${match.url}`} to={`${match.url}/login`} />
+						<Route
+							path={`${match.url}`}
+							render={props => <AppLoader {...this.props} {...props} />}
+						/>
+						{/* <Redirect from={`${match.url}`} to={`${match.url}/login`} /> */}
 					</Switch>
 				) : (
 					<App {...this.props} />

@@ -18,6 +18,7 @@ const initProps = {
 	onChange,
 	onFocus,
 	placeholder: "Enter a password...",
+	readOnly: false,
 	tooltip: "",
 	type: "text",
 	value: "",
@@ -36,14 +37,14 @@ describe("Input", () => {
 	it("displays a Font Awesome icon by a string type", () => {
 		wrapper.setProps({ icon: "key" });
 
-		expect(wrapper.find("span.icon").exists()).toBeTruthy();
+		expect(wrapper.find("i.icon").exists()).toBeTruthy();
 		expect(wrapper.find("FaKey").exists()).toBeTruthy();
 	});
 
 	it("displays a Font Awesome bug if 'icon' prop is invalid", () => {
 		wrapper.setProps({ icon: "notype" });
 
-		expect(wrapper.find("span.icon").exists()).toBeTruthy();
+		expect(wrapper.find("i.icon").exists()).toBeTruthy();
 		expect(wrapper.find("FaBug").exists()).toBeTruthy();
 	});
 

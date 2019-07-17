@@ -5,7 +5,9 @@ import { createStore, applyMiddleware } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension/developmentOnly";
 import { createBrowserHistory } from "history";
 import createSagaMiddleware from "redux-saga";
-// import thunk from "redux-thunk";
+import { LocaleProvider } from "antd";
+import enUS from "antd/lib/locale-provider/en_US";
+
 import createRootReducer from "reducers";
 import rootSagas from "sagas";
 import Routes from "routes";
@@ -22,11 +24,13 @@ export const store = createStore(
 saga.run(rootSagas);
 
 const Root = () => (
-	<Provider store={store}>
-		<ConnectedRouter history={history}>
-			<Routes />
-		</ConnectedRouter>
-	</Provider>
+	<LocaleProvider locale={enUS}>
+		<Provider store={store}>
+			<ConnectedRouter history={history}>
+				<Routes />
+			</ConnectedRouter>
+		</Provider>
+	</LocaleProvider>
 );
 
 export default Root;

@@ -1,8 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Tooltip } from "antd";
-import { FaUserCircle, FaLock, FaBug, FaEnvelope, FaKey } from "react-icons/fa";
-import { GoQuestion } from "react-icons/go";
+import {
+	FaUserCircle,
+	FaLock,
+	FaBug,
+	FaEnvelope,
+	FaKey,
+	FaCalendarAlt,
+	FaIdCard,
+} from "react-icons/fa";
 import { Label } from "components/Body";
 import { Errors } from "components/Forms";
 
@@ -16,6 +22,10 @@ const iconType = type => {
 			return <FaEnvelope />;
 		case "user":
 			return <FaUserCircle />;
+		case "calander":
+			return <FaCalendarAlt />;
+		case "id":
+			return <FaIdCard />;
 		default:
 			return <FaBug />;
 	}
@@ -35,6 +45,7 @@ const Input = ({
 	onChange,
 	onFocus,
 	placeholder,
+	readOnly,
 	type,
 	tooltip,
 	value,
@@ -50,21 +61,9 @@ const Input = ({
 				.join(" ")}
 		>
 			{label && (
-				<Label htmlFor={name}>
-					{label}
-					{tooltip && (
-						<span className="tooltip">
-							<Tooltip
-								placement="top"
-								title={<span style={{ textAlign: "center" }}>{tooltip}</span>}
-							>
-								<GoQuestion />
-							</Tooltip>
-						</span>
-					)}
-				</Label>
+				<Label name={name} label={label} tooltip={tooltip} htmlFor={name} />
 			)}
-			{icon && <span className="icon">{iconType(icon)}</span>}
+			{icon && <i className="icon">{iconType(icon)}</i>}
 			<input
 				type={type}
 				name={name}
@@ -74,7 +73,8 @@ const Input = ({
 				placeholder={placeholder}
 				value={value}
 				style={inputStyle}
-				disabled={disabled || false}
+				disabled={disabled}
+				readOnly={readOnly}
 			/>
 			{errors && <Errors>{errors}</Errors>}
 		</div>
@@ -92,12 +92,19 @@ Input.propTypes = {
 	label: PropTypes.string,
 	name: PropTypes.string,
 	onBlur: PropTypes.func,
-	onChange: PropTypes.func.isRequired,
+	onChange: PropTypes.func,
 	onFocus: PropTypes.func,
 	placeholder: PropTypes.string,
+	readOnly: PropTypes.bool,
 	tooltip: PropTypes.string,
 	type: PropTypes.string,
 	value: PropTypes.string,
+};
+
+Input.defaultProps = {
+	disabled: false,
+	isFocused: false,
+	readyOnly: false,
 };
 
 export default Input;

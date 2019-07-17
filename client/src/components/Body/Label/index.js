@@ -1,6 +1,7 @@
 import styled from "styled-components";
+import Label from "./Label";
 
-const Label = styled.label`
+const StyledLabel = styled(Label)`
 	color: #282c34;
 	display: block;
 	margin-bottom: 15px;
@@ -9,4 +10,4 @@ const Label = styled.label`
 	font-size: 20px;
 `;
 
-export default Label;
+export default StyledLabel;

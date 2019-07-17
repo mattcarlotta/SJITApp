@@ -1,19 +1,44 @@
-import React from "react";
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { Layout, Menu, Icon } from "antd";
-import { FaThLarge, FaClock, FaFileSignature, FaCogs } from "react-icons/fa";
+import {
+	FaThLarge,
+	FaClock,
+	FaFileSignature,
+	FaCogs,
+	FaCalendarAlt,
+	FaCalendarPlus,
+	FaUsers,
+} from "react-icons/fa";
 import SharksLogo from "images/sharksLogo.svg";
 import HockeySticks from "images/hockeySticks";
 import { Center, Tab, Title } from "components/Body";
 
 const Sider = Layout.Sider;
 const MenuItem = Menu.Item;
+const SubMenu = Menu.SubMenu;
 
 const tabs = [
 	{ component: FaThLarge, tab: "dashboard" },
 	{ component: HockeySticks, tab: "games" },
 	{ component: FaFileSignature, tab: "forms" },
 	{ component: FaClock, tab: "schedule" },
+	{
+		component: FaCalendarAlt,
+		tab: "seasons",
+		options: [
+			{
+				key: "seasons/new",
+				component: FaCalendarPlus,
+				tab: "New Season",
+			},
+			{
+				key: "seasons/members",
+				component: FaUsers,
+				tab: "Members",
+			},
+		],
+	},
 	{ component: FaCogs, tab: "settings" },
 ];
 
@@ -34,12 +59,31 @@ const SideMenu = ({ isCollapsed, onHandleTabClick, selectedKey }) => (
 			selectedKeys={selectedKey}
 			onSelect={onHandleTabClick}
 		>
-			{tabs.map(({ component, tab }) => (
-				<MenuItem key={tab}>
-					<Icon component={component} />
-					<Tab>{tab}</Tab>
-				</MenuItem>
-			))}
+			{tabs.map(({ component, tab, options }) =>
+				!options ? (
+					<MenuItem key={tab}>
+						<Icon component={component} />
+						<Tab>{tab}</Tab>
+					</MenuItem>
+				) : (
+					<SubMenu
+						key={tab}
+						title={
+							<Fragment>
+								<Icon component={component} />
+								<Tab>{tab}</Tab>
+							</Fragment>
+						}
+					>
+						{options.map(({ component, tab, key }) => (
+							<MenuItem key={key}>
+								<Icon component={component} />
+								<Tab>{tab}</Tab>
+							</MenuItem>
+						))}
+					</SubMenu>
+				),
+			)}
 		</Menu>
 	</Sider>
 );

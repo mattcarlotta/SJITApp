@@ -22,7 +22,7 @@ const StyledInput = styled(Input)`
 
 	input {
 		position: relative;
-		padding: ${({ icon }) => (icon ? "14px 0 14px 48px" : "14px 0 14px 17px")};
+		padding: ${({ icon }) => `14px 0 14px ${icon ? 48 : 17}px`};
 		width: 100%;
 		font-size: 18px;
 		background: #fff;
