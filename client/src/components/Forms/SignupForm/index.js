@@ -90,18 +90,13 @@ class SignupForm extends Component {
 
 		this.setState({ fields: validatedFields, isSubmitting: !errors }, () => {
 			const { fields: formFields } = this.state;
-			const {
-				hideServerMessage,
-				history,
-				signupUser,
-				serverMessage,
-			} = this.props;
+			const { hideServerMessage, signupUser, serverMessage } = this.props;
 
 			if (!errors) {
 				const signupFields = parseFields(formFields);
 
 				if (serverMessage) hideServerMessage();
-				setTimeout(() => signupUser(signupFields, history), 350);
+				setTimeout(() => signupUser(signupFields), 350);
 			}
 		});
 	};

@@ -1,21 +1,18 @@
 import * as types from "types";
 import * as actions from "actions/auth";
 
-const history = {};
-
 describe("Authentication Actions", () => {
 	it("returns USER_SIGNIN_SESSION", () => {
 		const value = actions.authenticateUser();
 		expect(value).toEqual({ type: types.USER_SIGNIN_SESSION });
 	});
 
-	it("returns USER_PASSWORD_RESET with props and history", () => {
+	it("returns USER_PASSWORD_RESET with props", () => {
 		const props = { email: "test@example.com" };
-		const value = actions.resetPassword(props, history);
+		const value = actions.resetPassword(props);
 		expect(value).toEqual({
 			type: types.USER_PASSWORD_RESET,
 			props,
-			history,
 		});
 	});
 
@@ -66,7 +63,7 @@ describe("Authentication Actions", () => {
 		expect(value).toEqual({ type: types.USER_SIGNOUT });
 	});
 
-	it("returns USER_SIGNUP with props and history", () => {
+	it("returns USER_SIGNUP with props", () => {
 		const props = {
 			token: "88",
 			email: "test@example.com",
@@ -74,26 +71,24 @@ describe("Authentication Actions", () => {
 			lastName: "Example",
 			password: "password",
 		};
-		const value = actions.signupUser(props, history);
+		const value = actions.signupUser(props);
 
 		expect(value).toEqual({
 			type: types.USER_SIGNUP,
 			props,
-			history,
 		});
 	});
 
-	it("returns USER_PASSWORD_UPDATE with props and history", () => {
+	it("returns USER_PASSWORD_UPDATE with props", () => {
 		const props = {
 			token: "88",
 			password: "password",
 		};
-		const value = actions.updateUserPassword(props, history);
+		const value = actions.updateUserPassword(props);
 
 		expect(value).toEqual({
 			type: types.USER_PASSWORD_UPDATE,
 			props,
-			history,
 		});
 	});
 });

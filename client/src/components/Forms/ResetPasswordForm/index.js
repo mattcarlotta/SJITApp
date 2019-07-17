@@ -16,7 +16,7 @@ class ResetPasswordForm extends Component {
 				icon: "mail",
 				value: "",
 				errors: "",
-				required: true
+				required: true,
 			},
 		],
 		isFocused: "",
@@ -43,18 +43,13 @@ class ResetPasswordForm extends Component {
 
 		this.setState({ fields: validatedFields, isSubmitting: !errors }, () => {
 			const { fields: formFields } = this.state;
-			const {
-				hideServerMessage,
-				history,
-				resetPassword,
-				serverMessage,
-			} = this.props;
+			const { hideServerMessage, resetPassword, serverMessage } = this.props;
 
 			if (!errors) {
 				const resetPasswordFields = parseFields(formFields);
 
 				if (serverMessage) hideServerMessage();
-				setTimeout(() => resetPassword(resetPasswordFields, history), 350);
+				setTimeout(() => resetPassword(resetPasswordFields), 350);
 			}
 		});
 	};

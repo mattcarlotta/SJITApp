@@ -1,5 +1,5 @@
+import { push } from "connected-react-router";
 import { expectSaga, testSaga } from "redux-saga-test-plan";
-import { call, put } from "redux-saga/effects";
 import { app } from "utils";
 import * as actions from "actions/auth";
 import { setServerMessage } from "actions/messages";
@@ -8,10 +8,6 @@ import * as mocks from "sagas/__mocks__/sagas.mocks";
 import authReducer from "reducers/auth";
 import messageReducer from "reducers/messages";
 import { parseData, parseMessage } from "utils/parseResponse";
-
-const history = {
-	push: jest.fn(),
-};
 
 describe("Auth Sagas", () => {
 	afterEach(() => {
@@ -103,7 +99,7 @@ describe("Auth Sagas", () => {
 			const message = "Successfully changed password.";
 			const res = { data: { message } };
 
-			testSaga(sagas.resetPassword, { props, history })
+			testSaga(sagas.resetPassword, { props })
 				.next()
 				.call(app.put, "reset-password", { ...mocks.resetPassword })
 				.next(res)
@@ -111,7 +107,7 @@ describe("Auth Sagas", () => {
 				.next(res.data.message)
 				.put(setServerMessage({ type: "info", message: res.data.message }))
 				.next(res.data.message)
-				.call(history.push, "/employee/login")
+				.put(push("/employee/login"))
 				.next()
 				.isDone();
 		});
@@ -121,7 +117,7 @@ describe("Auth Sagas", () => {
 				"An password reset email has been sent to test@example.com.";
 			mockApp.onPut("reset-password").reply(200, { message });
 
-			return expectSaga(sagas.resetPassword, { props, history })
+			return expectSaga(sagas.resetPassword, { props })
 				.dispatch(actions.resetPassword)
 				.withReducer(messageReducer)
 				.hasFinalState({
@@ -136,7 +132,7 @@ describe("Auth Sagas", () => {
 			const err = "Unable to automatically sign in";
 			mockApp.onPut("reset-password").reply(404, { err });
 
-			return expectSaga(sagas.resetPassword, { props, history })
+			return expectSaga(sagas.resetPassword, { props })
 				.dispatch(actions.resetPassword)
 				.withReducer(messageReducer)
 				.hasFinalState({
@@ -202,6 +198,8 @@ describe("Auth Sagas", () => {
 				.next()
 				.put(actions.signout())
 				.next()
+				.put(push("/employee/login"))
+				.next()
 				.isDone();
 		});
 
@@ -247,15 +245,15 @@ describe("Auth Sagas", () => {
 			const message = "Welcome to the Ice Team!";
 			const res = { data: { message } };
 
-			testSaga(sagas.signupUser, { props, history })
+			testSaga(sagas.signupUser, { props })
 				.next()
 				.call(app.post, "signup", { ...props })
 				.next(res)
 				.call(parseMessage, res)
 				.next(res.data.message)
 				.put(setServerMessage({ type: "success", message: res.data.message }))
-				.next(res.data.message)
-				.call(history.push, "/")
+				.next()
+				.put(push("/employee/login"))
 				.next()
 				.isDone();
 		});
@@ -264,7 +262,7 @@ describe("Auth Sagas", () => {
 			const message = "Welcome to the Ice Team!";
 			mockApp.onPost("signup").reply(200, { message });
 
-			return expectSaga(sagas.signupUser, { props, history })
+			return expectSaga(sagas.signupUser, { props })
 				.dispatch(actions.signupUser)
 				.withReducer(messageReducer)
 				.hasFinalState({
@@ -279,7 +277,7 @@ describe("Auth Sagas", () => {
 			const err = "Unable to sign up.";
 			mockApp.onPost("signup").reply(404, { err });
 
-			return expectSaga(sagas.signupUser, { props, history })
+			return expectSaga(sagas.signupUser, { props })
 				.dispatch(actions.signupUser)
 				.withReducer(messageReducer)
 				.hasFinalState({
@@ -301,15 +299,15 @@ describe("Auth Sagas", () => {
 			const message = "Your password has been reset!";
 			const res = { data: { message } };
 
-			testSaga(sagas.updateUserPassword, { props, history })
+			testSaga(sagas.updateUserPassword, { props })
 				.next()
 				.call(app.put, "new-password", { ...props })
 				.next(res)
 				.call(parseMessage, res)
 				.next(res.data.message)
 				.put(setServerMessage({ type: "success", message: res.data.message }))
-				.next(res.data.message)
-				.call(history.push, "/employee/login")
+				.next()
+				.put(push("/employee/login"))
 				.next()
 				.isDone();
 		});
@@ -318,7 +316,7 @@ describe("Auth Sagas", () => {
 			const message = "Your password has been reset!";
 			mockApp.onPut("new-password").reply(200, { message });
 
-			return expectSaga(sagas.updateUserPassword, { props, history })
+			return expectSaga(sagas.updateUserPassword, { props })
 				.dispatch(actions.updateUserPassword)
 				.withReducer(messageReducer)
 				.hasFinalState({
@@ -333,7 +331,7 @@ describe("Auth Sagas", () => {
 			const err = "Unable to update your password.";
 			mockApp.onPut("new-password").reply(404, { err });
 
-			return expectSaga(sagas.updateUserPassword, { props, history })
+			return expectSaga(sagas.updateUserPassword, { props })
 				.dispatch(actions.updateUserPassword)
 				.withReducer(messageReducer)
 				.hasFinalState({

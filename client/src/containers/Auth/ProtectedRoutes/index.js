@@ -1,5 +1,6 @@
 import React, { Fragment, PureComponent } from "react";
 import PropTypes from "prop-types";
+import { push } from "connected-react-router";
 import { connect } from "react-redux";
 import { Redirect, Route, Switch } from "react-router-dom";
 import App from "components/App";
@@ -64,6 +65,7 @@ ProtectedRoutes.propTypes = {
 		path: PropTypes.string,
 		url: PropTypes.string,
 	}).isRequired,
+	push: PropTypes.func,
 	resetPassword: PropTypes.func.isRequired,
 	role: PropTypes.string,
 	signinUser: PropTypes.func.isRequired,
@@ -83,6 +85,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
 	authenticateUser,
 	hideServerMessage,
+	push,
 	resetPassword,
 	signinUser,
 	signupUser,

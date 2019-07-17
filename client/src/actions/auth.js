@@ -17,13 +17,11 @@ export const authenticateUser = () => ({
  *
  * @function resetPassword
  * @param {object} props - props just contain an email field.
- * @param {object} history
  * @returns {object}
  */
-export const resetPassword = (props, history) => ({
+export const resetPassword = props => ({
 	type: types.USER_PASSWORD_RESET,
 	props,
-	history,
 });
 
 /**
@@ -75,13 +73,11 @@ export const signout = () => ({
  *
  * @function authSagas
  * @param {object} props - contains a token, an email, first/last name, and a password.
- * @param {object} history
  * @returns {object}
  */
-export const signupUser = (props, history) => ({
+export const signupUser = props => ({
 	type: types.USER_SIGNUP,
 	props,
-	history,
 });
 
 /**
@@ -89,11 +85,9 @@ export const signupUser = (props, history) => ({
  *
  * @function authSagas
  * @param {object} props - contains a token and new password fields.
- * @param {object} history
  * @returns {object}
  */
-export const updateUserPassword = (props, history) => ({
+export const updateUserPassword = props => ({
 	type: types.USER_PASSWORD_UPDATE,
 	props,
-	history,
 });

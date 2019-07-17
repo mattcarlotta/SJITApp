@@ -1,4 +1,4 @@
-import get from "lodash/get";
+import { push } from "connected-react-router";
 import { all, put, call, takeLatest } from "redux-saga/effects";
 import { app } from "utils";
 import { signin, signout } from "actions/auth";
@@ -33,13 +33,12 @@ export function* authenticateUser() {
  * @generator
  * @function resetPassword
  * @param {object} props - props just contain an email field.
- * @param {object} history
  * @yields {object} - A response from a call to the API.
  * @function parseMessage - Returns a parsed res.data.message.
  * @yields {action} - A redux action to display a server message by type.
  * @throws {action} - A redux action to display a server message by type.
  */
-export function* resetPassword({ props, history }) {
+export function* resetPassword({ props }) {
 	try {
 		const res = yield call(app.put, "reset-password", { ...props });
 		const message = yield call(parseMessage, res);
@@ -51,7 +50,7 @@ export function* resetPassword({ props, history }) {
 			}),
 		);
 
-		yield call(history.push, "/employee/login");
+		yield put(push("/employee/login"));
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
@@ -90,7 +89,10 @@ export function* signinUser({ props }) {
 export function* signoutUser() {
 	try {
 		yield call(app.get, "signout");
+
 		yield put(signout());
+
+		yield put(push("/employee/login"));
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
@@ -102,13 +104,12 @@ export function* signoutUser() {
  * @generator
  * @function signupUser
  * @param {object} props - props contain a token, an email, first/last name, and a password.
- * @param {object} history
  * @yields {object} - A response from a call to the API.
  * @function parseMessage - Returns a parsed res.data.message.
  * @yields {action} - A redux action to display a server message by type.
  * @throws {action} - A redux action to display a server message by type.
  */
-export function* signupUser({ props, history }) {
+export function* signupUser({ props }) {
 	try {
 		const res = yield call(app.post, "signup", { ...props });
 		const message = yield call(parseMessage, res);
@@ -120,7 +121,7 @@ export function* signupUser({ props, history }) {
 			}),
 		);
 
-		yield call(history.push, "/");
+		yield put(push("/employee/login"));
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
@@ -132,13 +133,12 @@ export function* signupUser({ props, history }) {
  * @generator
  * @function updateUserPassword
  * @params {object} props - props contain a token and (new) password fields.
- * @param {object} history
  * @yields {object} - A response from a call to the API.
  * @function parseMessage - Returns a parsed res.data.message.
  * @yields {action} - A redux action to display a server message by type.
  * @throws {action} - A redux action to display a server message by type.
  */
-export function* updateUserPassword({ props, history }) {
+export function* updateUserPassword({ props }) {
 	try {
 		const res = yield call(app.put, "new-password", { ...props });
 		const message = yield call(parseMessage, res);
@@ -150,7 +150,7 @@ export function* updateUserPassword({ props, history }) {
 			}),
 		);
 
-		yield call(history.push, "/employee/login");
+		yield put(push("/employee/login"));
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}

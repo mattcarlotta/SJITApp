@@ -8,6 +8,8 @@ export { default as Float } from "./Float";
 export { default as Label } from "./Label";
 export { default as Line } from "./Line";
 export { default as MenuButton } from "./MenuButton";
+export { default as MenuItemContainer } from "./MenuItemContainer";
+export { default as MenuItemTitle } from "./MenuItemTitle";
 export { default as Modal } from "./Modal";
 export { default as Paragraph } from "./Paragraph";
 export { default as ScrollHandler } from "./ScrollHandler";

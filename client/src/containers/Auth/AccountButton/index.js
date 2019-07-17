@@ -2,21 +2,31 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Menu, Dropdown } from "antd";
-import { FaUserCircle, FaSignOutAlt } from "react-icons/fa";
+import { FaUserCircle, FaSignOutAlt, FaCogs } from "react-icons/fa";
 import { signoutUser } from "actions/auth";
-import { Float, MenuButton } from "components/Body";
+import { MenuButton, MenuItemContainer, MenuItemTitle } from "components/Body";
 
-export const AccountButton = ({ firstName, lastName, signoutUser }) => {
+const MenuItem = Menu.Item;
+
+export const AccountButton = ({ firstName, lastName, push, signoutUser }) => {
 	const options = (
 		<Menu style={{ padding: 0 }}>
-			<Menu.Item>
-				<MenuButton height="30px" onClick={signoutUser}>
-					<Float direction="left" style={{ paddingLeft: 10 }}>
-						<FaSignOutAlt />
-					</Float>
-					<Float direction="right">Logout</Float>
+			<MenuItem>
+				<MenuButton height="30px" onClick={() => push("/employee/settings")}>
+					<MenuItemContainer>
+						<FaCogs />
+						<MenuItemTitle>Settings</MenuItemTitle>
+					</MenuItemContainer>
 				</MenuButton>
-			</Menu.Item>
+			</MenuItem>
+			<MenuItem>
+				<MenuButton height="30px" onClick={signoutUser}>
+					<MenuItemContainer>
+						<FaSignOutAlt />
+						<MenuItemTitle>Logout</MenuItemTitle>
+					</MenuItemContainer>
+				</MenuButton>
+			</MenuItem>
 		</Menu>
 	);
 
@@ -24,15 +34,16 @@ export const AccountButton = ({ firstName, lastName, signoutUser }) => {
 		<Dropdown overlay={options} trigger={["click"]} placement="bottomRight">
 			<MenuButton hoverable style={{ marginRight: 38 }}>
 				<FaUserCircle style={{ position: "relative", top: 3 }} />
-				<span style={{ marginLeft: 10 }}>
+				<MenuItemTitle>
 					{firstName} {lastName}
-				</span>
+				</MenuItemTitle>
 			</MenuButton>
 		</Dropdown>
 	);
 };
 
 AccountButton.propTypes = {
+	push: PropTypes.func,
 	signoutUser: PropTypes.func.isRequired,
 };
 

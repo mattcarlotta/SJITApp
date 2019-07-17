@@ -15,7 +15,7 @@ const NavTitle = styled.div`
 	justify-content: center;
 	-ms-flex-align: center;
 	align-items: center;
-	margin-right: 140px;
+	margin-right: 270px;
 `;
 
 export default NavTitle;

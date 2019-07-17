@@ -21,7 +21,7 @@ class NewPasswordForm extends Component {
 					icon: "lock",
 					value: "",
 					errors: "",
-					required: true
+					required: true,
 				},
 			],
 			token,
@@ -52,7 +52,6 @@ class NewPasswordForm extends Component {
 			const { fields: formFields, token } = this.state;
 			const {
 				hideServerMessage,
-				history,
 				serverMessage,
 				updateUserPassword,
 			} = this.props;
@@ -62,7 +61,7 @@ class NewPasswordForm extends Component {
 
 				if (serverMessage) hideServerMessage();
 				setTimeout(
-					() => updateUserPassword({ ...newPasswordFields, token }, history),
+					() => updateUserPassword({ ...newPasswordFields, token }),
 					350,
 				);
 			}
