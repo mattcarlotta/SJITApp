@@ -47,7 +47,7 @@ describe("Field Validator Helper", () => {
 			{
 				name: "season",
 				type: "range",
-				value: "",
+				value: [],
 				errors: "",
 				required: true,
 			},

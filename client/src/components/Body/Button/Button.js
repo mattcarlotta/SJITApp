@@ -11,10 +11,10 @@ const StyledButton = ({
 }) => (
 	<button
 		className={className}
-		disabled={disabled || false}
+		disabled={disabled}
 		onClick={onClick}
 		style={style}
-		type={!type ? "button" : type}
+		type={type}
 	>
 		{children}
 	</button>
@@ -29,6 +29,11 @@ StyledButton.propTypes = {
 		PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 	),
 	type: PropTypes.string,
+};
+
+StyledButton.defaultProps = {
+	disabled: false,
+	type: "button",
 };
 
 export default StyledButton;

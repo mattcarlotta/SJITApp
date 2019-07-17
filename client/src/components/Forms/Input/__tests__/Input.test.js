@@ -39,6 +39,14 @@ describe("Input", () => {
 
 		expect(wrapper.find("i.icon").exists()).toBeTruthy();
 		expect(wrapper.find("FaKey").exists()).toBeTruthy();
+
+		wrapper.setProps({ icon: "calander" });
+		expect(wrapper.find("i.icon").exists()).toBeTruthy();
+		expect(wrapper.find("FaCalendarAlt").exists()).toBeTruthy();
+
+		wrapper.setProps({ icon: "id" });
+		expect(wrapper.find("i.icon").exists()).toBeTruthy();
+		expect(wrapper.find("FaIdCard").exists()).toBeTruthy();
 	});
 
 	it("displays a Font Awesome bug if 'icon' prop is invalid", () => {
