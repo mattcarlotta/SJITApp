@@ -1,10 +1,16 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 import Helmet from "react-helmet";
 import moment from "moment";
 import { connect } from "react-redux";
-import { Form, DatePicker } from "antd";
-import { Center, Paragraph, SubmitButton, Title } from "components/Body";
+import { Card, Form, DatePicker } from "antd";
+import {
+	Center,
+	FormContainer,
+	Paragraph,
+	SubmitButton,
+	Title,
+} from "components/Body";
 import { hideServerMessage } from "actions/messages";
 import { Errors, Input } from "components/Forms";
 import { Label } from "components/Body";
@@ -14,27 +20,23 @@ import { FaCalendarPlus } from "react-icons/fa";
 const RangePicker = DatePicker.RangePicker;
 
 class NewSeasonForm extends Component {
-	constructor(props) {
-		super(props);
-
-		this.state = {
-			fields: [
-				{
-					type: "range",
-					name: "seasonDuration",
-					label: "Season Duration",
-					value: [],
-					errors: "",
-					required: true,
-					props: {
-						format: "l",
-					},
+	state = {
+		fields: [
+			{
+				type: "range",
+				name: "seasonDuration",
+				label: "Season Duration",
+				value: [],
+				errors: "",
+				required: true,
+				props: {
+					format: "l",
 				},
-			],
-			season: "",
-			isSubmitting: false,
-		};
-	}
+			},
+		],
+		season: "",
+		isSubmitting: false,
+	};
 
 	static getDerivedStateFromProps = ({ serverMessage }) =>
 		serverMessage ? { isSubmitting: false } : null;
@@ -74,44 +76,49 @@ class NewSeasonForm extends Component {
 	};
 
 	render = () => (
-		<div style={{ margin: "0 auto", maxWidth: 600 }}>
+		<Card title="New Season Form">
 			<Helmet title="New Season Form" />
-			<Center
-				style={{ borderBottom: "1px solid #e8edf2", marginBottom: "25px" }}
-			>
-				<Title style={{ color: "#025f6d" }}>New Season Form</Title>
-				<Paragraph style={{ color: "#9facbd" }}>Enter a new season.</Paragraph>
-			</Center>
-			<form onSubmit={this.handleSubmit}>
-				<Input
-					name="season"
-					type="text"
-					label="Season ID"
-					tooltip="Select a start and end date to automatically fill in this field."
-					icon="id"
-					value={this.state.season}
-					readOnly
-					disabled
-				/>
-				{this.state.fields.map(({ name, props = {}, errors, ...rest }) => (
-					<Form.Item
-						key={name}
-						style={{ height: 105 }}
-						validateStatus={errors ? "error" : ""}
-					>
-						<Label {...rest} />
-						<RangePicker
-							{...props}
-							{...rest}
-							suffixIcon={<FaCalendarPlus />}
-							onChange={value => this.handleChange({ name, value })}
-						/>
-						{errors && <Errors>{errors}</Errors>}
-					</Form.Item>
-				))}
-				<SubmitButton isSubmitting={this.state.isSubmitting} title="Submit" />
-			</form>
-		</div>
+			<FormContainer>
+				<Center
+					style={{ borderBottom: "1px solid #e8edf2", marginBottom: "25px" }}
+				>
+					<Title style={{ color: "#025f6d" }}>New Season Form</Title>
+					<Paragraph style={{ color: "#9facbd" }}>
+						Enter a new season by selecting a start and end date.
+					</Paragraph>
+				</Center>
+				<form onSubmit={this.handleSubmit}>
+					<Input
+						name="season"
+						type="text"
+						label="Season ID"
+						tooltip="Select a start and end date below to automatically fill in this field."
+						icon="id"
+						value={this.state.season}
+						inputStyle={{ paddingLeft: 60 }}
+						readOnly
+						disabled
+					/>
+					{this.state.fields.map(({ name, props, errors, ...rest }) => (
+						<Form.Item
+							key={name}
+							style={{ height: 105 }}
+							validateStatus={errors ? "error" : ""}
+						>
+							<Label {...rest} />
+							<RangePicker
+								{...props}
+								{...rest}
+								suffixIcon={<FaCalendarPlus />}
+								onChange={value => this.handleChange({ name, value })}
+							/>
+							{errors && <Errors>{errors}</Errors>}
+						</Form.Item>
+					))}
+					<SubmitButton isSubmitting={this.state.isSubmitting} title="Submit" />
+				</form>
+			</FormContainer>
+		</Card>
 	);
 }
 

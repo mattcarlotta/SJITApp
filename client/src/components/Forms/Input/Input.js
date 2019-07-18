@@ -83,11 +83,15 @@ const Input = ({
 
 Input.propTypes = {
 	className: PropTypes.string.isRequired,
-	containerStyle: PropTypes.objectOf(PropTypes.string),
+	containerStyle: PropTypes.objectOf(
+		PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+	),
 	disabled: PropTypes.bool,
 	errors: PropTypes.string,
 	icon: PropTypes.node,
-	inputStyle: PropTypes.objectOf(PropTypes.string),
+	inputStyle: PropTypes.objectOf(
+		PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+	),
 	isFocused: PropTypes.string,
 	label: PropTypes.string,
 	name: PropTypes.string,
@@ -103,7 +107,7 @@ Input.propTypes = {
 
 Input.defaultProps = {
 	disabled: false,
-	isFocused: false,
+	isFocused: "",
 	readyOnly: false,
 };
 

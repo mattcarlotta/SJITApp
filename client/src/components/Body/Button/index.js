@@ -27,7 +27,7 @@ const Button = styled(StyledButton)`
 			return "transparent";
 		}};
 	width: 100%;
-	padding: ${({ padding }) => padding || "16px 18px 17px"};
+	padding: ${({ padding }) => padding || "13px 18px"};
 	font-size: ${({ fontSize }) => (fontSize ? fontSize : "18px")};
 	letter-spacing: 1px;
 
