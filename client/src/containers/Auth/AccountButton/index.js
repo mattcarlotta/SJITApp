@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Menu, Dropdown } from "antd";
 import { FaUserCircle, FaSignOutAlt, FaCogs } from "react-icons/fa";
-import { signoutUser } from "actions/auth";
+import { signoutUser } from "actions/Auth";
 import { MenuButton, MenuItemContainer, MenuItemTitle } from "components/Body";
 
 const MenuItem = Menu.Item;

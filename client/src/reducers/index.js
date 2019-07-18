@@ -1,7 +1,7 @@
 import { combineReducers } from "redux";
 import { connectRouter } from "connected-react-router";
-import authReducer from "./auth";
-import serverMessageReducer from "./messages";
+import authReducer from "./Auth";
+import serverMessageReducer from "./Messages";
 
 const reducers = {
 	auth: authReducer,

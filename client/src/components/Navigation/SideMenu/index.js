@@ -9,26 +9,32 @@ import {
 	FaCalendarAlt,
 	FaCalendarPlus,
 	FaUsers,
+	FaEnvelope,
+	FaMailBulk,
+	FaQuestionCircle,
+	FaConciergeBell,
 } from "react-icons/fa";
+import { MdEvent, MdNoteAdd } from "react-icons/md";
 import SharksLogo from "images/sharksLogo.svg";
-import HockeySticks from "images/hockeySticks";
-import { Center, Tab, Title } from "components/Body";
+import { Center, Legal, Tab, Title } from "components/Body";
 
 const Sider = Layout.Sider;
 const MenuItem = Menu.Item;
 const SubMenu = Menu.SubMenu;
+const Divider = Menu.Divider;
 
 const tabs = [
-	{ component: FaThLarge, tab: "dashboard" },
-	{ component: HockeySticks, tab: "games" },
-	{ component: FaFileSignature, tab: "forms" },
-	{ component: FaClock, tab: "schedule" },
+	{ component: FaThLarge, key: "dashboard", tab: "dashboard" },
+	{ component: MdEvent, key: "events", tab: "events" },
+	{ component: FaFileSignature, key: "forms", tab: "forms" },
+	{ component: FaClock, key: "schedule", tab: "schedule" },
 	{
 		component: FaCalendarAlt,
+		key: "seasons",
 		tab: "seasons",
 		options: [
 			{
-				key: "seasons/new",
+				key: "seasons/create",
 				component: FaCalendarPlus,
 				tab: "New Season",
 			},
@@ -39,7 +45,27 @@ const tabs = [
 			},
 		],
 	},
-	{ component: FaCogs, tab: "settings" },
+	{
+		component: FaEnvelope,
+		key: "templates",
+		tab: "templates",
+		options: [
+			{
+				key: "templates/create",
+				component: MdNoteAdd,
+				tab: "New Template",
+			},
+			{
+				key: "templates/view",
+				component: FaMailBulk,
+				tab: "All Templates",
+			},
+		],
+	},
+	{ divider: true, key: "accounting" },
+	{ component: FaCogs, key: "settings", tab: "settings" },
+	{ component: FaQuestionCircle, key: "help", tab: "help" },
+	{ component: FaConciergeBell, key: "contact", tab: "contact us" },
 ];
 
 const SideMenu = ({ isCollapsed, onHandleTabClick, selectedKey }) => (
@@ -59,15 +85,20 @@ const SideMenu = ({ isCollapsed, onHandleTabClick, selectedKey }) => (
 			selectedKeys={selectedKey}
 			onSelect={onHandleTabClick}
 		>
-			{tabs.map(({ component, tab, options }) =>
-				!options ? (
-					<MenuItem key={tab}>
+			{tabs.map(({ component, divider, key, tab, options }) =>
+				divider ? (
+					<Divider
+						key={key}
+						style={{ backgroundColor: "#3d8792", margin: "20px 0" }}
+					/>
+				) : !options ? (
+					<MenuItem key={key}>
 						<Icon component={component} />
 						<Tab>{tab}</Tab>
 					</MenuItem>
 				) : (
 					<SubMenu
-						key={tab}
+						key={key}
 						title={
 							<Fragment>
 								<Icon component={component} />
@@ -85,6 +116,7 @@ const SideMenu = ({ isCollapsed, onHandleTabClick, selectedKey }) => (
 				),
 			)}
 		</Menu>
+		{!isCollapsed && <Legal>© 2019 Carlotta Corp, LLC.</Legal>}
 	</Sider>
 );
 

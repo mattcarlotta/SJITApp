@@ -4,8 +4,9 @@ import moment from "moment";
 import { connect } from "react-redux";
 import { Card, Form, DatePicker } from "antd";
 import { FaCalendarPlus } from "react-icons/fa";
+import { hideServerMessage } from "actions/Messages";
+import { createSeason } from "actions/Seasons";
 import { FormContainer, SubmitButton } from "components/Body";
-import { hideServerMessage } from "actions/messages";
 import { FormTitle, Errors, Input } from "components/Forms";
 import { Label } from "components/Body";
 import { fieldValidator, fieldUpdater, parseFields } from "utils";
@@ -29,7 +30,7 @@ class NewSeasonForm extends Component {
 				},
 			},
 		],
-		season: "",
+		seasonId: "",
 		isSubmitting: false,
 	};
 
@@ -37,17 +38,17 @@ class NewSeasonForm extends Component {
 		serverMessage ? { isSubmitting: false } : null;
 
 	handleChange = ({ name, value }) => {
-		let season = "";
+		let seasonId = "";
 
 		if (value && value.length === 2) {
 			const startYear = moment(value[0]).format("YYYY");
 			const endYear = moment(value[1]).format("YYYY");
-			season = `${startYear}${endYear}`;
+			seasonId = `${startYear}${endYear}`;
 		}
 
 		this.setState(prevState => ({
 			...prevState,
-			season,
+			seasonId,
 			fields: fieldUpdater(prevState.fields, name, value),
 		}));
 	};
@@ -58,14 +59,17 @@ class NewSeasonForm extends Component {
 		const { validatedFields, errors } = fieldValidator(this.state.fields);
 
 		this.setState({ fields: validatedFields, isSubmitting: !errors }, () => {
-			const { fields: formFields, season } = this.state;
-			const { hideServerMessage, serverMessage } = this.props;
+			const { fields: formFields, seasonId } = this.state;
+			const { createSeason, hideServerMessage, serverMessage } = this.props;
 
 			if (!errors) {
-				const newFields = parseFields(formFields);
+				const parsedFields = parseFields(formFields);
+				const [seasonStart, seasonEnd] = parsedFields.seasonDuration;
+				const startDate = seasonStart.toString();
+				const endDate = seasonEnd.toString();
 
 				if (serverMessage) hideServerMessage();
-				setTimeout(() => console.log({ ...newFields, season }), 350);
+				setTimeout(() => createSeason({ endDate, startDate, seasonId }), 350);
 			}
 		});
 	};
@@ -85,7 +89,7 @@ class NewSeasonForm extends Component {
 						label="Season ID"
 						tooltip="Select a start and end date below to automatically fill in this field."
 						icon="id"
-						value={this.state.season}
+						value={this.state.seasonId}
 						inputStyle={{ paddingLeft: 60 }}
 						readOnly
 						disabled
@@ -114,6 +118,7 @@ class NewSeasonForm extends Component {
 }
 
 NewSeasonForm.propTypes = {
+	createSeason: PropTypes.func.isRequired,
 	hideServerMessage: PropTypes.func.isRequired,
 	serverMessage: PropTypes.string,
 };
@@ -123,6 +128,7 @@ export default connect(
 		serverMessage: server.message,
 	}),
 	{
+		createSeason,
 		hideServerMessage,
 	},
 )(NewSeasonForm);

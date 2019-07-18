@@ -7,6 +7,7 @@ export { default as Float } from "./Float";
 export { default as FormContainer } from "./FormContainer";
 export { default as ImageContainer } from "./ImageContainer";
 export { default as Label } from "./Label";
+export { default as Legal } from "./Legal";
 export { default as Line } from "./Line";
 export { default as MenuButton } from "./MenuButton";
 export { default as MenuItemContainer } from "./MenuItemContainer";

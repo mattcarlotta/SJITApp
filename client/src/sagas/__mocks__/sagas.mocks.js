@@ -1,3 +1,9 @@
+export const newSeason = {
+	seasonId: "20002001",
+	startDate: new Date(2000, 9, 6),
+	endDate: new Date(2001, 7, 6),
+};
+
 export const userSession = {
 	id: "88",
 	email: "test@example.com",

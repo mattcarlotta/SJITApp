@@ -1,5 +1,5 @@
 import * as types from "types";
-import * as actions from "actions/messages";
+import * as actions from "actions/Messages";
 
 describe("Message Actions", () => {
 	it("returns MESSAGE_HIDE", () => {

@@ -1,5 +1,5 @@
 import * as types from "types";
-import authReducer, { initialState } from "reducers/auth";
+import authReducer, { initialState } from "reducers/Auth";
 import * as mocks from "reducers/__mocks__/reducers.mocks";
 
 describe("Auth Reducer", () => {

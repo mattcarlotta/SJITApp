@@ -1,8 +1,8 @@
 import { push } from "connected-react-router";
 import { all, put, call, takeLatest } from "redux-saga/effects";
 import { app } from "utils";
-import { signin, signout } from "actions/auth";
-import { setServerMessage } from "actions/messages";
+import { signin, signout } from "actions/Auth";
+import { setServerMessage } from "actions/Messages";
 import { parseData, parseMessage } from "utils/parseResponse";
 import * as types from "types";
 

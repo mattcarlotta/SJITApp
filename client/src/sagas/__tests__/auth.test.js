@@ -1,12 +1,12 @@
 import { push } from "connected-react-router";
 import { expectSaga, testSaga } from "redux-saga-test-plan";
 import { app } from "utils";
-import * as actions from "actions/auth";
-import { setServerMessage } from "actions/messages";
-import * as sagas from "sagas/auth";
+import * as actions from "actions/Auth";
+import { setServerMessage } from "actions/Messages";
+import * as sagas from "sagas/Auth";
 import * as mocks from "sagas/__mocks__/sagas.mocks";
-import authReducer from "reducers/auth";
-import messageReducer from "reducers/messages";
+import authReducer from "reducers/Auth";
+import messageReducer from "reducers/Messages";
 import { parseData, parseMessage } from "utils/parseResponse";
 
 describe("Auth Sagas", () => {

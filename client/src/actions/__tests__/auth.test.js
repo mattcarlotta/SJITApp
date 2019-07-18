@@ -1,5 +1,5 @@
 import * as types from "types";
-import * as actions from "actions/auth";
+import * as actions from "actions/Auth";
 
 describe("Authentication Actions", () => {
 	it("returns USER_SIGNIN_SESSION", () => {

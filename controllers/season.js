@@ -3,11 +3,23 @@ import { sendError } from "shared/helpers";
 
 const createSeason = async (req, res) => {
   const { seasonId, startDate, endDate } = req.body;
-  if (!seasonId || !startDate || !endDate) return sendError("Missing creation params", res);
+  if (!seasonId || !startDate || !endDate) {
+    return sendError(
+      "Unable to create a new season. You must provide seasonId, startDate, and endDate fields.",
+      res,
+    );
+  }
 
   try {
+    const seasonExists = await Season.findOne({ seasonId });
+    if (seasonExists) {
+      return sendError(
+        "That season already exists. Please edit the current season or choose different start and end dates.",
+        res,
+      );
+    }
     await Season.create(req.body);
-    res.status(201).json({ message: "Successfully created a season!" });
+    res.status(201).json({ message: "Successfully created a new season!" });
   } catch (err) {
     return sendError(err, res);
   }

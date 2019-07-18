@@ -9,12 +9,16 @@ const Content = Layout.Content;
 
 const TABS = [
 	"dashboard",
-	"games",
+	"events",
 	"forms",
 	"schedule",
-	"seasons/new",
+	"seasons/create",
 	"seasons/members",
+	"templates/create",
+	"templates/view",
 	"settings",
+	"help",
+	"contact",
 ];
 
 const selectedTab = path => TABS.filter(tab => path.indexOf(tab) >= 1);

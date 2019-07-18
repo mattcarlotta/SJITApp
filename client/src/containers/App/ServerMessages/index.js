@@ -8,7 +8,7 @@ import {
 	FaInfoCircle,
 } from "react-icons/fa";
 import { Transition } from "react-transition-group";
-import { hideServerMessage, resetServerMessage } from "actions/messages";
+import { hideServerMessage, resetServerMessage } from "actions/Messages";
 import MessageContainer from "./MessageContainer";
 import WindowContainer from "./WindowContainer";
 import AlertContainer from "./AlertContainer";

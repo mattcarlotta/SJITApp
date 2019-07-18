@@ -1,5 +1,4 @@
 import isEmpty from "lodash/isEmpty";
-import { app } from "utils";
 import * as types from "types";
 
 /**

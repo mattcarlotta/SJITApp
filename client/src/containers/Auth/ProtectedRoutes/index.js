@@ -16,8 +16,8 @@ import {
 	signinUser,
 	signupUser,
 	updateUserPassword,
-} from "actions/auth";
-import { hideServerMessage } from "actions/messages";
+} from "actions/Auth";
+import { hideServerMessage } from "actions/Messages";
 
 export class ProtectedRoutes extends PureComponent {
 	render = () => {

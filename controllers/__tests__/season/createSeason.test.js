@@ -28,7 +28,8 @@ describe("Create Season Controller", () => {
     await createSeason(req, res);
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith({
-      err: "Missing creation params",
+      err:
+        "Unable to create a new season. You must provide seasonId, startDate, and endDate fields.",
     });
   });
 
@@ -44,7 +45,24 @@ describe("Create Season Controller", () => {
     await createSeason(req, res);
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith({
-      err: expect.stringContaining("ValidationError"),
+      err: expect.stringContaining("CastError"),
+    });
+  });
+
+  it("handles season already exists requests", async () => {
+    const newSeason = {
+      seasonId: "20002001",
+      startDate: new Date(2000, 9, 6),
+      endDate: new Date(2001, 7, 6),
+    };
+
+    const req = mockRequest(null, null, newSeason);
+
+    await createSeason(req, res);
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.json).toHaveBeenCalledWith({
+      err:
+        "That season already exists. Please edit the current season or choose different start and end dates.",
     });
   });
 
@@ -72,7 +90,7 @@ describe("Create Season Controller", () => {
     );
     expect(res.status).toHaveBeenCalledWith(201);
     expect(res.json).toHaveBeenCalledWith({
-      message: "Successfully created a season!",
+      message: "Successfully created a new season!",
     });
   });
 });
