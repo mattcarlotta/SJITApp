@@ -1,9 +1,8 @@
-import React, { Component, Fragment } from "react";
-import Helmet from "react-helmet";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { FaUnlockAlt } from "react-icons/fa";
-import { Center, Modal, Paragraph, SubmitButton, Title } from "components/Body";
-import { Input } from "components/Forms";
+import { Center, Modal, SubmitButton } from "components/Body";
+import { FormTitle, Input } from "components/Forms";
 import { Link } from "components/Navigation";
 import { fieldValidator, fieldUpdater, parseFields } from "utils";
 
@@ -66,15 +65,11 @@ class LoginForm extends Component {
 
 	render = () => (
 		<Modal>
-			<Helmet title="Log In" />
-			<Center
-				style={{ borderBottom: "1px solid #e8edf2", marginBottom: "25px" }}
-			>
-				<Title style={{ color: "#025f6d" }}>Welcome!</Title>
-				<Paragraph style={{ color: "#9facbd" }}>
-					Sign into your account below.
-				</Paragraph>
-			</Center>
+			<FormTitle
+				header="Log In"
+				title="Welcome!"
+				description="Sign into your account below."
+			/>
 			<form onSubmit={this.handleSubmit}>
 				{this.state.fields.map(props => (
 					<Input
@@ -94,7 +89,7 @@ class LoginForm extends Component {
 					<FaUnlockAlt />
 					&nbsp; Forgot your password?
 				</Link>
-				<SubmitButton isSubmitting={this.state.isSubmitting} title="Submit" />
+				<SubmitButton isSubmitting={this.state.isSubmitting} />
 			</form>
 			<Center style={{ marginTop: 20 }}>
 				Don't have an account? &nbsp;
@@ -108,24 +103,6 @@ class LoginForm extends Component {
 
 LoginForm.propTypes = {
 	hideServerMessage: PropTypes.func.isRequired,
-	history: PropTypes.shape({
-		action: PropTypes.string,
-		block: PropTypes.func,
-		createHref: PropTypes.func,
-		go: PropTypes.func,
-		goBack: PropTypes.func,
-		goForward: PropTypes.func,
-		length: PropTypes.number,
-		listen: PropTypes.func,
-		location: PropTypes.shape({
-			pathname: PropTypes.string,
-			search: PropTypes.string,
-			hash: PropTypes.string,
-			state: PropTypes.oneOf(["object", "undefined"]),
-		}),
-		push: PropTypes.func,
-		replace: PropTypes.func,
-	}),
 	serverMessage: PropTypes.string,
 	signinUser: PropTypes.func,
 };

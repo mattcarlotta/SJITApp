@@ -10,7 +10,7 @@ import enUS from "antd/lib/locale-provider/en_US";
 
 import createRootReducer from "reducers";
 import rootSagas from "sagas";
-import Routes from "routes";
+import { MainRoutes } from "routes";
 
 const history = createBrowserHistory();
 export const saga = createSagaMiddleware();
@@ -27,7 +27,7 @@ const Root = () => (
 	<LocaleProvider locale={enUS}>
 		<Provider store={store}>
 			<ConnectedRouter history={history}>
-				<Routes />
+				<MainRoutes />
 			</ConnectedRouter>
 		</Provider>
 	</LocaleProvider>

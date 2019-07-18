@@ -29,7 +29,7 @@ export class ProtectedRoutes extends PureComponent {
 					<Switch>
 						<Route
 							exact
-							path={`${match.url}/newpassword`}
+							path={`${match.url}/newpassword/:id`}
 							render={props => <NewPasswordForm {...this.props} {...props} />}
 						/>
 						<Route

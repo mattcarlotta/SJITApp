@@ -19,4 +19,8 @@ SubmitButton.propsTypes = {
 	title: PropTypes.string.isRequired,
 };
 
+SubmitButton.defaultProps = {
+	title: "Sumbit",
+};
+
 export default SubmitButton;

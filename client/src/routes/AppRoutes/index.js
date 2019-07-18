@@ -2,9 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Redirect, Route, Switch } from "react-router-dom";
 
-import { NewSeasonForm } from "components/Forms";
+import { NewSeasonForm } from "containers/Forms";
 
-const appRoutes = ({ match: { url } }) => (
+const AppRoutes = ({ match: { url } }) => (
 	<Switch>
 		<Redirect from={`${url}/login`} to={`${url}/dashboard`} />
 		<Route
@@ -26,8 +26,8 @@ const appRoutes = ({ match: { url } }) => (
 	</Switch>
 );
 
-appRoutes.propTypes = {
+AppRoutes.propTypes = {
 	url: PropTypes.string,
 };
 
-export default appRoutes;
+export default AppRoutes;

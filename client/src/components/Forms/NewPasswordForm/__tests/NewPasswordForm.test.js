@@ -11,8 +11,8 @@ const initProps = {
 			search:
 				"?token=GHPtUGSNGwkA1VC4P2O$f05eBQT/HLDR6sdKz2.v8.KzmWn36KsEVCROrLaQzVH5",
 		},
-		push,
 	},
+	push,
 	serverMessage: "",
 	updateUserPassword,
 };

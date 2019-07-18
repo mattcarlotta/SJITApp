@@ -15,7 +15,7 @@ const wrapper = HOCWrap(App, initProps, null, ["/employee/dashboard"]);
 
 describe("Employee App", () => {
 	it("renders without errors", () => {
-		expect(wrapper.find("div.app").exists()).toBeTruthy();
+		expect(wrapper.find("#app").exists()).toBeTruthy();
 	});
 
 	it("renders the SideMenu", () => {
@@ -28,6 +28,6 @@ describe("Employee App", () => {
 	});
 
 	it("renders the employee app routes", () => {
-		expect(wrapper.find("appRoutes").exists()).toBeTruthy();
+		expect(wrapper.find("AppRoutes").exists()).toBeTruthy();
 	});
 });

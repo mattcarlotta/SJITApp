@@ -1,9 +1,8 @@
 import React, { Component } from "react";
-import Helmet from "react-helmet";
 import PropTypes from "prop-types";
 import { FaUnlockAlt } from "react-icons/fa";
-import { Center, Modal, Paragraph, SubmitButton, Title } from "components/Body";
-import { Input } from "components/Forms";
+import { Center, Modal, SubmitButton } from "components/Body";
+import { FormTitle, Input } from "components/Forms";
 import { Link } from "components/Navigation";
 import { fieldValidator, fieldUpdater, parseFields, parseToken } from "utils";
 
@@ -103,15 +102,11 @@ class SignupForm extends Component {
 
 	render = () => (
 		<Modal maxWidth="750px">
-			<Helmet title="Sign Up" />
-			<Center
-				style={{ borderBottom: "1px solid #e8edf2", marginBottom: "25px" }}
-			>
-				<Title style={{ color: "#025f6d" }}>Sign Up</Title>
-				<Paragraph style={{ color: "#9facbd" }}>
-					Fill out all the fields below to register.
-				</Paragraph>
-			</Center>
+			<FormTitle
+				header="Sign Up"
+				title="Sign Up"
+				description="Fill out all the fields below to register."
+			/>
 			<form onSubmit={this.handleSubmit}>
 				{this.state.fields.map(props => (
 					<Input

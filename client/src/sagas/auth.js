@@ -161,7 +161,7 @@ export function* updateUserPassword({ props }) {
  *
  * @generator
  * @function authSagas
- * @yields {generators}
+ * @yields {watchers}
  */
 export default function* authSagas() {
 	yield all([

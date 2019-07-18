@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Layout } from "antd";
-import AppRoutes from "routes/appRoutes";
+import { AppRoutes } from "routes";
 import { LeftMenu, RightMenu, SideMenu } from "components/Navigation";
 
 const Header = Layout.Header;
@@ -44,7 +44,7 @@ class App extends Component {
 		}));
 
 	render = () => (
-		<div className="app">
+		<div id="app">
 			<Layout>
 				<SideMenu {...this.state} onHandleTabClick={this.onHandleTabClick} />
 				<Layout>

@@ -41,7 +41,7 @@ describe("Protected Routes", () => {
 
 		it("allows a user to navigate to other routes: 'newpassword', 'resetpassword' and 'signup'", () => {
 			wrapper = HOCWrap(ProtectedRoutes, initProps, null, [
-				{ pathname: "/employee/newpassword", search: "?token=123456" },
+				{ pathname: "/employee/newpassword/:id", search: "?token=123456" },
 			]);
 			expect(wrapper.find("NewPasswordForm").exists()).toBeTruthy();
 

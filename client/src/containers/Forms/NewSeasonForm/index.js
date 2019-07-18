@@ -1,23 +1,18 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import Helmet from "react-helmet";
 import moment from "moment";
 import { connect } from "react-redux";
 import { Card, Form, DatePicker } from "antd";
-import {
-	Center,
-	FormContainer,
-	Paragraph,
-	SubmitButton,
-	Title,
-} from "components/Body";
+import { FaCalendarPlus } from "react-icons/fa";
+import { FormContainer, SubmitButton } from "components/Body";
 import { hideServerMessage } from "actions/messages";
-import { Errors, Input } from "components/Forms";
+import { FormTitle, Errors, Input } from "components/Forms";
 import { Label } from "components/Body";
 import { fieldValidator, fieldUpdater, parseFields } from "utils";
-import { FaCalendarPlus } from "react-icons/fa";
 
 const RangePicker = DatePicker.RangePicker;
+
+const title = "New Season Form";
 
 class NewSeasonForm extends Component {
 	state = {
@@ -76,17 +71,13 @@ class NewSeasonForm extends Component {
 	};
 
 	render = () => (
-		<Card title="New Season Form">
-			<Helmet title="New Season Form" />
+		<Card title={title}>
 			<FormContainer>
-				<Center
-					style={{ borderBottom: "1px solid #e8edf2", marginBottom: "25px" }}
-				>
-					<Title style={{ color: "#025f6d" }}>New Season Form</Title>
-					<Paragraph style={{ color: "#9facbd" }}>
-						Enter a new season by selecting a start and end date.
-					</Paragraph>
-				</Center>
+				<FormTitle
+					header={title}
+					title={title}
+					description="Enter a new season by selecting a start and end date."
+				/>
 				<form onSubmit={this.handleSubmit}>
 					<Input
 						name="season"
@@ -115,7 +106,7 @@ class NewSeasonForm extends Component {
 							{errors && <Errors>{errors}</Errors>}
 						</Form.Item>
 					))}
-					<SubmitButton isSubmitting={this.state.isSubmitting} title="Submit" />
+					<SubmitButton isSubmitting={this.state.isSubmitting} />
 				</form>
 			</FormContainer>
 		</Card>

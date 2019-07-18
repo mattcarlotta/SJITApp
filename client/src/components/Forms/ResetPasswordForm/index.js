@@ -1,8 +1,7 @@
 import React, { Component, Fragment } from "react";
-import Helmet from "react-helmet";
 import PropTypes from "prop-types";
 import { Center, Modal, Paragraph, SubmitButton, Title } from "components/Body";
-import { Input } from "components/Forms";
+import { FormTitle, Input } from "components/Forms";
 import { Link } from "components/Navigation";
 import { fieldValidator, fieldUpdater, parseFields } from "utils";
 
@@ -56,15 +55,11 @@ class ResetPasswordForm extends Component {
 
 	render = () => (
 		<Modal>
-			<Helmet title="Reset Password" />
-			<Center
-				style={{ borderBottom: "1px solid #e8edf2", marginBottom: "25px" }}
-			>
-				<Title style={{ color: "#025f6d" }}>Reset Password</Title>
-				<Paragraph style={{ color: "#9facbd" }}>
-					Enter your email to request a password reset.
-				</Paragraph>
-			</Center>
+			<FormTitle
+				header="Reset Password"
+				title="Reset Password"
+				description="Enter your email to request a password reset."
+			/>
 			<form onSubmit={this.handleSubmit}>
 				{this.state.fields.map(props => (
 					<Input
