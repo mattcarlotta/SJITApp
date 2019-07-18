@@ -12,14 +12,52 @@ const AppRoutes = ({ match: { url } }) => (
 			path={`${url}/dashboard`}
 			component={() => <h1>Dashboard</h1>}
 		/>
-		<Route exact path={`${url}/events`} component={() => <h1>Events</h1>} />
-		<Route exact path={`${url}/forms`} component={() => <h1>Forms</h1>} />
+		<Route
+			exact
+			path={`${url}/events/add`}
+			component={() => <h1>Add Event</h1>}
+		/>
+		<Route
+			exact
+			path={`${url}/events/viewall`}
+			component={() => <h1>View All Events</h1>}
+		/>
+		<Route
+			exact
+			path={`${url}/forms/add`}
+			component={() => <h1>Add Form</h1>}
+		/>
+		<Route
+			exact
+			path={`${url}/forms/viewall`}
+			component={() => <h1>View All Forms</h1>}
+		/>
+		<Route
+			exact
+			path={`${url}/members/add`}
+			component={() => <h1>Add Members</h1>}
+		/>
+		<Route
+			exact
+			path={`${url}/members/viewall`}
+			component={() => <h1>View All Members</h1>}
+		/>
 		<Route exact path={`${url}/schedule`} component={() => <h1>Schedule</h1>} />
 		<Route exact path={`${url}/seasons/create`} component={NewSeasonForm} />
 		<Route
 			exact
-			path={`${url}/seasons/members`}
-			component={() => <h1>Season Members</h1>}
+			path={`${url}/seasons/viewall`}
+			component={() => <h1>View All Seasons</h1>}
+		/>
+		<Route
+			exact
+			path={`${url}/templates/create`}
+			component={() => <h1>Create Template</h1>}
+		/>
+		<Route
+			exact
+			path={`${url}/templates/viewall`}
+			component={() => <h1>View All Templates</h1>}
 		/>
 		<Route exact path={`${url}/settings`} component={() => <h1>Settings</h1>} />
 		<Route
@@ -29,7 +67,7 @@ const AppRoutes = ({ match: { url } }) => (
 		/>
 		<Route
 			exact
-			path={`${url}/templates/view`}
+			path={`${url}/templates/viewall`}
 			component={() => <h1>All Templates</h1>}
 		/>
 		<Route exact path={`${url}/help`} component={() => <h1>Help</h1>} />

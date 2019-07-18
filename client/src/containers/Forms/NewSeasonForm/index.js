@@ -15,7 +15,7 @@ const RangePicker = DatePicker.RangePicker;
 
 const title = "New Season Form";
 
-class NewSeasonForm extends Component {
+export class NewSeasonForm extends Component {
 	state = {
 		fields: [
 			{
@@ -40,11 +40,9 @@ class NewSeasonForm extends Component {
 	handleChange = ({ name, value }) => {
 		let seasonId = "";
 
-		if (value && value.length === 2) {
-			const startYear = moment(value[0]).format("YYYY");
-			const endYear = moment(value[1]).format("YYYY");
-			seasonId = `${startYear}${endYear}`;
-		}
+		const startYear = moment(value[0]).format("YYYY");
+		const endYear = moment(value[1]).format("YYYY");
+		seasonId = `${startYear}${endYear}`;
 
 		this.setState(prevState => ({
 			...prevState,
@@ -84,7 +82,7 @@ class NewSeasonForm extends Component {
 				/>
 				<form onSubmit={this.handleSubmit}>
 					<Input
-						name="season"
+						name="seasonId"
 						type="text"
 						label="Season ID"
 						tooltip="Select a start and end date below to automatically fill in this field."
@@ -123,12 +121,16 @@ NewSeasonForm.propTypes = {
 	serverMessage: PropTypes.string,
 };
 
+const mapStateToProps = state => ({
+	serverMessage: state.server.message,
+});
+
+const mapDispatchToProps = {
+	createSeason,
+	hideServerMessage,
+};
+
 export default connect(
-	({ server }) => ({
-		serverMessage: server.message,
-	}),
-	{
-		createSeason,
-		hideServerMessage,
-	},
+	mapStateToProps,
+	mapDispatchToProps,
 )(NewSeasonForm);

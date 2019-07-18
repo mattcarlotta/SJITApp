@@ -1,0 +1,115 @@
+import { NewSeasonForm } from "../index";
+import moment from "moment";
+
+const createSeason = jest.fn();
+const hideServerMessage = jest.fn();
+
+const initProps = {
+	createSeason,
+	hideServerMessage,
+	serverMessage: "",
+};
+
+const name = "seasonDuration";
+const startDate = moment(new Date(2000, 9, 6));
+const endDate = moment(new Date(2001, 9, 6));
+const value = [startDate, endDate];
+
+const startYear = moment(startDate).format("YYYY");
+const endYear = moment(endDate).format("YYYY");
+const seasonId = `${startYear}${endYear}`;
+
+describe("Create Season Form", () => {
+	let wrapper;
+	let submitForm;
+	beforeEach(() => {
+		wrapper = mount(<NewSeasonForm {...initProps} />);
+		submitForm = () => wrapper.find("form").simulate("submit");
+	});
+
+	it("renders without errors", () => {
+		expect(wrapper.find("form").exists()).toBeTruthy();
+	});
+
+	it("if there are errors, it doesn't submit the form", () => {
+		submitForm();
+
+		expect(hideServerMessage).toHaveBeenCalledTimes(0);
+		expect(createSeason).toHaveBeenCalledTimes(0);
+	});
+
+	it("selecting a date, calls this.handleChange", () => {
+		const spy = jest.spyOn(wrapper.instance(), "handleChange");
+		wrapper.instance().forceUpdate();
+
+		// open calender
+		wrapper
+			.find("input.ant-calendar-range-picker-input")
+			.at(0)
+			.simulate("click");
+
+		// select todays date
+		wrapper
+			.find("td.ant-calendar-cell.ant-calendar-today")
+			.find("div")
+			.simulate("click");
+
+		// select end of month date
+		const endofMonth = wrapper
+			.find("td.ant-calendar-last-day-of-month")
+			.at(0)
+			.find("div")
+			.simulate("click");
+
+		expect(spy).toBeCalledTimes(1);
+		spy.mockClear();
+	});
+
+	describe("Form Submission", () => {
+		beforeEach(() => {
+			jest.useFakeTimers();
+
+			wrapper.instance().handleChange({ name, value });
+
+			submitForm();
+			jest.runOnlyPendingTimers();
+		});
+
+		afterEach(() => {
+			createSeason.mockClear();
+			hideServerMessage.mockClear();
+		});
+
+		it("selecting a start and end date, automatically fills in the seasonId field", () => {
+			const input = wrapper
+				.find("input")
+				.findWhere(e => e.prop("name") === "seasonId");
+
+			expect(wrapper.state("seasonId")).toEqual(seasonId);
+			expect(input.prop("value")).toEqual(seasonId);
+		});
+
+		it("submits the form after a successful validation and calls createSeason with fields", () => {
+			expect(wrapper.find("NewSeasonForm").state("isSubmitting")).toBeTruthy();
+			expect(createSeason).toHaveBeenCalledWith({
+				endDate: endDate.toString(),
+				startDate: startDate.toString(),
+				seasonId,
+			});
+		});
+
+		it("on submission error, enables the form submit button", () => {
+			wrapper.setProps({ serverMessage: "Example error message." });
+
+			expect(wrapper.find("NewSeasonForm").state("isSubmitting")).toBeFalsy();
+			expect(wrapper.find("button[type='submit']").exists()).toBeTruthy();
+		});
+
+		it("on form resubmission, if the serverMessage is still visible, it will hide the message", () => {
+			wrapper.setProps({ serverMessage: "Example error message." });
+
+			submitForm();
+			expect(hideServerMessage).toHaveBeenCalledTimes(1);
+		});
+	});
+});

@@ -17,22 +17,6 @@ const initProps = {
 	updateUserPassword,
 };
 
-const initState = {
-	fields: [
-		{
-			name: "password",
-			type: "password",
-			label: "New Password",
-			icon: "lock",
-			value: "",
-			errors: "",
-		},
-	],
-	token: "",
-	isFocused: "",
-	isSubmitting: false,
-};
-
 describe("New Password Form", () => {
 	let wrapper;
 	let submitForm;
