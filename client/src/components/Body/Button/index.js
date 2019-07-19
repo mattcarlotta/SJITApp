@@ -3,6 +3,7 @@ import StyledButton from "./Button";
 
 const Button = styled(StyledButton)`
 	cursor: ${({ disabled }) => (!disabled ? "pointer" : "not-allowed")};
+	display: ${({ display }) => display || "block"};
 	color: ${props => (!props.primary && !props.danger ? "#025f6d" : "#fff")};
 	background-color: ${props => {
 		if (props.primary) return "#025f6d";
@@ -16,7 +17,7 @@ const Button = styled(StyledButton)`
 		return "none";
 	}};
 	text-decoration: none;
-	margin-right: 20px;
+	margin-right: ${({ marginRight }) => marginRight || "20px"};
 	transition: color 0.2s ease-in-out, background 0.2s ease-in-out,
 		border 0.2s ease-in-out;
 	border-radius: 4px;
@@ -26,7 +27,7 @@ const Button = styled(StyledButton)`
 			if (props.danger) return "#f56342";
 			return "transparent";
 		}};
-	width: 100%;
+	width: ${({ width }) => width || "100%"};
 	padding: ${({ padding }) => padding || "13px 18px"};
 	font-size: ${({ fontSize }) => (fontSize ? fontSize : "18px")};
 	letter-spacing: 1px;

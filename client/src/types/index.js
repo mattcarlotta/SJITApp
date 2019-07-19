@@ -1,5 +1,7 @@
 // seasons
 export const SEASONS_CREATE = "SEASONS/CREATE";
+export const SEASONS_GET = "SEASONS/GET";
+export const SEASONS_SET = "SEASONS/SET";
 
 // server messages
 export const MESSAGE_HIDE = "MESSAGE/HIDE";

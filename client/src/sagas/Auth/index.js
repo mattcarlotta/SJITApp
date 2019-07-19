@@ -36,6 +36,7 @@ export function* authenticateUser() {
  * @yields {object} - A response from a call to the API.
  * @function parseMessage - Returns a parsed res.data.message.
  * @yields {action} - A redux action to display a server message by type.
+ * @yields {action} - A redux action to push to a URL.
  * @throws {action} - A redux action to display a server message by type.
  */
 export function* resetPassword({ props }) {
@@ -84,6 +85,7 @@ export function* signinUser({ props }) {
  * @generator
  * @function signoutUser
  * @yields {object} - A redux action to remove the current user from state.
+ * @yields {action} - A redux action to push to a URL.
  * @throws {action} - A redux action to display a server message by type.
  */
 export function* signoutUser() {
@@ -107,6 +109,7 @@ export function* signoutUser() {
  * @yields {object} - A response from a call to the API.
  * @function parseMessage - Returns a parsed res.data.message.
  * @yields {action} - A redux action to display a server message by type.
+ * @yields {action} - A redux action to push to a URL.
  * @throws {action} - A redux action to display a server message by type.
  */
 export function* signupUser({ props }) {
@@ -136,6 +139,7 @@ export function* signupUser({ props }) {
  * @yields {object} - A response from a call to the API.
  * @function parseMessage - Returns a parsed res.data.message.
  * @yields {action} - A redux action to display a server message by type.
+ * @yields {action} - A redux action to push to a URL.
  * @throws {action} - A redux action to display a server message by type.
  */
 export function* updateUserPassword({ props }) {

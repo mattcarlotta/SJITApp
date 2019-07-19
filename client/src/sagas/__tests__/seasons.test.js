@@ -36,7 +36,7 @@ describe("Season Sagas", () => {
 				.next(res.data.message)
 				.put(setServerMessage({ type: "success", message: res.data.message }))
 				.next()
-				.put(push("/employee/seasons/members"))
+				.put(push("/employee/seasons/viewall"))
 				.next()
 				.isDone();
 		});
