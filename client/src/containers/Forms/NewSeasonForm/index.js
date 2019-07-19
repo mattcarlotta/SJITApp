@@ -63,8 +63,8 @@ export class NewSeasonForm extends Component {
 			if (!errors) {
 				const parsedFields = parseFields(formFields);
 				const [seasonStart, seasonEnd] = parsedFields.seasonDuration;
-				const startDate = seasonStart.toString();
-				const endDate = seasonEnd.toString();
+				const startDate = seasonStart.format("l");
+				const endDate = seasonEnd.format("l");
 
 				if (serverMessage) hideServerMessage();
 				setTimeout(() => createSeason({ endDate, startDate, seasonId }), 350);

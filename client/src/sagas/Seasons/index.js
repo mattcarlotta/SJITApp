@@ -48,7 +48,7 @@ export function* createSeason({ props }) {
  * @throws {action} - A redux action to display a server message by type.
  */
 
-export function* getSeasons() {
+export function* fetchSeasons() {
 	try {
 		const res = yield call(app.get, "seasons/all");
 		const data = yield call(parseData, res);
@@ -69,6 +69,6 @@ export function* getSeasons() {
 export default function* seasonsSagas() {
 	yield all([
 		takeLatest(types.SEASONS_CREATE, createSeason),
-		takeLatest(types.SEASONS_GET, getSeasons),
+		takeLatest(types.SEASONS_FETCH, fetchSeasons),
 	]);
 }

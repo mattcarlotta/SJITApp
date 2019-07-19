@@ -1,45 +1,25 @@
 import React, { Component, Fragment } from "react";
+import PropTypes from "prop-types";
 import Helmet from "react-helmet";
+import { connect } from "react-redux";
+import { push } from "connected-react-router";
 import { Divider, Table, Input, Icon, Card } from "antd";
-import { Button } from "components/Body";
-import Highlighter from "react-highlight-words";
+import { FaCalendarPlus } from "react-icons/fa";
+import moment from "moment";
+import { Button, Float } from "components/Body";
+import { fetchSeasons } from "actions/Seasons";
 
 const title = "View Seasons";
 
-const data = [
-	{
-		key: "1",
-		seasonId: "John Brown",
-		startDate: 32,
-		endDate: "New York No. 1 Lake Park",
-		members: 1,
-	},
-	{
-		key: "2",
-		seasonId: "Joe Black",
-		startDate: 42,
-		endDate: "London No. 1 Lake Park",
-		members: 1,
-	},
-	{
-		key: "3",
-		seasonId: "Jim Green",
-		startDate: 32,
-		endDate: "Sidney No. 1 Lake Park",
-		members: 1,
-	},
-	{
-		key: "4",
-		seasonId: "Jim Red",
-		startDate: 32,
-		endDate: "London No. 2 Lake Park",
-		members: 1,
-	},
-];
+const displayDate = date => <span>{moment(date).format("l")}</span>;
 
 class ViewSeasons extends Component {
 	state = {
 		searchText: "",
+	};
+
+	componentDidMount = () => {
+		if (this.props.isLoading) this.props.fetchSeasons();
 	};
 
 	getColumnSearchProps = dataIndex => ({
@@ -95,14 +75,6 @@ class ViewSeasons extends Component {
 				setTimeout(() => this.searchInput.select());
 			}
 		},
-		render: text => (
-			<Highlighter
-				highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
-				searchWords={[this.state.searchText]}
-				autoEscape
-				textToHighlight={text.toString()}
-			/>
-		),
 	});
 
 	handleSearch = (selectedKeys, confirm) => {
@@ -116,9 +88,11 @@ class ViewSeasons extends Component {
 	};
 
 	render = () => {
+		const { data, isLoading } = this.props;
+
 		const columns = [
 			{
-				title: "SeasonId",
+				title: "Season Id",
 				dataIndex: "seasonId",
 				key: "seasonId",
 				...this.getColumnSearchProps("seasonId"),
@@ -127,12 +101,14 @@ class ViewSeasons extends Component {
 				title: "Start Date",
 				dataIndex: "startDate",
 				key: "startDate",
+				render: displayDate,
 				...this.getColumnSearchProps("startDate"),
 			},
 			{
 				title: "End Date",
 				dataIndex: "endDate",
 				key: "endDate",
+				render: displayDate,
 				...this.getColumnSearchProps("endDate"),
 			},
 			{
@@ -144,9 +120,9 @@ class ViewSeasons extends Component {
 			{
 				title: "Action",
 				key: "action",
-				render: (_, record) => (
+				render: () => (
 					<span>
-						<a href="javascript:;">Invite {record.name}</a>
+						<a href="javascript:;">Edit</a>
 						<Divider type="vertical" />
 						<a href="javascript:;">Delete</a>
 					</span>
@@ -158,16 +134,68 @@ class ViewSeasons extends Component {
 			<Fragment>
 				<Helmet title={title} />
 				<Card title={title}>
-					<Table
-						columns={columns}
-						dataSource={data}
-						pagination={false}
-						bordered={true}
-					/>
+					<div
+						style={{
+							display: "flex",
+							justifyContent: "flex-end",
+							width: "100%",
+						}}
+					>
+						<Button
+							primary
+							width="180px"
+							marginRight="0px"
+							padding="5px 10px"
+							style={{ marginBottom: 10 }}
+							onClick={() => this.props.push("/employee/seasons/create")}
+						>
+							<FaCalendarPlus style={{ position: "relative", top: 2 }} />
+							&nbsp; New Season
+						</Button>
+					</div>
+					{isLoading ? (
+						<p>Loading...</p>
+					) : (
+						<Table
+							columns={columns}
+							dataSource={data}
+							pagination={false}
+							bordered={true}
+							rowKey="_id"
+						/>
+					)}
 				</Card>
 			</Fragment>
 		);
 	};
 }
 
-export default ViewSeasons;
+ViewSeasons.propTypes = {
+	data: PropTypes.arrayOf(
+		PropTypes.shape({
+			_id: PropTypes.any,
+			members: PropTypes.number,
+			seasonId: PropTypes.string,
+			startDate: PropTypes.string,
+			endDate: PropTypes.string,
+		}),
+	),
+	fetchSeasons: PropTypes.func.isRequired,
+	isLoading: PropTypes.bool.isRequired,
+	push: PropTypes.func,
+};
+
+const mapStateToProps = state => ({
+	isLoading: state.seasons.isLoading,
+	data: state.seasons.data,
+});
+
+const mapDispatchToProps = {
+	fetchSeasons,
+	push,
+};
+
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps,
+)(ViewSeasons);

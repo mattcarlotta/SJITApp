@@ -27,6 +27,9 @@ const seedDB = async () => {
     };
 
     await Season.create(newSeason);
+    const createdSeason = await Season.findOne({
+      seasonId: newSeason.seasonId,
+    });
 
     const newHire = {
       authorizedEmail: "member@example.com",
@@ -82,6 +85,15 @@ const seedDB = async () => {
     await User.create(member);
     await User.create(member2);
     await User.create(member3);
+
+    const newMember = await User.findOne({ email: member.email });
+    const newMember2 = await User.findOne({ email: member2.email });
+    const newMember3 = await User.findOne({ email: member3.email });
+
+    await Season.addUser(createdSeason._id, newMember._id);
+    await Season.addUser(createdSeason._id, newMember2._id);
+    await Season.addUser(createdSeason._id, newMember3._id);
+
     await db.close();
 
     return console.log(

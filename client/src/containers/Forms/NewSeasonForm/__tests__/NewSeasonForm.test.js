@@ -92,8 +92,8 @@ describe("Create Season Form", () => {
 		it("submits the form after a successful validation and calls createSeason with fields", () => {
 			expect(wrapper.find("NewSeasonForm").state("isSubmitting")).toBeTruthy();
 			expect(createSeason).toHaveBeenCalledWith({
-				endDate: endDate.toString(),
-				startDate: startDate.toString(),
+				endDate: endDate.format("l"),
+				startDate: startDate.format("l"),
 				seasonId,
 			});
 		});

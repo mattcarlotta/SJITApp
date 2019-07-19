@@ -1,6 +1,7 @@
 // seasons
 export const SEASONS_CREATE = "SEASONS/CREATE";
-export const SEASONS_GET = "SEASONS/GET";
+export const SEASONS_FETCH = "SEASONS/FETCH";
+export const SEASONS_RESET = "SEASONS/RESET";
 export const SEASONS_SET = "SEASONS/SET";
 
 // server messages

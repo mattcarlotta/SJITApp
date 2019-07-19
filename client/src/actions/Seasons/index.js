@@ -14,13 +14,23 @@ export const createSeason = props => ({
 });
 
 /**
- * Gets all seasons.
+ * Fetches all seasons.
  *
- * @function getSeasons
+ * @function fetchSeasons
  * @returns {object}
  */
-export const getSeasons = () => ({
-	type: types.SEASONS_GET,
+export const fetchSeasons = () => ({
+	type: types.SEASONS_FETCH,
+});
+
+/**
+ * Resets any seasons from redux state.
+ *
+ * @function resetSeasons
+ * @returns {object}
+ */
+export const resetSeasons = () => ({
+	type: types.SEASONS_RESET,
 });
 
 /**
