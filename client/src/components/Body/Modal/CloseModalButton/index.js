@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const CloseModalButton = styled.button`
+export default styled.button`
 	cursor: pointer;
 	color: #9facbd;
 	border: 0;
@@ -23,5 +23,3 @@ const CloseModalButton = styled.button`
 		outline: none;
 	}
 `;
-
-export default CloseModalButton;

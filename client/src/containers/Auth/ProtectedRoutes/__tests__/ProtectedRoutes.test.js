@@ -13,6 +13,9 @@ const initProps = {
 	hideServerMessage,
 	lastName: "",
 	loggedinUser: "",
+	location: {
+		patname: "",
+	},
 	match: {
 		url: "/employee",
 	},
@@ -30,7 +33,12 @@ describe("Protected Routes", () => {
 	});
 
 	it("renders the App if authenticated", () => {
-		wrapper.setProps({ loggedinUser: "test@example.com" });
+		wrapper.setProps({
+			role: "member",
+			location: {
+				pathname: "/dashboard",
+			},
+		});
 		expect(wrapper.find("Layout")).toBeTruthy();
 	});
 

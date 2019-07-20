@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const MenuButton = styled.button`
+export default styled.button`
 	cursor: pointer;
 	color: #025f6d;
 	height: ${({ height }) => height || "64px"};
@@ -26,5 +26,3 @@ const MenuButton = styled.button`
 		outline: 0;
 	}
 `;
-
-export default MenuButton;

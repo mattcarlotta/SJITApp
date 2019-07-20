@@ -1,7 +1,5 @@
 import styled from "styled-components";
 
-const MenuItemContainer = styled.span`
+export default styled.span`
 	margin-left: 10px;
 `;
-
-export default MenuItemContainer;

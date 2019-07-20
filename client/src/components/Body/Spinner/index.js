@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Spinner from "./Spinner";
 
-const StyledSpinner = styled(Spinner)`
+export default styled(Spinner)`
 	margin: 0 auto;
 	width: 60px;
 	height: 50px;
@@ -58,5 +58,3 @@ const StyledSpinner = styled(Spinner)`
 		animation-delay: -0.3s;
 	}
 `;
-
-export default StyledSpinner;

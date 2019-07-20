@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const TextContainer = styled.div`
+export default styled.div`
 	color: #fff;
 	display: -ms-flexbox;
 	display: flex;
@@ -15,5 +15,3 @@ const TextContainer = styled.div`
 	border-radius: 4px;
 	transform: translate(0px, 0px);
 `;
-
-export default TextContainer;

@@ -25,7 +25,7 @@ const animateMessage = state => {
 	}
 };
 
-const WindowContainer = styled.div`
+export default styled.div`
 	left: 50%;
 	display: flex;
 	transform: translateX(-50%);
@@ -41,5 +41,3 @@ const WindowContainer = styled.div`
 
 	${({ state }) => animateMessage(state)};
 `;
-
-export default WindowContainer;

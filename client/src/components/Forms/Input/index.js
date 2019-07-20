@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Input from "./Input";
 
-const StyledInput = styled(Input)`
+export default styled(Input)`
 	position: relative;
 	display: inline-block;
 	height: 105px;
@@ -97,5 +97,3 @@ const StyledInput = styled(Input)`
 		}
 	}
 `;
-
-export default StyledInput;

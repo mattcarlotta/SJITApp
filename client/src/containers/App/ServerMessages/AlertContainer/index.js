@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const AlertContainer = styled.div`
+export default styled.div`
 	color: #fff;
 	display: -ms-flexbox;
 	display: flex;
@@ -11,5 +11,3 @@ const AlertContainer = styled.div`
 	width: 30px;
 	margin: 0px 20px;
 `;
-
-export default AlertContainer;

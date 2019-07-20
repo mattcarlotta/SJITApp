@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const BackgroundOverlay = styled.div`
+export default styled.div`
 	opacity: 1;
 	transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 	top: 0;
@@ -13,5 +13,3 @@ const BackgroundOverlay = styled.div`
 	background-color: rgba(0, 0, 0, 0.5);
 	-webkit-tap-highlight-color: transparent;
 `;
-
-export default BackgroundOverlay;

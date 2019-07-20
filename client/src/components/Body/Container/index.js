@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const Container = styled.div`
+export default styled.div`
 	@media (max-width: 768px) {
 		margin-top: 150px;
 	}
@@ -15,5 +15,3 @@ const Container = styled.div`
 	width: ${({ width }) => width || "100%"};
 	margin-top: 120px;
 `;
-
-export default Container;

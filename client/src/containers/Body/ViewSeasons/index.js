@@ -6,14 +6,14 @@ import { push } from "connected-react-router";
 import { Divider, Table, Input, Icon, Card } from "antd";
 import { FaCalendarPlus } from "react-icons/fa";
 import moment from "moment";
-import { Button, Float } from "components/Body";
+import { Button, FlexEnd, LoadingTable } from "components/Body";
 import { fetchSeasons } from "actions/Seasons";
 
 const title = "View Seasons";
 
 const displayDate = date => <span>{moment(date).format("l")}</span>;
 
-class ViewSeasons extends Component {
+export class ViewSeasons extends Component {
 	state = {
 		searchText: "",
 	};
@@ -88,7 +88,7 @@ class ViewSeasons extends Component {
 	};
 
 	render = () => {
-		const { data, isLoading } = this.props;
+		const { data, isLoading, push } = this.props;
 
 		const columns = [
 			{
@@ -134,27 +134,21 @@ class ViewSeasons extends Component {
 			<Fragment>
 				<Helmet title={title} />
 				<Card title={title}>
-					<div
-						style={{
-							display: "flex",
-							justifyContent: "flex-end",
-							width: "100%",
-						}}
-					>
+					<FlexEnd>
 						<Button
 							primary
 							width="180px"
 							marginRight="0px"
 							padding="5px 10px"
-							style={{ marginBottom: 10 }}
-							onClick={() => this.props.push("/employee/seasons/create")}
+							style={{ marginBottom: 20 }}
+							onClick={() => push("/employee/seasons/create")}
 						>
 							<FaCalendarPlus style={{ position: "relative", top: 2 }} />
 							&nbsp; New Season
 						</Button>
-					</div>
+					</FlexEnd>
 					{isLoading ? (
-						<p>Loading...</p>
+						<LoadingTable />
 					) : (
 						<Table
 							columns={columns}

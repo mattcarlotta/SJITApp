@@ -4,6 +4,6 @@ const wrapper = mount(<Submitting />);
 
 describe("Submitting", () => {
 	it("renders without errors", () => {
-		expect(wrapper.find("Submitting__StyledSubmitting").exists()).toBeTruthy();
+		expect(wrapper.find("Submitting").exists()).toBeTruthy();
 	});
 });

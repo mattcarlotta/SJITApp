@@ -34,7 +34,7 @@ describe("App Loader", () => {
 	});
 
 	it("initially renders a Spinner", () => {
-		expect(wrapper.find("Spinner__StyledSpinner").exists()).toBeTruthy();
+		expect(wrapper.find("Spinner").exists()).toBeTruthy();
 	});
 
 	it("doesn't call authenticateUser if 'role' is set", () => {

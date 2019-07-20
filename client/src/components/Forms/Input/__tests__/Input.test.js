@@ -68,7 +68,12 @@ describe("Input", () => {
 				.first()
 				.exists(),
 		).toBeTruthy();
-		expect(wrapper.find("Label").text()).toContain("Password");
+		expect(
+			wrapper
+				.find("Label")
+				.at(1)
+				.text(),
+		).toContain("Password");
 	});
 
 	it("when invalid, adds a 'error' classname and displays validation errors", () => {

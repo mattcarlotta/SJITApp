@@ -13,12 +13,10 @@ const typeOfAlert = type => {
 	}
 };
 
-const MessageContainer = styled.div`
+export default styled.div`
 	display: -ms-flexbox;
 	display: flex;
 	background: ${({ type }) => typeOfAlert(type)};
 	padding: 10px;
 	border-radius: 4px;
 `;
-
-export default MessageContainer;

@@ -14,6 +14,6 @@ describe("Submit Button", () => {
 
 	it("renders a spinner when submitting", () => {
 		wrapper.setProps({ isSubmitting: true });
-		expect(wrapper.find("Submitting__StyledSubmitting").exists()).toBeTruthy();
+		expect(wrapper.find("Submitting").exists()).toBeTruthy();
 	});
 });

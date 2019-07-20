@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import StyledButton from "./Button";
 
-const Button = styled(StyledButton)`
+export default styled(StyledButton)`
 	cursor: ${({ disabled }) => (!disabled ? "pointer" : "not-allowed")};
 	display: ${({ display }) => display || "block"};
 	color: ${props => (!props.primary && !props.danger ? "#025f6d" : "#fff")};
@@ -54,5 +54,3 @@ const Button = styled(StyledButton)`
 		outline: 0;
 	}
 `;
-
-export default Button;

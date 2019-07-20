@@ -10,4 +10,48 @@ describe("Season Actions", () => {
 			props,
 		});
 	});
+
+	it("returns SEASONS_FETCH", () => {
+		const value = actions.fetchSeasons();
+		expect(value).toEqual({
+			type: types.SEASONS_FETCH,
+		});
+	});
+
+	it("returns SEASONS_RESET", () => {
+		const value = actions.resetSeasons();
+		expect(value).toEqual({
+			type: types.SEASONS_RESET,
+		});
+	});
+
+	it("returns SEASONS_SET with data", () => {
+		const data = {
+			seasons: [
+				{
+					_id: "5d323ee2b02dee15483e5d9f",
+					members: 3,
+					seasonId: "20002001",
+					startDate: "2000-10-06T07:00:00.000+00:00",
+					endDate: "2001-08-06T07:00:00.000+00:00",
+				},
+			],
+		};
+		const value = actions.setSeasons(data);
+
+		expect(value).toEqual({
+			type: types.SEASONS_SET,
+			payload: data,
+		});
+	});
+
+	it("returns SEASONS_SET with an empty array if data is empty", () => {
+		const data = {};
+		const value = actions.setSeasons(data);
+
+		expect(value).toEqual({
+			type: types.SEASONS_SET,
+			payload: [],
+		});
+	});
 });

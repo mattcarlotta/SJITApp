@@ -11,3 +11,13 @@ export const serverMessage = {
 	show: true,
 	message: "Welcome to the team!",
 };
+
+export const seasonsData = [
+	{
+		_id: "5d323ee2b02dee15483e5d9f",
+		members: 3,
+		seasonId: "20002001",
+		startDate: "2000-10-06T07:00:00.000+00:00",
+		endDate: "2001-08-06T07:00:00.000+00:00",
+	},
+];

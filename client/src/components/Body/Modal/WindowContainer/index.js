@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const WindowContainer = styled.div`
+export default styled.div`
 	text-align: center;
 	position: fixed;
 	top: 0;
@@ -21,5 +21,3 @@ const WindowContainer = styled.div`
 		content: "";
 	}
 `;
-
-export default WindowContainer;

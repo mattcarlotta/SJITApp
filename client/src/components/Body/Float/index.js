@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const Float = styled.div`
+export default styled.div`
 	float: ${({ direction }) => direction || "right"};
 
 	&::before,
@@ -10,5 +10,3 @@ const Float = styled.div`
 		display: table;
 	}
 `;
-
-export default Float;
