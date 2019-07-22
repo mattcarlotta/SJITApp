@@ -59,26 +59,89 @@ describe("View All Seasons", () => {
 		expect(push).toHaveBeenCalledWith("/employee/seasons/create");
 	});
 
-	it("displays a 5 column Table component with data if isLoading is false", () => {
-		fetchSeasons.mockClear();
+	describe("Seasons Table", () => {
+		beforeEach(() => {
+			fetchSeasons.mockClear();
+			wrapper = mount(<ViewSeasons {...nextProps} />);
+		});
 
-		wrapper = mount(<ViewSeasons {...nextProps} />);
+		it("displays a 5 column Table component with data if isLoading is false", () => {
+			expect(fetchSeasons).toHaveBeenCalledTimes(0);
+			expect(wrapper.find("Table").exists()).toBeTruthy();
+			expect(wrapper.find("th")).toHaveLength(5);
+			expect(wrapper.find("td")).toHaveLength(5);
+			expect(
+				wrapper
+					.find("td")
+					.at(1)
+					.text(),
+			).toEqual("10/6/2000");
+			expect(
+				wrapper
+					.find("td")
+					.at(2)
+					.text(),
+			).toEqual("8/6/2001");
+		});
 
-		expect(fetchSeasons).toHaveBeenCalledTimes(0);
-		expect(wrapper.find("Table").exists()).toBeTruthy();
-		expect(wrapper.find("th")).toHaveLength(5);
-		expect(wrapper.find("td")).toHaveLength(5);
-		expect(
-			wrapper
-				.find("td")
+		// it("filters the table by searchText, as well as clears the table filters", () => {
+		// 	const confirm = jest.fn();
+		// 	const selectedKeys = ["2000"];
+		// 	wrapper.instance().handleSearch(selectedKeys, confirm);
+
+		// 	expect(confirm).toHaveBeenCalledTimes(1);
+		// 	expect(wrapper.state("searchText")).toEqual(selectedKeys[0]);
+
+		// 	const clearFilters = jest.fn();
+		// 	wrapper.instance().handleReset(clearFilters);
+
+		// 	expect(clearFilters).toHaveBeenCalledTimes(1);
+		// 	expect(wrapper.state("searchText")).toEqual("");
+		// });
+
+		it("filters the table by searchText, as well as clears the table filters", () => {
+			const clickSearchIcon = () => {
+				wrapper
+					.find(".ant-dropdown-trigger")
+					.first()
+					.simulate("click");
+			};
+
+			clickSearchIcon();
+
+			const searchBar = wrapper.find("div.ant-table-filter-dropdown").first();
+
+			const value = "1000";
+			const updateInput = () => {
+				searchBar.find(".ant-input").simulate("change", { target: { value } });
+			};
+
+			updateInput();
+
+			searchBar
+				.find("button")
+				.first()
+				.simulate("click");
+
+			expect(wrapper.state("searchText")).toEqual(value);
+			expect(wrapper.find("div.ant-empty-image").exists()).toBeTruthy();
+
+			clickSearchIcon();
+
+			searchBar
+				.find("button")
 				.at(1)
-				.text(),
-		).toEqual("10/6/2000");
-		expect(
-			wrapper
-				.find("td")
-				.at(2)
-				.text(),
-		).toEqual("8/6/2001");
+				.simulate("click");
+
+			expect(wrapper.state("searchText")).toEqual("");
+			expect(wrapper.find("div.ant-empty-image").exists()).toBeFalsy();
+
+			clickSearchIcon();
+			updateInput();
+			searchBar.find(".ant-input").simulate("keydown", { keyCode: 13 });
+
+			expect(wrapper.state("searchText")).toEqual(value);
+			expect(wrapper.find("div.ant-empty-image").exists()).toBeTruthy();
+		});
 	});
 });

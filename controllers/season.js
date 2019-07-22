@@ -28,23 +28,19 @@ const createSeason = async (req, res) => {
 const deleteSeason = (req, res) => sendError("Route not setup.", res);
 
 const getAllSeasons = async (_, res) => {
-  try {
-    const seasons = await Season.aggregate([
-      { $match: {} },
-      {
-        $project: {
-          members: { $size: "$members" },
-          seasonId: 1,
-          startDate: 1,
-          endDate: 1,
-        },
+  const seasons = await Season.aggregate([
+    { $match: {} },
+    {
+      $project: {
+        members: { $size: "$members" },
+        seasonId: 1,
+        startDate: 1,
+        endDate: 1,
       },
-    ]);
+    },
+  ]);
 
-    res.status(201).json({ seasons });
-  } catch (err) {
-    sendError(err, res);
-  }
+  res.status(201).json({ seasons });
 };
 
 const getSeason = (req, res) => sendError("Route not setup.", res);

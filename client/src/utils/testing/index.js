@@ -1,13 +1,11 @@
-import { runSaga } from "redux-saga";
+/* istanbul ignore file */
 import { createElement } from "react";
 import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
-import { shallow, mount } from "enzyme";
+import { shallow } from "enzyme";
 import { createBrowserHistory } from "history";
-import { createStore, applyMiddleware } from "redux";
+import { applyMiddleware } from "redux";
 import { saga, store } from "root";
-import rootReducer from "reducers";
-import rootSagas from "sagas";
 
 const history = createBrowserHistory();
 const middlewares = applyMiddleware(saga);
@@ -25,20 +23,6 @@ const middlewares = applyMiddleware(saga);
  */
 export const shallowWrap = (Component, state = null) => {
 	const wrapper = shallow(Component);
-	if (state) wrapper.setState(state);
-	return wrapper;
-};
-
-/**
- * Factory function to create a MountedWrapper for a component
- * @function mountWrap
- * @param {node} Component - Component to be mounted
- * @param {object} props - Component props specific to this setup.
- * @param {object} state - initial state for setup.
- * @returns {MountedWrapper}
- */
-export const mountWrap = (Component, state = null) => {
-	const wrapper = mount(Component);
 	if (state) wrapper.setState(state);
 	return wrapper;
 };

@@ -1,8 +1,9 @@
 import { JSDOM } from "jsdom";
 import { configure } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
+import { mount } from "enzyme";
 import { sleep } from "utils";
-import { HOCWrap, mountWrap, shallowWrap } from "utils/testing";
+import { HOCWrap, shallowWrap } from "utils/testing";
 import mockApp from "utils/__mocks__/mockAxios.js";
 import "jest-styled-components";
 
@@ -26,7 +27,7 @@ global.HTMLAnchorElement = window.HTMLAnchorElement;
 global.sleep = sleep;
 global.HOCWrap = HOCWrap;
 global.shallow = shallowWrap;
-global.mount = mountWrap;
+global.mount = mount;
 global.mockApp = mockApp;
 global.React = require("react");
 global.Provider = require("react-redux").Provider;
