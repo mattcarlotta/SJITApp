@@ -25,7 +25,7 @@ describe("Delete Season Controller", () => {
   });
 
   it("handles invalid delete season requests", async () => {
-    const id = "1234";
+    const id = "5d36409b0aa1b50ba8f926dc";
     const res = mockResponse();
     const req = mockRequest(null, null, null, null, { id });
 
@@ -42,7 +42,7 @@ describe("Delete Season Controller", () => {
 
     const res = mockResponse();
     const req = mockRequest(null, null, null, null, {
-      id: existingSeason.seasonId,
+      id: existingSeason._id,
     });
 
     await deleteSeason(req, res);

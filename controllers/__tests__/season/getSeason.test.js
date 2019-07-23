@@ -1,3 +1,4 @@
+import { Season } from "models";
 import { getSeason } from "controllers/season";
 
 describe("Get Season Controller", () => {
@@ -24,7 +25,7 @@ describe("Get Season Controller", () => {
   });
 
   it("handles invalid get season requests", async () => {
-    const id = "1234";
+    const id = "5d36409b0aa1b50ba8f926dc";
     const res = mockResponse();
     const req = mockRequest(null, null, null, null, { id });
 
@@ -37,9 +38,11 @@ describe("Get Season Controller", () => {
   });
 
   it("handles valid get season requests", async () => {
-    const id = "20002001";
+    const seasonId = "20002001";
+    const existingSeason = await Season.findOne({ seasonId });
+
     const res = mockResponse();
-    const req = mockRequest(null, null, null, null, { id });
+    const req = mockRequest(null, null, null, null, { id: existingSeason._id });
 
     await getSeason(req, res);
 

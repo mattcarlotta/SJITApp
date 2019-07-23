@@ -19,13 +19,13 @@ const createSeason = async (req, res) => {
 
 const deleteSeason = async (req, res) => {
   try {
-    const { id: seasonId } = req.params;
-    if (!seasonId) throw "You must provide a season id to delete.";
+    const { id: _id } = req.params;
+    if (!_id) throw "You must provide a season id to delete.";
 
-    const existingSeason = await Season.findOne({ seasonId });
+    const existingSeason = await Season.findOne({ _id });
     if (!existingSeason) throw "Unable to delete that season. It doesn't exist.";
 
-    await existingSeason.deleteOne({ seasonId });
+    await existingSeason.deleteOne({ _id });
 
     res.status(202).json({ message: "Successfully deleted the season." });
   } catch (err) {
@@ -51,11 +51,11 @@ const getAllSeasons = async (_, res) => {
 
 const getSeason = async (req, res) => {
   try {
-    const { id: seasonId } = req.params;
-    if (!seasonId) throw "You must include a seasonId.";
+    const { id: _id } = req.params;
+    if (!_id) throw "You must include a seasonId.";
 
-    const existingSeason = await Season.findOne({ seasonId }, { members: 0 });
-    if (!existingSeason) throw `Unable to locate the season: ${seasonId}.`;
+    const existingSeason = await Season.findOne({ _id }, { members: 0 });
+    if (!existingSeason) throw `Unable to locate the season: ${_id}.`;
 
     res.status(200).json({ season: existingSeason });
   } catch (err) {
