@@ -21,18 +21,19 @@ describe("Season Reducer", () => {
 
 		expect(state).toEqual({
 			data: mocks.seasonsData,
+			editSeason: [],
 			isLoading: false,
 		});
 	});
 
-	it("resets seasons data and sets isLoading to true", () => {
+	it("when fetching all seasons, resets seasons data and sets isLoading to true", () => {
 		let state = seasonReducer(undefined, {
 			type: types.SEASONS_SET,
 			payload: data,
 		});
 
 		state = seasonReducer(state, {
-			type: types.SEASONS_RESET,
+			type: types.SEASONS_FETCH,
 		});
 
 		expect(state).toEqual(initialState);

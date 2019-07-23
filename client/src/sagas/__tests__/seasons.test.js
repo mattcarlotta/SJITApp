@@ -100,6 +100,7 @@ describe("Season Sagas", () => {
 				.withReducer(seasonReducer)
 				.hasFinalState({
 					data: mocks.seasonsData,
+					editSeason: [],
 					isLoading: false,
 				})
 				.run();

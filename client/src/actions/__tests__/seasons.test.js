@@ -18,13 +18,6 @@ describe("Season Actions", () => {
 		});
 	});
 
-	it("returns SEASONS_RESET", () => {
-		const value = actions.resetSeasons();
-		expect(value).toEqual({
-			type: types.SEASONS_RESET,
-		});
-	});
-
 	it("returns SEASONS_SET with data", () => {
 		const data = {
 			seasons: [

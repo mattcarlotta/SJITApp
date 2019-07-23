@@ -2,6 +2,7 @@ import * as types from "types";
 
 export const initialState = {
 	data: [],
+	editSeason: [],
 	isLoading: true,
 };
 
@@ -13,10 +14,13 @@ export const initialState = {
  */
 const seasonReducer = (state = initialState, { payload, type }) => {
 	switch (type) {
-		case types.SEASONS_RESET:
+		case types.SEASONS_EDIT:
+		case types.SEASONS_FETCH:
 			return initialState;
 		case types.SEASONS_SET:
 			return { ...state, data: payload.seasons, isLoading: false };
+		case types.SEASONS_SET_EDIT:
+			return { ...state, editSeason: payload.season, isLoading: false };
 		default:
 			return state;
 	}

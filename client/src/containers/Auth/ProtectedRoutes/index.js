@@ -2,7 +2,7 @@ import React, { Fragment, PureComponent } from "react";
 import PropTypes from "prop-types";
 import { push } from "connected-react-router";
 import { connect } from "react-redux";
-import { Redirect, Route, Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import App from "components/App";
 import { AppLoader } from "components/Auth";
 import {

@@ -1,7 +1,10 @@
 // seasons
+export const SEASONS_DELETE = "SEASONS_DELETE";
+export const SEASONS_EDIT = "SEASON_EDIT";
+export const SEASONS_SET_EDIT = "SEASON/SET_EDIT";
+export const SEASONS_UPDATE_EDIT = "SEASON_UPDATE_EDIT";
 export const SEASONS_CREATE = "SEASONS/CREATE";
 export const SEASONS_FETCH = "SEASONS/FETCH";
-export const SEASONS_RESET = "SEASONS/RESET";
 export const SEASONS_SET = "SEASONS/SET";
 
 // server messages

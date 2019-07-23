@@ -1,13 +1,19 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import Helmet from "react-helmet";
+import moment from "moment";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
-import { Divider, Table, Input, Icon, Card } from "antd";
-import { FaCalendarPlus } from "react-icons/fa";
-import moment from "moment";
+import { Card, Divider, Icon, Input, Popconfirm, Table } from "antd";
+import {
+	FaCalendarPlus,
+	FaEdit,
+	FaExclamationCircle,
+	FaSearch,
+	FaTrash,
+} from "react-icons/fa";
 import { Button, FlexEnd, LoadingTable } from "components/Body";
-import { fetchSeasons } from "actions/Seasons";
+import { deleteSeason, fetchSeasons } from "actions/Seasons";
 
 const title = "View Seasons";
 
@@ -63,7 +69,10 @@ export class ViewSeasons extends Component {
 			</div>
 		),
 		filterIcon: filtered => (
-			<Icon type="search" style={{ color: filtered ? "#1890ff" : undefined }} />
+			<Icon
+				component={FaSearch}
+				style={{ color: filtered ? "#1890ff" : undefined }}
+			/>
 		),
 		onFilter: (value, record) =>
 			record[dataIndex]
@@ -118,14 +127,45 @@ export class ViewSeasons extends Component {
 				...this.getColumnSearchProps("members"),
 			},
 			{
-				title: "Action",
+				title: "Actions",
 				key: "action",
-				render: () => (
-					<span>
-						<a href="javascript:;">Edit</a>
+				render: (_, record) => (
+					<Fragment>
+						<Button
+							primary
+							display="inline-block"
+							width="100px"
+							padding="2px 0px 0 3px"
+							marginRight="0px"
+							onClick={() =>
+								this.props.push(`/employee/seasons/edit/${record.seasonId}`)
+							}
+						>
+							<FaEdit style={{ position: "relative", top: 2 }} /> Edit
+						</Button>
 						<Divider type="vertical" />
-						<a href="javascript:;">Delete</a>
-					</span>
+						<Popconfirm
+							placement="top"
+							title="Are you sure? This is irreversible."
+							icon={
+								<Icon
+									component={FaExclamationCircle}
+									style={{ color: "red" }}
+								/>
+							}
+							onConfirm={() => this.props.deleteSeason(record.seasonId)}
+						>
+							<Button
+								danger
+								display="inline-block"
+								width="110px"
+								padding="2px 0 0 0px"
+								marginRight="0px"
+							>
+								<FaTrash style={{ position: "relative", top: 2 }} /> Delete
+							</Button>
+						</Popconfirm>
+					</Fragment>
 				),
 			},
 		];
@@ -174,6 +214,7 @@ ViewSeasons.propTypes = {
 			endDate: PropTypes.string,
 		}),
 	),
+	deleteSeason: PropTypes.func,
 	fetchSeasons: PropTypes.func.isRequired,
 	isLoading: PropTypes.bool.isRequired,
 	push: PropTypes.func,
@@ -185,6 +226,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
+	deleteSeason,
 	fetchSeasons,
 	push,
 };

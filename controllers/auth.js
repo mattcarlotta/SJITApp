@@ -13,7 +13,7 @@ const createUser = (req, res) => {
 
 // EMAILS A USER A TOKEN TO RESET THEIR PASSWORD
 const emailResetToken = (req, res) => {
-  res.status(201).json(passwordResetToken(req.user));
+  res.status(200).json(passwordResetToken(req.user));
 };
 
 // ALLOWS A USER TO LOG INTO THE APP ON REFRESH
@@ -38,7 +38,7 @@ const signout = (req, res) => {
 
 // ALLOWS A USER TO UPDATE THEIR PASSWORD WITH A TOKEN
 const updatePassword = (req, res) => {
-  res.status(201).json({ message: passwordResetSuccess(req.user) });
+  res.status(200).json({ message: passwordResetSuccess(req.user) });
 };
 
 export {

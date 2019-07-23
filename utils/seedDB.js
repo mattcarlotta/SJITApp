@@ -22,11 +22,25 @@ const seedDB = async () => {
   try {
     const newSeason = {
       seasonId: "20002001",
-      startDate: new Date(2000, 9, 6),
-      endDate: new Date(2001, 7, 6),
+      startDate: new Date(2000, 8, 26),
+      endDate: new Date(2001, 5, 12),
+    };
+
+    const newSeason2 = {
+      seasonId: "20052006",
+      startDate: new Date(2005, 8, 26),
+      endDate: new Date(2006, 5, 12),
+    };
+
+    const newSeason3 = {
+      seasonId: "20112012",
+      startDate: new Date(2011, 8, 26),
+      endDate: new Date(2012, 5, 12),
     };
 
     await Season.create(newSeason);
+    await Season.create(newSeason2);
+    await Season.create(newSeason3);
     const createdSeason = await Season.findOne({
       seasonId: newSeason.seasonId,
     });

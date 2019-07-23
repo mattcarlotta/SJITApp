@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import isEmpty from "lodash/isEmpty";
 import moment from "moment";
 import { connect } from "react-redux";
 import { Card, Form, DatePicker } from "antd";
@@ -27,6 +28,7 @@ export class NewSeasonForm extends Component {
 				required: true,
 				props: {
 					format: "l",
+					autoFocus: true,
 				},
 			},
 		],
@@ -40,9 +42,11 @@ export class NewSeasonForm extends Component {
 	handleChange = ({ name, value }) => {
 		let seasonId = "";
 
-		const startYear = moment(value[0]).format("YYYY");
-		const endYear = moment(value[1]).format("YYYY");
-		seasonId = `${startYear}${endYear}`;
+		if (!isEmpty(value)) {
+			const startYear = moment(value[0]).format("YYYY");
+			const endYear = moment(value[1]).format("YYYY");
+			seasonId = `${startYear}${endYear}`;
+		}
 
 		this.setState(prevState => ({
 			...prevState,
@@ -104,6 +108,7 @@ export class NewSeasonForm extends Component {
 								{...rest}
 								suffixIcon={<FaCalendarPlus />}
 								onChange={value => this.handleChange({ name, value })}
+								onPanelChange={this.handlePanelChange}
 							/>
 							{errors && <Errors>{errors}</Errors>}
 						</Form.Item>

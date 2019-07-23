@@ -5,12 +5,36 @@ import * as types from "types";
  * Creates a new season.
  *
  * @function createSeason
- * @param {object} props - props just contain an seasonID and season duration fields.
+ * @param {object} props - props just contain an seasonId and season duration fields.
  * @returns {object}
  */
 export const createSeason = props => ({
 	type: types.SEASONS_CREATE,
 	props,
+});
+
+/**
+ * Deletes a new season.
+ *
+ * @function deleteSeason
+ * @param {string} seasonId
+ * @returns {object}
+ */
+export const deleteSeason = seasonId => ({
+	type: types.SEASONS_DELETE,
+	seasonId,
+});
+
+/**
+ * Fetches all a single season.
+ *
+ * @function fetchSeason
+ * @param {string} seasonId
+ * @returns {object}
+ */
+export const fetchSeason = seasonId => ({
+	type: types.SEASONS_EDIT,
+	seasonId,
 });
 
 /**
@@ -24,16 +48,6 @@ export const fetchSeasons = () => ({
 });
 
 /**
- * Resets any seasons from redux state.
- *
- * @function resetSeasons
- * @returns {object}
- */
-export const resetSeasons = () => ({
-	type: types.SEASONS_RESET,
-});
-
-/**
  * Sets any seasons from API to redux state
  *
  * @function setSeasons
@@ -43,4 +57,28 @@ export const resetSeasons = () => ({
 export const setSeasons = data => ({
 	type: types.SEASONS_SET,
 	payload: !isEmpty(data) ? data : [],
+});
+
+/**
+ * Sets a single season to redux for editing.
+ *
+ * @function setSeasonToEdit
+ * @param {object} data - seasonId and season duration fields
+ * @returns {object}
+ */
+export const setSeasonToEdit = data => ({
+	type: types.SEASONS_SET_EDIT,
+	payload: !isEmpty(data) ? data : [],
+});
+
+/**
+ * Updates a single season.
+ *
+ * @function updateSeason
+ * @param {object} data - id, seasonId and season duration fields
+ * @returns {object}
+ */
+export const updateSeason = props => ({
+	type: types.SEASONS_UPDATE_EDIT,
+	props,
 });

@@ -2,22 +2,14 @@ import { Season } from "models";
 import { sendError } from "shared/helpers";
 
 const createSeason = async (req, res) => {
-  const { seasonId, startDate, endDate } = req.body;
-  if (!seasonId || !startDate || !endDate) {
-    return sendError(
-      "Unable to create a new season. You must provide seasonId, startDate, and endDate fields.",
-      res,
-    );
-  }
-
   try {
+    const { seasonId, startDate, endDate } = req.body;
+
+    if (!seasonId || !startDate || !endDate) throw "Unable to create a new season. You must provide seasonId, startDate, and endDate fields.";
+
     const seasonExists = await Season.findOne({ seasonId });
-    if (seasonExists) {
-      return sendError(
-        "That season already exists. Please edit the current season or choose different start and end dates.",
-        res,
-      );
-    }
+    if (seasonExists) throw "That season already exists. Please edit the current season or choose different start and end dates.";
+
     await Season.create(req.body);
     res.status(201).json({ message: "Successfully created a new season!" });
   } catch (err) {
@@ -25,7 +17,21 @@ const createSeason = async (req, res) => {
   }
 };
 
-const deleteSeason = (req, res) => sendError("Route not setup.", res);
+const deleteSeason = async (req, res) => {
+  try {
+    const { id: seasonId } = req.params;
+    if (!seasonId) throw "You must provide a season id to delete.";
+
+    const existingSeason = await Season.findOne({ seasonId });
+    if (!existingSeason) throw "Unable to delete that season. It doesn't exist.";
+
+    await existingSeason.deleteOne({ seasonId });
+
+    res.status(202).json({ message: "Successfully deleted the season." });
+  } catch (err) {
+    sendError(err, res);
+  }
+};
 
 const getAllSeasons = async (_, res) => {
   const seasons = await Season.aggregate([
@@ -40,12 +46,41 @@ const getAllSeasons = async (_, res) => {
     },
   ]);
 
-  res.status(201).json({ seasons });
+  res.status(200).json({ seasons });
 };
 
-const getSeason = (req, res) => sendError("Route not setup.", res);
+const getSeason = async (req, res) => {
+  try {
+    const { id: seasonId } = req.params;
+    if (!seasonId) throw "You must include a seasonId.";
 
-const updateSeason = (req, res) => sendError("Route not setup.", res);
+    const existingSeason = await Season.findOne({ seasonId }, { members: 0 });
+    if (!existingSeason) throw `Unable to locate the season: ${seasonId}.`;
+
+    res.status(200).json({ season: existingSeason });
+  } catch (err) {
+    sendError(err, res);
+  }
+};
+
+const updateSeason = async (req, res) => {
+  try {
+    const {
+      _id, seasonId, startDate, endDate,
+    } = req.body;
+
+    if (!_id || !seasonId || !startDate || !endDate) throw "Unable to update the existing season. You must provide a model id, seasonId, startDate, and endDate.";
+
+    const existingSeason = await Season.findOne({ _id });
+    if (!existingSeason) throw `Unable to locate the season: ${seasonId}.`;
+
+    await Season.updateOne({ _id }, { seasonId, startDate, endDate });
+
+    res.status(201).json({ message: "Successfully updated the season." });
+  } catch (err) {
+    return sendError(err, res);
+  }
+};
 
 export {
   createSeason, deleteSeason, getAllSeasons, getSeason, updateSeason,

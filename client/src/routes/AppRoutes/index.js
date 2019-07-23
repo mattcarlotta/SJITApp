@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Redirect, Route, Switch } from "react-router-dom";
 
-import { SeasonForm, ViewSeasons } from "pages";
+import { EditSeasonForm, NewSeasonForm, ViewSeasons } from "pages";
 
 const AppRoutes = ({ match: { url } }) => (
 	<Switch>
@@ -43,7 +43,8 @@ const AppRoutes = ({ match: { url } }) => (
 			component={() => <h1>View All Members</h1>}
 		/>
 		<Route exact path={`${url}/schedule`} component={() => <h1>Schedule</h1>} />
-		<Route exact path={`${url}/seasons/create`} component={SeasonForm} />
+		<Route exact path={`${url}/seasons/create`} component={NewSeasonForm} />
+		<Route exact path={`${url}/seasons/edit/:id`} component={EditSeasonForm} />
 		<Route exact path={`${url}/seasons/viewall`} component={ViewSeasons} />
 		<Route
 			exact
