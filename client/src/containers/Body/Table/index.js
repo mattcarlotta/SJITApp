@@ -1,7 +1,15 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import { Divider, Icon, Input, Popconfirm, Table, Tooltip } from "antd";
-import { FaEdit, FaSearch, FaTrash } from "react-icons/fa";
+import {
+	FaEdit,
+	FaSearch,
+	FaTrash,
+	FaUsersCog,
+	FaEye,
+	FaStreetView,
+	FaSearchPlus,
+} from "react-icons/fa";
 import { GoStop } from "react-icons/go";
 import { Button, LoadingTable } from "components/Body";
 
@@ -83,7 +91,13 @@ class CustomTable extends Component {
 	});
 
 	createTableColumns = () => {
-		const { columns, deleteAction, editLocation, push } = this.props;
+		const {
+			columns,
+			deleteAction,
+			editLocation,
+			push,
+			viewLocation,
+		} = this.props;
 
 		const tableColumns = columns.map(props => ({
 			...props,
@@ -95,21 +109,44 @@ class CustomTable extends Component {
 			key: "action",
 			render: (_, record) => (
 				<Fragment>
-					<Tooltip placement="top" title={<span>Edit</span>}>
-						<Button
-							primary
-							display="inline-block"
-							width="50px"
-							padding="3px 0px 0 3px"
-							marginRight="0px"
-							onClick={() =>
-								push(`/employee/${editLocation}/edit/${record._id}`)
-							}
-						>
-							<FaEdit />
-						</Button>
-					</Tooltip>
-					<Divider type="vertical" />
+					{viewLocation && (
+						<Fragment>
+							<Tooltip placement="top" title={<span>View</span>}>
+								<Button
+									primary
+									display="inline-block"
+									width="50px"
+									padding="3px 0 0 0"
+									marginRight="0px"
+									onClick={() =>
+										push(`/employee/${viewLocation}/view/${record._id}`)
+									}
+								>
+									<FaSearchPlus />
+								</Button>
+							</Tooltip>
+							<Divider type="vertical" />
+						</Fragment>
+					)}
+					{editLocation && (
+						<Fragment>
+							<Tooltip placement="top" title={<span>Edit</span>}>
+								<Button
+									primary
+									display="inline-block"
+									width="50px"
+									padding="3px 0px 0 3px"
+									marginRight="0px"
+									onClick={() =>
+										push(`/employee/${editLocation}/edit/${record._id}`)
+									}
+								>
+									<FaEdit />
+								</Button>
+							</Tooltip>
+							<Divider type="vertical" />
+						</Fragment>
+					)}
 					<Tooltip placement="top" title={<span>Delete</span>}>
 						<Popconfirm
 							placement="top"
@@ -161,9 +198,10 @@ CustomTable.propTypes = {
 	).isRequired,
 	data: PropTypes.any.isRequired,
 	deleteAction: PropTypes.func,
-	editLocation: PropTypes.string.isRequired,
+	editLocation: PropTypes.string,
 	isLoading: PropTypes.bool.isRequired,
 	push: PropTypes.func.isRequired,
+	viewLocation: PropTypes.string,
 };
 
 export default CustomTable;

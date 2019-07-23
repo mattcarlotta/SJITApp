@@ -48,6 +48,7 @@ const initProps = {
 	editLocation: "seasons",
 	isLoading: true,
 	push,
+	viewLocation: "seasons",
 };
 
 const nextProps = {
@@ -57,6 +58,7 @@ const nextProps = {
 	editLocation: "seasons",
 	isLoading: false,
 	push,
+	viewLocation: "seasons",
 };
 
 describe("Custom Table", () => {
@@ -154,7 +156,7 @@ describe("Custom Table", () => {
 			expect(setSelectedKeys).toHaveBeenCalledWith([]);
 		});
 
-		it("it edits the selected record", () => {
+		it("it views the selected record", () => {
 			wrapper
 				.find("td")
 				.at(4)
@@ -165,12 +167,23 @@ describe("Custom Table", () => {
 			expect(push).toHaveBeenCalledTimes(1);
 		});
 
-		it("it deletes the selected record", () => {
+		it("it edits the selected record", () => {
 			wrapper
 				.find("td")
 				.at(4)
 				.find("button")
 				.at(1)
+				.simulate("click");
+
+			expect(push).toHaveBeenCalledTimes(1);
+		});
+
+		it("it deletes the selected record", () => {
+			wrapper
+				.find("td")
+				.at(4)
+				.find("button")
+				.at(2)
 				.simulate("click");
 
 			wrapper
