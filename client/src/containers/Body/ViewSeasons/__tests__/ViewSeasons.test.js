@@ -10,11 +10,13 @@ const data = [
 	},
 ];
 
+const deleteSeason = jest.fn();
 const fetchSeasons = jest.fn();
 const push = jest.fn();
 
 const initProps = {
 	data: [],
+	deleteSeason,
 	fetchSeasons,
 	isLoading: true,
 	push,
@@ -22,6 +24,7 @@ const initProps = {
 
 const nextProps = {
 	data,
+	deleteSeason,
 	fetchSeasons,
 	isLoading: false,
 	push,
@@ -65,6 +68,11 @@ describe("View All Seasons", () => {
 			wrapper = mount(<ViewSeasons {...nextProps} />);
 		});
 
+		afterEach(() => {
+			deleteSeason.mockClear();
+			push.mockClear();
+		});
+
 		it("displays a 5 column Table component with data if isLoading is false", () => {
 			expect(fetchSeasons).toHaveBeenCalledTimes(0);
 			expect(wrapper.find("Table").exists()).toBeTruthy();
@@ -83,21 +91,6 @@ describe("View All Seasons", () => {
 					.text(),
 			).toEqual("8/6/2001");
 		});
-
-		// it("filters the table by searchText, as well as clears the table filters", () => {
-		// 	const confirm = jest.fn();
-		// 	const selectedKeys = ["2000"];
-		// 	wrapper.instance().handleSearch(selectedKeys, confirm);
-
-		// 	expect(confirm).toHaveBeenCalledTimes(1);
-		// 	expect(wrapper.state("searchText")).toEqual(selectedKeys[0]);
-
-		// 	const clearFilters = jest.fn();
-		// 	wrapper.instance().handleReset(clearFilters);
-
-		// 	expect(clearFilters).toHaveBeenCalledTimes(1);
-		// 	expect(wrapper.state("searchText")).toEqual("");
-		// });
 
 		it("filters the table by searchText, as well as clears the table filters", () => {
 			const clickSearchIcon = () => {
@@ -142,6 +135,41 @@ describe("View All Seasons", () => {
 
 			expect(wrapper.state("searchText")).toEqual(value);
 			expect(wrapper.find("div.ant-empty-image").exists()).toBeTruthy();
+
+			const setSelectedKeys = jest.fn();
+			wrapper.instance().handleSelectKeys(value, setSelectedKeys);
+			expect(setSelectedKeys).toHaveBeenCalledWith([value]);
+
+			setSelectedKeys.mockClear();
+			wrapper.instance().handleSelectKeys("", setSelectedKeys);
+			expect(setSelectedKeys).toHaveBeenCalledWith([]);
+		});
+
+		it("it edits the selected record", () => {
+			wrapper
+				.find("td")
+				.at(4)
+				.find("button")
+				.first()
+				.simulate("click");
+
+			expect(push).toHaveBeenCalledTimes(1);
+		});
+
+		it("it deletes the selected record", () => {
+			wrapper
+				.find("td")
+				.at(4)
+				.find("button")
+				.at(1)
+				.simulate("click");
+
+			wrapper
+				.find("div.ant-popover-buttons")
+				.find("button.ant-btn-primary")
+				.simulate("click");
+
+			expect(deleteSeason).toHaveBeenCalledTimes(1);
 		});
 	});
 });

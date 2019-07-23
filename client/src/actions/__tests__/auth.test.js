@@ -4,12 +4,15 @@ import * as actions from "actions/Auth";
 describe("Authentication Actions", () => {
 	it("returns USER_SIGNIN_SESSION", () => {
 		const value = actions.authenticateUser();
+
 		expect(value).toEqual({ type: types.USER_SIGNIN_SESSION });
 	});
 
 	it("returns USER_PASSWORD_RESET with props", () => {
 		const props = { email: "test@example.com" };
+
 		const value = actions.resetPassword(props);
+
 		expect(value).toEqual({
 			type: types.USER_PASSWORD_RESET,
 			props,
@@ -24,6 +27,7 @@ describe("Authentication Actions", () => {
 			lastName: "Example",
 			role: "member",
 		};
+
 		const value = actions.signin(data);
 
 		expect(value).toEqual({
@@ -34,6 +38,7 @@ describe("Authentication Actions", () => {
 
 	it("returns USER_SIGNIN with guest role data", () => {
 		const data = {};
+
 		const value = actions.signin(data);
 
 		expect(value).toEqual({
@@ -50,6 +55,7 @@ describe("Authentication Actions", () => {
 			lastName: "Example",
 			role: "member",
 		};
+
 		const value = actions.signinUser(props);
 
 		expect(value).toEqual({
@@ -60,6 +66,7 @@ describe("Authentication Actions", () => {
 
 	it("returns USER_SIGNOUT", () => {
 		const value = actions.signout();
+
 		expect(value).toEqual({ type: types.USER_SIGNOUT });
 	});
 
@@ -71,6 +78,7 @@ describe("Authentication Actions", () => {
 			lastName: "Example",
 			password: "password",
 		};
+
 		const value = actions.signupUser(props);
 
 		expect(value).toEqual({
@@ -84,6 +92,7 @@ describe("Authentication Actions", () => {
 			token: "88",
 			password: "password",
 		};
+
 		const value = actions.updateUserPassword(props);
 
 		expect(value).toEqual({

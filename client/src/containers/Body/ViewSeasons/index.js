@@ -4,14 +4,9 @@ import Helmet from "react-helmet";
 import moment from "moment";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
-import { Card, Divider, Icon, Input, Popconfirm, Table } from "antd";
-import {
-	FaCalendarPlus,
-	FaEdit,
-	FaExclamationCircle,
-	FaSearch,
-	FaTrash,
-} from "react-icons/fa";
+import { Card, Divider, Icon, Input, Popconfirm, Table, Tooltip } from "antd";
+import { FaCalendarPlus, FaEdit, FaSearch, FaTrash } from "react-icons/fa";
+import { GoStop } from "react-icons/go";
 import { Button, FlexEnd, LoadingTable } from "components/Body";
 import { deleteSeason, fetchSeasons } from "actions/Seasons";
 
@@ -28,6 +23,20 @@ export class ViewSeasons extends Component {
 		if (this.props.isLoading) this.props.fetchSeasons();
 	};
 
+	handleSearch = (selectedKeys, confirm) => {
+		confirm();
+		this.setState({ searchText: selectedKeys[0] });
+	};
+
+	handleReset = clearFilters => {
+		clearFilters();
+		this.setState({ searchText: "" });
+	};
+
+	handleSelectKeys = (value, setSelectedKeys) => {
+		setSelectedKeys(value ? [value] : []);
+	};
+
 	getColumnSearchProps = dataIndex => ({
 		filterDropdown: ({
 			setSelectedKeys,
@@ -41,7 +50,7 @@ export class ViewSeasons extends Component {
 					placeholder={`Search ${dataIndex}`}
 					value={selectedKeys[0]}
 					onChange={({ target: { value } }) =>
-						setSelectedKeys(value ? [value] : [])
+						this.handleSelectKeys(value, setSelectedKeys)
 					}
 					onPressEnter={() => this.handleSearch(selectedKeys, confirm)}
 					style={{ marginBottom: 8, display: "block" }}
@@ -86,16 +95,6 @@ export class ViewSeasons extends Component {
 		},
 	});
 
-	handleSearch = (selectedKeys, confirm) => {
-		confirm();
-		this.setState({ searchText: selectedKeys[0] });
-	};
-
-	handleReset = clearFilters => {
-		clearFilters();
-		this.setState({ searchText: "" });
-	};
-
 	render = () => {
 		const { data, isLoading, push } = this.props;
 
@@ -131,40 +130,40 @@ export class ViewSeasons extends Component {
 				key: "action",
 				render: (_, record) => (
 					<Fragment>
-						<Button
-							primary
-							display="inline-block"
-							width="100px"
-							padding="2px 0px 0 3px"
-							marginRight="0px"
-							onClick={() =>
-								this.props.push(`/employee/seasons/edit/${record.seasonId}`)
-							}
-						>
-							<FaEdit style={{ position: "relative", top: 2 }} /> Edit
-						</Button>
-						<Divider type="vertical" />
-						<Popconfirm
-							placement="top"
-							title="Are you sure? This is irreversible."
-							icon={
-								<Icon
-									component={FaExclamationCircle}
-									style={{ color: "red" }}
-								/>
-							}
-							onConfirm={() => this.props.deleteSeason(record.seasonId)}
-						>
+						<Tooltip placement="top" title={<span>Edit</span>}>
 							<Button
-								danger
+								primary
 								display="inline-block"
-								width="110px"
-								padding="2px 0 0 0px"
+								width="50px"
+								padding="3px 0px 0 3px"
 								marginRight="0px"
+								onClick={() =>
+									this.props.push(`/employee/seasons/edit/${record.seasonId}`)
+								}
 							>
-								<FaTrash style={{ position: "relative", top: 2 }} /> Delete
+								<FaEdit />
 							</Button>
-						</Popconfirm>
+						</Tooltip>
+						<Divider type="vertical" />
+						<Tooltip placement="top" title={<span>Delete</span>}>
+							<Popconfirm
+								placement="top"
+								title="Are you sure? This action is irreversible."
+								icon={<Icon component={GoStop} style={{ color: "red" }} />}
+								onConfirm={() => this.props.deleteSeason(record.seasonId)}
+							>
+								<Button
+									danger
+									display="inline-block"
+									width="50px"
+									padding="5px 0 1px 0"
+									marginRight="0px"
+									style={{ fontSize: "16px" }}
+								>
+									<FaTrash />
+								</Button>
+							</Popconfirm>
+						</Tooltip>
 					</Fragment>
 				),
 			},

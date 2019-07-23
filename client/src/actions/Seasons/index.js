@@ -26,7 +26,7 @@ export const deleteSeason = seasonId => ({
 });
 
 /**
- * Fetches all a single season.
+ * Fetches a single season.
  *
  * @function fetchSeason
  * @param {string} seasonId
@@ -60,7 +60,7 @@ export const setSeasons = data => ({
 });
 
 /**
- * Sets a single season to redux for editing.
+ * Sets a single season to redux state for editing.
  *
  * @function setSeasonToEdit
  * @param {object} data - seasonId and season duration fields

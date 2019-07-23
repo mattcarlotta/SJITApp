@@ -2,8 +2,12 @@ import * as types from "types";
 import seasonReducer, { initialState } from "reducers/Seasons";
 import * as mocks from "reducers/__mocks__/reducers.mocks";
 
-const data = {
+const seasonsData = {
 	seasons: mocks.seasonsData,
+};
+
+const seasonData = {
+	season: mocks.seasonsData,
 };
 
 describe("Season Reducer", () => {
@@ -16,7 +20,7 @@ describe("Season Reducer", () => {
 	it("sets seasons data and sets isLoading to false", () => {
 		const state = seasonReducer(undefined, {
 			type: types.SEASONS_SET,
-			payload: data,
+			payload: seasonsData,
 		});
 
 		expect(state).toEqual({
@@ -26,10 +30,10 @@ describe("Season Reducer", () => {
 		});
 	});
 
-	it("when fetching all seasons, resets seasons data and sets isLoading to true", () => {
+	it("when fetching all seasons, resets to initialState", () => {
 		let state = seasonReducer(undefined, {
 			type: types.SEASONS_SET,
-			payload: data,
+			payload: seasonsData,
 		});
 
 		state = seasonReducer(state, {
@@ -37,5 +41,31 @@ describe("Season Reducer", () => {
 		});
 
 		expect(state).toEqual(initialState);
+	});
+
+	it("when fetching a season for editing, resets to initialState", () => {
+		let state = seasonReducer(undefined, {
+			type: types.SEASONS_SET,
+			payload: seasonsData,
+		});
+
+		state = seasonReducer(state, {
+			type: types.SEASONS_EDIT,
+		});
+
+		expect(state).toEqual(initialState);
+	});
+
+	it("sets a single season's data for editing and sets isLoading to false", () => {
+		const state = seasonReducer(undefined, {
+			type: types.SEASONS_SET_EDIT,
+			payload: seasonData,
+		});
+
+		expect(state).toEqual({
+			data: [],
+			editSeason: mocks.seasonsData,
+			isLoading: false,
+		});
 	});
 });

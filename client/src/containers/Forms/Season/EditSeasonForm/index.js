@@ -11,13 +11,13 @@ import { FormTitle, Errors, Input } from "components/Forms";
 import { Label } from "components/Body";
 import { hideServerMessage } from "actions/Messages";
 import { fetchSeason, fetchSeasons, updateSeason } from "actions/Seasons";
-import { fieldValidator, fieldUpdater, parseFields } from "utils";
+import { fieldUpdater, parseFields } from "utils";
 
 const RangePicker = DatePicker.RangePicker;
 
 const title = "Edit Season Form";
 
-class EditSeasonForm extends Component {
+export class EditSeasonForm extends Component {
 	state = {
 		fields: [
 			{
@@ -33,7 +33,6 @@ class EditSeasonForm extends Component {
 			},
 		],
 		seasonId: "",
-		isLoading: true,
 		isSubmitting: false,
 	};
 
@@ -83,9 +82,7 @@ class EditSeasonForm extends Component {
 	handleSubmit = e => {
 		e.preventDefault();
 
-		const { validatedFields, errors } = fieldValidator(this.state.fields);
-
-		this.setState({ fields: validatedFields, isSubmitting: !errors }, () => {
+		this.setState({ isSubmitting: true }, () => {
 			const { fields: formFields, seasonId } = this.state;
 			const {
 				editSeason,
@@ -94,19 +91,17 @@ class EditSeasonForm extends Component {
 				updateSeason,
 			} = this.props;
 
-			if (!errors) {
-				const parsedFields = parseFields(formFields);
-				const [seasonStart, seasonEnd] = parsedFields.seasonDuration;
-				const startDate = seasonStart.format("l");
-				const endDate = seasonEnd.format("l");
-				const { _id } = editSeason;
+			const parsedFields = parseFields(formFields);
+			const [seasonStart, seasonEnd] = parsedFields.seasonDuration;
+			const startDate = seasonStart.format("l");
+			const endDate = seasonEnd.format("l");
+			const { _id } = editSeason;
 
-				if (serverMessage) hideServerMessage();
-				setTimeout(
-					() => updateSeason({ _id, endDate, startDate, seasonId }),
-					350,
-				);
-			}
+			if (serverMessage) hideServerMessage();
+			setTimeout(
+				() => updateSeason({ _id, endDate, startDate, seasonId }),
+				350,
+			);
 		});
 	};
 
@@ -126,16 +121,12 @@ class EditSeasonForm extends Component {
 						tooltip="Select a start and end date below to automatically fill in this field."
 						icon="id"
 						value={this.state.seasonId}
-						inputStyle={{ paddingLeft: 60 }}
+						inputStyle={{ paddingLeft: 94 }}
 						readOnly
 						disabled
 					/>
 					{this.state.fields.map(({ name, props, errors, ...rest }) => (
-						<Form.Item
-							key={name}
-							style={{ height: 105 }}
-							validateStatus={errors ? "error" : ""}
-						>
+						<Form.Item key={name} style={{ height: 105 }}>
 							<Label {...rest} />
 							<RangePicker
 								{...props}
@@ -144,7 +135,6 @@ class EditSeasonForm extends Component {
 								suffixIcon={<FaCalendarPlus />}
 								onChange={value => this.handleChange({ name, value })}
 							/>
-							{errors && <Errors>{errors}</Errors>}
 						</Form.Item>
 					))}
 					<SubmitButton
@@ -163,6 +153,11 @@ EditSeasonForm.propTypes = {
 	fetchSeasons: PropTypes.func.isRequired,
 	hideServerMessage: PropTypes.func.isRequired,
 	isLoading: PropTypes.bool.isRequired,
+	match: PropTypes.shape({
+		params: PropTypes.shape({
+			id: PropTypes.string.isRequired,
+		}).isRequired,
+	}).isRequired,
 	push: PropTypes.func.isRequired,
 	updateSeason: PropTypes.func.isRequired,
 };

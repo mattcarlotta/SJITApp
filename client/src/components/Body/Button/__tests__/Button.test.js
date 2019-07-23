@@ -1,10 +1,20 @@
 import Button from "../index";
 
 const onClick = jest.fn();
+const onBlur = jest.fn();
+const onMouseDown = jest.fn();
+const onMouseEnter = jest.fn();
+const onMouseLeave = jest.fn();
+const onTouchStart = jest.fn();
 
 const initProps = {
 	children: "Test",
+	onBlur,
 	onClick,
+	onMouseDown,
+	onMouseEnter,
+	onMouseLeave,
+	onTouchStart,
 	type: "button",
 };
 

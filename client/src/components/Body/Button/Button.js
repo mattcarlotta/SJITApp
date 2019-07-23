@@ -5,14 +5,26 @@ const StyledButton = ({
 	className,
 	children,
 	disabled,
+	onBlur,
+	onContextMenu,
 	onClick,
+	onMouseDown,
+	onMouseEnter,
+	onMouseLeave,
+	onTouchStart,
 	style,
 	type,
 }) => (
 	<button
 		className={className}
 		disabled={disabled}
+		onBlur={onBlur}
 		onClick={onClick}
+		onContextMenu={onContextMenu}
+		onMouseDown={onMouseDown}
+		onMouseEnter={onMouseEnter}
+		onMouseLeave={onMouseLeave}
+		onTouchStart={onTouchStart}
 		style={style}
 		type={type}
 	>

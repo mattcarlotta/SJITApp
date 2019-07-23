@@ -65,6 +65,14 @@ describe("Create Season Form", () => {
 		spy.mockClear();
 	});
 
+	it("handles the seasonId based upon selected/unselected values", () => {
+		wrapper.instance().handleChange({ name, value: [] });
+		expect(wrapper.state("seasonId")).toEqual("");
+
+		wrapper.instance().handleChange({ name, value });
+		expect(wrapper.state("seasonId")).toEqual(seasonId);
+	});
+
 	describe("Form Submission", () => {
 		beforeEach(() => {
 			jest.useFakeTimers();
@@ -90,7 +98,7 @@ describe("Create Season Form", () => {
 		});
 
 		it("submits the form after a successful validation and calls createSeason with fields", () => {
-			expect(wrapper.find("NewSeasonForm").state("isSubmitting")).toBeTruthy();
+			expect(wrapper.state("isSubmitting")).toBeTruthy();
 			expect(createSeason).toHaveBeenCalledWith({
 				endDate: endDate.format("l"),
 				startDate: startDate.format("l"),
@@ -101,7 +109,7 @@ describe("Create Season Form", () => {
 		it("on submission error, enables the form submit button", () => {
 			wrapper.setProps({ serverMessage: "Example error message." });
 
-			expect(wrapper.find("NewSeasonForm").state("isSubmitting")).toBeFalsy();
+			expect(wrapper.state("isSubmitting")).toBeFalsy();
 			expect(wrapper.find("button[type='submit']").exists()).toBeTruthy();
 		});
 

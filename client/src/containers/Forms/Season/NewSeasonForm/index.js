@@ -92,7 +92,7 @@ export class NewSeasonForm extends Component {
 						tooltip="Select a start and end date below to automatically fill in this field."
 						icon="id"
 						value={this.state.seasonId}
-						inputStyle={{ paddingLeft: 60 }}
+						inputStyle={{ paddingLeft: 94 }}
 						readOnly
 						disabled
 					/>
