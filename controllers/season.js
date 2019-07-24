@@ -13,7 +13,7 @@ const createSeason = async (req, res) => {
     await Season.create(req.body);
     res.status(201).json({ message: "Successfully created a new season!" });
   } catch (err) {
-    sendError(err, res);
+    return sendError(err, res);
   }
 };
 
@@ -29,7 +29,7 @@ const deleteSeason = async (req, res) => {
 
     res.status(202).json({ message: "Successfully deleted the season." });
   } catch (err) {
-    sendError(err, res);
+    return sendError(err, res);
   }
 };
 
@@ -59,7 +59,7 @@ const getSeason = async (req, res) => {
 
     res.status(200).json({ season: existingSeason });
   } catch (err) {
-    sendError(err, res);
+    return sendError(err, res);
   }
 };
 

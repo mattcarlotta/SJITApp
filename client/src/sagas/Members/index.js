@@ -50,23 +50,23 @@ import * as types from "types";
  * @throws {action} - A redux action to display a server message by type.
  */
 
-// export function* deleteMember({ memberId }) {
-// 	try {
-// 		const res = yield call(app.delete, `member/delete/${memberId}`);
-// 		const message = yield call(parseMessage, res);
+export function* deleteMember({ memberId }) {
+	try {
+		const res = yield call(app.delete, `member/delete/${memberId}`);
+		const message = yield call(parseMessage, res);
 
-// 		yield put(
-// 			setServerMessage({
-// 				type: "success",
-// 				message,
-// 			}),
-// 		);
+		yield put(
+			setServerMessage({
+				type: "success",
+				message,
+			}),
+		);
 
-// 		yield put({ type: types.MEMBERS_FETCH });
-// 	} catch (e) {
-// 		yield put(setServerMessage({ type: "error", message: e.toString() }));
-// 	}
-// }
+		yield put({ type: types.MEMBERS_FETCH });
+	} catch (e) {
+		yield put(setServerMessage({ type: "error", message: e.toString() }));
+	}
+}
 
 /**
  * Attempts to get a single member for editing.
@@ -154,7 +154,7 @@ export default function* membersSagas() {
 	yield all([
 		// takeLatest(types.MEMBERS_EDIT, fetchMember),
 		// takeLatest(types.MEMBERS_CREATE, createMember),
-		// takeLatest(types.MEMBERS_DELETE, deleteMember),
+		takeLatest(types.MEMBERS_DELETE, deleteMember),
 		takeLatest(types.MEMBERS_FETCH, fetchMembers),
 		// takeLatest(types.MEMBERS_UPDATE_EDIT, updateMember),
 	]);

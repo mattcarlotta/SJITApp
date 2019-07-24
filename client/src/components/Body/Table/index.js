@@ -118,7 +118,7 @@ class CustomTable extends Component {
 										push(`/employee/${viewLocation}/view/${record._id}`)
 									}
 								>
-									<FaSearchPlus />
+									<FaSearchPlus style={{ fontSize: 16 }} />
 								</Button>
 							</Tooltip>
 							<Divider type="vertical" />

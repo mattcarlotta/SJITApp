@@ -11,22 +11,32 @@ const MenuItem = Menu.Item;
 const SubMenu = Menu.SubMenu;
 const Divider = Menu.Divider;
 
-const SideMenu = ({ isCollapsed, onHandleTabClick, selectedKey }) => (
+const SideMenu = ({
+	isCollapsed,
+	onHandleTabClick,
+	onHandleOpenMenuChange,
+	openKeys,
+	selectedKey,
+}) => (
 	<Sider width={256} trigger={null} collapsible collapsed={isCollapsed}>
 		<Center style={{ height: 60 }}>
-			<Link to="/">
+			<Link to="/" style={{ padding: 0, margin: 0 }}>
 				{isCollapsed ? (
 					<img src={SharksLogo} width="50px" style={{ paddingTop: 10 }} />
 				) : (
-					<Title style={{ color: "#fff", margin: 0 }}>Sharks Ice Team</Title>
+					<Title style={{ color: "#fff", paddingTop: 20, margin: 0 }}>
+						Sharks Ice Team
+					</Title>
 				)}
 			</Link>
 		</Center>
 		<Menu
 			theme="dark"
 			mode="inline"
-			selectedKeys={selectedKey}
+			openKeys={openKeys}
+			onOpenChange={onHandleOpenMenuChange}
 			onSelect={onHandleTabClick}
+			selectedKeys={selectedKey}
 		>
 			{Tabs.map(({ component, divider, key, tab, submenu }) =>
 				divider ? (
@@ -65,7 +75,9 @@ const SideMenu = ({ isCollapsed, onHandleTabClick, selectedKey }) => (
 
 SideMenu.propTypes = {
 	isCollapsed: PropTypes.bool.isRequired,
+	onHandleOpenMenuChange: PropTypes.func.isRequired,
 	onHandleTabClick: PropTypes.func.isRequired,
+	openKeys: PropTypes.arrayOf(PropTypes.string),
 	selectedKey: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export default styled.div`
-	margin-top: 30px;
+	margin: 30px 0;
 	font-size: 10px;
 	word-wrap: normal;
 	white-space: pre-wrap;

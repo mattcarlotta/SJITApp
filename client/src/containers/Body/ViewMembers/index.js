@@ -1,11 +1,11 @@
-import React, { PureComponent, Fragment } from "react";
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import Helmet from "react-helmet";
 import moment from "moment";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
-import { Card } from "antd";
-import { FaUserPlus } from "react-icons/fa";
+import { Card, Tooltip } from "antd";
+import { FaUserPlus, FaUser, FaUserTimes } from "react-icons/fa";
 import { Button, FlexEnd, Table } from "components/Body";
 import { deleteMember, fetchMembers } from "actions/Members";
 
@@ -13,11 +13,26 @@ const title = "View Members";
 
 const displayDate = date => <span>{moment(date).format("l")}</span>;
 
+const displayStatus = status => (
+	<Tooltip title={status} placement="top">
+		{status === "active" ? (
+			<FaUser style={{ color: "green" }} />
+		) : (
+			<FaUserTimes style={{ fontSize: 22, color: "red" }} />
+		)}
+	</Tooltip>
+);
+
 const columns = [
+	{
+		title: "Status",
+		dataIndex: "status",
+		key: "status",
+		render: displayStatus,
+	},
 	{ title: "First Name", dataIndex: "firstName", key: "firstName" },
 	{ title: "Last Name", dataIndex: "lastName", key: "lastName" },
 	{ title: "Role", dataIndex: "role", key: "role" },
-	{ title: "Status", dataIndex: "status", key: "status" },
 	{ title: "Email", dataIndex: "email", key: "email" },
 	{
 		title: "Registered",
@@ -55,7 +70,6 @@ export const ViewMembers = ({
 				columns={columns}
 				data={data}
 				deleteAction={deleteMember}
-				editLocation="members"
 				fetchData={fetchMembers}
 				isLoading={isLoading}
 				push={push}

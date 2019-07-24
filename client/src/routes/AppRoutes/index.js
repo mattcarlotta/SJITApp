@@ -37,6 +37,11 @@ const AppRoutes = ({ match: { url } }) => (
 			path={`${url}/members/add`}
 			component={() => <h1>Add Members</h1>}
 		/>
+		<Route
+			exact
+			path={`${url}/members/view/:id`}
+			component={() => <h1>View Member</h1>}
+		/>
 		<Route exact path={`${url}/members/viewall`} component={ViewMembers} />
 		<Route exact path={`${url}/schedule`} component={() => <h1>Schedule</h1>} />
 		<Route exact path={`${url}/seasons/create`} component={NewSeasonForm} />

@@ -3,7 +3,21 @@ import { sendError } from "shared/helpers";
 
 const createMember = (req, res) => sendError("Route not setup.", res);
 
-const deleteMember = (req, res) => sendError("Route not setup.", res);
+const deleteMember = async (req, res) => {
+  try {
+    const { id: _id } = req.params;
+    if (!_id) throw "You must provide a member id to delete.";
+
+    const existingUser = await User.findOne({ _id });
+    if (!existingUser) throw "Unable to delete that member. That member doesn't exist.";
+
+    await existingUser.deleteOne({ _id });
+
+    res.status(202).json({ message: "Successfully deleted the member." });
+  } catch (err) {
+    return sendError(err, res);
+  }
+};
 
 const getAllMembers = async (_, res) => {
   const members = await User.aggregate([

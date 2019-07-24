@@ -25,17 +25,26 @@ const TABS = [
 	"contact",
 ];
 
+const ROOTTABS = ["events", "forms", "members", "seasons", "templates"];
+
 const selectedTab = path => TABS.filter(tab => path.indexOf(tab) >= 1);
 
 class App extends Component {
 	state = {
 		isCollapsed: false,
+		openKeys: [""],
 		selectedKey: selectedTab(this.props.location.pathname),
 	};
 
 	static getDerivedStateFromProps = props => ({
 		selectedKey: selectedTab(props.location.pathname),
 	});
+
+	onHandleOpenMenuChange = currentKeys => {
+		this.setState({
+			openKeys: currentKeys.length > 1 ? [currentKeys[1]] : [""],
+		});
+	};
 
 	onHandleTabClick = ({ key }) => {
 		this.props.push(`/employee/${key}`);
@@ -49,7 +58,11 @@ class App extends Component {
 	render = () => (
 		<div id="app">
 			<Layout>
-				<SideMenu {...this.state} onHandleTabClick={this.onHandleTabClick} />
+				<SideMenu
+					{...this.state}
+					onHandleTabClick={this.onHandleTabClick}
+					onHandleOpenMenuChange={this.onHandleOpenMenuChange}
+				/>
 				<Layout>
 					<Header>
 						<LeftMenu toggleSideMenu={this.toggleSideMenu} />

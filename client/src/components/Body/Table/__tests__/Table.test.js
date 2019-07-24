@@ -1,7 +1,19 @@
 import Table from "../index";
 import moment from "moment";
+import { Tooltip } from "antd";
+import { FaUser, FaUserTimes } from "react-icons/fa";
 
 const displayDate = date => <span>{moment(date).format("l")}</span>;
+
+const displayStatus = status => (
+	<Tooltip title={status} placement="top">
+		{status === "active" ? (
+			<FaUser style={{ color: "green" }} />
+		) : (
+			<FaUserTimes style={{ fontSize: 22, color: "red" }} />
+		)}
+	</Tooltip>
+);
 
 const columns = [
 	{
@@ -26,11 +38,26 @@ const columns = [
 		dataIndex: "members",
 		key: "members",
 	},
+	{
+		title: "Status",
+		dataIndex: "status",
+		key: "status",
+		render: displayStatus,
+	},
 ];
 
 const data = [
 	{
 		_id: "5d323ee2b02dee15483e5d9f",
+		status: "active",
+		members: 3,
+		seasonId: "20002001",
+		startDate: "2000-10-06T07:00:00.000+00:00",
+		endDate: "2001-08-06T07:00:00.000+00:00",
+	},
+	{
+		_id: "5d323ee2b02dee15483e5d9e",
+		status: "suspended",
 		members: 3,
 		seasonId: "20002001",
 		startDate: "2000-10-06T07:00:00.000+00:00",
@@ -102,8 +129,8 @@ describe("Custom Table", () => {
 
 		it("displays a 5 column Table component with data if isLoading is false", () => {
 			expect(wrapper.find("Table").exists()).toBeTruthy();
-			expect(wrapper.find("th")).toHaveLength(5);
-			expect(wrapper.find("td")).toHaveLength(5);
+			expect(wrapper.find("th")).toHaveLength(6);
+			expect(wrapper.find("td")).toHaveLength(12);
 			expect(
 				wrapper
 					.find("td")
@@ -171,10 +198,27 @@ describe("Custom Table", () => {
 			expect(setSelectedKeys).toHaveBeenCalledWith([]);
 		});
 
-		it("it views the selected record", () => {
+		it("displays an active and suspended icon", () => {
+			expect(
+				wrapper
+					.find("Tooltip")
+					.findWhere(e => e.prop("title") === "active")
+					.find(FaUser)
+					.exists(),
+			).toBeTruthy();
+			expect(
+				wrapper
+					.find("Tooltip")
+					.findWhere(e => e.prop("title") === "suspended")
+					.find(FaUserTimes)
+					.exists(),
+			).toBeTruthy();
+		});
+
+		it("views the selected record", () => {
 			wrapper
 				.find("td")
-				.at(4)
+				.at(5)
 				.find("button")
 				.first()
 				.simulate("click");
@@ -182,10 +226,10 @@ describe("Custom Table", () => {
 			expect(push).toHaveBeenCalledTimes(1);
 		});
 
-		it("it edits the selected record", () => {
+		it("edits the selected record", () => {
 			wrapper
 				.find("td")
-				.at(4)
+				.at(5)
 				.find("button")
 				.at(1)
 				.simulate("click");
@@ -193,10 +237,10 @@ describe("Custom Table", () => {
 			expect(push).toHaveBeenCalledTimes(1);
 		});
 
-		it("it deletes the selected record", () => {
+		it("deletes the selected record", () => {
 			wrapper
 				.find("td")
-				.at(4)
+				.at(5)
 				.find("button")
 				.at(2)
 				.simulate("click");

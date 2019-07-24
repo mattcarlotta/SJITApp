@@ -1,10 +1,21 @@
 import { ViewMembers } from "../index";
+import { FaUser, FaUserTimes } from "react-icons/fa";
 
 const data = [
 	{
 		_id: "5d323ee2b02dee15483e5d9f",
 		role: "member",
 		status: "active",
+		registered: "2000-10-06T07:00:00.000+00:00",
+		email: "member@example.com",
+		firstName: "Beta",
+		lastName: "Tester",
+		events: 0,
+	},
+	{
+		_id: "5d323ee2b02dee15483e5d9e",
+		role: "member",
+		status: "suspended",
 		registered: "2000-10-06T07:00:00.000+00:00",
 		email: "member@example.com",
 		firstName: "Beta",
@@ -25,7 +36,7 @@ const initProps = {
 	push,
 };
 
-const wrapper = shallow(<ViewMembers {...initProps} />);
+const wrapper = mount(<ViewMembers {...initProps} />);
 describe("View All Seasons", () => {
 	it("renders without errors", () => {
 		expect(wrapper.find("Card").exists()).toBeTruthy();
@@ -41,11 +52,22 @@ describe("View All Seasons", () => {
 	});
 
 	it("renders a Table", () => {
+		expect(wrapper.find("Table").exists()).toBeTruthy();
+	});
+
+	it("displays an active and suspended icon", () => {
 		expect(
 			wrapper
-				.find("CustomTable")
-				.dive()
-				.find("Table")
+				.find("Tooltip")
+				.findWhere(e => e.prop("title") === "active")
+				.find(FaUser)
+				.exists(),
+		).toBeTruthy();
+		expect(
+			wrapper
+				.find("Tooltip")
+				.findWhere(e => e.prop("title") === "suspended")
+				.find(FaUserTimes)
 				.exists(),
 		).toBeTruthy();
 	});

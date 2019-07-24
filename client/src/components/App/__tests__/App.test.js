@@ -34,6 +34,33 @@ describe("Employee App", () => {
 		expect(wrapper.find("AppRoutes").exists()).toBeTruthy();
 	});
 
+	it("handles submenu clicks", () => {
+		jest.useFakeTimers();
+
+		wrapper
+			.find("App")
+			.instance()
+			.onHandleOpenMenuChange(["", "forms"]);
+
+		jest.advanceTimersByTime(3000);
+		wrapper.update();
+
+		expect(wrapper.find("App").state("openKeys")).toEqual(["forms"]);
+		expect(wrapper.find("li.ant-menu-submenu-open").text()).toContain("forms");
+
+		wrapper
+			.find("App")
+			.instance()
+			.onHandleOpenMenuChange([]);
+
+		jest.advanceTimersByTime(3000);
+		wrapper.update();
+
+		expect(wrapper.find("li.ant-menu-submenu-open").exists()).toBeFalsy();
+		expect(wrapper.find("App").state("openKeys")).toEqual([""]);
+		jest.runAllTimers();
+	});
+
 	it("handles tab clicks", () => {
 		wrapper
 			.find("App")
