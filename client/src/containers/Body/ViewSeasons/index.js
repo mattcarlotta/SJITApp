@@ -6,8 +6,7 @@ import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import { Card } from "antd";
 import { FaCalendarPlus } from "react-icons/fa";
-import { Button, FlexEnd } from "components/Body";
-import { Table } from "containers/Body";
+import { Button, FlexEnd, Table } from "components/Body";
 import { deleteSeason, fetchSeasons } from "actions/Seasons";
 
 const title = "View Seasons";

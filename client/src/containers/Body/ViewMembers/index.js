@@ -6,8 +6,7 @@ import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import { Card } from "antd";
 import { FaUserPlus } from "react-icons/fa";
-import { Button, FlexEnd } from "components/Body";
-import { Table } from "containers/Body";
+import { Button, FlexEnd, Table } from "components/Body";
 import { deleteMember, fetchMembers } from "actions/Members";
 
 const title = "View Members";

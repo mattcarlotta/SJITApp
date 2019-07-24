@@ -1,17 +1,9 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import { Divider, Icon, Input, Popconfirm, Table, Tooltip } from "antd";
-import {
-	FaEdit,
-	FaSearch,
-	FaTrash,
-	FaUsersCog,
-	FaEye,
-	FaStreetView,
-	FaSearchPlus,
-} from "react-icons/fa";
+import { FaEdit, FaSearch, FaTrash, FaSearchPlus } from "react-icons/fa";
 import { GoStop } from "react-icons/go";
-import { Button, LoadingTable } from "components/Body";
+import { Button, FlexCenter, LoadingTable } from "components/Body";
 
 class CustomTable extends Component {
 	state = {
@@ -108,7 +100,7 @@ class CustomTable extends Component {
 			title: "Actions",
 			key: "action",
 			render: (_, record) => (
-				<Fragment>
+				<FlexCenter>
 					{viewLocation && (
 						<Fragment>
 							<Tooltip placement="top" title={<span>View</span>}>
@@ -166,7 +158,7 @@ class CustomTable extends Component {
 							</Button>
 						</Popconfirm>
 					</Tooltip>
-				</Fragment>
+				</FlexCenter>
 			),
 		});
 
