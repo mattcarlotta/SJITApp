@@ -47,7 +47,15 @@ class App extends Component {
 	};
 
 	onHandleTabClick = ({ key }) => {
-		this.props.push(`/employee/${key}`);
+		this.setState(prevState => {
+			this.props.push(`/employee/${key}`);
+
+			return {
+				openKeys: ROOTTABS.find(tab => key.includes(tab))
+					? prevState.openKeys
+					: [""],
+			};
+		});
 	};
 
 	toggleSideMenu = () =>

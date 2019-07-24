@@ -61,12 +61,23 @@ describe("Employee App", () => {
 		jest.runAllTimers();
 	});
 
-	it("handles tab clicks", () => {
+	it("handles tab clicks and closes any unneccessary sub menus", () => {
+		wrapper.find(App).setState({ openKeys: ["forms"] });
+
+		wrapper
+			.find("App")
+			.instance()
+			.onHandleTabClick({ key: "forms/viewall" });
+		expect(push).toHaveBeenCalledWith("/employee/forms/viewall");
+
+		expect(wrapper.find("App").state("openKeys")).toEqual(["forms"]);
+
 		wrapper
 			.find("App")
 			.instance()
 			.onHandleTabClick({ key: "schedule" });
-		expect(push).toHaveBeenCalledWith("/employee/schedule");
+
+		expect(wrapper.find("App").state("openKeys")).toEqual([""]);
 	});
 
 	it("toggles sidebar menu", () => {
