@@ -19,23 +19,23 @@ import * as types from "types";
  * @throws {action} - A redux action to display a server message by type.
  */
 
-export function* createMember({ props }) {
-	try {
-		const res = yield call(app.post, "member/create", { ...props });
-		const message = yield call(parseMessage, res);
+// export function* createMember({ props }) {
+// 	try {
+// 		const res = yield call(app.post, "member/create", { ...props });
+// 		const message = yield call(parseMessage, res);
 
-		yield put(
-			setServerMessage({
-				type: "success",
-				message,
-			}),
-		);
+// 		yield put(
+// 			setServerMessage({
+// 				type: "success",
+// 				message,
+// 			}),
+// 		);
 
-		yield put(push("/employee/members/viewall"));
-	} catch (e) {
-		yield put(setServerMessage({ type: "error", message: e.toString() }));
-	}
-}
+// 		yield put(push("/employee/members/viewall"));
+// 	} catch (e) {
+// 		yield put(setServerMessage({ type: "error", message: e.toString() }));
+// 	}
+// }
 
 /**
  * Attempts to create a new member.
@@ -50,23 +50,23 @@ export function* createMember({ props }) {
  * @throws {action} - A redux action to display a server message by type.
  */
 
-export function* deleteMember({ memberId }) {
-	try {
-		const res = yield call(app.delete, `member/delete/${memberId}`);
-		const message = yield call(parseMessage, res);
+// export function* deleteMember({ memberId }) {
+// 	try {
+// 		const res = yield call(app.delete, `member/delete/${memberId}`);
+// 		const message = yield call(parseMessage, res);
 
-		yield put(
-			setServerMessage({
-				type: "success",
-				message,
-			}),
-		);
+// 		yield put(
+// 			setServerMessage({
+// 				type: "success",
+// 				message,
+// 			}),
+// 		);
 
-		yield put({ type: types.MEMBERS_FETCH });
-	} catch (e) {
-		yield put(setServerMessage({ type: "error", message: e.toString() }));
-	}
-}
+// 		yield put({ type: types.MEMBERS_FETCH });
+// 	} catch (e) {
+// 		yield put(setServerMessage({ type: "error", message: e.toString() }));
+// 	}
+// }
 
 /**
  * Attempts to get a single member for editing.
@@ -79,16 +79,16 @@ export function* deleteMember({ memberId }) {
  * @throws {action} - A redux action to display a server message by type.
  */
 
-export function* fetchMember({ memberId }) {
-	try {
-		const res = yield call(app.get, `member/edit/${memberId}`);
-		const data = yield call(parseData, res);
+// export function* fetchMember({ memberId }) {
+// 	try {
+// 		const res = yield call(app.get, `member/edit/${memberId}`);
+// 		const data = yield call(parseData, res);
 
-		yield put(setMemberToEdit(data));
-	} catch (e) {
-		yield put(setServerMessage({ type: "error", message: e.toString() }));
-	}
-}
+// 		yield put(setMemberToEdit(data));
+// 	} catch (e) {
+// 		yield put(setServerMessage({ type: "error", message: e.toString() }));
+// 	}
+// }
 
 /**
  * Attempts to get all members.
@@ -125,23 +125,23 @@ export function* fetchMembers() {
  * @throws {action} - A redux action to display a server message by type.
  */
 
-export function* updateMember({ props }) {
-	try {
-		const res = yield call(app.put, "member/update", { ...props });
-		const message = yield call(parseMessage, res);
+// export function* updateMember({ props }) {
+// 	try {
+// 		const res = yield call(app.put, "member/update", { ...props });
+// 		const message = yield call(parseMessage, res);
 
-		yield put(
-			setServerMessage({
-				type: "success",
-				message,
-			}),
-		);
+// 		yield put(
+// 			setServerMessage({
+// 				type: "success",
+// 				message,
+// 			}),
+// 		);
 
-		yield put(push("/employee/members/viewall"));
-	} catch (e) {
-		yield put(setServerMessage({ type: "error", message: e.toString() }));
-	}
-}
+// 		yield put(push("/employee/members/viewall"));
+// 	} catch (e) {
+// 		yield put(setServerMessage({ type: "error", message: e.toString() }));
+// 	}
+// }
 
 /**
  * Creates watchers for all generators.
@@ -152,10 +152,10 @@ export function* updateMember({ props }) {
  */
 export default function* membersSagas() {
 	yield all([
-		takeLatest(types.MEMBERS_EDIT, fetchMember),
-		takeLatest(types.MEMBERS_CREATE, createMember),
-		takeLatest(types.MEMBERS_DELETE, deleteMember),
+		// takeLatest(types.MEMBERS_EDIT, fetchMember),
+		// takeLatest(types.MEMBERS_CREATE, createMember),
+		// takeLatest(types.MEMBERS_DELETE, deleteMember),
 		takeLatest(types.MEMBERS_FETCH, fetchMembers),
-		takeLatest(types.MEMBERS_UPDATE_EDIT, updateMember),
+		// takeLatest(types.MEMBERS_UPDATE_EDIT, updateMember),
 	]);
 }

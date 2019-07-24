@@ -1,5 +1,7 @@
 import App from "../index";
 
+const push = jest.fn();
+
 const initProps = {
 	match: {
 		url: "/employee",
@@ -9,6 +11,7 @@ const initProps = {
 	},
 	firstName: "Beta",
 	lastName: "Tester",
+	push,
 };
 
 const wrapper = HOCWrap(App, initProps, null, ["/employee/dashboard"]);
@@ -29,5 +32,59 @@ describe("Employee App", () => {
 
 	it("renders the employee app routes", () => {
 		expect(wrapper.find("AppRoutes").exists()).toBeTruthy();
+	});
+
+	it("handles tab clicks", () => {
+		wrapper
+			.find("App")
+			.instance()
+			.onHandleTabClick({ key: "schedule" });
+		expect(push).toHaveBeenCalledWith("/employee/schedule");
+	});
+
+	it("toggles sidebar menu", () => {
+		jest.useFakeTimers();
+
+		expect(
+			wrapper.find("aside.ant-layout-sider-collapsed").exists(),
+		).toBeFalsy();
+
+		wrapper
+			.find("App")
+			.instance()
+			.toggleSideMenu({ key: "schedule" });
+
+		jest.advanceTimersByTime(3000);
+
+		wrapper.update();
+		expect(wrapper.find("App").state("isCollapsed")).toBeTruthy();
+		expect(
+			wrapper.find("aside.ant-layout-sider-collapsed").exists(),
+		).toBeTruthy();
+
+		jest.runAllTimers();
+	});
+
+	it("updates the active tab", () => {
+		jest.useFakeTimers();
+
+		expect(wrapper.find("li.ant-menu-item-selected").text()).toEqual(
+			"dashboard",
+		);
+
+		wrapper.setProps({
+			location: {
+				pathname: "/employee/schedule",
+			},
+		});
+
+		jest.advanceTimersByTime(3000);
+
+		wrapper.update();
+
+		expect(wrapper.find("App").state("selectedKey")).toContain("schedule");
+		expect(wrapper.find("li.ant-menu-item-selected").text()).toEqual(
+			"schedule",
+		);
 	});
 });

@@ -1,5 +1,9 @@
 import { localLogin } from "services/strategies/localLogin";
-import { alreadyLoggedIn, badCredentials } from "shared/authErrors";
+import {
+  alreadyLoggedIn,
+  badCredentials,
+  invalidStatus,
+} from "shared/authErrors";
 
 const next = jest.fn();
 
@@ -64,6 +68,21 @@ describe("Local Login Middleware", () => {
 
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith({ err: badCredentials });
+    done();
+  });
+
+  it("handles suspended login attempts", async done => {
+    const suspendedLogin = {
+      email: "member4@example.com",
+      password: "password",
+    };
+
+    const req = mockRequest(null, null, suspendedLogin);
+
+    await localLogin(req, res, next);
+
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.json).toHaveBeenCalledWith({ err: invalidStatus });
     done();
   });
 

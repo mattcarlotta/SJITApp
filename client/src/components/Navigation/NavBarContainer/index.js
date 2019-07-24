@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const NavBarContainer = styled.header`
+export default styled.header`
 	width: 100%;
 	background-color: #025f6d;
 	-webkit-box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.4);
@@ -16,5 +16,3 @@ const NavBarContainer = styled.header`
 		content: "";
 	}
 `;
-
-export default NavBarContainer;

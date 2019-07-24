@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const NavItem = styled.li`
+export default styled.li`
 	@media (max-width: 725px) {
 		display: block;
 		width: 100%;
@@ -9,5 +9,3 @@ const NavItem = styled.li`
 
 	display: inline-block;
 `;
-
-export default NavItem;

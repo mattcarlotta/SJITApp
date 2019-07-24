@@ -23,16 +23,8 @@ export default [
 		key: "events",
 		tab: "events",
 		submenu: [
-			{
-				key: "events/add",
-				component: MdNoteAdd,
-				tab: "Add Event",
-			},
-			{
-				key: "events/viewall",
-				component: MdEventNote,
-				tab: "View Events",
-			},
+			{ key: "events/add", component: MdNoteAdd, tab: "Add Event" },
+			{ key: "events/viewall", component: MdEventNote, tab: "View Events" },
 		],
 	},
 	{
@@ -40,16 +32,8 @@ export default [
 		key: "forms",
 		tab: "forms",
 		submenu: [
-			{
-				key: "forms/add",
-				component: MdNoteAdd,
-				tab: "Add Form",
-			},
-			{
-				key: "forms/viewall",
-				component: FaListAlt,
-				tab: "View Forms",
-			},
+			{ key: "forms/add", component: MdNoteAdd, tab: "Add Form" },
+			{ key: "forms/viewall", component: FaListAlt, tab: "View Forms" },
 		],
 	},
 	{
@@ -57,16 +41,8 @@ export default [
 		key: "members",
 		tab: "members",
 		submenu: [
-			{
-				key: "members/add",
-				component: FaUserPlus,
-				tab: "Add Member",
-			},
-			{
-				key: "members/viewall",
-				component: FaUsers,
-				tab: "View Members",
-			},
+			{ key: "members/add", component: FaUserPlus, tab: "Add Member" },
+			{ key: "members/viewall", component: FaUsers, tab: "View Members" },
 		],
 	},
 	{ component: FaClock, key: "schedule", tab: "schedule" },
@@ -75,16 +51,8 @@ export default [
 		key: "seasons",
 		tab: "seasons",
 		submenu: [
-			{
-				key: "seasons/create",
-				component: FaCalendarPlus,
-				tab: "New Season",
-			},
-			{
-				key: "seasons/viewall",
-				component: GoCalendar,
-				tab: "View Seasons",
-			},
+			{ key: "seasons/create", component: FaCalendarPlus, tab: "New Season" },
+			{ key: "seasons/viewall", component: GoCalendar, tab: "View Seasons" },
 		],
 	},
 	{
@@ -92,11 +60,7 @@ export default [
 		key: "templates",
 		tab: "templates",
 		submenu: [
-			{
-				key: "templates/create",
-				component: MdNoteAdd,
-				tab: "New Template",
-			},
+			{ key: "templates/create", component: MdNoteAdd, tab: "New Template" },
 			{
 				key: "templates/viewall",
 				component: FaMailBulk,

@@ -1,28 +1,31 @@
-import { ViewSeasons } from "../index";
+import { ViewMembers } from "../index";
 
 const data = [
 	{
 		_id: "5d323ee2b02dee15483e5d9f",
-		members: 3,
-		seasonId: "20002001",
-		startDate: "2000-10-06T07:00:00.000+00:00",
-		endDate: "2001-08-06T07:00:00.000+00:00",
+		role: "member",
+		status: "active",
+		registered: "2000-10-06T07:00:00.000+00:00",
+		email: "member@example.com",
+		firstName: "Beta",
+		lastName: "Tester",
+		events: 0,
 	},
 ];
 
-const deleteSeason = jest.fn();
-const fetchSeasons = jest.fn();
+const deleteMember = jest.fn();
+const fetchMembers = jest.fn();
 const push = jest.fn();
 
 const initProps = {
 	data,
-	deleteSeason,
-	fetchSeasons,
+	deleteMember,
+	fetchMembers,
 	isLoading: false,
 	push,
 };
 
-const wrapper = shallow(<ViewSeasons {...initProps} />);
+const wrapper = shallow(<ViewMembers {...initProps} />);
 describe("View All Seasons", () => {
 	it("renders without errors", () => {
 		expect(wrapper.find("Card").exists()).toBeTruthy();
@@ -34,7 +37,7 @@ describe("View All Seasons", () => {
 			.at(0)
 			.simulate("click");
 
-		expect(push).toHaveBeenCalledWith("/employee/seasons/create");
+		expect(push).toHaveBeenCalledWith("/employee/members/create");
 	});
 
 	it("renders a Table", () => {

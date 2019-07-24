@@ -11,7 +11,7 @@ describe("Styled Link", () => {
 	let StyledLink;
 	beforeEach(() => {
 		wrapper = HOCWrap(Link, initProps);
-		StyledLink = wrapper.find("Link__StyledLink");
+		StyledLink = wrapper.find("Link");
 	});
 
 	it("renders without errors", () => {
@@ -27,7 +27,7 @@ describe("Styled Link", () => {
 
 	it("displays as blue with a light blue hover when passed a 'blue' prop", () => {
 		wrapper.setProps({ blue: true });
-		StyledLink = wrapper.find("Link__StyledLink");
+		StyledLink = wrapper.find("Link");
 
 		expect(StyledLink).toHaveStyleRule("color", "#1890ff");
 		expect(StyledLink).toHaveStyleRule("color", "#40a9ff", {

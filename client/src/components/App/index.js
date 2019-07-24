@@ -33,11 +33,6 @@ class App extends Component {
 		selectedKey: selectedTab(this.props.location.pathname),
 	};
 
-	shouldComponentUpdate = (nextProps, nextState) =>
-		this.state.isCollapsed !== nextState.isCollapsed ||
-		this.props.location.pathname !== nextProps.location.pathname ||
-		this.state.selectedKey !== nextState.selectedKey;
-
 	static getDerivedStateFromProps = props => ({
 		selectedKey: selectedTab(props.location.pathname),
 	});

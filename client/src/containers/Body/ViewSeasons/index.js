@@ -14,11 +14,7 @@ const title = "View Seasons";
 const displayDate = date => <span>{moment(date).format("l")}</span>;
 
 const columns = [
-	{
-		title: "Season Id",
-		dataIndex: "seasonId",
-		key: "seasonId",
-	},
+	{ title: "Season Id", dataIndex: "seasonId", key: "seasonId" },
 	{
 		title: "Start Date",
 		dataIndex: "startDate",
@@ -31,49 +27,44 @@ const columns = [
 		key: "endDate",
 		render: displayDate,
 	},
-	{
-		title: "Members",
-		dataIndex: "members",
-		key: "members",
-	},
+	{ title: "Members", dataIndex: "members", key: "members" },
 ];
 
-export class ViewSeasons extends PureComponent {
-	componentDidMount = () => {
-		if (this.props.isLoading) this.props.fetchSeasons();
-	};
-
-	render = () => {
-		return (
-			<Fragment>
-				<Helmet title={title} />
-				<Card title={title}>
-					<FlexEnd>
-						<Button
-							primary
-							width="180px"
-							marginRight="0px"
-							padding="5px 10px"
-							style={{ marginBottom: 20 }}
-							onClick={() => this.props.push("/employee/seasons/create")}
-						>
-							<FaCalendarPlus style={{ position: "relative", top: 2 }} />
-							&nbsp; New Season
-						</Button>
-					</FlexEnd>
-					<Table
-						columns={columns}
-						data={this.props.data}
-						deleteAction={this.props.deleteSeason}
-						editLocation="seasons"
-						isLoading={this.props.isLoading}
-						push={this.props.push}
-					/>
-				</Card>
-			</Fragment>
-		);
-	};
-}
+export const ViewSeasons = ({
+	data,
+	deleteSeason,
+	fetchSeasons,
+	isLoading,
+	push,
+}) => (
+	<Fragment>
+		<Helmet title={title} />
+		<Card title={title}>
+			<FlexEnd>
+				<Button
+					primary
+					width="180px"
+					marginRight="0px"
+					padding="5px 10px"
+					style={{ marginBottom: 20 }}
+					onClick={() => push("/employee/seasons/create")}
+				>
+					<FaCalendarPlus style={{ position: "relative", top: 2 }} />
+					&nbsp; New Season
+				</Button>
+			</FlexEnd>
+			<Table
+				columns={columns}
+				data={data}
+				deleteAction={deleteSeason}
+				editLocation="seasons"
+				fetchData={fetchSeasons}
+				isLoading={isLoading}
+				push={push}
+			/>
+		</Card>
+	</Fragment>
+);
 
 ViewSeasons.propTypes = {
 	data: PropTypes.arrayOf(

@@ -8,10 +8,10 @@ import * as types from "types";
  * @param {object} props - props just contain an memberId and member duration fields.
  * @returns {object}
  */
-export const createMember = props => ({
-	type: types.MEMBERS_CREATE,
-	props,
-});
+// export const createMember = props => ({
+// 	type: types.MEMBERS_CREATE,
+// 	props,
+// });
 
 /**
  * Deletes a new member.
@@ -32,10 +32,10 @@ export const deleteMember = memberId => ({
  * @param {string} memberId
  * @returns {object}
  */
-export const fetchMember = memberId => ({
-	type: types.MEMBERS_EDIT,
-	memberId,
-});
+// export const fetchMember = memberId => ({
+// 	type: types.MEMBERS_REVIEW,
+// 	memberId,
+// });
 
 /**
  * Fetches all members.
@@ -60,16 +60,16 @@ export const setMembers = data => ({
 });
 
 /**
- * Sets a single member to redux state for editing.
+ * Sets a single member to redux state for reviewing.
  *
- * @function setMemberToEdit
+ * @function setMemberToReview
  * @param {object} data - memberId and member duration fields
  * @returns {object}
  */
-export const setMemberToEdit = data => ({
-	type: types.MEMBERS_SET_EDIT,
-	payload: !isEmpty(data) ? data : [],
-});
+// export const setMemberToReview = data => ({
+// 	type: types.MEMBERS_SET_REVIEW,
+// 	payload: !isEmpty(data) ? data : [],
+// });
 
 /**
  * Updates a single member.
@@ -78,7 +78,7 @@ export const setMemberToEdit = data => ({
  * @param {object} data - id, memberId and member duration fields
  * @returns {object}
  */
-export const updateMember = props => ({
-	type: types.MEMBERS_UPDATE_EDIT,
-	props,
-});
+// export const updateMember = props => ({
+// 	type: types.MEMBERS_UPDATE_STATUS,
+// 	props,
+// });

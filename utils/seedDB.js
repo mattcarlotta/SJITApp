@@ -95,10 +95,21 @@ const seedDB = async () => {
       token: createRandomToken(),
     };
 
+    const member4 = {
+      email: "member4@example.com",
+      password: memberPassword,
+      firstName: "Member4",
+      lastName: "Member4",
+      role: "member",
+      token: createRandomToken(),
+      status: "suspended",
+    };
+
     await User.create(administrator);
     await User.create(member);
     await User.create(member2);
     await User.create(member3);
+    await User.create(member4);
 
     const newMember = await User.findOne({ email: member.email });
     const newMember2 = await User.findOne({ email: member2.email });

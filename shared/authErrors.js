@@ -16,6 +16,8 @@ const invalidEmail = "That email is not associated with an active account. Pleas
 
 const invalidSignupEmail = "There was a problem authenticating your request. The authorized key that was supplied does not match the staff approved email.";
 
+const invalidStatus = "There was a problem authenticating your request. The account you're trying to log into has been suspended.";
+
 const invalidPassword = "The current password you've supplied does not match our records. Please try again.";
 
 const invalidSeason = "There was a problem assigning you to a season. If you've already selected a season, but are unable to continue, please contact the webmaster: carlotta.matt@gmail.com.";
@@ -49,6 +51,7 @@ export {
   invalidSeason,
   invalidSeasonId,
   invalidSignupEmail,
+  invalidStatus,
   invalidToken,
   missingEmailCreds,
   missingPasswords,

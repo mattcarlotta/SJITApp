@@ -39,6 +39,7 @@ const data = [
 ];
 
 const deleteAction = jest.fn();
+const fetchData = jest.fn();
 const push = jest.fn();
 
 const initProps = {
@@ -46,6 +47,7 @@ const initProps = {
 	data: [],
 	deleteAction,
 	editLocation: "seasons",
+	fetchData,
 	isLoading: true,
 	push,
 	viewLocation: "seasons",
@@ -56,6 +58,7 @@ const nextProps = {
 	data,
 	deleteAction,
 	editLocation: "seasons",
+	fetchData,
 	isLoading: false,
 	push,
 	viewLocation: "seasons",
@@ -68,11 +71,23 @@ describe("Custom Table", () => {
 	});
 
 	afterEach(() => {
+		fetchData.mockClear();
 		push.mockClear();
 	});
 
 	it("initially displays a LoadingTable component", () => {
 		expect(wrapper.find("LoadingTable").exists()).toBeTruthy();
+	});
+
+	it("initially calls fetchData when isLoading is true", () => {
+		expect(fetchData).toHaveBeenCalledTimes(1);
+	});
+
+	it("doesn't call fetchData when isLoading is false", () => {
+		fetchData.mockClear();
+		wrapper = shallow(<Table {...nextProps} />);
+
+		expect(fetchData).toHaveBeenCalledTimes(0);
 	});
 
 	describe("Ant Table", () => {

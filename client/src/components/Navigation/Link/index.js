@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import LinkComponent from "./LinkComponent";
+import Link from "./Link";
 
-const StyledLink = styled(LinkComponent)`
+export default styled(Link)`
 	color: ${({ blue }) => (blue ? "#1890ff" : "#fff")};
 	white-space: nowrap;
 	text-decoration: none;
@@ -14,5 +14,3 @@ const StyledLink = styled(LinkComponent)`
 		color: ${({ blue }) => (blue ? "#40a9ff" : "#62c0ce")};
 	}
 `;
-
-export default StyledLink;

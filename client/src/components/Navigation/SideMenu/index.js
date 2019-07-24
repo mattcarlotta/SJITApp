@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { Layout, Menu, Icon } from "antd";
 import SharksLogo from "images/sharksLogo.svg";
 import { Center, Legal, Tab, Title } from "components/Body";
+import { Link } from "components/Navigation";
 import Tabs from "./Tabs";
 
 const Sider = Layout.Sider;
@@ -13,13 +14,13 @@ const Divider = Menu.Divider;
 const SideMenu = ({ isCollapsed, onHandleTabClick, selectedKey }) => (
 	<Sider width={256} trigger={null} collapsible collapsed={isCollapsed}>
 		<Center style={{ height: 60 }}>
-			<div style={{ paddingTop: isCollapsed ? 10 : 20 }}>
+			<Link to="/">
 				{isCollapsed ? (
-					<img src={SharksLogo} width="50px" />
+					<img src={SharksLogo} width="50px" style={{ paddingTop: 10 }} />
 				) : (
 					<Title style={{ color: "#fff", margin: 0 }}>Sharks Ice Team</Title>
 				)}
-			</div>
+			</Link>
 		</Center>
 		<Menu
 			theme="dark"

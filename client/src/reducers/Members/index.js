@@ -2,8 +2,8 @@ import * as types from "types";
 
 export const initialState = {
 	data: [],
-	editMember: [],
 	isLoading: true,
+	viewMember: [],
 };
 
 /**
@@ -14,13 +14,13 @@ export const initialState = {
  */
 const memberReducer = (state = initialState, { payload, type }) => {
 	switch (type) {
-		case types.MEMBERS_EDIT:
+		case types.MEMBERS_REVIEW:
 		case types.MEMBERS_FETCH:
 			return initialState;
 		case types.MEMBERS_SET:
 			return { ...state, data: payload.members, isLoading: false };
-		case types.MEMBERS_SET_EDIT:
-			return { ...state, editMember: payload.member, isLoading: false };
+		case types.MEMBERS_SET_REVIEW:
+			return { ...state, viewMember: payload.member, isLoading: false };
 		default:
 			return state;
 	}

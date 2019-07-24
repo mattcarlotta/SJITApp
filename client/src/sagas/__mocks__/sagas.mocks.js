@@ -43,3 +43,15 @@ export const seasonsData = [
 		endDate: "2001-08-06T07:00:00.000+00:00",
 	},
 ];
+
+export const membersData = [
+	{
+		_id: "1234567890",
+		firstName: "Beta",
+		lastName: "Tester",
+		role: "member",
+		email: "member@example.com",
+		registered: "2000-10-06T07:00:00.000+00:00",
+		events: 0,
+	},
+];

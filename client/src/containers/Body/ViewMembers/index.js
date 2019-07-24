@@ -14,81 +14,56 @@ const title = "View Members";
 const displayDate = date => <span>{moment(date).format("l")}</span>;
 
 const columns = [
-	{
-		title: "First Name",
-		dataIndex: "firstName",
-		key: "firstName",
-	},
-	{
-		title: "Last Name",
-		dataIndex: "lastName",
-		key: "lastName",
-	},
-	{
-		title: "Role",
-		dataIndex: "role",
-		key: "role",
-	},
-	{
-		title: "Status",
-		dataIndex: "status",
-		key: "status",
-	},
-	{
-		title: "Email",
-		dataIndex: "email",
-		key: "email",
-	},
+	{ title: "First Name", dataIndex: "firstName", key: "firstName" },
+	{ title: "Last Name", dataIndex: "lastName", key: "lastName" },
+	{ title: "Role", dataIndex: "role", key: "role" },
+	{ title: "Status", dataIndex: "status", key: "status" },
+	{ title: "Email", dataIndex: "email", key: "email" },
 	{
 		title: "Registered",
 		dataIndex: "registered",
 		key: "registered",
 		render: displayDate,
 	},
-	{
-		title: "Events",
-		dataIndex: "events",
-		key: "events",
-	},
+	{ title: "Events", dataIndex: "events", key: "events" },
 ];
 
-export class ViewMembers extends PureComponent {
-	componentDidMount = () => {
-		if (this.props.isLoading) this.props.fetchMembers();
-	};
-
-	render = () => {
-		return (
-			<Fragment>
-				<Helmet title={title} />
-				<Card title={title}>
-					<FlexEnd>
-						<Button
-							primary
-							width="180px"
-							marginRight="0px"
-							padding="5px 10px"
-							style={{ marginBottom: 20 }}
-							onClick={() => this.props.push("/employee/members/create")}
-						>
-							<FaUserPlus style={{ position: "relative", top: 2 }} />
-							&nbsp; Add Member
-						</Button>
-					</FlexEnd>
-					<Table
-						columns={columns}
-						data={this.props.data}
-						deleteAction={this.props.deleteMember}
-						isLoading={this.props.isLoading}
-						push={this.props.push}
-						viewLocation="members"
-						editLocation="members"
-					/>
-				</Card>
-			</Fragment>
-		);
-	};
-}
+export const ViewMembers = ({
+	data,
+	deleteMember,
+	fetchMembers,
+	isLoading,
+	push,
+}) => (
+	<Fragment>
+		<Helmet title={title} />
+		<Card title={title}>
+			<FlexEnd>
+				<Button
+					primary
+					width="180px"
+					marginRight="0px"
+					padding="5px 10px"
+					style={{ marginBottom: 20 }}
+					onClick={() => push("/employee/members/create")}
+				>
+					<FaUserPlus style={{ position: "relative", top: 2 }} />
+					&nbsp; Add Member
+				</Button>
+			</FlexEnd>
+			<Table
+				columns={columns}
+				data={data}
+				deleteAction={deleteMember}
+				editLocation="members"
+				fetchData={fetchMembers}
+				isLoading={isLoading}
+				push={push}
+				viewLocation="members"
+			/>
+		</Card>
+	</Fragment>
+);
 
 ViewMembers.propTypes = {
 	data: PropTypes.arrayOf(

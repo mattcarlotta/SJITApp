@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const NavBar = styled.nav`
+export default styled.nav`
 	@media (max-width: 725px) {
 		text-align: center;
 		display: block;
@@ -15,5 +15,3 @@ const NavBar = styled.nav`
 	padding: 20px;
 	margin: 0 auto;
 `;
-
-export default NavBar;

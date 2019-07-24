@@ -10,6 +10,10 @@ class CustomTable extends Component {
 		searchText: "",
 	};
 
+	componentDidMount = () => {
+		if (this.props.isLoading) this.props.fetchData();
+	};
+
 	handleSearch = (selectedKeys, confirm) => {
 		confirm();
 		this.setState({ searchText: selectedKeys[0] });
@@ -191,6 +195,7 @@ CustomTable.propTypes = {
 	data: PropTypes.any.isRequired,
 	deleteAction: PropTypes.func,
 	editLocation: PropTypes.string,
+	fetchData: PropTypes.func.isRequired,
 	isLoading: PropTypes.bool.isRequired,
 	push: PropTypes.func.isRequired,
 	viewLocation: PropTypes.string,

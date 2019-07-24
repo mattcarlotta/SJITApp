@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const NavContainer = styled.div`
+export default styled.div`
 	@media (max-width: 725px) {
 		display: block;
 	}
@@ -15,5 +15,3 @@ const NavContainer = styled.div`
 	-ms-flex-align: center;
 	align-items: center;
 `;
-
-export default NavContainer;
