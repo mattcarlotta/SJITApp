@@ -105,11 +105,22 @@ const seedDB = async () => {
       status: "suspended",
     };
 
+    const member5 = {
+      email: "member5@example.com",
+      password: memberPassword,
+      firstName: "Member5",
+      lastName: "Member5",
+      role: "member",
+      token: createRandomToken(),
+      status: "suspended",
+    };
+
     await User.create(administrator);
     await User.create(member);
     await User.create(member2);
     await User.create(member3);
     await User.create(member4);
+    await User.create(member5);
 
     const newMember = await User.findOne({ email: member.email });
     const newMember2 = await User.findOne({ email: member2.email });

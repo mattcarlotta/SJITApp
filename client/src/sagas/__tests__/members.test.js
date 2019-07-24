@@ -10,7 +10,7 @@ import messageReducer from "reducers/Messages";
 import memberReducer from "reducers/Members";
 import { parseData, parseMessage } from "utils/parseResponse";
 
-const seasonId = "124567890";
+const memberId = "124567890";
 
 describe("Season Sagas", () => {
 	afterEach(() => {
@@ -75,54 +75,54 @@ describe("Season Sagas", () => {
 	// 	});
 	// });
 
-	// describe("Delete Season", () => {
-	// 	it("logical flow matches pattern for delete season requests", () => {
-	// 		const message = "Successfully deleted season.";
-	// 		const res = { data: { message } };
+	describe("Delete Member", () => {
+		it("logical flow matches pattern for delete member requests", () => {
+			const message = "Successfully deleted member.";
+			const res = { data: { message } };
 
-	// 		testSaga(sagas.deleteSeason, { seasonId })
-	// 			.next()
-	// 			.call(app.delete, `season/delete/${seasonId}`)
-	// 			.next(res)
-	// 			.call(parseMessage, res)
-	// 			.next(res.data.message)
-	// 			.put(setServerMessage({ type: "success", message: res.data.message }))
-	// 			.next()
-	// 			.put({ type: types.SEASONS_FETCH })
-	// 			.next()
-	// 			.isDone();
-	// 	});
+			testSaga(sagas.deleteMember, { memberId })
+				.next()
+				.call(app.delete, `member/delete/${memberId}`)
+				.next(res)
+				.call(parseMessage, res)
+				.next(res.data.message)
+				.put(setServerMessage({ type: "success", message: res.data.message }))
+				.next()
+				.put({ type: types.MEMBERS_FETCH })
+				.next()
+				.isDone();
+		});
 
-	// 	it("successfully deletes a season", async () => {
-	// 		const message = "Successfully deleted the season.";
-	// 		mockApp.onDelete(`season/delete/${seasonId}`).reply(200, { message });
+		it("successfully deletes a member", async () => {
+			const message = "Successfully deleted the member.";
+			mockApp.onDelete(`member/delete/${memberId}`).reply(200, { message });
 
-	// 		return expectSaga(sagas.deleteSeason, { seasonId })
-	// 			.dispatch(actions.deleteSeason)
-	// 			.withReducer(messageReducer)
-	// 			.hasFinalState({
-	// 				message,
-	// 				show: true,
-	// 				type: "success",
-	// 			})
-	// 			.run();
-	// 	});
+			return expectSaga(sagas.deleteMember, { memberId })
+				.dispatch(actions.deleteMember)
+				.withReducer(messageReducer)
+				.hasFinalState({
+					message,
+					show: true,
+					type: "success",
+				})
+				.run();
+		});
 
-	// 	it("if API call fails, it displays a message", async () => {
-	// 		const err = "Unable to delete the season.";
-	// 		mockApp.onDelete(`season/delete/${seasonId}`).reply(404, { err });
+		it("if API call fails, it displays a message", async () => {
+			const err = "Unable to delete the member.";
+			mockApp.onDelete(`member/delete/${memberId}`).reply(404, { err });
 
-	// 		return expectSaga(sagas.deleteSeason, { seasonId })
-	// 			.dispatch(actions.deleteSeason)setMembers
-	// 			.withReducer(messageReducer)
-	// 			.hasFinalState({
-	// 				message: err,
-	// 				show: true,
-	// 				type: "error",
-	// 			})
-	// 			.run();
-	// 	});
-	// });
+			return expectSaga(sagas.deleteMember, { memberId })
+				.dispatch(actions.deleteMember)
+				.withReducer(messageReducer)
+				.hasFinalState({
+					message: err,
+					show: true,
+					type: "error",
+				})
+				.run();
+		});
+	});
 
 	// describe("Fetch Season", () => {
 	// 	let data;
