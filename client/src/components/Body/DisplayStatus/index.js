@@ -8,8 +8,11 @@ const DisplayStatus = status => (
 		{status === "active" ? (
 			<FaUser style={{ color: "green", position: "relative", top: "2px" }} />
 		) : (
-			<FaUserTimes style={{ fontSize: 22, color: "red" }} />
+			<FaUserTimes
+				style={{ fontSize: 22, position: "relative", top: "2px", color: "red" }}
+			/>
 		)}
+		<span style={{ fontSize: 16, paddingLeft: 5 }}>({status})</span>
 	</Tooltip>
 );
 

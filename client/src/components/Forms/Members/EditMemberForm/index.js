@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
-import { Input } from "components/Forms";
+import { Input, Select } from "components/Forms";
 import { SubmitButton } from "components/Body";
 import { fieldValidator, fieldUpdater, parseFields } from "utils";
 
@@ -39,7 +39,7 @@ class EditMemberForm extends Component {
 				name: "role",
 				type: "select",
 				label: "Role",
-				icon: "user",
+				icon: "usertag",
 				value: "",
 				errors: "",
 				required: true,
@@ -114,7 +114,15 @@ class EditMemberForm extends Component {
 						onFocus={this.handleFocus}
 					/>
 				) : (
-					<p key={props.name}>Select</p>
+					<Select
+						{...props}
+						key={props.name}
+						isFocused={this.state.isFocused}
+						onChange={this.handleChange}
+						onBlur={this.handleBlur}
+						onFocus={this.handleFocus}
+						selectOptions={["staff", "member"]}
+					/>
 				),
 			)}
 			<SubmitButton

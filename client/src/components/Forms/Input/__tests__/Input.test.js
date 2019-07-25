@@ -34,26 +34,15 @@ describe("Input", () => {
 		expect(wrapper.find("input").exists()).toBeTruthy();
 	});
 
+	it("doesn't display an Icon if 'icon' is missing", () => {
+		expect(wrapper.find("i").exists()).toBeFalsy();
+	});
+
 	it("displays a Font Awesome icon by a string type", () => {
 		wrapper.setProps({ icon: "key" });
 
-		expect(wrapper.find("i.icon").exists()).toBeTruthy();
+		expect(wrapper.find("i").exists()).toBeTruthy();
 		expect(wrapper.find("FaKey").exists()).toBeTruthy();
-
-		wrapper.setProps({ icon: "calander" });
-		expect(wrapper.find("i.icon").exists()).toBeTruthy();
-		expect(wrapper.find("FaCalendarAlt").exists()).toBeTruthy();
-
-		wrapper.setProps({ icon: "id" });
-		expect(wrapper.find("i.icon").exists()).toBeTruthy();
-		expect(wrapper.find("FaIdCard").exists()).toBeTruthy();
-	});
-
-	it("displays a Font Awesome bug if 'icon' prop is invalid", () => {
-		wrapper.setProps({ icon: "notype" });
-
-		expect(wrapper.find("i.icon").exists()).toBeTruthy();
-		expect(wrapper.find("FaBug").exists()).toBeTruthy();
 	});
 
 	it("displays a label and a tooltip", () => {

@@ -7,19 +7,6 @@ export default styled(Input)`
 	height: 105px;
 	width: 100%;
 
-	svg {
-		color: #d3dce6;
-		position: absolute;
-		top: 46px;
-		left: 16px;
-		transition: all 0.2s ease;
-		z-index: 2;
-
-		&:hover {
-			color: #bfbebe;
-		}
-	}
-
 	input {
 		position: relative;
 		padding: ${({ icon }) => `14px 0 14px ${icon ? 48 : 17}px`};

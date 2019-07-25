@@ -11,6 +11,7 @@ export { default as FlexCenter } from "./FlexCenter";
 export { default as FlexEnd } from "./FlexEnd";
 export { default as Float } from "./Float";
 export { default as FormContainer } from "./FormContainer";
+export { default as Icon } from "./Icon";
 export { default as ImageContainer } from "./ImageContainer";
 export { default as Label } from "./Label";
 export { default as Legal } from "./Legal";

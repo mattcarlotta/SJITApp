@@ -1,35 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {
-	FaUserCircle,
-	FaLock,
-	FaBug,
-	FaEnvelope,
-	FaKey,
-	FaCalendarAlt,
-	FaIdCard,
-} from "react-icons/fa";
-import { Label } from "components/Body";
+import { Icon, Label } from "components/Body";
 import { Errors } from "components/Forms";
-
-const iconType = type => {
-	switch (type) {
-		case "key":
-			return <FaKey />;
-		case "lock":
-			return <FaLock />;
-		case "mail":
-			return <FaEnvelope />;
-		case "user":
-			return <FaUserCircle />;
-		case "calander":
-			return <FaCalendarAlt />;
-		case "id":
-			return <FaIdCard />;
-		default:
-			return <FaBug />;
-	}
-};
 
 const Input = ({
 	className,
@@ -63,19 +35,21 @@ const Input = ({
 			{label && (
 				<Label name={name} label={label} tooltip={tooltip} htmlFor={name} />
 			)}
-			{icon && <i className="icon">{iconType(icon)}</i>}
-			<input
-				type={type}
-				name={name}
-				onBlur={onBlur}
-				onChange={onChange}
-				onFocus={onFocus}
-				placeholder={placeholder}
-				value={value}
-				style={inputStyle}
-				disabled={disabled}
-				readOnly={readOnly}
-			/>
+			<div style={{ display: "flex", alignItems: "center" }}>
+				{icon && <Icon type={icon} />}
+				<input
+					type={type}
+					name={name}
+					onBlur={onBlur}
+					onChange={onChange}
+					onFocus={onFocus}
+					placeholder={placeholder}
+					value={value}
+					style={inputStyle}
+					disabled={disabled}
+					readOnly={readOnly}
+				/>
+			</div>
 			{errors && <Errors>{errors}</Errors>}
 		</div>
 	</div>
