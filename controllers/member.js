@@ -38,7 +38,22 @@ const getAllMembers = async (_, res) => {
   res.status(200).json({ members });
 };
 
-const getMember = (req, res) => sendError("Route not setup.", res);
+const getMember = async (req, res) => {
+  try {
+    const { id: _id } = req.params;
+    if (!_id) throw "You must include a memberId.";
+
+    const existingMember = await User.findOne(
+      { _id },
+      { password: 0, token: 0 },
+    );
+    if (!existingMember) throw `Unable to locate the member: ${_id}.`;
+
+    res.status(200).json({ member: existingMember });
+  } catch (err) {
+    return sendError(err, res);
+  }
+};
 
 const updateMember = (req, res) => sendError("Route not setup.", res);
 

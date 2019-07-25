@@ -11,7 +11,7 @@ class CustomTable extends Component {
 	};
 
 	componentDidMount = () => {
-		if (this.props.isLoading) this.props.fetchData();
+		this.props.fetchData();
 	};
 
 	handleSearch = (selectedKeys, confirm) => {

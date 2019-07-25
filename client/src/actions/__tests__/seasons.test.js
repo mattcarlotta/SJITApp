@@ -84,14 +84,14 @@ describe("Season Actions", () => {
 		});
 	});
 
-	it("returns SEASONS_SET_EDIT with an empty array if data is empty", () => {
+	it("returns SEASONS_SET_EDIT with an empty object if data is empty", () => {
 		const data = {};
 
 		const value = actions.setSeasonToEdit(data);
 
 		expect(value).toEqual({
 			type: types.SEASONS_SET_EDIT,
-			payload: [],
+			payload: {},
 		});
 	});
 

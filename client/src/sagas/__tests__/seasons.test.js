@@ -144,7 +144,7 @@ describe("Season Sagas", () => {
 				.isDone();
 		});
 
-		it("successfully creates a new season", async () => {
+		it("successfully fetches an existing season", async () => {
 			mockApp.onGet(`season/edit/${seasonId}`).reply(200, data);
 
 			return expectSaga(sagas.fetchSeason, { seasonId })
@@ -202,7 +202,7 @@ describe("Season Sagas", () => {
 				.withReducer(seasonReducer)
 				.hasFinalState({
 					data: mocks.seasonsData,
-					editSeason: [],
+					editSeason: {},
 					isLoading: false,
 				})
 				.run();

@@ -9,7 +9,6 @@ const editSeason = {
 	endDate: new Date(2001, 7, 6),
 };
 const fetchSeason = jest.fn();
-const fetchSeasons = jest.fn();
 const hideServerMessage = jest.fn();
 const push = jest.fn();
 const updateSeason = jest.fn();
@@ -20,9 +19,8 @@ const initProps = {
 			id: seasonId,
 		},
 	},
-	editSeason: [],
+	editSeason: {},
 	fetchSeason,
-	fetchSeasons,
 	hideServerMessage,
 	isLoading: true,
 	push,
@@ -49,14 +47,13 @@ describe("Edit Season Form", () => {
 
 	afterEach(() => {
 		fetchSeason.mockClear();
-		fetchSeasons.mockClear();
 	});
 
 	it("renders without errors", () => {
 		expect(wrapper.find("form").exists()).toBeTruthy();
 	});
 
-	it("initially calls fetchSeasons when isLoading is true", () => {
+	it("initially calls fetchSeason when isLoading is true", () => {
 		expect(fetchSeason).toHaveBeenCalledWith(seasonId);
 	});
 
@@ -68,11 +65,6 @@ describe("Edit Season Form", () => {
 				.props().disabled,
 		).toBeTruthy();
 		expect(wrapper.find("button").props().disabled).toBeTruthy();
-	});
-
-	it("if form has been unmounted while still loading, then it doesn't call fetchSeasons", () => {
-		wrapper.unmount();
-		expect(fetchSeasons).toHaveBeenCalledTimes(0);
 	});
 
 	describe("Form has been loaded", () => {
@@ -126,11 +118,6 @@ describe("Edit Season Form", () => {
 
 			expect(spy).toBeCalledTimes(1);
 			spy.mockClear();
-		});
-
-		it("calls fetchSeasons on unmount", () => {
-			wrapper.unmount();
-			expect(fetchSeasons).toHaveBeenCalledTimes(1);
 		});
 
 		describe("Dates have been updated and form has been submitted", () => {

@@ -3,7 +3,7 @@ import * as types from "types";
 export const initialState = {
 	data: [],
 	isLoading: true,
-	viewMember: [],
+	viewMember: {},
 };
 
 /**

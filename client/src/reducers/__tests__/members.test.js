@@ -25,7 +25,7 @@ describe("Member Reducer", () => {
 
 		expect(state).toEqual({
 			data: mocks.membersData,
-			viewMember: [],
+			viewMember: {},
 			isLoading: false,
 		});
 	});

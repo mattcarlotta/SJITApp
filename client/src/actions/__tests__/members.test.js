@@ -15,6 +15,7 @@ const membersData = { members: [data] };
 
 const memberData = { member: [data] };
 
+const memberId = "1234567890";
 describe("Member Actions", () => {
 	// it("returns SEASONS_CREATE with props", () => {
 	// 	const props = { seasonId: "1234", startDate: "1234", endDate: "1234" };
@@ -27,27 +28,23 @@ describe("Member Actions", () => {
 	// 	});
 	// });
 
-	// it("returns SEASONS_DELETE with a seasonId", () => {
-	// 	const seasonId = "20052006";
+	it("returns MEMBERS_DELETE with a memberId", () => {
+		const value = actions.deleteMember(memberId);
 
-	// 	const value = actions.deleteSeason(seasonId);
+		expect(value).toEqual({
+			type: types.MEMBERS_DELETE,
+			memberId,
+		});
+	});
 
-	// 	expect(value).toEqual({
-	// 		type: types.SEASONS_DELETE,
-	// 		seasonId,
-	// 	});
-	// });
+	it("returns MEMBERS_REVIEW", () => {
+		const value = actions.fetchMember(memberId);
 
-	// it("returns SEASONS_EDIT", () => {
-	// 	const seasonId = "20052006";
-
-	// 	const value = actions.fetchSeason(seasonId);
-
-	// 	expect(value).toEqual({
-	// 		type: types.SEASONS_EDIT,
-	// 		seasonId,
-	// 	});
-	// });
+		expect(value).toEqual({
+			type: types.MEMBERS_REVIEW,
+			memberId,
+		});
+	});
 
 	it("returns MEMBERS_FETCH", () => {
 		const value = actions.fetchMembers();
@@ -75,25 +72,25 @@ describe("Member Actions", () => {
 		});
 	});
 
-	// it("returns SEASONS_SET_EDIT with data", () => {
-	// 	const value = actions.setSeasonToEdit(seasonData);
+	it("returns MEMBERS_SET_REVIEW with data", () => {
+		const value = actions.setMemberToReview(memberData);
 
-	// 	expect(value).toEqual({
-	// 		type: types.SEASONS_SET_EDIT,
-	// 		payload: seasonData,
-	// 	});
-	// });
+		expect(value).toEqual({
+			type: types.MEMBERS_SET_REVIEW,
+			payload: memberData,
+		});
+	});
 
-	// it("returns SEASONS_SET_EDIT with an empty array if data is empty", () => {
-	// 	const data = {};
+	it("returns MEMBERS_SET_REVIEW with an empty object if data is empty", () => {
+		const data = {};
 
-	// 	const value = actions.setSeasonToEdit(data);
+		const value = actions.setMemberToReview(data);
 
-	// 	expect(value).toEqual({
-	// 		type: types.SEASONS_SET_EDIT,
-	// 		payload: [],
-	// 	});
-	// });
+		expect(value).toEqual({
+			type: types.MEMBERS_SET_REVIEW,
+			payload: {},
+		});
+	});
 
 	// it("returns SEASONS_UPDATE_EDIT with props", () => {
 	// 	const props = {

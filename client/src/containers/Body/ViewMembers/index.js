@@ -1,34 +1,27 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import Helmet from "react-helmet";
-import moment from "moment";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
-import { Card, Tooltip } from "antd";
-import { FaUserPlus, FaUser, FaUserTimes } from "react-icons/fa";
-import { Button, FlexEnd, Table } from "components/Body";
+import { Card } from "antd";
+import { FaUserPlus } from "react-icons/fa";
+import {
+	Button,
+	DisplayDate,
+	DisplayStatus,
+	FlexEnd,
+	Table,
+} from "components/Body";
 import { deleteMember, fetchMembers } from "actions/Members";
 
 const title = "View Members";
-
-const displayDate = date => <span>{moment(date).format("l")}</span>;
-
-const displayStatus = status => (
-	<Tooltip title={status} placement="top">
-		{status === "active" ? (
-			<FaUser style={{ color: "green" }} />
-		) : (
-			<FaUserTimes style={{ fontSize: 22, color: "red" }} />
-		)}
-	</Tooltip>
-);
 
 const columns = [
 	{
 		title: "Status",
 		dataIndex: "status",
 		key: "status",
-		render: displayStatus,
+		render: DisplayStatus,
 	},
 	{ title: "First Name", dataIndex: "firstName", key: "firstName" },
 	{ title: "Last Name", dataIndex: "lastName", key: "lastName" },
@@ -38,7 +31,7 @@ const columns = [
 		title: "Registered",
 		dataIndex: "registered",
 		key: "registered",
-		render: displayDate,
+		render: DisplayDate,
 	},
 	{ title: "Events", dataIndex: "events", key: "events" },
 ];

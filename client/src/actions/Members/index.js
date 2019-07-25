@@ -32,10 +32,10 @@ export const deleteMember = memberId => ({
  * @param {string} memberId
  * @returns {object}
  */
-// export const fetchMember = memberId => ({
-// 	type: types.MEMBERS_REVIEW,
-// 	memberId,
-// });
+export const fetchMember = memberId => ({
+	type: types.MEMBERS_REVIEW,
+	memberId,
+});
 
 /**
  * Fetches all members.
@@ -66,10 +66,10 @@ export const setMembers = data => ({
  * @param {object} data - memberId and member duration fields
  * @returns {object}
  */
-// export const setMemberToReview = data => ({
-// 	type: types.MEMBERS_SET_REVIEW,
-// 	payload: !isEmpty(data) ? data : [],
-// });
+export const setMemberToReview = data => ({
+	type: types.MEMBERS_SET_REVIEW,
+	payload: !isEmpty(data) ? data : {},
+});
 
 /**
  * Updates a single member.

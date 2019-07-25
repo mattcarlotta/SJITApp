@@ -124,55 +124,55 @@ describe("Season Sagas", () => {
 		});
 	});
 
-	// describe("Fetch Season", () => {
-	// 	let data;
-	// 	beforeEach(() => {
-	// 		data = { season: mocks.seasonsData };
-	// 	});
+	describe("Fetch Member", () => {
+		let data;
+		beforeEach(() => {
+			data = { member: mocks.membersData };
+		});
 
-	// 	it("logical flow matches pattern for fetch season requests", () => {
-	// 		const res = { data };
+		it("logical flow matches pattern for fetch season requests", () => {
+			const res = { data };
 
-	// 		testSaga(sagas.fetchSeason, { seasonId })
-	// 			.next()
-	// 			.call(app.get, `season/edit/${seasonId}`)
-	// 			.next(res)
-	// 			.call(parseData, res)
-	// 			.next(res.data)
-	// 			.put(actions.setSeasonToEdit(res.data))
-	// 			.next()
-	// 			.isDone();
-	// 	});
+			testSaga(sagas.fetchMember, { memberId })
+				.next()
+				.call(app.get, `member/review/${memberId}`)
+				.next(res)
+				.call(parseData, res)
+				.next(res.data)
+				.put(actions.setMemberToReview(res.data))
+				.next()
+				.isDone();
+		});
 
-	// 	it("successfully creates a new season", async () => {
-	// 		mockApp.onGet(`season/edit/${seasonId}`).reply(200, data);
+		it("successfully fetches an existing member", async () => {
+			mockApp.onGet(`member/review/${memberId}`).reply(200, data);
 
-	// 		return expectSaga(sagas.fetchSeason, { seasonId })
-	// 			.dispatch(actions.fetchSeason)
-	// 			.withReducer(seasonReducer)
-	// 			.hasFinalState({
-	// 				data: [],
-	// 				editSeason: mocks.seasonsData,
-	// 				isLoading: false,
-	// 			})
-	// 			.run();
-	// 	});
+			return expectSaga(sagas.fetchMember, { memberId })
+				.dispatch(actions.fetchMember)
+				.withReducer(memberReducer)
+				.hasFinalState({
+					data: [],
+					isLoading: false,
+					viewMember: mocks.membersData,
+				})
+				.run();
+		});
 
-	// 	it("if API call fails, it displays a message", setMembersasync () => {
-	// 		const err = "Unable to fetch that season.";
-	// 		mockApp.onGet(`season/edit/${seasonId}`).reply(404, { err });
+		it("if API call fails, it displays a message", () => {
+			const err = "Unable to fetch that season.";
+			mockApp.onGet(`member/review/${memberId}`).reply(404, { err });
 
-	// 		return expectSaga(sagas.fetchSeason, { seasonId })
-	// 			.dispatch(actions.fetchSeason)
-	// 			.withReducer(messageReducer)
-	// 			.hasFinalState({
-	// 				message: err,
-	// 				show: true,
-	// 				type: "error",
-	// 			})
-	// 			.run();
-	// 	});
-	// });
+			return expectSaga(sagas.fetchMember, { memberId })
+				.dispatch(actions.fetchMember)
+				.withReducer(messageReducer)
+				.hasFinalState({
+					message: err,
+					show: true,
+					type: "error",
+				})
+				.run();
+		});
+	});
 
 	describe("Fetch Members", () => {
 		let data;
@@ -202,7 +202,7 @@ describe("Season Sagas", () => {
 				.withReducer(memberReducer)
 				.hasFinalState({
 					data: mocks.membersData,
-					viewMember: [],
+					viewMember: {},
 					isLoading: false,
 				})
 				.run();

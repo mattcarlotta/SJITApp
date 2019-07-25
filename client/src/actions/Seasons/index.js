@@ -68,7 +68,7 @@ export const setSeasons = data => ({
  */
 export const setSeasonToEdit = data => ({
 	type: types.SEASONS_SET_EDIT,
-	payload: !isEmpty(data) ? data : [],
+	payload: !isEmpty(data) ? data : {},
 });
 
 /**

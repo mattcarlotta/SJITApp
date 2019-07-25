@@ -2,7 +2,7 @@ import { push } from "connected-react-router";
 import { all, put, call, takeLatest } from "redux-saga/effects";
 import { app } from "utils";
 import { setServerMessage } from "actions/Messages";
-import { setMemberToEdit, setMembers } from "actions/Members";
+import { setMemberToReview, setMembers } from "actions/Members";
 import { parseData, parseMessage } from "utils/parseResponse";
 import * as types from "types";
 
@@ -79,16 +79,16 @@ export function* deleteMember({ memberId }) {
  * @throws {action} - A redux action to display a server message by type.
  */
 
-// export function* fetchMember({ memberId }) {
-// 	try {
-// 		const res = yield call(app.get, `member/edit/${memberId}`);
-// 		const data = yield call(parseData, res);
+export function* fetchMember({ memberId }) {
+	try {
+		const res = yield call(app.get, `member/review/${memberId}`);
+		const data = yield call(parseData, res);
 
-// 		yield put(setMemberToEdit(data));
-// 	} catch (e) {
-// 		yield put(setServerMessage({ type: "error", message: e.toString() }));
-// 	}
-// }
+		yield put(setMemberToReview(data));
+	} catch (e) {
+		yield put(setServerMessage({ type: "error", message: e.toString() }));
+	}
+}
 
 /**
  * Attempts to get all members.
@@ -152,10 +152,10 @@ export function* fetchMembers() {
  */
 export default function* membersSagas() {
 	yield all([
-		// takeLatest(types.MEMBERS_EDIT, fetchMember),
 		// takeLatest(types.MEMBERS_CREATE, createMember),
 		takeLatest(types.MEMBERS_DELETE, deleteMember),
+		takeLatest(types.MEMBERS_REVIEW, fetchMember),
 		takeLatest(types.MEMBERS_FETCH, fetchMembers),
-		// takeLatest(types.MEMBERS_UPDATE_EDIT, updateMember),
+		// takeLatest(types.MMEMBERS_UPDATE_STATUS, updateMember),
 	]);
 }

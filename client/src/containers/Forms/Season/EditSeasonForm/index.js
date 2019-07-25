@@ -10,7 +10,7 @@ import { FormContainer, SubmitButton } from "components/Body";
 import { FormTitle, Errors, Input } from "components/Forms";
 import { Label } from "components/Body";
 import { hideServerMessage } from "actions/Messages";
-import { fetchSeason, fetchSeasons, updateSeason } from "actions/Seasons";
+import { fetchSeason, updateSeason } from "actions/Seasons";
 import { fieldUpdater, parseFields } from "utils";
 
 const RangePicker = DatePicker.RangePicker;
@@ -40,10 +40,6 @@ export class EditSeasonForm extends Component {
 		const { id } = this.props.match.params;
 
 		this.props.fetchSeason(id);
-	};
-
-	componentWillUnmount = () => {
-		if (!this.props.isLoading) this.props.fetchSeasons();
 	};
 
 	static getDerivedStateFromProps = ({ editSeason, serverMessage }, state) => {
@@ -148,9 +144,19 @@ export class EditSeasonForm extends Component {
 }
 
 EditSeasonForm.propTypes = {
-	editSeason: PropTypes.any,
+	editSeason: PropTypes.shape({
+		_id: PropTypes.string,
+		seaonId: PropTypes.string,
+		startDate: PropTypes.oneOfType([
+			PropTypes.string,
+			PropTypes.instanceOf(Date),
+		]),
+		endDate: PropTypes.oneOfType([
+			PropTypes.string,
+			PropTypes.instanceOf(Date),
+		]),
+	}),
 	fetchSeason: PropTypes.func.isRequired,
-	fetchSeasons: PropTypes.func.isRequired,
 	hideServerMessage: PropTypes.func.isRequired,
 	isLoading: PropTypes.bool.isRequired,
 	match: PropTypes.shape({
@@ -170,7 +176,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
 	fetchSeason,
-	fetchSeasons,
 	hideServerMessage,
 	push,
 	updateSeason,
