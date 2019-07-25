@@ -51,7 +51,7 @@ class App extends Component {
 			this.props.push(`/employee/${key}`);
 
 			return {
-				openKeys: ROOTTABS.find(tab => key.includes(tab))
+				openKeys: ROOTTABS.some(tab => key.includes(tab))
 					? prevState.openKeys
 					: [""],
 			};
