@@ -18,7 +18,6 @@ class ResetPasswordForm extends Component {
 				required: true,
 			},
 		],
-		isFocused: "",
 		isSubmitting: false,
 	};
 
@@ -31,10 +30,6 @@ class ResetPasswordForm extends Component {
 			fields: fieldUpdater(prevState.fields, name, value),
 		}));
 	};
-
-	handleFocus = ({ target: { name } }) => this.setState({ isFocused: name });
-
-	handleBlur = () => this.setState({ isFocused: "" });
 
 	handleSubmit = e => {
 		e.preventDefault();
@@ -62,14 +57,7 @@ class ResetPasswordForm extends Component {
 			/>
 			<form onSubmit={this.handleSubmit}>
 				{this.state.fields.map(props => (
-					<Input
-						{...props}
-						key={props.name}
-						isFocused={this.state.isFocused}
-						onChange={this.handleChange}
-						onBlur={this.handleBlur}
-						onFocus={this.handleFocus}
-					/>
+					<Input {...props} key={props.name} onChange={this.handleChange} />
 				))}
 				<span>
 					<p style={{ margin: 0, padding: 0, fontSize: 16, display: "inline" }}>

@@ -45,7 +45,6 @@ class EditMemberForm extends Component {
 				required: true,
 			},
 		],
-		isFocused: "",
 		wasEdited: false,
 		wasInitialized: false,
 		isSubmitting: false,
@@ -82,8 +81,6 @@ class EditMemberForm extends Component {
 		}));
 	};
 
-	handleFocus = ({ target: { name } }) => this.setState({ isFocused: name });
-
 	handleSubmit = e => {
 		e.preventDefault();
 		const { validatedFields, errors } = fieldValidator(this.state.fields);
@@ -93,41 +90,30 @@ class EditMemberForm extends Component {
 			const { hideServerMessage, serverMessage } = this.props;
 
 			if (!errors) {
-				const signinFields = parseFields(formFields);
+				const parsedFields = parseFields(formFields);
 
 				if (serverMessage) hideServerMessage();
-				// setTimeout(() => signinUser(signinFields), 350);
+				setTimeout(() => console.log(parsedFields), 350);
 			}
 		});
 	};
 
 	render = () => (
-		<form style={{ width: 400, marginTop: 10 }} onSubmit={this.handleSubmit}>
+		<form style={{ width: 400, marginTop: 50 }} onSubmit={this.handleSubmit}>
 			{this.state.fields.map(props =>
 				props.type != "select" ? (
-					<Input
-						{...props}
-						key={props.name}
-						isFocused={this.state.isFocused}
-						onChange={this.handleChange}
-						onBlur={this.handleBlur}
-						onFocus={this.handleFocus}
-					/>
+					<Input {...props} key={props.name} onChange={this.handleChange} />
 				) : (
 					<Select
 						{...props}
 						key={props.name}
-						isFocused={this.state.isFocused}
 						onChange={this.handleChange}
-						onBlur={this.handleBlur}
-						onFocus={this.handleFocus}
 						selectOptions={["staff", "member"]}
 					/>
 				),
 			)}
 			<SubmitButton
-				title="Update"
-				disabled={!this.state.wasInitialized || !this.state.wasEdited}
+				title="Update Member"
 				isSubmitting={this.state.isSubmitting}
 			/>
 		</form>

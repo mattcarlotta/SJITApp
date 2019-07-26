@@ -2,19 +2,14 @@ import React, { Fragment, PureComponent } from "react";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
 import Helmet from "react-helmet";
-import moment from "moment";
+import { push } from "connected-react-router";
 import { connect } from "react-redux";
 import { Card, Icon, Tabs } from "antd";
 import { FaUserCircle, FaChartBar, FaReply, FaClock } from "react-icons/fa";
 import { fetchMember, fetchMembers } from "actions/Members";
-import {
-	Button,
-	LightText,
-	DisplayStatus,
-	Spinner,
-	Title,
-} from "components/Body";
-import { EditMemberForm } from "components/Forms";
+import { Button, PaneBody, Spinner } from "components/Body";
+import Profile from "./Profile";
+import ExtraButtons from "./ExtraButtons";
 
 const Pane = Tabs.TabPane;
 
@@ -65,39 +60,29 @@ class ViewMemberProfile extends PureComponent {
 	};
 
 	render = () => {
-		const { viewMember } = this.props;
+		const { push, viewMember } = this.props;
 
-		const {
-			_id,
-			events,
-			firstName,
-			lastName,
-			registered,
-			schedule,
-			status,
-		} = viewMember;
+		const { events, schedule, status } = viewMember;
 
 		return (
 			<Fragment>
 				<Helmet title={title} />
-				<Card title={title}>
+				<Card
+					style={{ minHeight: 800 }}
+					extra={<ExtraButtons push={push} />}
+					title={title}
+				>
 					{isEmpty(viewMember) ? (
 						<Spinner />
 					) : (
 						<Tabs tabPosition="left">
 							<Pane tab={profile} key="profile">
-								<Title style={{ fontSize: 36, margin: 0 }}>
-									{firstName} {lastName}
-								</Title>
-								<LightText>Unique id: {_id}</LightText>
-								<LightText>Status: {DisplayStatus(status)}</LightText>
-								<LightText>
-									Registered: {moment(registered).format("l")}
-								</LightText>
-								<EditMemberForm viewMember={viewMember} />
+								<Profile viewMember={viewMember} />
 							</Pane>
 							<Pane tab={analytics} key="analytics">
-								<p>Analytics: {status}</p>
+								<PaneBody>
+									<p>Analytics: {status}</p>
+								</PaneBody>
 							</Pane>
 							<Pane tab={responses} key="responses">
 								<p>Responses: {JSON.stringify(events)}</p>
@@ -116,6 +101,7 @@ class ViewMemberProfile extends PureComponent {
 ViewMemberProfile.propTypes = {
 	fetchMember: PropTypes.func.isRequired,
 	fetchMembers: PropTypes.func.isRequired,
+	push: PropTypes.func.isRequired,
 	viewMember: PropTypes.shape({
 		_id: PropTypes.string,
 		email: PropTypes.string,
@@ -136,6 +122,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
 	fetchMember,
 	fetchMembers,
+	push,
 };
 
 export default connect(

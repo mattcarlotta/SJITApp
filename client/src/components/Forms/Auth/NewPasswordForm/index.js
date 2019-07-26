@@ -24,7 +24,6 @@ class NewPasswordForm extends Component {
 				},
 			],
 			token,
-			isFocused: "",
 			isSubmitting: false,
 		};
 	}
@@ -38,10 +37,6 @@ class NewPasswordForm extends Component {
 			fields: fieldUpdater(prevState.fields, name, value),
 		}));
 	};
-
-	handleFocus = ({ target: { name } }) => this.setState({ isFocused: name });
-
-	handleBlur = () => this.setState({ isFocused: "" });
 
 	handleSubmit = e => {
 		e.preventDefault();
@@ -76,14 +71,7 @@ class NewPasswordForm extends Component {
 			/>
 			<form onSubmit={this.handleSubmit}>
 				{this.state.fields.map(props => (
-					<Input
-						{...props}
-						key={props.name}
-						isFocused={this.state.isFocused}
-						onChange={this.handleChange}
-						onBlur={this.handleBlur}
-						onFocus={this.handleFocus}
-					/>
+					<Input {...props} key={props.name} onChange={this.handleChange} />
 				))}
 				<SubmitButton isSubmitting={this.state.isSubmitting} />
 			</form>

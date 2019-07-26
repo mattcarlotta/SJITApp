@@ -36,6 +36,6 @@ describe("Icon", () => {
 		expect(wrapper.find("FaUserCircle").exists()).toBeTruthy();
 
 		wrapper.setProps({ type: "usertag" });
-		expect(wrapper.find("FaIdCardAlt").exists()).toBeTruthy();
+		expect(wrapper.find("FaIdBadge").exists()).toBeTruthy();
 	});
 });

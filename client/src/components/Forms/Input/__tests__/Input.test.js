@@ -72,8 +72,8 @@ describe("Input", () => {
 		expect(wrapper.find("Errors").text()).toEqual("Required.");
 	});
 
-	it("when focused, adds a 'focused' className", () => {
-		wrapper.setProps({ isFocused: "password" });
+	it("when clicked, adds a 'focused' className", () => {
+		wrapper.find("ClickHandler").setState({ isFocused: true });
 
 		expect(wrapper.find("div.focused").exists()).toBeTruthy();
 	});

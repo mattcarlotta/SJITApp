@@ -50,18 +50,33 @@ class ClickHandler extends Component {
 		isVisible: false,
 	};
 
-	static propTypes = {
-		handleChange: PropTypes.func.isRequired,
-		children: PropTypes.func.isRequired,
-	};
-
 	componentDidMount() {
 		document.addEventListener("mousedown", this.handleClickOutside);
+		document.addEventListener("keydown", this.handleTabPress);
 	}
 
 	componentWillUnmount() {
 		document.removeEventListener("mousedown", this.handleClickOutside);
+		document.removeEventListener("keydown", this.handleTabPress);
 	}
+
+	handleTabPress = ({ keyCode, target }) => {
+		if (keyCode === 9) {
+			if (
+				!this.state.isVisible &&
+				this.wrapperRef &&
+				this.wrapperRef.contains(target)
+			) {
+				this.handleOpen();
+			} else if (
+				this.state.isVisible &&
+				this.wrapperRef &&
+				!this.wrapperRef.contains(target)
+			) {
+				this.handleClose();
+			}
+		}
+	};
 
 	handleClickOutside = ({ target }) => {
 		if (
@@ -69,12 +84,16 @@ class ClickHandler extends Component {
 			this.wrapperRef &&
 			!this.wrapperRef.contains(target)
 		) {
-			this.handleSelectClose();
+			this.handleClose();
 		}
 	};
 
-	handleSelectClose = () => {
+	handleClose = () => {
 		this.setState({ isVisible: false });
+	};
+
+	handleOpen = () => {
+		this.setState({ isVisible: true });
 	};
 
 	handleSelectClick = () => {

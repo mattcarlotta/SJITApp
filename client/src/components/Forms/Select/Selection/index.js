@@ -14,7 +14,7 @@ const Selection = ({
 	value,
 	width,
 }) => (
-	<SelectionContainer isVisible={isVisible} width={width}>
+	<SelectionContainer tabIndex={0} isVisible={isVisible} width={width}>
 		<SelectText handleSelectClick={handleSelectClick}>
 			{icon && <Icon style={{ top: 0 }} type={icon} />}
 			<DisplayOption icon={icon} value={value}>

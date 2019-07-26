@@ -1,12 +1,5 @@
 import styled from "styled-components";
 
-const focused = ({ isVisible }) =>
-	isVisible
-		? `outline: -webkit-focus-ring-color auto 1px;
-    box-shadow: 0 0 0 1px #2684ff;
-    `
-		: null;
-
 export default styled.div`
 	cursor: pointer;
 	display: inline-block;
@@ -17,7 +10,19 @@ export default styled.div`
 	min-height: 57px;
 	box-sizing: border-box;
 	border-radius: 4px;
-	border: 1px solid #e5e5e5;
+	border: 1px solid ${({ isVisible }) => (isVisible ? "#1e90ff" : "#e5e5e5")};
 	transition: all 100ms ease 0s;
-	${props => focused(props)};
+
+	svg {
+		color: ${({ isVisible }) => (isVisible ? "#1e90ff" : "#d3dce6")};
+	}
+
+	&:hover {
+		border: 1px solid ${({ isVisible }) => (isVisible ? "#1e90ff" : "#bfbebe")};
+	}
+
+	&:focus {
+		border: 1px solid #1e90ff;
+		outline: 0;
+	}
 `;

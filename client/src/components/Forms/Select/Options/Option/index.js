@@ -16,14 +16,17 @@ export default styled(Option)`
 	user-select: none;
 	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 	box-sizing: border-box;
-	border-bottom: 1px dotted pink;
+	border: 1px solid transparent;
 	text-align: left;
 	${({ selected, value }) =>
 		selected === value ? `background-color: #dedede;  color: #0f7ae5;` : null};
 
-	&:hover {
+	&:hover,
+	&:focus {
 		color: #0f7ae5 !important;
+		outline: 0;
+		border: 1px solid #1e90ff;
 		${({ selected, value }) =>
-			selected !== value ? "background: #eee !important;" : null};
+			selected !== value ? "background: #f9f9f9 !important;" : null};
 	}
 `;

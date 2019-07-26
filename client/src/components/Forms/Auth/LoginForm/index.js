@@ -28,7 +28,6 @@ class LoginForm extends Component {
 				required: true,
 			},
 		],
-		isFocused: "",
 		isSubmitting: false,
 	};
 
@@ -41,10 +40,6 @@ class LoginForm extends Component {
 			fields: fieldUpdater(prevState.fields, name, value),
 		}));
 	};
-
-	handleFocus = ({ target: { name } }) => this.setState({ isFocused: name });
-
-	handleBlur = () => this.setState({ isFocused: "" });
 
 	handleSubmit = e => {
 		e.preventDefault();
@@ -72,14 +67,7 @@ class LoginForm extends Component {
 			/>
 			<form onSubmit={this.handleSubmit}>
 				{this.state.fields.map(props => (
-					<Input
-						{...props}
-						key={props.name}
-						isFocused={this.state.isFocused}
-						onChange={this.handleChange}
-						onBlur={this.handleBlur}
-						onFocus={this.handleFocus}
-					/>
+					<Input {...props} key={props.name} onChange={this.handleChange} />
 				))}
 				<Link
 					blue

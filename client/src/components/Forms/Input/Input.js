@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Icon, Label } from "components/Body";
 import { Errors } from "components/Forms";
+import ClickHandler from "./ClickHandler";
 
 const Input = ({
 	className,
@@ -10,12 +11,9 @@ const Input = ({
 	disabled,
 	icon,
 	inputStyle,
-	isFocused,
 	label,
 	name,
-	onBlur,
 	onChange,
-	onFocus,
 	placeholder,
 	readOnly,
 	type,
@@ -23,35 +21,40 @@ const Input = ({
 	value,
 }) => (
 	<div className={className} style={containerStyle}>
-		<div
-			className={[
-				isFocused === name && "focused",
-				errors && "error",
-				disabled && "disabled",
-			]
-				.filter(c => !!c)
-				.join(" ")}
-		>
-			{label && (
-				<Label name={name} label={label} tooltip={tooltip} htmlFor={name} />
+		<ClickHandler value={value}>
+			{({ isFocused, handleBlur, handleFocus }) => (
+				<div
+					className={[
+						isFocused && "focused",
+						errors && "error",
+						disabled && "disabled",
+					]
+						.filter(c => !!c)
+						.join(" ")}
+				>
+					{label && (
+						<Label name={name} label={label} tooltip={tooltip} htmlFor={name} />
+					)}
+					<div style={{ display: "flex", alignItems: "center" }}>
+						{icon && <Icon type={icon} />}
+						<input
+							tabIndex={0}
+							type={type}
+							name={name}
+							onBlur={handleBlur}
+							onChange={onChange}
+							onFocus={handleFocus}
+							placeholder={placeholder}
+							value={value}
+							style={inputStyle}
+							disabled={disabled}
+							readOnly={readOnly}
+						/>
+					</div>
+					{errors && <Errors>{errors}</Errors>}
+				</div>
 			)}
-			<div style={{ display: "flex", alignItems: "center" }}>
-				{icon && <Icon type={icon} />}
-				<input
-					type={type}
-					name={name}
-					onBlur={onBlur}
-					onChange={onChange}
-					onFocus={onFocus}
-					placeholder={placeholder}
-					value={value}
-					style={inputStyle}
-					disabled={disabled}
-					readOnly={readOnly}
-				/>
-			</div>
-			{errors && <Errors>{errors}</Errors>}
-		</div>
+		</ClickHandler>
 	</div>
 );
 

@@ -8,8 +8,7 @@ import {
 	FaKey,
 	FaCalendarAlt,
 	FaIdCard,
-	FaUserTag,
-	FaIdCardAlt,
+	FaIdBadge,
 } from "react-icons/fa";
 
 const icons = type => {
@@ -27,7 +26,7 @@ const icons = type => {
 		case "user":
 			return <FaUserCircle />;
 		case "usertag":
-			return <FaIdCardAlt />;
+			return <FaIdBadge />;
 		default:
 			return <FaBug />;
 	}
