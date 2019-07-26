@@ -12,7 +12,7 @@ import { parseData, parseMessage } from "utils/parseResponse";
 
 const memberId = "124567890";
 
-describe("Season Sagas", () => {
+describe("member Sagas", () => {
 	afterEach(() => {
 		mockApp.reset();
 	});
@@ -21,35 +21,35 @@ describe("Season Sagas", () => {
 		mockApp.restore();
 	});
 
-	// describe("Create Season", () => {
+	// describe("Create member", () => {
 	// 	let message;
 	// 	let props;
 	// 	beforeEach(() => {
-	// 		message = "Successfully created a new season!";
-	// 		props = mocks.newSeason;
+	// 		message = "Successfully created a new member!";
+	// 		props = mocks.newmember;
 	// 	});
 
-	// 	it("logical flow matches pattern for a create season request", () => {
+	// 	it("logical flow matches pattern for a create member request", () => {
 	// 		const res = { data: { message } };
 
-	// 		testSaga(sagas.createSeason, { props })
+	// 		testSaga(sagas.createmember, { props })
 	// 			.next()
-	// 			.call(app.post, "season/create", { ...props })
+	// 			.call(app.post, "member/create", { ...props })
 	// 			.next(res)
 	// 			.call(parseMessage, res)
 	// 			.next(res.data.message)
 	// 			.put(setServerMessage({ type: "success", message: res.data.message }))
 	// 			.next()
-	// 			.put(push("/employee/seasons/viewall"))
+	// 			.put(push("/employee/members/viewall"))
 	// 			.next()
 	// 			.isDone();
 	// 	});
 
-	// 	it("successfully creates a new season", async () => {
-	// 		mockApp.onPost("season/create").reply(200, { message });
+	// 	it("successfully creates a new member", async () => {
+	// 		mockApp.onPost("member/create").reply(200, { message });
 
-	// 		return expectSaga(sagas.createSeason, { props })
-	// 			.dispatch(actions.createSeason)
+	// 		return expectSaga(sagas.createmember, { props })
+	// 			.dispatch(actions.createmember)
 	// 			.withReducer(messageReducer)
 	// 			.hasFinalState({
 	// 				message,
@@ -60,11 +60,11 @@ describe("Season Sagas", () => {
 	// 	});
 
 	// 	it("if API call fails, it displays a message", async () => {
-	// 		const err = "Unable to create a new season.";
-	// 		mockApp.onPost("season/create").reply(404, { err });
+	// 		const err = "Unable to create a new member.";
+	// 		mockApp.onPost("member/create").reply(404, { err });
 
-	// 		return expectSaga(sagas.createSeason, { props })
-	// 			.dispatch(actions.createSeason)
+	// 		return expectSaga(sagas.createmember, { props })
+	// 			.dispatch(actions.createmember)
 	// 			.withReducer(messageReducer)
 	// 			.hasFinalState({
 	// 				message: err,
@@ -132,7 +132,7 @@ describe("Season Sagas", () => {
 			data = { member: mocks.membersData };
 		});
 
-		it("logical flow matches pattern for fetch season requests", () => {
+		it("logical flow matches pattern for fetch member requests", () => {
 			const res = { data };
 
 			testSaga(sagas.fetchProfile, { memberId })
@@ -161,7 +161,7 @@ describe("Season Sagas", () => {
 		});
 
 		it("if API call fails, it displays a message", () => {
-			const err = "Unable to fetch that season.";
+			const err = "Unable to fetch that member.";
 			mockApp.onGet(`member/review/${memberId}`).reply(404, { err });
 
 			return expectSaga(sagas.fetchProfile, { memberId })
@@ -196,7 +196,7 @@ describe("Season Sagas", () => {
 				.isDone();
 		});
 
-		it("successfully fetches a season for editing", async () => {
+		it("successfully fetches a member for editing", async () => {
 			mockApp.onGet("members/all").reply(200, data);
 
 			return expectSaga(sagas.fetchMembers)
@@ -226,57 +226,113 @@ describe("Season Sagas", () => {
 		});
 	});
 
-	// describe("Update Season", () => {
-	// 	let message;
-	// 	let props;
-	// 	beforeEach(() => {
-	// 		message = "Successfully updated the season!";
-	// 		props = mocks.newSeason;
-	// 	});
+	describe("Update Member", () => {
+		let message;
+		let props;
+		beforeEach(() => {
+			message = "Successfully updated the member!";
+			props = mocks.membersData;
+		});
 
-	// 	it("logical flow matches pattern for update season requests", () => {
-	// 		const res = { data: { message } };
+		it("logical flow matches pattern for update member requests", () => {
+			const res = { data: { message } };
 
-	// 		testSaga(sagas.updateSeason, { props })
-	// 			.next()
-	// 			.call(app.put, "season/update", { ...props })
-	// 			.next(res)
-	// 			.call(parseMessage, res)
-	// 			.next(res.data.message)
-	// 			.put(setServerMessage({ type: "success", message: res.data.message }))
-	// 			.next()
-	// 			.put(push("/employee/seasons/viewall"))
-	// 			.next()
-	// 			.isDone();
-	// 	});
+			testSaga(sagas.updateMember, { props })
+				.next()
+				.call(app.put, "member/update", { ...props })
+				.next(res)
+				.call(parseMessage, res)
+				.next(res.data.message)
+				.put(setServerMessage({ type: "info", message: res.data.message }))
+				.next(props)
+				.put(actions.fetchMember(props._id))
+				.next()
+				.isDone();
+		});
 
-	// 	it("successfully updates a season", async () => {
-	// 		mockApp.onPut("season/update").reply(200, { message });
+		it("successfully updates a member", async () => {
+			mockApp.onPut("member/update").reply(200, { message });
 
-	// 		return expectSaga(sagas.updateSeason, { props })
-	// 			.dispatch(actions.updateSeason)
-	// 			.withReducer(messageReducer)
-	// 			.hasFinalState({
-	// 				message,
-	// 				show: true,
-	// 				type: "success",
-	// 			})
-	// 			.run();
-	// 	});
+			return expectSaga(sagas.updateMember, { props })
+				.dispatch(actions.updateMember)
+				.withReducer(messageReducer)
+				.hasFinalState({
+					message,
+					show: true,
+					type: "info",
+				})
+				.run();
+		});
 
-	// 	it("if API call fails, it displays a message", async () => {
-	// 		const err = "Unable to delete the season.";
-	// 		mockApp.onPut("season/update").reply(404, { err });
+		it("if API call fails, it displays a message", async () => {
+			const err = "Unable to delete the member.";
+			mockApp.onPut("member/update").reply(404, { err });
 
-	// 		return expectSaga(sagas.updateSeason, { seasonId })
-	// 			.dispatch(actions.updateSeason)
-	// 			.withReducer(messageReducer)
-	// 			.hasFinalState({
-	// 				message: err,
-	// 				show: true,
-	// 				type: "error",
-	// 			})
-	// 			.run();
-	// 	});
-	// });
+			return expectSaga(sagas.updateMember, { props })
+				.dispatch(actions.updateMember)
+				.withReducer(messageReducer)
+				.hasFinalState({
+					message: err,
+					show: true,
+					type: "error",
+				})
+				.run();
+		});
+	});
+
+	describe("Update Member Status", () => {
+		let message;
+		let props;
+		beforeEach(() => {
+			message = "Successfully updated the member!";
+			props = mocks.membersData;
+		});
+
+		it("logical flow matches pattern for update member status requests", () => {
+			const res = { data: { message } };
+
+			testSaga(sagas.updateMemberStatus, { props })
+				.next()
+				.put(hideServerMessage())
+				.next()
+				.call(app.put, "member/updatestatus", { ...props })
+				.next(res)
+				.call(parseMessage, res)
+				.next(res.data.message)
+				.put(setServerMessage({ type: "info", message: res.data.message }))
+				.next(props)
+				.put(actions.fetchMember(props._id))
+				.next()
+				.isDone();
+		});
+
+		it("successfully updates a member status", async () => {
+			mockApp.onPut("member/updatestatus").reply(200, { message });
+
+			return expectSaga(sagas.updateMemberStatus, { props })
+				.dispatch(actions.updateMemberStatus)
+				.withReducer(messageReducer)
+				.hasFinalState({
+					message,
+					show: true,
+					type: "info",
+				})
+				.run();
+		});
+
+		it("if API call fails, it displays a message", async () => {
+			const err = "Unable to delete the member.";
+			mockApp.onPut("member/updatestatus").reply(404, { err });
+
+			return expectSaga(sagas.updateMemberStatus, { props })
+				.dispatch(actions.updateMemberStatus)
+				.withReducer(messageReducer)
+				.hasFinalState({
+					message: err,
+					show: true,
+					type: "error",
+				})
+				.run();
+		});
+	});
 });

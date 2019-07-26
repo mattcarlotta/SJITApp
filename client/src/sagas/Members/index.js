@@ -134,7 +134,7 @@ export function* updateMember({ props }) {
 
 		yield put(
 			setServerMessage({
-				type: "success",
+				type: "info",
 				message,
 			}),
 		);

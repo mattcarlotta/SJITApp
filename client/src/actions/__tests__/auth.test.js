@@ -64,6 +64,12 @@ describe("Authentication Actions", () => {
 		});
 	});
 
+	it("returns USER_SIGNOUT_SESSION", () => {
+		const value = actions.signoutUser();
+
+		expect(value).toEqual({ type: types.USER_SIGNOUT_SESSION });
+	});
+
 	it("returns USER_SIGNOUT", () => {
 		const value = actions.signout();
 

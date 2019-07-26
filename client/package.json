@@ -52,7 +52,7 @@
 			}
 		},
 		"test:watch": {
-			"command": "jest --config ./jest.json --watchAll",
+			"command": "jest --config ./jest.json --watch --onlyChanged",
 			"env": {
 				"NODE_ENV": "testing"
 			}

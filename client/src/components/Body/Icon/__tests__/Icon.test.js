@@ -1,7 +1,6 @@
 import Icon from "../index";
 
 const initProps = {
-	className: "",
 	type: "",
 };
 
@@ -9,7 +8,7 @@ const wrapper = mount(<Icon {...initProps} />);
 
 describe("Icon", () => {
 	it("renders without errors", () => {
-		expect(wrapper.find("i").exists()).toBeTruthy();
+		expect(wrapper.find("Icon").exists()).toBeTruthy();
 	});
 
 	it("initially displays a bug if missing a type", () => {

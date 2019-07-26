@@ -64,7 +64,7 @@ describe("Member Actions", () => {
 	});
 
 	it("returns MEMBERS_SET with an empty array if data is empty", () => {
-		const value = actions.setMembers({});
+		const value = actions.setMembers([]);
 
 		expect(value).toEqual({
 			type: types.MEMBERS_SET,
@@ -92,19 +92,34 @@ describe("Member Actions", () => {
 		});
 	});
 
-	// it("returns SEASONS_UPDATE_EDIT with props", () => {
-	// 	const props = {
-	// 		id: "1234567890",
-	// 		seasonId: "20052006",
-	// 		startDate: "2005-10-06T07:00:00.000+00:00",
-	// 		endDate: "2006-08-06T07:00:00.000+00:00",
-	// 	};
+	it("returns MEMBERS_UPDATE with props", () => {
+		const props = {
+			id: "1234567890",
+			email: "beta@example.com",
+			firstName: "Beta",
+			lastName: "Tester",
+			role: "member",
+		};
 
-	// 	const value = actions.updateSeason(props);
+		const value = actions.updateMember(props);
 
-	// 	expect(value).toEqual({
-	// 		type: types.SEASONS_UPDATE_EDIT,
-	// 		props,
-	// 	});
-	// });
+		expect(value).toEqual({
+			type: types.MEMBERS_UPDATE,
+			props,
+		});
+	});
+
+	it("returns MEMBERS_UPDATE_STATUS with props", () => {
+		const props = {
+			id: "1234567890",
+			status: "active",
+		};
+
+		const value = actions.updateMemberStatus(props);
+
+		expect(value).toEqual({
+			type: types.MEMBERS_UPDATE_STATUS,
+			props,
+		});
+	});
 });
