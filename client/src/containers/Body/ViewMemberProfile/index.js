@@ -6,8 +6,8 @@ import { push } from "connected-react-router";
 import { connect } from "react-redux";
 import { Card, Icon, Tabs } from "antd";
 import { FaUserCircle, FaChartBar, FaReply, FaClock } from "react-icons/fa";
-import { fetchMember, fetchMembers } from "actions/Members";
-import { Button, PaneBody, Spinner } from "components/Body";
+import { fetchMember, fetchMembers, updateMemberStatus } from "actions/Members";
+import { PaneBody, Spinner } from "components/Body";
 import Profile from "./Profile";
 import ExtraButtons from "./ExtraButtons";
 
@@ -50,17 +50,8 @@ class ViewMemberProfile extends PureComponent {
 		this.props.fetchMember(id);
 	};
 
-	renderRoleButton = () => {
-		const { role } = this.props.viewMember;
-		return (
-			<Button primary onClick={null}>
-				{role === "active" ? "Suspend" : "Activate"}
-			</Button>
-		);
-	};
-
 	render = () => {
-		const { push, viewMember } = this.props;
+		const { push, viewMember, updateMemberStatus } = this.props;
 
 		const { events, schedule, status } = viewMember;
 
@@ -77,7 +68,11 @@ class ViewMemberProfile extends PureComponent {
 					) : (
 						<Tabs tabPosition="left">
 							<Pane tab={profile} key="profile">
-								<Profile viewMember={viewMember} />
+								<Profile
+									viewMember={viewMember}
+									push={push}
+									updateMemberStatus={updateMemberStatus}
+								/>
 							</Pane>
 							<Pane tab={analytics} key="analytics">
 								<PaneBody>
@@ -85,10 +80,14 @@ class ViewMemberProfile extends PureComponent {
 								</PaneBody>
 							</Pane>
 							<Pane tab={responses} key="responses">
-								<p>Responses: {JSON.stringify(events)}</p>
+								<PaneBody>
+									<p>Responses: {JSON.stringify(events)}</p>
+								</PaneBody>
 							</Pane>
 							<Pane tab={scheduling} key="schedule">
-								<p>Schedule: {JSON.stringify(schedule)}</p>
+								<PaneBody>
+									<p>Schedule: {JSON.stringify(schedule)}</p>
+								</PaneBody>
 							</Pane>
 						</Tabs>
 					)}
@@ -113,6 +112,7 @@ ViewMemberProfile.propTypes = {
 		schedule: PropTypes.any,
 		status: PropTypes.string,
 	}),
+	updateMemberStatus: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -123,6 +123,7 @@ const mapDispatchToProps = {
 	fetchMember,
 	fetchMembers,
 	push,
+	updateMemberStatus,
 };
 
 export default connect(

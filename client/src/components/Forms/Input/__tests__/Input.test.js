@@ -1,8 +1,6 @@
 import Input from "../index";
 
-const onBlur = jest.fn();
 const onChange = jest.fn();
-const onFocus = jest.fn();
 
 const initProps = {
 	className: "",
@@ -14,9 +12,7 @@ const initProps = {
 	isFocused: "",
 	label: "",
 	name: "password",
-	onBlur,
 	onChange,
-	onFocus,
 	placeholder: "Enter a password...",
 	readOnly: false,
 	tooltip: "",

@@ -26,6 +26,7 @@ const StyledButton = ({
 		onMouseLeave={onMouseLeave}
 		onTouchStart={onTouchStart}
 		style={style}
+		tabIndex={0}
 		type={type}
 	>
 		{children}

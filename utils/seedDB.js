@@ -115,12 +115,45 @@ const seedDB = async () => {
       status: "suspended",
     };
 
+    const member6 = {
+      email: "member6@example.com",
+      password: memberPassword,
+      firstName: "Member6",
+      lastName: "Member6",
+      role: "member",
+      token: createRandomToken(),
+      status: "active",
+    };
+
+    const member7 = {
+      email: "member7@example.com",
+      password: memberPassword,
+      firstName: "Member7",
+      lastName: "Member7",
+      role: "member",
+      token: createRandomToken(),
+      status: "active",
+    };
+
+    const member8 = {
+      email: "member8@example.com",
+      password: memberPassword,
+      firstName: "Member8",
+      lastName: "Member8",
+      role: "member",
+      token: createRandomToken(),
+      status: "active",
+    };
+
     await User.create(administrator);
     await User.create(member);
     await User.create(member2);
     await User.create(member3);
     await User.create(member4);
     await User.create(member5);
+    await User.create(member6);
+    await User.create(member7);
+    await User.create(member8);
 
     const newMember = await User.findOne({ email: member.email });
     const newMember2 = await User.findOne({ email: member2.email });

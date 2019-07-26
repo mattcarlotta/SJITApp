@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import moment from "moment";
 import {
@@ -9,10 +9,25 @@ import {
 	Small,
 	Title,
 } from "components/Body";
-import { EditMemberForm } from "components/Forms";
+import { EditMemberForm } from "containers/Forms";
+import { FaBan, FaUserPlus } from "react-icons/fa";
+import { Button } from "components/Body";
 
-const Profile = ({ viewMember }) => {
+const iconStyle = {
+	position: "relative",
+	top: 3,
+};
+
+const btnStyle = {
+	padding: "5px 10px",
+	marginLeft: 25,
+	display: "inline-block",
+};
+
+const Profile = ({ push, viewMember, updateMemberStatus }) => {
 	const { _id, firstName, lastName, registered, status } = viewMember;
+
+	const isActive = status === "active";
 
 	return (
 		<PaneBody>
@@ -24,12 +39,29 @@ const Profile = ({ viewMember }) => {
 			</LightText>
 			<LightText>
 				Status: <Small>{DisplayStatus(status)}</Small>
+				<Button
+					primary={!isActive}
+					danger={isActive}
+					width="130px"
+					style={btnStyle}
+					onClick={() => updateMemberStatus({ _id, status })}
+				>
+					{isActive ? (
+						<Fragment>
+							<FaBan style={iconStyle} /> Suspend
+						</Fragment>
+					) : (
+						<Fragment>
+							<FaUserPlus style={iconStyle} /> Activate
+						</Fragment>
+					)}
+				</Button>
 			</LightText>
 			<LightText>
 				Registered: <Small>{moment(registered).format("l")}</Small>
 			</LightText>
 			<Line style={{ width: "400px" }} />
-			<EditMemberForm viewMember={viewMember} />
+			<EditMemberForm />
 		</PaneBody>
 	);
 };
@@ -46,6 +78,8 @@ Profile.propTypes = {
 		schedule: PropTypes.any,
 		status: PropTypes.string,
 	}),
+	push: PropTypes.func.isRequired,
+	updateMemberStatus: PropTypes.func.isRequired,
 };
 
 export default Profile;

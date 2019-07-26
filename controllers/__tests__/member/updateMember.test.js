@@ -1,13 +1,116 @@
+import { User } from "models";
 import { updateMember } from "controllers/member";
+import { emailAlreadyTaken } from "shared/authErrors";
+
+const findExistingMember = email => User.findOne({ email });
 
 describe("Update Member Controller", () => {
-  it("handles valid update member requests", () => {
-    const res = mockResponse();
-    const req = mockRequest();
+  let db;
+  beforeAll(() => {
+    db = connectDatabase();
+  });
 
-    updateMember(req, res);
+  afterAll(async () => {
+    await db.close();
+  });
+
+  it("handles empty body requests", async () => {
+    const emptyBody = {
+      _id: "",
+      email: "",
+      firstName: "",
+      lastName: "",
+      role: "",
+    };
+    const res = mockResponse();
+    const req = mockRequest(null, null, emptyBody);
+
+    await updateMember(req, res);
 
     expect(res.status).toHaveBeenCalledWith(400);
-    expect(res.json).toHaveBeenCalledWith({ err: "Route not setup." });
+    expect(res.json).toHaveBeenCalledWith({
+      err: "You must include an id, email, first name, last name and role.",
+    });
+  });
+
+  it("handles invalid id update member requests", async () => {
+    const _id = "5d3b30c98b651c118b49938c";
+    const invalidMember = {
+      _id,
+      email: "test@example.com",
+      firstName: "Beta",
+      lastName: "Tester",
+      role: "member",
+    };
+    const res = mockResponse();
+    const req = mockRequest(null, null, invalidMember);
+
+    await updateMember(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.json).toHaveBeenCalledWith({
+      err: `Unable to locate the member: ${_id}.`,
+    });
+  });
+
+  it("handles invalid email update member requests", async () => {
+    const existingMember = await findExistingMember("member6@example.com");
+
+    const invalidMember = {
+      _id: existingMember._id,
+      email: "carlotta.matt@gmail.com",
+      firstName: "Matt",
+      lastName: "Carlotta",
+      role: "member",
+    };
+
+    const res = mockResponse();
+    const req = mockRequest(null, null, invalidMember);
+
+    await updateMember(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.json).toHaveBeenCalledWith({
+      err: emailAlreadyTaken,
+    });
+  });
+
+  it("handles valid update member requests", async () => {
+    const existingMember = await findExistingMember("member6@example.com");
+
+    const changedMember = {
+      _id: existingMember._id,
+      email: "member88@example.com",
+      firstName: "Updated",
+      lastName: "Member",
+      role: "staff",
+    };
+
+    const res = mockResponse();
+    const req = mockRequest(null, null, changedMember);
+
+    await updateMember(req, res);
+
+    const updatedMember = await User.findOne({ email: changedMember.email });
+
+    expect(updatedMember).toEqual(
+      expect.objectContaining({
+        __v: expect.any(Number),
+        _id: expect.any(ObjectId),
+        email: updatedMember.email,
+        events: expect.any(Array),
+        firstName: updatedMember.firstName,
+        lastName: updatedMember.lastName,
+        registered: expect.any(Date),
+        role: updatedMember.role,
+        schedule: expect.any(Array),
+        status: expect.any(String),
+      }),
+    );
+
+    expect(res.status).toHaveBeenCalledWith(202);
+    expect(res.json).toHaveBeenCalledWith({
+      message: "Successfully updated the member profile.",
+    });
   });
 });

@@ -75,10 +75,22 @@ export const setMemberToReview = data => ({
  * Updates a single member.
  *
  * @function updateMember
- * @param {object} data - id, memberId and member duration fields
+ * @param {object} data - id, email, firstName, lastName and role.
  * @returns {object}
  */
-// export const updateMember = props => ({
-// 	type: types.MEMBERS_UPDATE_STATUS,
-// 	props,
-// });
+export const updateMember = props => ({
+	type: types.MEMBERS_UPDATE,
+	props,
+});
+
+/**
+ * Updates a single member status.
+ *
+ * @function updateMemberStatus
+ * @param {object} props - contains id and status.
+ * @returns {object}
+ */
+export const updateMemberStatus = props => ({
+	type: types.MEMBERS_UPDATE_STATUS,
+	props,
+});

@@ -10,8 +10,13 @@ export default styled.div`
 	min-height: 57px;
 	box-sizing: border-box;
 	border-radius: 4px;
-	border: 1px solid ${({ isVisible }) => (isVisible ? "#1e90ff" : "#e5e5e5")};
-	transition: all 100ms ease 0s;
+	border: 1px solid
+		${({ errors, isVisible, value }) => {
+			if (errors && !value) return "#d14023 !important";
+			if (isVisible) return "#1e90ff";
+			return "#e5e5e5";
+		}};
+	transition: all 0.3s ease-in-out;
 
 	svg {
 		color: ${({ isVisible }) => (isVisible ? "#1e90ff" : "#d3dce6")};

@@ -3,7 +3,7 @@ import { expectSaga, testSaga } from "redux-saga-test-plan";
 import { app } from "utils";
 import * as types from "types";
 import * as actions from "actions/Members";
-import { setServerMessage } from "actions/Messages";
+import { hideServerMessage, setServerMessage } from "actions/Messages";
 import * as sagas from "sagas/Members";
 import * as mocks from "sagas/__mocks__/sagas.mocks";
 import messageReducer from "reducers/Messages";
@@ -82,6 +82,8 @@ describe("Season Sagas", () => {
 
 			testSaga(sagas.deleteMember, { memberId })
 				.next()
+				.put(hideServerMessage())
+				.next()
 				.call(app.delete, `member/delete/${memberId}`)
 				.next(res)
 				.call(parseMessage, res)
@@ -124,7 +126,7 @@ describe("Season Sagas", () => {
 		});
 	});
 
-	describe("Fetch Member", () => {
+	describe("Fetch Profile", () => {
 		let data;
 		beforeEach(() => {
 			data = { member: mocks.membersData };
@@ -133,7 +135,7 @@ describe("Season Sagas", () => {
 		it("logical flow matches pattern for fetch season requests", () => {
 			const res = { data };
 
-			testSaga(sagas.fetchMember, { memberId })
+			testSaga(sagas.fetchProfile, { memberId })
 				.next()
 				.call(app.get, `member/review/${memberId}`)
 				.next(res)
@@ -147,7 +149,7 @@ describe("Season Sagas", () => {
 		it("successfully fetches an existing member", async () => {
 			mockApp.onGet(`member/review/${memberId}`).reply(200, data);
 
-			return expectSaga(sagas.fetchMember, { memberId })
+			return expectSaga(sagas.fetchProfile, { memberId })
 				.dispatch(actions.fetchMember)
 				.withReducer(memberReducer)
 				.hasFinalState({
@@ -162,7 +164,7 @@ describe("Season Sagas", () => {
 			const err = "Unable to fetch that season.";
 			mockApp.onGet(`member/review/${memberId}`).reply(404, { err });
 
-			return expectSaga(sagas.fetchMember, { memberId })
+			return expectSaga(sagas.fetchProfile, { memberId })
 				.dispatch(actions.fetchMember)
 				.withReducer(messageReducer)
 				.hasFinalState({

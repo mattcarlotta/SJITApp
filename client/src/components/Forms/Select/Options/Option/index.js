@@ -18,15 +18,18 @@ export default styled(Option)`
 	box-sizing: border-box;
 	border: 1px solid transparent;
 	text-align: left;
+	transition: all 0.3s ease-in-out;
 	${({ selected, value }) =>
 		selected === value ? `background-color: #dedede;  color: #0f7ae5;` : null};
 
 	&:hover,
 	&:focus {
-		color: #0f7ae5 !important;
+		color: #0f7ae5;
 		outline: 0;
-		border: 1px solid #1e90ff;
+		border: 1px solid transparent;
 		${({ selected, value }) =>
-			selected !== value ? "background: #f9f9f9 !important;" : null};
+			selected !== value
+				? "background: #e6f7ff !important; color: #000 !important;"
+				: null};
 	}
 `;

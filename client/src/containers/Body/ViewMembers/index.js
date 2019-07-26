@@ -18,7 +18,7 @@ const title = "View Members";
 
 const columns = [
 	{
-		title: "Status",
+		title: "Account Status",
 		dataIndex: "status",
 		key: "status",
 		render: DisplayStatus,

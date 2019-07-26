@@ -7,6 +7,7 @@ import SelectionContainer from "../SelectionContainer";
 import SelectText from "../SelectText";
 
 const Selection = ({
+	errors,
 	handleSelectClick,
 	icon,
 	isVisible,
@@ -14,7 +15,13 @@ const Selection = ({
 	value,
 	width,
 }) => (
-	<SelectionContainer tabIndex={0} isVisible={isVisible} width={width}>
+	<SelectionContainer
+		tabIndex={0}
+		errors={errors}
+		isVisible={isVisible}
+		width={width}
+		value={value}
+	>
 		<SelectText handleSelectClick={handleSelectClick}>
 			{icon && <Icon style={{ top: 0 }} type={icon} />}
 			<DisplayOption icon={icon} value={value}>
@@ -26,6 +33,7 @@ const Selection = ({
 );
 
 Selection.propTypes = {
+	errors: PropTypes.string,
 	handleSelectClick: PropTypes.func.isRequired,
 	icon: PropTypes.string,
 	isVisible: PropTypes.bool.isRequired,

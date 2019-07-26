@@ -1,50 +1,17 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
+import { connect } from "react-redux";
 import { Input, Select } from "components/Forms";
 import { SubmitButton } from "components/Body";
+import { hideServerMessage } from "actions/Messages";
+import { updateMember } from "actions/Members";
 import { fieldValidator, fieldUpdater, parseFields } from "utils";
+import fields from "./Fields";
 
 class EditMemberForm extends Component {
 	state = {
-		fields: [
-			{
-				name: "email",
-				type: "email",
-				label: "Authorized Email",
-				icon: "mail",
-				value: "",
-				errors: "",
-				required: true,
-			},
-			{
-				name: "firstName",
-				type: "text",
-				label: "First Name",
-				icon: "user",
-				value: "",
-				errors: "",
-				required: true,
-			},
-			{
-				name: "lastName",
-				type: "text",
-				label: "Last Name",
-				icon: "user",
-				value: "",
-				errors: "",
-				required: true,
-			},
-			{
-				name: "role",
-				type: "select",
-				label: "Role",
-				icon: "usertag",
-				value: "",
-				errors: "",
-				required: true,
-			},
-		],
+		fields,
 		wasEdited: false,
 		wasInitialized: false,
 		isSubmitting: false,
@@ -87,19 +54,27 @@ class EditMemberForm extends Component {
 
 		this.setState({ fields: validatedFields, isSubmitting: !errors }, () => {
 			const { fields: formFields } = this.state;
-			const { hideServerMessage, serverMessage } = this.props;
+			const {
+				hideServerMessage,
+				serverMessage,
+				updateMember,
+				viewMember: { _id },
+			} = this.props;
 
 			if (!errors) {
 				const parsedFields = parseFields(formFields);
 
 				if (serverMessage) hideServerMessage();
-				setTimeout(() => console.log(parsedFields), 350);
+				setTimeout(() => updateMember({ ...parsedFields, _id }), 350);
 			}
 		});
 	};
 
 	render = () => (
-		<form style={{ width: 400, marginTop: 50 }} onSubmit={this.handleSubmit}>
+		<form
+			style={{ width: 400, marginTop: 50, marginBottom: 60 }}
+			onSubmit={this.handleSubmit}
+		>
 			{this.state.fields.map(props =>
 				props.type != "select" ? (
 					<Input {...props} key={props.name} onChange={this.handleChange} />
@@ -121,6 +96,9 @@ class EditMemberForm extends Component {
 }
 
 EditMemberForm.propTypes = {
+	hideServerMessage: PropTypes.func.isRequired,
+	serverMessage: PropTypes.string,
+	updateMember: PropTypes.func.isRequired,
 	viewMember: PropTypes.shape({
 		_id: PropTypes.string,
 		email: PropTypes.string.isRequired,
@@ -134,4 +112,17 @@ EditMemberForm.propTypes = {
 	}).isRequired,
 };
 
-export default EditMemberForm;
+const mapStateToProps = state => ({
+	serverMessage: state.server.message,
+	viewMember: state.members.viewMember,
+});
+
+const mapDispatchToProps = {
+	hideServerMessage,
+	updateMember,
+};
+
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps,
+)(EditMemberForm);

@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import StyledButton from "./Button";
+import Button from "./Button";
 
-export default styled(StyledButton)`
+export default styled(Button)`
 	cursor: ${({ disabled }) => (!disabled ? "pointer" : "not-allowed")};
 	display: ${({ display }) => display || "block"};
 	color: ${props => (!props.primary && !props.danger ? "#025f6d" : "#fff")};
