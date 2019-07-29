@@ -6,10 +6,6 @@ class ClickHandler extends Component {
 		isFocused: false,
 	};
 
-	shouldComponentUpdate = (nextProps, nextState) =>
-		this.state.isFocused !== nextState.isFocused ||
-		this.props.values !== nextProps.value;
-
 	componentDidMount() {
 		document.addEventListener("mousedown", this.handleClickOutside);
 	}

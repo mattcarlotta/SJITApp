@@ -30,13 +30,13 @@ describe("Server Messages", () => {
 		expect(SrvrMsgComponent.prop("messages")).toBeFalsy();
 	});
 
-	it("renders a message", () => {
+	it("renders without errors when a message has been set", () => {
 		wrapper.setProps({
 			message: "Testing.",
 			show: true,
-			type: "",
+			type: "info",
 		});
-
+		expect(wrapper.find("WindowContainer").exists()).toBeTruthy();
 		expect(wrapper.find("TextContainer").text()).toEqual("Testing.");
 	});
 
@@ -47,7 +47,7 @@ describe("Server Messages", () => {
 			type: "",
 		});
 
-		expect(findMsgCtnr()).toHaveStyleRule("background", "#D32F2F");
+		expect(findMsgCtnr()).toHaveStyleRule("background-color", "#D32F2F");
 	});
 
 	it("renders a green 'success' message", () => {
@@ -57,17 +57,17 @@ describe("Server Messages", () => {
 			type: "success",
 		});
 
-		expect(findMsgCtnr()).toHaveStyleRule("background", "#43A047");
+		expect(findMsgCtnr()).toHaveStyleRule("background-color", "#43A047");
 	});
 
 	it("renders a yellow 'warning' message", () => {
 		wrapper.setProps({
-			message: "Unable to locate that game.",
+			message: "Unable to locate 		wrapper.instance().forceUpdate();that game.",
 			show: true,
 			type: "warning",
 		});
 
-		expect(findMsgCtnr()).toHaveStyleRule("background", "#FFA000");
+		expect(findMsgCtnr()).toHaveStyleRule("background-color", "#FFA000");
 	});
 
 	it("renders a blue 'info' message", () => {
@@ -77,7 +77,7 @@ describe("Server Messages", () => {
 			type: "info",
 		});
 
-		expect(findMsgCtnr()).toHaveStyleRule("background", "#2979ff");
+		expect(findMsgCtnr()).toHaveStyleRule("background-color", "#2979ff");
 	});
 
 	it("if missing a 'type' prop, renders a 'FaTimesCircle' icon", () => {
@@ -86,11 +86,12 @@ describe("Server Messages", () => {
 			show: true,
 			type: "",
 		});
+		wrapper.instance().forceUpdate();
 
 		expect(wrapper.find("FaTimesCircle").exists()).toBeTruthy();
 	});
 
-	it("closes the alert when the 'X' button has been clicked", () => {
+	it("closes the alert when twrapperhe 'X' button has been clicked", () => {
 		wrapper.setProps({
 			message: "This message is manually closable.",
 			show: true,

@@ -16,7 +16,7 @@ const typeOfAlert = type => {
 export default styled.div`
 	display: -ms-flexbox;
 	display: flex;
-	background: ${({ type }) => typeOfAlert(type)};
+	background-color: ${({ type }) => typeOfAlert(type)};
 	padding: 10px;
 	border-radius: 4px;
 `;
