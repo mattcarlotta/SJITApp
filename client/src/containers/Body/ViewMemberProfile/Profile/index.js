@@ -24,7 +24,7 @@ const btnStyle = {
 	display: "inline-block",
 };
 
-const Profile = ({ push, viewMember, updateMemberStatus }) => {
+const Profile = ({ viewMember, updateMemberStatus }) => {
 	const { _id, firstName, lastName, registered, status } = viewMember;
 
 	const isActive = status === "active";
@@ -78,7 +78,6 @@ Profile.propTypes = {
 		schedule: PropTypes.any,
 		status: PropTypes.string,
 	}),
-	push: PropTypes.func.isRequired,
 	updateMemberStatus: PropTypes.func.isRequired,
 };
 

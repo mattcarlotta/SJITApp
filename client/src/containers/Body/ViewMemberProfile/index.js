@@ -6,7 +6,7 @@ import { push } from "connected-react-router";
 import { connect } from "react-redux";
 import { Card, Icon, Tabs } from "antd";
 import { FaUserCircle, FaChartBar, FaReply, FaClock } from "react-icons/fa";
-import { fetchMember, fetchMembers, updateMemberStatus } from "actions/Members";
+import { fetchMember, updateMemberStatus } from "actions/Members";
 import { PaneBody, Spinner } from "components/Body";
 import Profile from "./Profile";
 import ExtraButtons from "./ExtraButtons";
@@ -43,7 +43,7 @@ const scheduling = (
 	</span>
 );
 
-class ViewMemberProfile extends PureComponent {
+export class ViewMemberProfile extends PureComponent {
 	componentDidMount = () => {
 		const { id } = this.props.match.params;
 
@@ -70,7 +70,6 @@ class ViewMemberProfile extends PureComponent {
 							<Pane tab={profile} key="profile">
 								<Profile
 									viewMember={viewMember}
-									push={push}
 									updateMemberStatus={updateMemberStatus}
 								/>
 							</Pane>
@@ -99,7 +98,11 @@ class ViewMemberProfile extends PureComponent {
 
 ViewMemberProfile.propTypes = {
 	fetchMember: PropTypes.func.isRequired,
-	fetchMembers: PropTypes.func.isRequired,
+	match: PropTypes.shape({
+		params: PropTypes.shape({
+			id: PropTypes.string,
+		}),
+	}),
 	push: PropTypes.func.isRequired,
 	viewMember: PropTypes.shape({
 		_id: PropTypes.string,
@@ -121,7 +124,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
 	fetchMember,
-	fetchMembers,
 	push,
 	updateMemberStatus,
 };

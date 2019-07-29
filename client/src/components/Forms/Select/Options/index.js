@@ -33,24 +33,22 @@ class SelectOptionsContainer extends PureComponent {
 	render = () => {
 		const { isVisible, name, selected, selectOptions } = this.props;
 
-		return (
-			isVisible && (
-				<DropContainer>
-					<OptionsContainer>
-						{selectOptions.map((value, key) => (
-							<Option
-								key={key}
-								name={name}
-								value={value}
-								onClick={this.onOptionSelect}
-								onKeyPress={this.onKeySelect}
-								selected={selected}
-							/>
-						))}
-					</OptionsContainer>
-				</DropContainer>
-			)
-		);
+		return isVisible ? (
+			<DropContainer>
+				<OptionsContainer>
+					{selectOptions.map((value, key) => (
+						<Option
+							key={key}
+							name={name}
+							value={value}
+							onClick={this.onOptionSelect}
+							onKeyPress={this.onKeySelect}
+							selected={selected}
+						/>
+					))}
+				</OptionsContainer>
+			</DropContainer>
+		) : null;
 	};
 }
 

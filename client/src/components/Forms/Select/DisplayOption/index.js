@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export default styled.div`
-	color: #282c34;
+	color: ${({ value }) => (value ? "#282c34;" : "#d3dce6")};
 	padding: ${({ icon }) => (icon ? "14px 0 14px 48px" : "8px 8px 8px 14px")};
 	font-size: 20px;
 	-webkit-box-align: center;
@@ -12,5 +12,4 @@ export default styled.div`
 	box-sizing: border-box;
 	flex: 1 1 0%;
 	overflow: hidden;
-	${({ value }) => (value ? "color: #282c34 !important;" : null)};
 `;

@@ -1,6 +1,6 @@
-import React, { Fragment } from "react";
+import React from "react";
 import PropTypes from "prop-types";
-import { FaChevronLeft, FaBan, FaPlus } from "react-icons/fa";
+import { FaChevronLeft } from "react-icons/fa";
 import { Button } from "components/Body";
 
 const iconStyle = {

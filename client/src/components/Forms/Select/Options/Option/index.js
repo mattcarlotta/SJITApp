@@ -3,7 +3,10 @@ import Option from "./Option";
 
 export default styled(Option)`
 	cursor: pointer;
-	color: #282c34;
+	color: ${({ selected, value }) =>
+		selected === value ? "#0f7ae5" : "#282c34"};
+	background-color: ${({ selected, value }) =>
+		selected === value ? "#f3f3f3" : "#fff"};
 	display: block;
 	word-break: break-all;
 	font-size: 18px;
@@ -19,17 +22,21 @@ export default styled(Option)`
 	border: 1px solid transparent;
 	text-align: left;
 	transition: all 0.3s ease-in-out;
-	${({ selected, value }) =>
-		selected === value ? `background-color: #dedede;  color: #0f7ae5;` : null};
+	font-weight: ${({ selected, value }) =>
+		selected === value ? 600 : "normal"};
 
-	&:hover,
-	&:focus {
-		color: #0f7ae5;
+	&:hover {
+		color: ${({ selected, value }) =>
+			selected !== value || !value ? "#282c34" : "#0f7ae5"};
+		background-color: #e6f7ff;
 		outline: 0;
 		border: 1px solid transparent;
-		${({ selected, value }) =>
-			selected !== value
-				? "background: #e6f7ff !important; color: #000 !important;"
-				: null};
+	}
+
+	&:focus {
+		color: ${({ selected, value }) =>
+			selected !== value || !value ? "#282c34" : "#0f7ae5"};
+		background-color: #e6f7ff;
+		outline: 0;
 	}
 `;

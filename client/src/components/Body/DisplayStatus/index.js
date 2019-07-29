@@ -3,16 +3,23 @@ import PropTypes from "prop-types";
 import { Tooltip } from "antd";
 import { FaUser, FaUserTimes } from "react-icons/fa";
 
+const activeUserStyle = { color: "green", position: "relative", top: "2px" };
+const inactiveUserStyle = {
+	fontSize: 22,
+	position: "relative",
+	top: "5px",
+	color: "red",
+};
+const titleStyle = { fontSize: 16, paddingLeft: 5 };
+
 const DisplayStatus = status => (
 	<Tooltip title={status} placement="top">
 		{status === "active" ? (
-			<FaUser style={{ color: "green", position: "relative", top: "2px" }} />
+			<FaUser style={activeUserStyle} />
 		) : (
-			<FaUserTimes
-				style={{ fontSize: 22, position: "relative", top: "2px", color: "red" }}
-			/>
+			<FaUserTimes style={inactiveUserStyle} />
 		)}
-		<span style={{ fontSize: 16, paddingLeft: 5 }}>({status})</span>
+		<span style={titleStyle}>({status})</span>
 	</Tooltip>
 );
 

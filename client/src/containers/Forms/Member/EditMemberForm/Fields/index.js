@@ -31,6 +31,7 @@ export default [
 		name: "role",
 		type: "select",
 		label: "Role",
+		placeholder: "Select an option...",
 		icon: "usertag",
 		value: "",
 		errors: "",

@@ -52,6 +52,7 @@ describe("Create Season Form", () => {
 		wrapper
 			.find("td.ant-calendar-cell.ant-calendar-today")
 			.find("div")
+			.at(0)
 			.simulate("click");
 
 		// select end of month date
