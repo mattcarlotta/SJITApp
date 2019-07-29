@@ -12,9 +12,7 @@ class ClickHandler extends Component {
 	}
 
 	componentWillUnmount() {
-		/* istanbul ignore next */
 		document.removeEventListener("mousedown", this.handleClickOutside);
-		/* istanbul ignore next */
 		document.removeEventListener("keydown", this.handleTabPress);
 	}
 
@@ -27,7 +25,6 @@ class ClickHandler extends Component {
 			) {
 				this.handleOpen();
 			} else {
-				/* istanbul ignore next */
 				if (
 					this.state.isVisible &&
 					this.wrapperRef &&

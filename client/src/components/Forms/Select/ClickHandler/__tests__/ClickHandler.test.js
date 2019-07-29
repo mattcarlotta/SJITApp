@@ -10,9 +10,8 @@ const event = {
 };
 
 const eventListener = {};
-const removeListener = {};
 document.addEventListener = (evt, cb) => (eventListener[evt] = cb);
-document.removeEventListener = (evt, cb) => (removeListener[evt] = jest.fn());
+document.removeEventListener = jest.fn();
 
 describe("Click Handler", () => {
 	let openMenu;
@@ -141,9 +140,14 @@ describe("Click Handler", () => {
 			.instance()
 			.handleTabPress({
 				key: "Tab",
-				target: wrapper.find("div.outside").getDOMNode(),
+				target: wrapper.find("div.wrapper").getDOMNode(),
 			});
 
-		expect(wrapper.find("ClickHandler").state("isVisible")).toBeFalsy();
+		expect(wrapper.find("ClickHandler").state("isVisible")).toBeTruthy();
+	});
+
+	it("removes the event listeners on unmount", () => {
+		wrapper.unmount();
+		expect(document.removeEventListener).toHaveBeenCalledTimes(2);
 	});
 });
