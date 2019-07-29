@@ -1,47 +1,3 @@
-// import React, { useState, useEffect, useCallback, useRef } from "react";
-// import PropTypes from "prop-types";
-
-// const ClickHandler = ({ children, handleChange, width }) => {
-// 	const wrapperRef = useRef();
-// 	const [isVisible, setVisible] = useState(false);
-
-// 	const handleClickOutside = useCallback(
-// 		({ target }) => {
-// 			if (isVisible && wrapperRef && !wrapperRef.current.contains(target)) {
-// 				setVisible(false);
-// 			}
-// 		},
-// 		[isVisible, wrapperRef],
-// 	);
-
-// 	const handleSelectClick = () => {
-// 		setVisible(visible => !visible);
-// 	};
-
-// 	const handleOptionSelect = e => {
-// 		setVisible(false);
-// 		handleChange(e);
-// 	};
-
-// 	useEffect(() => {
-// 		document.addEventListener("mousedown", handleClickOutside);
-
-// 		return () => {
-// 			document.removeEventListener("mousedown", handleClickOutside);
-// 		};
-// 	}, [handleClickOutside]);
-
-// 	return (
-// 		<div style={{ display: "inline-block" }} ref={wrapperRef}>
-// 			{children({
-// 				isVisible,
-// 				handleSelectClick,
-// 				handleOptionSelect,
-// 			})}
-// 		</div>
-// 	);
-// };
-
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
@@ -56,24 +12,29 @@ class ClickHandler extends Component {
 	}
 
 	componentWillUnmount() {
+		/* istanbul ignore next */
 		document.removeEventListener("mousedown", this.handleClickOutside);
+		/* istanbul ignore next */
 		document.removeEventListener("keydown", this.handleTabPress);
 	}
 
-	handleTabPress = ({ keyCode, target }) => {
-		if (keyCode === 9) {
+	handleTabPress = ({ key, target }) => {
+		if (key === "Tab") {
 			if (
 				!this.state.isVisible &&
 				this.wrapperRef &&
 				this.wrapperRef.contains(target)
 			) {
 				this.handleOpen();
-			} else if (
-				this.state.isVisible &&
-				this.wrapperRef &&
-				!this.wrapperRef.contains(target)
-			) {
-				this.handleClose();
+			} else {
+				/* istanbul ignore next */
+				if (
+					this.state.isVisible &&
+					this.wrapperRef &&
+					!this.wrapperRef.contains(target)
+				) {
+					this.handleClose();
+				}
 			}
 		}
 	};
@@ -107,7 +68,7 @@ class ClickHandler extends Component {
 	};
 
 	render = () => (
-		<div ref={node => (this.wrapperRef = node)}>
+		<div className="clickhandler" ref={node => (this.wrapperRef = node)}>
 			{this.props.children({
 				isVisible: this.state.isVisible,
 				handleSelectClick: this.handleSelectClick,

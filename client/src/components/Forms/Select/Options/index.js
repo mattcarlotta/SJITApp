@@ -14,9 +14,7 @@ class SelectOptionsContainer extends PureComponent {
 					dataset: { name, value },
 				},
 			} = evt;
-			const event = { target: { name, value } };
-
-			this.props.handleOptionSelect(event);
+			this.props.handleOptionSelect({ target: { name, value } });
 		}
 	};
 
@@ -25,31 +23,26 @@ class SelectOptionsContainer extends PureComponent {
 			dataset: { name, value },
 		},
 	}) => {
-		const event = { target: { name, value } };
-
-		this.props.handleOptionSelect(event);
+		this.props.handleOptionSelect({ target: { name, value } });
 	};
 
-	render = () => {
-		const { isVisible, name, selected, selectOptions } = this.props;
-
-		return isVisible ? (
+	render = () =>
+		this.props.isVisible ? (
 			<DropContainer>
 				<OptionsContainer>
-					{selectOptions.map((value, key) => (
+					{this.props.selectOptions.map((value, key) => (
 						<Option
 							key={key}
-							name={name}
+							name={this.props.name}
 							value={value}
 							onClick={this.onOptionSelect}
 							onKeyPress={this.onKeySelect}
-							selected={selected}
+							selected={this.props.selected}
 						/>
 					))}
 				</OptionsContainer>
 			</DropContainer>
 		) : null;
-	};
 }
 
 SelectOptionsContainer.propTypes = {

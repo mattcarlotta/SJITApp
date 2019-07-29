@@ -31,10 +31,9 @@ describe("Select - Selection", () => {
 		it("initially renders a default container", () => {
 			wrapper.setProps({ icon: "id" });
 
-			const StyledBtnCtnr = findBtnCtnr();
-			expect(StyledBtnCtnr.exists()).toBeTruthy();
-			expect(StyledBtnCtnr).toHaveStyleRule("border", "1px solid #e5e5e5");
-			expect(StyledBtnCtnr).toHaveStyleRule("border", "1px solid #bfbebe", {
+			expect(findBtnCtnr().exists()).toBeTruthy();
+			expect(findBtnCtnr()).toHaveStyleRule("border", "1px solid #e5e5e5");
+			expect(findBtnCtnr()).toHaveStyleRule("border", "1px solid #bfbebe", {
 				modifier: ":hover",
 			});
 		});
@@ -42,10 +41,9 @@ describe("Select - Selection", () => {
 		it("renders a focused container when visible", () => {
 			wrapper.setProps({ isVisible: true });
 
-			const StyledBtnCtnr = findBtnCtnr();
-			expect(StyledBtnCtnr.exists()).toBeTruthy();
-			expect(StyledBtnCtnr).toHaveStyleRule("border", "1px solid #1e90ff");
-			expect(StyledBtnCtnr).toHaveStyleRule("border", "1px solid #1e90ff", {
+			expect(findBtnCtnr().exists()).toBeTruthy();
+			expect(findBtnCtnr()).toHaveStyleRule("border", "1px solid #1e90ff");
+			expect(findBtnCtnr()).toHaveStyleRule("border", "1px solid #1e90ff", {
 				modifier: ":hover",
 			});
 		});
@@ -53,9 +51,8 @@ describe("Select - Selection", () => {
 		it("renders an error container when there are errors", () => {
 			wrapper.setProps({ errors: "Required." });
 
-			const StyledBtnCtnr = findBtnCtnr();
-			expect(StyledBtnCtnr.exists()).toBeTruthy();
-			expect(StyledBtnCtnr).toHaveStyleRule(
+			expect(findBtnCtnr().exists()).toBeTruthy();
+			expect(findBtnCtnr()).toHaveStyleRule(
 				"border",
 				"1px solid #d14023 !important",
 			);
@@ -84,7 +81,7 @@ describe("Select - Selection", () => {
 			displayOptionBtn = () => wrapper.find("DisplayOption");
 		});
 
-		it("initially contains default padding and color CSS", () => {
+		it("initially contains default padding and color", () => {
 			expect(displayOptionBtn()).toHaveStyleRule("padding", "8px 8px 8px 14px");
 			expect(displayOptionBtn()).toHaveStyleRule("color", "#d3dce6");
 		});

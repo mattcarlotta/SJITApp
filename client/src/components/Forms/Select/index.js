@@ -40,4 +40,8 @@ Select.propTypes = {
 	value: PropTypes.string,
 };
 
+Select.defaultProps = {
+	placeholder: "Select an option...",
+};
+
 export default Select;
