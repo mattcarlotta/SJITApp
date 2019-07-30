@@ -139,4 +139,10 @@ describe("Server Messages", () => {
 		expect(resetServerMessage).toHaveBeenCalledTimes(1);
 		jest.runAllTimers();
 	});
+
+	it("resets the timer and hide the message on unmount", () => {
+		wrapper.unmount();
+
+		expect(hideServerMessage).toHaveBeenCalledTimes(1);
+	});
 });

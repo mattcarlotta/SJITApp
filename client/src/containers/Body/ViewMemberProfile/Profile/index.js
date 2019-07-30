@@ -38,7 +38,10 @@ const Profile = ({ viewMember, updateMemberStatus }) => {
 				Unique id: <Small>{_id}</Small>
 			</LightText>
 			<LightText>
-				Status: <Small>{DisplayStatus(status)}</Small>
+				Status:{" "}
+				<Small>
+					<DisplayStatus status={status} />
+				</Small>
 				<Button
 					primary={!isActive}
 					danger={isActive}

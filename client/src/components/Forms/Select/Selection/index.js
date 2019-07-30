@@ -25,7 +25,7 @@ const Selection = ({
 		<SelectText handleSelectClick={handleSelectClick}>
 			{icon && <Icon style={{ top: 0 }} type={icon} />}
 			<DisplayOption icon={icon} value={value}>
-				{!value ? placeholder : value}
+				<span className="selectValue">{!value ? placeholder : value}</span>
 			</DisplayOption>
 			<ChevronIcon isVisible={isVisible} />
 		</SelectText>

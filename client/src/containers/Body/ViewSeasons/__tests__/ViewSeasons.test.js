@@ -22,7 +22,7 @@ const initProps = {
 	push,
 };
 
-const wrapper = shallow(<ViewSeasons {...initProps} />);
+const wrapper = mount(<ViewSeasons {...initProps} />);
 describe("View All Seasons", () => {
 	it("renders without errors", () => {
 		expect(wrapper.find("Card").exists()).toBeTruthy();
@@ -38,12 +38,6 @@ describe("View All Seasons", () => {
 	});
 
 	it("renders a Table", () => {
-		expect(
-			wrapper
-				.find("CustomTable")
-				.dive()
-				.find("Table")
-				.exists(),
-		).toBeTruthy();
+		expect(wrapper.find("CustomTable")).toBeTruthy();
 	});
 });

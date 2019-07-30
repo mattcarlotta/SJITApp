@@ -1,87 +1,86 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Redirect, Route, Switch } from "react-router-dom";
+import { AppPageNotFound, Contact, Help, Settings } from "pages";
 
 import {
-	EditSeasonForm,
-	NewSeasonForm,
+	Dashboard,
+	EditSeason,
+	NewEvent,
+	NewForm,
+	NewMember,
+	NewSeason,
+	NewTemplate,
+	Schedule,
+	ViewEvents,
+	ViewForms,
 	ViewMemberProfile,
 	ViewMembers,
 	ViewSeasons,
-} from "pages";
+	ViewTemplates,
+} from "pages/Staff";
 
-const AppRoutes = ({ match: { url } }) => (
-	<Switch>
-		<Redirect from={`${url}/login`} to={`${url}/dashboard`} />
-		<Route
-			exact
-			path={`${url}/dashboard`}
-			component={() => <h1>Dashboard</h1>}
-		/>
-		<Route
-			exact
-			path={`${url}/events/add`}
-			component={() => <h1>Add Event</h1>}
-		/>
-		<Route
-			exact
-			path={`${url}/events/viewall`}
-			component={() => <h1>View All Events</h1>}
-		/>
-		<Route
-			exact
-			path={`${url}/forms/add`}
-			component={() => <h1>Add Form</h1>}
-		/>
-		<Route
-			exact
-			path={`${url}/forms/viewall`}
-			component={() => <h1>View All Forms</h1>}
-		/>
-		<Route
-			exact
-			path={`${url}/members/add`}
-			component={() => <h1>Add Members</h1>}
-		/>
-		<Route
-			exact
-			path={`${url}/members/view/:id`}
-			component={ViewMemberProfile}
-		/>
-		<Route exact path={`${url}/members/viewall`} component={ViewMembers} />
-		<Route exact path={`${url}/schedule`} component={() => <h1>Schedule</h1>} />
-		<Route exact path={`${url}/seasons/create`} component={NewSeasonForm} />
-		<Route exact path={`${url}/seasons/edit/:id`} component={EditSeasonForm} />
-		<Route exact path={`${url}/seasons/viewall`} component={ViewSeasons} />
-		<Route
-			exact
-			path={`${url}/templates/create`}
-			component={() => <h1>Create Template</h1>}
-		/>
-		<Route
-			exact
-			path={`${url}/templates/viewall`}
-			component={() => <h1>View All Templates</h1>}
-		/>
-		<Route exact path={`${url}/settings`} component={() => <h1>Settings</h1>} />
-		<Route
-			exact
-			path={`${url}/templates/create`}
-			component={() => <h1>New Template</h1>}
-		/>
-		<Route
-			exact
-			path={`${url}/templates/viewall`}
-			component={() => <h1>All Templates</h1>}
-		/>
-		<Route exact path={`${url}/help`} component={() => <h1>Help</h1>} />
-		<Route exact path={`${url}/contact`} component={() => <h1>Contact</h1>} />
-		<Route component={() => <h1>Not found</h1>} />
-	</Switch>
-);
+import {
+	MemberDashboard,
+	MemberEvents,
+	MemberForms,
+	MemberProfile,
+	MemberSchedule,
+} from "pages/Members";
+
+const AppRoutes = ({ match: { url }, role }) =>
+	role === "staff" || role === "admin" ? (
+		<Switch>
+			<Redirect exact from={`${url}`} to={`${url}/dashboard`} />
+			<Redirect from={`${url}/login`} to={`${url}/dashboard`} />
+			<Route exact path={`${url}/dashboard`} component={Dashboard} />
+			<Route exact path={`${url}/events/create`} component={NewEvent} />
+			<Route exact path={`${url}/events/viewall`} component={ViewEvents} />
+			<Route exact path={`${url}/forms/create`} component={NewForm} />
+			<Route exact path={`${url}/forms/viewall`} component={ViewForms} />
+			<Route exact path={`${url}/members/create`} component={NewMember} />
+			<Route
+				exact
+				path={`${url}/members/view/:id`}
+				component={ViewMemberProfile}
+			/>
+			<Route exact path={`${url}/members/viewall`} component={ViewMembers} />
+			<Route exact path={`${url}/schedule`} component={Schedule} />
+			<Route exact path={`${url}/seasons/create`} component={NewSeason} />
+			<Route exact path={`${url}/seasons/edit/:id`} component={EditSeason} />
+			<Route exact path={`${url}/seasons/viewall`} component={ViewSeasons} />
+			<Route exact path={`${url}/templates/create`} component={NewTemplate} />
+			<Route
+				exact
+				path={`${url}/templates/viewall`}
+				component={ViewTemplates}
+			/>
+			<Route exact path={`${url}/settings`} component={Settings} />
+			<Route exact path={`${url}/help`} component={Help} />
+			<Route exact path={`${url}/contact`} component={Contact} />
+			<Route component={AppPageNotFound} />
+		</Switch>
+	) : (
+		<Switch>
+			<Redirect exact from={`${url}`} to={`${url}/dashboard`} />
+			<Redirect from={`${url}/login`} to={`${url}/dashboard`} />
+			<Route exact path={`${url}/dashboard`} component={MemberDashboard} />
+			<Route exact path={`${url}/events/viewall`} component={MemberEvents} />
+			<Route exact path={`${url}/forms/viewall`} component={MemberForms} />
+			<Route exact path={`${url}/profile`} component={MemberProfile} />
+			<Route exact path={`${url}/schedule`} component={MemberSchedule} />
+			<Route exact path={`${url}/settings`} component={Settings} />
+			<Route exact path={`${url}/help`} component={Help} />
+			<Route exact path={`${url}/contact`} component={Contact} />
+			<Route component={AppPageNotFound} />
+		</Switch>
+	);
 
 AppRoutes.propTypes = {
-	url: PropTypes.string,
+	match: PropTypes.shape({
+		url: PropTypes.string,
+	}).isRequired,
+	role: PropTypes.string.isRequired,
 };
 
 export default AppRoutes;

@@ -9,10 +9,9 @@ import { updateMember } from "actions/Members";
 import { fieldValidator, fieldUpdater, parseFields } from "utils";
 import fields from "./Fields";
 
-class EditMemberForm extends Component {
+export class EditMemberForm extends Component {
 	state = {
 		fields,
-		wasEdited: false,
 		wasInitialized: false,
 		isSubmitting: false,
 	};
@@ -43,7 +42,6 @@ class EditMemberForm extends Component {
 	handleChange = ({ target: { name, value } }) => {
 		this.setState(prevState => ({
 			...prevState,
-			wasEdited: true,
 			fields: fieldUpdater(prevState.fields, name, value),
 		}));
 	};

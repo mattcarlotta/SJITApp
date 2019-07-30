@@ -21,7 +21,7 @@ const columns = [
 		title: "Account Status",
 		dataIndex: "status",
 		key: "status",
-		render: DisplayStatus,
+		render: status => <DisplayStatus status={status} />,
 	},
 	{ title: "First Name", dataIndex: "firstName", key: "firstName" },
 	{ title: "Last Name", dataIndex: "lastName", key: "lastName" },
@@ -31,7 +31,7 @@ const columns = [
 		title: "Registered",
 		dataIndex: "registered",
 		key: "registered",
-		render: DisplayDate,
+		render: date => <DisplayDate date={date} />,
 	},
 	{ title: "Events", dataIndex: "events", key: "events" },
 ];

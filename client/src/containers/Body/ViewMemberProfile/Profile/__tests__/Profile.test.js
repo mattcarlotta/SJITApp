@@ -64,10 +64,6 @@ describe("Profile", () => {
 			.find("Button");
 
 		// active status
-		expect(memberStatus.find("FaUser").exists()).toBeTruthy();
-		expect(memberStatus.find("span").text()).toContain(
-			`(${viewMember.status})`,
-		);
 		expect(statusButton.props().primary).toBeFalsy();
 		expect(statusButton.props().danger).toBeTruthy();
 		expect(statusButton.find("FaBan").exists()).toBeTruthy();
@@ -86,10 +82,6 @@ describe("Profile", () => {
 			.at(1)
 			.find("Button");
 
-		expect(memberStatus.find("FaUserTimes").exists()).toBeTruthy();
-		expect(memberStatus.find("span").text()).toContain(
-			`(${inactiveMember.status})`,
-		);
 		expect(statusButton.props().primary).toBeTruthy();
 		expect(statusButton.props().danger).toBeFalsy();
 		expect(statusButton.text()).toContain("Activate");

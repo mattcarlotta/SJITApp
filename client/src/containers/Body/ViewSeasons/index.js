@@ -1,17 +1,14 @@
 import React, { PureComponent, Fragment } from "react";
 import PropTypes from "prop-types";
 import Helmet from "react-helmet";
-import moment from "moment";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import { Card } from "antd";
 import { FaCalendarPlus } from "react-icons/fa";
-import { Button, FlexEnd, Table } from "components/Body";
+import { Button, DisplayDate, FlexEnd, Table } from "components/Body";
 import { deleteSeason, fetchSeasons } from "actions/Seasons";
 
 const title = "View Seasons";
-
-const displayDate = date => <span>{moment(date).format("l")}</span>;
 
 const columns = [
 	{ title: "Season Id", dataIndex: "seasonId", key: "seasonId" },
@@ -19,13 +16,13 @@ const columns = [
 		title: "Start Date",
 		dataIndex: "startDate",
 		key: "startDate",
-		render: displayDate,
+		render: date => <DisplayDate date={date} />,
 	},
 	{
 		title: "End Date",
 		dataIndex: "endDate",
 		key: "endDate",
-		render: displayDate,
+		render: date => <DisplayDate date={date} />,
 	},
 	{ title: "Members", dataIndex: "members", key: "members" },
 ];

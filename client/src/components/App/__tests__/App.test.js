@@ -11,6 +11,7 @@ const initProps = {
 	},
 	firstName: "Beta",
 	lastName: "Tester",
+	role: "staff",
 	push,
 };
 

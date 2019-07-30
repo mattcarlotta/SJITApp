@@ -82,11 +82,18 @@ ServerMessages.propTypes = {
 	type: PropTypes.string,
 };
 
+const mapStateToProps = state => ({
+	message: state.server.message,
+	show: state.server.show,
+	type: state.server.type,
+});
+
+const mapDispatchToProps = {
+	hideServerMessage,
+	resetServerMessage,
+};
+
 export default connect(
-	({ server }) => ({
-		message: server.message,
-		show: server.show,
-		type: server.type,
-	}),
-	{ hideServerMessage, resetServerMessage },
+	mapStateToProps,
+	mapDispatchToProps,
 )(ServerMessages);

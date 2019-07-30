@@ -1,5 +1,4 @@
 import Table from "../index";
-import { FaUser, FaUserTimes } from "react-icons/fa";
 import { DisplayDate, DisplayStatus } from "components/Body";
 
 const columns = [
@@ -12,13 +11,13 @@ const columns = [
 		title: "Start Date",
 		dataIndex: "startDate",
 		key: "startDate",
-		render: DisplayDate,
+		render: date => <DisplayDate date={date} />,
 	},
 	{
 		title: "End Date",
 		dataIndex: "endDate",
 		key: "endDate",
-		render: DisplayDate,
+		render: date => <DisplayDate date={date} />,
 	},
 	{
 		title: "Members",
@@ -29,7 +28,7 @@ const columns = [
 		title: "Status",
 		dataIndex: "status",
 		key: "status",
-		render: DisplayStatus,
+		render: status => <DisplayStatus status={status} />,
 	},
 ];
 
@@ -97,13 +96,6 @@ describe("Custom Table", () => {
 		expect(fetchData).toHaveBeenCalledTimes(1);
 	});
 
-	// it("doesn't call fetchData when isLoading is false", () => {
-	// 	fetchData.mockClear();
-	// 	wrapper = shallow(<Table {...nextProps} />);
-
-	// 	expect(fetchData).toHaveBeenCalledTimes(0);
-	// });
-
 	describe("Ant Table", () => {
 		beforeEach(() => {
 			wrapper = mount(<Table {...nextProps} />);
@@ -121,6 +113,12 @@ describe("Custom Table", () => {
 			expect(
 				wrapper
 					.find("td")
+					.at(0)
+					.text(),
+			).toEqual(data[0].seasonId);
+			expect(
+				wrapper
+					.find("td")
 					.at(1)
 					.text(),
 			).toEqual("10/6/2000");
@@ -130,6 +128,18 @@ describe("Custom Table", () => {
 					.at(2)
 					.text(),
 			).toEqual("8/6/2001");
+			expect(
+				wrapper
+					.find("td")
+					.at(3)
+					.text(),
+			).toEqual(`${data[0].members}`);
+			expect(
+				wrapper
+					.find("td")
+					.at(4)
+					.text(),
+			).toEqual(`(${data[0].status})`);
 		});
 
 		it("filters the table by searchText, as well as clears the table filters", () => {
@@ -185,23 +195,6 @@ describe("Custom Table", () => {
 			expect(setSelectedKeys).toHaveBeenCalledWith([]);
 		});
 
-		it("displays an active and suspended icon", () => {
-			expect(
-				wrapper
-					.find("Tooltip")
-					.findWhere(e => e.prop("title") === "active")
-					.find(FaUser)
-					.exists(),
-			).toBeTruthy();
-			expect(
-				wrapper
-					.find("Tooltip")
-					.findWhere(e => e.prop("title") === "suspended")
-					.find(FaUserTimes)
-					.exists(),
-			).toBeTruthy();
-		});
-
 		it("views the selected record", () => {
 			wrapper
 				.find("td")
@@ -213,6 +206,12 @@ describe("Custom Table", () => {
 			expect(push).toHaveBeenCalledTimes(1);
 		});
 
+		it("doesn't display a view button when 'viewLocation' is missing", () => {
+			wrapper.setProps({ viewLocation: "" });
+
+			expect(wrapper.find("FaSearchPlus").exists()).toBeFalsy();
+		});
+
 		it("edits the selected record", () => {
 			wrapper
 				.find("td")
@@ -222,6 +221,12 @@ describe("Custom Table", () => {
 				.simulate("click");
 
 			expect(push).toHaveBeenCalledTimes(1);
+		});
+
+		it("doesn't display an edit button when 'editLocation' is missing", () => {
+			wrapper.setProps({ editLocation: "" });
+
+			expect(wrapper.find("FaEdit").exists()).toBeFalsy();
 		});
 
 		it("deletes the selected record", () => {

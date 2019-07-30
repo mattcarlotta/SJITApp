@@ -1,5 +1,4 @@
 import { ViewMembers } from "../index";
-import { FaUser, FaUserTimes } from "react-icons/fa";
 
 const data = [
 	{
@@ -53,22 +52,5 @@ describe("View All Seasons", () => {
 
 	it("renders a Table", () => {
 		expect(wrapper.find("Table").exists()).toBeTruthy();
-	});
-
-	it("displays an active and suspended icon", () => {
-		expect(
-			wrapper
-				.find("Tooltip")
-				.findWhere(e => e.prop("title") === "active")
-				.find(FaUser)
-				.exists(),
-		).toBeTruthy();
-		expect(
-			wrapper
-				.find("Tooltip")
-				.findWhere(e => e.prop("title") === "suspended")
-				.find(FaUserTimes)
-				.exists(),
-		).toBeTruthy();
 	});
 });

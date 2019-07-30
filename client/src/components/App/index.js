@@ -9,11 +9,11 @@ const Content = Layout.Content;
 
 const TABS = [
 	"dashboard",
-	"events/add",
+	"events/create",
 	"events/viewall",
-	"forms/add",
+	"forms/create",
 	"forms/viewall",
-	"members/add",
+	"members/create",
 	"members/viewall",
 	"schedule",
 	"seasons/create",
@@ -90,10 +90,12 @@ App.propTypes = {
 	lastName: PropTypes.string.isRequired,
 	location: PropTypes.shape({
 		pathname: PropTypes.string,
-	}).isRequired,
+	}),
+	push: PropTypes.func.isRequired,
 	match: PropTypes.shape({
 		url: PropTypes.string,
 	}).isRequired,
+	role: PropTypes.string.isRequired,
 };
 
 export default App;

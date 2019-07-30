@@ -12,7 +12,7 @@ const inactiveUserStyle = {
 };
 const titleStyle = { fontSize: 16, paddingLeft: 5 };
 
-const DisplayStatus = status => (
+const DisplayStatus = ({ status }) => (
 	<Tooltip title={status} placement="top">
 		{status === "active" ? (
 			<FaUser style={activeUserStyle} />

@@ -4,20 +4,12 @@ import { push } from "connected-react-router";
 import { connect } from "react-redux";
 import { Route, Switch } from "react-router-dom";
 import App from "components/App";
-import { AppLoader } from "components/Auth";
+import { AppLoader } from "containers/Auth";
 import {
 	NewPasswordForm,
 	ResetPasswordForm,
 	SignupForm,
-} from "components/Forms";
-import {
-	authenticateUser,
-	resetPassword,
-	signinUser,
-	signupUser,
-	updateUserPassword,
-} from "actions/Auth";
-import { hideServerMessage } from "actions/Messages";
+} from "containers/Forms";
 
 export class ProtectedRoutes extends PureComponent {
 	render = () => {
@@ -30,23 +22,15 @@ export class ProtectedRoutes extends PureComponent {
 						<Route
 							exact
 							path={`${match.url}/newpassword/:id`}
-							render={props => <NewPasswordForm {...this.props} {...props} />}
+							component={NewPasswordForm}
 						/>
 						<Route
 							exact
 							path={`${match.url}/resetpassword`}
-							render={props => <ResetPasswordForm {...this.props} {...props} />}
+							component={ResetPasswordForm}
 						/>
-						<Route
-							exact
-							path={`${match.url}/signup`}
-							render={props => <SignupForm {...this.props} {...props} />}
-						/>
-						<Route
-							path={`${match.url}`}
-							render={props => <AppLoader {...this.props} {...props} />}
-						/>
-						{/* <Redirect from={`${match.url}`} to={`${match.url}/login`} /> */}
+						<Route exact path={`${match.url}/signup`} component={SignupForm} />
+						<Route path={`${match.url}`} component={AppLoader} />
 					</Switch>
 				) : (
 					<App {...this.props} />
@@ -57,42 +41,26 @@ export class ProtectedRoutes extends PureComponent {
 }
 
 ProtectedRoutes.propTypes = {
-	authenticateUser: PropTypes.func.isRequired,
 	firstName: PropTypes.string,
-	hideServerMessage: PropTypes.func.isRequired,
 	lastName: PropTypes.string,
-	loggedinUser: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+	location: PropTypes.shape({
+		pathname: PropTypes.string,
+	}),
 	match: PropTypes.shape({
-		isExact: PropTypes.bool,
-		params: PropTypes.any,
-		path: PropTypes.string,
 		url: PropTypes.string,
 	}).isRequired,
 	push: PropTypes.func,
-	resetPassword: PropTypes.func.isRequired,
 	role: PropTypes.string,
-	signinUser: PropTypes.func.isRequired,
-	signupUser: PropTypes.func.isRequired,
-	serverMessage: PropTypes.string,
-	updateUserPassword: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
 	firstName: state.auth.firstName,
 	lastName: state.auth.lastName,
-	loggedinUser: state.auth.email,
 	role: state.auth.role,
-	serverMessage: state.server.message,
 });
 
 const mapDispatchToProps = {
-	authenticateUser,
-	hideServerMessage,
 	push,
-	resetPassword,
-	signinUser,
-	signupUser,
-	updateUserPassword,
 };
 
 export default connect(

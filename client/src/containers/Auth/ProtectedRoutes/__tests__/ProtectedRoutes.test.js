@@ -1,65 +1,106 @@
 import { ProtectedRoutes } from "../index";
-
-const authenticateUser = jest.fn();
-const hideServerMessage = jest.fn();
-const resetPassword = jest.fn();
-const signinUser = jest.fn();
-const signupUser = jest.fn();
-const updateUserPassword = jest.fn();
+import { AppLoader } from "containers/Auth";
+import {
+	NewPasswordForm,
+	ResetPasswordForm,
+	SignupForm,
+} from "containers/Forms";
 
 const initProps = {
-	authenticateUser,
 	firstName: "",
-	hideServerMessage,
 	lastName: "",
-	loggedinUser: "",
 	location: {
-		patname: "",
+		pathname: "",
 	},
+	push: jest.fn(),
 	match: {
 		url: "/employee",
 	},
-	resetPassword,
-	signinUser,
-	signupUser,
-	serverMessage: "",
-	updateUserPassword,
+	role: "",
 };
 
-describe("Protected Routes", () => {
+describe("Protected Routes Middleware", () => {
 	let wrapper;
 	beforeEach(() => {
-		wrapper = HOCWrap(ProtectedRoutes, initProps, null, ["/employee/login"]);
+		wrapper = shallow(<ProtectedRoutes {...initProps} />);
 	});
 
 	it("renders the App if authenticated", () => {
-		wrapper.setProps({
-			role: "member",
-			location: {
-				pathname: "/dashboard",
-			},
-		});
-		expect(wrapper.find("Layout")).toBeTruthy();
+		wrapper.setProps({ role: "member" });
+		expect(wrapper.find("App")).toBeTruthy();
 	});
 
-	describe("Unauthenticated", () => {
-		it("initially renders the employee login", () => {
-			expect(wrapper.find("AppLoader").exists()).toBeTruthy();
+	describe("Unauthenticated Routing", () => {
+		it("initially renders 4 routes", () => {
+			expect(wrapper.find("Route")).toHaveLength(4);
 		});
 
-		it("allows a user to navigate to other routes: 'newpassword', 'resetpassword' and 'signup'", () => {
-			wrapper = HOCWrap(ProtectedRoutes, initProps, null, [
-				{ pathname: "/employee/newpassword/:id", search: "?token=123456" },
-			]);
-			expect(wrapper.find("NewPasswordForm").exists()).toBeTruthy();
+		it("routes to NewPasswordForm", () => {
+			expect(
+				wrapper
+					.find("Route[exact=true][path='/employee/newpassword/:id']")
+					.prop("component"),
+			).toBe(NewPasswordForm);
+		});
 
-			wrapper = HOCWrap(ProtectedRoutes, initProps, null, [
-				"/employee/resetpassword",
-			]);
-			expect(wrapper.find("ResetPasswordForm").exists()).toBeTruthy();
+		it("routes to ResetPasswordForm", () => {
+			expect(
+				wrapper
+					.find("Route[exact=true][path='/employee/resetpassword']")
+					.prop("component"),
+			).toBe(ResetPasswordForm);
+		});
 
-			wrapper = HOCWrap(ProtectedRoutes, initProps, null, ["/employee/signup"]);
-			expect(wrapper.find("SignupForm").exists()).toBeTruthy();
+		it("routes to SignupForm", () => {
+			expect(
+				wrapper
+					.find("Route[exact=true][path='/employee/signup']")
+					.prop("component"),
+			).toBe(SignupForm);
+		});
+
+		it("routes to AppLoader if none of the routes are matched", () => {
+			expect(wrapper.find("Route[path='/employee']").prop("component")).toBe(
+				AppLoader,
+			);
 		});
 	});
 });
+
+// describe("Protected Routes", () => {
+// 	let wrapper;
+// 	beforeEach(() => {
+// 		wrapper = HOCWrap(ProtectedRoutes, initProps, null, ["/employee/login"]);
+// 	});
+
+// 	it("renders the App if authenticated", () => {
+// 		wrapper.setProps({
+// 			role: "member",
+// 			location: {
+// 				pathname: "/dashboard",
+// 			},
+// 		});
+// 		expect(wrapper.find("Layout")).toBeTruthy();
+// 	});
+
+// 	describe("Unauthenticated", () => {
+// 		it("initially renders the employee login", () => {
+// 			expect(wrapper.find("AppLoader").exists()).toBeTruthy();
+// 		});
+
+// 		it("allows a user to navigate to other routes: 'newpassword', 'resetpassword' and 'signup'", () => {
+// 			wrapper = HOCWrap(ProtectedRoutes, initProps, null, [
+// 				{ pathname: "/employee/newpassword/:id", search: "?token=123456" },
+// 			]);
+// 			expect(wrapper.find("NewPasswordForm").exists()).toBeTruthy();
+
+// 			wrapper = HOCWrap(ProtectedRoutes, initProps, null, [
+// 				"/employee/resetpassword",
+// 			]);
+// 			expect(wrapper.find("ResetPasswordForm").exists()).toBeTruthy();
+
+// 			wrapper = HOCWrap(ProtectedRoutes, initProps, null, ["/employee/signup"]);
+// 			expect(wrapper.find("SignupForm").exists()).toBeTruthy();
+// 		});
+// 	});
+// });
