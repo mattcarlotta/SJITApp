@@ -50,7 +50,9 @@ describe("Field Generator", () => {
 	});
 
 	it("initially returns nothing", () => {
-		expect(wrapper.find("span.invalidField").exists()).toBeTruthy();
+		expect(wrapper.find("Input").exists()).toBeFalsy();
+		expect(wrapper.find("Select").exists()).toBeFalsy();
+		expect(wrapper.find("RangePicker").exists()).toBeFalsy();
 	});
 
 	it("returns an Input when type is 'text'", () => {
