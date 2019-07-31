@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Modal, SubmitButton } from "components/Body";
-import { FormTitle, Input } from "components/Forms";
+import { FieldGenerator, Modal, SubmitButton } from "components/Body";
+import { FormTitle } from "components/Forms";
 import { fieldValidator, fieldUpdater, parseFields, parseToken } from "utils";
 import { updateUserPassword } from "actions/Auth";
 import { hideServerMessage } from "actions/Messages";
@@ -54,13 +54,10 @@ export class NewPasswordForm extends Component {
 			} = this.props;
 
 			if (!errors) {
-				const newPasswordFields = parseFields(formFields);
+				const parsedFields = parseFields(formFields);
 
 				if (serverMessage) hideServerMessage();
-				setTimeout(
-					() => updateUserPassword({ ...newPasswordFields, token }),
-					350,
-				);
+				setTimeout(() => updateUserPassword({ ...parsedFields, token }), 350);
 			}
 		});
 	};
@@ -73,9 +70,10 @@ export class NewPasswordForm extends Component {
 				description="	Enter a new password to update your current password."
 			/>
 			<form onSubmit={this.handleSubmit}>
-				{this.state.fields.map(props => (
-					<Input {...props} key={props.name} onChange={this.handleChange} />
-				))}
+				<FieldGenerator
+					fields={this.state.fields}
+					onChange={this.handleChange}
+				/>
 				<SubmitButton isSubmitting={this.state.isSubmitting} />
 			</form>
 		</Modal>

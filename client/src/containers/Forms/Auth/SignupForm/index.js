@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { FaUnlockAlt } from "react-icons/fa";
-import { Center, Modal, SubmitButton } from "components/Body";
-import { FormTitle, Input } from "components/Forms";
+import { Center, FieldGenerator, Modal, SubmitButton } from "components/Body";
+import { FormTitle } from "components/Forms";
 import { Link } from "components/Navigation";
 import { fieldValidator, fieldUpdater, parseFields, parseToken } from "utils";
 import { signupUser } from "actions/Auth";
@@ -90,10 +90,10 @@ export class SignupForm extends Component {
 			const { hideServerMessage, signupUser, serverMessage } = this.props;
 
 			if (!errors) {
-				const signupFields = parseFields(formFields);
+				const parsedFields = parseFields(formFields);
 
 				if (serverMessage) hideServerMessage();
-				setTimeout(() => signupUser(signupFields), 350);
+				setTimeout(() => signupUser(parsedFields), 350);
 			}
 		});
 	};
@@ -106,9 +106,10 @@ export class SignupForm extends Component {
 				description="Fill out all the fields below to register."
 			/>
 			<form onSubmit={this.handleSubmit}>
-				{this.state.fields.map(props => (
-					<Input {...props} key={props.name} onChange={this.handleChange} />
-				))}
+				<FieldGenerator
+					fields={this.state.fields}
+					onChange={this.handleChange}
+				/>
 				<Link
 					blue
 					style={{ padding: 0, margin: 0, fontSize: 16 }}

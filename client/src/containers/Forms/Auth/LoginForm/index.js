@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { FaUnlockAlt } from "react-icons/fa";
-import { Center, Modal, SubmitButton } from "components/Body";
+import { Center, FieldGenerator, Modal, SubmitButton } from "components/Body";
 import { FormTitle, Input } from "components/Forms";
 import { Link } from "components/Navigation";
 import { fieldValidator, fieldUpdater, parseFields } from "utils";
@@ -69,9 +69,10 @@ export class LoginForm extends Component {
 				description="Sign into your account below."
 			/>
 			<form onSubmit={this.handleSubmit}>
-				{this.state.fields.map(props => (
-					<Input {...props} key={props.name} onChange={this.handleChange} />
-				))}
+				<FieldGenerator
+					fields={this.state.fields}
+					onChange={this.handleChange}
+				/>
 				<Link
 					blue
 					style={{ padding: 0, margin: 0, fontSize: 16 }}

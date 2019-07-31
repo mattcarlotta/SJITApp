@@ -2,8 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
 import { connect } from "react-redux";
-import { Input, Select } from "components/Forms";
-import { SubmitButton } from "components/Body";
+import { FieldGenerator, SubmitButton } from "components/Body";
 import { hideServerMessage } from "actions/Messages";
 import { updateMember } from "actions/Members";
 import { fieldValidator, fieldUpdater, parseFields } from "utils";
@@ -73,18 +72,7 @@ export class EditMemberForm extends Component {
 			style={{ width: 400, marginTop: 50, marginBottom: 60 }}
 			onSubmit={this.handleSubmit}
 		>
-			{this.state.fields.map(props =>
-				props.type != "select" ? (
-					<Input {...props} key={props.name} onChange={this.handleChange} />
-				) : (
-					<Select
-						{...props}
-						key={props.name}
-						onChange={this.handleChange}
-						selectOptions={["staff", "member"]}
-					/>
-				),
-			)}
+			<FieldGenerator fields={this.state.fields} onChange={this.handleChange} />
 			<SubmitButton
 				title="Update Member"
 				isSubmitting={this.state.isSubmitting}

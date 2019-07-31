@@ -3,7 +3,7 @@ import { expectSaga, testSaga } from "redux-saga-test-plan";
 import { app } from "utils";
 import * as types from "types";
 import * as actions from "actions/Seasons";
-import { setServerMessage } from "actions/Messages";
+import { hideServerMessage, setServerMessage } from "actions/Messages";
 import * as sagas from "sagas/Seasons";
 import * as mocks from "sagas/__mocks__/sagas.mocks";
 import messageReducer from "reducers/Messages";
@@ -81,6 +81,8 @@ describe("Season Sagas", () => {
 			const res = { data: { message } };
 
 			testSaga(sagas.deleteSeason, { seasonId })
+				.next()
+				.put(hideServerMessage())
 				.next()
 				.call(app.delete, `season/delete/${seasonId}`)
 				.next(res)

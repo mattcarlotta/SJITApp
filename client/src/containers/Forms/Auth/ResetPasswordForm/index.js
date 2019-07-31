@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Center, Modal, SubmitButton } from "components/Body";
-import { FormTitle, Input } from "components/Forms";
+import { Center, FieldGenerator, Modal, SubmitButton } from "components/Body";
+import { FormTitle } from "components/Forms";
 import { Link } from "components/Navigation";
 import { fieldValidator, fieldUpdater, parseFields } from "utils";
 import { resetPassword } from "actions/Auth";
@@ -43,10 +43,10 @@ export class ResetPasswordForm extends Component {
 			const { hideServerMessage, resetPassword, serverMessage } = this.props;
 
 			if (!errors) {
-				const resetPasswordFields = parseFields(formFields);
+				const parsedFields = parseFields(formFields);
 
 				if (serverMessage) hideServerMessage();
-				setTimeout(() => resetPassword(resetPasswordFields), 350);
+				setTimeout(() => resetPassword(parsedFields), 350);
 			}
 		});
 	};
@@ -59,9 +59,10 @@ export class ResetPasswordForm extends Component {
 				description="Enter your email to request a password reset."
 			/>
 			<form onSubmit={this.handleSubmit}>
-				{this.state.fields.map(props => (
-					<Input {...props} key={props.name} onChange={this.handleChange} />
-				))}
+				<FieldGenerator
+					fields={this.state.fields}
+					onChange={this.handleChange}
+				/>
 				<span>
 					<p style={{ margin: 0, padding: 0, fontSize: 16, display: "inline" }}>
 						Already have an account?

@@ -68,10 +68,10 @@ describe("Create Season Form", () => {
 
 	it("handles the seasonId based upon selected/unselected values", () => {
 		wrapper.instance().handleChange({ name, value: [] });
-		expect(wrapper.state("seasonId")).toEqual("");
+		expect(wrapper.state().fields[0].value).toEqual("");
 
 		wrapper.instance().handleChange({ name, value });
-		expect(wrapper.state("seasonId")).toEqual(seasonId);
+		expect(wrapper.state().fields[0].value).toEqual(seasonId);
 	});
 
 	describe("Form Submission", () => {
@@ -94,7 +94,7 @@ describe("Create Season Form", () => {
 				.find("input")
 				.findWhere(e => e.prop("name") === "seasonId");
 
-			expect(wrapper.state("seasonId")).toEqual(seasonId);
+			expect(wrapper.state().fields[0].value).toEqual(seasonId);
 			expect(input.prop("value")).toEqual(seasonId);
 		});
 

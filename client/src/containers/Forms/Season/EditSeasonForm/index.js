@@ -4,11 +4,9 @@ import isEmpty from "lodash/isEmpty";
 import moment from "moment";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
-import { Card, Form, DatePicker } from "antd";
-import { FaCalendarPlus } from "react-icons/fa";
-import { FormContainer, SubmitButton } from "components/Body";
-import { FormTitle, Errors, Input } from "components/Forms";
-import { Label } from "components/Body";
+import { Card, DatePicker } from "antd";
+import { FieldGenerator, FormContainer, SubmitButton } from "components/Body";
+import { FormTitle } from "components/Forms";
 import { hideServerMessage } from "actions/Messages";
 import { fetchSeason, updateSeason } from "actions/Seasons";
 import { fieldUpdater, parseFields } from "utils";
@@ -21,12 +19,27 @@ export class EditSeasonForm extends Component {
 	state = {
 		fields: [
 			{
+				type: "text",
+				name: "seasonId",
+				label: "Season ID",
+				tooltip:
+					"Select a start and end date below to automatically fill in this field.",
+				icon: "id",
+				value: "",
+				errors: "",
+				required: true,
+				disabled: true,
+				readOnly: true,
+				inputStyle: { paddingLeft: 94 },
+			},
+			{
 				type: "range",
 				name: "seasonDuration",
 				label: "Season Duration",
 				value: [],
 				errors: "",
 				required: true,
+				disabled: true,
 				props: {
 					format: "l",
 				},
@@ -47,10 +60,15 @@ export class EditSeasonForm extends Component {
 			const { endDate, seasonId, startDate } = editSeason;
 			return {
 				seasonId,
-				fields: state.fields.map(field => ({
-					...field,
-					value: [moment(startDate), moment(endDate)],
-				})),
+				fields: state.fields.map(field =>
+					field.type === "range"
+						? {
+								...field,
+								disabled: false,
+								value: [moment(startDate), moment(endDate)],
+						  }
+						: { ...field, value: seasonId },
+				),
 			};
 		}
 
@@ -68,30 +86,36 @@ export class EditSeasonForm extends Component {
 			seasonId = `${startYear}${endYear}`;
 		}
 
-		this.setState(prevState => ({
-			...prevState,
-			seasonId,
-			fields: fieldUpdater(prevState.fields, name, value),
-		}));
+		this.setState(prevState => {
+			const updateFields = prevState.fields.map(field =>
+				field.type === "text" ? { ...field, value: seasonId } : { ...field },
+			);
+
+			return {
+				...prevState,
+				seasonId,
+				fields: fieldUpdater(updateFields, name, value),
+			};
+		});
 	};
 
 	handleSubmit = e => {
 		e.preventDefault();
 
 		this.setState({ isSubmitting: true }, () => {
-			const { fields: formFields, seasonId } = this.state;
+			const { fields: formFields } = this.state;
 			const {
-				editSeason,
+				editSeason: { _id },
 				hideServerMessage,
 				serverMessage,
 				updateSeason,
 			} = this.props;
 
 			const parsedFields = parseFields(formFields);
-			const [seasonStart, seasonEnd] = parsedFields.seasonDuration;
+			const { seasonId, seasonDuration } = parsedFields;
+			const [seasonStart, seasonEnd] = seasonDuration;
 			const startDate = seasonStart.format("l");
 			const endDate = seasonEnd.format("l");
-			const { _id } = editSeason;
 
 			if (serverMessage) hideServerMessage();
 			setTimeout(
@@ -110,29 +134,10 @@ export class EditSeasonForm extends Component {
 					description="Select a new start and end date to update the season."
 				/>
 				<form onSubmit={this.handleSubmit}>
-					<Input
-						name="seasonId"
-						type="text"
-						label="Season ID"
-						tooltip="Select a start and end date below to automatically fill in this field."
-						icon="id"
-						value={this.state.seasonId}
-						inputStyle={{ paddingLeft: 94 }}
-						readOnly
-						disabled
+					<FieldGenerator
+						fields={this.state.fields}
+						onChange={this.handleChange}
 					/>
-					{this.state.fields.map(({ name, props, errors, ...rest }) => (
-						<Form.Item key={name} style={{ height: 105 }}>
-							<Label {...rest} />
-							<RangePicker
-								{...props}
-								{...rest}
-								disabled={isEmpty(this.props.editSeason)}
-								suffixIcon={<FaCalendarPlus />}
-								onChange={value => this.handleChange({ name, value })}
-							/>
-						</Form.Item>
-					))}
 					<SubmitButton
 						disabled={isEmpty(this.props.editSeason)}
 						isSubmitting={this.state.isSubmitting}

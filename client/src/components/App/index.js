@@ -60,6 +60,7 @@ class App extends Component {
 
 	toggleSideMenu = () =>
 		this.setState(prevState => ({
+			openKeys: [""],
 			isCollapsed: !prevState.isCollapsed,
 		}));
 

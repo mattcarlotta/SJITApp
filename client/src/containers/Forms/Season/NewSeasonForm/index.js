@@ -7,7 +7,7 @@ import { Card, Form, DatePicker } from "antd";
 import { FaCalendarPlus } from "react-icons/fa";
 import { hideServerMessage } from "actions/Messages";
 import { createSeason } from "actions/Seasons";
-import { FormContainer, SubmitButton } from "components/Body";
+import { FieldGenerator, FormContainer, SubmitButton } from "components/Body";
 import { FormTitle, Errors, Input } from "components/Forms";
 import { Label } from "components/Body";
 import { fieldValidator, fieldUpdater, parseFields } from "utils";
@@ -19,6 +19,20 @@ const title = "New Season Form";
 export class NewSeasonForm extends Component {
 	state = {
 		fields: [
+			{
+				type: "text",
+				name: "seasonId",
+				label: "Season ID",
+				tooltip:
+					"Select a start and end date below to automatically fill in this field.",
+				icon: "id",
+				value: "",
+				errors: "",
+				required: true,
+				disabled: true,
+				readOnly: true,
+				inputStyle: { paddingLeft: 94 },
+			},
 			{
 				type: "range",
 				name: "seasonDuration",
@@ -32,7 +46,6 @@ export class NewSeasonForm extends Component {
 				},
 			},
 		],
-		seasonId: "",
 		isSubmitting: false,
 	};
 
@@ -48,11 +61,16 @@ export class NewSeasonForm extends Component {
 			seasonId = `${startYear}${endYear}`;
 		}
 
-		this.setState(prevState => ({
-			...prevState,
-			seasonId,
-			fields: fieldUpdater(prevState.fields, name, value),
-		}));
+		this.setState(prevState => {
+			const updateFields = prevState.fields.map(field =>
+				field.type === "text" ? { ...field, value: seasonId } : { ...field },
+			);
+
+			return {
+				...prevState,
+				fields: fieldUpdater(updateFields, name, value),
+			};
+		});
 	};
 
 	handleSubmit = e => {
@@ -61,12 +79,13 @@ export class NewSeasonForm extends Component {
 		const { validatedFields, errors } = fieldValidator(this.state.fields);
 
 		this.setState({ fields: validatedFields, isSubmitting: !errors }, () => {
-			const { fields: formFields, seasonId } = this.state;
+			const { fields: formFields } = this.state;
 			const { createSeason, hideServerMessage, serverMessage } = this.props;
 
 			if (!errors) {
 				const parsedFields = parseFields(formFields);
-				const [seasonStart, seasonEnd] = parsedFields.seasonDuration;
+				const { seasonId, seasonDuration } = parsedFields;
+				const [seasonStart, seasonEnd] = seasonDuration;
 				const startDate = seasonStart.format("l");
 				const endDate = seasonEnd.format("l");
 
@@ -85,34 +104,10 @@ export class NewSeasonForm extends Component {
 					description="Enter a new season by selecting a start and end date."
 				/>
 				<form onSubmit={this.handleSubmit}>
-					<Input
-						name="seasonId"
-						type="text"
-						label="Season ID"
-						tooltip="Select a start and end date below to automatically fill in this field."
-						icon="id"
-						value={this.state.seasonId}
-						inputStyle={{ paddingLeft: 94 }}
-						readOnly
-						disabled
+					<FieldGenerator
+						fields={this.state.fields}
+						onChange={this.handleChange}
 					/>
-					{this.state.fields.map(({ name, props, errors, ...rest }) => (
-						<Form.Item
-							key={name}
-							style={{ height: 105 }}
-							validateStatus={errors ? "error" : ""}
-						>
-							<Label {...rest} />
-							<RangePicker
-								{...props}
-								{...rest}
-								suffixIcon={<FaCalendarPlus />}
-								onChange={value => this.handleChange({ name, value })}
-								onPanelChange={this.handlePanelChange}
-							/>
-							{errors && <Errors>{errors}</Errors>}
-						</Form.Item>
-					))}
 					<SubmitButton isSubmitting={this.state.isSubmitting} />
 				</form>
 			</FormContainer>

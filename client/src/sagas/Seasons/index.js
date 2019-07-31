@@ -1,7 +1,7 @@
 import { push } from "connected-react-router";
 import { all, put, call, takeLatest } from "redux-saga/effects";
 import { app } from "utils";
-import { setServerMessage } from "actions/Messages";
+import { hideServerMessage, setServerMessage } from "actions/Messages";
 import { setSeasonToEdit, setSeasons } from "actions/Seasons";
 import { parseData, parseMessage } from "utils/parseResponse";
 import * as types from "types";
@@ -52,6 +52,8 @@ export function* createSeason({ props }) {
 
 export function* deleteSeason({ seasonId }) {
 	try {
+		yield put(hideServerMessage());
+
 		const res = yield call(app.delete, `season/delete/${seasonId}`);
 		const message = yield call(parseMessage, res);
 
