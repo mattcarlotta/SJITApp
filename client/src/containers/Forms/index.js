@@ -8,6 +8,7 @@ export { default as SignupForm } from "./Auth/SignupForm";
 
 // member
 export { default as EditMemberForm } from "./Member/EditMemberForm";
+export { default as NewMemberForm } from "./Member/NewMemberForm";
 
 // season
 export { default as EditSeasonForm } from "./Season/EditSeasonForm";

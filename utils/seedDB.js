@@ -68,12 +68,21 @@ const seedDB = async () => {
 
     const memberPassword = await User.createPassword(password);
 
+    const staffMember = {
+      email: "staffmember@example.com",
+      password: memberPassword,
+      firstName: "Staff",
+      lastName: "Member",
+      role: "staff",
+      token: createRandomToken(),
+    };
+
     const member = {
       email: "member@example.com",
       password: memberPassword,
       firstName: "Member",
       lastName: "Member",
-      role: "member",
+      role: "employee",
       token: createRandomToken(),
     };
 
@@ -82,7 +91,7 @@ const seedDB = async () => {
       password: memberPassword,
       firstName: "Member2",
       lastName: "Member2",
-      role: "member",
+      role: "employee",
       token: createRandomToken(),
     };
 
@@ -91,7 +100,7 @@ const seedDB = async () => {
       password: memberPassword,
       firstName: "Member3",
       lastName: "Member3",
-      role: "member",
+      role: "employee",
       token: createRandomToken(),
     };
 
@@ -100,7 +109,7 @@ const seedDB = async () => {
       password: memberPassword,
       firstName: "Member4",
       lastName: "Member4",
-      role: "member",
+      role: "employee",
       token: createRandomToken(),
       status: "suspended",
     };
@@ -110,7 +119,7 @@ const seedDB = async () => {
       password: memberPassword,
       firstName: "Member5",
       lastName: "Member5",
-      role: "member",
+      role: "employee",
       token: createRandomToken(),
       status: "suspended",
     };
@@ -120,7 +129,7 @@ const seedDB = async () => {
       password: memberPassword,
       firstName: "Member6",
       lastName: "Member6",
-      role: "member",
+      role: "employee",
       token: createRandomToken(),
       status: "active",
     };
@@ -130,7 +139,7 @@ const seedDB = async () => {
       password: memberPassword,
       firstName: "Member7",
       lastName: "Member7",
-      role: "member",
+      role: "employee",
       token: createRandomToken(),
       status: "active",
     };
@@ -140,12 +149,13 @@ const seedDB = async () => {
       password: memberPassword,
       firstName: "Member8",
       lastName: "Member8",
-      role: "member",
+      role: "employee",
       token: createRandomToken(),
       status: "active",
     };
 
     await User.create(administrator);
+    await User.create(staffMember);
     await User.create(member);
     await User.create(member2);
     await User.create(member3);

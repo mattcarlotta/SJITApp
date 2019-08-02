@@ -18,7 +18,7 @@ const SideMenu = ({
 	openKeys,
 	selectedKey,
 }) => (
-	<Sider width={256} trigger={null} collapsible collapsed={isCollapsed}>
+	<Sider width={266} trigger={null} collapsible collapsed={isCollapsed}>
 		<Center style={{ height: 60 }}>
 			<Link to="/" style={{ padding: 0, margin: 0 }}>
 				{isCollapsed ? (

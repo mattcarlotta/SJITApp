@@ -17,6 +17,7 @@
 		"build": "better-npm-run build",
 		"test": "better-npm-run test",
 		"test:watch": "better-npm-run test:watch",
+		"test:watchall": "better-npm-run test:watchall",
 		"test:coverage": "better-npm-run test:coverage",
 		"format": "prettier --write 'src/**/*.js'",
 		"lintjs": "eslint 'src/**/*.js' --fix",
@@ -53,6 +54,12 @@
 		},
 		"test:watch": {
 			"command": "jest --config ./jest.json --watch --onlyChanged",
+			"env": {
+				"NODE_ENV": "testing"
+			}
+		},
+		"test:watchall": {
+			"command": "jest --config ./jest.json --watchAll",
 			"env": {
 				"NODE_ENV": "testing"
 			}

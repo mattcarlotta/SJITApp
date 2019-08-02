@@ -20,7 +20,7 @@ export default fields => {
 				errors = "Required.";
 			} else {
 				if (
-					name === "email" &&
+					(name === "email" || name === "authorizedEmail") &&
 					!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(field.value)
 				)
 					errors = "Invalid email.";

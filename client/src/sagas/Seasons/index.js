@@ -2,7 +2,7 @@ import { push } from "connected-react-router";
 import { all, put, call, takeLatest } from "redux-saga/effects";
 import { app } from "utils";
 import { hideServerMessage, setServerMessage } from "actions/Messages";
-import { setSeasonToEdit, setSeasons } from "actions/Seasons";
+import { setSeasonToEdit, setSeasons, setSeasonsIds } from "actions/Seasons";
 import { parseData, parseMessage } from "utils/parseResponse";
 import * as types from "types";
 
@@ -115,6 +115,30 @@ export function* fetchSeasons() {
 }
 
 /**
+ * Attempts to get all seasons ids.
+ *
+ * @generator
+ * @function fetchSeasonsIds
+ * @yields {object} - A response from a call to the API.
+ * @function parseData - Returns a parsed res.data.
+ * @yields {action} - A redux action to set season data to redux state.
+ * @throws {action} - A redux action to display a server message by type.
+ */
+
+export function* fetchSeasonsIds() {
+	try {
+		yield put(hideServerMessage());
+
+		const res = yield call(app.get, "seasons/all/ids");
+		const data = yield call(parseData, res);
+
+		yield put(setSeasonsIds(data));
+	} catch (e) {
+		yield put(setServerMessage({ type: "error", message: e.toString() }));
+	}
+}
+
+/**
  * Attempts to update an existing season.
  *
  * @generator
@@ -158,6 +182,7 @@ export default function* seasonsSagas() {
 		takeLatest(types.SEASONS_CREATE, createSeason),
 		takeLatest(types.SEASONS_DELETE, deleteSeason),
 		takeLatest(types.SEASONS_FETCH, fetchSeasons),
+		takeLatest(types.SEASONS_FETCH_IDS, fetchSeasonsIds),
 		takeLatest(types.SEASONS_UPDATE_EDIT, updateSeason),
 	]);
 }

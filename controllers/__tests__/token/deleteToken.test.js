@@ -75,7 +75,7 @@ describe("Delete Token Controller", () => {
 
     const newHire = {
       authorizedEmail: "deletehire@example.com",
-      role: "member",
+      role: "employee",
       seasonId: newSeason.seasonId,
       token: createSignupToken(),
     };

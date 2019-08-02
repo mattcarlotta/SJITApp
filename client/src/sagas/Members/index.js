@@ -1,4 +1,4 @@
-// import { push } from "connected-react-router";
+import { push } from "connected-react-router";
 import { all, put, call, takeLatest } from "redux-saga/effects";
 import { app } from "utils";
 import { hideServerMessage, setServerMessage } from "actions/Messages";
@@ -11,7 +11,7 @@ import * as types from "types";
  *
  * @generator
  * @function createMember
- * @param {object} props - props contain memberID and member fields.
+ * @param {object} props - props contain seasonId, role and authorized email fields.
  * @yields {object} - A response from a call to the API.
  * @function parseMessage - Returns a parsed res.data.message.
  * @yields {action} - A redux action to display a server message by type.
@@ -19,23 +19,23 @@ import * as types from "types";
  * @throws {action} - A redux action to display a server message by type.
  */
 
-// export function* createMember({ props }) {
-// 	try {
-// 		const res = yield call(app.post, "member/create", { ...props });
-// 		const message = yield call(parseMessage, res);
+export function* createMember({ props }) {
+	try {
+		const res = yield call(app.post, "token/create", { ...props });
+		const message = yield call(parseMessage, res);
 
-// 		yield put(
-// 			setServerMessage({
-// 				type: "success",
-// 				message,
-// 			}),
-// 		);
+		yield put(
+			setServerMessage({
+				type: "success",
+				message,
+			}),
+		);
 
-// 		yield put(push("/employee/members/viewall"));
-// 	} catch (e) {
-// 		yield put(setServerMessage({ type: "error", message: e.toString() }));
-// 	}
-// }
+		yield put(push("/employee/members/authorizations"));
+	} catch (e) {
+		yield put(setServerMessage({ type: "error", message: e.toString() }));
+	}
+}
 
 /**
  * Attempts to create a new member.
@@ -187,7 +187,7 @@ export function* updateMemberStatus({ props }) {
  */
 export default function* membersSagas() {
 	yield all([
-		// takeLatest(types.MEMBERS_CREATE, createMember),
+		takeLatest(types.MEMBERS_CREATE, createMember),
 		takeLatest(types.MEMBERS_DELETE, deleteMember),
 		takeLatest(types.MEMBERS_REVIEW, fetchProfile),
 		takeLatest(types.MEMBERS_FETCH, fetchMembers),

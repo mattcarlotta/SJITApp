@@ -6,7 +6,7 @@ const session = {
     email: "test@example.com",
     firstName: "Beta",
     lastName: "Tester",
-    role: "member",
+    role: "employee",
   },
 };
 

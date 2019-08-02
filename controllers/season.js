@@ -1,3 +1,4 @@
+import isEmpty from "lodash/isEmpty";
 import { Season } from "models";
 import { sendError } from "shared/helpers";
 
@@ -35,7 +36,6 @@ const deleteSeason = async (req, res) => {
 
 const getAllSeasons = async (_, res) => {
   const seasons = await Season.aggregate([
-    { $match: {} },
     {
       $project: {
         members: { $size: "$members" },
@@ -47,6 +47,21 @@ const getAllSeasons = async (_, res) => {
   ]);
 
   res.status(200).json({ seasons });
+};
+
+const getAllSeasonIds = async (_, res) => {
+  try {
+    const seasons = await Season.aggregate([
+      { $group: { _id: null, seasonIds: { $addToSet: "$seasonId" } } },
+      { $project: { _id: 0, seasonIds: 1 } },
+    ]);
+
+    if (isEmpty(seasons)) throw "You must create a season first before you can start adding members.";
+
+    res.status(200).send({ seasonIds: seasons[0].seasonIds });
+  } catch (err) {
+    return sendError(err, res);
+  }
 };
 
 const getSeason = async (req, res) => {
@@ -83,5 +98,10 @@ const updateSeason = async (req, res) => {
 };
 
 export {
-  createSeason, deleteSeason, getAllSeasons, getSeason, updateSeason,
+  createSeason,
+  deleteSeason,
+  getAllSeasons,
+  getAllSeasonIds,
+  getSeason,
+  updateSeason,
 };

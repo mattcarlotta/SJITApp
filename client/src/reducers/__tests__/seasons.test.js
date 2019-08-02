@@ -26,6 +26,7 @@ describe("Season Reducer", () => {
 		expect(state).toEqual({
 			data: mocks.seasonsData,
 			editSeason: {},
+			ids: [],
 			isLoading: false,
 		});
 	});
@@ -65,6 +66,7 @@ describe("Season Reducer", () => {
 		expect(state).toEqual({
 			data: [],
 			editSeason: mocks.seasonsData,
+			ids: [],
 			isLoading: false,
 		});
 	});

@@ -9,6 +9,7 @@ import {
 	NewSeason,
 	NewTemplate,
 	Schedule,
+	ViewAuthorizations,
 	ViewEvents,
 	ViewForms,
 	ViewMemberProfile,
@@ -23,7 +24,7 @@ import {
 	MemberForms,
 	MemberProfile,
 	MemberSchedule,
-} from "pages/Members";
+} from "pages/Employee";
 
 const initProps = {
 	match: {
@@ -39,8 +40,8 @@ describe("Application routes", () => {
 	});
 
 	describe("Staff and Admin routes", () => {
-		it("initially renders 18 routes", () => {
-			expect(wrapper.find("Route")).toHaveLength(18);
+		it("initially renders 19 routes", () => {
+			expect(wrapper.find("Route")).toHaveLength(19);
 		});
 
 		it("routes to Dashboard", () => {
@@ -97,6 +98,14 @@ describe("Application routes", () => {
 					.find("Route[exact=true][path='/employee/members/view/:id']")
 					.prop("component"),
 			).toBe(ViewMemberProfile);
+		});
+
+		it("routes to ViewAuthorizations", () => {
+			expect(
+				wrapper
+					.find("Route[exact=true][path='/employee/members/authorizations']")
+					.prop("component"),
+			).toBe(ViewAuthorizations);
 		});
 
 		it("routes to ViewMembers", () => {
@@ -183,7 +192,7 @@ describe("Application routes", () => {
 			expect(
 				wrapper
 					.find("Route")
-					.at(17)
+					.at(18)
 					.prop("component"),
 			).toBe(AppPageNotFound);
 		});

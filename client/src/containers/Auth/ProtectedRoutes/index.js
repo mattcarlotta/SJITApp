@@ -29,7 +29,7 @@ export class ProtectedRoutes extends PureComponent {
 							path={`${match.url}/resetpassword`}
 							component={ResetPasswordForm}
 						/>
-						<Route exact path={`${match.url}/signup`} component={SignupForm} />
+						<Route path={`${match.url}/signup`} component={SignupForm} />
 						<Route path={`${match.url}`} component={AppLoader} />
 					</Switch>
 				) : (

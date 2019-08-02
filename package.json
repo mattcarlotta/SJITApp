@@ -31,7 +31,8 @@
     "test:backwatch": "better-npm-run test:backwatch",
     "test:front": "npm run test --prefix client",
     "test:frontcov": "npm run test:coverage --prefix client",
-    "test:frontwatch": "npm run test:watch --prefix client"
+    "test:frontwatch": "npm run test:watch --prefix client",
+    "test:frontwatchall": "npm run test:watchall --prefix client"
   },
   "betterScripts": {
     "db:drop": {

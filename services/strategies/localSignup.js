@@ -1,7 +1,9 @@
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import mailer from "@sendgrid/mail";
+import moment from "moment";
 import {
+  expiredToken,
   invalidSignupEmail,
   invalidToken,
   missingSignupCreds,
@@ -37,7 +39,10 @@ passport.use(
         // check to see if the email is already in use
         if (validToken.email) throw tokenAlreadyUsed;
 
-        // TODO: Make sure validToken.seasonId is still valid
+        // check to see if the token has expired
+        const todaysDate = moment(Date.now()).utcOffset(-7);
+        if (todaysDate > validToken.expiration) throw expiredToken;
+
         // find currently selected season
         const season = await Season.findOne({
           seasonId: validToken.seasonId,

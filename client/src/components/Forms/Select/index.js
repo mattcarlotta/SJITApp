@@ -9,14 +9,28 @@ import SelectBox from "./SelectBox";
 import SelectContainer from "./SelectContainer";
 import Options from "./Options";
 
-const Select = ({ errors, name, label, selectOptions, value, ...props }) => (
+const Select = ({
+	disabled,
+	errors,
+	name,
+	label,
+	selectOptions,
+	value,
+	...props
+}) => (
 	<Container>
 		<Label name={name} label={label} htmlFor={name} />
-		<ClickHandler onChange={props.onChange}>
+		<ClickHandler disabled={disabled} onChange={props.onChange}>
 			{handlers => (
 				<SelectContainer>
 					<SelectBox>
-						<Selection {...handlers} {...props} errors={errors} value={value} />
+						<Selection
+							{...handlers}
+							{...props}
+							disabled={disabled}
+							errors={errors}
+							value={value}
+						/>
 						<Options
 							{...handlers}
 							name={name}
@@ -32,6 +46,7 @@ const Select = ({ errors, name, label, selectOptions, value, ...props }) => (
 );
 
 Select.propTypes = {
+	disabled: PropTypes.bool,
 	errors: PropTypes.string,
 	name: PropTypes.string.isRequired,
 	label: PropTypes.string.isRequired,

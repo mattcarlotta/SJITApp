@@ -121,7 +121,7 @@ describe("Local Login Middleware", () => {
         email: "member@example.com",
         firstName: "Member",
         lastName: "Member",
-        role: "member",
+        role: "employee",
       },
     };
 

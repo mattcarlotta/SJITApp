@@ -15,7 +15,9 @@ export const SEASONS_SET_EDIT = "SEASON/SET_EDIT";
 export const SEASONS_UPDATE_EDIT = "SEASON/UPDATE_EDIT";
 export const SEASONS_CREATE = "SEASONS/CREATE";
 export const SEASONS_FETCH = "SEASONS/FETCH";
+export const SEASONS_FETCH_IDS = "SEASONS/FETCH_IDS";
 export const SEASONS_SET = "SEASONS/SET";
+export const SEASONS_SET_IDS = "SEASONS/SET_IDS";
 
 // server messages
 export const MESSAGE_HIDE = "MESSAGE/HIDE";

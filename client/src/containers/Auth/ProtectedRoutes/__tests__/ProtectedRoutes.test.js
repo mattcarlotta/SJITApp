@@ -26,7 +26,7 @@ describe("Protected Routes Middleware", () => {
 	});
 
 	it("renders the App if authenticated", () => {
-		wrapper.setProps({ role: "member" });
+		wrapper.setProps({ role: "employee" });
 		expect(wrapper.find("App")).toBeTruthy();
 	});
 
@@ -53,9 +53,7 @@ describe("Protected Routes Middleware", () => {
 
 		it("routes to SignupForm", () => {
 			expect(
-				wrapper
-					.find("Route[exact=true][path='/employee/signup']")
-					.prop("component"),
+				wrapper.find("Route[path='/employee/signup']").prop("component"),
 			).toBe(SignupForm);
 		});
 

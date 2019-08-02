@@ -13,6 +13,7 @@ import {
 	FaUserPlus,
 	FaUserFriends,
 	FaListAlt,
+	FaKey,
 } from "react-icons/fa";
 import { MdEvent, MdNoteAdd, MdEventNote, MdDashboard } from "react-icons/md";
 import { GoCalendar } from "react-icons/go";
@@ -43,6 +44,11 @@ export default [
 		tab: "members",
 		submenu: [
 			{ key: "members/create", component: FaUserPlus, tab: "Create Member" },
+			{
+				key: "members/authorizations",
+				component: FaKey,
+				tab: "View Authorizations",
+			},
 			{ key: "members/viewall", component: FaUsers, tab: "View Members" },
 		],
 	},

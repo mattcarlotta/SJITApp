@@ -36,6 +36,6 @@ export default [
 		value: "",
 		errors: "",
 		required: true,
-		selectOptions: ["staff", "member"],
+		selectOptions: ["staff", "employee"],
 	},
 ];

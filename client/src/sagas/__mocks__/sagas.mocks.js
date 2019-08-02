@@ -9,7 +9,7 @@ export const userSession = {
 	email: "test@example.com",
 	firstName: "Beta",
 	lastName: "Tester",
-	role: "member",
+	role: "staff",
 };
 
 export const resetPassword = {
@@ -49,7 +49,7 @@ export const membersData = [
 		_id: "1234567890",
 		firstName: "Beta",
 		lastName: "Tester",
-		role: "member",
+		role: "employee",
 		email: "member@example.com",
 		registered: "2000-10-06T07:00:00.000+00:00",
 		events: 0,

@@ -42,7 +42,7 @@ describe("Create Token Controller", () => {
   it("handles requests with invalid seasonIds", async () => {
     const invalidSeason = {
       authorizedEmail: "test@example.com",
-      role: "member",
+      role: "employee",
       seasonId: "00000000",
     };
 
@@ -59,7 +59,7 @@ describe("Create Token Controller", () => {
   it("handles requests with invalid bodies", async () => {
     const invalidSeason = {
       authorizedEmail: { email: "test@example.com" },
-      role: "member",
+      role: "employee",
       seasonId: "20002001",
     };
 
@@ -76,7 +76,7 @@ describe("Create Token Controller", () => {
   it("handles requests with emails that are already associated with an active account", async () => {
     const emailInUse = {
       authorizedEmail: "member@example.com",
-      role: "member",
+      role: "employee",
       seasonId: "20002001",
     };
 
@@ -100,7 +100,7 @@ describe("Create Token Controller", () => {
 
     const newHire = {
       authorizedEmail: "newhire@example.com",
-      role: "member",
+      role: "employee",
       seasonId: newSeason.seasonId,
     };
 

@@ -155,6 +155,7 @@ describe("Season Sagas", () => {
 				.hasFinalState({
 					data: [],
 					editSeason: mocks.seasonsData,
+					ids: [],
 					isLoading: false,
 				})
 				.run();
@@ -205,6 +206,7 @@ describe("Season Sagas", () => {
 				.hasFinalState({
 					data: mocks.seasonsData,
 					editSeason: {},
+					ids: [],
 					isLoading: false,
 				})
 				.run();

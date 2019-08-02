@@ -19,6 +19,7 @@ class ClickHandler extends Component {
 	handleTabPress = ({ key, target }) => {
 		if (key === "Tab") {
 			if (
+				!this.props.disabled &&
 				!this.state.isVisible &&
 				this.wrapperRef &&
 				this.wrapperRef.contains(target)
@@ -26,6 +27,7 @@ class ClickHandler extends Component {
 				this.handleOpen();
 			} else {
 				if (
+					!this.props.disabled &&
 					this.state.isVisible &&
 					this.wrapperRef &&
 					!this.wrapperRef.contains(target)
@@ -38,6 +40,7 @@ class ClickHandler extends Component {
 
 	handleClickOutside = ({ target }) => {
 		if (
+			!this.props.disabled &&
 			this.state.isVisible &&
 			this.wrapperRef &&
 			!this.wrapperRef.contains(target)
@@ -76,6 +79,7 @@ class ClickHandler extends Component {
 }
 
 ClickHandler.propTypes = {
+	disabled: PropTypes.bool,
 	onChange: PropTypes.func.isRequired,
 	children: PropTypes.func.isRequired,
 };

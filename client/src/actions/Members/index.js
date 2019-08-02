@@ -5,13 +5,13 @@ import * as types from "types";
  * Creates a new member.
  *
  * @function createMember
- * @param {object} props - props just contain an memberId and member duration fields.
+ * @param {object} props - props contain seasonId, role and authorized email fields.
  * @returns {object}
  */
-// export const createMember = props => ({
-// 	type: types.MEMBERS_CREATE,
-// 	props,
-// });
+export const createMember = props => ({
+	type: types.MEMBERS_CREATE,
+	props,
+});
 
 /**
  * Deletes a new member.

@@ -1,9 +1,9 @@
 import NewMember from "../index";
 
-const wrapper = mount(<NewMember />);
+const wrapper = HOCWrap(NewMember);
 
-describe("NewMember Page", () => {
+describe("New Member Page", () => {
 	it("renders without errors", () => {
-		expect(wrapper.find("NewMember").exists).toBeTruthy();
+		expect(wrapper.find("Card").exists).toBeTruthy();
 	});
 });

@@ -48,6 +48,16 @@ export const fetchSeasons = () => ({
 });
 
 /**
+ * Fetches all seasons ids.
+ *
+ * @function fetchSeasons
+ * @returns {object}
+ */
+export const fetchSeasonsIds = () => ({
+	type: types.SEASONS_FETCH_IDS,
+});
+
+/**
  * Sets any seasons from API to redux state
  *
  * @function setSeasons
@@ -56,6 +66,18 @@ export const fetchSeasons = () => ({
  */
 export const setSeasons = data => ({
 	type: types.SEASONS_SET,
+	payload: !isEmpty(data) ? data : [],
+});
+
+/**
+ * Sets any seasons ids from API to redux state
+ *
+ * @function setSeasonsIds
+ * @param {object} data - contains season data ([id]).
+ * @returns {object}
+ */
+export const setSeasonsIds = data => ({
+	type: types.SEASONS_SET_IDS,
 	payload: !isEmpty(data) ? data : [],
 });
 

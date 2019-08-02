@@ -5,7 +5,7 @@ export default (req, res, next) => {
   const user = get(req, ["session", "user"]);
   const role = get(user, ["role"]);
 
-  if (!user || (role !== "admin" && role !== "supervisor")) return res.status(401).send({ err: badCredentials });
+  if (!user || (role !== "admin" && role !== "staff")) return res.status(401).send({ err: badCredentials });
 
   next();
 };

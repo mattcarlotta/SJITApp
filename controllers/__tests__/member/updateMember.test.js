@@ -40,7 +40,7 @@ describe("Update Member Controller", () => {
       email: "test@example.com",
       firstName: "Beta",
       lastName: "Tester",
-      role: "member",
+      role: "employee",
     };
     const res = mockResponse();
     const req = mockRequest(null, null, invalidMember);
@@ -61,7 +61,7 @@ describe("Update Member Controller", () => {
       email: "carlotta.matt@gmail.com",
       firstName: "Matt",
       lastName: "Carlotta",
-      role: "member",
+      role: "employee",
     };
 
     const res = mockResponse();

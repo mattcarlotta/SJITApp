@@ -8,6 +8,8 @@ const emailAlreadyTaken = "That email is already in use and is associated with a
 
 const emptyPassword = "You must supply a new password in order to reset the old. Please try again.";
 
+const expiredToken = "The authorization key that was provided has expired. Please contact the staff supervisor to issue a new key.";
+
 const invalidAuthTokenRequest = "You must supply an email, a role, and a season before you can create an authorization token.";
 
 const invalidDeleteTokenRequest = "Unable to delete the authorization key. The supplied authorization key does not exist.";
@@ -44,6 +46,7 @@ export {
   badCredentials,
   emailAlreadyTaken,
   emptyPassword,
+  expiredToken,
   invalidAuthTokenRequest,
   invalidDeleteTokenRequest,
   invalidEmail,

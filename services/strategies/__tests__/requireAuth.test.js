@@ -34,7 +34,7 @@ describe("Require Authentication Middleware", () => {
         email: "test@example.com",
         firstName: "Beta",
         lastName: "Tester",
-        role: "member",
+        role: "staff",
       },
     };
 

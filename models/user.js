@@ -9,7 +9,7 @@ const userSchema = new Schema({
     lowercase: true,
   },
   events: [{ type: Schema.Types.ObjectId, ref: "Event" }],
-  role: { type: String, default: "member" },
+  role: { type: String, default: "employee" },
   status: { type: String, default: "active" },
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },

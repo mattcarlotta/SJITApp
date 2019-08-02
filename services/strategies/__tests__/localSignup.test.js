@@ -19,7 +19,7 @@ const newSeason = {
 
 const newHire = {
   authorizedEmail: "signuptoken@example.com",
-  role: "member",
+  role: "employee",
   seasonId: "20402041",
   token: createSignupToken(),
 };

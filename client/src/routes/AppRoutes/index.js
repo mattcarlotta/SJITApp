@@ -12,6 +12,7 @@ import {
 	NewSeason,
 	NewTemplate,
 	Schedule,
+	ViewAuthorizations,
 	ViewEvents,
 	ViewForms,
 	ViewMemberProfile,
@@ -26,7 +27,7 @@ import {
 	MemberForms,
 	MemberProfile,
 	MemberSchedule,
-} from "pages/Members";
+} from "pages/Employee";
 
 const AppRoutes = ({ match: { url }, role }) =>
 	role === "staff" || role === "admin" ? (
@@ -44,6 +45,12 @@ const AppRoutes = ({ match: { url }, role }) =>
 				path={`${url}/members/view/:id`}
 				component={ViewMemberProfile}
 			/>
+			<Route
+				exact
+				path={`${url}/members/authorizations`}
+				component={ViewAuthorizations}
+			/>
+			}
 			<Route exact path={`${url}/members/viewall`} component={ViewMembers} />
 			<Route exact path={`${url}/schedule`} component={Schedule} />
 			<Route exact path={`${url}/seasons/create`} component={NewSeason} />

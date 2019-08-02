@@ -1,4 +1,5 @@
 import mailer from "@sendgrid/mail";
+import moment from "moment";
 import { sendError, createSignupToken } from "shared/helpers";
 import {
   emailAlreadyTaken,
@@ -7,27 +8,32 @@ import {
   invalidSeasonId,
 } from "shared/authErrors";
 import { newAuthorizationKeyTemplate } from "services/templates";
-import { Token, Season } from "models";
+import { Token, Season, User } from "models";
 
 const { CLIENT } = process.env;
 
 const createToken = async (req, res) => {
-  const { authorizedEmail, role, seasonId } = req.body;
-
-  if (!authorizedEmail || !role || !seasonId) {
-    return sendError(invalidAuthTokenRequest, res);
-  }
-
   try {
+    const { authorizedEmail, role, seasonId } = req.body;
+    if (!authorizedEmail || !role || !seasonId) throw invalidAuthTokenRequest;
+
     const seasonExists = await Season.findOne({ seasonId });
-    if (!seasonExists) return sendError(invalidSeasonId, res);
+    if (!seasonExists) throw invalidSeasonId;
+
+    const accountExists = await User.findOne({ email: authorizedEmail });
+    if (accountExists) throw emailAlreadyTaken;
 
     const emailExists = await Token.findOne({ authorizedEmail });
-    if (emailExists) return sendError(emailAlreadyTaken, res);
+    if (emailExists) throw "That email is already associated with another authorization key. Please delete the old authorization key or use a different email.";
 
     const token = createSignupToken();
+    const expiration = moment(Date.now())
+      .add(90, "days")
+      .endOf("day");
+
     await Token.create({
       authorizedEmail,
+      expiration: expiration.toDate(),
       token,
       role,
       seasonId,
@@ -38,10 +44,9 @@ const createToken = async (req, res) => {
       from: "San Jose Sharks Ice Team <noreply@sjsiceteam.com>",
       subject:
         "Congratulations, you have been selected to join the San Jose Sharks Ice Team!",
-      html: newAuthorizationKeyTemplate(CLIENT, token),
+      html: newAuthorizationKeyTemplate(CLIENT, token, expiration.calendar()),
     };
 
-    // attempts to resend a verification email to an existing user
     await mailer.send(msg);
 
     res.status(201).json({
@@ -53,15 +58,12 @@ const createToken = async (req, res) => {
 };
 
 const deleteToken = async (req, res) => {
-  const { id } = req.params;
-
-  if (!id) {
-    return sendError(invalidDeleteTokenRequest, res);
-  }
-
   try {
+    const { id } = req.params;
+    if (!id) throw invalidDeleteTokenRequest;
+
     const token = await Token.findOne({ _id: id });
-    if (!token) return sendError(invalidDeleteTokenRequest, res);
+    if (!token) throw invalidDeleteTokenRequest;
 
     const { _id } = token;
     await Token.deleteOne({ _id });
@@ -74,7 +76,7 @@ const deleteToken = async (req, res) => {
   }
 };
 
-const getAllTokens = async (req, res) => {
+const getAllTokens = async (_, res) => {
   const tokens = await Token.find({});
   res.status(201).json({ tokens });
 };

@@ -23,14 +23,14 @@ describe("Get All Tokens Controller", () => {
 
     const newHire1 = {
       authorizedEmail: "test88@example.com",
-      role: "member",
+      role: "employee",
       seasonId: newSeason.seasonId,
       token: createSignupToken(),
     };
 
     const newHire2 = {
       authorizedEmail: "test1884@example.com",
-      role: "member",
+      role: "employee",
       seasonId: newSeason.seasonId,
       token: createSignupToken(),
     };

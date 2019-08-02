@@ -9,7 +9,7 @@ const viewMember = {
 	events: [],
 	firstName: "test",
 	lastName: "example",
-	role: "member",
+	role: "employee",
 	registered: "2019-07-26T16:56:40.518+00:00",
 	schedule: [],
 	status: "active",

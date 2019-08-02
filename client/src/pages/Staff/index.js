@@ -13,6 +13,7 @@ export { default as ViewForms } from "./Forms/ViewForms";
 
 // members
 export { default as NewMember } from "./Members/NewMember";
+export { default as ViewAuthorizations } from "./Members/ViewAuthorizations";
 export { default as ViewMemberProfile } from "./Members/ViewMemberProfile";
 export { default as ViewMembers } from "./Members/ViewMembers";
 

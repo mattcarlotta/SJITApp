@@ -23,7 +23,7 @@ export default styled(Input)`
 		}
 
 		&::placeholder {
-			color: #bbb;
+			color: #d3dce6;
 		}
 
 		&:focus {

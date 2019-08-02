@@ -3,6 +3,7 @@ import Option from "./Option";
 
 export default styled(Option)`
 	cursor: pointer;
+	border-radius: 4px;
 	color: ${({ selected, value }) =>
 		selected === value ? "#0f7ae5" : "#282c34"};
 	background-color: ${({ selected, value }) =>

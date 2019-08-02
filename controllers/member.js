@@ -22,7 +22,7 @@ const deleteMember = async (req, res) => {
 
 const getAllMembers = async (_, res) => {
   const members = await User.aggregate([
-    { $match: {} },
+    { $match: { role: { $ne: "admin" } } },
     {
       $project: {
         events: { $size: "$events" },

@@ -1,5 +1,6 @@
 import React from "react";
+import { NewMemberForm } from "containers/Forms";
 
-const NewMemberPage = () => <h1>Create Member</h1>;
+const NewMemberPage = () => <NewMemberForm />;
 
 export default NewMemberPage;

@@ -7,6 +7,7 @@ import SelectionContainer from "../SelectionContainer";
 import SelectText from "../SelectText";
 
 const Selection = ({
+	disabled,
 	errors,
 	handleSelectClick,
 	icon,
@@ -17,12 +18,13 @@ const Selection = ({
 }) => (
 	<SelectionContainer
 		tabIndex={0}
+		disabled={disabled}
 		errors={errors}
 		isVisible={isVisible}
 		width={width}
 		value={value}
 	>
-		<SelectText handleSelectClick={handleSelectClick}>
+		<SelectText handleSelectClick={!disabled ? handleSelectClick : null}>
 			{icon && <Icon style={{ top: 0 }} type={icon} />}
 			<DisplayOption icon={icon} value={value}>
 				<span className="selectValue">{!value ? placeholder : value}</span>
@@ -33,6 +35,7 @@ const Selection = ({
 );
 
 Selection.propTypes = {
+	disabled: PropTypes.bool,
 	errors: PropTypes.string,
 	handleSelectClick: PropTypes.func.isRequired,
 	icon: PropTypes.string,

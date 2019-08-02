@@ -35,7 +35,7 @@ describe("Require Staff Role Authentication Middleware", () => {
         email: "test@example.com",
         firstName: "Beta",
         lastName: "Tester",
-        role: "supervisor",
+        role: "staff",
       },
     };
 
