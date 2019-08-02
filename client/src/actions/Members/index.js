@@ -26,6 +26,18 @@ export const deleteMember = memberId => ({
 });
 
 /**
+ * Deletes a new member.
+ *
+ * @function deleteToken
+ * @param {string} tokenId
+ * @returns {object}
+ */
+export const deleteToken = tokenId => ({
+	type: types.MEMBERS_DELETE_TOKEN,
+	tokenId,
+});
+
+/**
  * Fetches a single member.
  *
  * @function fetchMember
@@ -45,6 +57,28 @@ export const fetchMember = memberId => ({
  */
 export const fetchMembers = () => ({
 	type: types.MEMBERS_FETCH,
+});
+
+/**
+ * Fetches a single token for editing.
+ *
+ * @function fetchToken
+ * @param {string} tokenId
+ * @returns {object}
+ */
+export const fetchToken = tokenId => ({
+	type: types.MEMBERS_FETCH_TOKEN,
+	tokenId,
+});
+
+/**
+ * Fetches all tokens.
+ *
+ * @function fetchTokens
+ * @returns {object}
+ */
+export const fetchTokens = () => ({
+	type: types.MEMBERS_FETCH_TOKENS,
 });
 
 /**
@@ -72,6 +106,30 @@ export const setMemberToReview = data => ({
 });
 
 /**
+ * Sets token from API to redux state.
+ *
+ * @function setToken
+ * @param {object} data - contains token data ([id, authorizedEmail, role, seasonId, token]).
+ * @returns {object}
+ */
+export const setToken = data => ({
+	type: types.MEMBERS_SET_TOKEN,
+	payload: !isEmpty(data) ? data : [],
+});
+
+/**
+ * Sets all tokens from API to redux state.
+ *
+ * @function setTokens
+ * @param {object} data - contains token data ([id, authorizedEmail, role, seasonId, token]).
+ * @returns {object}
+ */
+export const setTokens = data => ({
+	type: types.MEMBERS_SET_TOKENS,
+	payload: !isEmpty(data) ? data : [],
+});
+
+/**
  * Updates a single member.
  *
  * @function updateMember
@@ -92,5 +150,17 @@ export const updateMember = props => ({
  */
 export const updateMemberStatus = props => ({
 	type: types.MEMBERS_UPDATE_STATUS,
+	props,
+});
+
+/**
+ * Updates a single member status.
+ *
+ * @function updateMemberToken
+ * @param {object} props - contains id, seasonId, role and authorizedEmail.
+ * @returns {object}
+ */
+export const updateMemberToken = props => ({
+	type: types.MEMBERS_UPDATE_TOKEN,
 	props,
 });

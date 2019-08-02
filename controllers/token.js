@@ -1,6 +1,5 @@
 import mailer from "@sendgrid/mail";
-import moment from "moment";
-import { sendError, createSignupToken } from "shared/helpers";
+import { sendError, createSignupToken, expirationDate } from "shared/helpers";
 import {
   emailAlreadyTaken,
   invalidAuthTokenRequest,
@@ -27,9 +26,7 @@ const createToken = async (req, res) => {
     if (emailExists) throw "That email is already associated with another authorization key. Please delete the old authorization key or use a different email.";
 
     const token = createSignupToken();
-    const expiration = moment(Date.now())
-      .add(90, "days")
-      .endOf("day");
+    const expiration = expirationDate();
 
     await Token.create({
       authorizedEmail,
@@ -77,8 +74,48 @@ const deleteToken = async (req, res) => {
 };
 
 const getAllTokens = async (_, res) => {
-  const tokens = await Token.find({});
+  const tokens = await Token.aggregate([
+    {
+      $project: {
+        __v: 0,
+      },
+    },
+  ]);
+
   res.status(201).json({ tokens });
 };
 
-export { createToken, deleteToken, getAllTokens };
+const getToken = async (req, res) => {
+  try {
+    const { id: _id } = req.params;
+    if (!_id) throw "You must include a tokenId.";
+
+    const existingToken = await Token.findOne({ _id }, { __v: 0, token: 0 });
+    if (!existingToken) throw `Unable to locate the token: ${_id}.`;
+    if (existingToken.email) throw "Unable to edit the authorization key. This key has already been used and is associated with an active account.";
+
+    res.status(200).json({ token: existingToken });
+  } catch (err) {
+    return sendError(err, res);
+  }
+};
+
+const updateToken = async (req, res) => {
+  try {
+    const { authorizedEmail, role, seasonId } = req.body;
+    if (!authorizedEmail || !role || !seasonId) throw invalidAuthTokenRequest;
+
+    throw "Route not setup.";
+
+    // const existingToken = await Token.findOne({ _id });
+    // if (!existingToken) throw `Unable to locate the token: ${_id}.`;
+
+    // res.status(200).json({ token: existingToken });
+  } catch (err) {
+    return sendError(err, res);
+  }
+};
+
+export {
+  createToken, deleteToken, getAllTokens, getToken, updateToken,
+};

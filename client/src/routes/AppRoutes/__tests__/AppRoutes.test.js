@@ -2,6 +2,7 @@ import AppRoutes from "../index";
 import { AppPageNotFound, Contact, Help, Settings } from "pages";
 import {
 	Dashboard,
+	EditAuthorization,
 	EditSeason,
 	NewEvent,
 	NewForm,
@@ -40,8 +41,8 @@ describe("Application routes", () => {
 	});
 
 	describe("Staff and Admin routes", () => {
-		it("initially renders 19 routes", () => {
-			expect(wrapper.find("Route")).toHaveLength(19);
+		it("initially renders 20 routes", () => {
+			expect(wrapper.find("Route")).toHaveLength(20);
 		});
 
 		it("routes to Dashboard", () => {
@@ -103,9 +104,21 @@ describe("Application routes", () => {
 		it("routes to ViewAuthorizations", () => {
 			expect(
 				wrapper
-					.find("Route[exact=true][path='/employee/members/authorizations']")
+					.find(
+						"Route[exact=true][path='/employee/members/authorizations/viewall']",
+					)
 					.prop("component"),
 			).toBe(ViewAuthorizations);
+		});
+
+		it("routes to EditAuthorization", () => {
+			expect(
+				wrapper
+					.find(
+						"Route[exact=true][path='/employee/members/authorizations/edit/:id']",
+					)
+					.prop("component"),
+			).toBe(EditAuthorization);
 		});
 
 		it("routes to ViewMembers", () => {
@@ -192,7 +205,7 @@ describe("Application routes", () => {
 			expect(
 				wrapper
 					.find("Route")
-					.at(18)
+					.at(19)
 					.prop("component"),
 			).toBe(AppPageNotFound);
 		});

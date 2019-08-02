@@ -77,6 +77,16 @@ const createSignupToken = () => tokenGenerator(
 const endofMonth = () => moment().endOf("month");
 
 /**
+ * Helper function to get 90 days date from current date.
+ *
+ * @function
+ * @returns {month}
+ */
+const expirationDate = () => moment(Date.now())
+  .add(90, "days")
+  .endOf("day");
+
+/**
  * Helper function to send an error to the client.
  *
  * @function
@@ -92,5 +102,6 @@ export {
   createUniqueTemplateName,
   currentDate,
   endofMonth,
+  expirationDate,
   sendError,
 };

@@ -12,13 +12,11 @@ describe("Display Status", () => {
 
 	it("if status is active, it displays a FaUser icon", () => {
 		expect(wrapper.find("FaUser").exists()).toBeTruthy();
-		expect(wrapper.find("span").text()).toContain("(active)");
 	});
 
 	it("if status is suspended, it displays a FaUserTimes icon", () => {
 		wrapper.setProps({ status: "suspended" });
 
 		expect(wrapper.find("FaUserTimes").exists()).toBeTruthy();
-		expect(wrapper.find("span").text()).toContain("(suspended)");
 	});
 });

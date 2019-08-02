@@ -1,18 +1,34 @@
 import React, { Fragment } from "react";
+import PropTypes from "prop-types";
 import Helmet from "react-helmet";
-import { Link } from "react-router-dom";
-import { Center, Container } from "components/Body";
+import { connect } from "react-redux";
+import { goBack } from "connected-react-router";
+import { Button, Container, Center, Title } from "components/Body";
 
-const NotFound = () => (
+export const NotFound = ({ goBack }) => (
 	<Fragment>
 		<Helmet title="Page Not Found" />
 		<Container>
 			<Center>
-				<h1>404 - Page Not Found!</h1>
-				<Link to="/employee/dashboard">Go Back</Link>
+				<Title>404 - Page Not Found!</Title>
+				<Button
+					primary
+					width="200px"
+					style={{ margin: "0 auto" }}
+					onClick={() => goBack()}
+				>
+					Go Back
+				</Button>
 			</Center>
 		</Container>
 	</Fragment>
 );
 
-export default NotFound;
+NotFound.propTypes = {
+	goBack: PropTypes.func.isRequired,
+};
+
+export default connect(
+	null,
+	{ goBack },
+)(NotFound);

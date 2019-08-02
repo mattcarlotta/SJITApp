@@ -1,9 +1,20 @@
-import AppPageNotFound from "../index";
+import { NotFound } from "../index";
 
-const wrapper = shallow(<AppPageNotFound />);
+const goBack = jest.fn();
+
+const initProps = {
+	goBack,
+};
+
+const wrapper = shallow(<NotFound {...initProps} />);
 
 describe("AppPageNotFound Page", () => {
 	it("renders without errors", () => {
-		expect(wrapper.find("AppPageNotFound").exists).toBeTruthy();
+		expect(wrapper.find("Container").exists).toBeTruthy();
+	});
+
+	it("goes back to previous page", () => {
+		wrapper.find("Button").simulate("click");
+		expect(goBack).toHaveBeenCalledTimes(1);
 	});
 });

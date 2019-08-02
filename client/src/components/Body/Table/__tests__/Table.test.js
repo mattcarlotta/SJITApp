@@ -128,18 +128,6 @@ describe("Custom Table", () => {
 					.at(2)
 					.text(),
 			).toEqual("8/6/2001");
-			expect(
-				wrapper
-					.find("td")
-					.at(3)
-					.text(),
-			).toEqual(`${data[0].members}`);
-			expect(
-				wrapper
-					.find("td")
-					.at(4)
-					.text(),
-			).toEqual(`(${data[0].status})`);
 		});
 
 		it("filters the table by searchText, as well as clears the table filters", () => {

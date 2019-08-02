@@ -154,6 +154,8 @@ describe("member Sagas", () => {
 				.withReducer(memberReducer)
 				.hasFinalState({
 					data: [],
+					tokens: [],
+					editToken: {},
 					isLoading: false,
 					viewMember: mocks.membersData,
 				})
@@ -204,6 +206,8 @@ describe("member Sagas", () => {
 				.withReducer(memberReducer)
 				.hasFinalState({
 					data: mocks.membersData,
+					tokens: [],
+					editToken: {},
 					viewMember: {},
 					isLoading: false,
 				})

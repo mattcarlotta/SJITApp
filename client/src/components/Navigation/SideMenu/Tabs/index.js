@@ -45,7 +45,7 @@ export default [
 		submenu: [
 			{ key: "members/create", component: FaUserPlus, tab: "Create Member" },
 			{
-				key: "members/authorizations",
+				key: "members/authorizations/viewall",
 				component: FaKey,
 				tab: "View Authorizations",
 			},

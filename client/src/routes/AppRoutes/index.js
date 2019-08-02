@@ -5,6 +5,7 @@ import { AppPageNotFound, Contact, Help, Settings } from "pages";
 
 import {
 	Dashboard,
+	EditAuthorization,
 	EditSeason,
 	NewEvent,
 	NewForm,
@@ -47,10 +48,14 @@ const AppRoutes = ({ match: { url }, role }) =>
 			/>
 			<Route
 				exact
-				path={`${url}/members/authorizations`}
+				path={`${url}/members/authorizations/viewall`}
 				component={ViewAuthorizations}
 			/>
-			}
+			<Route
+				exact
+				path={`${url}/members/authorizations/edit/:id`}
+				component={EditAuthorization}
+			/>
 			<Route exact path={`${url}/members/viewall`} component={ViewMembers} />
 			<Route exact path={`${url}/schedule`} component={Schedule} />
 			<Route exact path={`${url}/seasons/create`} component={NewSeason} />

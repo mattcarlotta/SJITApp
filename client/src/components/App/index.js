@@ -13,6 +13,7 @@ const TABS = [
 	"events/viewall",
 	"forms/create",
 	"forms/viewall",
+	"members/authorizations/viewall",
 	"members/create",
 	"members/viewall",
 	"schedule",
@@ -29,20 +30,38 @@ const ROOTTABS = ["events", "forms", "members", "seasons", "templates"];
 
 const selectedTab = path => TABS.filter(tab => path.indexOf(tab) >= 1);
 
+const openedKey = path => {
+	const opened = ROOTTABS.find(tab => path.includes(tab));
+
+	return opened ? [opened] : [""];
+};
+
 class App extends Component {
-	state = {
-		isCollapsed: false,
-		openKeys: [""],
-		selectedKey: selectedTab(this.props.location.pathname),
-	};
+	constructor(props) {
+		super(props);
+
+		const {
+			location: { pathname },
+		} = props;
+
+		this.state = {
+			isCollapsed: false,
+			openKeys: openedKey(pathname),
+			storedKeys: openedKey(pathname),
+			selectedKey: selectedTab(pathname),
+		};
+	}
 
 	static getDerivedStateFromProps = props => ({
 		selectedKey: selectedTab(props.location.pathname),
 	});
 
 	onHandleOpenMenuChange = currentKeys => {
+		const openKeys = currentKeys.length > 1 ? [currentKeys[1]] : [""];
+
 		this.setState({
-			openKeys: currentKeys.length > 1 ? [currentKeys[1]] : [""],
+			openKeys,
+			storedKeys: openKeys,
 		});
 	};
 
@@ -50,17 +69,20 @@ class App extends Component {
 		this.setState(prevState => {
 			this.props.push(`/employee/${key}`);
 
+			const openKeys = ROOTTABS.some(tab => key.includes(tab))
+				? prevState.openKeys
+				: [""];
+
 			return {
-				openKeys: ROOTTABS.some(tab => key.includes(tab))
-					? prevState.openKeys
-					: [""],
+				openKeys,
+				storedKeys: openKeys,
 			};
 		});
 	};
 
 	toggleSideMenu = () =>
 		this.setState(prevState => ({
-			openKeys: [""],
+			openKeys: !prevState.isCollapsed ? [""] : prevState.storedKeys,
 			isCollapsed: !prevState.isCollapsed,
 		}));
 

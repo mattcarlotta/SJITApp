@@ -7,10 +7,10 @@ const activeUserStyle = { color: "green", position: "relative", top: "2px" };
 const inactiveUserStyle = {
 	fontSize: 22,
 	position: "relative",
-	top: "5px",
+	top: 5,
+	left: 3,
 	color: "red",
 };
-const titleStyle = { fontSize: 16, paddingLeft: 5 };
 
 const DisplayStatus = ({ status }) => (
 	<Tooltip title={status} placement="top">
@@ -19,7 +19,6 @@ const DisplayStatus = ({ status }) => (
 		) : (
 			<FaUserTimes style={inactiveUserStyle} />
 		)}
-		<span style={titleStyle}>({status})</span>
 	</Tooltip>
 );
 

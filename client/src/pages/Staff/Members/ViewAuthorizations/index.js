@@ -1,6 +1,6 @@
 import React from "react";
-import { Card } from "antd";
+import { ViewAuthorizations } from "containers/Body";
 
-export const ViewAuthorizationsPage = () => <Card>View Authorizations</Card>;
+export const ViewAuthorizationsPage = () => <ViewAuthorizations />;
 
 export default ViewAuthorizationsPage;

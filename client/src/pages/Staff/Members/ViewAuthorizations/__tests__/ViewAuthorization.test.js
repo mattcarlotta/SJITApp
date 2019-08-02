@@ -1,6 +1,6 @@
 import ViewAuthorizations from "../index";
 
-const wrapper = mount(<ViewAuthorizations />);
+const wrapper = HOCWrap(ViewAuthorizations);
 
 describe("View Authorizations Page", () => {
 	it("renders the page without errors", () => {

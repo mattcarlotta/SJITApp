@@ -12,11 +12,12 @@ import {
 import { FormTitle } from "components/Forms";
 import { hideServerMessage } from "actions/Messages";
 import { fetchSeasonsIds } from "actions/Seasons";
-import { createMember } from "actions/Members";
+import { fetchToken, updateMemberToken } from "actions/Members";
 import { fieldValidator, fieldUpdater, parseFields } from "utils";
 import fields from "./Fields";
+import updateFormFields from "./UpdateFormFields";
 
-const title = "Create Member Form";
+const title = "Edit Member Form";
 
 export class NewMemberForm extends Component {
 	state = {
@@ -27,15 +28,19 @@ export class NewMemberForm extends Component {
 
 	componentDidMount = () => {
 		this.props.fetchSeasonsIds();
+
+		const { id } = this.props.match.params;
+		this.props.fetchToken(id);
 	};
 
-	static getDerivedStateFromProps = ({ seasonIds, serverMessage }, state) => {
-		if (state.isLoading && !isEmpty(seasonIds)) {
+	static getDerivedStateFromProps = (
+		{ editToken, seasonIds, serverMessage },
+		state,
+	) => {
+		if (state.isLoading && !isEmpty(seasonIds) && !isEmpty(editToken)) {
 			return {
 				fields: state.fields.map(field =>
-					field.name === "seasonId"
-						? { ...field, selectOptions: seasonIds, disabled: false }
-						: { ...field, disabled: false },
+					updateFormFields(field, seasonIds, editToken),
 				),
 				isLoading: false,
 			};
@@ -59,13 +64,18 @@ export class NewMemberForm extends Component {
 
 		this.setState({ fields: validatedFields, isSubmitting: !errors }, () => {
 			const { fields: formFields } = this.state;
-			const { hideServerMessage, serverMessage, createMember } = this.props;
+			const {
+				hideServerMessage,
+				serverMessage,
+				updateMemberToken,
+			} = this.props;
 
 			if (!errors) {
 				const parsedFields = parseFields(formFields);
 
 				if (serverMessage) hideServerMessage();
-				setTimeout(() => createMember(parsedFields), 350);
+				console.log(parsedFields);
+				// setTimeout(() => updateMemberToken(parsedFields), 350);
 			}
 		});
 	};
@@ -76,7 +86,7 @@ export class NewMemberForm extends Component {
 				<FormTitle
 					header={title}
 					title={title}
-					description="Select a season, role, and enter a valid email address."
+					description="Select a different season, role, and/or enter another valid email address."
 				/>
 				<form onSubmit={this.handleSubmit}>
 					{this.state.isLoading ? (
@@ -89,7 +99,7 @@ export class NewMemberForm extends Component {
 							/>
 							<SubmitButton
 								disabled={isEmpty(this.props.seasonIds)}
-								title="Create Member"
+								title="Update Authorization"
 								isSubmitting={this.state.isSubmitting}
 							/>
 						</Fragment>
@@ -101,22 +111,25 @@ export class NewMemberForm extends Component {
 }
 
 NewMemberForm.propTypes = {
-	createMember: PropTypes.func.isRequired,
+	fetchToken: PropTypes.func.isRequired,
 	fetchSeasonsIds: PropTypes.func.isRequired,
 	hideServerMessage: PropTypes.func.isRequired,
 	seasonIds: PropTypes.arrayOf(PropTypes.string),
 	serverMessage: PropTypes.string,
+	updateMemberToken: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
+	editToken: state.members.editToken,
 	serverMessage: state.server.message,
 	seasonIds: state.seasons.ids,
 });
 
 const mapDispatchToProps = {
-	createMember,
+	fetchToken,
 	fetchSeasonsIds,
 	hideServerMessage,
+	updateMemberToken,
 };
 
 export default connect(

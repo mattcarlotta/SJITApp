@@ -58,7 +58,7 @@ const getAllSeasonIds = async (_, res) => {
 
     if (isEmpty(seasons)) throw "You must create a season first before you can start adding members.";
 
-    res.status(200).send({ seasonIds: seasons[0].seasonIds });
+    res.status(200).json({ seasonIds: seasons[0].seasonIds });
   } catch (err) {
     return sendError(err, res);
   }

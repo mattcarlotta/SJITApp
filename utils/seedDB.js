@@ -1,7 +1,11 @@
 /* eslint-disable no-console */
 import { connectDatabase } from "database";
 import { User, Season, Token } from "models";
-import { createSignupToken, createRandomToken } from "shared/helpers";
+import {
+  createSignupToken,
+  createRandomToken,
+  expirationDate,
+} from "shared/helpers";
 import config from "env";
 
 const { NODE_ENV, SEED } = process.env;
@@ -51,6 +55,7 @@ const seedDB = async () => {
       role: "member",
       seasonId: newSeason.seasonId,
       token: createSignupToken(),
+      expiration: expirationDate().toDate(),
     };
 
     await Token.create(newHire);

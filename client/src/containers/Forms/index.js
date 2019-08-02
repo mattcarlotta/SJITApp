@@ -7,6 +7,9 @@ export { default as ResetPasswordForm } from "./Auth/ResetPasswordForm";
 export { default as SignupForm } from "./Auth/SignupForm";
 
 // member
+export {
+	default as EditAuthorizationForm,
+} from "./Member/EditAuthorizationForm";
 export { default as EditMemberForm } from "./Member/EditMemberForm";
 export { default as NewMemberForm } from "./Member/NewMemberForm";
 
