@@ -10,7 +10,7 @@ const emptyPassword = "You must supply a new password in order to reset the old.
 
 const expiredToken = "The authorization key that was provided has expired. Please contact the staff supervisor to issue a new key.";
 
-const invalidAuthTokenRequest = "You must supply an email, a role, and a season before you can create an authorization token.";
+const invalidAuthTokenRequest = "You must supply an email, a role, and a season before you can create an authorization key.";
 
 const invalidDeleteTokenRequest = "Unable to delete the authorization key. The supplied authorization key does not exist.";
 
@@ -38,7 +38,7 @@ const missingToken = "There was a problem authenticating your request.";
 
 const notUniquePassword = "Your new password must not match your current password. Please try again.";
 
-const tokenAlreadyUsed = "The supplied token has already been used and is associated with an active account. Please contact the webmaster if this error continues: carlotta.matt@gmail.com.";
+const tokenAlreadyUsed = "The supplied authorization key has already been used and is associated with an active account. Please contact the webmaster if this error continues: carlotta.matt@gmail.com.";
 
 export {
   alreadyLoggedIn,

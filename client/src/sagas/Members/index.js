@@ -37,7 +37,7 @@ export function* createMember({ props }) {
 			}),
 		);
 
-		yield put(push("/employee/members/authorizations"));
+		yield put(push("/employee/members/authorizations/viewall"));
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
@@ -167,7 +167,7 @@ export function* fetchMembers() {
 
 export function* fetchToken({ tokenId }) {
 	try {
-		const res = yield call(app.get, `tokens/edit/${tokenId}`);
+		const res = yield call(app.get, `token/edit/${tokenId}`);
 		const data = yield call(parseData, res);
 
 		yield put(setToken(data));
@@ -287,7 +287,7 @@ export function* updateMemberToken({ props }) {
 			}),
 		);
 
-		yield put(push("/employee/members/authorizations"));
+		yield put(push("/employee/members/authorizations/viewall"));
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}

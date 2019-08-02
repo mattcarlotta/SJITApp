@@ -89,7 +89,7 @@ const updateSeason = async (req, res) => {
     const existingSeason = await Season.findOne({ _id });
     if (!existingSeason) throw `Unable to locate the season: ${seasonId}.`;
 
-    await Season.updateOne({ _id }, { seasonId, startDate, endDate });
+    await existingSeason.updateOne({ seasonId, startDate, endDate });
 
     res.status(201).json({ message: "Successfully updated the season." });
   } catch (err) {

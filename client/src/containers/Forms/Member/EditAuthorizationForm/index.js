@@ -67,6 +67,7 @@ export class NewMemberForm extends Component {
 			const {
 				hideServerMessage,
 				serverMessage,
+				editToken: { _id },
 				updateMemberToken,
 			} = this.props;
 
@@ -74,8 +75,7 @@ export class NewMemberForm extends Component {
 				const parsedFields = parseFields(formFields);
 
 				if (serverMessage) hideServerMessage();
-				console.log(parsedFields);
-				// setTimeout(() => updateMemberToken(parsedFields), 350);
+				setTimeout(() => updateMemberToken({ _id, ...parsedFields }), 350);
 			}
 		});
 	};

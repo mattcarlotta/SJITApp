@@ -102,15 +102,38 @@ const getToken = async (req, res) => {
 
 const updateToken = async (req, res) => {
   try {
-    const { authorizedEmail, role, seasonId } = req.body;
-    if (!authorizedEmail || !role || !seasonId) throw invalidAuthTokenRequest;
+    const {
+      _id, authorizedEmail, role, seasonId,
+    } = req.body;
+    if (!_id || !authorizedEmail || !role || !seasonId) throw "You must supply a token id, an authorized email, a role, and a season id before you can update an existing authorization key.";
 
-    throw "Route not setup.";
+    const existingToken = await Token.findOne({ _id });
+    if (!existingToken) throw `Unable to locate token: ${_id}`;
 
-    // const existingToken = await Token.findOne({ _id });
-    // if (!existingToken) throw `Unable to locate the token: ${_id}.`;
+    const token = createSignupToken();
+    const expiration = expirationDate();
 
-    // res.status(200).json({ token: existingToken });
+    await existingToken.updateOne({
+      authorizedEmail,
+      expiration,
+      role,
+      seasonId,
+      token,
+    });
+
+    const msg = {
+      to: `${authorizedEmail}`,
+      from: "San Jose Sharks Ice Team <noreply@sjsiceteam.com>",
+      subject:
+        "Congratulations, you have been selected to join the San Jose Sharks Ice Team!",
+      html: newAuthorizationKeyTemplate(CLIENT, token, expiration.calendar()),
+    };
+
+    await mailer.send(msg);
+
+    res.status(201).json({
+      message: `Succesfully updated and sent a new authorization key to ${authorizedEmail}.`,
+    });
   } catch (err) {
     return sendError(err, res);
   }
