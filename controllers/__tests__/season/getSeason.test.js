@@ -1,5 +1,6 @@
 import { Season } from "models";
 import { getSeason } from "controllers/season";
+import { missingSeasonId, unableToLocateSeason } from "shared/authErrors";
 
 describe("Get Season Controller", () => {
   let db;
@@ -20,7 +21,7 @@ describe("Get Season Controller", () => {
 
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith({
-      err: "You must include a seasonId.",
+      err: missingSeasonId,
     });
   });
 
@@ -33,7 +34,7 @@ describe("Get Season Controller", () => {
 
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith({
-      err: `Unable to locate the season: ${id}.`,
+      err: unableToLocateSeason,
     });
   });
 

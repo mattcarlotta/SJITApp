@@ -1,6 +1,10 @@
 import { User } from "models";
 import { updateMember } from "controllers/member";
-import { emailAlreadyTaken } from "shared/authErrors";
+import {
+  emailAlreadyTaken,
+  missingUpdateMemberParams,
+  unableToLocateMember,
+} from "shared/authErrors";
 
 const findExistingMember = email => User.findOne({ email });
 
@@ -29,7 +33,7 @@ describe("Update Member Controller", () => {
 
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith({
-      err: "You must include an id, email, first name, last name and role.",
+      err: missingUpdateMemberParams,
     });
   });
 
@@ -49,7 +53,7 @@ describe("Update Member Controller", () => {
 
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith({
-      err: `Unable to locate the member: ${_id}.`,
+      err: unableToLocateMember,
     });
   });
 

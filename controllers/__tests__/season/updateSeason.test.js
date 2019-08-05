@@ -1,5 +1,6 @@
 import { Season } from "models";
 import { updateSeason } from "controllers/season";
+import { unableToLocateSeason, unableToUpdateSeason } from "shared/authErrors";
 
 describe("Update Season Controller", () => {
   let db;
@@ -26,8 +27,7 @@ describe("Update Season Controller", () => {
 
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith({
-      err:
-        "Unable to update the existing season. You must provide a model id, seasonId, startDate, and endDate.",
+      err: unableToUpdateSeason,
     });
   });
 
@@ -46,7 +46,7 @@ describe("Update Season Controller", () => {
 
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith({
-      err: `Unable to locate the season: ${invalidId.seasonId}.`,
+      err: unableToLocateSeason,
     });
   });
 

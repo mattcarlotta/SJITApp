@@ -29,17 +29,17 @@ passport.use(
 
         const newToken = createRandomToken(); // a token used for email verification
 
-        // check to see if the token is valid and hasn't been used already
+        // see if the token is valid and hasn't been used already
         const validToken = await Token.findOne({ token });
         if (!validToken) throw invalidToken;
 
-        // check to see if authorizedEmail equals supplied email
+        // see if authorizedEmail equals supplied email
         if (validToken.authorizedEmail !== email) throw invalidSignupEmail;
 
-        // check to see if the email is already in use
+        // see if the email is already in use
         if (validToken.email) throw tokenAlreadyUsed;
 
-        // check to see if the token has expired
+        // see if the token has expired
         const todaysDate = moment(Date.now()).utcOffset(-7);
         if (todaysDate > validToken.expiration) throw expiredToken;
 

@@ -1,5 +1,9 @@
 import { Season } from "models";
 import { createSeason } from "controllers/season";
+import {
+  seasonAlreadyExists,
+  unableToCreateNewSeason,
+} from "shared/authErrors";
 
 describe("Create Season Controller", () => {
   let res;
@@ -28,8 +32,7 @@ describe("Create Season Controller", () => {
     await createSeason(req, res);
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith({
-      err:
-        "Unable to create a new season. You must provide seasonId, startDate, and endDate fields.",
+      err: unableToCreateNewSeason,
     });
   });
 
@@ -61,8 +64,7 @@ describe("Create Season Controller", () => {
     await createSeason(req, res);
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith({
-      err:
-        "That season already exists. Please edit the current season or choose different start and end dates.",
+      err: seasonAlreadyExists,
     });
   });
 

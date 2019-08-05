@@ -1,6 +1,8 @@
 import mailer from "@sendgrid/mail";
+import moment from "moment";
 import { localSignup } from "services/strategies/localSignup";
 import {
+  expiredToken,
   invalidSignupEmail,
   invalidToken,
   missingSignupCreds,
@@ -122,6 +124,39 @@ describe("Local Signup Middleware", () => {
 
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith({ err: tokenAlreadyUsed });
+    done();
+  });
+
+  it("handles expired token signup requests", async done => {
+    const expiredHire = {
+      authorizedEmail: "expiredmember@example.com",
+      email: "",
+      role: "member",
+      seasonId: "20402041",
+      token: createSignupToken(),
+      expiration: moment(Date.now())
+        .subtract(90, "days")
+        .endOf("day")
+        .toDate(),
+    };
+
+    const expiredSignup = await Token.create(expiredHire);
+
+    const expiredHireUpdate = {
+      email: "expiredmember@example.com",
+      firstName: "Expired",
+      lastName: "Member",
+      role: "member",
+      password: "password",
+      token: expiredSignup.token,
+    };
+
+    const req = mockRequest({}, {}, expiredHireUpdate);
+
+    await localSignup(req, res, next);
+
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.json).toHaveBeenCalledWith({ err: expiredToken });
     done();
   });
 

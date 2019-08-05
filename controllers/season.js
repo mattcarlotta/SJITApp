@@ -1,15 +1,24 @@
 import isEmpty from "lodash/isEmpty";
 import { Season } from "models";
 import { sendError } from "shared/helpers";
+import {
+  missingSeasonId,
+  needToCreateSeasonFirst,
+  seasonAlreadyExists,
+  unableToCreateNewSeason,
+  unableToDeleteSeason,
+  unableToLocateSeason,
+  unableToUpdateSeason,
+} from "shared/authErrors";
 
 const createSeason = async (req, res) => {
   try {
     const { seasonId, startDate, endDate } = req.body;
 
-    if (!seasonId || !startDate || !endDate) throw "Unable to create a new season. You must provide seasonId, startDate, and endDate fields.";
+    if (!seasonId || !startDate || !endDate) throw unableToCreateNewSeason;
 
     const seasonExists = await Season.findOne({ seasonId });
-    if (seasonExists) throw "That season already exists. Please edit the current season or choose different start and end dates.";
+    if (seasonExists) throw seasonAlreadyExists;
 
     await Season.create(req.body);
     res.status(201).json({ message: "Successfully created a new season!" });
@@ -21,10 +30,10 @@ const createSeason = async (req, res) => {
 const deleteSeason = async (req, res) => {
   try {
     const { id: _id } = req.params;
-    if (!_id) throw "You must provide a season id to delete.";
+    if (!_id) throw missingSeasonId;
 
     const existingSeason = await Season.findOne({ _id });
-    if (!existingSeason) throw "Unable to delete that season. It doesn't exist.";
+    if (!existingSeason) throw unableToDeleteSeason;
 
     await existingSeason.deleteOne({ _id });
 
@@ -55,11 +64,12 @@ const getAllSeasonIds = async (_, res) => {
       { $group: { _id: null, seasonIds: { $addToSet: "$seasonId" } } },
       { $project: { _id: 0, seasonIds: 1 } },
     ]);
-
-    if (isEmpty(seasons)) throw "You must create a season first before you can start adding members.";
+    /* istanbul ignore next */
+    if (isEmpty(seasons)) throw needToCreateSeasonFirst;
 
     res.status(200).json({ seasonIds: seasons[0].seasonIds });
   } catch (err) {
+    /* istanbul ignore next */
     return sendError(err, res);
   }
 };
@@ -67,10 +77,10 @@ const getAllSeasonIds = async (_, res) => {
 const getSeason = async (req, res) => {
   try {
     const { id: _id } = req.params;
-    if (!_id) throw "You must include a seasonId.";
+    if (!_id) throw missingSeasonId;
 
     const existingSeason = await Season.findOne({ _id }, { members: 0 });
-    if (!existingSeason) throw `Unable to locate the season: ${_id}.`;
+    if (!existingSeason) throw unableToLocateSeason;
 
     res.status(200).json({ season: existingSeason });
   } catch (err) {
@@ -84,10 +94,10 @@ const updateSeason = async (req, res) => {
       _id, seasonId, startDate, endDate,
     } = req.body;
 
-    if (!_id || !seasonId || !startDate || !endDate) throw "Unable to update the existing season. You must provide a model id, seasonId, startDate, and endDate.";
+    if (!_id || !seasonId || !startDate || !endDate) throw unableToUpdateSeason;
 
     const existingSeason = await Season.findOne({ _id });
-    if (!existingSeason) throw `Unable to locate the season: ${seasonId}.`;
+    if (!existingSeason) throw unableToLocateSeason;
 
     await existingSeason.updateOne({ seasonId, startDate, endDate });
 

@@ -1,5 +1,6 @@
 import { Season } from "models";
 import { deleteSeason } from "controllers/season";
+import { missingSeasonId, unableToDeleteSeason } from "shared/authErrors";
 
 describe("Delete Season Controller", () => {
   let db;
@@ -20,7 +21,7 @@ describe("Delete Season Controller", () => {
 
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith({
-      err: "You must provide a season id to delete.",
+      err: missingSeasonId,
     });
   });
 
@@ -33,7 +34,7 @@ describe("Delete Season Controller", () => {
 
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith({
-      err: "Unable to delete that season. It doesn't exist.",
+      err: unableToDeleteSeason,
     });
   });
 

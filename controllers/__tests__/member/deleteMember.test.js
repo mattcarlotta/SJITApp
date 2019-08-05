@@ -1,5 +1,6 @@
 import { User } from "models";
 import { deleteMember } from "controllers/member";
+import { missingMemberId, unableToDeleteMember } from "shared/authErrors";
 
 describe("Delete Member Controller", () => {
   let db;
@@ -20,7 +21,7 @@ describe("Delete Member Controller", () => {
 
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith({
-      err: "You must provide a member id to delete.",
+      err: missingMemberId,
     });
   });
 
@@ -33,7 +34,7 @@ describe("Delete Member Controller", () => {
 
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith({
-      err: "Unable to delete that member. That member doesn't exist.",
+      err: unableToDeleteMember,
     });
   });
 

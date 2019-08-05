@@ -1,5 +1,9 @@
 import { User } from "models";
 import { updateMemberStatus } from "controllers/member";
+import {
+  missingUpdateMemberStatusParams,
+  unableToLocateMember,
+} from "shared/authErrors";
 
 const findExistingMember = email => User.findOne({ email });
 
@@ -24,7 +28,7 @@ describe("Update Member Status Controller", () => {
 
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith({
-      err: "You must include an id and status.",
+      err: missingUpdateMemberStatusParams,
     });
   });
 
@@ -41,7 +45,7 @@ describe("Update Member Status Controller", () => {
 
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith({
-      err: `Unable to locate the member: ${_id}.`,
+      err: unableToLocateMember,
     });
   });
 

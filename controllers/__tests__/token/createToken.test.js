@@ -2,7 +2,7 @@ import mailer from "@sendgrid/mail";
 import { Token, Season } from "models";
 import { createToken } from "controllers/token";
 import {
-  emailAlreadyTaken,
+  emailAssociatedWithKey,
   invalidAuthTokenRequest,
   invalidSeasonId,
 } from "shared/authErrors";
@@ -86,7 +86,7 @@ describe("Create Token Controller", () => {
 
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith({
-      err: emailAlreadyTaken,
+      err: emailAssociatedWithKey,
     });
   });
 

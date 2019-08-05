@@ -19,12 +19,12 @@ passport.use(
       passReqToCallback: true,
     },
     async (req, email, password, done) => {
-      // check to see if user is logged in from another session
       try {
+        // see if user is logged in from another session
         const user = get(req, ["session", "user"]);
         if (user) throw alreadyLoggedIn;
 
-        // check to see if the user exists
+        // see if the user exists
         const existingUser = await User.findOne({ email });
         if (!existingUser) throw badCredentials;
         if (existingUser.status !== "active") throw invalidStatus;

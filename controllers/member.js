@@ -1,16 +1,21 @@
 import { User } from "models";
-import { emailAlreadyTaken } from "shared/authErrors";
 import { sendError } from "shared/helpers";
-
-const createMember = (req, res) => sendError("Route not setup.", res);
+import {
+  emailAlreadyTaken,
+  missingMemberId,
+  missingUpdateMemberParams,
+  missingUpdateMemberStatusParams,
+  unableToDeleteMember,
+  unableToLocateMember,
+} from "shared/authErrors";
 
 const deleteMember = async (req, res) => {
   try {
     const { id: _id } = req.params;
-    if (!_id) throw "You must provide a member id to delete.";
+    if (!_id) throw missingMemberId;
 
     const existingUser = await User.findOne({ _id });
-    if (!existingUser) throw "Unable to delete that member. That member doesn't exist.";
+    if (!existingUser) throw unableToDeleteMember;
 
     await existingUser.delete();
 
@@ -42,13 +47,13 @@ const getAllMembers = async (_, res) => {
 const getMember = async (req, res) => {
   try {
     const { id: _id } = req.params;
-    if (!_id) throw "You must include a memberId.";
+    if (!_id) throw missingMemberId;
 
     const existingMember = await User.findOne(
       { _id },
       { password: 0, token: 0 },
     );
-    if (!existingMember) throw `Unable to locate the member: ${_id}.`;
+    if (!existingMember) throw unableToLocateMember;
 
     res.status(200).json({ member: existingMember });
   } catch (err) {
@@ -61,10 +66,10 @@ const updateMember = async (req, res) => {
     const {
       _id, email, firstName, lastName, role,
     } = req.body;
-    if (!_id || !email || !firstName || !lastName || !role) throw "You must include an id, email, first name, last name and role.";
+    if (!_id || !email || !firstName || !lastName || !role) throw missingUpdateMemberParams;
 
     const existingMember = await User.findOne({ _id });
-    if (!existingMember) throw `Unable to locate the member: ${_id}.`;
+    if (!existingMember) throw unableToLocateMember;
 
     /* istanbul ignore next */
     if (existingMember.email !== email) {
@@ -75,7 +80,10 @@ const updateMember = async (req, res) => {
     }
 
     await existingMember.updateOne({
-      email, firstName, lastName, role,
+      email,
+      firstName,
+      lastName,
+      role,
     });
 
     res
@@ -89,10 +97,10 @@ const updateMember = async (req, res) => {
 const updateMemberStatus = async (req, res) => {
   try {
     const { _id, status } = req.body;
-    if (!_id || !status) throw "You must include an id and status.";
+    if (!_id || !status) throw missingUpdateMemberStatusParams;
 
     const existingMember = await User.findOne({ _id });
-    if (!existingMember) throw `Unable to locate the member: ${_id}.`;
+    if (!existingMember) throw unableToLocateMember;
 
     const updatedStatus = status === "active" ? "suspended" : "active";
 
@@ -107,7 +115,6 @@ const updateMemberStatus = async (req, res) => {
 };
 
 export {
-  createMember,
   deleteMember,
   getAllMembers,
   getMember,

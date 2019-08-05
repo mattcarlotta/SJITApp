@@ -1,5 +1,6 @@
 import { User } from "models";
 import { getMember } from "controllers/member";
+import { missingMemberId, unableToLocateMember } from "shared/authErrors";
 
 describe("Get Member Controller", () => {
   let db;
@@ -20,7 +21,7 @@ describe("Get Member Controller", () => {
 
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith({
-      err: "You must include a memberId.",
+      err: missingMemberId,
     });
   });
 
@@ -33,7 +34,7 @@ describe("Get Member Controller", () => {
 
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith({
-      err: `Unable to locate the member: ${id}.`,
+      err: unableToLocateMember,
     });
   });
 
