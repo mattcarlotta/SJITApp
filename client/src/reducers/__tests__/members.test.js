@@ -10,6 +10,14 @@ const memberData = {
 	member: mocks.membersData,
 };
 
+const tokensData = {
+	tokens: mocks.tokensData,
+};
+
+const tokenData = {
+	token: mocks.tokensData,
+};
+
 describe("Member Reducer", () => {
 	it("initially matches the initialState pattern", () => {
 		expect(memberReducer(undefined, { payload: {}, type: "" })).toEqual(
@@ -56,6 +64,62 @@ describe("Member Reducer", () => {
 		});
 
 		expect(state).toEqual(initialState);
+	});
+
+	it("when fetching for a single member token for editing, resets to initialState", () => {
+		let state = memberReducer(undefined, {
+			type: types.MEMBERS_SET_TOKEN,
+			payload: tokenData,
+		});
+
+		state = memberReducer(state, {
+			type: types.MEMBERS_FETCH_TOKEN,
+		});
+
+		expect(state).toEqual(initialState);
+	});
+
+	it("when fetching for all member tokens, resets to initialState", () => {
+		let state = memberReducer(undefined, {
+			type: types.MEMBERS_SET_TOKENS,
+			payload: tokensData,
+		});
+
+		state = memberReducer(state, {
+			type: types.MEMBERS_FETCH_TOKENS,
+		});
+
+		expect(state).toEqual(initialState);
+	});
+
+	it("sets member tokens for viewing and sets isLoading to false", () => {
+		const state = memberReducer(undefined, {
+			type: types.MEMBERS_SET_TOKENS,
+			payload: tokensData,
+		});
+
+		expect(state).toEqual({
+			data: [],
+			tokens: mocks.tokensData,
+			editToken: {},
+			viewMember: {},
+			isLoading: false,
+		});
+	});
+
+	it("sets a single member token for editing and sets isLoading to false", () => {
+		const state = memberReducer(undefined, {
+			type: types.MEMBERS_SET_TOKEN,
+			payload: tokenData,
+		});
+
+		expect(state).toEqual({
+			data: [],
+			tokens: [],
+			editToken: mocks.tokensData,
+			viewMember: {},
+			isLoading: false,
+		});
 	});
 
 	it("sets a single member's data for viewing and sets isLoading to false", () => {

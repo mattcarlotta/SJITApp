@@ -10,6 +10,10 @@ const seasonData = {
 	season: mocks.seasonsData,
 };
 
+const seasonIdsData = {
+	seasonIds: mocks.seasonIdsData,
+};
+
 describe("Season Reducer", () => {
 	it("initially matches the initialState pattern", () => {
 		expect(seasonReducer(undefined, { payload: {}, type: "" })).toEqual(
@@ -57,6 +61,19 @@ describe("Season Reducer", () => {
 		expect(state).toEqual(initialState);
 	});
 
+	it("when fetching season ids for editing a member token, resets to initialState", () => {
+		let state = seasonReducer(undefined, {
+			type: types.SEASONS_SET_IDS,
+			payload: seasonIdsData,
+		});
+
+		state = seasonReducer(state, {
+			type: types.SEASONS_FETCH_IDS,
+		});
+
+		expect(state).toEqual(initialState);
+	});
+
 	it("sets a single season's data for editing and sets isLoading to false", () => {
 		const state = seasonReducer(undefined, {
 			type: types.SEASONS_SET_EDIT,
@@ -67,6 +84,20 @@ describe("Season Reducer", () => {
 			data: [],
 			editSeason: mocks.seasonsData,
 			ids: [],
+			isLoading: false,
+		});
+	});
+
+	it("sets a single season's data for editing and sets isLoading to false", () => {
+		const state = seasonReducer(undefined, {
+			type: types.SEASONS_SET_IDS,
+			payload: seasonIdsData,
+		});
+
+		expect(state).toEqual({
+			data: [],
+			editSeason: {},
+			ids: mocks.seasonIdsData,
 			isLoading: false,
 		});
 	});

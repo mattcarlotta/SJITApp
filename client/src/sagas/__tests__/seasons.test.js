@@ -228,6 +228,59 @@ describe("Season Sagas", () => {
 		});
 	});
 
+	describe("Fetch Season Ids", () => {
+		let data;
+		beforeEach(() => {
+			data = { seasonIds: mocks.seasonIdsData };
+		});
+
+		it("logical flow matches pattern for fetch seasons requests", () => {
+			const res = { data };
+
+			testSaga(sagas.fetchSeasonsIds)
+				.next()
+				.put(hideServerMessage())
+				.next()
+				.call(app.get, "seasons/all/ids")
+				.next(res)
+				.call(parseData, res)
+				.next(res.data)
+				.put(actions.setSeasonsIds(res.data))
+				.next()
+				.isDone();
+		});
+
+		it("successfully fetches a season for editing", async () => {
+			mockApp.onGet("seasons/all/ids").reply(200, data);
+
+			return expectSaga(sagas.fetchSeasonsIds)
+				.dispatch(actions.fetchSeasonsIds)
+				.withReducer(seasonReducer)
+				.hasFinalState({
+					data: [],
+					editSeason: {},
+					ids: mocks.seasonIdsData,
+					isLoading: false,
+				})
+				.run();
+		});
+
+		it("if API call fails, it displays a message", async () => {
+			const err = "Unable to get season ids.";
+			mockApp.onGet("seasons/all/ids").reply(404, { err });
+
+			return expectSaga(sagas.fetchSeasonsIds)
+				.dispatch(actions.fetchSeasonsIds)
+				.withReducer(messageReducer)
+				.hasFinalState({
+					message: err,
+					show: true,
+					type: "error",
+				})
+				.run();
+		});
+	});
+
 	describe("Update Season", () => {
 		let message;
 		let props;

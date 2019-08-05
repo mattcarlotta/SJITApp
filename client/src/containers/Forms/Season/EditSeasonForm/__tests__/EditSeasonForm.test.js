@@ -135,7 +135,7 @@ describe("Edit Season Form", () => {
 				hideServerMessage.mockClear();
 			});
 
-			it("successful validation calls updateSeason with fields", () => {
+			it("successful validation calls updateSeason with fields", done => {
 				expect(wrapper.state("isSubmitting")).toBeTruthy();
 				expect(updateSeason).toHaveBeenCalledWith({
 					_id: "123456789",
@@ -143,20 +143,23 @@ describe("Edit Season Form", () => {
 					startDate: newStartDate.format("l"),
 					seasonId: newSeasonId,
 				});
+				done();
 			});
 
-			it("on submission error, enables the form submit button", () => {
+			it("on submission error, enables the form submit button", done => {
 				wrapper.setProps({ serverMessage: "Example error message." });
 
 				expect(wrapper.state("isSubmitting")).toBeFalsy();
 				expect(wrapper.find("button[type='submit']").exists()).toBeTruthy();
+				done();
 			});
 
-			it("on form resubmission, if the serverMessage is still visible, it will hide the message", () => {
+			it("on form resubmission, if the serverMessage is still visible, it will hide the message", done => {
 				wrapper.setProps({ serverMessage: "Example error message." });
 
 				submitForm();
 				expect(hideServerMessage).toHaveBeenCalledTimes(1);
+				done();
 			});
 		});
 	});

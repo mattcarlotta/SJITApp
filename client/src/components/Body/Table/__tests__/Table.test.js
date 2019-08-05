@@ -88,12 +88,14 @@ describe("Custom Table", () => {
 		push.mockClear();
 	});
 
-	it("initially displays a LoadingTable component", () => {
+	it("initially displays a LoadingTable component", done => {
 		expect(wrapper.find("LoadingTable").exists()).toBeTruthy();
+		done();
 	});
 
-	it("initially calls fetchData when isLoading is true", () => {
+	it("initially calls fetchData when isLoading is true", done => {
 		expect(fetchData).toHaveBeenCalledTimes(1);
+		done();
 	});
 
 	describe("Ant Table", () => {
@@ -106,7 +108,7 @@ describe("Custom Table", () => {
 			push.mockClear();
 		});
 
-		it("displays a 5 column Table component with data if isLoading is false", () => {
+		it("displays a 5 column Table component with data if isLoading is false", done => {
 			expect(wrapper.find("Table").exists()).toBeTruthy();
 			expect(wrapper.find("th")).toHaveLength(6);
 			expect(wrapper.find("td")).toHaveLength(12);
@@ -128,9 +130,10 @@ describe("Custom Table", () => {
 					.at(2)
 					.text(),
 			).toEqual("8/6/2001");
+			done();
 		});
 
-		it("filters the table by searchText, as well as clears the table filters", () => {
+		it("filters the table by searchText, as well as clears the table filters", done => {
 			const clickSearchIcon = () => {
 				wrapper
 					.find(".ant-dropdown-trigger")
@@ -181,9 +184,10 @@ describe("Custom Table", () => {
 			setSelectedKeys.mockClear();
 			wrapper.instance().handleSelectKeys("", setSelectedKeys);
 			expect(setSelectedKeys).toHaveBeenCalledWith([]);
+			done();
 		});
 
-		it("views the selected record", () => {
+		it("views the selected record", done => {
 			wrapper
 				.find("td")
 				.at(5)
@@ -192,15 +196,17 @@ describe("Custom Table", () => {
 				.simulate("click");
 
 			expect(push).toHaveBeenCalledTimes(1);
+			done();
 		});
 
-		it("doesn't display a view button when 'viewLocation' is missing", () => {
+		it("doesn't display a view button when 'viewLocation' is missing", done => {
 			wrapper.setProps({ viewLocation: "" });
 
 			expect(wrapper.find("FaSearchPlus").exists()).toBeFalsy();
+			done();
 		});
 
-		it("edits the selected record", () => {
+		it("edits the selected record", done => {
 			wrapper
 				.find("td")
 				.at(5)
@@ -209,15 +215,17 @@ describe("Custom Table", () => {
 				.simulate("click");
 
 			expect(push).toHaveBeenCalledTimes(1);
+			done();
 		});
 
-		it("doesn't display an edit button when 'editLocation' is missing", () => {
+		it("doesn't display an edit button when 'editLocation' is missing", done => {
 			wrapper.setProps({ editLocation: "" });
 
 			expect(wrapper.find("FaEdit").exists()).toBeFalsy();
+			done();
 		});
 
-		it("deletes the selected record", () => {
+		it("deletes the selected record", done => {
 			wrapper
 				.find("td")
 				.at(5)
@@ -231,6 +239,7 @@ describe("Custom Table", () => {
 				.simulate("click");
 
 			expect(deleteAction).toHaveBeenCalledTimes(1);
+			done();
 		});
 	});
 });

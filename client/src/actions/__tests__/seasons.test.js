@@ -13,6 +13,8 @@ const seasonsData = { seasons: [data] };
 
 const seasonData = { season: [data] };
 
+const seasonIdsData = { seasonIds: ["20002001", "20012002", "20022003"] };
+
 describe("Season Actions", () => {
 	it("returns SEASONS_CREATE with props", () => {
 		const props = { seasonId: "1234", startDate: "1234", endDate: "1234" };
@@ -71,6 +73,26 @@ describe("Season Actions", () => {
 
 		expect(value).toEqual({
 			type: types.SEASONS_SET,
+			payload: [],
+		});
+	});
+
+	it("returns SEASONS_SET_IDS with data", () => {
+		const value = actions.setSeasonsIds(seasonIdsData);
+
+		expect(value).toEqual({
+			type: types.SEASONS_SET_IDS,
+			payload: seasonIdsData,
+		});
+	});
+
+	it("returns SEASONS_SET_IDS with an empty array if data is empty", () => {
+		const data = {};
+
+		const value = actions.setSeasonsIds(data);
+
+		expect(value).toEqual({
+			type: types.SEASONS_SET_IDS,
 			payload: [],
 		});
 	});

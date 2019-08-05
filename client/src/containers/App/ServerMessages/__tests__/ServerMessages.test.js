@@ -121,7 +121,7 @@ describe("Server Messages", () => {
 		expect(hideServerMessage).toHaveBeenCalledTimes(1);
 	});
 
-	it("automatically closes after 10 seconds", () => {
+	it("automatically closes after 10 seconds", done => {
 		jest.useFakeTimers();
 		wrapper.setProps({
 			message: "This message auto closes in 10 seconds.",
@@ -138,6 +138,7 @@ describe("Server Messages", () => {
 		jest.advanceTimersByTime(400);
 		expect(resetServerMessage).toHaveBeenCalledTimes(1);
 		jest.runAllTimers();
+		done();
 	});
 
 	it("resets the timer and hide the message on unmount", () => {

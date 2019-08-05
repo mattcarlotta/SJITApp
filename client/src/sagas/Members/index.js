@@ -47,7 +47,7 @@ export function* createMember({ props }) {
  * Attempts to delete a member.
  *
  * @generator
- * @function deletemember
+ * @function deleteMember
  * @param {object} memberId
  * @yields {object} - A response from a call to the API.
  * @function parseMessage - Returns a parsed res.data.message.

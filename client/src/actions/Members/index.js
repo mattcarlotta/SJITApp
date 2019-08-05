@@ -114,7 +114,7 @@ export const setMemberToReview = data => ({
  */
 export const setToken = data => ({
 	type: types.MEMBERS_SET_TOKEN,
-	payload: !isEmpty(data) ? data : [],
+	payload: !isEmpty(data) ? data : {},
 });
 
 /**

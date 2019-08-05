@@ -33,3 +33,17 @@ export const membersData = [
 		events: 0,
 	},
 ];
+
+export const tokensData = [
+	{
+		_id: "1234567890",
+		authorizedEmail: "beta@tester.com",
+		email: "beta@tester.com",
+		expiration: "2000-10-06T07:00:00.000+00:00",
+		seasonId: "20002001",
+		role: "employee",
+		token: "0123456789",
+	},
+];
+
+export const seasonIdsData = ["20002001", "20012002", "20022003"];
