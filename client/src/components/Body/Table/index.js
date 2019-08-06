@@ -28,6 +28,7 @@ class CustomTable extends Component {
 		setSelectedKeys(value ? [value] : []);
 	};
 
+	/* istanbul ignore next */
 	getColumnSearchProps = dataIndex => ({
 		filterDropdown: ({
 			setSelectedKeys,

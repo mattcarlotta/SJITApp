@@ -80,7 +80,7 @@ const nextProps = {
 describe("Custom Table", () => {
 	let wrapper;
 	beforeEach(() => {
-		wrapper = shallow(<Table {...initProps} />);
+		wrapper = mount(<Table {...initProps} />);
 	});
 
 	afterEach(() => {
@@ -100,7 +100,7 @@ describe("Custom Table", () => {
 
 	describe("Ant Table", () => {
 		beforeEach(() => {
-			wrapper = mount(<Table {...nextProps} />);
+			wrapper.setProps({ ...nextProps });
 		});
 
 		afterEach(() => {
@@ -130,6 +130,38 @@ describe("Custom Table", () => {
 					.at(2)
 					.text(),
 			).toEqual("8/6/2001");
+			done();
+		});
+
+		it("handles searches", done => {
+			const confirm = jest.fn();
+			const selectedKeys = ["test"];
+			wrapper.instance().handleSearch(selectedKeys, confirm);
+
+			expect(wrapper.state("searchText")).toEqual("test");
+			expect(confirm).toHaveBeenCalledTimes(1);
+			done();
+		});
+
+		it("clears filters", done => {
+			const clearFilters = jest.fn();
+			wrapper.instance().handleReset(clearFilters);
+
+			expect(wrapper.state("searchText")).toEqual("");
+			expect(clearFilters).toHaveBeenCalledTimes(1);
+			done();
+		});
+
+		it("handles setting selected keys", done => {
+			const value = "test";
+			const setSelectedKeys = jest.fn();
+			wrapper.instance().handleSelectKeys(value, setSelectedKeys);
+
+			expect(setSelectedKeys).toHaveBeenCalledWith([value]);
+
+			wrapper.instance().handleSelectKeys("", setSelectedKeys);
+
+			expect(setSelectedKeys).toHaveBeenCalledWith([]);
 			done();
 		});
 
@@ -195,7 +227,9 @@ describe("Custom Table", () => {
 				.first()
 				.simulate("click");
 
-			expect(push).toHaveBeenCalledTimes(1);
+			expect(push).toHaveBeenCalledWith(
+				"/employee/seasons/view/5d323ee2b02dee15483e5d9f",
+			);
 			done();
 		});
 
@@ -214,7 +248,9 @@ describe("Custom Table", () => {
 				.at(1)
 				.simulate("click");
 
-			expect(push).toHaveBeenCalledTimes(1);
+			expect(push).toHaveBeenCalledWith(
+				"/employee/seasons/edit/5d323ee2b02dee15483e5d9f",
+			);
 			done();
 		});
 
