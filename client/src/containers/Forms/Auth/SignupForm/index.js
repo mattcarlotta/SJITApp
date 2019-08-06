@@ -154,10 +154,12 @@ SignupForm.propTypes = {
 	signupUser: PropTypes.func,
 };
 
+/* istanbul ignore next */
 const mapStateToProps = state => ({
 	serverMessage: state.server.message,
 });
 
+/* istanbul ignore next */
 const mapDispatchToProps = {
 	hideServerMessage,
 	signupUser,

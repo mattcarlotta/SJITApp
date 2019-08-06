@@ -107,11 +107,13 @@ EditMemberForm.defaultProps = {
 	viewMember: {},
 };
 
+/* istanbul ignore next */
 const mapStateToProps = state => ({
 	serverMessage: state.server.message,
 	viewMember: state.members.viewMember,
 });
 
+/* istanbul ignore next */
 const mapDispatchToProps = {
 	hideServerMessage,
 	updateMember,

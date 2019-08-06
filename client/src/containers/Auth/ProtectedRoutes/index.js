@@ -44,12 +44,14 @@ ProtectedRoutes.propTypes = {
 	role: PropTypes.string,
 };
 
+/* istanbul ignore next */
 const mapStateToProps = state => ({
 	firstName: state.auth.firstName,
 	lastName: state.auth.lastName,
 	role: state.auth.role,
 });
 
+/* istanbul ignore next */
 const mapDispatchToProps = {
 	push,
 };

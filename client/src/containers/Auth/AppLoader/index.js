@@ -21,11 +21,13 @@ AppLoader.propTypes = {
 	serverMessage: PropTypes.string,
 };
 
+/* istanbul ignore next */
 const mapStateToProps = state => ({
 	role: state.auth.role,
 	serverMessage: state.server.message,
 });
 
+/* istanbul ignore next */
 const mapDispatchToProps = {
 	authenticateUser,
 };

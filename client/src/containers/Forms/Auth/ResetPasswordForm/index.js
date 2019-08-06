@@ -115,10 +115,12 @@ ResetPasswordForm.propTypes = {
 	serverMessage: PropTypes.string,
 };
 
+/* istanbul ignore next */
 const mapStateToProps = state => ({
 	serverMessage: state.server.message,
 });
 
+/* istanbul ignore next */
 const mapDispatchToProps = {
 	hideServerMessage,
 	resetPassword,
