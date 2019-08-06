@@ -13,14 +13,27 @@ const btnStyle = {
 	display: "inline-block",
 };
 
-const BackButton = ({ push, location }) => (
-	<Button primary width="100px" style={btnStyle} onClick={() => push(location)}>
-		<FaChevronLeft style={iconStyle} /> Back
+const BackButton = ({ push, location, style, txtStyle }) => (
+	<Button primary width="100px" style={style} onClick={() => push(location)}>
+		<FaChevronLeft style={iconStyle} />
+		<span style={txtStyle}>Back</span>
 	</Button>
 );
 
 BackButton.propTypes = {
 	push: PropTypes.func.isRequired,
+	location: PropTypes.string,
+	style: PropTypes.objectOf(
+		PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+	),
+	txtStyle: PropTypes.objectOf(
+		PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+	),
+};
+
+BackButton.defaultProps = {
+	style: {},
+	txtStyle: {},
 };
 
 export default BackButton;

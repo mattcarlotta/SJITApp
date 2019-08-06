@@ -6,7 +6,7 @@ const initProps = {
 	goBack,
 };
 
-const wrapper = shallow(<NotFound {...initProps} />);
+const wrapper = mount(<NotFound {...initProps} />);
 
 describe("AppPageNotFound Page", () => {
 	it("renders without errors", () => {
@@ -14,7 +14,7 @@ describe("AppPageNotFound Page", () => {
 	});
 
 	it("goes back to previous page", () => {
-		wrapper.find("Button").simulate("click");
+		wrapper.find("button").simulate("click");
 		expect(goBack).toHaveBeenCalledTimes(1);
 	});
 });

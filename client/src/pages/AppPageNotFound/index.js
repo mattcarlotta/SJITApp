@@ -3,22 +3,23 @@ import PropTypes from "prop-types";
 import Helmet from "react-helmet";
 import { connect } from "react-redux";
 import { goBack } from "connected-react-router";
-import { Button, Container, Center, Title } from "components/Body";
+import { BackButton, Container, Center, Title } from "components/Body";
 
 export const NotFound = ({ goBack }) => (
 	<Fragment>
 		<Helmet title="Page Not Found" />
 		<Container>
 			<Center>
-				<Title>404 - Page Not Found!</Title>
-				<Button
-					primary
-					width="200px"
-					style={{ margin: "0 auto" }}
-					onClick={() => goBack()}
+				<Title style={{ fontSize: 36, margin: "20px 0" }}>
+					404 - Page Not Found!
+				</Title>
+				<BackButton
+					style={{ width: "115px", margin: "0 auto" }}
+					txtStyle={{ fontSize: "20px", paddingLeft: 5 }}
+					push={goBack}
 				>
 					Go Back
-				</Button>
+				</BackButton>
 			</Center>
 		</Container>
 	</Fragment>
