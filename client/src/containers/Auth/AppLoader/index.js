@@ -9,9 +9,7 @@ export class AppLoader extends PureComponent {
 	componentDidMount = () => {
 		const { authenticateUser, role } = this.props;
 
-		if (role !== "guest") {
-			authenticateUser();
-		}
+		if (role !== "guest") authenticateUser();
 	};
 
 	render = () => (this.props.role === "guest" ? <LoginForm /> : <Spinner />);

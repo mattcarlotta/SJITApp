@@ -1,35 +1,34 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
 import { connect } from "react-redux";
-import { FieldGenerator, SubmitButton } from "components/Body";
+import { FieldGenerator, Spinner, SubmitButton } from "components/Body";
 import { hideServerMessage } from "actions/Messages";
 import { updateMember } from "actions/Members";
 import { fieldValidator, fieldUpdater, parseFields } from "utils";
 import fields from "./Fields";
 
+const formStyles = {
+	width: 400,
+	marginTop: 50,
+	marginBottom: 60,
+};
+
 export class EditMemberForm extends Component {
 	state = {
 		fields,
-		wasInitialized: false,
+		isLoading: true,
 		isSubmitting: false,
 	};
 
 	static getDerivedStateFromProps = ({ viewMember, serverMessage }, state) => {
-		if (!state.wasInitialized && !isEmpty(viewMember)) {
-			const values = [
-				viewMember.email,
-				viewMember.firstName,
-				viewMember.lastName,
-				viewMember.role,
-			];
-
+		if (state.isLoading && !isEmpty(viewMember)) {
 			return {
-				fields: state.fields.map((field, key) => ({
+				fields: state.fields.map(field => ({
 					...field,
-					value: values[key],
+					value: viewMember[field.name],
 				})),
-				wasInitialized: true,
+				isLoading: false,
 			};
 		}
 
@@ -68,15 +67,21 @@ export class EditMemberForm extends Component {
 	};
 
 	render = () => (
-		<form
-			style={{ width: 400, marginTop: 50, marginBottom: 60 }}
-			onSubmit={this.handleSubmit}
-		>
-			<FieldGenerator fields={this.state.fields} onChange={this.handleChange} />
-			<SubmitButton
-				title="Update Member"
-				isSubmitting={this.state.isSubmitting}
-			/>
+		<form style={formStyles} onSubmit={this.handleSubmit}>
+			{this.state.isLoading ? (
+				<Spinner />
+			) : (
+				<Fragment>
+					<FieldGenerator
+						fields={this.state.fields}
+						onChange={this.handleChange}
+					/>
+					<SubmitButton
+						title="Update Member"
+						isSubmitting={this.state.isSubmitting}
+					/>
+				</Fragment>
+			)}
 		</form>
 	);
 }
@@ -87,15 +92,19 @@ EditMemberForm.propTypes = {
 	updateMember: PropTypes.func.isRequired,
 	viewMember: PropTypes.shape({
 		_id: PropTypes.string,
-		email: PropTypes.string.isRequired,
+		email: PropTypes.string,
 		events: PropTypes.any,
-		firstName: PropTypes.string.isRequired,
-		lastName: PropTypes.string.isRequired,
+		firstName: PropTypes.string,
+		lastName: PropTypes.string,
 		registered: PropTypes.string,
-		role: PropTypes.string.isRequired,
+		role: PropTypes.string,
 		schedule: PropTypes.any,
 		status: PropTypes.string,
 	}).isRequired,
+};
+
+EditMemberForm.defaultProps = {
+	viewMember: {},
 };
 
 const mapStateToProps = state => ({

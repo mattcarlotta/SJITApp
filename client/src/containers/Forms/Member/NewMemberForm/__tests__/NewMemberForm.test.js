@@ -1,118 +1,105 @@
-import { EditMemberForm } from "../index";
+import { NewMemberForm } from "../index";
 
+const createMember = jest.fn();
+const fetchSeasonsIds = jest.fn();
 const hideServerMessage = jest.fn();
-const updateMember = jest.fn();
-
-const viewMember = {
-	_id: "0123456789",
-	email: "test@example.com",
-	events: [],
-	firstName: "test",
-	lastName: "example",
-	role: "employee",
-	registered: "2019-07-26T16:56:40.518+00:00",
-	schedule: [],
-	status: "active",
-};
 
 const initProps = {
+	createMember,
+	fetchSeasonsIds,
 	hideServerMessage,
+	seasonIds: [],
 	serverMessage: "",
-	updateMember,
-	viewMember: {},
 };
 
-describe("Edit Member Form", () => {
+const seasonIds = ["20002001", "20012002", "20022003"];
+
+describe("Edit Authorization Form", () => {
 	let wrapper;
 	beforeEach(() => {
-		wrapper = mount(<EditMemberForm {...initProps} />);
+		wrapper = mount(<NewMemberForm {...initProps} />);
 	});
 
 	afterEach(() => {
-		updateMember.mockClear();
+		createMember.mockClear();
+		fetchSeasonsIds.mockClear();
 		hideServerMessage.mockClear();
 	});
 
 	it("renders without errors", () => {
-		expect(wrapper.find("form").exists()).toBeTruthy();
+		expect(wrapper.find("Card").exists()).toBeTruthy();
 	});
 
 	it("shows a Spinner when fetching seasonIds and the token to edit", () => {
 		expect(wrapper.find("Spinner").exists()).toBeTruthy();
 	});
 
-	describe("Form Initialized", () => {
+	it("calls fetchSeasonsIds on mount", () => {
+		expect(fetchSeasonsIds).toHaveBeenCalledTimes(1);
+	});
+
+	describe("Form Initializied", () => {
 		beforeEach(() => {
-			wrapper.setProps({ viewMember });
+			wrapper.setProps({ seasonIds });
 		});
 
-		it("fills in the fields when loaded", () => {
+		it("initializes the SeasonID field with seasonIds options", () => {
 			expect(
 				wrapper
-					.find("input")
+					.find("Select")
 					.first()
-					.props().value,
-			).toEqual(viewMember.email);
+					.props().selectOptions,
+			).toEqual(seasonIds);
 
-			expect(
-				wrapper
-					.find("input")
-					.at(1)
-					.props().value,
-			).toEqual(viewMember.firstName);
-
-			expect(
-				wrapper
-					.find("input")
-					.at(2)
-					.props().value,
-			).toEqual(viewMember.lastName);
-
-			expect(wrapper.find("DisplayOption").props().value).toEqual(
-				viewMember.role,
-			);
 			expect(wrapper.state("isLoading")).toBeFalsy();
 		});
 
 		it("updates a field value when changed", () => {
-			const name = "email";
+			const name = "authorizedEmail";
 			const newValue = "changedemail@example.com";
 			wrapper.instance().handleChange({ target: { name, value: newValue } });
 			wrapper.update();
 
-			expect(
-				wrapper
-					.find("input")
-					.first()
-					.props().value,
-			).toEqual(newValue);
+			expect(wrapper.find("input").props().value).toEqual(newValue);
 		});
 
 		it("doesn't submit the form if a field has errors", () => {
-			const name = "email";
+			const name = "authorizedEmail";
 			const newValue = "";
 			wrapper.instance().handleChange({ target: { name, value: newValue } });
 			wrapper.update();
 
 			wrapper.find("form").simulate("submit");
-			expect(updateMember).toHaveBeenCalledTimes(0);
+			expect(createMember).toHaveBeenCalledTimes(0);
 		});
 
 		describe("Form Submission", () => {
 			beforeEach(() => {
 				jest.useFakeTimers();
+
+				wrapper
+					.instance()
+					.handleChange({ target: { name: "seasonId", value: "20002001" } });
+				wrapper
+					.instance()
+					.handleChange({ target: { name: "role", value: "employee" } });
+				wrapper
+					.instance()
+					.handleChange({
+						target: { name: "authorizedEmail", value: "test@example.com" },
+					});
+				wrapper.update();
+
 				wrapper.find("form").simulate("submit");
 				jest.runOnlyPendingTimers();
 			});
 
 			it("successful validation calls updateMember with fields", done => {
 				expect(wrapper.state("isSubmitting")).toBeTruthy();
-				expect(updateMember).toHaveBeenCalledWith({
-					_id: viewMember._id,
-					email: viewMember.email,
-					firstName: viewMember.firstName,
-					lastName: viewMember.lastName,
-					role: viewMember.role,
+				expect(createMember).toHaveBeenCalledWith({
+					authorizedEmail: "test@example.com",
+					role: "employee",
+					seasonId: "20002001",
 				});
 				done();
 			});

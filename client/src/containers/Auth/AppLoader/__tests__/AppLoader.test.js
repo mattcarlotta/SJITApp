@@ -16,16 +16,12 @@ const nextProps = {
 	role: "guest",
 };
 
-const initState = {
-	requestTimeout: false,
-};
-
 jest.useFakeTimers();
 
 describe("App Loader", () => {
 	let wrapper;
 	beforeEach(() => {
-		wrapper = shallow(<AppLoader {...initProps} />, initState);
+		wrapper = shallow(<AppLoader {...initProps} />);
 	});
 
 	afterEach(() => {
@@ -43,15 +39,9 @@ describe("App Loader", () => {
 
 	it("doesn't call authenticateUser if 'role' is set", () => {
 		authenticateUser.mockClear();
-		wrapper = shallow(<AppLoader {...nextProps} />, initState);
+		wrapper = shallow(<AppLoader {...nextProps} />);
 		expect(authenticateUser).toHaveBeenCalledTimes(0);
 	});
-
-	// it("renders a login form after a 5 second timer", () => {
-	// 	jest.runOnlyPendingTimers();
-	// 	expect(wrapper.state("requestTimeout")).toBeTruthy();
-	// 	expect(wrapper.find("Connect(LoginForm)").exists()).toBeTruthy();
-	// });
 
 	it("renders a login form if the user is determined to be a guest via API", () => {
 		wrapper.setProps({ role: "guest" });

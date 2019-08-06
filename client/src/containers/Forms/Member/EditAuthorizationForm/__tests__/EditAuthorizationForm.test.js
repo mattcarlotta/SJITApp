@@ -1,101 +1,108 @@
-import { EditMemberForm } from "../index";
+import { EditAuthorizationForm } from "../index";
 
+const fetchToken = jest.fn();
+const fetchSeasonsIds = jest.fn();
 const hideServerMessage = jest.fn();
-const updateMember = jest.fn();
-
-const viewMember = {
-	_id: "0123456789",
-	email: "test@example.com",
-	events: [],
-	firstName: "test",
-	lastName: "example",
-	role: "employee",
-	registered: "2019-07-26T16:56:40.518+00:00",
-	schedule: [],
-	status: "active",
-};
+const updateMemberToken = jest.fn();
 
 const initProps = {
+	fetchToken,
+	fetchSeasonsIds,
 	hideServerMessage,
+	match: {
+		params: {
+			id: "5d44a76ad49a24023e0af7dc",
+		},
+	},
+	seasonIds: [],
 	serverMessage: "",
-	updateMember,
-	viewMember: {},
+	updateMemberToken,
 };
 
-describe("Edit Member Form", () => {
+const seasonIds = ["20002001", "20012002", "20022003"];
+const editToken = {
+	email: "",
+	_id: "5d44a76ad49a24023e0af7dc",
+	authorizedEmail: "test@test.com",
+	role: "employee",
+	seasonId: "20002001",
+};
+
+describe("Edit Authorization Form", () => {
 	let wrapper;
 	beforeEach(() => {
-		wrapper = mount(<EditMemberForm {...initProps} />);
+		wrapper = mount(<EditAuthorizationForm {...initProps} />);
 	});
 
 	afterEach(() => {
-		updateMember.mockClear();
-		hideServerMessage.mockClear();
+		fetchSeasonsIds.mockClear();
+		fetchToken.mockClear();
+		updateMemberToken.mockClear();
 	});
 
 	it("renders without errors", () => {
-		expect(wrapper.find("form").exists()).toBeTruthy();
+		expect(wrapper.find("Card").exists()).toBeTruthy();
 	});
 
 	it("shows a Spinner when fetching seasonIds and the token to edit", () => {
 		expect(wrapper.find("Spinner").exists()).toBeTruthy();
 	});
 
-	describe("Form Initialized", () => {
+	it("calls fetchSeasonsIds and fetchToken on mount", () => {
+		expect(fetchSeasonsIds).toHaveBeenCalledTimes(1);
+		expect(fetchToken).toHaveBeenCalledTimes(1);
+	});
+
+	describe("Form Initializied", () => {
 		beforeEach(() => {
-			wrapper.setProps({ viewMember });
+			wrapper.setProps({ editToken, seasonIds });
 		});
 
-		it("fills in the fields when loaded", () => {
+		it("initializes the fields with editToken and seasonIds values", () => {
 			expect(
 				wrapper
-					.find("input")
+					.find("DisplayOption")
 					.first()
 					.props().value,
-			).toEqual(viewMember.email);
+			).toEqual(editToken.seasonId);
 
 			expect(
 				wrapper
-					.find("input")
+					.find("Select")
+					.first()
+					.props().selectOptions,
+			).toEqual(seasonIds);
+
+			expect(
+				wrapper
+					.find("DisplayOption")
 					.at(1)
 					.props().value,
-			).toEqual(viewMember.firstName);
-
-			expect(
-				wrapper
-					.find("input")
-					.at(2)
-					.props().value,
-			).toEqual(viewMember.lastName);
-
-			expect(wrapper.find("DisplayOption").props().value).toEqual(
-				viewMember.role,
+			).toEqual(editToken.role);
+			expect(wrapper.find("input").props().value).toEqual(
+				editToken.authorizedEmail,
 			);
+
 			expect(wrapper.state("isLoading")).toBeFalsy();
 		});
 
 		it("updates a field value when changed", () => {
-			const name = "email";
+			const name = "authorizedEmail";
 			const newValue = "changedemail@example.com";
 			wrapper.instance().handleChange({ target: { name, value: newValue } });
 			wrapper.update();
 
-			expect(
-				wrapper
-					.find("input")
-					.first()
-					.props().value,
-			).toEqual(newValue);
+			expect(wrapper.find("input").props().value).toEqual(newValue);
 		});
 
 		it("doesn't submit the form if a field has errors", () => {
-			const name = "email";
+			const name = "authorizedEmail";
 			const newValue = "";
 			wrapper.instance().handleChange({ target: { name, value: newValue } });
 			wrapper.update();
 
 			wrapper.find("form").simulate("submit");
-			expect(updateMember).toHaveBeenCalledTimes(0);
+			expect(updateMemberToken).toHaveBeenCalledTimes(0);
 		});
 
 		describe("Form Submission", () => {
@@ -107,12 +114,11 @@ describe("Edit Member Form", () => {
 
 			it("successful validation calls updateMember with fields", done => {
 				expect(wrapper.state("isSubmitting")).toBeTruthy();
-				expect(updateMember).toHaveBeenCalledWith({
-					_id: viewMember._id,
-					email: viewMember.email,
-					firstName: viewMember.firstName,
-					lastName: viewMember.lastName,
-					role: viewMember.role,
+				expect(updateMemberToken).toHaveBeenCalledWith({
+					_id: editToken._id,
+					authorizedEmail: editToken.authorizedEmail,
+					role: editToken.role,
+					seasonId: editToken.seasonId,
 				});
 				done();
 			});

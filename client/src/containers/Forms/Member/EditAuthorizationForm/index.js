@@ -17,9 +17,9 @@ import { fieldValidator, fieldUpdater, parseFields } from "utils";
 import fields from "./Fields";
 import updateFormFields from "./UpdateFormFields";
 
-const title = "Edit Member Form";
+const title = "Edit Authorization Form";
 
-export class NewMemberForm extends Component {
+export class EditAuthorizationForm extends Component {
 	state = {
 		fields,
 		isLoading: true,
@@ -110,13 +110,28 @@ export class NewMemberForm extends Component {
 	);
 }
 
-NewMemberForm.propTypes = {
+EditAuthorizationForm.propTypes = {
+	editToken: PropTypes.shape({
+		_id: PropTypes.string,
+		authorizedEmail: PropTypes.string,
+		role: PropTypes.string,
+		seasonId: PropTypes.string,
+	}).isRequired,
 	fetchToken: PropTypes.func.isRequired,
 	fetchSeasonsIds: PropTypes.func.isRequired,
 	hideServerMessage: PropTypes.func.isRequired,
+	match: PropTypes.shape({
+		params: PropTypes.shape({
+			id: PropTypes.string,
+		}),
+	}).isRequired,
 	seasonIds: PropTypes.arrayOf(PropTypes.string),
 	serverMessage: PropTypes.string,
 	updateMemberToken: PropTypes.func.isRequired,
+};
+
+EditAuthorizationForm.defaultProps = {
+	editToken: {},
 };
 
 const mapStateToProps = state => ({
@@ -135,4 +150,4 @@ const mapDispatchToProps = {
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps,
-)(NewMemberForm);
+)(EditAuthorizationForm);

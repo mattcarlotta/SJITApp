@@ -1,4 +1,4 @@
-import React, { Fragment, PureComponent } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { push } from "connected-react-router";
 import { connect } from "react-redux";
@@ -11,34 +11,25 @@ import {
 	SignupForm,
 } from "containers/Forms";
 
-export class ProtectedRoutes extends PureComponent {
-	render = () => {
-		const { role, match } = this.props;
-
-		return (
-			<Fragment>
-				{!role || role === "guest" ? (
-					<Switch>
-						<Route
-							exact
-							path={`${match.url}/newpassword/:id`}
-							component={NewPasswordForm}
-						/>
-						<Route
-							exact
-							path={`${match.url}/resetpassword`}
-							component={ResetPasswordForm}
-						/>
-						<Route path={`${match.url}/signup`} component={SignupForm} />
-						<Route path={`${match.url}`} component={AppLoader} />
-					</Switch>
-				) : (
-					<App {...this.props} />
-				)}
-			</Fragment>
-		);
-	};
-}
+export const ProtectedRoutes = props =>
+	!props.role || props.role === "guest" ? (
+		<Switch>
+			<Route
+				exact
+				path={`${props.match.url}/newpassword/:id`}
+				component={NewPasswordForm}
+			/>
+			<Route
+				exact
+				path={`${props.match.url}/resetpassword`}
+				component={ResetPasswordForm}
+			/>
+			<Route path={`${props.match.url}/signup`} component={SignupForm} />
+			<Route path={`${props.match.url}`} component={AppLoader} />
+		</Switch>
+	) : (
+		<App {...props} />
+	);
 
 ProtectedRoutes.propTypes = {
 	firstName: PropTypes.string,
