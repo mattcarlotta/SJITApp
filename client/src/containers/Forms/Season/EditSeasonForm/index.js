@@ -4,14 +4,17 @@ import isEmpty from "lodash/isEmpty";
 import moment from "moment";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
-import { Card, DatePicker } from "antd";
-import { FieldGenerator, FormContainer, SubmitButton } from "components/Body";
+import { Card } from "antd";
+import {
+	BackButton,
+	FieldGenerator,
+	FormContainer,
+	SubmitButton,
+} from "components/Body";
 import { FormTitle } from "components/Forms";
 import { hideServerMessage } from "actions/Messages";
 import { fetchSeason, updateSeason } from "actions/Seasons";
 import { fieldUpdater, parseFields } from "utils";
-
-const RangePicker = DatePicker.RangePicker;
 
 const title = "Edit Season Form";
 
@@ -126,7 +129,15 @@ export class EditSeasonForm extends Component {
 	};
 
 	render = () => (
-		<Card title={title}>
+		<Card
+			extra={
+				<BackButton
+					push={this.props.push}
+					location="/employee/seasons/viewall"
+				/>
+			}
+			title={title}
+		>
 			<FormContainer>
 				<FormTitle
 					header={title}

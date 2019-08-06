@@ -64,7 +64,12 @@ describe("Edit Season Form", () => {
 				.first()
 				.props().disabled,
 		).toBeTruthy();
-		expect(wrapper.find("button").props().disabled).toBeTruthy();
+		expect(
+			wrapper
+				.find("button")
+				.at(1)
+				.props().disabled,
+		).toBeTruthy();
 	});
 
 	describe("Form has been loaded", () => {
@@ -79,7 +84,12 @@ describe("Edit Season Form", () => {
 					.first()
 					.props().disabled,
 			).toBeFalsy();
-			expect(wrapper.find("button").props().disabled).toBeFalsy();
+			expect(
+				wrapper
+					.find("button")
+					.at(1)
+					.props().disabled,
+			).toBeFalsy();
 		});
 
 		it("initially sets the seasonId, handles changes based upon selected values, and resets to prop values when cleared", () => {

@@ -1,5 +1,6 @@
 /* istanbul ignore file */
 
+export { default as BackButton } from "./BackButton";
 export { default as BackgroundOverlay } from "./BackgroundOverlay";
 export { default as Button } from "./Button";
 export { default as ButtonContainer } from "./ButtonContainer";

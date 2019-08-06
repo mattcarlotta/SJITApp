@@ -3,7 +3,9 @@ import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
 import { Card } from "antd";
 import { connect } from "react-redux";
+import { push } from "connected-react-router";
 import {
+	BackButton,
 	FieldGenerator,
 	FormContainer,
 	Spinner,
@@ -16,7 +18,7 @@ import { createMember } from "actions/Members";
 import { fieldValidator, fieldUpdater, parseFields } from "utils";
 import fields from "./Fields";
 
-const title = "Create Member Form";
+const title = "New Member Form";
 
 export class NewMemberForm extends Component {
 	state = {
@@ -71,7 +73,15 @@ export class NewMemberForm extends Component {
 	};
 
 	render = () => (
-		<Card title={title}>
+		<Card
+			extra={
+				<BackButton
+					push={this.props.push}
+					location="/employee/members/viewall"
+				/>
+			}
+			title={title}
+		>
 			<FormContainer>
 				<FormTitle
 					header={title}
@@ -104,6 +114,7 @@ NewMemberForm.propTypes = {
 	createMember: PropTypes.func.isRequired,
 	fetchSeasonsIds: PropTypes.func.isRequired,
 	hideServerMessage: PropTypes.func.isRequired,
+	push: PropTypes.func.isRequired,
 	seasonIds: PropTypes.arrayOf(PropTypes.string),
 	serverMessage: PropTypes.string,
 };
@@ -116,6 +127,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
 	createMember,
 	fetchSeasonsIds,
+	push,
 	hideServerMessage,
 };
 

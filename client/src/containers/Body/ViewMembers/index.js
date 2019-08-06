@@ -33,7 +33,7 @@ const columns = [
 		key: "registered",
 		render: date => <DisplayDate date={date} />,
 	},
-	{ title: "Events", dataIndex: "events", key: "events" },
+	{ title: "Events (total)", dataIndex: "events", key: "events" },
 ];
 
 export const ViewMembers = ({

@@ -3,10 +3,12 @@ import moment from "moment";
 
 const createSeason = jest.fn();
 const hideServerMessage = jest.fn();
+const push = jest.fn();
 
 const initProps = {
 	createSeason,
 	hideServerMessage,
+	push,
 	serverMessage: "",
 };
 

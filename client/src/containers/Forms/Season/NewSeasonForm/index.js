@@ -3,16 +3,18 @@ import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
 import moment from "moment";
 import { connect } from "react-redux";
-import { Card, Form, DatePicker } from "antd";
-import { FaCalendarPlus } from "react-icons/fa";
+import { push } from "connected-react-router";
+import { Card } from "antd";
 import { hideServerMessage } from "actions/Messages";
 import { createSeason } from "actions/Seasons";
-import { FieldGenerator, FormContainer, SubmitButton } from "components/Body";
-import { FormTitle, Errors, Input } from "components/Forms";
-import { Label } from "components/Body";
+import {
+	BackButton,
+	FieldGenerator,
+	FormContainer,
+	SubmitButton,
+} from "components/Body";
+import { FormTitle } from "components/Forms";
 import { fieldValidator, fieldUpdater, parseFields } from "utils";
-
-const RangePicker = DatePicker.RangePicker;
 
 const title = "New Season Form";
 
@@ -96,7 +98,15 @@ export class NewSeasonForm extends Component {
 	};
 
 	render = () => (
-		<Card title={title}>
+		<Card
+			extra={
+				<BackButton
+					push={this.props.push}
+					location="/employee/seasons/viewall"
+				/>
+			}
+			title={title}
+		>
 			<FormContainer>
 				<FormTitle
 					header={title}
@@ -118,6 +128,7 @@ export class NewSeasonForm extends Component {
 NewSeasonForm.propTypes = {
 	createSeason: PropTypes.func.isRequired,
 	hideServerMessage: PropTypes.func.isRequired,
+	push: PropTypes.func.isRequired,
 	serverMessage: PropTypes.string,
 };
 
@@ -128,6 +139,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
 	createSeason,
 	hideServerMessage,
+	push,
 };
 
 export default connect(

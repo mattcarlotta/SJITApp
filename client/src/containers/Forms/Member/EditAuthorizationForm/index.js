@@ -3,7 +3,9 @@ import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
 import { Card } from "antd";
 import { connect } from "react-redux";
+import { push } from "connected-react-router";
 import {
+	BackButton,
 	FieldGenerator,
 	FormContainer,
 	Spinner,
@@ -81,7 +83,15 @@ export class EditAuthorizationForm extends Component {
 	};
 
 	render = () => (
-		<Card title={title}>
+		<Card
+			extra={
+				<BackButton
+					push={this.props.push}
+					location="/employee/members/authorizations/viewall"
+				/>
+			}
+			title={title}
+		>
 			<FormContainer>
 				<FormTitle
 					header={title}
@@ -125,6 +135,7 @@ EditAuthorizationForm.propTypes = {
 			id: PropTypes.string,
 		}),
 	}).isRequired,
+	push: PropTypes.func.isRequired,
 	seasonIds: PropTypes.arrayOf(PropTypes.string),
 	serverMessage: PropTypes.string,
 	updateMemberToken: PropTypes.func.isRequired,
@@ -144,6 +155,7 @@ const mapDispatchToProps = {
 	fetchToken,
 	fetchSeasonsIds,
 	hideServerMessage,
+	push,
 	updateMemberToken,
 };
 

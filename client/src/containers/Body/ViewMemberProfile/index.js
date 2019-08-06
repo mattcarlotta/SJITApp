@@ -7,9 +7,8 @@ import { connect } from "react-redux";
 import { Card, Icon, Tabs } from "antd";
 import { FaUserCircle, FaChartBar, FaReply, FaClock } from "react-icons/fa";
 import { fetchMember, updateMemberStatus } from "actions/Members";
-import { PaneBody, Spinner } from "components/Body";
+import { BackButton, PaneBody, Spinner } from "components/Body";
 import Profile from "./Profile";
-import ExtraButtons from "./ExtraButtons";
 
 const Pane = Tabs.TabPane;
 
@@ -60,7 +59,9 @@ export class ViewMemberProfile extends PureComponent {
 				<Helmet title={title} />
 				<Card
 					style={{ minHeight: 800 }}
-					extra={<ExtraButtons push={push} />}
+					extra={
+						<BackButton push={push} location="/employee/members/viewall" />
+					}
 					title={title}
 				>
 					{isEmpty(viewMember) ? (

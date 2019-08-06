@@ -1,14 +1,16 @@
-import ExtraButtons from "../index";
+import BackButton from "../index";
 
 const push = jest.fn();
+const location = "schedule";
 
 const initProps = {
+	location,
 	push,
 };
 
-const wrapper = shallow(<ExtraButtons {...initProps} />);
+const wrapper = shallow(<BackButton {...initProps} />);
 
-describe("Profile Extra Buttons", () => {
+describe("Back Button", () => {
 	it("renders without errors", () => {
 		expect(wrapper.find("Button").exists()).toBeTruthy();
 	});
@@ -16,6 +18,6 @@ describe("Profile Extra Buttons", () => {
 	it("calls push when clicked", () => {
 		wrapper.find("Button").simulate("click");
 
-		expect(push).toHaveBeenCalledTimes(1);
+		expect(push).toHaveBeenCalledWith(location);
 	});
 });

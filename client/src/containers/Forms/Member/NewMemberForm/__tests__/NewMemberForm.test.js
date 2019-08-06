@@ -3,11 +3,13 @@ import { NewMemberForm } from "../index";
 const createMember = jest.fn();
 const fetchSeasonsIds = jest.fn();
 const hideServerMessage = jest.fn();
+const push = jest.fn();
 
 const initProps = {
 	createMember,
 	fetchSeasonsIds,
 	hideServerMessage,
+	push,
 	seasonIds: [],
 	serverMessage: "",
 };
@@ -83,11 +85,9 @@ describe("Edit Authorization Form", () => {
 				wrapper
 					.instance()
 					.handleChange({ target: { name: "role", value: "employee" } });
-				wrapper
-					.instance()
-					.handleChange({
-						target: { name: "authorizedEmail", value: "test@example.com" },
-					});
+				wrapper.instance().handleChange({
+					target: { name: "authorizedEmail", value: "test@example.com" },
+				});
 				wrapper.update();
 
 				wrapper.find("form").simulate("submit");

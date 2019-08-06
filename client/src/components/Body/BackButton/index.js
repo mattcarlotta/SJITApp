@@ -13,19 +13,14 @@ const btnStyle = {
 	display: "inline-block",
 };
 
-const ExtraButtons = ({ push }) => (
-	<Button
-		primary
-		width="100px"
-		style={btnStyle}
-		onClick={() => push("/employee/members/viewall")}
-	>
+const BackButton = ({ push, location }) => (
+	<Button primary width="100px" style={btnStyle} onClick={() => push(location)}>
 		<FaChevronLeft style={iconStyle} /> Back
 	</Button>
 );
 
-ExtraButtons.propTypes = {
+BackButton.propTypes = {
 	push: PropTypes.func.isRequired,
 };
 
-export default ExtraButtons;
+export default BackButton;
