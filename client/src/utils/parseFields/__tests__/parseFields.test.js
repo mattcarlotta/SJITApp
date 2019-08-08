@@ -1,4 +1,5 @@
 import parsedFields from "../index";
+import moment from "moment";
 
 describe("Parse Fields Helper", () => {
 	it("throws an error if missing required parameters", () => {
@@ -18,6 +19,21 @@ describe("Parse Fields Helper", () => {
 				type: "password",
 				value: "12345",
 			},
+			{
+				name: "callTime1",
+				type: "time",
+				value: moment(new Date("2019-12-17T01:00:00")),
+			},
+			{
+				name: "callTime2",
+				type: "time",
+				value: moment(new Date("2019-12-17T02:00:00")),
+			},
+			{
+				name: "callTime3",
+				type: "time",
+				value: moment(new Date("2019-12-17T03:00:00")),
+			},
 		];
 
 		const nextFields = parsedFields(fields);
@@ -25,6 +41,7 @@ describe("Parse Fields Helper", () => {
 			expect.objectContaining({
 				email: "test@example.com",
 				password: "12345",
+				callTimes: ["1:00 AM", "2:00 AM", "3:00 AM"],
 			}),
 		);
 	});

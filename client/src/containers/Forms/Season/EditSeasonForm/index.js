@@ -5,13 +5,8 @@ import moment from "moment";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import { Card } from "antd";
-import {
-	BackButton,
-	FieldGenerator,
-	FormContainer,
-	SubmitButton,
-} from "components/Body";
-import { FormTitle } from "components/Forms";
+import { BackButton, FormContainer, SubmitButton } from "components/Body";
+import { FieldGenerator, FormTitle } from "components/Forms";
 import { hideServerMessage } from "actions/Messages";
 import { fetchSeason, updateSeason } from "actions/Seasons";
 import { fieldUpdater, parseFields } from "utils";

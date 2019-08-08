@@ -6,13 +6,8 @@ import { push } from "connected-react-router";
 import { Card } from "antd";
 import { hideServerMessage } from "actions/Messages";
 import { createSeason } from "actions/Seasons";
-import {
-	BackButton,
-	FieldGenerator,
-	FormContainer,
-	SubmitButton,
-} from "components/Body";
-import { FormTitle } from "components/Forms";
+import { BackButton, FormContainer, SubmitButton } from "components/Body";
+import { FieldGenerator, FormTitle } from "components/Forms";
 import { fieldValidator, fieldUpdater, parseFields } from "utils";
 import fields from "./Fields";
 

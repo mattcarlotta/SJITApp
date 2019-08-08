@@ -6,12 +6,11 @@ import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import {
 	BackButton,
-	FieldGenerator,
 	FormContainer,
 	Spinner,
 	SubmitButton,
 } from "components/Body";
-import { FormTitle } from "components/Forms";
+import { FieldGenerator, FormTitle } from "components/Forms";
 import { hideServerMessage } from "actions/Messages";
 import { fetchSeasonsIds } from "actions/Seasons";
 import { createMember } from "actions/Members";

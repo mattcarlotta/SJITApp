@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { FieldGenerator, Modal, SubmitButton } from "components/Body";
-import { FormTitle } from "components/Forms";
+import { Modal, SubmitButton } from "components/Body";
+import { FieldGenerator, FormTitle } from "components/Forms";
 import { fieldValidator, fieldUpdater, parseFields, parseToken } from "utils";
 import { updateUserPassword } from "actions/Auth";
 import { hideServerMessage } from "actions/Messages";
