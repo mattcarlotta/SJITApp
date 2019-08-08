@@ -66,8 +66,6 @@ const unableToDeleteSeason = "Unable to delete that season. It doesn't exist.";
 
 const unableToDeleteMember = "Unable to delete that member. It doesn't exist.";
 
-const unableToEditToken = "Unable to edit the authorization key. This key has already been used and is associated with an active account.";
-
 const unableToLocateMember = "Unable to locate that member. It doesn't exist.";
 
 const unableToLocateSeason = "Unable to locate that season. It doesn't exist.";
@@ -75,6 +73,8 @@ const unableToLocateSeason = "Unable to locate that season. It doesn't exist.";
 const unableToLocateToken = "Unable to locate that token. It doesn't exist.";
 
 const unableToUpdateSeason = "Unable to update the existing season. You must provide a model id, seasonId, startDate, and endDate.";
+
+const unableToUpdateToken = "Unable to update this authorization key. The key has already been used and is already associated with an active account.";
 
 export {
   alreadyLoggedIn,
@@ -111,9 +111,9 @@ export {
   unableToCreateNewSeason,
   unableToDeleteMember,
   unableToDeleteSeason,
-  unableToEditToken,
   unableToLocateMember,
   unableToLocateSeason,
   unableToLocateToken,
   unableToUpdateSeason,
+  unableToUpdateToken,
 };

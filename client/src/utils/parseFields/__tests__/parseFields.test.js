@@ -20,6 +20,14 @@ describe("Parse Fields Helper", () => {
 				value: "12345",
 			},
 			{
+				name: "seasonDuration",
+				type: "range",
+				value: [
+					moment(new Date("2019-12-17T01:00:00")),
+					moment(new Date("2019-12-17T02:00:00")),
+				],
+			},
+			{
 				name: "callTime1",
 				type: "time",
 				value: moment(new Date("2019-12-17T01:00:00")),
@@ -41,6 +49,10 @@ describe("Parse Fields Helper", () => {
 			expect.objectContaining({
 				email: "test@example.com",
 				password: "12345",
+				seasonDuration: [
+					"2019-12-17T01:00:00-08:00",
+					"2019-12-17T02:00:00-08:00",
+				],
 				callTimes: ["1:00 AM", "2:00 AM", "3:00 AM"],
 			}),
 		);

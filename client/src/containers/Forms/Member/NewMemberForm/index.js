@@ -82,11 +82,6 @@ export class NewMemberForm extends Component {
 			title={title}
 		>
 			<FormContainer>
-				<FormTitle
-					header={title}
-					title={title}
-					description="Select a season, role, and enter a valid email address."
-				/>
 				<form onSubmit={this.handleSubmit}>
 					{this.state.isLoading ? (
 						<Spinner />

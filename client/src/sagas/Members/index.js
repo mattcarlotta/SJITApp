@@ -167,6 +167,8 @@ export function* fetchMembers() {
 
 export function* fetchToken({ tokenId }) {
 	try {
+		yield put(hideServerMessage());
+
 		const res = yield call(app.get, `token/edit/${tokenId}`);
 		const data = yield call(parseData, res);
 

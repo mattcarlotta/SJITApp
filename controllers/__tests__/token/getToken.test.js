@@ -1,11 +1,7 @@
 import { Token } from "models";
 import { getToken } from "controllers/token";
 import { createSignupToken, expirationDate } from "shared/helpers";
-import {
-  missingTokenId,
-  unableToEditToken,
-  unableToLocateToken,
-} from "shared/authErrors";
+import { missingTokenId, unableToLocateToken } from "shared/authErrors";
 
 describe("Get Token Controller", () => {
   let res;
@@ -49,32 +45,6 @@ describe("Get Token Controller", () => {
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith({
       err: unableToLocateToken,
-    });
-  });
-
-  it("handles attempts to edit used tokens", async () => {
-    const newHire = {
-      authorizedEmail: "usedmember@example.com",
-      email: "usedmember@example.com",
-      role: "employee",
-      seasonId: "20402041",
-      token: createSignupToken(),
-      expiration: expirationDate().toDate(),
-    };
-
-    const usedToken = await Token.create(newHire);
-
-    const usedTokenId = {
-      id: usedToken._id,
-    };
-
-    const req = mockRequest(null, null, null, null, usedTokenId);
-
-    await getToken(req, res);
-
-    expect(res.status).toHaveBeenCalledWith(400);
-    expect(res.json).toHaveBeenCalledWith({
-      err: unableToEditToken,
     });
   });
 

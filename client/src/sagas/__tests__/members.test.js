@@ -293,6 +293,8 @@ describe("member Sagas", () => {
 
 			testSaga(sagas.fetchToken, { tokenId })
 				.next()
+				.put(hideServerMessage())
+				.next()
 				.call(app.get, `token/edit/${tokenId}`)
 				.next(res)
 				.call(parseData, res)

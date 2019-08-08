@@ -7,8 +7,8 @@ import {
   invalidSeasonId,
   missingTokenId,
   missingUpdateTokenParams,
-  unableToEditToken,
   unableToLocateToken,
+  unableToUpdateToken,
 } from "shared/authErrors";
 import { newAuthorizationKeyTemplate } from "services/templates";
 import { Token, Season } from "models";
@@ -99,7 +99,6 @@ const getToken = async (req, res) => {
 
     const existingToken = await Token.findOne({ _id }, { __v: 0, token: 0 });
     if (!existingToken) throw unableToLocateToken;
-    if (existingToken.email) throw unableToEditToken;
 
     res.status(200).json({ token: existingToken });
   } catch (err) {
@@ -116,6 +115,7 @@ const updateToken = async (req, res) => {
 
     const existingToken = await Token.findOne({ _id });
     if (!existingToken) throw unableToLocateToken;
+    if (existingToken.email) throw unableToUpdateToken;
 
     const token = createSignupToken();
     const expiration = expirationDate();

@@ -47,7 +47,7 @@ export class EditAuthorizationForm extends Component {
 			};
 		}
 
-		if (serverMessage) return { isSubmitting: false, isLoading: false };
+		if (serverMessage) return { isSubmitting: false };
 
 		return null;
 	};

@@ -4,6 +4,7 @@ import { updateToken } from "controllers/token";
 import { createSignupToken, expirationDate } from "shared/helpers";
 import {
   missingUpdateTokenParams,
+  unableToUpdateToken,
   unableToLocateToken,
 } from "shared/authErrors";
 
@@ -55,6 +56,35 @@ describe("Update Token Controller", () => {
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith({
       err: unableToLocateToken,
+    });
+  });
+
+  it("handles attempts to edit used tokens", async () => {
+    const newHire = {
+      authorizedEmail: "usedmember@example.com",
+      email: "usedmember@example.com",
+      role: "employee",
+      seasonId: "20402041",
+      token: createSignupToken(),
+      expiration: expirationDate().toDate(),
+    };
+
+    const usedToken = await Token.create(newHire);
+
+    const usedTokenId = {
+      _id: usedToken._id,
+      authorizedEmail: "newusedmember@example.com",
+      role: "staff",
+      seasonId: "20412042",
+    };
+
+    const req = mockRequest(null, null, usedTokenId);
+
+    await updateToken(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.json).toHaveBeenCalledWith({
+      err: unableToUpdateToken,
     });
   });
 
