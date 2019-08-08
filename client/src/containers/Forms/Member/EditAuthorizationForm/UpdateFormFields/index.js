@@ -5,11 +5,15 @@ export default (field, seasonIds, editToken) => {
 				...field,
 				selectOptions: seasonIds,
 				value: editToken.seasonId,
-				disabled: false,
+				disabled: !!editToken.email,
 			};
 		case "role":
-			return { ...field, value: editToken.role, disabled: false };
+			return { ...field, value: editToken.role, disabled: !!editToken.email };
 		case "authorizedEmail":
-			return { ...field, value: editToken.authorizedEmail, disabled: false };
+			return {
+				...field,
+				value: editToken.authorizedEmail,
+				disabled: !!editToken.email,
+			};
 	}
 };

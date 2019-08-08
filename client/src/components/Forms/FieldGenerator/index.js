@@ -1,12 +1,13 @@
-/* istanbul ignore file */
 import React from "react";
 import PropTypes from "prop-types";
 import { Form, DatePicker, TimePicker } from "antd";
-import { FaCalendarPlus, FaClock } from "react-icons/fa";
+import { Input as AntInput } from "antd";
+import { FaCalendarPlus, FaClock, FaStickyNote } from "react-icons/fa";
 import { Icon, Label } from "components/Body";
 import { Errors, Input, Select } from "components/Forms";
 
 const RangePicker = DatePicker.RangePicker;
+const TextArea = AntInput.TextArea;
 
 const removeIconStyle = {
 	cursor: "pointer",
@@ -41,6 +42,17 @@ const FieldGenerator = ({ fields, onChange }) =>
 								onChange({ target: { name: props.name, value } })
 							}
 						/>
+						{props.errors && <Errors>{props.errors}</Errors>}
+					</Form.Item>
+				);
+			case "textarea":
+				return (
+					<Form.Item
+						key={props.name}
+						style={{ minHeight: 105, marginBottom: 20 }}
+					>
+						<Label {...props} />
+						<TextArea {...props} onChange={onChange} rows={4} />
 						{props.errors && <Errors>{props.errors}</Errors>}
 					</Form.Item>
 				);

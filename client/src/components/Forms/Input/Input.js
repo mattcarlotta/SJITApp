@@ -20,7 +20,7 @@ const Input = ({
 	tooltip,
 	value,
 }) => (
-	<div className={className} style={containerStyle}>
+	<div className={className} style={containerStyle} type={type}>
 		<ClickHandler value={value}>
 			{({ isFocused, handleBlur, handleFocus }) => (
 				<div

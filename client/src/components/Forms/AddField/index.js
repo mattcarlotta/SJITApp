@@ -12,6 +12,7 @@ export default styled(AddField)`
 	-webkit-transition: all 0.2s ease-in-out;
 	transition: all 0.2s ease-in-out;
 	margin-bottom: 20px;
+	height: 52px;
 
 	& .text {
 		padding-left: 5px;

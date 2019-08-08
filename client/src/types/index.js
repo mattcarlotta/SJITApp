@@ -1,3 +1,10 @@
+// events
+export const EVENTS_CREATE = "EVENTS/CREATE";
+export const EVENTS_EDIT = "EVENTS/EDIT";
+export const EVENTS_FETCH = "EVENTS/FETCH";
+export const EVENTS_SET = "EVENTS/SET";
+export const EVENTS_SET_EDIT = "EVENTS/SET_EDIT";
+
 // members
 export const MEMBERS_CREATE = "MEMBERS/CREATE";
 export const MEMBERS_DELETE = "MEMBERS/DELETE";

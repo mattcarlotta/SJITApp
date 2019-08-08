@@ -1,6 +1,6 @@
 import ViewEvents from "../index";
 
-const wrapper = mount(<ViewEvents />);
+const wrapper = HOCWrap(ViewEvents);
 
 describe("ViewEvents Page", () => {
 	it("renders without errors", () => {

@@ -1,5 +1,6 @@
 import React from "react";
+import { ViewEvents } from "containers/Body";
 
-const ViewEventsPage = () => <h1>View Events</h1>;
+const ViewEventsPage = () => <ViewEvents />;
 
 export default ViewEventsPage;

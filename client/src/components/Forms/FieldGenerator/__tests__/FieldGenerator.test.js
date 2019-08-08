@@ -14,6 +14,15 @@ const input = {
 	errors: "",
 };
 
+const textarea = {
+	type: "textarea",
+	name: "notes",
+	label: "Notes",
+	icon: "note",
+	value: "",
+	errors: "",
+};
+
 const select = {
 	name: "role",
 	type: "select",
@@ -80,6 +89,12 @@ describe("Field Generator", () => {
 		wrapper.setProps({ fields: [input] });
 
 		expect(wrapper.find("Input").exists()).toBeTruthy();
+	});
+
+	it("returns an TextArea when type is 'textarea'", () => {
+		wrapper.setProps({ fields: [textarea] });
+
+		expect(wrapper.find("TextArea").exists()).toBeTruthy();
 	});
 
 	it("returns an Input when type is 'email'", () => {

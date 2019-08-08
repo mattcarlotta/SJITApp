@@ -4,7 +4,8 @@ import { FaPlus } from "react-icons/fa";
 
 const iconStyle = {
 	position: "relative",
-	top: 3,
+	top: 1,
+	fontSize: 16,
 };
 
 const AddField = ({ className, onClick, text }) => (

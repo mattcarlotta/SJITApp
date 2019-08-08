@@ -4,7 +4,7 @@ const seasonIds = ["20002001", "20012002", "20022003"];
 
 const editToken = {
 	_id: "5d44a68188524202892bd82e",
-	email: "member@example.com",
+	email: "",
 	authorizedEmail: "member@example.com",
 	role: "member",
 	seasonId: "20002001",
@@ -33,7 +33,7 @@ describe("UpdateFormFields", () => {
 			...seasonIdField,
 			selectOptions: seasonIds,
 			value: editToken.seasonId,
-			disabled: false,
+			disabled: !!editToken.email,
 		});
 	});
 
@@ -56,7 +56,7 @@ describe("UpdateFormFields", () => {
 		expect(updatedField).toEqual({
 			...roleField,
 			value: editToken.role,
-			disabled: false,
+			disabled: !!editToken.email,
 		});
 	});
 

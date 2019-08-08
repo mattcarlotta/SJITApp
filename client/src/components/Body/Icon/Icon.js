@@ -12,6 +12,8 @@ import {
 	FaHockeyPuck,
 	FaStreetView,
 	FaMinusCircle,
+	FaTshirt,
+	FaStickyNote,
 } from "react-icons/fa";
 
 const icons = type => {
@@ -28,10 +30,14 @@ const icons = type => {
 			return <FaLock />;
 		case "mail":
 			return <FaEnvelope />;
+		case "note":
+			return <FaStickyNote />;
 		case "puck":
 			return <FaHockeyPuck />;
 		case "remove":
 			return <FaMinusCircle />;
+		case "tshirt":
+			return <FaTshirt />;
 		case "user":
 			return <FaUserCircle />;
 		case "usertag":

@@ -34,11 +34,17 @@ describe("Icon", () => {
 		wrapper.setProps({ type: "mail" });
 		expect(wrapper.find("FaEnvelope").exists()).toBeTruthy();
 
+		wrapper.setProps({ type: "note" });
+		expect(wrapper.find("FaStickyNote").exists()).toBeTruthy();
+
 		wrapper.setProps({ type: "puck" });
 		expect(wrapper.find("FaHockeyPuck").exists()).toBeTruthy();
 
 		wrapper.setProps({ type: "remove" });
 		expect(wrapper.find("FaMinusCircle").exists()).toBeTruthy();
+
+		wrapper.setProps({ type: "tshirt" });
+		expect(wrapper.find("FaTshirt").exists()).toBeTruthy();
 
 		wrapper.setProps({ type: "user" });
 		expect(wrapper.find("FaUserCircle").exists()).toBeTruthy();
