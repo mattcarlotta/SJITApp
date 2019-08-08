@@ -13,14 +13,15 @@ import {
 
 const createSeason = async (req, res) => {
   try {
-    const { seasonId, startDate, endDate } = req.body;
+    const { seasonId, seasonDuration } = req.body;
 
-    if (!seasonId || !startDate || !endDate) throw unableToCreateNewSeason;
+    if (!seasonId || !seasonDuration) throw unableToCreateNewSeason;
 
     const seasonExists = await Season.findOne({ seasonId });
     if (seasonExists) throw seasonAlreadyExists;
 
-    await Season.create(req.body);
+    const [startDate, endDate] = seasonDuration;
+    await Season.create({ seasonId, startDate, endDate });
     res.status(201).json({ message: "Successfully created a new season!" });
   } catch (err) {
     return sendError(err, res);
@@ -90,15 +91,19 @@ const getSeason = async (req, res) => {
 
 const updateSeason = async (req, res) => {
   try {
-    const {
-      _id, seasonId, startDate, endDate,
-    } = req.body;
+    const { _id, seasonId, seasonDuration } = req.body;
 
-    if (!_id || !seasonId || !startDate || !endDate) throw unableToUpdateSeason;
+    if (!_id || !seasonId || !seasonDuration) throw unableToUpdateSeason;
 
     const existingSeason = await Season.findOne({ _id });
     if (!existingSeason) throw unableToLocateSeason;
 
+    if (existingSeason.seasonId !== seasonId) {
+      const seasonInUse = await Season.findOne({ seasonId });
+      if (seasonInUse) throw seasonAlreadyExists;
+    }
+
+    const [startDate, endDate] = seasonDuration;
     await existingSeason.updateOne({ seasonId, startDate, endDate });
 
     res.status(201).json({ message: "Successfully updated the season." });

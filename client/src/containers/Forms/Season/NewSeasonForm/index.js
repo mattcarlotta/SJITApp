@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
-import moment from "moment";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import { Card } from "antd";
@@ -15,52 +14,26 @@ import {
 } from "components/Body";
 import { FormTitle } from "components/Forms";
 import { fieldValidator, fieldUpdater, parseFields } from "utils";
+import fields from "./Fields";
 
 const title = "New Season Form";
 
 export class NewSeasonForm extends Component {
 	state = {
-		fields: [
-			{
-				type: "text",
-				name: "seasonId",
-				label: "Season ID",
-				tooltip:
-					"Select a start and end date below to automatically fill in this field.",
-				icon: "id",
-				value: "",
-				errors: "",
-				required: true,
-				disabled: true,
-				readOnly: true,
-				inputStyle: { paddingLeft: 94 },
-			},
-			{
-				type: "range",
-				name: "seasonDuration",
-				label: "Season Duration",
-				value: [],
-				errors: "",
-				required: true,
-				props: {
-					format: "l",
-					autoFocus: true,
-				},
-			},
-		],
+		fields,
+		seasonId: "",
 		isSubmitting: false,
 	};
 
 	static getDerivedStateFromProps = ({ serverMessage }) =>
 		serverMessage ? { isSubmitting: false } : null;
 
-	handleChange = ({ name, value }) => {
+	handleChange = ({ target: { name, value } }) => {
 		let seasonId = "";
 
 		if (!isEmpty(value)) {
-			const startYear = moment(value[0]).format("YYYY");
-			const endYear = moment(value[1]).format("YYYY");
-			seasonId = `${startYear}${endYear}`;
+			const [startYear, endYear] = value;
+			seasonId = `${startYear.format("YYYY")}${endYear.format("YYYY")}`;
 		}
 
 		this.setState(prevState => {
@@ -86,13 +59,9 @@ export class NewSeasonForm extends Component {
 
 			if (!errors) {
 				const parsedFields = parseFields(formFields);
-				const { seasonId, seasonDuration } = parsedFields;
-				const [seasonStart, seasonEnd] = seasonDuration;
-				const startDate = seasonStart.format("l");
-				const endDate = seasonEnd.format("l");
 
 				if (serverMessage) hideServerMessage();
-				setTimeout(() => createSeason({ endDate, startDate, seasonId }), 350);
+				setTimeout(() => createSeason({ ...parsedFields }), 350);
 			}
 		});
 	};

@@ -14,6 +14,8 @@ const expiredToken = "The authorization key that was provided has expired. Pleas
 
 const invalidAuthTokenRequest = "You must supply an email, a role, and a season before you can create an authorization key.";
 
+const invalidCreateEventRequest = "You must inclide all fields to create a new event.";
+
 const invalidDeleteTokenRequest = "Unable to delete the authorization key. The supplied authorization key does not exist.";
 
 const invalidEmail = "That email is not associated with an active account. Please make sure to supply a valid registered email in order to resend a verification!";
@@ -83,6 +85,7 @@ export {
   emptyPassword,
   expiredToken,
   invalidAuthTokenRequest,
+  invalidCreateEventRequest,
   invalidDeleteTokenRequest,
   invalidEmail,
   invalidPassword,

@@ -33,9 +33,11 @@ const newStartDate = moment(new Date(2002, 9, 6));
 const newEndDate = moment(new Date(2003, 9, 6));
 const newValue = [newStartDate, newEndDate];
 
-const newStartYear = moment(newStartDate).format("YYYY");
-const newEndYear = moment(newEndDate).format("YYYY");
-const newSeasonId = `${newStartYear}${newEndYear}`;
+const newStartYear = moment(newStartDate);
+const newEndYear = moment(newEndDate);
+const newSeasonId = `${newStartYear.format("YYYY")}${newEndYear.format(
+	"YYYY",
+)}`;
 
 describe("Edit Season Form", () => {
 	let wrapper;
@@ -64,6 +66,7 @@ describe("Edit Season Form", () => {
 				.first()
 				.props().disabled,
 		).toBeTruthy();
+
 		expect(
 			wrapper
 				.find("button")
@@ -95,10 +98,10 @@ describe("Edit Season Form", () => {
 		it("initially sets the seasonId, handles changes based upon selected values, and resets to prop values when cleared", () => {
 			expect(wrapper.state("seasonId")).toEqual(seasonId);
 
-			wrapper.instance().handleChange({ name, value: newValue });
+			wrapper.instance().handleChange({ target: { name, value: newValue } });
 			expect(wrapper.state("seasonId")).toEqual("20022003");
 
-			wrapper.instance().handleChange({ name, value: [] });
+			wrapper.instance().handleChange({ target: { name, value: [] } });
 			expect(wrapper.state("seasonId")).toEqual(seasonId);
 		});
 
@@ -134,7 +137,7 @@ describe("Edit Season Form", () => {
 			beforeEach(() => {
 				jest.useFakeTimers();
 
-				wrapper.instance().handleChange({ name, value: newValue });
+				wrapper.instance().handleChange({ target: { name, value: newValue } });
 
 				submitForm();
 				jest.runOnlyPendingTimers();
@@ -149,9 +152,8 @@ describe("Edit Season Form", () => {
 				expect(wrapper.state("isSubmitting")).toBeTruthy();
 				expect(updateSeason).toHaveBeenCalledWith({
 					_id: "123456789",
-					endDate: newEndDate.format("l"),
-					startDate: newStartDate.format("l"),
 					seasonId: newSeasonId,
+					seasonDuration: [newStartYear.format(), newEndYear.format()],
 				});
 				done();
 			});

@@ -9,4 +9,20 @@ export default styled(Label)`
 	height: 15px;
 	line-height: 20px;
 	font-size: 20px;
+
+	& .tooltip {
+		margin-left: 5px;
+
+		svg {
+			font-size: 16px;
+			color: #bbb !important;
+			position: relative;
+			top: 0;
+			left: 0;
+
+			&:hover {
+				color: #282c34 !important;
+			}
+		}
+	}
 `;

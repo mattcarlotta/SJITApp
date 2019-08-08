@@ -9,6 +9,9 @@ import {
 	FaCalendarAlt,
 	FaIdCard,
 	FaIdBadge,
+	FaHockeyPuck,
+	FaStreetView,
+	FaMinusCircle,
 } from "react-icons/fa";
 
 const icons = type => {
@@ -19,10 +22,16 @@ const icons = type => {
 			return <FaIdCard />;
 		case "key":
 			return <FaKey />;
+		case "location":
+			return <FaStreetView />;
 		case "lock":
 			return <FaLock />;
 		case "mail":
 			return <FaEnvelope />;
+		case "puck":
+			return <FaHockeyPuck />;
+		case "remove":
+			return <FaMinusCircle />;
 		case "user":
 			return <FaUserCircle />;
 		case "usertag":
@@ -32,12 +41,18 @@ const icons = type => {
 	}
 };
 
-const Icon = ({ className, type }) => (
-	<i className={className}>{icons(type)}</i>
+const Icon = ({ className, onClick, style, type }) => (
+	<i className={className} onClick={onClick} style={style}>
+		{icons(type)}
+	</i>
 );
 
 Icon.propTypes = {
 	className: PropTypes.string.isRequired,
+	onClick: PropTypes.func,
+	style: PropTypes.objectOf(
+		PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+	),
 	type: PropTypes.string,
 };
 

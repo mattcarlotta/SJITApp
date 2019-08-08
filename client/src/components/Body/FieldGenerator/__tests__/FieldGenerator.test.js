@@ -1,4 +1,5 @@
 import FieldGenerator from "../index";
+import moment from "moment";
 
 const onChange = jest.fn();
 
@@ -33,9 +34,25 @@ const range = {
 	errors: "",
 	required: true,
 	disabled: true,
-	props: {
-		format: "l",
-	},
+	format: "l",
+};
+
+const time = {
+	type: "time",
+	name: "callTime",
+	label: "Call Time",
+	value: moment(),
+	errors: "",
+	required: true,
+	disabled: true,
+};
+
+const onFieldRemove = jest.fn();
+
+const removetime = {
+	...time,
+	label: "",
+	onFieldRemove,
 };
 
 const initProps = {
@@ -47,6 +64,10 @@ describe("Field Generator", () => {
 	let wrapper;
 	beforeEach(() => {
 		wrapper = mount(<FieldGenerator {...initProps} />);
+	});
+
+	afterEach(() => {
+		onChange.mockClear();
 	});
 
 	it("initially returns nothing", () => {
@@ -83,5 +104,26 @@ describe("Field Generator", () => {
 		wrapper.setProps({ fields: [range] });
 
 		expect(wrapper.find("RangePicker").exists()).toBeTruthy();
+	});
+
+	it("returns an TimePicker when type is 'time'", () => {
+		wrapper.setProps({ fields: [time] });
+
+		expect(wrapper.find("Label").exists()).toBeTruthy();
+		expect(wrapper.find("TimePicker").exists()).toBeTruthy();
+	});
+
+	it("returns a removeable TimePicker field when a 'onFieldRemove' is present", () => {
+		wrapper.setProps({ fields: [removetime] });
+
+		wrapper
+			.find("Icon")
+			.first()
+			.simulate("click");
+
+		expect(onFieldRemove).toHaveBeenCalledWith("callTime");
+		expect(wrapper.find("Label").exists()).toBeFalsy();
+		expect(wrapper.find("FaMinusCircle").exists()).toBeTruthy();
+		expect(wrapper.find("TimePicker").exists()).toBeTruthy();
 	});
 });

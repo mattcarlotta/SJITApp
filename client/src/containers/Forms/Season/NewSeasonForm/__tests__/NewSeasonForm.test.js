@@ -17,9 +17,9 @@ const startDate = moment(new Date(2000, 9, 6));
 const endDate = moment(new Date(2001, 9, 6));
 const value = [startDate, endDate];
 
-const startYear = moment(startDate).format("YYYY");
-const endYear = moment(endDate).format("YYYY");
-const seasonId = `${startYear}${endYear}`;
+const startYear = moment(startDate);
+const endYear = moment(endDate);
+const seasonId = `${startYear.format("YYYY")}${endYear.format("YYYY")}`;
 
 describe("Create Season Form", () => {
 	let wrapper;
@@ -69,10 +69,10 @@ describe("Create Season Form", () => {
 	});
 
 	it("handles the seasonId based upon selected/unselected values", () => {
-		wrapper.instance().handleChange({ name, value: [] });
+		wrapper.instance().handleChange({ target: { name, value: [] } });
 		expect(wrapper.state().fields[0].value).toEqual("");
 
-		wrapper.instance().handleChange({ name, value });
+		wrapper.instance().handleChange({ target: { name, value } });
 		expect(wrapper.state().fields[0].value).toEqual(seasonId);
 	});
 
@@ -80,7 +80,7 @@ describe("Create Season Form", () => {
 		beforeEach(() => {
 			jest.useFakeTimers();
 
-			wrapper.instance().handleChange({ name, value });
+			wrapper.instance().handleChange({ target: { name, value } });
 
 			submitForm();
 			jest.runOnlyPendingTimers();
@@ -103,9 +103,8 @@ describe("Create Season Form", () => {
 		it("submits the form after a successful validation and calls createSeason with fields", () => {
 			expect(wrapper.state("isSubmitting")).toBeTruthy();
 			expect(createSeason).toHaveBeenCalledWith({
-				endDate: endDate.format("l"),
-				startDate: startDate.format("l"),
 				seasonId,
+				seasonDuration: [startYear.format(), endYear.format()],
 			});
 		});
 

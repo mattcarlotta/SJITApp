@@ -1,5 +1,6 @@
 import React from "react";
+import { NewEventForm } from "containers/Forms";
 
-const NewEventPage = () => <h1>Create Event</h1>;
+const NewEventPage = () => <NewEventForm />;
 
 export default NewEventPage;

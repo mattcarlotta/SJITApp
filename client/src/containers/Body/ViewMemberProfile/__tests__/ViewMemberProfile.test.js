@@ -14,20 +14,19 @@ const initProps = {
 	push,
 	viewMember: {},
 	updateMemberStatus,
+	serverMessage: "",
 };
 
-const nextProps = {
-	viewMember: {
-		_id: "0123456789",
-		email: "member@example.com",
-		events: [],
-		firstName: "Member",
-		lastName: "Member",
-		registered: "2019-07-26T16:56:40.518+00:00",
-		role: "member",
-		schedule: [],
-		status: "active",
-	},
+const viewMember = {
+	_id: "0123456789",
+	email: "member@example.com",
+	events: [],
+	firstName: "Member",
+	lastName: "Member",
+	registered: "2019-07-26T16:56:40.518+00:00",
+	role: "member",
+	schedule: [],
+	status: "active",
 };
 
 describe("View Member Profile", () => {
@@ -37,6 +36,7 @@ describe("View Member Profile", () => {
 	});
 
 	afterEach(() => {
+		push.mockClear();
 		fetchMember.mockClear();
 	});
 
@@ -49,8 +49,25 @@ describe("View Member Profile", () => {
 	});
 
 	it("renders 4 tabs when a member has been loaded", () => {
-		wrapper.setProps({ ...nextProps });
+		wrapper.setProps({ viewMember });
 
 		expect(wrapper.find("TabPane")).toHaveLength(4);
+	});
+
+	it("pushes back to the members table if viewMember is empty and a server message is visible", () => {
+		wrapper.setProps({
+			serverMessage: "Unable to locate that member.",
+		});
+
+		expect(push).toHaveBeenCalledWith("/employee/members/viewall");
+	});
+
+	it("doesn't push back to the members table if viewMember is present, but a server message is visible", () => {
+		wrapper.setProps({
+			viewMember,
+			serverMessage: "Unable to submit the form.",
+		});
+
+		expect(push).toHaveBeenCalledTimes(0);
 	});
 });

@@ -13,11 +13,7 @@ export const NotFound = ({ goBack }) => (
 				<Title style={{ fontSize: 36, margin: "20px 0" }}>
 					404 - Page Not Found!
 				</Title>
-				<BackButton
-					style={{ width: "115px", margin: "0 auto" }}
-					txtStyle={{ fontSize: "20px", paddingLeft: 5 }}
-					push={goBack}
-				>
+				<BackButton style={{ margin: "0 auto" }} push={goBack}>
 					Go Back
 				</BackButton>
 			</Center>

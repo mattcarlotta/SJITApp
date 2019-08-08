@@ -1,6 +1,6 @@
 import NewEvent from "../index";
 
-const wrapper = mount(<NewEvent />);
+const wrapper = HOCWrap(NewEvent);
 
 describe("NewEvent Page", () => {
 	it("renders without errors", () => {

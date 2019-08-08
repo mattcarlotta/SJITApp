@@ -12,10 +12,20 @@ export default fields => {
 	try {
 		if (isEmpty(fields)) throw new Error("You must supply an array of fields!");
 
-		const parsedFields = fields.reduce((acc, { name, value }) => {
-			acc[name] = value;
-
-			return acc;
+		const parsedFields = fields.reduce((acc, { name, type, value }) => {
+			switch (type) {
+				case "time":
+					acc["callTimes"] = acc["callTimes"] || [];
+					acc["callTimes"].push(value.format("LT"));
+					return acc;
+				case "range":
+					const values = value.map(val => val.format());
+					acc[name] = values;
+					return acc;
+				default:
+					acc[name] = value;
+					return acc;
+			}
 		}, {});
 
 		return parsedFields;

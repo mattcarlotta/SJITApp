@@ -6,17 +6,24 @@ import { Button } from "components/Body";
 const iconStyle = {
 	position: "relative",
 	top: 3,
+	fontSize: 15,
 };
 
-const btnStyle = {
-	padding: "5px 10px",
-	display: "inline-block",
+const textStyle = {
+	fontSize: "16px",
+	paddingLeft: 5,
 };
 
-const BackButton = ({ push, location, style, txtStyle }) => (
-	<Button primary width="100px" style={style} onClick={() => push(location)}>
+const BackButton = ({ push, location, style }) => (
+	<Button
+		primary
+		width="90px"
+		padding="4px"
+		style={{ ...style, lineHeight: 1.5 }}
+		onClick={() => push(location)}
+	>
 		<FaChevronLeft style={iconStyle} />
-		<span style={txtStyle}>Back</span>
+		<span style={textStyle}>Back</span>
 	</Button>
 );
 
@@ -24,9 +31,6 @@ BackButton.propTypes = {
 	push: PropTypes.func.isRequired,
 	location: PropTypes.string,
 	style: PropTypes.objectOf(
-		PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-	),
-	txtStyle: PropTypes.objectOf(
 		PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 	),
 };

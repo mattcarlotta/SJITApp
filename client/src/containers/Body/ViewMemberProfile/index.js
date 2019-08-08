@@ -49,6 +49,15 @@ export class ViewMemberProfile extends PureComponent {
 		this.props.fetchMember(id);
 	};
 
+	componentDidUpdate = prevProps => {
+		if (
+			isEmpty(this.props.viewMember) &&
+			prevProps.serverMessage !== this.props.serverMessage
+		) {
+			this.props.push("/employee/members/viewall");
+		}
+	};
+
 	render = () => {
 		const { push, viewMember, updateMemberStatus } = this.props;
 
@@ -117,10 +126,12 @@ ViewMemberProfile.propTypes = {
 		status: PropTypes.string,
 	}),
 	updateMemberStatus: PropTypes.func.isRequired,
+	serverMessage: PropTypes.string,
 };
 
 const mapStateToProps = state => ({
 	viewMember: state.members.viewMember,
+	serverMessage: state.server.message,
 });
 
 const mapDispatchToProps = {

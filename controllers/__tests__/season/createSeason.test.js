@@ -5,6 +5,9 @@ import {
   unableToCreateNewSeason,
 } from "shared/authErrors";
 
+const startDate = "2005-09-26T07:00:00.000+00:00";
+const endDate = "2006-06-12T07:00:00.000+00:00";
+
 describe("Create Season Controller", () => {
   let res;
   beforeEach(() => {
@@ -36,27 +39,10 @@ describe("Create Season Controller", () => {
     });
   });
 
-  it("handles invalid body requests", async () => {
-    const emptyBody = {
-      seasonId: { hello: 2001 },
-      startDate: 88,
-      endDate: 99,
-    };
-
-    const req = mockRequest(null, null, emptyBody);
-
-    await createSeason(req, res);
-    expect(res.status).toHaveBeenCalledWith(400);
-    expect(res.json).toHaveBeenCalledWith({
-      err: expect.stringContaining("CastError"),
-    });
-  });
-
   it("handles season already exists requests", async () => {
     const newSeason = {
       seasonId: "20002001",
-      startDate: new Date(2000, 9, 6),
-      endDate: new Date(2001, 7, 6),
+      seasonDuration: [startDate, endDate],
     };
 
     const req = mockRequest(null, null, newSeason);
@@ -69,10 +55,10 @@ describe("Create Season Controller", () => {
   });
 
   it("handles valid create season requests", async () => {
+    const seasonId = "20192020";
     const newSeason = {
-      seasonId: "20192020",
-      startDate: new Date(2019, 9, 6),
-      endDate: new Date(2020, 7, 6),
+      seasonId,
+      seasonDuration: [startDate, endDate],
     };
 
     const req = mockRequest(null, null, newSeason);
@@ -85,7 +71,7 @@ describe("Create Season Controller", () => {
         __v: expect.any(Number),
         _id: expect.any(ObjectId),
         members: expect.any(Array),
-        seasonId: expect.any(String),
+        seasonId,
         startDate: expect.any(Date),
         endDate: expect.any(Date),
       }),

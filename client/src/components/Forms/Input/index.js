@@ -51,22 +51,6 @@ export default styled(Input)`
 		}
 	}
 
-	.tooltip {
-		margin-left: 5px;
-
-		svg {
-			font-size: 16px;
-			color: #bbb;
-			position: relative;
-			top: 0;
-			left: 0;
-
-			&:hover {
-				color: #282c34;
-			}
-		}
-	}
-
 	.disabled {
 		& .icon > svg {
 			cursor: not-allowed;

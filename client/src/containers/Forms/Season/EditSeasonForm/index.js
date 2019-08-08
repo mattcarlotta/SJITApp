@@ -15,39 +15,13 @@ import { FormTitle } from "components/Forms";
 import { hideServerMessage } from "actions/Messages";
 import { fetchSeason, updateSeason } from "actions/Seasons";
 import { fieldUpdater, parseFields } from "utils";
+import fields from "./Fields";
 
 const title = "Edit Season Form";
 
 export class EditSeasonForm extends Component {
 	state = {
-		fields: [
-			{
-				type: "text",
-				name: "seasonId",
-				label: "Season ID",
-				tooltip:
-					"Select a start and end date below to automatically fill in this field.",
-				icon: "id",
-				value: "",
-				errors: "",
-				required: true,
-				disabled: true,
-				readOnly: true,
-				inputStyle: { paddingLeft: 94 },
-			},
-			{
-				type: "range",
-				name: "seasonDuration",
-				label: "Season Duration",
-				value: [],
-				errors: "",
-				required: true,
-				disabled: true,
-				props: {
-					format: "l",
-				},
-			},
-		],
+		fields,
 		seasonId: "",
 		isSubmitting: false,
 	};
@@ -80,13 +54,12 @@ export class EditSeasonForm extends Component {
 		return null;
 	};
 
-	handleChange = ({ name, value }) => {
+	handleChange = ({ target: { name, value } }) => {
 		let seasonId = "";
 
 		if (!isEmpty(value)) {
-			const startYear = moment(value[0]).format("YYYY");
-			const endYear = moment(value[1]).format("YYYY");
-			seasonId = `${startYear}${endYear}`;
+			const [startYear, endYear] = value;
+			seasonId = `${startYear.format("YYYY")}${endYear.format("YYYY")}`;
 		}
 
 		this.setState(prevState => {
@@ -115,16 +88,9 @@ export class EditSeasonForm extends Component {
 			} = this.props;
 
 			const parsedFields = parseFields(formFields);
-			const { seasonId, seasonDuration } = parsedFields;
-			const [seasonStart, seasonEnd] = seasonDuration;
-			const startDate = seasonStart.format("l");
-			const endDate = seasonEnd.format("l");
 
 			if (serverMessage) hideServerMessage();
-			setTimeout(
-				() => updateSeason({ _id, endDate, startDate, seasonId }),
-				350,
-			);
+			setTimeout(() => updateSeason({ ...parsedFields, _id }), 350);
 		});
 	};
 
@@ -182,6 +148,10 @@ EditSeasonForm.propTypes = {
 	}).isRequired,
 	push: PropTypes.func.isRequired,
 	updateSeason: PropTypes.func.isRequired,
+};
+
+EditSeasonForm.defaultProps = {
+	editSeason: {},
 };
 
 const mapStateToProps = state => ({

@@ -25,11 +25,20 @@ describe("Icon", () => {
 		wrapper.setProps({ type: "key" });
 		expect(wrapper.find("FaKey").exists()).toBeTruthy();
 
+		wrapper.setProps({ type: "location" });
+		expect(wrapper.find("FaStreetView").exists()).toBeTruthy();
+
 		wrapper.setProps({ type: "lock" });
 		expect(wrapper.find("FaLock").exists()).toBeTruthy();
 
 		wrapper.setProps({ type: "mail" });
 		expect(wrapper.find("FaEnvelope").exists()).toBeTruthy();
+
+		wrapper.setProps({ type: "puck" });
+		expect(wrapper.find("FaHockeyPuck").exists()).toBeTruthy();
+
+		wrapper.setProps({ type: "remove" });
+		expect(wrapper.find("FaMinusCircle").exists()).toBeTruthy();
 
 		wrapper.setProps({ type: "user" });
 		expect(wrapper.find("FaUserCircle").exists()).toBeTruthy();

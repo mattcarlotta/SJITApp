@@ -10,6 +10,6 @@ export default styled(Icon)`
 	z-index: 2;
 
 	svg {
-		color: #d3dce6;
+		color: ${({ color }) => color || "#d3dce6"};
 	}
 `;
