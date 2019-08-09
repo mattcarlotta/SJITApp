@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Form, DatePicker, TimePicker } from "antd";
 import { Input as AntInput } from "antd";
-import { FaCalendarPlus, FaClock, FaStickyNote } from "react-icons/fa";
+import { FaCalendarPlus, FaClock } from "react-icons/fa";
 import { Icon, Label } from "components/Body";
 import { Errors, Input, Select } from "components/Forms";
 
@@ -24,6 +24,27 @@ const FieldGenerator = ({ fields, onChange }) =>
 				return <Input {...props} key={props.name} onChange={onChange} />;
 			case "select":
 				return <Select {...props} key={props.name} onChange={onChange} />;
+			case "date":
+				return (
+					<Form.Item key={props.name} style={{ height: 105 }}>
+						<Label {...props} />
+						<DatePicker
+							{...props}
+							className={props.errors ? "has-error date-picker" : "date-picker"}
+							suffixIcon={
+								<FaCalendarPlus
+									style={{
+										color: props.errors ? "#d14023" : "rgba(0, 0, 0, 0.25)",
+									}}
+								/>
+							}
+							onChange={value =>
+								onChange({ target: { name: props.name, value } })
+							}
+						/>
+						{props.errors && <Errors>{props.errors}</Errors>}
+					</Form.Item>
+				);
 			case "range":
 				return (
 					<Form.Item key={props.name} style={{ height: 105 }}>

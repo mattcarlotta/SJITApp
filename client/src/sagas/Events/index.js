@@ -44,6 +44,39 @@ export function* createEvent({ props }) {
 }
 
 /**
+ * Attempts to delete a token.
+ *
+ * @generator
+ * @function deleteEvent
+ * @param {object} eventId
+ * @yields {object} - A response from a call to the API.
+ * @function parseMessage - Returns a parsed res.data.message.
+ * @yields {action} - A redux action to display a server message by type.
+ * @yields {action} - A redux action to fetch tokens data again.
+ * @throws {action} - A redux action to display a server message by type.
+ */
+
+export function* deleteEvent({ eventId }) {
+	try {
+		yield put(hideServerMessage());
+
+		const res = yield call(app.delete, `event/delete/${eventId}`);
+		const message = yield call(parseMessage, res);
+
+		yield put(
+			setServerMessage({
+				type: "success",
+				message,
+			}),
+		);
+
+		yield put({ type: types.EVENTS_FETCH });
+	} catch (e) {
+		yield put(setServerMessage({ type: "error", message: e.toString() }));
+	}
+}
+
+/**
  * Attempts to get all events.
  *
  * @generator
@@ -75,7 +108,7 @@ export function* fetchEvents() {
 export default function* eventsSagas() {
 	yield all([
 		takeLatest(types.EVENTS_CREATE, createEvent),
-		// takeLatest(types.MEMBERS_DELETE, deleteMember),
+		takeLatest(types.EVENTS_DELETE, deleteEvent),
 		// takeLatest(types.MEMBERS_DELETE_TOKEN, deleteToken),
 		// takeLatest(types.MEMBERS_REVIEW, fetchProfile),
 		takeLatest(types.EVENTS_FETCH, fetchEvents),

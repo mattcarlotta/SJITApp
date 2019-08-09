@@ -36,12 +36,12 @@ const initProps = {
 };
 
 const wrapper = mount(<ViewMembers {...initProps} />);
-describe("View All Seasons", () => {
+describe("View All Members", () => {
 	it("renders without errors", () => {
 		expect(wrapper.find("Card").exists()).toBeTruthy();
 	});
 
-	it("clicking on the 'New Season' button, moves the user to the New Season Form page", () => {
+	it("clicking on the 'Add Member' button, moves the user to the New Member Form page", () => {
 		wrapper
 			.find("Button")
 			.at(0)

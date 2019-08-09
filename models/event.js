@@ -3,8 +3,7 @@ import { Schema, model } from "mongoose";
 const eventSchema = new Schema({
   league: { type: String, default: "NHL", required: true },
   eventType: { type: String, default: "Game", required: true },
-  startDate: { type: Date, required: true },
-  endDate: { type: Date, required: true },
+  eventDate: { type: Date, required: true },
   location: { type: String, default: "SAP Center at San Jose" },
   employeeResponses: [
     {

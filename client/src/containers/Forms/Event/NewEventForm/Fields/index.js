@@ -49,12 +49,11 @@ export default [
 		disabled: true,
 	},
 	{
-		type: "range",
-		name: "eventDates",
-		label: "Event Dates",
-		tooltip:
-			"Please select a start date, start time, end date, and an end time.",
-		value: [],
+		type: "date",
+		name: "eventDate",
+		label: "Event Date",
+		placeholder: "Select a start date and time...",
+		value: null,
 		errors: "",
 		required: true,
 		format: "MM/DD/YYYY h:mm a",

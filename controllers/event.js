@@ -1,27 +1,37 @@
 import { Event } from "models";
 import { sendError } from "shared/helpers";
-import { invalidCreateEventRequest } from "shared/authErrors";
+import {
+  invalidCreateEventRequest,
+  missingEventId,
+  unableToDeleteEvent,
+} from "shared/authErrors";
 
 const createEvent = async (req, res) => {
   try {
     const {
       callTimes,
-      eventDates,
+      eventDate,
       eventType,
+      league,
       location,
       notes,
       seasonId,
       uniform,
     } = req.body;
-    if (!eventDates || !callTimes || !location || !seasonId || !uniform) throw invalidCreateEventRequest;
-
-    const [startDate, endDate] = eventDates;
+    if (
+      !eventDate
+      || !callTimes
+      || !league
+      || !location
+      || !seasonId
+      || !uniform
+    ) throw invalidCreateEventRequest;
 
     await Event.create({
       seasonId,
-      startDate,
-      endDate,
+      eventDate,
       eventType,
+      league,
       location,
       callTimes,
       notes,
@@ -36,22 +46,34 @@ const createEvent = async (req, res) => {
   }
 };
 
-const deleteEvent = (req, res) => sendError("Route not setup.", res);
+const deleteEvent = async (req, res) => {
+  try {
+    const { id: _id } = req.params;
+    if (!_id) throw missingEventId;
+
+    const existingEvent = await Event.findOne({ _id });
+    if (!existingEvent) throw unableToDeleteEvent;
+
+    await existingEvent.delete();
+
+    res.status(202).json({ message: "Successfully deleted the event." });
+  } catch (err) {
+    return sendError(err, res);
+  }
+};
 
 const getAllEvents = async (_, res) => {
   const events = await Event.aggregate([
     {
       $project: {
         seasonId: 1,
-        startDate: 1,
-        endDate: 1,
+        eventDate: 1,
         league: 1,
         eventType: 1,
         location: 1,
         callTimes: 1,
         employeeResponses: { $size: "$employeeResponses" },
         scheduledEmployees: { $size: "$scheduledEmployees" },
-        notes: 1,
         uniform: 1,
       },
     },

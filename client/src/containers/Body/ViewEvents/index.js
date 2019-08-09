@@ -1,72 +1,64 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import Helmet from "react-helmet";
-import isEmpty from "lodash/isEmpty";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import { Card } from "antd";
 import { FaUserPlus } from "react-icons/fa";
-import { Button, DisplayDate, FlexEnd, Table } from "components/Body";
-import { fetchEvents } from "actions/Events";
+import {
+	Button,
+	DisplayFullDate,
+	DisplayLeague,
+	DisplayTime,
+	FlexEnd,
+	Table,
+} from "components/Body";
+import { deleteEvent, fetchEvents } from "actions/Events";
 
 const title = "View Events";
 
 const columns = [
 	{ title: "Season Id", dataIndex: "seasonId", key: "seasonId" },
-	{ title: "League", dataIndex: "league", key: "league" },
+	{
+		title: "League",
+		dataIndex: "league",
+		key: "league",
+		render: league => <DisplayLeague league={league} />,
+	},
 	{ title: "Event Type", dataIndex: "eventType", key: "eventType" },
 	{ title: "Location", dataIndex: "location", key: "location" },
 	{ title: "Uniform", dataIndex: "uniform", key: "uniform" },
 	{
-		title: "Notes",
-		dataIndex: "notes",
-		key: "notes",
-		render: notes => (notes ? <span>{notes}</span> : "-"),
-	},
-	{
-		title: "Start Date",
-		dataIndex: "startDate",
-		key: "startDate",
-		render: date => <DisplayDate date={date} />,
-	},
-	{
-		title: "End Date",
-		dataIndex: "endDate",
-		key: "endDate",
-		render: date => <DisplayDate date={date} />,
+		title: "Event Date",
+		dataIndex: "eventDate",
+		key: "eventDate",
+		width: 200,
+		render: date => <DisplayFullDate date={date} />,
 	},
 	{
 		title: "Call Times",
 		dataIndex: "callTimes",
 		key: "callTimes",
-		width: 200,
-		render: times =>
-			!isEmpty(times)
-				? times.map((time, key) => (
-						<div
-							key={key}
-							style={{ wordWrap: "break-word", wordBreak: "break-all" }}
-						>
-							{time}
-						</div>
-				  ))
-				: "(not assigned)",
+		width: 110,
+		render: times => <DisplayTime times={times} />,
 	},
 	{
 		title: "Employee Responses",
 		dataIndex: "employeeResponses",
 		key: "employeeResponses",
+		width: 100,
 	},
 	{
 		title: "Scheduled Employees",
 		dataIndex: "scheduledEmployees",
 		key: "scheduledEmployees",
+		width: 100,
 	},
 ];
 
 export const ViewEvents = ({
-	// deleteToken,
 	data,
+	deleteEvent,
 	fetchEvents,
 	isLoading,
 	push,
@@ -90,18 +82,18 @@ export const ViewEvents = ({
 			<Table
 				columns={columns}
 				data={data}
-				// deleteAction={deleteToken}
+				deleteAction={deleteEvent}
 				fetchData={fetchEvents}
 				isLoading={isLoading}
 				push={push}
-				editLocation="event/edit"
+				editLocation="event"
 			/>
 		</Card>
 	</Fragment>
 );
 
 ViewEvents.propTypes = {
-	// deleteToken: PropTypes.func,
+	deleteEvent: PropTypes.func,
 	fetchEvents: PropTypes.func.isRequired,
 	isLoading: PropTypes.bool.isRequired,
 	push: PropTypes.func,
@@ -114,9 +106,7 @@ ViewEvents.propTypes = {
 			callTimes: PropTypes.arrayOf(PropTypes.string),
 			uniform: PropTypes.string,
 			seasonId: PropTypes.string,
-			startDate: PropTypes.string,
-			endDate: PropTypes.string,
-			notes: PropTypes.string,
+			eventDate: PropTypes.string,
 			employeeResponses: PropTypes.number,
 			scheduledEmployees: PropTypes.number,
 		}),
@@ -129,7 +119,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-	// deleteToken,
+	deleteEvent,
 	fetchEvents,
 	push,
 };

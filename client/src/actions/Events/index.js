@@ -5,12 +5,24 @@ import * as types from "types";
  * Creates a new member.
  *
  * @function createEvent
- * @param {object} props - props contain league, eventType, location, timeSlots, uniform, start/end dates and times, and seasonId.
+ * @param {object} props - props contain league, eventType, location, timeSlots, uniform, start date and time, and seasonId.
  * @returns {object}
  */
 export const createEvent = props => ({
 	type: types.EVENTS_CREATE,
 	props,
+});
+
+/**
+ * Deletes a new event.
+ *
+ * @function deleteEvent
+ * @param {string} eventId
+ * @returns {object}
+ */
+export const deleteEvent = eventId => ({
+	type: types.EVENTS_DELETE,
+	eventId,
 });
 
 /**
@@ -27,7 +39,7 @@ export const fetchEvents = () => ({
  * Sets any members from API to redux state
  *
  * @function setEvents
- * @param {object} data - contains events data ([_id, league, eventType,	location,	callTimes, uniform,		seasonId, startDate, endDate, notes, employeeResponses, scheduledEmployees]).
+ * @param {object} data - contains events data ([_id, league, eventType,location,	callTimes, uniform,		seasonId, eventDate, notes, employeeResponses, scheduledEmployees]).
  * @returns {object}
  */
 export const setEvents = data => ({

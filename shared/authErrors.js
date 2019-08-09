@@ -34,6 +34,8 @@ const invalidToken = "There was a problem authenticating your request. The autho
 
 const missingEmailCreds = "That email is not associated with an active account. Please make sure the email address is spelled correctly.";
 
+const missingEventId = "You must provide am event id.";
+
 const missingMemberId = "You must provide a member id.";
 
 const missingPasswords = "You must supply both your current password and a new password.";
@@ -61,6 +63,8 @@ const seasonAlreadyExists = "That season already exists. Please edit the current
 const tokenAlreadyUsed = "The supplied authorization key has already been used and is associated with an active account. Please contact the webmaster if this error continues: carlotta.matt@gmail.com.";
 
 const unableToCreateNewSeason = "Unable to create a new season. You must provide seasonId, startDate, and endDate fields.";
+
+const unableToDeleteEvent = "Unable to delete that event. It doesn't exist.";
 
 const unableToDeleteSeason = "Unable to delete that season. It doesn't exist.";
 
@@ -95,6 +99,7 @@ export {
   invalidStatus,
   invalidToken,
   missingEmailCreds,
+  missingEventId,
   missingMemberId,
   missingPasswords,
   missingSeasonId,
@@ -109,6 +114,7 @@ export {
   seasonAlreadyExists,
   tokenAlreadyUsed,
   unableToCreateNewSeason,
+  unableToDeleteEvent,
   unableToDeleteMember,
   unableToDeleteSeason,
   unableToLocateMember,
