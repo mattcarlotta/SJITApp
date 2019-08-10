@@ -39,7 +39,7 @@ const columns = [
 		title: "Call Times",
 		dataIndex: "callTimes",
 		key: "callTimes",
-		width: 110,
+		width: 120,
 		render: times => <DisplayTime times={times} />,
 	},
 	{
@@ -86,7 +86,7 @@ export const ViewEvents = ({
 				fetchData={fetchEvents}
 				isLoading={isLoading}
 				push={push}
-				editLocation="event"
+				editLocation="events"
 			/>
 		</Card>
 	</Fragment>

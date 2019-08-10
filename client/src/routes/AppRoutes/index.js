@@ -6,6 +6,7 @@ import { AppPageNotFound, Contact, Help, Settings } from "pages";
 import {
 	Dashboard,
 	EditAuthorization,
+	EditEvent,
 	EditSeason,
 	NewEvent,
 	NewForm,
@@ -37,6 +38,7 @@ const AppRoutes = ({ match: { url }, role }) =>
 			<Redirect from={`${url}/login`} to={`${url}/dashboard`} />
 			<Route exact path={`${url}/dashboard`} component={Dashboard} />
 			<Route exact path={`${url}/events/create`} component={NewEvent} />
+			<Route exact path={`${url}/events/edit/:id`} component={EditEvent} />
 			<Route exact path={`${url}/events/viewall`} component={ViewEvents} />
 			<Route exact path={`${url}/forms/create`} component={NewForm} />
 			<Route exact path={`${url}/forms/viewall`} component={ViewForms} />

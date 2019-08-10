@@ -7,6 +7,7 @@ export { default as ResetPasswordForm } from "./Auth/ResetPasswordForm";
 export { default as SignupForm } from "./Auth/SignupForm";
 
 // event
+export { default as EditEventForm } from "./Event/EditEventForm";
 export { default as NewEventForm } from "./Event/NewEventForm";
 
 // member

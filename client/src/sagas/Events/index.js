@@ -6,6 +6,7 @@ import {
 	// fetchMember,
 	// setMemberToReview,
 	setEvents,
+	setEventToEdit,
 	// setToken,
 	// setTokens,
 } from "actions/Events";
@@ -77,6 +78,29 @@ export function* deleteEvent({ eventId }) {
 }
 
 /**
+ * Attempts to get event for editing.
+ *
+ * @generator
+ * @function fetchEvent
+ * @param {object} eventId
+ * @yields {object} - A response from a call to the API.
+ * @function parseData - Returns a parsed res.data.
+ * @yields {action} - A redux action to set event data to redux state.
+ * @throws {action} - A redux action to display a server message by type.
+ */
+
+export function* fetchEvent({ eventId }) {
+	try {
+		const res = yield call(app.get, `event/edit/${eventId}`);
+		const data = yield call(parseData, res);
+
+		yield put(setEventToEdit(data));
+	} catch (e) {
+		yield put(setServerMessage({ type: "error", message: e.toString() }));
+	}
+}
+
+/**
  * Attempts to get all events.
  *
  * @generator
@@ -99,6 +123,37 @@ export function* fetchEvents() {
 }
 
 /**
+ * Attempts to update an existing event.
+ *
+ * @generator
+ * @function updateEvent
+ * @param {object} props - props contain league, eventType, location, timeSlots, uniform, start/end dates and times, and seasonId.
+ * @yields {object} - A response from a call to the API.
+ * @function parseMessage - Returns a parsed res.data.message.
+ * @yields {action} - A redux action to display a server message by type.
+ * @yields {action} - A redux action to push to a URL.
+ * @throws {action} - A redux action to display a server message by type.
+ */
+
+export function* updateEvent({ props }) {
+	try {
+		const res = yield call(app.put, "event/update", { ...props });
+		const message = yield call(parseMessage, res);
+
+		yield put(
+			setServerMessage({
+				type: "success",
+				message,
+			}),
+		);
+
+		yield put(push("/employee/seasons/viewall"));
+	} catch (e) {
+		yield put(setServerMessage({ type: "error", message: e.toString() }));
+	}
+}
+
+/**
  * Creates watchers for all generators.
  *
  * @generator
@@ -109,13 +164,8 @@ export default function* eventsSagas() {
 	yield all([
 		takeLatest(types.EVENTS_CREATE, createEvent),
 		takeLatest(types.EVENTS_DELETE, deleteEvent),
-		// takeLatest(types.MEMBERS_DELETE_TOKEN, deleteToken),
-		// takeLatest(types.MEMBERS_REVIEW, fetchProfile),
+		takeLatest(types.EVENTS_EDIT, fetchEvent),
 		takeLatest(types.EVENTS_FETCH, fetchEvents),
-		// takeLatest(types.MEMBERS_FETCH_TOKEN, fetchToken),
-		// takeLatest(types.MEMBERS_FETCH_TOKENS, fetchTokens),
-		// takeLatest(types.MEMBERS_UPDATE, updateMember),
-		// takeLatest(types.MEMBERS_UPDATE_STATUS, updateMemberStatus),
-		// takeLatest(types.MEMBERS_UPDATE_TOKEN, updateMemberToken),
+		takeLatest(types.EVENTS_UPDATE, updateEvent),
 	]);
 }

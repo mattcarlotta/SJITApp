@@ -16,7 +16,7 @@ export default fields => {
 			switch (type) {
 				case "time":
 					acc["callTimes"] = acc["callTimes"] || [];
-					acc["callTimes"].push(value.format("h:mm a"));
+					acc["callTimes"].push(value.format());
 					return acc;
 				case "range":
 					const values = value.map(val => val.format());

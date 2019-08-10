@@ -1,12 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
+import moment from "moment";
 import isEmpty from "lodash/isEmpty";
 
 const DisplayTime = ({ times }) =>
 	!isEmpty(times) ? (
 		times.map((time, key) => (
 			<div key={key} style={{ wordWrap: "break-word", wordBreak: "break-all" }}>
-				{time}
+				{moment(time).format("hh:mm a")}
 			</div>
 		))
 	) : (
