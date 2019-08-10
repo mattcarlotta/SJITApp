@@ -15,7 +15,8 @@ const tokensData = {
 };
 
 const tokenData = {
-	token: mocks.tokensData,
+	...mocks.tokensData,
+	seasonIds: mocks.seasonIdsData,
 };
 
 describe("Member Reducer", () => {
@@ -116,7 +117,7 @@ describe("Member Reducer", () => {
 		expect(state).toEqual({
 			data: [],
 			tokens: [],
-			editToken: mocks.tokensData,
+			editToken: { ...mocks.tokensData, seasonIds: mocks.seasonIdsData },
 			viewMember: {},
 			isLoading: false,
 		});

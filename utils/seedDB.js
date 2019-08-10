@@ -1,6 +1,8 @@
 /* eslint-disable no-console */
 import { connectDatabase } from "database";
-import { User, Season, Token } from "models";
+import {
+  Event, User, Season, Token,
+} from "models";
 import {
   createSignupToken,
   createRandomToken,
@@ -177,6 +179,34 @@ const seedDB = async () => {
     await Season.addUser(createdSeason._id, newMember._id);
     await Season.addUser(createdSeason._id, newMember2._id);
     await Season.addUser(createdSeason._id, newMember3._id);
+
+    const newEvent = {
+      league: "NHL",
+      eventType: "Game",
+      location: "Test Location",
+      callTimes: [
+        "2019-08-09T17:45:26-07:00",
+        "2019-08-09T18:15:26-07:00",
+        "2019-08-09T18:30:26-07:00",
+        "2019-08-09T19:00:26-07:00",
+      ],
+      uniform: "Teal Jersey",
+      seasonId: "20192020",
+      eventDate: "2019-08-10T02:30:31.834Z",
+    };
+
+    const newEvent2 = {
+      league: "AHL",
+      eventType: "Game",
+      location: "SAP Center at San Jose",
+      callTimes: ["2019-08-09T19:00:38-07:00"],
+      uniform: "Barracuda Jacket",
+      seasonId: "20192020",
+      eventDate: "2019-08-11T02:30:30.036Z",
+    };
+
+    await Event.create(newEvent);
+    await Event.create(newEvent2);
 
     await db.close();
 

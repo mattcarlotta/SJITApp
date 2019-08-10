@@ -9,6 +9,11 @@ import {
 const findExistingMember = email => User.findOne({ email });
 
 describe("Update Member Controller", () => {
+  let res;
+  beforeEach(() => {
+    res = mockResponse();
+  });
+
   let db;
   beforeAll(() => {
     db = connectDatabase();
@@ -26,7 +31,6 @@ describe("Update Member Controller", () => {
       lastName: "",
       role: "",
     };
-    const res = mockResponse();
     const req = mockRequest(null, null, emptyBody);
 
     await updateMember(req, res);
@@ -46,7 +50,6 @@ describe("Update Member Controller", () => {
       lastName: "Tester",
       role: "employee",
     };
-    const res = mockResponse();
     const req = mockRequest(null, null, invalidMember);
 
     await updateMember(req, res);
@@ -68,7 +71,6 @@ describe("Update Member Controller", () => {
       role: "employee",
     };
 
-    const res = mockResponse();
     const req = mockRequest(null, null, invalidMember);
 
     await updateMember(req, res);
@@ -90,7 +92,6 @@ describe("Update Member Controller", () => {
       role: "staff",
     };
 
-    const res = mockResponse();
     const req = mockRequest(null, null, changedMember);
 
     await updateMember(req, res);
@@ -112,7 +113,7 @@ describe("Update Member Controller", () => {
       }),
     );
 
-    expect(res.status).toHaveBeenCalledWith(202);
+    expect(res.status).toHaveBeenCalledWith(201);
     expect(res.json).toHaveBeenCalledWith({
       message: "Successfully updated the member profile.",
     });

@@ -12,7 +12,6 @@ import {
 } from "components/Body";
 import { FieldGenerator, FormTitle } from "components/Forms";
 import { hideServerMessage } from "actions/Messages";
-import { fetchSeasonsIds } from "actions/Seasons";
 import { fetchToken, updateMemberToken } from "actions/Members";
 import { fieldValidator, fieldUpdater, parseFields } from "utils";
 import fields from "./Fields";
@@ -28,21 +27,14 @@ export class EditAuthorizationForm extends Component {
 	};
 
 	componentDidMount = () => {
-		this.props.fetchSeasonsIds();
-
 		const { id } = this.props.match.params;
 		this.props.fetchToken(id);
 	};
 
-	static getDerivedStateFromProps = (
-		{ editToken, seasonIds, serverMessage },
-		state,
-	) => {
-		if (state.isLoading && !isEmpty(seasonIds) && !isEmpty(editToken)) {
+	static getDerivedStateFromProps = ({ editToken, serverMessage }, state) => {
+		if (state.isLoading && !isEmpty(editToken)) {
 			return {
-				fields: state.fields.map(field =>
-					updateFormFields(field, seasonIds, editToken),
-				),
+				fields: state.fields.map(field => updateFormFields(field, editToken)),
 				isLoading: false,
 			};
 		}
@@ -127,7 +119,6 @@ EditAuthorizationForm.propTypes = {
 		seasonId: PropTypes.string,
 	}).isRequired,
 	fetchToken: PropTypes.func.isRequired,
-	fetchSeasonsIds: PropTypes.func.isRequired,
 	hideServerMessage: PropTypes.func.isRequired,
 	match: PropTypes.shape({
 		params: PropTypes.shape({
@@ -152,7 +143,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
 	fetchToken,
-	fetchSeasonsIds,
 	hideServerMessage,
 	push,
 	updateMemberToken,

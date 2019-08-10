@@ -3,6 +3,7 @@ import { AppPageNotFound, Contact, Help, Settings } from "pages";
 import {
 	Dashboard,
 	EditAuthorization,
+	EditEvent,
 	EditSeason,
 	NewEvent,
 	NewForm,
@@ -41,8 +42,8 @@ describe("Application routes", () => {
 	});
 
 	describe("Staff and Admin routes", () => {
-		it("initially renders 20 routes", () => {
-			expect(wrapper.find("Route")).toHaveLength(20);
+		it("initially renders 21 routes", () => {
+			expect(wrapper.find("Route")).toHaveLength(21);
 		});
 
 		it("routes to Dashboard", () => {
@@ -59,6 +60,14 @@ describe("Application routes", () => {
 					.find("Route[exact=true][path='/employee/events/create']")
 					.prop("component"),
 			).toBe(NewEvent);
+		});
+
+		it("routes to EditEvent", () => {
+			expect(
+				wrapper
+					.find("Route[exact=true][path='/employee/events/edit/:id']")
+					.prop("component"),
+			).toBe(EditEvent);
 		});
 
 		it("routes to ViewEvents", () => {
@@ -205,7 +214,7 @@ describe("Application routes", () => {
 			expect(
 				wrapper
 					.find("Route")
-					.at(19)
+					.at(20)
 					.prop("component"),
 			).toBe(AppPageNotFound);
 		});

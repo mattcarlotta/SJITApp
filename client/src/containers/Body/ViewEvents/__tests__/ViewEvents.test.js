@@ -1,4 +1,5 @@
 import { ViewEvents } from "../index";
+import moment from "moment";
 
 const data = [
 	{
@@ -6,10 +7,13 @@ const data = [
 		league: "NHL",
 		eventType: "Game",
 		location: "SAP Center at San Jose",
-		callTimes: ["5:45 pm", "6:15 pm", "6:30 pm", "7:00 pm"],
+		callTimes: [
+			moment("2019-08-09T17:45:26-07:00").format(),
+			moment("2019-08-09T18:15:26-07:00").format(),
+		],
 		uniform: "Teal Jersey",
 		seasonId: "20192020",
-		eventDate: "2019-08-09T02:00:12.074Z",
+		eventDate: moment("2019-08-09T02:00:12.074Z").format(),
 		employeeResponses: 0,
 		scheduledEmployees: 0,
 	},

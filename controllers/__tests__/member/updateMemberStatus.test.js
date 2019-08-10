@@ -8,6 +8,11 @@ import {
 const findExistingMember = email => User.findOne({ email });
 
 describe("Update Member Status Controller", () => {
+  let res;
+  beforeEach(() => {
+    res = mockResponse();
+  });
+
   let db;
   beforeAll(() => {
     db = connectDatabase();
@@ -21,7 +26,6 @@ describe("Update Member Status Controller", () => {
       _id: "",
       status: "",
     };
-    const res = mockResponse();
     const req = mockRequest(null, null, emptyBody);
 
     await updateMemberStatus(req, res);
@@ -38,7 +42,6 @@ describe("Update Member Status Controller", () => {
       _id,
       status: "active",
     };
-    const res = mockResponse();
     const req = mockRequest(null, null, invalidMember);
 
     await updateMemberStatus(req, res);
@@ -53,7 +56,6 @@ describe("Update Member Status Controller", () => {
     const email = "member8@example.com";
     let existingMember = await findExistingMember(email);
 
-    let res = mockResponse();
     let req = mockRequest(null, null, {
       _id: existingMember._id,
       status: existingMember.status,
@@ -64,7 +66,7 @@ describe("Update Member Status Controller", () => {
     existingMember = await findExistingMember(email);
     expect(existingMember.status).toEqual("suspended");
 
-    expect(res.status).toHaveBeenCalledWith(202);
+    expect(res.status).toHaveBeenCalledWith(201);
     expect(res.json).toHaveBeenCalledWith({
       message: "Member has been suspended.",
     });
@@ -80,7 +82,7 @@ describe("Update Member Status Controller", () => {
     existingMember = await findExistingMember(email);
     expect(existingMember.status).toEqual("active");
 
-    expect(res.status).toHaveBeenCalledWith(202);
+    expect(res.status).toHaveBeenCalledWith(201);
     expect(res.json).toHaveBeenCalledWith({
       message: "Member has been reactivated.",
     });

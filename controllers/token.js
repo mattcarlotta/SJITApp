@@ -73,7 +73,7 @@ const deleteToken = async (req, res) => {
     await Token.deleteOne({ _id });
 
     res
-      .status(202)
+      .status(201)
       .json({ message: "Successfully deleted the authorization key." });
   } catch (err) {
     return sendError(err, res);

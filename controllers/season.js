@@ -38,7 +38,7 @@ const deleteSeason = async (req, res) => {
 
     await existingSeason.deleteOne({ _id });
 
-    res.status(202).json({ message: "Successfully deleted the season." });
+    res.status(201).json({ message: "Successfully deleted the season." });
   } catch (err) {
     return sendError(err, res);
   }

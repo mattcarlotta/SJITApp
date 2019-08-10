@@ -7,7 +7,7 @@ const DisplayTime = ({ times }) =>
 	!isEmpty(times) ? (
 		times.map((time, key) => (
 			<div key={key} style={{ wordWrap: "break-word", wordBreak: "break-all" }}>
-				{moment(time).format("hh:mm a")}
+				{moment(time).format("h:mm a")}
 			</div>
 		))
 	) : (

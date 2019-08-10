@@ -1,9 +1,9 @@
-export default (field, seasonIds, editToken) => {
+export default (field, editToken) => {
 	switch (field.name) {
 		case "seasonId":
 			return {
 				...field,
-				selectOptions: seasonIds,
+				selectOptions: editToken.seasonIds,
 				value: editToken.seasonId,
 				disabled: !!editToken.email,
 			};

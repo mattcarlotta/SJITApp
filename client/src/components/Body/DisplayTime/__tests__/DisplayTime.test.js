@@ -1,7 +1,11 @@
 import DisplayTime from "../index";
+import moment from "moment";
 
 const initProps = {
-	times: ["4:00 pm", "5:00 pm", "6:00 pm"],
+	times: [
+		moment("2019-08-09T17:45:26-07:00").format(),
+		moment("2019-08-09T18:15:26-07:00").format(),
+	],
 };
 
 const wrapper = mount(<DisplayTime {...initProps} />);
@@ -13,19 +17,13 @@ describe("Display Time", () => {
 				.find("div")
 				.first()
 				.text(),
-		).toEqual("4:00 pm");
+		).toEqual("5:45 pm");
 		expect(
 			wrapper
 				.find("div")
 				.at(1)
 				.text(),
-		).toEqual("5:00 pm");
-		expect(
-			wrapper
-				.find("div")
-				.at(2)
-				.text(),
-		).toEqual("6:00 pm");
+		).toEqual("6:15 pm");
 	});
 
 	it("renders an invalid date if missing a 'date' prop", () => {

@@ -26,7 +26,7 @@ const memberReducer = (state = initialState, { payload, type }) => {
 		case types.MEMBERS_SET_TOKENS:
 			return { ...state, tokens: payload.tokens, isLoading: false };
 		case types.MEMBERS_SET_TOKEN:
-			return { ...state, editToken: payload.token, isLoading: false };
+			return { ...state, editToken: payload, isLoading: false };
 		case types.MEMBERS_SET_REVIEW:
 			return { ...state, viewMember: payload.member, isLoading: false };
 		default:

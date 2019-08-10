@@ -3,6 +3,11 @@ import { getSeason } from "controllers/season";
 import { missingSeasonId, unableToLocateSeason } from "shared/authErrors";
 
 describe("Get Season Controller", () => {
+  let res;
+  beforeEach(() => {
+    res = mockResponse();
+  });
+
   let db;
   beforeAll(() => {
     db = connectDatabase();
@@ -14,7 +19,6 @@ describe("Get Season Controller", () => {
 
   it("handles empty params requests", async () => {
     const id = "";
-    const res = mockResponse();
     const req = mockRequest(null, null, null, null, { id });
 
     await getSeason(req, res);
@@ -27,7 +31,6 @@ describe("Get Season Controller", () => {
 
   it("handles invalid get season requests", async () => {
     const id = "5d36409b0aa1b50ba8f926dc";
-    const res = mockResponse();
     const req = mockRequest(null, null, null, null, { id });
 
     await getSeason(req, res);
@@ -42,7 +45,6 @@ describe("Get Season Controller", () => {
     const seasonId = "20002001";
     const existingSeason = await Season.findOne({ seasonId });
 
-    const res = mockResponse();
     const req = mockRequest(null, null, null, null, { id: existingSeason._id });
 
     await getSeason(req, res);

@@ -20,7 +20,7 @@ const eventReducer = (state = initialState, { payload, type }) => {
 		case types.EVENTS_SET:
 			return { ...state, data: payload.events, isLoading: false };
 		case types.EVENTS_SET_EDIT:
-			return { ...state, editEvent: payload.event, isLoading: false };
+			return { ...state, editEvent: payload, isLoading: false };
 		default:
 			return state;
 	}

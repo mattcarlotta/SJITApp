@@ -284,12 +284,15 @@ describe("member Sagas", () => {
 
 	describe("Fetch Token", () => {
 		let data;
+		let data2;
 		beforeEach(() => {
 			data = { token: mocks.tokensData };
+			data2 = { seasonIds: mocks.seasonIdsData };
 		});
 
 		it("logical flow matches pattern for fetch member token requests", () => {
 			const res = { data };
+			const res2 = { data2 };
 
 			testSaga(sagas.fetchToken, { tokenId })
 				.next()
@@ -299,13 +302,25 @@ describe("member Sagas", () => {
 				.next(res)
 				.call(parseData, res)
 				.next(res.data)
-				.put(actions.setToken(res.data))
+				.call(app.get, "seasons/all/ids")
+				.next(res2)
+				.call(parseData, res2)
+				.next(res2.data2)
+				.put(
+					actions.setToken({
+						...res.data.token,
+						seasonIds: res2.data2.seasonIds,
+					}),
+				)
 				.next()
 				.isDone();
 		});
 
 		it("successfully fetches a member token for editing", async () => {
 			mockApp.onGet(`token/edit/${tokenId}`).reply(200, data);
+			mockApp
+				.onGet("seasons/all/ids")
+				.reply(200, { data: { seasonIds: mocks.seasonIdsData } });
 
 			return expectSaga(sagas.fetchToken, { tokenId })
 				.dispatch(actions.fetchToken)
@@ -313,7 +328,7 @@ describe("member Sagas", () => {
 				.hasFinalState({
 					data: [],
 					tokens: [],
-					editToken: mocks.tokensData,
+					editToken: { ...mocks.tokensData, seasonIds: mocks.seasonIds },
 					viewMember: {},
 					isLoading: false,
 				})

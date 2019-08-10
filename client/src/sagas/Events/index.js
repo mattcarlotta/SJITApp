@@ -94,7 +94,10 @@ export function* fetchEvent({ eventId }) {
 		const res = yield call(app.get, `event/edit/${eventId}`);
 		const data = yield call(parseData, res);
 
-		yield put(setEventToEdit(data));
+		const res2 = yield call(app.get, "seasons/all/ids");
+		const data2 = yield call(parseData, res2);
+
+		yield put(setEventToEdit({ ...data.event, seasonIds: data2.seasonIds }));
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}

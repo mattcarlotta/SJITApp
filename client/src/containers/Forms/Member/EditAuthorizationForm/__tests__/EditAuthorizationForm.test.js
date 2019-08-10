@@ -1,14 +1,12 @@
 import { EditAuthorizationForm } from "../index";
 
 const fetchToken = jest.fn();
-const fetchSeasonsIds = jest.fn();
 const hideServerMessage = jest.fn();
 const push = jest.fn();
 const updateMemberToken = jest.fn();
 
 const initProps = {
 	fetchToken,
-	fetchSeasonsIds,
 	hideServerMessage,
 	match: {
 		params: {
@@ -16,18 +14,17 @@ const initProps = {
 		},
 	},
 	push,
-	seasonIds: [],
 	serverMessage: "",
 	updateMemberToken,
 };
 
-const seasonIds = ["20002001", "20012002", "20022003"];
 const editToken = {
 	email: "",
 	_id: "5d44a76ad49a24023e0af7dc",
 	authorizedEmail: "test@test.com",
 	role: "employee",
 	seasonId: "20002001",
+	seasonIds: ["20002001", "20012002", "20022003"],
 };
 
 describe("Edit Authorization Form", () => {
@@ -37,7 +34,6 @@ describe("Edit Authorization Form", () => {
 	});
 
 	afterEach(() => {
-		fetchSeasonsIds.mockClear();
 		fetchToken.mockClear();
 		updateMemberToken.mockClear();
 	});
@@ -46,18 +42,17 @@ describe("Edit Authorization Form", () => {
 		expect(wrapper.find("Card").exists()).toBeTruthy();
 	});
 
-	it("shows a Spinner when fetching seasonIds and the token to edit", () => {
+	it("shows a Spinner when fetching the token to edit", () => {
 		expect(wrapper.find("Spinner").exists()).toBeTruthy();
 	});
 
-	it("calls fetchSeasonsIds and fetchToken on mount", () => {
-		expect(fetchSeasonsIds).toHaveBeenCalledTimes(1);
+	it("calls fetchToken on mount", () => {
 		expect(fetchToken).toHaveBeenCalledTimes(1);
 	});
 
 	describe("Form Initializied", () => {
 		beforeEach(() => {
-			wrapper.setProps({ editToken, seasonIds });
+			wrapper.setProps({ editToken });
 		});
 
 		it("initializes the fields with editToken and seasonIds values", () => {
@@ -73,7 +68,7 @@ describe("Edit Authorization Form", () => {
 					.find("Select")
 					.first()
 					.props().selectOptions,
-			).toEqual(seasonIds);
+			).toEqual(editToken.seasonIds);
 
 			expect(
 				wrapper

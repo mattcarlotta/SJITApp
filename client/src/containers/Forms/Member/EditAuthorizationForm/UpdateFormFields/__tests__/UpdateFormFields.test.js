@@ -1,7 +1,5 @@
 import updateFormFields from "../index";
 
-const seasonIds = ["20002001", "20012002", "20022003"];
-
 const editToken = {
 	_id: "5d44a68188524202892bd82e",
 	email: "",
@@ -10,6 +8,7 @@ const editToken = {
 	seasonId: "20002001",
 	token: "Iy7bjX0jMAfmfrRFtXWC79urQ2mJeLrC",
 	expiration: "2019-11-01T06:59:59.999Z",
+	seasonIds: ["20002001", "20012002", "20022003"],
 };
 
 describe("UpdateFormFields", () => {
@@ -27,11 +26,11 @@ describe("UpdateFormFields", () => {
 			selectOptions: [],
 		};
 
-		const updatedField = updateFormFields(seasonIdField, seasonIds, editToken);
+		const updatedField = updateFormFields(seasonIdField, editToken);
 
 		expect(updatedField).toEqual({
 			...seasonIdField,
-			selectOptions: seasonIds,
+			selectOptions: editToken.seasonIds,
 			value: editToken.seasonId,
 			disabled: !!editToken.email,
 		});
@@ -51,7 +50,7 @@ describe("UpdateFormFields", () => {
 			selectOptions: ["staff", "employee"],
 		};
 
-		const updatedField = updateFormFields(roleField, seasonIds, editToken);
+		const updatedField = updateFormFields(roleField, editToken);
 
 		expect(updatedField).toEqual({
 			...roleField,
@@ -75,11 +74,7 @@ describe("UpdateFormFields", () => {
 			disabled: true,
 		};
 
-		const updatedField = updateFormFields(
-			authorizedEmailField,
-			seasonIds,
-			editToken,
-		);
+		const updatedField = updateFormFields(authorizedEmailField, editToken);
 
 		expect(updatedField).toEqual({
 			...authorizedEmailField,

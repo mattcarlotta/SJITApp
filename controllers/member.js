@@ -19,7 +19,7 @@ const deleteMember = async (req, res) => {
 
     await existingUser.delete();
 
-    res.status(202).json({ message: "Successfully deleted the member." });
+    res.status(201).json({ message: "Successfully deleted the member." });
   } catch (err) {
     return sendError(err, res);
   }
@@ -87,7 +87,7 @@ const updateMember = async (req, res) => {
     });
 
     res
-      .status(202)
+      .status(201)
       .json({ message: "Successfully updated the member profile." });
   } catch (err) {
     return sendError(err, res);
@@ -108,7 +108,7 @@ const updateMemberStatus = async (req, res) => {
 
     const newStatus = status === "active" ? "suspended" : "reactivated";
 
-    res.status(202).json({ message: `Member has been ${newStatus}.` });
+    res.status(201).json({ message: `Member has been ${newStatus}.` });
   } catch (err) {
     return sendError(err, res);
   }

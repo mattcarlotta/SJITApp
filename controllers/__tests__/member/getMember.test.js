@@ -3,6 +3,11 @@ import { getMember } from "controllers/member";
 import { missingMemberId, unableToLocateMember } from "shared/authErrors";
 
 describe("Get Member Controller", () => {
+  let res;
+  beforeEach(() => {
+    res = mockResponse();
+  });
+
   let db;
   beforeAll(() => {
     db = connectDatabase();
@@ -14,7 +19,6 @@ describe("Get Member Controller", () => {
 
   it("handles empty params requests", async () => {
     const id = "";
-    const res = mockResponse();
     const req = mockRequest(null, null, null, null, { id });
 
     await getMember(req, res);
@@ -27,7 +31,6 @@ describe("Get Member Controller", () => {
 
   it("handles invalid get member requests", async () => {
     const id = "5d36409b0aa1b50ba8f926dc";
-    const res = mockResponse();
     const req = mockRequest(null, null, null, null, { id });
 
     await getMember(req, res);
@@ -42,7 +45,6 @@ describe("Get Member Controller", () => {
     const email = "carlotta.matt@gmail.com";
     const existingMember = await User.findOne({ email });
 
-    const res = mockResponse();
     const req = mockRequest(null, null, null, null, { id: existingMember._id });
 
     await getMember(req, res);

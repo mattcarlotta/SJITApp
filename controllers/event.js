@@ -1,4 +1,4 @@
-import { Event, Season } from "models";
+import { Event } from "models";
 import { sendError } from "shared/helpers";
 import {
   invalidCreateEventRequest,
@@ -20,14 +20,13 @@ const createEvent = async (req, res) => {
       uniform,
     } = req.body;
     if (
-      !eventDate ||
-      !callTimes ||
-      !league ||
-      !location ||
-      !seasonId ||
-      !uniform
-    )
-      throw invalidCreateEventRequest;
+      !eventDate
+      || !callTimes
+      || !league
+      || !location
+      || !seasonId
+      || !uniform
+    ) throw invalidCreateEventRequest;
 
     await Event.create({
       seasonId,
@@ -58,7 +57,7 @@ const deleteEvent = async (req, res) => {
 
     await existingEvent.delete();
 
-    res.status(202).json({ message: "Successfully deleted the event." });
+    res.status(200).json({ message: "Successfully deleted the event." });
   } catch (err) {
     return sendError(err, res);
   }
@@ -95,22 +94,17 @@ const getEvent = async (req, res) => {
     );
     if (!existingEvent) throw unableToLocateEvent;
 
-    const seasons = await Season.aggregate([
-      { $group: { _id: null, seasonIds: { $addToSet: "$seasonId" } } },
-      { $project: { _id: 0, seasonIds: 1 } },
-    ]);
-
-    res
-      .status(200)
-      .json({ event: { ...existingEvent.toJSON(), ...seasons[0] } });
+    res.status(200).json({ event: existingEvent });
   } catch (err) {
     return sendError(err, res);
   }
 };
 
 const updateEvent = (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   sendError("Route not setup.", res);
 };
 
-export { createEvent, deleteEvent, getAllEvents, getEvent, updateEvent };
+export {
+  createEvent, deleteEvent, getAllEvents, getEvent, updateEvent,
+};

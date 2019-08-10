@@ -3,6 +3,11 @@ import { deleteSeason } from "controllers/season";
 import { missingSeasonId, unableToDeleteSeason } from "shared/authErrors";
 
 describe("Delete Season Controller", () => {
+  let res;
+  beforeEach(() => {
+    res = mockResponse();
+  });
+
   let db;
   beforeAll(() => {
     db = connectDatabase();
@@ -14,7 +19,6 @@ describe("Delete Season Controller", () => {
 
   it("handles empty param requests", async () => {
     const id = "";
-    const res = mockResponse();
     const req = mockRequest(null, null, null, null, { id });
 
     await deleteSeason(req, res);
@@ -27,7 +31,6 @@ describe("Delete Season Controller", () => {
 
   it("handles invalid delete season requests", async () => {
     const id = "5d36409b0aa1b50ba8f926dc";
-    const res = mockResponse();
     const req = mockRequest(null, null, null, null, { id });
 
     await deleteSeason(req, res);
@@ -41,14 +44,13 @@ describe("Delete Season Controller", () => {
   it("handles valid delete season requests", async () => {
     const existingSeason = await Season.findOne({ seasonId: "20112012" });
 
-    const res = mockResponse();
     const req = mockRequest(null, null, null, null, {
       id: existingSeason._id,
     });
 
     await deleteSeason(req, res);
 
-    expect(res.status).toHaveBeenCalledWith(202);
+    expect(res.status).toHaveBeenCalledWith(201);
     expect(res.json).toHaveBeenCalledWith({
       message: "Successfully deleted the season.",
     });
