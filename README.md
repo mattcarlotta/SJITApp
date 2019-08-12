@@ -1,6 +1,6 @@
 ## SJ Ice Team App
 
-[Codecov](https://img.shields.io/codecov/c/github/mattcarlotta/SJSITApp)
+![Codecov](https://img.shields.io/codecov/c/github/mattcarlotta/SJSITApp)
 
 ## Synopsis
 
