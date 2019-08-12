@@ -1,4 +1,4 @@
-## SJ Ice Team App ![Codecov](https://img.shields.io/codecov/c/github/mattcarlotta/SJSITApp) ![Dependencies](https://img.shields.io/david/mattcarlotta/SJSITApp.svg?style=flat-square)
+## SJ Ice Team App [![Codecov](https://img.shields.io/codecov/c/github/mattcarlotta/SJSITApp)](https://codecov.io/gh/mattcarlotta/SJSITApp/branch/master) ![Dependencies](https://img.shields.io/david/mattcarlotta/SJSITApp.svg?style=flat-square)
 
 An application to manage SJ Ice Team scheduling.
 
