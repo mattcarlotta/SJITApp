@@ -13,7 +13,7 @@ import { parseData, parseMessage } from "utils/parseResponse";
 const memberId = "124567890";
 const tokenId = "0123456789";
 
-describe("member Sagas", () => {
+describe("Member Sagas", () => {
 	afterEach(() => {
 		mockApp.reset();
 	});

@@ -1,7 +1,9 @@
 import FieldGenerator from "../index";
 import moment from "moment";
+import { DatePicker, TimePicker } from "antd";
 
 const onChange = jest.fn();
+const onFieldRemove = jest.fn();
 
 const input = {
 	type: "text",
@@ -46,6 +48,18 @@ const range = {
 	format: "l",
 };
 
+const date = {
+	type: "date",
+	name: "eventDate",
+	label: "Event Date",
+	placeholder: "Select a start date and time...",
+	value: null,
+	errors: "",
+	required: true,
+	format: "MM/DD/YYYY h:mm a",
+	showTime: { format: "h:mm a", use12Hours: true, minuteStep: 15 },
+};
+
 const time = {
 	type: "time",
 	name: "callTime",
@@ -55,8 +69,6 @@ const time = {
 	required: true,
 	disabled: true,
 };
-
-const onFieldRemove = jest.fn();
 
 const removetime = {
 	...time,
@@ -95,6 +107,10 @@ describe("Field Generator", () => {
 		wrapper.setProps({ fields: [textarea] });
 
 		expect(wrapper.find("TextArea").exists()).toBeTruthy();
+		expect(wrapper.find("Errors").exists()).toBeFalsy();
+
+		wrapper.setProps({ fields: [{ ...textarea, errors: "Required." }] });
+		expect(wrapper.find("Errors").exists()).toBeTruthy();
 	});
 
 	it("returns an Input when type is 'email'", () => {
@@ -115,17 +131,40 @@ describe("Field Generator", () => {
 		expect(wrapper.find("Select").exists()).toBeTruthy();
 	});
 
+	it("returns an DatePicker when type is 'date'", () => {
+		wrapper.setProps({ fields: [date] });
+
+		wrapper.find(".ant-calendar-picker-input").simulate("click");
+
+		wrapper.find(".ant-calendar-cell.ant-calendar-today").simulate("click");
+		wrapper.find(".ant-calendar-ok-btn").simulate("click");
+
+		expect(wrapper.find(DatePicker).exists()).toBeTruthy();
+		expect(onChange).toHaveBeenCalledWith({
+			target: { name: "eventDate", value: expect.any(moment) },
+		});
+	});
+
 	it("returns an RangePicker when type is 'range'", () => {
 		wrapper.setProps({ fields: [range] });
 
 		expect(wrapper.find("RangePicker").exists()).toBeTruthy();
 	});
 
-	it("returns an TimePicker when type is 'time'", () => {
+	it("returns a TimePicker when type is 'time'", () => {
 		wrapper.setProps({ fields: [time] });
+
+		const value = moment("2000-01-01 00:00:00");
+		wrapper
+			.find(TimePicker)
+			.instance()
+			.handleChange(value);
 
 		expect(wrapper.find("Label").exists()).toBeTruthy();
 		expect(wrapper.find("TimePicker").exists()).toBeTruthy();
+		expect(onChange).toHaveBeenCalledWith({
+			target: { name: "callTime", value },
+		});
 	});
 
 	it("returns a removeable TimePicker field when a 'onFieldRemove' is present", () => {

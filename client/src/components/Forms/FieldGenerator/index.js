@@ -86,6 +86,7 @@ const FieldGenerator = ({ fields, onChange }) =>
 						{props.label && <Label {...props} />}
 						{props.onFieldRemove && (
 							<Icon
+								className="remove-time-slot"
 								style={removeIconStyle}
 								color="rgba(255, 0, 0, 0.65)"
 								onClick={() => props.onFieldRemove(props.name)}

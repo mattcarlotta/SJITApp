@@ -17,9 +17,9 @@ import { fieldValidator, fieldUpdater, parseFields } from "utils";
 import fields from "./Fields";
 import updateFormFields from "./UpdateFormFields";
 
-const title = "Edit Authorization Form";
+const title = "Edit Event Form";
 
-export class EditAuthorizationForm extends Component {
+export class EditEventForm extends Component {
 	state = {
 		fields,
 		isLoading: true,
@@ -126,7 +126,7 @@ export class EditAuthorizationForm extends Component {
 				<FormTitle
 					header={title}
 					title={title}
-					description="Update the season id, startDate, endDate, and/or the time slots."
+					description="Edit or change any of the current event fields below."
 				/>
 				<form onSubmit={this.handleSubmit}>
 					{this.state.isLoading ? (
@@ -143,7 +143,7 @@ export class EditAuthorizationForm extends Component {
 							/>
 							<SubmitButton
 								disabled={isEmpty(this.props.editEvent)}
-								title="Update Authorization"
+								title="Update Event"
 								isSubmitting={this.state.isSubmitting}
 							/>
 						</Fragment>
@@ -154,7 +154,7 @@ export class EditAuthorizationForm extends Component {
 	);
 }
 
-EditAuthorizationForm.propTypes = {
+EditEventForm.propTypes = {
 	editEvent: PropTypes.shape({
 		_id: PropTypes.string,
 		league: PropTypes.string,
@@ -167,7 +167,6 @@ EditAuthorizationForm.propTypes = {
 		notes: PropTypes.string,
 	}).isRequired,
 	fetchEvent: PropTypes.func.isRequired,
-	// fetchSeasonsIds: PropTypes.func.isRequired,
 	hideServerMessage: PropTypes.func.isRequired,
 	match: PropTypes.shape({
 		params: PropTypes.shape({
@@ -175,24 +174,21 @@ EditAuthorizationForm.propTypes = {
 		}),
 	}).isRequired,
 	push: PropTypes.func.isRequired,
-	seasonIds: PropTypes.arrayOf(PropTypes.string),
 	serverMessage: PropTypes.string,
 	updateEvent: PropTypes.func.isRequired,
 };
 
-EditAuthorizationForm.defaultProps = {
+EditEventForm.defaultProps = {
 	editEvent: {},
 };
 
 const mapStateToProps = state => ({
 	editEvent: state.events.editEvent,
 	serverMessage: state.server.message,
-	seasonIds: state.seasons.ids,
 });
 
 const mapDispatchToProps = {
 	fetchEvent,
-	// fetchSeasonsIds,
 	hideServerMessage,
 	push,
 	updateEvent,
@@ -201,4 +197,4 @@ const mapDispatchToProps = {
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps,
-)(EditAuthorizationForm);
+)(EditEventForm);

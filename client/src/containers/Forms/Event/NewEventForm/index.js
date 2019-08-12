@@ -112,7 +112,7 @@ export class NewEventForm extends Component {
 				<FormTitle
 					header={title}
 					title={title}
-					description="Select a season id, startDate, endDate, and include time slots."
+					description="Please fill out all of the event fields below."
 				/>
 				<form onSubmit={this.handleSubmit}>
 					{this.state.isLoading ? (

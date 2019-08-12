@@ -91,6 +91,8 @@ export function* deleteEvent({ eventId }) {
 
 export function* fetchEvent({ eventId }) {
 	try {
+		yield put(hideServerMessage());
+
 		const res = yield call(app.get, `event/edit/${eventId}`);
 		const data = yield call(parseData, res);
 
@@ -150,7 +152,7 @@ export function* updateEvent({ props }) {
 			}),
 		);
 
-		yield put(push("/employee/seasons/viewall"));
+		yield put(push("/employee/events/viewall"));
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}

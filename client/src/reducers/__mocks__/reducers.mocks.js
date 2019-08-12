@@ -47,3 +47,17 @@ export const tokensData = [
 ];
 
 export const seasonIdsData = ["20002001", "20012002", "20022003"];
+
+export const eventsData = [
+	{
+		_id: "0123456789",
+		callTimes: ["2019-08-09T19:00:38-07:00"],
+		eventDate: "2019-08-11T02:30:30.036+00:00",
+		eventType: "Game",
+		league: "AHL",
+		location: "SAP Center at San Jose",
+		notes: "",
+		seasonId: "20002001",
+		uniform: "Barracuda Jersey",
+	},
+];

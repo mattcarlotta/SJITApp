@@ -2,6 +2,7 @@ import { Event } from "models";
 import { sendError } from "shared/helpers";
 import {
   invalidCreateEventRequest,
+  invalidUpdateEventRequest,
   missingEventId,
   unableToDeleteEvent,
   unableToLocateEvent,
@@ -100,9 +101,47 @@ const getEvent = async (req, res) => {
   }
 };
 
-const updateEvent = (req, res) => {
-  // console.log(req.body);
-  sendError("Route not setup.", res);
+const updateEvent = async (req, res) => {
+  try {
+    const {
+      _id,
+      callTimes,
+      eventDate,
+      eventType,
+      league,
+      location,
+      notes,
+      seasonId,
+      uniform,
+    } = req.body;
+    if (
+      !_id
+      || !eventDate
+      || !callTimes
+      || !league
+      || !location
+      || !seasonId
+      || !uniform
+    ) throw invalidUpdateEventRequest;
+
+    const existingEvent = await Event.findOne({ _id });
+    if (!existingEvent) throw unableToLocateEvent;
+
+    await existingEvent.updateOne({
+      seasonId,
+      eventDate,
+      eventType,
+      league,
+      location,
+      callTimes,
+      notes,
+      uniform,
+    });
+
+    res.status(201).json({ message: "Successfully updated the event." });
+  } catch (err) {
+    return sendError(err, res);
+  }
 };
 
 export {

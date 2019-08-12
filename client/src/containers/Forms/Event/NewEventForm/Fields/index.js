@@ -66,7 +66,7 @@ export default [
 		label: "Event Attire",
 		placeholder: "Select a uniform...",
 		icon: "tshirt",
-		value: "Teal Jersey",
+		value: "Sharks Teal Jersey",
 		errors: "",
 		required: true,
 		disabled: true,
