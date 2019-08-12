@@ -1,4 +1,4 @@
-const CleanWebpackPlugin = require("clean-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const ErrorOverlayPlugin = require("error-overlay-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { DefinePlugin, HotModuleReplacementPlugin } = require("webpack");
@@ -72,9 +72,7 @@ module.exports = () => {
 				chunkFilename: `[id].[contenthash:8].css`,
 			}),
 			/* removes old build folder for each new compile */
-			new CleanWebpackPlugin({
-				dry: !!PORT,
-			}),
+			new CleanWebpackPlugin(),
 		);
 	}
 

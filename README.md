@@ -1,5 +1,7 @@
 ## SJ Ice Team App
 
+[![Codecov](https://img.shields.io/codecov/c/github/mattcarlotta/SJSITApp)]
+
 ## Synopsis
 
 An application to manage SJ Ice Team scheduling.
