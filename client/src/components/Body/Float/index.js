@@ -1,7 +1,12 @@
 import styled from "styled-components";
 
-const Float = styled.div`
+export default styled.div`
 	float: ${({ direction }) => direction || "right"};
-`;
 
-export default Float;
+	&::before,
+	&::after {
+		content: "";
+		clear: both;
+		display: table;
+	}
+`;

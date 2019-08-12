@@ -1,6 +1,7 @@
+/* istanbul ignore file */
 import styled from "styled-components";
 
-const Nav = styled.ul`
+export default styled.ul`
 	@media (max-width: 768px) {
 		display: flex;
 		flex-flow: row;
@@ -22,5 +23,3 @@ const Nav = styled.ul`
 	margin-bottom: 0;
 	margin-right: auto;
 `;
-
-export default Nav;

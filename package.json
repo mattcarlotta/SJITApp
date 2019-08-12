@@ -13,7 +13,11 @@
   },
   "scripts": {
     "dev": "better-npm-run dev",
+    "db:drop": "better-npm-run db:drop",
+    "db:droptestdb": "better-npm-run db:droptestdb",
+    "db:seed": "better-npm-run db:seed",
     "initialize": "yarn install && cd client && yarn install && cd ..",
+    "pre-commit": "npm run lint:front --silent && npm run lint:back --silent && npm run test:back && npm run test:front",
     "start": "better-npm-run start",
     "server": "better-npm-run server",
     "client": "npm run dev --prefix client",
@@ -21,16 +25,49 @@
     "lint": "npm run lint-front --silent && npm run lint-back --silent",
     "lint:front": "npm run pre-commit --prefix client",
     "lint:back": "lint-staged",
-    "test": "better-npm-run test",
-    "test:front": "npm run test --prefix client"
+    "test": "npm run test:back && npm run test --prefix client",
+    "test:back": "better-npm-run test:back",
+    "test:backcov": "better-npm-run test:backcov",
+    "test:backwatch": "better-npm-run test:backwatch",
+    "test:front": "npm run test --prefix client",
+    "test:frontcov": "npm run test:coverage --prefix client",
+    "test:frontwatch": "npm run test:watch --prefix client",
+    "test:frontwatchall": "npm run test:watchall --prefix client"
   },
   "betterScripts": {
+    "db:drop": {
+      "command": "node ./utils/globalTeardown.js",
+      "env": {
+        "CLIENT": "http://localhost:5000",
+        "DATABASE": "sjsitapp-dev-db",
+        "NODE_ENV": "development",
+        "DROPDB": "true"
+      }
+    },
+    "db:droptestdb": {
+      "command": "node ./utils/globalTeardown.js",
+      "env": {
+        "CLIENT": "http://localhost:5000",
+        "DATABASE": "sjsitapp-test-db",
+        "NODE_ENV": "testing",
+        "DROPDB": "true"
+      }
+    },
+    "db:seed": {
+      "command": "node ./utils/globalSetup.js",
+      "env": {
+        "CLIENT": "http://localhost:5000",
+        "DATABASE": "sjsitapp-dev-db",
+        "NODE_ENV": "development",
+        "SEED": "true"
+      }
+    },
     "dev": {
       "command": "concurrently \"better-npm-run server\" \"npm run client\"",
       "env": {
         "HOST": "http://localhost:",
         "CLIENT": "http://localhost:3000",
-        "DATABASE": "mongodb://localhost/sjsitapp-dev-db",
+        "DATABASE": "sjsitapp-dev-db",
         "NODE_ENV": "development",
         "APIPORT": 5000
       }
@@ -40,7 +77,7 @@
       "env": {
         "HOST": "http://localhost:",
         "CLIENT": "http://example.com",
-        "DATABASE": "mongodb://localhost/sjsitapp-prod-db",
+        "DATABASE": "sjsitapp-prod-db",
         "NODE_ENV": "production",
         "APIPORT": 8080
       }
@@ -50,17 +87,37 @@
       "env": {
         "HOST": "http://localhost:",
         "CLIENT": "http://localhost:3000",
-        "DATABASE": "mongodb://localhost/sjsitapp-dev-db",
+        "DATABASE": "sjsitapp-dev-db",
         "NODE_ENV": "development",
         "APIPORT": 5000
       }
     },
-    "test": {
-      "command": "jest --config ./jest.json --runInBand --watchAll",
+    "test:back": {
+      "command": "jest --config ./jest.json",
       "env": {
         "CLIENT": "http://localhost:5001",
-        "DATABASE": "mongodb://localhost/sjsitapp-test-db",
-        "NODE_ENV": "test",
+        "DATABASE": "sjsitapp-test-db",
+        "NODE_ENV": "testing",
+        "DROPDB": "true",
+        "APIPORT": 5001
+      }
+    },
+    "test:backcov": {
+      "command": "jest --config ./jest.json --coverage",
+      "env": {
+        "CLIENT": "http://localhost:5001",
+        "DATABASE": "sjsitapp-test-db",
+        "NODE_ENV": "testing",
+        "DROPDB": "true",
+        "APIPORT": 5001
+      }
+    },
+    "test:backwatch": {
+      "command": "jest --config ./jest.json --passWithNoTests --watchAll",
+      "env": {
+        "CLIENT": "http://localhost:5001",
+        "DATABASE": "sjsitapp-test-db",
+        "NODE_ENV": "testing",
         "APIPORT": 5001
       }
     }
@@ -73,44 +130,45 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint:front --silent && npm run lint:back --silent"
+      "pre-commit": "npm run pre-commit"
     }
   },
   "dependencies": {
-    "@babel/core": "^7.4.3",
-    "@babel/preset-env": "^7.4.3",
-    "@babel/register": "^7.4.0",
+    "@babel/core": "^7.5.4",
+    "@babel/preset-env": "^7.5.4",
+    "@babel/register": "^7.4.4",
     "@sendgrid/mail": "^6.4.0",
     "babel-plugin-module-resolver": "^3.2.0",
     "bcryptjs": "^2.4.3",
     "better-npm-run": "^0.1.1",
-    "bluebird": "^3.5.3",
-    "body-parser": "^1.18.3",
-    "concurrently": "^4.1.0",
+    "bluebird": "^3.5.5",
+    "body-parser": "^1.19.0",
+    "chalk": "^2.4.2",
+    "concurrently": "^4.1.1",
     "connect-redis": "^3.4.1",
     "cors": "^2.8.5",
-    "express": "^4.16.4",
-    "express-session": "^1.16.1",
-    "lodash": "^4.17.11",
+    "eslint-config-airbnb-base": "^13.2.0",
+    "eslint-plugin-import": "^2.18.0",
+    "express": "^4.17.1",
+    "express-session": "^1.16.2",
+    "lodash": "^4.17.14",
     "moment": "^2.24.0",
-    "mongoose": "^5.4.15",
+    "mongoose": "^5.6.4",
     "morgan": "^1.9.1",
+    "nodemon": "^1.19.1",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "react-dev-utils": "^9.0.1",
     "supertest": "^4.0.2"
   },
   "devDependencies": {
-    "babel-jest": "^24.7.1",
-    "cross-env": "^5.2.0",
+    "babel-jest": "^24.8.0",
     "eslint": "^5.14.1",
-    "eslint-config-airbnb-base": "^13.1.0",
     "eslint-import-resolver-babel-module": "^5.0.1",
-    "eslint-plugin-import": "^2.16.0",
-    "husky": "^2.3.0",
-    "jest": "^24.7.1",
-    "lint-staged": "^8.1.4",
-    "nodemon": "^1.18.10",
-    "prettier": "^1.16.4"
+    "eslint-plugin-prettier": "^3.1.0",
+    "husky": "^3.0.0",
+    "jest": "^24.8.0",
+    "lint-staged": "^9.2.0",
+    "prettier": "^1.18.2"
   }
 }

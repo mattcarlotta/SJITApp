@@ -1,6 +1,7 @@
+/* istanbul ignore file */
 import styled from "styled-components";
 
-const ModalContainer = styled.div`
+export default styled.div`
 	opacity: 1;
 	transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 	top: 0;
@@ -9,5 +10,3 @@ const ModalContainer = styled.div`
 	text-align: left;
 	vertical-align: middle;
 `;
-
-export default ModalContainer;

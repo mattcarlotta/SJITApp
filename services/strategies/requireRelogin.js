@@ -1,11 +1,13 @@
-import isEmpty from "lodash/isEmpty";
+import get from "lodash/get";
 
 export default (req, res, next) => {
-  if (isEmpty(req.session.user)) {
+  const user = get(req, ["session", "user"]);
+
+  if (!user) {
     return res
       .status(200)
       .clearCookie("SJSITApp", { path: "/" })
-      .send(null);
+      .json({ role: "guest" });
   }
   next();
 };

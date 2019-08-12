@@ -1,42 +1,60 @@
 import mailer from "@sendgrid/mail";
-import { sendError, createSignupToken } from "shared/helpers";
+import { sendError, createSignupToken, expirationDate } from "shared/helpers";
+import {
+  emailAssociatedWithKey,
+  invalidAuthTokenRequest,
+  invalidDeleteTokenRequest,
+  invalidSeasonId,
+  missingTokenId,
+  missingUpdateTokenParams,
+  unableToLocateToken,
+  unableToUpdateToken,
+} from "shared/authErrors";
 import { newAuthorizationKeyTemplate } from "services/templates";
 import { Token, Season } from "models";
 
 const { CLIENT } = process.env;
 
+const createMessage = (authorizedEmail, token, expiration) => {
+  const msg = {
+    to: `${authorizedEmail}`,
+    from: "San Jose Sharks Ice Team <noreply@sjsiceteam.com>",
+    subject:
+      "Congratulations, you have been selected to join the San Jose Sharks Ice Team!",
+    html: newAuthorizationKeyTemplate(CLIENT, token, expiration.calendar()),
+  };
+
+  return msg;
+};
+
 const createToken = async (req, res) => {
-  const { email, role, seasonId } = req.body;
-
-  if (!email || !role || !seasonId) {
-    return sendError(
-      "You must supply an email, a role, and a season before you can create an authorization token.",
-      res,
-    );
-  }
-
   try {
+    const { authorizedEmail, role, seasonId } = req.body;
+    if (!authorizedEmail || !role || !seasonId) throw invalidAuthTokenRequest;
+
     const seasonExists = await Season.findOne({ seasonId });
-    if (!seasonExists) return sendError("Invalid season.", res);
+    if (!seasonExists) throw invalidSeasonId;
+
+    const emailExists = await Token.findOne({ authorizedEmail });
+    if (emailExists) throw emailAssociatedWithKey;
 
     const token = createSignupToken();
+    const expiration = expirationDate();
+
     await Token.create({
-      authorized: email, token, role, seasonId,
+      authorizedEmail,
+      expiration: expiration.toDate(),
+      token,
+      role,
+      seasonId,
     });
 
-    const msg = {
-      to: `${email}`,
-      from: "San Jose Sharks Ice Team <noreply@sjsiceteam.com>",
-      subject:
-        "Congratulations, you have been selected to join the San Jose Sharks Ice Team!",
-      html: newAuthorizationKeyTemplate(CLIENT, token),
-    };
+    const msg = createMessage(authorizedEmail, token, expiration);
 
-    // attempts to resend a verification email to an existing user
     await mailer.send(msg);
 
     res.status(201).json({
-      message: `Succesfully created and sent an authorization key to ${email}.`,
+      message: `Succesfully created and sent an authorization key to ${authorizedEmail}.`,
     });
   } catch (err) {
     return sendError(err, res);
@@ -44,32 +62,84 @@ const createToken = async (req, res) => {
 };
 
 const deleteToken = async (req, res) => {
-  const { id } = req.params;
-
-  if (!id) {
-    return sendError(
-      "You must supply a valid token id before you can delete a signup token.",
-      res,
-    );
-  }
-
   try {
-    await Token.deleteOne({ _id: id });
+    const { id } = req.params;
+    if (!id) throw invalidDeleteTokenRequest;
 
-    res.status(202).json({ message: "Successfully deleted the signup token." });
+    const token = await Token.findOne({ _id: id });
+    if (!token) throw invalidDeleteTokenRequest;
+
+    const { _id } = token;
+    await Token.deleteOne({ _id });
+
+    res
+      .status(201)
+      .json({ message: "Successfully deleted the authorization key." });
   } catch (err) {
     return sendError(err, res);
   }
 };
 
-const getAllTokens = async (req, res) => {
-  try {
-    const tokens = await Token.find({});
+const getAllTokens = async (_, res) => {
+  const tokens = await Token.aggregate([
+    {
+      $project: {
+        __v: 0,
+      },
+    },
+  ]);
 
-    res.status(201).send({ tokens });
+  res.status(201).json({ tokens });
+};
+
+const getToken = async (req, res) => {
+  try {
+    const { id: _id } = req.params;
+    if (!_id) throw missingTokenId;
+
+    const existingToken = await Token.findOne({ _id }, { __v: 0, token: 0 });
+    if (!existingToken) throw unableToLocateToken;
+
+    res.status(200).json({ token: existingToken });
   } catch (err) {
     return sendError(err, res);
   }
 };
 
-export { createToken, deleteToken, getAllTokens };
+const updateToken = async (req, res) => {
+  try {
+    const {
+      _id, authorizedEmail, role, seasonId,
+    } = req.body;
+    if (!_id || !authorizedEmail || !role || !seasonId) throw missingUpdateTokenParams;
+
+    const existingToken = await Token.findOne({ _id });
+    if (!existingToken) throw unableToLocateToken;
+    if (existingToken.email) throw unableToUpdateToken;
+
+    const token = createSignupToken();
+    const expiration = expirationDate();
+
+    await existingToken.updateOne({
+      authorizedEmail,
+      expiration,
+      role,
+      seasonId,
+      token,
+    });
+
+    const msg = createMessage(authorizedEmail, token, expiration);
+
+    await mailer.send(msg);
+
+    res.status(201).json({
+      message: `Succesfully updated and sent a new authorization key to ${authorizedEmail}.`,
+    });
+  } catch (err) {
+    return sendError(err, res);
+  }
+};
+
+export {
+  createToken, deleteToken, getAllTokens, getToken, updateToken,
+};

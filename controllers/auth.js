@@ -5,7 +5,7 @@ import {
 } from "shared/authSuccess";
 
 // CREATES A NEW USER
-const create = (req, res) => {
+const createUser = (req, res) => {
   res
     .status(201)
     .json(thanksForReg(req.user.email, req.user.firstName, req.user.lastName));
@@ -13,12 +13,7 @@ const create = (req, res) => {
 
 // EMAILS A USER A TOKEN TO RESET THEIR PASSWORD
 const emailResetToken = (req, res) => {
-  res.status(201).json(passwordResetToken(req.user));
-};
-
-// ALLOWS A USER TO UPDATE THEIR PASSWORD WITH A TOKEN
-const updatePassword = (req, res) => {
-  res.status(201).json({ message: passwordResetSuccess(req.user) });
+  res.status(200).json(passwordResetToken(req.user));
 };
 
 // ALLOWS A USER TO LOG INTO THE APP ON REFRESH
@@ -41,6 +36,16 @@ const signout = (req, res) => {
     .send("Session ended.");
 };
 
+// ALLOWS A USER TO UPDATE THEIR PASSWORD WITH A TOKEN
+const updatePassword = (req, res) => {
+  res.status(200).json({ message: passwordResetSuccess(req.user) });
+};
+
 export {
-  create, emailResetToken, signedin, signin, signout, updatePassword,
+  createUser,
+  emailResetToken,
+  signedin,
+  signin,
+  signout,
+  updatePassword,
 };

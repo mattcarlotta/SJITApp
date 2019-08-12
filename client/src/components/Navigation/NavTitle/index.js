@@ -1,6 +1,7 @@
+/* istanbul ignore file */
 import styled from "styled-components";
 
-const NavTitle = styled.div`
+export default styled.div`
 	@media (max-width: 725px) {
 		display: block;
 		width: 100%;
@@ -15,7 +16,5 @@ const NavTitle = styled.div`
 	justify-content: center;
 	-ms-flex-align: center;
 	align-items: center;
-	margin-right: 140px;
+	margin-right: 270px;
 `;
-
-export default NavTitle;

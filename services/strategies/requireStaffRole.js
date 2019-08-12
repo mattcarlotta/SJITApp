@@ -1,13 +1,11 @@
-import isEmpty from "lodash/isEmpty";
+import get from "lodash/get";
 import { badCredentials } from "shared/authErrors";
 
 export default (req, res, next) => {
-  if (
-    isEmpty(req.session.user)
-    || (req.session.user.role !== "admin"
-      && req.session.user.role !== "supervisor")
-  ) {
-    return res.status(401).send({ err: badCredentials });
-  }
+  const user = get(req, ["session", "user"]);
+  const role = get(user, ["role"]);
+
+  if (!user || (role !== "admin" && role !== "staff")) return res.status(401).send({ err: badCredentials });
+
   next();
 };

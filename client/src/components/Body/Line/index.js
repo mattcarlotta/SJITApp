@@ -1,11 +1,13 @@
 import styled from "styled-components";
 
-const Line = styled.hr`
+export default styled.div`
+	display: block;
+	clear: both;
+	color: rgba(0, 0, 0, 0.65);
+	font-size: 14px;
 	padding: 0;
 	height: 1px;
-	width: 100%;
-	margin-bottom: 20px;
-	background-color: #9facbd;
+	width: ${({ width }) => width || "100%"};
+	background-color: #e8e8e8;
+	vertical-align: middle;
 `;
-
-export default Line;

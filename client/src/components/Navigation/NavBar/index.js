@@ -1,12 +1,13 @@
+/* istanbul ignore file */
 import styled from "styled-components";
 
-const NavBar = styled.nav`
+export default styled.nav`
 	@media (max-width: 725px) {
 		text-align: center;
 		display: block;
 	}
 	@media (min-width: 1340px) {
-		max-width: 1260px;
+		max-width: 1000px;
 	}
 	display: -ms-flexbox;
 	display: flex;
@@ -15,5 +16,3 @@ const NavBar = styled.nav`
 	padding: 20px;
 	margin: 0 auto;
 `;
-
-export default NavBar;

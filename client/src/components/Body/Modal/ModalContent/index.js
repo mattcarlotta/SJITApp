@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const ModalContent = styled.div`
+export default styled.div`
 	max-width: ${({ maxWidth }) => maxWidth || "500px"};
 	flex: 0 1 auto;
 	max-height: calc(100% - 96px);
@@ -15,5 +15,3 @@ const ModalContent = styled.div`
 	background-color: #fff;
 	text-align: left;
 `;
-
-export default ModalContent;

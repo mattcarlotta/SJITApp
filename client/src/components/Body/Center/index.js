@@ -1,7 +1,6 @@
+/* istanbul ignore file */
 import styled from "styled-components";
 
-const Center = styled.div`
+export default styled.div`
 	text-align: center;
 `;
-
-export default Center;

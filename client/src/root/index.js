@@ -4,24 +4,33 @@ import { ConnectedRouter, routerMiddleware } from "connected-react-router";
 import { createStore, applyMiddleware } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension/developmentOnly";
 import { createBrowserHistory } from "history";
-import thunk from "redux-thunk";
+import createSagaMiddleware from "redux-saga";
+import { LocaleProvider } from "antd";
+import enUS from "antd/lib/locale-provider/en_US";
+
 import createRootReducer from "reducers";
-import Routes from "routes";
+import rootSagas from "sagas";
+import { MainRoutes } from "routes";
 
 const history = createBrowserHistory();
-const middlewares = applyMiddleware(thunk, routerMiddleware(history));
+export const saga = createSagaMiddleware();
+const middlewares = applyMiddleware(saga, routerMiddleware(history));
 
-const store = createStore(
+export const store = createStore(
 	createRootReducer(history),
 	composeWithDevTools(middlewares),
 );
 
+saga.run(rootSagas);
+
 const Root = () => (
-	<Provider store={store}>
-		<ConnectedRouter history={history}>
-			<Routes />
-		</ConnectedRouter>
-	</Provider>
+	<LocaleProvider locale={enUS}>
+		<Provider store={store}>
+			<ConnectedRouter history={history}>
+				<MainRoutes />
+			</ConnectedRouter>
+		</Provider>
+	</LocaleProvider>
 );
 
 export default Root;

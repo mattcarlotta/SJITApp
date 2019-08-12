@@ -2,12 +2,13 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import {
-	FaBell,
-	FaExclamationCircle,
 	FaExclamationTriangle,
+	FaCheckCircle,
+	FaTimesCircle,
+	FaInfoCircle,
 } from "react-icons/fa";
 import { Transition } from "react-transition-group";
-import { hideServerMessage, resetServerMessage } from "actions/messages";
+import { hideServerMessage, resetServerMessage } from "actions/Messages";
 import MessageContainer from "./MessageContainer";
 import WindowContainer from "./WindowContainer";
 import AlertContainer from "./AlertContainer";
@@ -15,10 +16,23 @@ import TextContainer from "./TextContainer";
 import ButtonContainer from "./ButtonContainer";
 import CloseButton from "./CloseButton";
 
-class Message extends Component {
+const alertType = type => {
+	switch (type) {
+		case "success":
+			return <FaCheckCircle />;
+		case "warning":
+			return <FaExclamationTriangle />;
+		case "info":
+			return <FaInfoCircle />;
+		default:
+			return <FaTimesCircle />;
+	}
+};
+
+export class ServerMessages extends Component {
 	componentDidUpdate = prevProps => {
 		if (prevProps.message !== this.props.message && this.props.message !== "") {
-			if (this.timeout) clearTimeout(this.timeout);
+			clearTimeout(this.timeout);
 			this.setTimer();
 		}
 	};
@@ -30,26 +44,12 @@ class Message extends Component {
 		nextProps.show !== this.props.show ||
 		nextProps.serverMessage !== this.props.serverMessage;
 
-	alertType = () => {
-		const { type } = this.props;
-		switch (type) {
-			case "alert":
-				return <FaBell />;
-			case "warning":
-				return <FaExclamationTriangle />;
-			default:
-				return <FaExclamationCircle />;
-		}
-	};
-
 	clearTimer = () => {
 		clearTimeout(this.timeout);
 		this.props.hideServerMessage();
 	};
 
-	timer = () => this.clearTimer();
-
-	setTimer = () => (this.timeout = setTimeout(this.timer, 10000));
+	setTimer = () => (this.timeout = setTimeout(this.clearTimer, 10000));
 
 	render = () => (
 		<Transition
@@ -62,7 +62,7 @@ class Message extends Component {
 			{state => (
 				<WindowContainer state={state}>
 					<MessageContainer type={this.props.type}>
-						<AlertContainer>{this.alertType()}</AlertContainer>
+						<AlertContainer>{alertType(this.props.type)}</AlertContainer>
 						<TextContainer>{this.props.message}</TextContainer>
 						<ButtonContainer>
 							<CloseButton handleClick={this.clearTimer} />
@@ -74,7 +74,7 @@ class Message extends Component {
 	);
 }
 
-Message.propTypes = {
+ServerMessages.propTypes = {
 	hideServerMessage: PropTypes.func.isRequired,
 	message: PropTypes.string,
 	resetServerMessage: PropTypes.func.isRequired,
@@ -82,11 +82,18 @@ Message.propTypes = {
 	type: PropTypes.string,
 };
 
+const mapStateToProps = state => ({
+	message: state.server.message,
+	show: state.server.show,
+	type: state.server.type,
+});
+
+const mapDispatchToProps = {
+	hideServerMessage,
+	resetServerMessage,
+};
+
 export default connect(
-	({ server }) => ({
-		message: server.message,
-		show: server.show,
-		type: server.type,
-	}),
-	{ hideServerMessage, resetServerMessage },
-)(Message);
+	mapStateToProps,
+	mapDispatchToProps,
+)(ServerMessages);

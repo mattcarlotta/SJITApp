@@ -5,11 +5,12 @@ import {
   getAllTeams,
   updateTeam,
 } from "controllers/team";
+import { requireStaffRole } from "services/strategies";
 
 export default app => {
-  app.post("/api/team/create", createTeam);
-  app.delete("/api/team/delete/:id", deleteTeam);
-  app.get("/api/team/all", getAllTeams);
-  app.get("/api/team/:id", getTeam);
-  app.put("/api/team/update/:id", updateTeam);
+  app.post("/api/team/create", requireStaffRole, createTeam);
+  app.delete("/api/team/delete/:id", requireStaffRole, deleteTeam);
+  app.get("/api/teams/all", requireStaffRole, getAllTeams);
+  app.get("/api/team/:id", requireStaffRole, getTeam);
+  app.put("/api/team/update/:id", requireStaffRole, updateTeam);
 };

@@ -33,6 +33,25 @@
 
 @import "./antd.css";
 
+.date-picker {
+	input {
+		cursor: pointer;
+		padding: 14px 0 14px 48px !important;
+
+		&::placeholder {
+			color: #d3dce6;
+		}
+	}
+}
+
+// .date-picker > div > input {
+// 	padding: 14px 0 14px 48px !important;
+// }
+
+// .date-picker > div > input::placeholder {
+// 	color: #d3dce6;
+// }
+
 @font-face {
 	font-family: "Karla Regular";
 	font-style: normal;

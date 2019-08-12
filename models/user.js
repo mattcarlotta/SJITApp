@@ -1,6 +1,5 @@
 import { Schema, model } from "mongoose";
 import bcrypt from "bcryptjs";
-import { badCredentials } from "shared/authErrors";
 import { convertDateToISO } from "shared/helpers";
 
 const userSchema = new Schema({
@@ -10,7 +9,8 @@ const userSchema = new Schema({
     lowercase: true,
   },
   events: [{ type: Schema.Types.ObjectId, ref: "Event" }],
-  role: { type: String, default: "member" },
+  role: { type: String, default: "employee" },
+  status: { type: String, default: "active" },
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
   password: { type: String, required: true },
@@ -21,41 +21,23 @@ const userSchema = new Schema({
   timesUnavailable: Number,
 });
 
-userSchema.statics.createUser = async function newUser(user) {
-  if (!user) throw new Error("User required!");
-
-  try {
-    return await this.create(user);
-  } catch (err) {
-    throw new Error(err);
-  }
+userSchema.statics.createUser = function newUser(user) {
+  return this.create(user);
 };
 
 // // Generate a salt, password, then run callback
 userSchema.statics.createPassword = async function createNewPassword(password) {
-  try {
-    const salt = await bcrypt.genSalt(12);
-    if (!salt) throw "Unable to generate password salt!";
-
-    const newPassword = await bcrypt.hash(password, salt, null);
-    if (!newPassword) throw "Unable to generate a secure password!";
-
-    return newPassword;
-  } catch (err) {
-    throw new Error(err);
-  }
+  const salt = await bcrypt.genSalt(12);
+  const newPassword = await bcrypt.hash(password, salt, null);
+  return newPassword;
 };
 
 // Set a compare password method on the model
-userSchema.methods.comparePassword = async function compare(incomingPassword) {
-  try {
-    const isMatch = await bcrypt.compare(incomingPassword, this.password);
-    if (!isMatch) throw badCredentials;
-
-    return isMatch;
-  } catch (err) {
-    throw new Error(err);
-  }
+userSchema.methods.comparePassword = async function compareNewPassword(
+  incomingPassword,
+) {
+  const isMatch = await bcrypt.compare(incomingPassword, this.password);
+  return isMatch;
 };
 
 export default model("User", userSchema);

@@ -1,4 +1,4 @@
-export default (CLIENT, token) => `
+export default (CLIENT, token, expiration) => `
   <html>
     <body>
       <div style="overflow: hidden;">
@@ -12,8 +12,11 @@ export default (CLIENT, token) => `
             </div>
             <div style="background-color: #FFFFFF; border: 1px solid #f0f0f0;">
               <div style="font-size: 16px; padding: 30px; vertical-align: top; display: block;">
-                <h2 style="margin-bottom: 30px; color: #006d75;">
-                  Congratulations, you have been selected to join the San Jose Sharks Ice Team!
+                <h1 style="margin: 0; text-align: center; font-size: 40px; color: #006d75;">
+                  Congratulations!
+                </h1>
+                <h2 style="margin-bottom: 30px; font-size: 20px; text-align: center; color: #006d75;">
+                  You have been selected to join the San Jose Sharks Ice Team!
                 </h2>
                 <p style="font-size: 16px; color: #000000;">
                   To register, please click the button below. Alternatively, you may visit <a href="${CLIENT}/employee/signup">San Jose Sharks Ice Team Registration</a> and register with this Authorization Key:
@@ -22,6 +25,9 @@ export default (CLIENT, token) => `
                   <strong>
                     ${token}
                   </strong>
+                </p>
+                <p style="font-size: 16px; color: #000000;">
+                  Please note, that you will have until <strong>${expiration}</strong> end of day to register before the authorization key expires. If the key expires, you must contact the staff supervisor to issue a new one.
                 </p>
                 <p style="font-size: 16px; margin-bottom: 30px; color: #000000;">
                   Thank you,

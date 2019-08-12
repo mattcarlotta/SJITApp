@@ -1,28 +1,15 @@
 import styled from "styled-components";
 import Input from "./Input";
 
-const StyledInput = styled(Input)`
+export default styled(Input)`
 	position: relative;
 	display: inline-block;
-	height: 105px;
+	height: 117px;
 	width: 100%;
-
-	svg {
-		color: #d3dce6;
-		position: absolute;
-		top: 46px;
-		left: 16px;
-		transition: all 0.2s ease;
-		z-index: 2;
-
-		&:hover {
-			color: #bfbebe;
-		}
-	}
 
 	input {
 		position: relative;
-		padding: ${({ icon }) => (icon ? "14px 0 14px 48px" : "14px 0 14px 17px")};
+		padding: ${({ icon }) => `14px 0 14px ${icon ? 48 : 17}px`};
 		width: 100%;
 		font-size: 18px;
 		background: #fff;
@@ -36,7 +23,7 @@ const StyledInput = styled(Input)`
 		}
 
 		&::placeholder {
-			color: #bbb;
+			color: #d3dce6;
 		}
 
 		&:focus {
@@ -64,22 +51,6 @@ const StyledInput = styled(Input)`
 		}
 	}
 
-	.tooltip {
-		margin-left: 5px;
-
-		svg {
-			font-size: 16px;
-			color: #bbb;
-			position: relative;
-			top: 0;
-			left: 0;
-
-			&:hover {
-				color: #282c34;
-			}
-		}
-	}
-
 	.disabled {
 		& .icon > svg {
 			cursor: not-allowed;
@@ -97,5 +68,3 @@ const StyledInput = styled(Input)`
 		}
 	}
 `;
-
-export default StyledInput;

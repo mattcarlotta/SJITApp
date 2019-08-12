@@ -1,24 +1,27 @@
 import { Schema, model } from "mongoose";
 
 const eventSchema = new Schema({
-  date: { type: Date, required: true },
   league: { type: String, default: "NHL", required: true },
-  event: { type: String, default: "Game", required: true },
-  endTime: Date,
-  location: { type: String, default: "SAP Center at San Jose", required: true },
-  members: [
+  eventType: { type: String, default: "Game", required: true },
+  eventDate: { type: Date, required: true },
+  location: { type: String, default: "SAP Center at San Jose" },
+  employeeResponses: [
     {
       id: { type: Schema.Types.ObjectId, ref: "User" },
       response: { type: String, required: true },
       notes: String,
     },
   ],
-  season: { type: Schema.Types.ObjectId, ref: "Season" },
-  startTime: { type: Date, required: true },
+  scheduledEmployees: [
+    {
+      id: { type: Schema.Types.ObjectId, ref: "User" },
+    },
+  ],
+  seasonId: { type: String, required: true },
   team: String,
-  type: { type: String, default: "Regular" },
-  timeslots: [Date],
+  callTimes: { type: Array, of: Date, required: true },
   uniform: { type: String, default: "Teal Jersey" },
+  notes: String,
 });
 
 export default model("Event", eventSchema);

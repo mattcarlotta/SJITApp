@@ -13,12 +13,14 @@
 					"reducers": "./src/reducers",
 					"root": "./src/root",
 					"routes": "./src/routes",
+					"sagas": "./src/sagas",
 					"styles": "./src/styles",
 					"types": "./src/types",
 					"utils": "./src/utils"
 				}
 			}
 		],
+		["import", { "libraryName": "antd", "libraryDirectory": "lib" }, "ant"],
 		"@babel/plugin-transform-runtime",
 		"babel-plugin-styled-components",
 		["@babel/plugin-proposal-decorators", { "legacy": true }],

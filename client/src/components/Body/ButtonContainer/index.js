@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const ButtonContainer = styled.div`
+export default styled.div`
 	min-height: 60px;
 	width: 100%;
 	border-radius: 4px;
@@ -10,5 +10,3 @@ const ButtonContainer = styled.div`
 		return "transparent";
 	}};
 `;
-
-export default ButtonContainer;

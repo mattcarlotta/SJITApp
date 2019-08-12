@@ -1,9 +1,10 @@
 import styled from "styled-components";
-import StyledButton from "./Button";
+import Button from "./Button";
 
-const Button = styled(StyledButton)`
+export default styled(Button)`
 	cursor: ${({ disabled }) => (!disabled ? "pointer" : "not-allowed")};
-	color: ${props => (!props.primary && !props.danger ? "#025f6d" : "#ffffff")};
+	display: ${({ display }) => display || "block"};
+	color: ${props => (!props.primary && !props.danger ? "#025f6d" : "#fff")};
 	background-color: ${props => {
 		if (props.primary) return "#025f6d";
 		if (props.danger) return "#f56342";
@@ -12,11 +13,11 @@ const Button = styled(StyledButton)`
 	text-transform: ${props => {
 		if (props.uppercase) return "uppercase";
 		if (props.lowercase) return "lowercase";
-		if (props.captialize) return "captialize";
-		return "normal";
+		if (props.capitalize) return "capitalize";
+		return "none";
 	}};
 	text-decoration: none;
-	margin-right: 20px;
+	margin-right: ${({ marginRight }) => marginRight || "20px"};
 	transition: color 0.2s ease-in-out, background 0.2s ease-in-out,
 		border 0.2s ease-in-out;
 	border-radius: 4px;
@@ -26,21 +27,20 @@ const Button = styled(StyledButton)`
 			if (props.danger) return "#f56342";
 			return "transparent";
 		}};
-	width: 100%;
-	padding: ${({ padding }) => padding || "16px 18px 17px"};
+	width: ${({ width }) => width || "100%"};
+	padding: ${({ padding }) => padding || "13px 18px"};
 	font-size: ${({ fontSize }) => (fontSize ? fontSize : "18px")};
 	letter-spacing: 1px;
 
 	&:hover {
 		color: ${props => {
-			if (props.primary) return "#fff";
-			if (props.danger) return "#d24b2e";
+			if (props.primary || props.danger) return "#fff";
 			return "#04515d";
 		}};
 		background-color: ${props => {
 			if (props.primary) return "#04515d";
 			if (props.danger) return "#d24b2e";
-			return "#F9F9F9";
+			return "#d8d8d8";
 		}};
 		border: 2px solid
 			${props => {
@@ -54,5 +54,3 @@ const Button = styled(StyledButton)`
 		outline: 0;
 	}
 `;
-
-export default Button;

@@ -1,18 +1,17 @@
 import React, { Fragment } from "react";
 import Helmet from "react-helmet";
 import { Header } from "components/Navigation";
-import Placeholder from "images/placeholder.png";
-import { Center, Container } from "components/Body";
+import SJIceTeam from "images/placeholder.png";
+import { Container, ImageContainer } from "components/Body";
 
 const Home = () => (
 	<Fragment>
 		<Header />
 		<Helmet title="Home" />
 		<Container>
-			<Center>
-				<h1>San Jose Sharks Ice Team</h1>
-			</Center>
-			<img src={Placeholder} alt="placeholder.png" width="100%" />
+			<ImageContainer>
+				<img src={SJIceTeam} alt="SJIceTeam.png" height="506px" />
+			</ImageContainer>
 			<p>
 				Consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
 				labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et

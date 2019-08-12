@@ -1,17 +1,17 @@
 import authRoutes from "./auth";
-// import eventRoutes from "./event";
+import eventRoutes from "./event";
+import memberRoutes from "./member";
 import seasonRoutes from "./season";
-// import teamRoutes from "./team";
-// import templateRoutes from "./template";
+import teamRoutes from "./team";
+import templateRoutes from "./template";
 import tokenRoutes from "./token";
-import userRoutes from "./user";
 
 export default app => {
   authRoutes(app);
-  // eventRoutes(app);
+  eventRoutes(app);
+  memberRoutes(app);
   seasonRoutes(app);
-  // teamRoutes(app);
-  // templateRoutes(app);
+  teamRoutes(app);
+  templateRoutes(app);
   tokenRoutes(app);
-  userRoutes(app);
 };

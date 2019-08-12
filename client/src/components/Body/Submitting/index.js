@@ -1,7 +1,9 @@
+/* istanbul ignore file */
+
 import styled from "styled-components";
 import Submitting from "./Submitting";
 
-const StyledSubmitting = styled(Submitting)`
+export default styled(Submitting)`
 	position: relative;
 	width: 54px;
 	height: 54px;
@@ -37,5 +39,3 @@ const StyledSubmitting = styled(Submitting)`
 		animation-delay: 0s;
 	}
 `;
-
-export default StyledSubmitting;
