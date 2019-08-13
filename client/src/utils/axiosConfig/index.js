@@ -1,9 +1,11 @@
 /* istanbul ignore file */
+/* eslint-disable no-unneeded-ternary */
 import get from "lodash/get";
 import axios from "axios";
 import { inDevelopment, APIPORT } from "../../../config/envs";
 
 const app = axios.create({
+	/* eslint-disable-next  */
 	baseURL: inDevelopment
 		? `http://localhost:${APIPORT}/api/`
 		: "https://example.com",
@@ -20,3 +22,4 @@ app.interceptors.response.use(
 );
 
 export default app;
+/* eslint-enable no-unneeded-ternary */

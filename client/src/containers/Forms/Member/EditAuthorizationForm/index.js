@@ -26,11 +26,6 @@ export class EditAuthorizationForm extends Component {
 		isSubmitting: false,
 	};
 
-	componentDidMount = () => {
-		const { id } = this.props.match.params;
-		this.props.fetchToken(id);
-	};
-
 	static getDerivedStateFromProps = ({ editToken, serverMessage }, state) => {
 		if (state.isLoading && !isEmpty(editToken)) {
 			return {
@@ -42,6 +37,11 @@ export class EditAuthorizationForm extends Component {
 		if (serverMessage) return { isSubmitting: false };
 
 		return null;
+	};
+
+	componentDidMount = () => {
+		const { id } = this.props.match.params;
+		this.props.fetchToken(id);
 	};
 
 	handleChange = ({ target: { name, value } }) => {
@@ -117,7 +117,7 @@ EditAuthorizationForm.propTypes = {
 		authorizedEmail: PropTypes.string,
 		role: PropTypes.string,
 		seasonId: PropTypes.string,
-	}).isRequired,
+	}),
 	fetchToken: PropTypes.func.isRequired,
 	hideServerMessage: PropTypes.func.isRequired,
 	match: PropTypes.shape({
@@ -129,10 +129,6 @@ EditAuthorizationForm.propTypes = {
 	seasonIds: PropTypes.arrayOf(PropTypes.string),
 	serverMessage: PropTypes.string,
 	updateMemberToken: PropTypes.func.isRequired,
-};
-
-EditAuthorizationForm.defaultProps = {
-	editToken: {},
 };
 
 const mapStateToProps = state => ({

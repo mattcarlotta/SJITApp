@@ -1,5 +1,5 @@
-import Profile from "../index";
 import moment from "moment";
+import Profile from "../index";
 
 const push = jest.fn();
 const updateMemberStatus = jest.fn();
@@ -53,11 +53,6 @@ describe("Profile", () => {
 	});
 
 	it("displays the member's status, as well as a activate/suspend button", () => {
-		let memberStatus = wrapper
-			.find("LightText")
-			.at(1)
-			.find("Small");
-
 		let statusButton = wrapper
 			.find("LightText")
 			.at(1)
@@ -71,11 +66,6 @@ describe("Profile", () => {
 
 		// inactive status
 		wrapper.setProps({ viewMember: { ...inactiveMember } });
-
-		memberStatus = wrapper
-			.find("LightText")
-			.at(1)
-			.find("Small");
 
 		statusButton = wrapper
 			.find("LightText")

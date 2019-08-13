@@ -24,7 +24,7 @@ describe("Field Validator Helper", () => {
 			},
 		];
 
-		const { validatedFields, errors } = fieldValidator(fields);
+		const { errors } = fieldValidator(fields);
 		expect(errors).toBeNull();
 	});
 

@@ -1,5 +1,5 @@
+/* eslint-disable no-console */
 import isEmpty from "lodash/isEmpty";
-import { inDevelopment } from "../../../config/envs";
 
 /**
  * Helper function to update form fields.
@@ -27,3 +27,4 @@ export default (fields, name, value) => {
 		return err.toString();
 	}
 };
+/* eslint-enable no-console */

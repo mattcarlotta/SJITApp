@@ -1,17 +1,5 @@
 import ViewMemberProfile from "../index";
 
-const viewMember = {
-	_id: "1234",
-	email: "test@example.com",
-	events: [],
-	firstName: "Beta",
-	lastName: "Tester",
-	registered: "12345",
-	role: "member",
-	schedule: [],
-	status: "active",
-};
-
 const initProps = {
 	match: {
 		params: {

@@ -2,13 +2,8 @@
 import { createElement } from "react";
 import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
-import { shallow } from "enzyme";
-import { createBrowserHistory } from "history";
-import { applyMiddleware } from "redux";
-import { saga, store } from "root";
-
-const history = createBrowserHistory();
-const middlewares = applyMiddleware(saga);
+import { shallow, mount } from "enzyme";
+import { store } from "root";
 
 //= =============================================================================//
 // CUSTOM TESTING FUNCTIONS                                                       /

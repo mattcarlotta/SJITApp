@@ -5,7 +5,7 @@ import Option from "./Option";
 import OptionsContainer from "./OptionsContainer";
 
 class SelectOptionsContainer extends PureComponent {
-	onKeySelect = evt => {
+	handleKeySelect = evt => {
 		const { key } = evt;
 
 		if (key === "Enter") {
@@ -18,7 +18,7 @@ class SelectOptionsContainer extends PureComponent {
 		}
 	};
 
-	onOptionSelect = ({
+	handleOptionSelect = ({
 		target: {
 			dataset: { name, value },
 		},
@@ -30,13 +30,13 @@ class SelectOptionsContainer extends PureComponent {
 		this.props.isVisible ? (
 			<DropContainer>
 				<OptionsContainer>
-					{this.props.selectOptions.map((value, key) => (
+					{this.props.selectOptions.map(value => (
 						<Option
-							key={key}
+							key={value}
 							name={this.props.name}
 							value={value}
-							onClick={this.onOptionSelect}
-							onKeyPress={this.onKeySelect}
+							onClick={this.handleOptionSelect}
+							onKeyPress={this.handleKeySelect}
 							selected={this.props.selected}
 						/>
 					))}

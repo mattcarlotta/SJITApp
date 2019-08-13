@@ -10,7 +10,7 @@ import {
 	Spinner,
 	SubmitButton,
 } from "components/Body";
-import { FieldGenerator, FormTitle } from "components/Forms";
+import { FieldGenerator } from "components/Forms";
 import { hideServerMessage } from "actions/Messages";
 import { fetchSeasonsIds } from "actions/Seasons";
 import { createMember } from "actions/Members";
@@ -24,10 +24,6 @@ export class NewMemberForm extends Component {
 		fields,
 		isLoading: true,
 		isSubmitting: false,
-	};
-
-	componentDidMount = () => {
-		this.props.fetchSeasonsIds();
 	};
 
 	static getDerivedStateFromProps = ({ seasonIds, serverMessage }, state) => {
@@ -45,6 +41,10 @@ export class NewMemberForm extends Component {
 		if (serverMessage) return { isSubmitting: false, isLoading: false };
 
 		return null;
+	};
+
+	componentDidMount = () => {
+		this.props.fetchSeasonsIds();
 	};
 
 	handleChange = ({ target: { name, value } }) => {

@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { Label } from "components/Body";
 import { Errors } from "components/Forms";
@@ -51,6 +51,7 @@ Select.propTypes = {
 	name: PropTypes.string.isRequired,
 	label: PropTypes.string.isRequired,
 	placeholder: PropTypes.string,
+	onChange: PropTypes.func.isRequired,
 	selectOptions: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
 	value: PropTypes.string,
 };

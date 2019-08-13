@@ -88,7 +88,7 @@ describe("Season Reducer", () => {
 		});
 	});
 
-	it("sets a single season's data for editing and sets isLoading to false", () => {
+	it("sets season's ids", () => {
 		const state = seasonReducer(undefined, {
 			type: types.SEASONS_SET_IDS,
 			payload: seasonIdsData,

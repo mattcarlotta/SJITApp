@@ -1,3 +1,4 @@
+/* eslint-disable no-lonely-if */
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
@@ -85,3 +86,4 @@ ClickHandler.propTypes = {
 };
 
 export default ClickHandler;
+/* eslint-enable no-lonely-if */

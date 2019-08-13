@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-handler-names */
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -30,6 +31,10 @@ const alertType = type => {
 };
 
 export class ServerMessages extends Component {
+	shouldComponentUpdate = nextProps =>
+		nextProps.message !== this.props.message ||
+		nextProps.show !== this.props.show;
+
 	componentDidUpdate = prevProps => {
 		if (prevProps.message !== this.props.message && this.props.message !== "") {
 			clearTimeout(this.timeout);
@@ -38,11 +43,6 @@ export class ServerMessages extends Component {
 	};
 
 	componentWillUnmount = () => this.clearTimer();
-
-	shouldComponentUpdate = nextProps =>
-		nextProps.message !== this.props.message ||
-		nextProps.show !== this.props.show ||
-		nextProps.serverMessage !== this.props.serverMessage;
 
 	clearTimer = () => {
 		clearTimeout(this.timeout);
@@ -97,3 +97,4 @@ export default connect(
 	mapStateToProps,
 	mapDispatchToProps,
 )(ServerMessages);
+/* eslint-enable react/jsx-handler-names */

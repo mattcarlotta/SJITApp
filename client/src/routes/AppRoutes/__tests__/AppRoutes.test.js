@@ -1,4 +1,3 @@
-import AppRoutes from "../index";
 import { AppPageNotFound, Contact, Help, Settings } from "pages";
 import {
 	Dashboard,
@@ -27,6 +26,8 @@ import {
 	MemberProfile,
 	MemberSchedule,
 } from "pages/Employee";
+
+import AppRoutes from "../index";
 
 const initProps = {
 	match: {

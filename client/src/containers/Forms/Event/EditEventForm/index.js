@@ -26,6 +26,12 @@ export class EditEventForm extends Component {
 		isSubmitting: false,
 	};
 
+	static getDerivedStateFromProps = ({ serverMessage }) => {
+		if (serverMessage) return { isSubmitting: false };
+
+		return null;
+	};
+
 	componentDidMount = () => {
 		const { id } = this.props.match.params;
 		this.props.fetchEvent(id);
@@ -48,12 +54,6 @@ export class EditEventForm extends Component {
 				isLoading: false,
 			}));
 		}
-	};
-
-	static getDerivedStateFromProps = ({ serverMessage }) => {
-		if (serverMessage) return { isSubmitting: false };
-
-		return null;
 	};
 
 	handleChange = ({ target: { name, value } }) => {
@@ -176,10 +176,6 @@ EditEventForm.propTypes = {
 	push: PropTypes.func.isRequired,
 	serverMessage: PropTypes.string,
 	updateEvent: PropTypes.func.isRequired,
-};
-
-EditEventForm.defaultProps = {
-	editEvent: {},
 };
 
 const mapStateToProps = state => ({

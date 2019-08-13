@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Form, DatePicker, TimePicker } from "antd";
-import { Input as AntInput } from "antd";
+import { Form, DatePicker, TimePicker, Input as AntInput } from "antd";
 import { FaCalendarPlus, FaClock } from "react-icons/fa";
 import { Icon, Label } from "components/Body";
 import { Errors, Input, Select } from "components/Forms";

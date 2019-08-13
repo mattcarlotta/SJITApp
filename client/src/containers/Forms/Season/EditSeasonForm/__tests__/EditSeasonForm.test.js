@@ -1,5 +1,5 @@
-import { EditSeasonForm } from "../index";
 import moment from "moment";
+import { EditSeasonForm } from "../index";
 
 const seasonId = "20002001";
 const editSeason = {
@@ -123,7 +123,7 @@ describe("Edit Season Form", () => {
 				.simulate("click");
 
 			// select end of month date
-			const endofMonth = wrapper
+			wrapper
 				.find("td.ant-calendar-last-day-of-month")
 				.at(0)
 				.find("div")

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import fieldUpdater from "../index";
 
 const fields = [
@@ -43,3 +44,4 @@ describe("Field Updater Helper", () => {
 		);
 	});
 });
+/* eslint-enable no-console */

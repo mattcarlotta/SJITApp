@@ -1,10 +1,10 @@
-import { ProtectedRoutes } from "../index";
 import { AppLoader } from "containers/Auth";
 import {
 	NewPasswordForm,
 	ResetPasswordForm,
 	SignupForm,
 } from "containers/Forms";
+import { ProtectedRoutes } from "../index";
 
 const initProps = {
 	firstName: "",

@@ -1,5 +1,5 @@
-import { ViewEvents } from "../index";
 import moment from "moment";
+import { ViewEvents } from "../index";
 
 const data = [
 	{
