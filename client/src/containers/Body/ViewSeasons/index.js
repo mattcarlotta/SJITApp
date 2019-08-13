@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from "react";
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import Helmet from "react-helmet";
 import { connect } from "react-redux";

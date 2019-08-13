@@ -1,5 +1,5 @@
-import { EditEventForm } from "../index";
 import moment from "moment";
+import { EditEventForm } from "../index";
 
 const id = "5d4e00bcf2d83c45a863e2bc";
 const fetchEvent = jest.fn();

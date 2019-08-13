@@ -21,12 +21,6 @@ export class EditSeasonForm extends Component {
 		isSubmitting: false,
 	};
 
-	componentDidMount = () => {
-		const { id } = this.props.match.params;
-
-		this.props.fetchSeason(id);
-	};
-
 	static getDerivedStateFromProps = ({ editSeason, serverMessage }, state) => {
 		if (!state.seasonId && !isEmpty(editSeason)) {
 			const { endDate, seasonId, startDate } = editSeason;
@@ -47,6 +41,12 @@ export class EditSeasonForm extends Component {
 		if (serverMessage) return { isSubmitting: false };
 
 		return null;
+	};
+
+	componentDidMount = () => {
+		const { id } = this.props.match.params;
+
+		this.props.fetchSeason(id);
 	};
 
 	handleChange = ({ target: { name, value } }) => {
@@ -113,6 +113,7 @@ export class EditSeasonForm extends Component {
 					<SubmitButton
 						disabled={isEmpty(this.props.editSeason)}
 						isSubmitting={this.state.isSubmitting}
+						title="Update Event"
 					/>
 				</form>
 			</FormContainer>
@@ -123,7 +124,7 @@ export class EditSeasonForm extends Component {
 EditSeasonForm.propTypes = {
 	editSeason: PropTypes.shape({
 		_id: PropTypes.string,
-		seaonId: PropTypes.string,
+		seasonId: PropTypes.string,
 		startDate: PropTypes.oneOfType([
 			PropTypes.string,
 			PropTypes.instanceOf(Date),
@@ -135,13 +136,13 @@ EditSeasonForm.propTypes = {
 	}),
 	fetchSeason: PropTypes.func.isRequired,
 	hideServerMessage: PropTypes.func.isRequired,
-	isLoading: PropTypes.bool.isRequired,
 	match: PropTypes.shape({
 		params: PropTypes.shape({
 			id: PropTypes.string.isRequired,
 		}).isRequired,
 	}).isRequired,
 	push: PropTypes.func.isRequired,
+	serverMessage: PropTypes.string,
 	updateSeason: PropTypes.func.isRequired,
 };
 
@@ -150,7 +151,6 @@ EditSeasonForm.defaultProps = {
 };
 
 const mapStateToProps = state => ({
-	isLoading: state.seasons.isLoading,
 	editSeason: state.seasons.editSeason,
 	serverMessage: state.server.message,
 });

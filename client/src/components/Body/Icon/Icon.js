@@ -48,7 +48,13 @@ const icons = type => {
 };
 
 const Icon = ({ className, onClick, style, type }) => (
-	<i className={className} onClick={onClick} style={style}>
+	<i
+		role="button"
+		className={className}
+		onClick={onClick}
+		style={style}
+		tabIndex="0"
+	>
 		{icons(type)}
 	</i>
 );

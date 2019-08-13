@@ -289,7 +289,7 @@ describe("Auth Sagas", () => {
 		});
 	});
 
-	describe("Signup User", () => {
+	describe("Update Current User", () => {
 		let props;
 		beforeAll(() => {
 			props = mocks.updateCurrentPassword;

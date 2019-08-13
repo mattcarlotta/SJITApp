@@ -69,12 +69,9 @@ Input.propTypes = {
 	inputStyle: PropTypes.objectOf(
 		PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 	),
-	isFocused: PropTypes.string,
 	label: PropTypes.string,
 	name: PropTypes.string,
-	onBlur: PropTypes.func,
 	onChange: PropTypes.func,
-	onFocus: PropTypes.func,
 	placeholder: PropTypes.string,
 	readOnly: PropTypes.bool,
 	tooltip: PropTypes.string,
@@ -84,8 +81,7 @@ Input.propTypes = {
 
 Input.defaultProps = {
 	disabled: false,
-	isFocused: "",
-	readyOnly: false,
+	readOnly: false,
 };
 
 export default Input;

@@ -82,7 +82,10 @@ export class NewSeasonForm extends Component {
 						fields={this.state.fields}
 						onChange={this.handleChange}
 					/>
-					<SubmitButton isSubmitting={this.state.isSubmitting} />
+					<SubmitButton
+						isSubmitting={this.state.isSubmitting}
+						title="Add Event"
+					/>
 				</form>
 			</FormContainer>
 		</Card>

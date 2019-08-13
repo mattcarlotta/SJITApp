@@ -14,17 +14,20 @@ export default fields => {
 
 		const parsedFields = fields.reduce((acc, { name, type, value }) => {
 			switch (type) {
-				case "time":
+				case "time": {
 					acc["callTimes"] = acc["callTimes"] || [];
 					acc["callTimes"].push(value.format());
 					return acc;
-				case "range":
+				}
+				case "range": {
 					const values = value.map(val => val.format());
 					acc[name] = values;
 					return acc;
-				default:
+				}
+				default: {
 					acc[name] = value;
 					return acc;
+				}
 			}
 		}, {});
 

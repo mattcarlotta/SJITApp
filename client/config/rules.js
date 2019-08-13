@@ -39,9 +39,11 @@ const sassRule = ({ include, exclude, modules, sourceMap }) => ({
 			loader: "css-loader",
 			options: {
 				sourceMap: sourceMap || !inDevelopment,
-				modules: modules || false,
-				camelCase: true,
-				localIdentName,
+				modules: {
+					mode: modules ? "local" : "global",
+					localIdentName,
+				},
+				localsConvention: "camelCase",
 			},
 		},
 		"sass-loader",

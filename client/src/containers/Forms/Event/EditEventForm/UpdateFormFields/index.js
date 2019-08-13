@@ -2,7 +2,7 @@ import moment from "moment";
 
 export default (result, field, editEvent, onFieldRemove) => {
 	switch (field.name) {
-		case "seasonId":
+		case "seasonId": {
 			return [
 				...result,
 				{
@@ -12,34 +12,41 @@ export default (result, field, editEvent, onFieldRemove) => {
 					disabled: false,
 				},
 			];
-		case "league":
+		}
+		case "league": {
 			return [
 				...result,
 				{ ...field, value: editEvent.league, disabled: false },
 			];
-		case "eventType":
+		}
+		case "eventType": {
 			return [
 				...result,
 				{ ...field, value: editEvent.eventType, disabled: false },
 			];
-		case "location":
+		}
+		case "location": {
 			return [
 				...result,
 				{ ...field, value: editEvent.location, disabled: false },
 			];
-		case "eventDate":
+		}
+		case "eventDate": {
 			return [
 				...result,
 				{ ...field, value: moment(editEvent.eventDate), disabled: false },
 			];
-		case "uniform":
+		}
+		case "uniform": {
 			return [
 				...result,
 				{ ...field, value: editEvent.uniform, disabled: false },
 			];
-		case "notes":
+		}
+		case "notes": {
 			return [...result, { ...field, value: editEvent.notes, disabled: false }];
-		case "callTime":
+		}
+		case "callTime": {
 			const callTimes = editEvent.callTimes.map((value, key) => ({
 				...field,
 				name: key <= 0 ? "callTime" : `callTime-${value}`,
@@ -51,5 +58,6 @@ export default (result, field, editEvent, onFieldRemove) => {
 				onFieldRemove: key <= 0 ? null : onFieldRemove,
 			}));
 			return [...result, ...callTimes];
+		}
 	}
 };

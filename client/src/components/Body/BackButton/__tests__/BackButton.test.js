@@ -7,7 +7,6 @@ const initProps = {
 	location,
 	push,
 	style: {},
-	txtStyle: {},
 };
 
 const wrapper = shallow(<BackButton {...initProps} />);

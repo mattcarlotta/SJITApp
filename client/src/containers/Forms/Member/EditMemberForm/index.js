@@ -104,10 +104,6 @@ EditMemberForm.propTypes = {
 	}).isRequired,
 };
 
-EditMemberForm.defaultProps = {
-	viewMember: {},
-};
-
 /* istanbul ignore next */
 const mapStateToProps = state => ({
 	serverMessage: state.server.message,

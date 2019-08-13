@@ -1,5 +1,5 @@
-import updateFormFields from "../index";
 import moment from "moment";
+import updateFormFields from "../index";
 
 const onFieldRemove = jest.fn();
 

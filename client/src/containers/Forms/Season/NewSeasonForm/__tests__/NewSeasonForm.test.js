@@ -1,5 +1,5 @@
-import { NewSeasonForm } from "../index";
 import moment from "moment";
+import { NewSeasonForm } from "../index";
 
 const createSeason = jest.fn();
 const hideServerMessage = jest.fn();
@@ -58,7 +58,7 @@ describe("Create Season Form", () => {
 			.simulate("click");
 
 		// select end of month date
-		const endofMonth = wrapper
+		wrapper
 			.find("td.ant-calendar-last-day-of-month")
 			.at(0)
 			.find("div")

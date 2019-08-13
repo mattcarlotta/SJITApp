@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-prop-types, react/jsx-boolean-value */
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import { Divider, Icon, Input, Popconfirm, Table, Tooltip } from "antd";
@@ -6,22 +7,16 @@ import { GoStop } from "react-icons/go";
 import { Button, FlexCenter, LoadingTable } from "components/Body";
 
 class CustomTable extends Component {
-	state = {
-		searchText: "",
-	};
-
 	componentDidMount = () => {
 		this.props.fetchData();
 	};
 
-	handleSearch = (selectedKeys, confirm) => {
+	handleSearch = (_, confirm) => {
 		confirm();
-		this.setState({ searchText: selectedKeys[0] });
 	};
 
 	handleReset = clearFilters => {
 		clearFilters();
-		this.setState({ searchText: "" });
 	};
 
 	handleSelectKeys = (value, setSelectedKeys) => {
@@ -203,3 +198,4 @@ CustomTable.propTypes = {
 };
 
 export default CustomTable;
+/* eslint-enable react/forbid-prop-types, react/jsx-boolean-value */

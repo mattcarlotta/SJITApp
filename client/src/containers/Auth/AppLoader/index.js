@@ -18,7 +18,6 @@ export class AppLoader extends PureComponent {
 AppLoader.propTypes = {
 	authenticateUser: PropTypes.func.isRequired,
 	role: PropTypes.string,
-	serverMessage: PropTypes.string,
 };
 
 /* istanbul ignore next */

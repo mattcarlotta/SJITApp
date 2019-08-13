@@ -1,5 +1,5 @@
-import parsedFields from "../index";
 import moment from "moment";
+import parsedFields from "../index";
 
 describe("Parse Fields Helper", () => {
 	it("throws an error if missing required parameters", () => {

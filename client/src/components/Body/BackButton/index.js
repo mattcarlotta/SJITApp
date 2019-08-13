@@ -37,7 +37,6 @@ BackButton.propTypes = {
 
 BackButton.defaultProps = {
 	style: {},
-	txtStyle: {},
 };
 
 export default BackButton;

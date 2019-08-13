@@ -82,7 +82,7 @@ export class ResetPasswordForm extends Component {
 				/>
 			</form>
 			<Center style={{ marginTop: 20 }}>
-				Don't have an account? &nbsp;
+				{`Don't have an account?`} &nbsp;
 				<Link blue style={{ padding: 0, margin: 0 }} to="/employee/signup">
 					Sign up
 				</Link>

@@ -1,5 +1,5 @@
-import { NewEventForm } from "../index";
 import moment from "moment";
+import { NewEventForm } from "../index";
 
 const createEvent = jest.fn();
 const fetchSeasonsIds = jest.fn();

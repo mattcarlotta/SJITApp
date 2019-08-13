@@ -14,14 +14,10 @@ const SubmitButton = ({ disabled, isSubmitting, title }) => (
 	</ButtonContainer>
 );
 
-SubmitButton.propsTypes = {
+SubmitButton.propTypes = {
 	disabled: PropTypes.bool,
 	isSubmitting: PropTypes.bool.isRequired,
-	title: PropTypes.string.isRequired,
-};
-
-SubmitButton.defaultProps = {
-	title: "Sumbit",
+	title: PropTypes.string,
 };
 
 export default SubmitButton;

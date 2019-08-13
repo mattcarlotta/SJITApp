@@ -29,7 +29,7 @@ export default styled(Button)`
 		}};
 	width: ${({ width }) => width || "100%"};
 	padding: ${({ padding }) => padding || "13px 18px"};
-	font-size: ${({ fontSize }) => (fontSize ? fontSize : "18px")};
+	font-size: ${({ fontSize }) => fontSize || "18px"};
 	letter-spacing: 1px;
 
 	&:hover {

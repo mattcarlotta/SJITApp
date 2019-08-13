@@ -1,6 +1,6 @@
-import FieldGenerator from "../index";
 import moment from "moment";
 import { DatePicker, TimePicker } from "antd";
+import FieldGenerator from "../index";
 
 const onChange = jest.fn();
 const onFieldRemove = jest.fn();

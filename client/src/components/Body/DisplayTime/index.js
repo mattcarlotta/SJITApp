@@ -5,8 +5,11 @@ import isEmpty from "lodash/isEmpty";
 
 const DisplayTime = ({ times }) =>
 	!isEmpty(times) ? (
-		times.map((time, key) => (
-			<div key={key} style={{ wordWrap: "break-word", wordBreak: "break-all" }}>
+		times.map(time => (
+			<div
+				key={time}
+				style={{ wordWrap: "break-word", wordBreak: "break-all" }}
+			>
 				{moment(time).format("h:mm a")}
 			</div>
 		))

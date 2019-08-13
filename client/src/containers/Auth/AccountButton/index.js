@@ -43,6 +43,8 @@ export const AccountButton = ({ firstName, lastName, push, signoutUser }) => {
 };
 
 AccountButton.propTypes = {
+	firstName: PropTypes.string.isRequired,
+	lastName: PropTypes.string.isRequired,
 	push: PropTypes.func,
 	signoutUser: PropTypes.func.isRequired,
 };

@@ -64,7 +64,7 @@ describe("Employee App", () => {
 		wrapper
 			.find("App")
 			.instance()
-			.onHandleOpenMenuChange(["", "forms"]);
+			.handleOpenMenuChange(["", "forms"]);
 
 		jest.advanceTimersByTime(3000);
 		wrapper.update();
@@ -75,7 +75,7 @@ describe("Employee App", () => {
 		wrapper
 			.find("App")
 			.instance()
-			.onHandleOpenMenuChange([]);
+			.handleOpenMenuChange([]);
 
 		jest.advanceTimersByTime(3000);
 		wrapper.update();
@@ -91,7 +91,7 @@ describe("Employee App", () => {
 		wrapper
 			.find("App")
 			.instance()
-			.onHandleTabClick({ key: "forms/viewall" });
+			.handleTabClick({ key: "forms/viewall" });
 		expect(push).toHaveBeenCalledWith("/employee/forms/viewall");
 
 		expect(wrapper.find("App").state("openKeys")).toEqual(["forms"]);
@@ -99,7 +99,7 @@ describe("Employee App", () => {
 		wrapper
 			.find("App")
 			.instance()
-			.onHandleTabClick({ key: "schedule" });
+			.handleTabClick({ key: "schedule" });
 
 		expect(wrapper.find("App").state("openKeys")).toEqual([""]);
 	});
@@ -130,7 +130,7 @@ describe("Employee App", () => {
 		wrapper
 			.find("App")
 			.instance()
-			.onHandleOpenMenuChange(["", "forms"]);
+			.handleOpenMenuChange(["", "forms"]);
 
 		jest.advanceTimersByTime(3000);
 

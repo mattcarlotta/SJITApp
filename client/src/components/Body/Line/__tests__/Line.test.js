@@ -17,7 +17,7 @@ describe("Line", () => {
 		expect(StyledLine()).toHaveStyleRule("width", "100%");
 	});
 
-	it("renders without errors", () => {
+	it("renders a small line", () => {
 		wrapper.setProps({ width: "100px" });
 		expect(StyledLine()).toHaveStyleRule("width", "100px");
 	});

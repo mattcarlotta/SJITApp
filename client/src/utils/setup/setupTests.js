@@ -1,7 +1,6 @@
 import { JSDOM } from "jsdom";
-import { configure } from "enzyme";
+import { configure, mount } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
-import { mount } from "enzyme";
 import { sleep } from "utils";
 import { HOCWrap, shallowWrap } from "utils/testing";
 import mockApp from "utils/__mocks__/mockAxios.js";

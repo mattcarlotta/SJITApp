@@ -56,7 +56,7 @@ class App extends Component {
 		selectedKey: selectedTab(props.location.pathname),
 	});
 
-	onHandleOpenMenuChange = currentKeys => {
+	handleOpenMenuChange = currentKeys => {
 		const openKeys = currentKeys.length > 1 ? [currentKeys[1]] : [""];
 
 		this.setState({
@@ -65,7 +65,7 @@ class App extends Component {
 		});
 	};
 
-	onHandleTabClick = ({ key }) => {
+	handleTabClick = ({ key }) => {
 		this.setState(prevState => {
 			this.props.push(`/employee/${key}`);
 
@@ -91,8 +91,8 @@ class App extends Component {
 			<Layout>
 				<SideMenu
 					{...this.state}
-					onHandleTabClick={this.onHandleTabClick}
-					onHandleOpenMenuChange={this.onHandleOpenMenuChange}
+					onHandleTabClick={this.handleTabClick}
+					onHandleOpenMenuChange={this.handleOpenMenuChange}
 				/>
 				<Layout>
 					<Header>

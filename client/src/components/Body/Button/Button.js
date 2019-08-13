@@ -1,3 +1,4 @@
+/* eslint-disable react/button-has-type */
 import React from "react";
 import PropTypes from "prop-types";
 
@@ -37,7 +38,13 @@ StyledButton.propTypes = {
 	className: PropTypes.string.isRequired,
 	children: PropTypes.oneOfType([PropTypes.node, PropTypes.string]).isRequired,
 	disabled: PropTypes.bool,
+	onBlur: PropTypes.func,
 	onClick: PropTypes.func,
+	onContextMenu: PropTypes.func,
+	onMouseDown: PropTypes.func,
+	onMouseEnter: PropTypes.func,
+	onMouseLeave: PropTypes.func,
+	onTouchStart: PropTypes.func,
 	style: PropTypes.objectOf(
 		PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 	),
@@ -50,3 +57,4 @@ StyledButton.defaultProps = {
 };
 
 export default StyledButton;
+/* eslint-enable react/button-has-type */

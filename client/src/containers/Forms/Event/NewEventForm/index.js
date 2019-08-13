@@ -26,10 +26,6 @@ export class NewEventForm extends Component {
 		isSubmitting: false,
 	};
 
-	componentDidMount = () => {
-		this.props.fetchSeasonsIds();
-	};
-
 	static getDerivedStateFromProps = ({ seasonIds, serverMessage }, state) => {
 		if (state.isLoading && !isEmpty(seasonIds)) {
 			return {
@@ -45,6 +41,10 @@ export class NewEventForm extends Component {
 		if (serverMessage) return { isSubmitting: false };
 
 		return null;
+	};
+
+	componentDidMount = () => {
+		this.props.fetchSeasonsIds();
 	};
 
 	handleAddField = () => {

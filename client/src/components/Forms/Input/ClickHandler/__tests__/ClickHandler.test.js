@@ -1,6 +1,6 @@
 import ClickHandler from "../index";
 
-const value = value;
+const value = "test";
 
 const eventListener = {};
 document.addEventListener = (evt, cb) => (eventListener[evt] = cb);
@@ -15,7 +15,6 @@ describe("Click Handler", () => {
 					{({ isFocused, handleBlur, handleFocus }) => (
 						<div className="wrapper">
 							<input
-								tabIndex={0}
 								onBlur={handleBlur}
 								onFocus={handleFocus}
 								className={isFocused ? "focused" : null}

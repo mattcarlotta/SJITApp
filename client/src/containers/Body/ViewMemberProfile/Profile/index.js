@@ -2,6 +2,7 @@ import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import moment from "moment";
 import {
+	Button,
 	DisplayStatus,
 	LightText,
 	Line,
@@ -11,7 +12,6 @@ import {
 } from "components/Body";
 import { EditMemberForm } from "containers/Forms";
 import { FaBan, FaUserPlus } from "react-icons/fa";
-import { Button } from "components/Body";
 
 const iconStyle = {
 	position: "relative",

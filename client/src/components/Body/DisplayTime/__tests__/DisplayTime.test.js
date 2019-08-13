@@ -1,5 +1,5 @@
-import DisplayTime from "../index";
 import moment from "moment";
+import DisplayTime from "../index";
 
 const initProps = {
 	times: [

@@ -22,7 +22,12 @@ const SideMenu = ({
 		<Center style={{ height: 60 }}>
 			<Link to="/" style={{ padding: 0, margin: 0 }}>
 				{isCollapsed ? (
-					<img src={SharksLogo} width="50px" style={{ paddingTop: 10 }} />
+					<img
+						alt="SharksLogo.png"
+						src={SharksLogo}
+						width="50px"
+						style={{ paddingTop: 10 }}
+					/>
 				) : (
 					<Title style={{ color: "#fff", paddingTop: 20, margin: 0 }}>
 						Sharks Ice Team

@@ -74,7 +74,10 @@ export class NewPasswordForm extends Component {
 					fields={this.state.fields}
 					onChange={this.handleChange}
 				/>
-				<SubmitButton isSubmitting={this.state.isSubmitting} />
+				<SubmitButton
+					isSubmitting={this.state.isSubmitting}
+					title="Update Password"
+				/>
 			</form>
 		</Modal>
 	);
