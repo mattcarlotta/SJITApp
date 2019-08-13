@@ -3,7 +3,7 @@ import {
   convertDateToISO,
   createRandomToken,
   createSignupToken,
-  createUniqueTemplateName,
+  createUniqueName,
   currentDate,
   endofMonth,
   sendError,
@@ -33,7 +33,7 @@ describe("Helpers", () => {
   });
 
   it("creates a unique snake-cased template string", () => {
-    const template = createUniqueTemplateName("Employee Newsletter");
+    const template = createUniqueName("Employee Newsletter");
     expect(template).toEqual("employee-newsletter");
   });
 

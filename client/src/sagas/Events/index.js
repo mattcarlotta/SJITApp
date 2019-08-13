@@ -2,14 +2,7 @@ import { push } from "connected-react-router";
 import { all, put, call, takeLatest } from "redux-saga/effects";
 import { app } from "utils";
 import { hideServerMessage, setServerMessage } from "actions/Messages";
-import {
-	// fetchMember,
-	// setMemberToReview,
-	setEvents,
-	setEventToEdit,
-	// setToken,
-	// setTokens,
-} from "actions/Events";
+import { setEvents, setEventToEdit } from "actions/Events";
 import { parseData, parseMessage } from "utils/parseResponse";
 import * as types from "types";
 

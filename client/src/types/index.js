@@ -7,6 +7,15 @@ export const EVENTS_SET = "EVENTS/SET";
 export const EVENTS_SET_EDIT = "EVENTS/SET_EDIT";
 export const EVENTS_UPDATE = "EVENTS/UPDATE";
 
+// forms
+export const FORMS_CREATE = "FORMS/CREATE";
+export const FORMS_DELETE = "FORMS/DELETE";
+export const FORMS_EDIT = "FORMS/EDIT";
+export const FORMS_FETCH = "FORMS/FETCH";
+export const FORMS_SET = "FORMS/SET";
+export const FORMS_SET_EDIT = "FORMS/SET_EDIT";
+export const FORMS_UPDATE = "FORMS/UPDATE";
+
 // members
 export const MEMBERS_CREATE = "MEMBERS/CREATE";
 export const MEMBERS_DELETE = "MEMBERS/DELETE";

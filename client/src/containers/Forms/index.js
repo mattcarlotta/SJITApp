@@ -10,6 +10,9 @@ export { default as SignupForm } from "./Auth/SignupForm";
 export { default as EditEventForm } from "./Event/EditEventForm";
 export { default as NewEventForm } from "./Event/NewEventForm";
 
+// form
+export { default as NewForm } from "./Form/NewForm";
+
 // member
 export {
 	default as EditAuthorizationForm,

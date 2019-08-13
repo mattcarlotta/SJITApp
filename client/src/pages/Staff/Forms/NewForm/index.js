@@ -1,5 +1,6 @@
 import React from "react";
+import { NewForm } from "containers/Forms";
 
-const NewFormPage = () => <h1>Create Form</h1>;
+const NewFormPage = () => <NewForm />;
 
 export default NewFormPage;

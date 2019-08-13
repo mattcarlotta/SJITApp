@@ -32,26 +32,29 @@ const beginofMonth = () => moment().startOf("month");
  * @function
  * @returns {Date}
  */
-const convertDateToISO = date => moment(date)
-  .utcOffset(-7)
-  .toISOString(true);
+const convertDateToISO = date =>
+  moment(date)
+    .utcOffset(-7)
+    .toISOString(true);
 
-const createRandomToken = () => tokenGenerator(
-  "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$/.",
-  64,
-);
+const createRandomToken = () =>
+  tokenGenerator(
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$/.",
+    64,
+  );
 
 /**
  * Helper function to strip and convert template names to snaked lowercase name.
  *
  * @function
- * @returns {template}
+ * @returns {String}
  */
-const createUniqueTemplateName = name => name
-  .trim()
-  .toLowerCase()
-  .replace(/[^\w\s]/gi, "")
-  .replace(/ /g, "-");
+const createUniqueName = name =>
+  name
+    .trim()
+    .toLowerCase()
+    .replace(/[^\w\s]/gi, "")
+    .replace(/ /g, "-");
 
 /**
  * Helper function to get a current ISO Date.
@@ -59,14 +62,16 @@ const createUniqueTemplateName = name => name
  * @function
  * @returns {Date}
  */
-const currentDate = () => moment()
-  .utcOffset(-7)
-  .toISOString(true);
+const currentDate = () =>
+  moment()
+    .utcOffset(-7)
+    .toISOString(true);
 
-const createSignupToken = () => tokenGenerator(
-  "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
-  32,
-);
+const createSignupToken = () =>
+  tokenGenerator(
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+    32,
+  );
 
 /**
  * Helper function to get a end of current month date.
@@ -82,9 +87,10 @@ const endofMonth = () => moment().endOf("month");
  * @function
  * @returns {month}
  */
-const expirationDate = () => moment(Date.now())
-  .add(90, "days")
-  .endOf("day");
+const expirationDate = () =>
+  moment(Date.now())
+    .add(90, "days")
+    .endOf("day");
 
 /**
  * Helper function to send an error to the client.
@@ -99,7 +105,7 @@ export {
   convertDateToISO,
   createRandomToken,
   createSignupToken,
-  createUniqueTemplateName,
+  createUniqueName,
   currentDate,
   endofMonth,
   expirationDate,

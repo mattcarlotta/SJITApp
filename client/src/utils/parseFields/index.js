@@ -17,18 +17,23 @@ export default fields => {
 				case "time": {
 					acc["callTimes"] = acc["callTimes"] || [];
 					acc["callTimes"].push(value.format());
-					return acc;
+					break;
+				}
+				case "date": {
+					acc[name] = value.format();
+					break;
 				}
 				case "range": {
 					const values = value.map(val => val.format());
 					acc[name] = values;
-					return acc;
+					break;
 				}
 				default: {
 					acc[name] = value;
-					return acc;
+					break;
 				}
 			}
+			return acc;
 		}, {});
 
 		return parsedFields;
