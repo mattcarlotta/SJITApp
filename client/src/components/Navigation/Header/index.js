@@ -1,6 +1,6 @@
 import React from "react";
-import SapLogoCenter from "images/SAPCenterLogo.png";
-import SharksLogo from "images/SharksLogo.png";
+// import SapLogoCenter from "images/SAPCenterLogo.png";
+// import SharksLogo from "images/SharksLogo.png";
 import {
 	Link,
 	NavBar,

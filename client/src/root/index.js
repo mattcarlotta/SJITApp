@@ -5,7 +5,7 @@ import { createStore, applyMiddleware } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension/developmentOnly";
 import { createBrowserHistory } from "history";
 import createSagaMiddleware from "redux-saga";
-import { LocaleProvider } from "antd";
+import { ConfigProvider } from "antd";
 import enUS from "antd/lib/locale-provider/en_US";
 
 import createRootReducer from "reducers";
@@ -24,13 +24,13 @@ export const store = createStore(
 saga.run(rootSagas);
 
 const Root = () => (
-	<LocaleProvider locale={enUS}>
+	<ConfigProvider locale={enUS}>
 		<Provider store={store}>
 			<ConnectedRouter history={history}>
 				<MainRoutes />
 			</ConnectedRouter>
 		</Provider>
-	</LocaleProvider>
+	</ConfigProvider>
 );
 
 export default Root;
