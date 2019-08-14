@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 class ClickHandler extends Component {
 	state = {
 		isVisible: false,
+		searchText: "",
 	};
 
 	componentDidMount() {
@@ -50,6 +51,14 @@ class ClickHandler extends Component {
 		}
 	};
 
+	handleInputChange = ({ target: { value } }) => {
+		this.setState({ searchText: value, isVisible: true });
+	};
+
+	handleSearchClear = props => {
+		this.setState({ searchText: "" }, () => this.props.onChange({ ...props }));
+	};
+
 	handleClose = () => {
 		this.setState({ isVisible: false });
 	};
@@ -63,7 +72,7 @@ class ClickHandler extends Component {
 	};
 
 	handleOptionSelect = props => {
-		this.setState({ isVisible: false }, () =>
+		this.setState({ isVisible: false, searchText: "" }, () =>
 			this.props.onChange({ ...props }),
 		);
 	};
@@ -72,8 +81,11 @@ class ClickHandler extends Component {
 		<div className="clickhandler" ref={node => (this.wrapperRef = node)}>
 			{this.props.children({
 				isVisible: this.state.isVisible,
+				handleInputChange: this.handleInputChange,
+				handleSearchClear: this.handleSearchClear,
 				handleSelectClick: this.handleSelectClick,
 				handleOptionSelect: this.handleOptionSelect,
+				searchText: this.state.searchText,
 			})}
 		</div>
 	);

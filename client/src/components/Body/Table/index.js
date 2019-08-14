@@ -24,7 +24,20 @@ class CustomTable extends Component {
 
 	componentDidMount = () => {
 		this.props.fetchData();
+		this.setTimer();
 	};
+
+	shouldComponentUpdate = (nextProps, nextState) =>
+		nextProps.data !== this.props.data ||
+		nextState.isLoading !== this.state.isLoading;
+
+	componentWillUnmount = () => clearTimeout(this.timeout);
+
+	clearTimer = () => {
+		this.setState({ isLoading: false }, () => clearTimeout(this.timeout));
+	};
+
+	setTimer = () => (this.timeout = setTimeout(this.clearTimer, 3000));
 
 	handleSearch = (_, confirm) => {
 		confirm();

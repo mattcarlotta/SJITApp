@@ -23,7 +23,7 @@ const invalidAuthTokenRequest =
   "You must supply an email, a role, and a season before you can create an authorization key.";
 
 const invalidCreateEventRequest =
-  "You must inclide all fields to create a new event.";
+  "You must include all required fields to create a new event.";
 
 const invalidDeleteTokenRequest =
   "Unable to delete the authorization key. The supplied authorization key does not exist.";

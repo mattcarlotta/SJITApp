@@ -2,17 +2,19 @@ import moment from "moment";
 import { NewEventForm } from "../index";
 
 const createEvent = jest.fn();
-const fetchSeasonsIds = jest.fn();
+const initializeNewEvent = jest.fn();
 const push = jest.fn();
 const seasonIds = ["20002001", "20012002", "20022003"];
+
+const teams = ["1", "2", "3", "4"];
 
 const newDate = moment("2019-08-11T02:30:30.036+00:00");
 
 const initProps = {
 	createEvent,
-	fetchSeasonsIds,
+	initializeNewEvent,
+	newEvent: {},
 	push,
-	seasonIds: [],
 	serverMessage: "",
 };
 
@@ -24,7 +26,7 @@ describe("New Event Form", () => {
 
 	afterEach(() => {
 		createEvent.mockClear();
-		fetchSeasonsIds.mockClear();
+		initializeNewEvent.mockClear();
 	});
 
 	it("renders without errors", () => {
@@ -36,12 +38,12 @@ describe("New Event Form", () => {
 	});
 
 	it("calls fetchSeasonsIds on mount", () => {
-		expect(fetchSeasonsIds).toHaveBeenCalledTimes(1);
+		expect(initializeNewEvent).toHaveBeenCalledTimes(1);
 	});
 
 	describe("Form Initializied", () => {
 		beforeEach(() => {
-			wrapper.setProps({ seasonIds });
+			wrapper.setProps({ newEvent: { seasonIds, teams } });
 		});
 
 		it("initializes the SeasonID field with seasonIds options", () => {
@@ -51,6 +53,17 @@ describe("New Event Form", () => {
 					.first()
 					.props().selectOptions,
 			).toEqual(seasonIds);
+
+			expect(wrapper.state("isLoading")).toBeFalsy();
+		});
+
+		it("initializes the opponent field with team options", () => {
+			expect(
+				wrapper
+					.find("Select")
+					.at(3)
+					.props().selectOptions,
+			).toEqual(teams);
 
 			expect(wrapper.state("isLoading")).toBeFalsy();
 		});
@@ -79,7 +92,7 @@ describe("New Event Form", () => {
 			expect(
 				wrapper
 					.find("input")
-					.first()
+					.at(1)
 					.props().value,
 			).toEqual(newValue);
 		});

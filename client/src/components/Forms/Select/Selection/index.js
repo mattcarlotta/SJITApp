@@ -3,16 +3,30 @@ import PropTypes from "prop-types";
 import { Icon } from "components/Body";
 import ChevronIcon from "../ChevronIcon";
 import DisplayOption from "../DisplayOption";
+import Input from "../Input";
 import SelectionContainer from "../SelectionContainer";
 import SelectText from "../SelectText";
+
+const searchStyle = {
+	position: "relative",
+	right: 0,
+	display: "flex",
+	boxSizing: "border-box",
+	padding: "10px",
+};
 
 const Selection = ({
 	disabled,
 	errors,
+	handleInputChange,
+	handleSearchClear,
 	handleSelectClick,
 	icon,
 	isVisible,
+	isSearchable,
 	placeholder,
+	name,
+	searchText,
 	value,
 	width,
 }) => (
@@ -27,9 +41,29 @@ const Selection = ({
 		<SelectText handleSelectClick={!disabled ? handleSelectClick : null}>
 			{icon && <Icon type={icon} />}
 			<DisplayOption icon={icon} value={value}>
-				<span className="selectValue">{!value ? placeholder : value}</span>
+				{isSearchable && !value ? (
+					<Input
+						type="text"
+						placeholder={placeholder}
+						onChange={handleInputChange}
+						value={searchText}
+					/>
+				) : (
+					<span className="selectValue">{!value ? placeholder : value}</span>
+				)}
 			</DisplayOption>
-			<ChevronIcon isVisible={isVisible} />
+			{!isSearchable ? (
+				<ChevronIcon isVisible={isVisible} />
+			) : !value ? (
+				<Icon style={searchStyle} type="search" />
+			) : (
+				<Icon
+					onHoverColor="rgba(255,0,0,0.65) !important"
+					onClick={() => handleSearchClear({ target: { name, value: "" } })}
+					style={searchStyle}
+					type="erase"
+				/>
+			)}
 		</SelectText>
 	</SelectionContainer>
 );
@@ -37,9 +71,14 @@ const Selection = ({
 Selection.propTypes = {
 	disabled: PropTypes.bool,
 	errors: PropTypes.string,
+	handleInputChange: PropTypes.func,
+	handleSearchClear: PropTypes.func,
 	handleSelectClick: PropTypes.func.isRequired,
 	icon: PropTypes.string,
 	isVisible: PropTypes.bool.isRequired,
+	isSearchable: PropTypes.bool,
+	name: PropTypes.string,
+	searchText: PropTypes.string,
 	value: PropTypes.string,
 	placeholder: PropTypes.string,
 	width: PropTypes.string,

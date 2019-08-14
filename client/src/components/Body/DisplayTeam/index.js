@@ -3,13 +3,19 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 
 class DisplayTeam extends Component {
-	state = {
-		loadedFile: "",
-	};
+	constructor(props) {
+		super(props);
+
+		this.controller = new AbortController();
+
+		this.state = {
+			loadedFile: "",
+		};
+	}
 
 	componentDidMount = () => this.importFile();
 
-	componentWillUnmount = () => (this.cancelImport = true);
+	componentWillUnmount = () => this.controller.abort();
 
 	importFile = async () => {
 		try {
@@ -17,7 +23,7 @@ class DisplayTeam extends Component {
 				/* webpackMode: "lazy" */ `images/lowres/${this.props.team}.png`
 			);
 
-			if (!this.cancelImport) this.setState({ loadedFile: file });
+			if (!this.controller.signal.aborted) this.setState({ loadedFile: file });
 		} catch (err) {
 			console.error(err.toString());
 		}

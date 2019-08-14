@@ -29,7 +29,7 @@ const columns = [
 		title: "Opponent",
 		dataIndex: "opponent",
 		key: "opponent",
-		render: team => <DisplayTeam team={team} />,
+		render: team => (team ? <DisplayTeam team={team} /> : "-"),
 	},
 	{ title: "Event Type", dataIndex: "eventType", key: "eventType" },
 	{ title: "Location", dataIndex: "location", key: "location" },
@@ -52,13 +52,11 @@ const columns = [
 		title: "Employee Responses",
 		dataIndex: "employeeResponses",
 		key: "employeeResponses",
-		width: 100,
 	},
 	{
 		title: "Scheduled Employees",
 		dataIndex: "scheduledEmployees",
 		key: "scheduledEmployees",
-		width: 100,
 	},
 ];
 
@@ -98,7 +96,8 @@ ViewEvents.propTypes = {
 	data: PropTypes.arrayOf(
 		PropTypes.shape({
 			_id: PropTypes.string,
-			league: PropTypes.string,
+			team: PropTypes.string,
+			opponent: PropTypes.string,
 			eventType: PropTypes.string,
 			location: PropTypes.string,
 			callTimes: PropTypes.arrayOf(PropTypes.string),

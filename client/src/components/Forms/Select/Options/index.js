@@ -1,5 +1,6 @@
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
+import isEmpty from "lodash/isEmpty";
 import DropContainer from "./DropContainer";
 import Option from "./Option";
 import OptionsContainer from "./OptionsContainer";
@@ -26,29 +27,42 @@ class SelectOptionsContainer extends PureComponent {
 		this.props.handleOptionSelect({ target: { name, value } });
 	};
 
-	render = () =>
-		this.props.isVisible ? (
+	render = () => {
+		const { name, searchText, selected, selectOptions } = this.props;
+
+		const options = !searchText
+			? selectOptions
+			: selectOptions.filter(value =>
+					value.toLowerCase().includes(searchText.toLowerCase()),
+			  );
+		return this.props.isVisible ? (
 			<DropContainer>
 				<OptionsContainer>
-					{this.props.selectOptions.map(value => (
-						<Option
-							key={value}
-							name={this.props.name}
-							value={value}
-							onClick={this.handleOptionSelect}
-							onKeyPress={this.handleKeySelect}
-							selected={this.props.selected}
-						/>
-					))}
+					{!isEmpty(options) ? (
+						options.map(value => (
+							<Option
+								key={value}
+								name={name}
+								value={value}
+								onClick={this.handleOptionSelect}
+								onKeyPress={this.handleKeySelect}
+								selected={selected}
+							/>
+						))
+					) : (
+						<div className="no-options">No options</div>
+					)}
 				</OptionsContainer>
 			</DropContainer>
 		) : null;
+	};
 }
 
 SelectOptionsContainer.propTypes = {
 	handleOptionSelect: PropTypes.func.isRequired,
 	isVisible: PropTypes.bool.isRequired,
 	name: PropTypes.string.isRequired,
+	searchText: PropTypes.string,
 	selected: PropTypes.string,
 	selectOptions: PropTypes.arrayOf(PropTypes.string.isRequired),
 };

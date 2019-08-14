@@ -19,6 +19,9 @@ describe("Icon", () => {
 		wrapper.setProps({ type: "calander" });
 		expect(wrapper.find("FaCalendarAlt").exists()).toBeTruthy();
 
+		wrapper.setProps({ type: "erase" });
+		expect(wrapper.find("FaEraser").exists()).toBeTruthy();
+
 		wrapper.setProps({ type: "id" });
 		expect(wrapper.find("FaIdCard").exists()).toBeTruthy();
 
@@ -37,11 +40,17 @@ describe("Icon", () => {
 		wrapper.setProps({ type: "note" });
 		expect(wrapper.find("FaStickyNote").exists()).toBeTruthy();
 
+		wrapper.setProps({ type: "person" });
+		expect(wrapper.find("MdPersonPin").exists()).toBeTruthy();
+
 		wrapper.setProps({ type: "puck" });
 		expect(wrapper.find("FaHockeyPuck").exists()).toBeTruthy();
 
 		wrapper.setProps({ type: "remove" });
 		expect(wrapper.find("FaMinusCircle").exists()).toBeTruthy();
+
+		wrapper.setProps({ type: "search" });
+		expect(wrapper.find("FaSearch").exists()).toBeTruthy();
 
 		wrapper.setProps({ type: "tshirt" });
 		expect(wrapper.find("FaTshirt").exists()).toBeTruthy();

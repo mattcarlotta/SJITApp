@@ -3,8 +3,10 @@ export const EVENTS_CREATE = "EVENTS/CREATE";
 export const EVENTS_DELETE = "EVENTS/DELETE";
 export const EVENTS_EDIT = "EVENTS/EDIT";
 export const EVENTS_FETCH = "EVENTS/FETCH";
+export const EVENTS_INIT_NEW_EVENT = "EVENTS/INIT_NEW_EVENT";
 export const EVENTS_SET = "EVENTS/SET";
 export const EVENTS_SET_EDIT = "EVENTS/SET_EDIT";
+export const EVENTS_SET_NEW_EVENT = "EVENTS/SET_NEW_EVENT";
 export const EVENTS_UPDATE = "EVENTS/UPDATE";
 
 // forms

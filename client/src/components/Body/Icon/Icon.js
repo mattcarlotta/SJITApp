@@ -14,36 +14,61 @@ import {
 	FaMinusCircle,
 	FaTshirt,
 	FaStickyNote,
+	FaSearch,
+	FaEraser,
 } from "react-icons/fa";
+import { MdPersonPin } from "react-icons/md";
 
 const icons = type => {
 	switch (type) {
-		case "calander":
+		case "calander": {
 			return <FaCalendarAlt />;
-		case "id":
+		}
+		case "erase": {
+			return <FaEraser />;
+		}
+		case "id": {
 			return <FaIdCard />;
-		case "key":
+		}
+		case "key": {
 			return <FaKey />;
-		case "location":
+		}
+		case "location": {
 			return <FaStreetView />;
-		case "lock":
+		}
+		case "lock": {
 			return <FaLock />;
-		case "mail":
+		}
+		case "mail": {
 			return <FaEnvelope />;
-		case "note":
+		}
+		case "note": {
 			return <FaStickyNote />;
-		case "puck":
+		}
+		case "person": {
+			return <MdPersonPin />;
+		}
+		case "puck": {
 			return <FaHockeyPuck />;
-		case "remove":
+		}
+		case "remove": {
 			return <FaMinusCircle />;
-		case "tshirt":
+		}
+		case "search": {
+			return <FaSearch />;
+		}
+		case "tshirt": {
 			return <FaTshirt />;
-		case "user":
+		}
+		case "user": {
 			return <FaUserCircle />;
-		case "usertag":
+		}
+		case "usertag": {
 			return <FaIdBadge />;
-		default:
+		}
+		default: {
 			return <FaBug />;
+		}
 	}
 };
 

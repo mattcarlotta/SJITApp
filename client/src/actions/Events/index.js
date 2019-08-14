@@ -48,6 +48,16 @@ export const fetchEvents = () => ({
 });
 
 /**
+ * Fetches season ids and team names.
+ *
+ * @function initializeNewEvent
+ * @returns {object}
+ */
+export const initializeNewEvent = () => ({
+	type: types.EVENTS_INIT_NEW_EVENT,
+});
+
+/**
  * Sets any members from API to redux state
  *
  * @function setEvents
@@ -68,6 +78,18 @@ export const setEvents = data => ({
  */
 export const setEventToEdit = data => ({
 	type: types.EVENTS_SET_EDIT,
+	payload: !isEmpty(data) ? data : {},
+});
+
+/**
+ * Initialize a new event form with seasonIds and teams.
+ *
+ * @function setNewEvent
+ * @param {object} data - contains newEvent data ({seasonIds, teams}).
+ * @returns {object}
+ */
+export const setNewEvent = data => ({
+	type: types.EVENTS_SET_NEW_EVENT,
 	payload: !isEmpty(data) ? data : {},
 });
 

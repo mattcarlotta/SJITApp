@@ -131,14 +131,17 @@ describe("Event Sagas", () => {
 	describe("Fetch Event", () => {
 		let data;
 		let data2;
+		let data3;
 		beforeEach(() => {
 			data = { event: mocks.eventsData };
 			data2 = { seasonIds: mocks.seasonIdsData };
+			data3 = { teams: mocks.teamNamesData };
 		});
 
 		it("logical flow matches pattern for fetch event requests", () => {
 			const res = { data };
 			const res2 = { data2 };
+			const res3 = { data3 };
 
 			testSaga(sagas.fetchEvent, { eventId })
 				.next()
@@ -152,10 +155,15 @@ describe("Event Sagas", () => {
 				.next(res2)
 				.call(parseData, res2)
 				.next(res2.data2)
+				.call(app.get, "teams/all/names")
+				.next(res3)
+				.call(parseData, res3)
+				.next(res3.data3)
 				.put(
 					actions.setEventToEdit({
 						...res.data.event,
 						seasonIds: res2.data2.seasonIds,
+						teams: res3.data3.names,
 					}),
 				)
 				.next()
@@ -164,16 +172,26 @@ describe("Event Sagas", () => {
 
 		it("successfully fetches a fetch event for editing", async () => {
 			mockApp.onGet(`event/edit/${eventId}`).reply(200, data);
+
 			mockApp
 				.onGet("seasons/all/ids")
-				.reply(200, { data: { seasonIds: mocks.seasonIdsData } });
+				.reply(200, { seasonIds: mocks.seasonIdsData });
+
+			mockApp
+				.onGet("teams/all/names")
+				.reply(200, { names: mocks.teamNamesData });
 
 			return expectSaga(sagas.fetchEvent, { eventId })
 				.dispatch(actions.fetchEvent)
 				.withReducer(memberReducer)
 				.hasFinalState({
 					data: [],
-					editEvent: { ...mocks.eventsData, seasonIds: mocks.seasonIds },
+					editEvent: {
+						...mocks.eventsData,
+						seasonIds: mocks.seasonIdsData,
+						teams: mocks.teamNamesData,
+					},
+					newEvent: {},
 				})
 				.run();
 		});
@@ -214,7 +232,7 @@ describe("Event Sagas", () => {
 				.isDone();
 		});
 
-		it("successfully fetches all events fo", async () => {
+		it("successfully fetches all events", async () => {
 			mockApp.onGet("events/all").reply(200, data);
 
 			return expectSaga(sagas.fetchEvents)
@@ -223,6 +241,7 @@ describe("Event Sagas", () => {
 				.hasFinalState({
 					data: mocks.eventsData,
 					editEvent: {},
+					newEvent: {},
 				})
 				.run();
 		});

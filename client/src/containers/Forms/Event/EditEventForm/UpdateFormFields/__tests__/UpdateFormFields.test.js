@@ -5,8 +5,10 @@ const onFieldRemove = jest.fn();
 
 const editEvent = {
 	_id: "5d4e00bcf2d83c45a863e2bc",
+	seasonIds: ["20002001"],
 	team: "San Jose Sharks",
 	opponent: "Anaheim Ducks",
+	teams: ["Anaheim Ducks"],
 	eventType: "Game",
 	location: "SAP Center at San Jose",
 	callTimes: [

@@ -2,7 +2,7 @@ import { push } from "connected-react-router";
 import { all, put, call, takeLatest } from "redux-saga/effects";
 import { app } from "utils";
 import { hideServerMessage, setServerMessage } from "actions/Messages";
-import { setEvents, setEventToEdit } from "actions/Events";
+import { setEvents, setEventToEdit, setNewEvent } from "actions/Events";
 import { parseData, parseMessage } from "utils/parseResponse";
 import * as types from "types";
 
@@ -88,13 +88,22 @@ export function* fetchEvent({ eventId }) {
 	try {
 		yield put(hideServerMessage());
 
-		const res = yield call(app.get, `event/edit/${eventId}`);
-		const data = yield call(parseData, res);
+		let res = yield call(app.get, `event/edit/${eventId}`);
+		const events = yield call(parseData, res);
 
-		const res2 = yield call(app.get, "seasons/all/ids");
-		const data2 = yield call(parseData, res2);
+		res = yield call(app.get, "seasons/all/ids");
+		const seasons = yield call(parseData, res);
 
-		yield put(setEventToEdit({ ...data.event, seasonIds: data2.seasonIds }));
+		res = yield call(app.get, "teams/all/names");
+		const teams = yield call(parseData, res);
+
+		yield put(
+			setEventToEdit({
+				...events.event,
+				seasonIds: seasons.seasonIds,
+				teams: teams.names,
+			}),
+		);
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
@@ -117,6 +126,41 @@ export function* fetchEvents() {
 		const data = yield call(parseData, res);
 
 		yield put(setEvents(data));
+	} catch (e) {
+		yield put(setServerMessage({ type: "error", message: e.toString() }));
+	}
+}
+
+/**
+ * Attempts to get event for editing.
+ *
+ * @generator
+ * @function initializeNewEvent
+ * @param {object}
+ * @yields {object} - A response from a call to the API (season ids).
+ * @function parseData - Returns a parsed res.data.
+ * @yields {object} - A response from a call to the API (team names).
+ * @function parseData - Returns a parsed res.data.
+ * @yields {action} - A redux action to set event data to redux state.
+ * @throws {action} - A redux action to display a server message by type.
+ */
+
+export function* initializeNewEvent() {
+	try {
+		yield put(hideServerMessage());
+
+		let res = yield call(app.get, "seasons/all/ids");
+		const seasons = yield call(parseData, res);
+
+		res = yield call(app.get, "teams/all/names");
+		const teams = yield call(parseData, res);
+
+		yield put(
+			setNewEvent({
+				seasonIds: seasons.seasonIds,
+				teams: teams.names,
+			}),
+		);
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
@@ -168,6 +212,7 @@ export default function* eventsSagas() {
 		takeLatest(types.EVENTS_DELETE, deleteEvent),
 		takeLatest(types.EVENTS_EDIT, fetchEvent),
 		takeLatest(types.EVENTS_FETCH, fetchEvents),
+		takeLatest(types.EVENTS_INIT_NEW_EVENT, initializeNewEvent),
 		takeLatest(types.EVENTS_UPDATE, updateEvent),
 	]);
 }

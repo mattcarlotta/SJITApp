@@ -90,3 +90,9 @@ export const eventsData = [
 		uniform: "Barracuda Jersey",
 	},
 ];
+
+export const teamNamesData = [
+	"Anaheim Ducks",
+	"Arizona Coyotes",
+	"Los Angeles Kings",
+];

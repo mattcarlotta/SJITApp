@@ -19,7 +19,13 @@ export default (result, field, editEvent, onFieldRemove) => {
 		case "opponent": {
 			return [
 				...result,
-				{ ...field, value: editEvent.opponent, disabled: false },
+				{
+					...field,
+					value: editEvent.opponent,
+					selectOptions: editEvent.teams,
+					required: editEvent.eventType === "Game",
+					disabled: false,
+				},
 			];
 		}
 		case "eventType": {

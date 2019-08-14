@@ -27,6 +27,7 @@ const Select = ({
 						<Selection
 							{...handlers}
 							{...props}
+							name={name}
 							disabled={disabled}
 							errors={errors}
 							value={value}
@@ -52,7 +53,7 @@ Select.propTypes = {
 	label: PropTypes.string.isRequired,
 	placeholder: PropTypes.string,
 	onChange: PropTypes.func.isRequired,
-	selectOptions: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+	selectOptions: PropTypes.arrayOf(PropTypes.string),
 	value: PropTypes.string,
 };
 

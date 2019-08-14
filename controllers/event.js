@@ -26,7 +26,6 @@ const createEvent = async (req, res) => {
       !eventDate ||
       !eventType ||
       !location ||
-      !opponent ||
       !seasonId ||
       !team ||
       !uniform
@@ -127,7 +126,6 @@ const updateEvent = async (req, res) => {
       !eventDate ||
       !eventType ||
       !location ||
-      !opponent ||
       !seasonId ||
       !team ||
       !uniform

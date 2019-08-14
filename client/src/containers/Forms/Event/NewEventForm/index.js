@@ -11,9 +11,9 @@ import {
 	SubmitButton,
 } from "components/Body";
 import { AddField, FieldGenerator, FormTitle } from "components/Forms";
-import { fetchSeasonsIds } from "actions/Seasons";
-import { createEvent } from "actions/Events";
+import { createEvent, initializeNewEvent } from "actions/Events";
 import { fieldValidator, fieldUpdater, parseFields } from "utils";
+import updateFormFields from "./UpdateFormFields";
 import fields from "./Fields";
 
 const title = "New Event Form";
@@ -25,14 +25,10 @@ export class NewEventForm extends Component {
 		isSubmitting: false,
 	};
 
-	static getDerivedStateFromProps = ({ seasonIds, serverMessage }, state) => {
-		if (state.isLoading && !isEmpty(seasonIds)) {
+	static getDerivedStateFromProps = ({ newEvent, serverMessage }, state) => {
+		if (state.isLoading && !isEmpty(newEvent)) {
 			return {
-				fields: state.fields.map(field =>
-					field.name === "seasonId"
-						? { ...field, selectOptions: seasonIds, disabled: false }
-						: { ...field, disabled: false },
-				),
+				fields: state.fields.map(field => updateFormFields(field, newEvent)),
 				isLoading: false,
 			};
 		}
@@ -43,7 +39,7 @@ export class NewEventForm extends Component {
 	};
 
 	componentDidMount = () => {
-		this.props.fetchSeasonsIds();
+		this.props.initializeNewEvent();
 	};
 
 	handleAddField = () => {
@@ -125,7 +121,7 @@ export class NewEventForm extends Component {
 								text="Add Call Time Slot"
 							/>
 							<SubmitButton
-								disabled={isEmpty(this.props.seasonIds)}
+								disabled={isEmpty(this.props.newEvent)}
 								title="Create Event"
 								isSubmitting={this.state.isSubmitting}
 							/>
@@ -139,20 +135,23 @@ export class NewEventForm extends Component {
 
 NewEventForm.propTypes = {
 	createEvent: PropTypes.func.isRequired,
-	fetchSeasonsIds: PropTypes.func.isRequired,
+	newEvent: PropTypes.shape({
+		seasonIds: PropTypes.arrayOf(PropTypes.string),
+		teams: PropTypes.arrayOf(PropTypes.string),
+	}),
+	initializeNewEvent: PropTypes.func.isRequired,
 	push: PropTypes.func.isRequired,
-	seasonIds: PropTypes.arrayOf(PropTypes.string),
 	serverMessage: PropTypes.string,
 };
 
 const mapStateToProps = state => ({
 	serverMessage: state.server.message,
-	seasonIds: state.seasons.ids,
+	newEvent: state.events.newEvent,
 });
 
 const mapDispatchToProps = {
 	createEvent,
-	fetchSeasonsIds,
+	initializeNewEvent,
 	push,
 };
 

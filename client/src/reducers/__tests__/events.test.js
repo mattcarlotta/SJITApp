@@ -22,6 +22,7 @@ describe("Event Reducer", () => {
 		expect(state).toEqual({
 			data: mocks.eventsData,
 			editEvent: {},
+			newEvent: {},
 		});
 	});
 
@@ -60,6 +61,7 @@ describe("Event Reducer", () => {
 		expect(state).toEqual({
 			data: [],
 			editEvent: { ...mocks.eventsData },
+			newEvent: {},
 		});
 	});
 });

@@ -18,7 +18,7 @@ const eventSchema = new Schema({
   ],
   seasonId: { type: String, required: true },
   team: { type: String, required: true },
-  opponent: { type: String, required: true },
+  opponent: String,
   callTimes: { type: Array, of: Date, required: true },
   uniform: { type: String, default: "Teal Jersey" },
   notes: String,
