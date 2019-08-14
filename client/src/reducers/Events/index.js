@@ -3,7 +3,6 @@ import * as types from "types";
 export const initialState = {
 	data: [],
 	editEvent: {},
-	isLoading: true,
 };
 
 /**
@@ -18,9 +17,9 @@ const eventReducer = (state = initialState, { payload, type }) => {
 		case types.EVENTS_FETCH:
 			return initialState;
 		case types.EVENTS_SET:
-			return { ...state, data: payload.events, isLoading: false };
+			return { ...state, data: payload.events };
 		case types.EVENTS_SET_EDIT:
-			return { ...state, editEvent: payload, isLoading: false };
+			return { ...state, editEvent: payload };
 		default:
 			return state;
 	}

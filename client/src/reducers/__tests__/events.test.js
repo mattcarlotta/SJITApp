@@ -13,7 +13,7 @@ describe("Event Reducer", () => {
 		);
 	});
 
-	it("sets events data and sets isLoading to false", () => {
+	it("sets events data", () => {
 		const state = eventReducer(undefined, {
 			type: types.EVENTS_SET,
 			payload: eventsData,
@@ -22,7 +22,6 @@ describe("Event Reducer", () => {
 		expect(state).toEqual({
 			data: mocks.eventsData,
 			editEvent: {},
-			isLoading: false,
 		});
 	});
 
@@ -52,7 +51,7 @@ describe("Event Reducer", () => {
 		expect(state).toEqual(initialState);
 	});
 
-	it("sets event for editing and sets isLoading to false", () => {
+	it("sets event for editing", () => {
 		const state = eventReducer(undefined, {
 			type: types.EVENTS_SET_EDIT,
 			payload: { ...mocks.eventsData },
@@ -61,7 +60,6 @@ describe("Event Reducer", () => {
 		expect(state).toEqual({
 			data: [],
 			editEvent: { ...mocks.eventsData },
-			isLoading: false,
 		});
 	});
 });

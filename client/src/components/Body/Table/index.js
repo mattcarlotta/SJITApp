@@ -1,12 +1,27 @@
 /* eslint-disable react/forbid-prop-types, react/jsx-boolean-value */
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
+import isEmpty from "lodash/isEmpty";
 import { Divider, Icon, Input, Popconfirm, Table, Tooltip } from "antd";
 import { FaEdit, FaSearch, FaTrash, FaSearchPlus } from "react-icons/fa";
 import { GoStop } from "react-icons/go";
 import { Button, FlexCenter, LoadingTable } from "components/Body";
 
 class CustomTable extends Component {
+	state = {
+		isLoading: true,
+	};
+
+	static getDerivedStateFromProps = ({ data }, state) => {
+		if (state.isLoading && !isEmpty(data)) {
+			return {
+				isLoading: false,
+			};
+		}
+
+		return null;
+	};
+
 	componentDidMount = () => {
 		this.props.fetchData();
 	};
@@ -166,7 +181,7 @@ class CustomTable extends Component {
 	};
 
 	render = () =>
-		this.props.isLoading ? (
+		this.state.isLoading ? (
 			<LoadingTable />
 		) : (
 			<Table
@@ -192,7 +207,6 @@ CustomTable.propTypes = {
 	deleteAction: PropTypes.func,
 	editLocation: PropTypes.string,
 	fetchData: PropTypes.func.isRequired,
-	isLoading: PropTypes.bool.isRequired,
 	push: PropTypes.func.isRequired,
 	viewLocation: PropTypes.string,
 };

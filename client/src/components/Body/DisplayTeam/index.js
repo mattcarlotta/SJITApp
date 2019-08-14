@@ -7,13 +7,17 @@ class DisplayTeam extends Component {
 		loadedFile: "",
 	};
 
-	componentDidMount = async () => {
+	componentDidMount = () => this.importFile();
+
+	componentWillUnmount = () => (this.cancelImport = true);
+
+	importFile = async () => {
 		try {
 			const { default: file } = await import(
 				/* webpackMode: "lazy" */ `images/lowres/${this.props.team}.png`
 			);
 
-			this.setState({ loadedFile: file });
+			if (!this.cancelImport) this.setState({ loadedFile: file });
 		} catch (err) {
 			console.error(err.toString());
 		}

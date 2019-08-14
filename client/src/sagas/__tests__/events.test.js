@@ -174,7 +174,6 @@ describe("Event Sagas", () => {
 				.hasFinalState({
 					data: [],
 					editEvent: { ...mocks.eventsData, seasonIds: mocks.seasonIds },
-					isLoading: false,
 				})
 				.run();
 		});
@@ -224,7 +223,6 @@ describe("Event Sagas", () => {
 				.hasFinalState({
 					data: mocks.eventsData,
 					editEvent: {},
-					isLoading: false,
 				})
 				.run();
 		});

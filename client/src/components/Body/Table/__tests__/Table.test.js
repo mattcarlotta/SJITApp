@@ -61,7 +61,6 @@ const initProps = {
 	deleteAction,
 	editLocation: "seasons",
 	fetchData,
-	isLoading: true,
 	push,
 	viewLocation: "seasons",
 };
@@ -72,7 +71,6 @@ const nextProps = {
 	deleteAction,
 	editLocation: "seasons",
 	fetchData,
-	isLoading: false,
 	push,
 	viewLocation: "seasons",
 };

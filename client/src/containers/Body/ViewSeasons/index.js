@@ -27,13 +27,7 @@ const columns = [
 	{ title: "Members", dataIndex: "members", key: "members" },
 ];
 
-export const ViewSeasons = ({
-	data,
-	deleteSeason,
-	fetchSeasons,
-	isLoading,
-	push,
-}) => (
+export const ViewSeasons = ({ data, deleteSeason, fetchSeasons, push }) => (
 	<Fragment>
 		<Helmet title={title} />
 		<Card title={title}>
@@ -56,7 +50,6 @@ export const ViewSeasons = ({
 				deleteAction={deleteSeason}
 				editLocation="seasons"
 				fetchData={fetchSeasons}
-				isLoading={isLoading}
 				push={push}
 			/>
 		</Card>
@@ -75,12 +68,10 @@ ViewSeasons.propTypes = {
 	),
 	deleteSeason: PropTypes.func,
 	fetchSeasons: PropTypes.func.isRequired,
-	isLoading: PropTypes.bool.isRequired,
 	push: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
-	isLoading: state.seasons.isLoading,
 	data: state.seasons.data,
 });
 

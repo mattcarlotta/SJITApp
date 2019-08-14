@@ -4,7 +4,6 @@ export const initialState = {
 	data: [],
 	editSeason: {},
 	ids: [],
-	isLoading: true,
 };
 
 /**
@@ -20,11 +19,11 @@ const seasonReducer = (state = initialState, { payload, type }) => {
 		case types.SEASONS_FETCH_IDS:
 			return initialState;
 		case types.SEASONS_SET:
-			return { ...state, data: payload.seasons, isLoading: false };
+			return { ...state, data: payload.seasons };
 		case types.SEASONS_SET_IDS:
-			return { ...state, ids: payload.seasonIds, isLoading: false };
+			return { ...state, ids: payload.seasonIds };
 		case types.SEASONS_SET_EDIT:
-			return { ...state, editSeason: payload.season, isLoading: false };
+			return { ...state, editSeason: payload.season };
 		default:
 			return state;
 	}

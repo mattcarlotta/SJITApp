@@ -21,7 +21,7 @@ describe("Season Reducer", () => {
 		);
 	});
 
-	it("sets seasons data and sets isLoading to false", () => {
+	it("sets seasons data", () => {
 		const state = seasonReducer(undefined, {
 			type: types.SEASONS_SET,
 			payload: seasonsData,
@@ -31,7 +31,6 @@ describe("Season Reducer", () => {
 			data: mocks.seasonsData,
 			editSeason: {},
 			ids: [],
-			isLoading: false,
 		});
 	});
 
@@ -74,7 +73,7 @@ describe("Season Reducer", () => {
 		expect(state).toEqual(initialState);
 	});
 
-	it("sets a single season's data for editing and sets isLoading to false", () => {
+	it("sets a single season's data for editing", () => {
 		const state = seasonReducer(undefined, {
 			type: types.SEASONS_SET_EDIT,
 			payload: seasonData,
@@ -84,7 +83,6 @@ describe("Season Reducer", () => {
 			data: [],
 			editSeason: mocks.seasonsData,
 			ids: [],
-			isLoading: false,
 		});
 	});
 
@@ -98,7 +96,6 @@ describe("Season Reducer", () => {
 			data: [],
 			editSeason: {},
 			ids: mocks.seasonIdsData,
-			isLoading: false,
 		});
 	});
 });

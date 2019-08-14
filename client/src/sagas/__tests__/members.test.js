@@ -212,7 +212,6 @@ describe("Member Sagas", () => {
 					data: [],
 					tokens: [],
 					editToken: {},
-					isLoading: false,
 					viewMember: mocks.membersData,
 				})
 				.run();
@@ -265,7 +264,6 @@ describe("Member Sagas", () => {
 					tokens: [],
 					editToken: {},
 					viewMember: {},
-					isLoading: false,
 				})
 				.run();
 		});
@@ -334,7 +332,6 @@ describe("Member Sagas", () => {
 					tokens: [],
 					editToken: { ...mocks.tokensData, seasonIds: mocks.seasonIds },
 					viewMember: {},
-					isLoading: false,
 				})
 				.run();
 		});
@@ -386,7 +383,6 @@ describe("Member Sagas", () => {
 					tokens: mocks.tokensData,
 					editToken: {},
 					viewMember: {},
-					isLoading: false,
 				})
 				.run();
 		});

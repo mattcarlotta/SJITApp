@@ -36,13 +36,7 @@ const columns = [
 	{ title: "Events (total)", dataIndex: "events", key: "events" },
 ];
 
-export const ViewMembers = ({
-	data,
-	deleteMember,
-	fetchMembers,
-	isLoading,
-	push,
-}) => (
+export const ViewMembers = ({ data, deleteMember, fetchMembers, push }) => (
 	<Fragment>
 		<Helmet title={title} />
 		<Card title={title}>
@@ -64,7 +58,6 @@ export const ViewMembers = ({
 				data={data}
 				deleteAction={deleteMember}
 				fetchData={fetchMembers}
-				isLoading={isLoading}
 				push={push}
 				viewLocation="members"
 			/>
@@ -87,12 +80,10 @@ ViewMembers.propTypes = {
 	),
 	deleteMember: PropTypes.func,
 	fetchMembers: PropTypes.func.isRequired,
-	isLoading: PropTypes.bool.isRequired,
 	push: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
-	isLoading: state.members.isLoading,
 	data: state.members.data,
 });
 

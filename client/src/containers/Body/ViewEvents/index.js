@@ -62,13 +62,7 @@ const columns = [
 	},
 ];
 
-export const ViewEvents = ({
-	data,
-	deleteEvent,
-	fetchEvents,
-	isLoading,
-	push,
-}) => (
+export const ViewEvents = ({ data, deleteEvent, fetchEvents, push }) => (
 	<Fragment>
 		<Helmet title={title} />
 		<Card title={title}>
@@ -90,7 +84,6 @@ export const ViewEvents = ({
 				data={data}
 				deleteAction={deleteEvent}
 				fetchData={fetchEvents}
-				isLoading={isLoading}
 				push={push}
 				editLocation="events"
 			/>
@@ -101,7 +94,6 @@ export const ViewEvents = ({
 ViewEvents.propTypes = {
 	deleteEvent: PropTypes.func,
 	fetchEvents: PropTypes.func.isRequired,
-	isLoading: PropTypes.bool.isRequired,
 	push: PropTypes.func,
 	data: PropTypes.arrayOf(
 		PropTypes.shape({
@@ -121,7 +113,6 @@ ViewEvents.propTypes = {
 
 const mapStateToProps = state => ({
 	data: state.events.data,
-	isLoading: state.events.isLoading,
 });
 
 const mapDispatchToProps = {

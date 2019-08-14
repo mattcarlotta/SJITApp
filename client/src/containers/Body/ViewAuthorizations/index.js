@@ -43,7 +43,6 @@ const columns = [
 export const ViewAuthorizations = ({
 	deleteToken,
 	fetchTokens,
-	isLoading,
 	push,
 	tokens,
 }) => (
@@ -68,7 +67,6 @@ export const ViewAuthorizations = ({
 				data={tokens}
 				deleteAction={deleteToken}
 				fetchData={fetchTokens}
-				isLoading={isLoading}
 				push={push}
 				editLocation="members/authorizations"
 			/>
@@ -79,7 +77,6 @@ export const ViewAuthorizations = ({
 ViewAuthorizations.propTypes = {
 	deleteToken: PropTypes.func,
 	fetchTokens: PropTypes.func.isRequired,
-	isLoading: PropTypes.bool.isRequired,
 	push: PropTypes.func,
 	tokens: PropTypes.arrayOf(
 		PropTypes.shape({
@@ -94,7 +91,6 @@ ViewAuthorizations.propTypes = {
 };
 
 const mapStateToProps = state => ({
-	isLoading: state.members.isLoading,
 	tokens: state.members.tokens,
 });
 

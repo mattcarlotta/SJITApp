@@ -160,7 +160,6 @@ describe("Season Sagas", () => {
 					data: [],
 					editSeason: mocks.seasonsData,
 					ids: [],
-					isLoading: false,
 				})
 				.run();
 		});
@@ -211,7 +210,6 @@ describe("Season Sagas", () => {
 					data: mocks.seasonsData,
 					editSeason: {},
 					ids: [],
-					isLoading: false,
 				})
 				.run();
 		});
@@ -264,7 +262,6 @@ describe("Season Sagas", () => {
 					data: [],
 					editSeason: {},
 					ids: mocks.seasonIdsData,
-					isLoading: false,
 				})
 				.run();
 		});
