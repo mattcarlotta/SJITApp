@@ -1,6 +1,11 @@
 import { Form, Season } from "models";
 import { sendError } from "shared/helpers";
-import { unableToCreateNewForm, unableToLocateSeason } from "shared/authErrors";
+import {
+  missingFormId,
+  unableToCreateNewForm,
+  unableToDeleteForm,
+  unableToLocateSeason,
+} from "shared/authErrors";
 
 const createForm = async (req, res) => {
   try {
@@ -27,9 +32,37 @@ const createForm = async (req, res) => {
   }
 };
 
-const deleteForm = (req, res) => sendError("Route not setup.", res);
+const deleteForm = async (req, res) => {
+  try {
+    const { id: _id } = req.params;
+    if (!_id) throw missingFormId;
 
-const getAllForms = (req, res) => sendError("Route not setup.", res);
+    const existingEvent = await Form.findOne({ _id });
+    if (!existingEvent) throw unableToDeleteForm;
+
+    await existingEvent.delete();
+
+    res.status(200).json({ message: "Successfully deleted the form." });
+  } catch (err) {
+    return sendError(err, res);
+  }
+};
+
+const getAllForms = async (_, res) => {
+  const forms = await Form.aggregate([
+    {
+      $project: {
+        seasonId: 1,
+        startMonth: 1,
+        endMonth: 1,
+        expirationDate: 1,
+        notes: 1,
+      },
+    },
+  ]);
+
+  res.status(200).json({ forms });
+};
 
 const getForm = (req, res) => sendError("Route not setup.", res);
 

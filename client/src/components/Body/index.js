@@ -7,6 +7,7 @@ export { default as ButtonContainer } from "./ButtonContainer";
 export { default as Center } from "./Center";
 export { default as Container } from "./Container";
 export { default as DisplayDate } from "./DisplayDate";
+export { default as DisplayDateTime } from "./DisplayDateTime";
 export { default as DisplayFullDate } from "./DisplayFullDate";
 export { default as DisplayStatus } from "./DisplayStatus";
 export { default as DisplayTime } from "./DisplayTime";

@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 
 const Option = ({ className, onClick, onKeyPress, name, value }) => (
 	<div
+		id={value}
 		tabIndex={0}
 		className={className}
 		data-name={name}

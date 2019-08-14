@@ -54,7 +54,9 @@ const invalidUpdateEventRequest =
 const missingEmailCreds =
   "That email is not associated with an active account. Please make sure the email address is spelled correctly.";
 
-const missingEventId = "You must provide am event id.";
+const missingEventId = "You must provide an event id.";
+
+const missingFormId = "You must provide a form id.";
 
 const missingMemberId = "You must provide a member id.";
 
@@ -105,6 +107,8 @@ const unableToCreateTeam =
 
 const unableToDeleteEvent = "Unable to delete that event. It doesn't exist.";
 
+const unableToDeleteForm = "Unable to delete that form. It doesn't exist.";
+
 const unableToDeleteSeason = "Unable to delete that season. It doesn't exist.";
 
 const unableToDeleteMember = "Unable to delete that member. It doesn't exist.";
@@ -144,6 +148,7 @@ export {
   invalidUpdateEventRequest,
   missingEmailCreds,
   missingEventId,
+  missingFormId,
   missingMemberId,
   missingPasswords,
   missingSeasonId,
@@ -162,6 +167,7 @@ export {
   unableToCreateNewSeason,
   unableToCreateTeam,
   unableToDeleteEvent,
+  unableToDeleteForm,
   unableToDeleteMember,
   unableToDeleteSeason,
   unableToLocateEvent,

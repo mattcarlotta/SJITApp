@@ -26,7 +26,7 @@ const teams = [
   { team: "Arizona Coyotes", league: "NHL", name: "arizona-coyotes" },
   { team: "Bakersfield Condors", league: "AHL", name: "bakersfield-condors" },
   { team: "Belleville Senators", league: "AHL", name: "belleville-senators" },
-  { team: "Binghampton Devils", league: "AHL", name: "binghampton-devils" },
+  { team: "Binghamton Devils", league: "AHL", name: "binghamton-devils" },
   { team: "Boston Bruins", league: "NHL", name: "boston-bruins" },
   {
     team: "Bridgeport Sound Tigers",
@@ -48,7 +48,7 @@ const teams = [
     name: "columbus-blue-jackets",
   },
   { team: "Dallas Stars", league: "NHL", name: "dallas-stars" },
-  { team: "Detriot Red Wings", league: "NHL", name: "detriot-red-wings" },
+  { team: "Detroit Red Wings", league: "NHL", name: "detroit-red-wings" },
   { team: "Edmonton Oilers", league: "NHL", name: "edmonton-oilers" },
   { team: "Florida Panthers", league: "NHL", name: "florida-panthers" },
   {

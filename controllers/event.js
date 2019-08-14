@@ -9,6 +9,7 @@ import {
 } from "shared/authErrors";
 
 const createEvent = async (req, res) => {
+  console.log(req.body);
   try {
     const {
       callTimes,

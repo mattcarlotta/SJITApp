@@ -28,20 +28,15 @@ const createTeam = async (req, res) => {
 const deleteTeam = (req, res) => sendError("Route not setup.", res);
 
 const getAllTeamNames = async (_, res) => {
-  try {
-    const teams = await Team.aggregate([
-      { $group: { _id: null, names: { $addToSet: "$team" } } },
-      { $unwind: "$names" },
-      { $sort: { names: 1 } },
-      { $group: { _id: null, names: { $push: "$names" } } },
-      { $project: { _id: 0, names: 1 } },
-    ]);
+  const teams = await Team.aggregate([
+    { $group: { _id: null, names: { $addToSet: "$team" } } },
+    { $unwind: "$names" },
+    { $sort: { names: 1 } },
+    { $group: { _id: null, names: { $push: "$names" } } },
+    { $project: { _id: 0, names: 1 } },
+  ]);
 
-    res.status(200).json({ names: teams[0].names });
-  } catch (err) {
-    /* istanbul ignore next */
-    return sendError(err, res);
-  }
+  res.status(200).json({ names: teams[0].names });
 };
 
 const getAllTeams = (req, res) => sendError("Route not setup.", res);

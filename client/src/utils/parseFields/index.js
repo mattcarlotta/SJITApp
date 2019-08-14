@@ -16,7 +16,7 @@ export default fields => {
 			switch (type) {
 				case "time": {
 					acc["callTimes"] = acc["callTimes"] || [];
-					acc["callTimes"].push(value.format());
+					if (value) acc["callTimes"].push(value.format());
 					break;
 				}
 				case "date": {

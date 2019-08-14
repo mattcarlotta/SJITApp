@@ -6,6 +6,25 @@ import Option from "./Option";
 import OptionsContainer from "./OptionsContainer";
 
 class SelectOptionsContainer extends PureComponent {
+	componentDidUpdate = prevProps => {
+		const { selected, isVisible } = this.props;
+
+		if (selected !== prevProps.selected || isVisible) {
+			this.handleScroll();
+		}
+	};
+
+	handleScroll = () => {
+		const { selected } = this.props;
+		const element = document.getElementById(selected);
+
+		if (element)
+			element.scrollIntoView({
+				behavior: "auto",
+				block: "nearest",
+			});
+	};
+
 	handleKeySelect = evt => {
 		const { key } = evt;
 

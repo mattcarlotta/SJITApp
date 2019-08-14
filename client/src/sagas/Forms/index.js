@@ -2,8 +2,8 @@ import { push } from "connected-react-router";
 import { all, put, call, takeLatest } from "redux-saga/effects";
 import { app } from "utils";
 import { hideServerMessage, setServerMessage } from "actions/Messages";
-// import { setEvents, setEventToEdit } from "actions/Events";
-import { parseMessage } from "utils/parseResponse";
+import { setForms } from "actions/Forms";
+import { parseData, parseMessage } from "utils/parseResponse";
 import * as types from "types";
 
 /**
@@ -40,6 +40,61 @@ export function* createForm({ props }) {
 }
 
 /**
+ * Attempts to delete a form.
+ *
+ * @generator
+ * @function deleteForm
+ * @param {object} formId
+ * @yields {object} - A response from a call to the API.
+ * @function parseMessage - Returns a parsed res.data.message.
+ * @yields {action} - A redux action to display a server message by type.
+ * @yields {action} - A redux action to fetch forms data again.
+ * @throws {action} - A redux action to display a server message by type.
+ */
+
+export function* deleteForm({ formId }) {
+	try {
+		yield put(hideServerMessage());
+
+		const res = yield call(app.delete, `form/delete/${formId}`);
+		const message = yield call(parseMessage, res);
+
+		yield put(
+			setServerMessage({
+				type: "success",
+				message,
+			}),
+		);
+
+		yield put({ type: types.FORMS_FETCH });
+	} catch (e) {
+		yield put(setServerMessage({ type: "error", message: e.toString() }));
+	}
+}
+
+/**
+ * Attempts to get all forms.
+ *
+ * @generator
+ * @function fetchForms
+ * @yields {object} - A response from a call to the API.
+ * @function parseData - Returns a parsed res.data.
+ * @yields {action} - A redux action to set forms data to redux state.
+ * @throws {action} - A redux action to display a server message by type.
+ */
+
+export function* fetchForms() {
+	try {
+		const res = yield call(app.get, "forms/all");
+		const data = yield call(parseData, res);
+
+		yield put(setForms(data));
+	} catch (e) {
+		yield put(setServerMessage({ type: "error", message: e.toString() }));
+	}
+}
+
+/**
  * Creates watchers for all generators.
  *
  * @generator
@@ -49,9 +104,9 @@ export function* createForm({ props }) {
 export default function* formsSagas() {
 	yield all([
 		takeLatest(types.FORMS_CREATE, createForm),
-		// takeLatest(types.EVENTS_DELETE, deleteEvent),
+		takeLatest(types.FORMS_DELETE, deleteForm),
 		// takeLatest(types.EVENTS_EDIT, fetchEvent),
-		// takeLatest(types.EVENTS_FETCH, fetchEvents),
+		takeLatest(types.FORMS_FETCH, fetchForms),
 		// takeLatest(types.EVENTS_UPDATE, updateEvent),
 	]);
 }
