@@ -11,7 +11,6 @@ import {
 	SubmitButton,
 } from "components/Body";
 import { AddField, FieldGenerator, FormTitle } from "components/Forms";
-import { hideServerMessage } from "actions/Messages";
 import { fetchSeasonsIds } from "actions/Seasons";
 import { createEvent } from "actions/Events";
 import { fieldValidator, fieldUpdater, parseFields } from "utils";
@@ -87,13 +86,11 @@ export class NewEventForm extends Component {
 
 		this.setState({ fields: validatedFields, isSubmitting: !errors }, () => {
 			const { fields: formFields } = this.state;
-			const { createEvent, hideServerMessage, serverMessage } = this.props;
 
 			if (!errors) {
 				const parsedFields = parseFields(formFields);
 
-				if (serverMessage) hideServerMessage();
-				setTimeout(() => createEvent(parsedFields), 350);
+				this.props.createEvent(parsedFields);
 			}
 		});
 	};
@@ -143,7 +140,6 @@ export class NewEventForm extends Component {
 NewEventForm.propTypes = {
 	createEvent: PropTypes.func.isRequired,
 	fetchSeasonsIds: PropTypes.func.isRequired,
-	hideServerMessage: PropTypes.func.isRequired,
 	push: PropTypes.func.isRequired,
 	seasonIds: PropTypes.arrayOf(PropTypes.string),
 	serverMessage: PropTypes.string,
@@ -158,7 +154,6 @@ const mapDispatchToProps = {
 	createEvent,
 	fetchSeasonsIds,
 	push,
-	hideServerMessage,
 };
 
 export default connect(

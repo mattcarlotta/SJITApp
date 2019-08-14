@@ -1,6 +1,7 @@
 import mailer from "@sendgrid/mail";
 import { sendError, createSignupToken, expirationDate } from "shared/helpers";
 import {
+  emailAlreadyTaken,
   emailAssociatedWithKey,
   invalidAuthTokenRequest,
   invalidDeleteTokenRequest,
@@ -11,7 +12,7 @@ import {
   unableToUpdateToken,
 } from "shared/authErrors";
 import { newAuthorizationKeyTemplate } from "services/templates";
-import { Token, Season } from "models";
+import { Token, Season, User } from "models";
 
 const { CLIENT } = process.env;
 
@@ -108,14 +109,16 @@ const getToken = async (req, res) => {
 
 const updateToken = async (req, res) => {
   try {
-    const {
-      _id, authorizedEmail, role, seasonId,
-    } = req.body;
-    if (!_id || !authorizedEmail || !role || !seasonId) throw missingUpdateTokenParams;
+    const { _id, authorizedEmail, role, seasonId } = req.body;
+    if (!_id || !authorizedEmail || !role || !seasonId)
+      throw missingUpdateTokenParams;
 
     const existingToken = await Token.findOne({ _id });
     if (!existingToken) throw unableToLocateToken;
     if (existingToken.email) throw unableToUpdateToken;
+
+    const emailInUse = await User.findOne({ email: authorizedEmail });
+    if (emailInUse) throw emailAlreadyTaken;
 
     const token = createSignupToken();
     const expiration = expirationDate();
@@ -140,6 +143,4 @@ const updateToken = async (req, res) => {
   }
 };
 
-export {
-  createToken, deleteToken, getAllTokens, getToken, updateToken,
-};
+export { createToken, deleteToken, getAllTokens, getToken, updateToken };

@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import Helmet from "react-helmet";
 import { Header } from "components/Navigation";
-import SJIceTeam from "images/placeholder.png";
+import Placeholder from "images/misc/placeholder.png";
 import { Container, ImageContainer } from "components/Body";
 
 const Home = () => (
@@ -10,7 +10,7 @@ const Home = () => (
 		<Helmet title="Home" />
 		<Container>
 			<ImageContainer>
-				<img src={SJIceTeam} alt="SJIceTeam.png" height="506px" />
+				<img src={Placeholder} alt="SJIceTeam.png" height="506px" />
 			</ImageContainer>
 			<p>
 				Consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut

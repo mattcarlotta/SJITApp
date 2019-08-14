@@ -5,7 +5,8 @@ const onFieldRemove = jest.fn();
 
 const editEvent = {
 	_id: "5d4e00bcf2d83c45a863e2bc",
-	league: "NHL",
+	team: "San Jose Sharks",
+	opponent: "Anaheim Ducks",
 	eventType: "Game",
 	location: "SAP Center at San Jose",
 	callTimes: [
@@ -47,18 +48,18 @@ describe("UpdateFormFields", () => {
 		]);
 	});
 
-	it("updates league field value and enables the field", () => {
+	it("updates team field value and enables the field", () => {
 		const field = {
-			name: "league",
+			name: "team",
 			type: "select",
-			label: "League",
-			placeholder: "Select a league...",
+			label: "Team",
+			placeholder: "Select a team...",
 			icon: "puck",
-			value: "NHL",
+			value: "San Jose Sharks",
 			errors: "",
 			required: true,
 			disabled: true,
-			selectOptions: ["NHL", "AHL"],
+			selectOptions: ["San Jose Sharks", "San Jose Barracuda"],
 		};
 
 		const updatedField = updateFormFields([], field, editEvent, onFieldRemove);
@@ -66,7 +67,32 @@ describe("UpdateFormFields", () => {
 		expect(updatedField).toEqual([
 			{
 				...field,
-				value: editEvent.league,
+				value: editEvent.team,
+				disabled: false,
+			},
+		]);
+	});
+
+	it("updates opponent field value and enables the field", () => {
+		const field = {
+			name: "opponent",
+			type: "select",
+			label: "Opponent",
+			placeholder: "Select an opponent...",
+			icon: "puck",
+			value: "",
+			errors: "",
+			required: true,
+			disabled: true,
+			selectOptions: ["Anaheim Ducks"],
+		};
+
+		const updatedField = updateFormFields([], field, editEvent, onFieldRemove);
+
+		expect(updatedField).toEqual([
+			{
+				...field,
+				value: editEvent.opponent,
 				disabled: false,
 			},
 		]);

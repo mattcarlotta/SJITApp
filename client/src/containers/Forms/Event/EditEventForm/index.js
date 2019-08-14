@@ -11,7 +11,6 @@ import {
 	SubmitButton,
 } from "components/Body";
 import { AddField, FieldGenerator, FormTitle } from "components/Forms";
-import { hideServerMessage } from "actions/Messages";
 import { fetchEvent, updateEvent } from "actions/Events";
 import { fieldValidator, fieldUpdater, parseFields } from "utils";
 import fields from "./Fields";
@@ -97,17 +96,13 @@ export class EditEventForm extends Component {
 		this.setState({ fields: validatedFields, isSubmitting: !errors }, () => {
 			const { fields: formFields } = this.state;
 			const {
-				hideServerMessage,
-				serverMessage,
 				editEvent: { _id },
 				updateEvent,
 			} = this.props;
 
 			if (!errors) {
 				const parsedFields = parseFields(formFields);
-
-				if (serverMessage) hideServerMessage();
-				setTimeout(() => updateEvent({ _id, ...parsedFields }), 350);
+				updateEvent({ _id, ...parsedFields });
 			}
 		});
 	};
@@ -167,7 +162,6 @@ EditEventForm.propTypes = {
 		notes: PropTypes.string,
 	}).isRequired,
 	fetchEvent: PropTypes.func.isRequired,
-	hideServerMessage: PropTypes.func.isRequired,
 	match: PropTypes.shape({
 		params: PropTypes.shape({
 			id: PropTypes.string,
@@ -185,7 +179,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
 	fetchEvent,
-	hideServerMessage,
 	push,
 	updateEvent,
 };

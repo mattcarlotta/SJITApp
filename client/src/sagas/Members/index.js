@@ -27,6 +27,8 @@ import * as types from "types";
 
 export function* createMember({ props }) {
 	try {
+		yield put(hideServerMessage());
+
 		const res = yield call(app.post, "token/create", { ...props });
 		const message = yield call(parseMessage, res);
 
@@ -123,6 +125,8 @@ export function* deleteToken({ tokenId }) {
 
 export function* fetchProfile({ memberId }) {
 	try {
+		yield put(hideServerMessage());
+
 		const res = yield call(app.get, `member/review/${memberId}`);
 		const data = yield call(parseData, res);
 
@@ -218,6 +222,8 @@ export function* fetchTokens() {
 
 export function* updateMember({ props }) {
 	try {
+		yield put(hideServerMessage());
+
 		const res = yield call(app.put, "member/update", { ...props });
 		const message = yield call(parseMessage, res);
 
@@ -268,7 +274,7 @@ export function* updateMemberStatus({ props }) {
 }
 
 /**
- * Attempts to update an existing member.
+ * Attempts to update an existing member token.
  *
  * @generator
  * @function updateMemberToken
@@ -282,6 +288,8 @@ export function* updateMemberStatus({ props }) {
 
 export function* updateMemberToken({ props }) {
 	try {
+		yield put(hideServerMessage());
+
 		const res = yield call(app.put, "token/update", { ...props });
 		const message = yield call(parseMessage, res);
 

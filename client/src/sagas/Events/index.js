@@ -21,6 +21,8 @@ import * as types from "types";
 
 export function* createEvent({ props }) {
 	try {
+		yield put(hideServerMessage());
+
 		const res = yield call(app.post, "event/create", { ...props });
 		const message = yield call(parseMessage, res);
 
@@ -135,6 +137,8 @@ export function* fetchEvents() {
 
 export function* updateEvent({ props }) {
 	try {
+		yield put(hideServerMessage());
+
 		const res = yield call(app.put, "event/update", { ...props });
 		const message = yield call(parseMessage, res);
 

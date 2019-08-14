@@ -2,7 +2,7 @@ import { push } from "connected-react-router";
 import { expectSaga, testSaga } from "redux-saga-test-plan";
 import { app } from "utils";
 import * as actions from "actions/Auth";
-import { setServerMessage } from "actions/Messages";
+import { hideServerMessage, setServerMessage } from "actions/Messages";
 import * as sagas from "sagas/Auth";
 import * as mocks from "sagas/__mocks__/sagas.mocks";
 import authReducer from "reducers/Auth";
@@ -24,6 +24,8 @@ describe("Auth Sagas", () => {
 
 			testSaga(sagas.authenticateUser)
 				.next()
+				.put(hideServerMessage())
+				.next()
 				.call(app.get, "signedin")
 				.next(res)
 				.call(parseData, res)
@@ -37,6 +39,8 @@ describe("Auth Sagas", () => {
 			const res = { data: { role: "guest" } };
 
 			testSaga(sagas.authenticateUser)
+				.next()
+				.put(hideServerMessage())
 				.next()
 				.call(app.get, "signedin")
 				.next(res)
@@ -101,6 +105,8 @@ describe("Auth Sagas", () => {
 
 			testSaga(sagas.resetPassword, { props })
 				.next()
+				.put(hideServerMessage())
+				.next()
 				.call(app.put, "reset-password", { ...mocks.resetPassword })
 				.next(res)
 				.call(parseMessage, res)
@@ -154,6 +160,8 @@ describe("Auth Sagas", () => {
 			const res = { data: { ...mocks.userSession } };
 
 			testSaga(sagas.signinUser, { props })
+				.next()
+				.put(hideServerMessage())
 				.next()
 				.call(app.post, "signin", { ...props })
 				.next(res)
@@ -247,6 +255,8 @@ describe("Auth Sagas", () => {
 
 			testSaga(sagas.signupUser, { props })
 				.next()
+				.put(hideServerMessage())
+				.next()
 				.call(app.post, "signup", { ...props })
 				.next(res)
 				.call(parseMessage, res)
@@ -300,6 +310,8 @@ describe("Auth Sagas", () => {
 			const res = { data: { message } };
 
 			testSaga(sagas.updateUserPassword, { props })
+				.next()
+				.put(hideServerMessage())
 				.next()
 				.call(app.put, "new-password", { ...props })
 				.next(res)

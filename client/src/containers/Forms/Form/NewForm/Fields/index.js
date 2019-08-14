@@ -44,10 +44,10 @@ export default [
 	{
 		name: "notes",
 		type: "textarea",
-		label: "Form Notes",
+		label: "Notes",
 		value: "",
 		errors: "",
-		placeholder: "(Optional) Include any special form notes...",
+		placeholder: "(Optional) Include any special notes to add to the form...",
 		required: false,
 		disabled: true,
 	},

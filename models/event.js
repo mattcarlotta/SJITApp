@@ -1,7 +1,6 @@
 import { Schema, model } from "mongoose";
 
 const eventSchema = new Schema({
-  league: { type: String, default: "NHL", required: true },
   eventType: { type: String, default: "Game", required: true },
   eventDate: { type: Date, required: true },
   location: { type: String, default: "SAP Center at San Jose" },
@@ -18,7 +17,8 @@ const eventSchema = new Schema({
     },
   ],
   seasonId: { type: String, required: true },
-  team: String,
+  team: { type: String, required: true },
+  opponent: { type: String, required: true },
   callTimes: { type: Array, of: Date, required: true },
   uniform: { type: String, default: "Teal Jersey" },
   notes: String,

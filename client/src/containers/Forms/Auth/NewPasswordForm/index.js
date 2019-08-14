@@ -5,7 +5,6 @@ import { Modal, SubmitButton } from "components/Body";
 import { FieldGenerator, FormTitle } from "components/Forms";
 import { fieldValidator, fieldUpdater, parseFields, parseToken } from "utils";
 import { updateUserPassword } from "actions/Auth";
-import { hideServerMessage } from "actions/Messages";
 
 export class NewPasswordForm extends Component {
 	constructor(props) {
@@ -47,17 +46,12 @@ export class NewPasswordForm extends Component {
 
 		this.setState({ fields: validatedFields, isSubmitting: !errors }, () => {
 			const { fields: formFields, token } = this.state;
-			const {
-				hideServerMessage,
-				serverMessage,
-				updateUserPassword,
-			} = this.props;
+			const { updateUserPassword } = this.props;
 
 			if (!errors) {
 				const parsedFields = parseFields(formFields);
 
-				if (serverMessage) hideServerMessage();
-				setTimeout(() => updateUserPassword({ ...parsedFields, token }), 350);
+				updateUserPassword({ ...parsedFields, token });
 			}
 		});
 	};
@@ -84,7 +78,6 @@ export class NewPasswordForm extends Component {
 }
 
 NewPasswordForm.propTypes = {
-	hideServerMessage: PropTypes.func.isRequired,
 	history: PropTypes.shape({
 		location: PropTypes.shape({
 			pathname: PropTypes.string,
@@ -105,7 +98,6 @@ const mapStateToProps = state => ({
 
 /* istanbul ignore next */
 const mapDispatchToProps = {
-	hideServerMessage,
 	updateUserPassword,
 };
 

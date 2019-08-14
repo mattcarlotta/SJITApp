@@ -11,7 +11,6 @@ import {
 	SubmitButton,
 } from "components/Body";
 import { FieldGenerator } from "components/Forms";
-import { hideServerMessage } from "actions/Messages";
 import { fetchSeasonsIds } from "actions/Seasons";
 import { createMember } from "actions/Members";
 import { fieldValidator, fieldUpdater, parseFields } from "utils";
@@ -60,13 +59,11 @@ export class NewMemberForm extends Component {
 
 		this.setState({ fields: validatedFields, isSubmitting: !errors }, () => {
 			const { fields: formFields } = this.state;
-			const { hideServerMessage, serverMessage, createMember } = this.props;
 
 			if (!errors) {
 				const parsedFields = parseFields(formFields);
 
-				if (serverMessage) hideServerMessage();
-				setTimeout(() => createMember(parsedFields), 350);
+				this.props.createMember(parsedFields);
 			}
 		});
 	};
@@ -107,7 +104,6 @@ export class NewMemberForm extends Component {
 NewMemberForm.propTypes = {
 	createMember: PropTypes.func.isRequired,
 	fetchSeasonsIds: PropTypes.func.isRequired,
-	hideServerMessage: PropTypes.func.isRequired,
 	push: PropTypes.func.isRequired,
 	seasonIds: PropTypes.arrayOf(PropTypes.string),
 	serverMessage: PropTypes.string,
@@ -122,7 +118,6 @@ const mapDispatchToProps = {
 	createMember,
 	fetchSeasonsIds,
 	push,
-	hideServerMessage,
 };
 
 export default connect(

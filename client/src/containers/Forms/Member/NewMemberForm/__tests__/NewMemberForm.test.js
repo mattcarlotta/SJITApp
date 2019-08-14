@@ -2,13 +2,11 @@ import { NewMemberForm } from "../index";
 
 const createMember = jest.fn();
 const fetchSeasonsIds = jest.fn();
-const hideServerMessage = jest.fn();
 const push = jest.fn();
 
 const initProps = {
 	createMember,
 	fetchSeasonsIds,
-	hideServerMessage,
 	push,
 	seasonIds: [],
 	serverMessage: "",
@@ -25,7 +23,6 @@ describe("Edit Authorization Form", () => {
 	afterEach(() => {
 		createMember.mockClear();
 		fetchSeasonsIds.mockClear();
-		hideServerMessage.mockClear();
 	});
 
 	it("renders without errors", () => {
@@ -77,8 +74,6 @@ describe("Edit Authorization Form", () => {
 
 		describe("Form Submission", () => {
 			beforeEach(() => {
-				jest.useFakeTimers();
-
 				wrapper
 					.instance()
 					.handleChange({ target: { name: "seasonId", value: "20002001" } });
@@ -91,7 +86,6 @@ describe("Edit Authorization Form", () => {
 				wrapper.update();
 
 				wrapper.find("form").simulate("submit");
-				jest.runOnlyPendingTimers();
 			});
 
 			it("successful validation calls updateMember with fields", done => {
@@ -109,14 +103,6 @@ describe("Edit Authorization Form", () => {
 
 				expect(wrapper.state("isSubmitting")).toBeFalsy();
 				expect(wrapper.find("button[type='submit']").exists()).toBeTruthy();
-				done();
-			});
-
-			it("on form resubmission, if the serverMessage is still visible, it will hide the message", done => {
-				wrapper.setProps({ serverMessage: "Example error message." });
-
-				wrapper.find("form").simulate("submit");
-				expect(hideServerMessage).toHaveBeenCalledTimes(1);
 				done();
 			});
 		});

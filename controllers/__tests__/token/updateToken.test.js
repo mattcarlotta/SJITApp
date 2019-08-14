@@ -3,6 +3,7 @@ import { Token } from "models";
 import { updateToken } from "controllers/token";
 import { createSignupToken, expirationDate } from "shared/helpers";
 import {
+  emailAlreadyTaken,
   missingUpdateTokenParams,
   unableToUpdateToken,
   unableToLocateToken,
@@ -56,6 +57,28 @@ describe("Update Token Controller", () => {
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith({
       err: unableToLocateToken,
+    });
+  });
+
+  it("handles attempts to update to an email that already exists", async () => {
+    const emailInUse = await Token.findOne({
+      email: "carlotta.matt@gmail.com",
+    });
+
+    const usedTokenId = {
+      _id: emailInUse._id,
+      authorizedEmail: "",
+      role: "staff",
+      seasonId: "20412042",
+    };
+
+    const req = mockRequest(null, null, usedTokenId);
+
+    await updateToken(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.json).toHaveBeenCalledWith({
+      err: emailAlreadyTaken,
     });
   });
 

@@ -34,6 +34,8 @@ describe("Event Sagas", () => {
 
 			testSaga(sagas.createEvent, { props })
 				.next()
+				.put(hideServerMessage())
+				.next()
 				.call(app.post, "event/create", { ...props })
 				.next(res)
 				.call(parseMessage, res)
@@ -255,6 +257,8 @@ describe("Event Sagas", () => {
 			const res = { data: { message } };
 
 			testSaga(sagas.updateEvent, { props })
+				.next()
+				.put(hideServerMessage())
 				.next()
 				.call(app.put, "event/update", { ...props })
 				.next(res)

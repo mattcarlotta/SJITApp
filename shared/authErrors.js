@@ -121,7 +121,7 @@ const unableToUpdateSeason =
   "Unable to update the existing season. You must provide a model id, seasonId, startDate, and endDate.";
 
 const unableToUpdateToken =
-  "Unable to update this authorization key. The key has already been used and is already associated with an active account.";
+  "Unable to update this authorization key. The key has already been used and is associated with an active account.";
 
 export {
   alreadyLoggedIn,

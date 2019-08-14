@@ -1,13 +1,11 @@
 import { EditAuthorizationForm } from "../index";
 
 const fetchToken = jest.fn();
-const hideServerMessage = jest.fn();
 const push = jest.fn();
 const updateMemberToken = jest.fn();
 
 const initProps = {
 	fetchToken,
-	hideServerMessage,
 	match: {
 		params: {
 			id: "5d44a76ad49a24023e0af7dc",
@@ -104,9 +102,7 @@ describe("Edit Authorization Form", () => {
 
 		describe("Form Submission", () => {
 			beforeEach(() => {
-				jest.useFakeTimers();
 				wrapper.find("form").simulate("submit");
-				jest.runOnlyPendingTimers();
 			});
 
 			it("successful validation calls updateMember with fields", done => {
@@ -125,14 +121,6 @@ describe("Edit Authorization Form", () => {
 
 				expect(wrapper.state("isSubmitting")).toBeFalsy();
 				expect(wrapper.find("button[type='submit']").exists()).toBeTruthy();
-				done();
-			});
-
-			it("on form resubmission, if the serverMessage is still visible, it will hide the message", done => {
-				wrapper.setProps({ serverMessage: "Example error message." });
-
-				wrapper.find("form").simulate("submit");
-				expect(hideServerMessage).toHaveBeenCalledTimes(1);
 				done();
 			});
 		});

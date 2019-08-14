@@ -6,7 +6,6 @@ import { FieldGenerator, FormTitle } from "components/Forms";
 import { Link } from "components/Navigation";
 import { fieldValidator, fieldUpdater, parseFields } from "utils";
 import { resetPassword } from "actions/Auth";
-import { hideServerMessage } from "actions/Messages";
 
 export class ResetPasswordForm extends Component {
 	state = {
@@ -40,13 +39,10 @@ export class ResetPasswordForm extends Component {
 
 		this.setState({ fields: validatedFields, isSubmitting: !errors }, () => {
 			const { fields: formFields } = this.state;
-			const { hideServerMessage, resetPassword, serverMessage } = this.props;
 
 			if (!errors) {
 				const parsedFields = parseFields(formFields);
-
-				if (serverMessage) hideServerMessage();
-				setTimeout(() => resetPassword(parsedFields), 350);
+				this.props.resetPassword(parsedFields);
 			}
 		});
 	};
@@ -92,7 +88,6 @@ export class ResetPasswordForm extends Component {
 }
 
 ResetPasswordForm.propTypes = {
-	hideServerMessage: PropTypes.func.isRequired,
 	history: PropTypes.shape({
 		action: PropTypes.string,
 		block: PropTypes.func,
@@ -122,7 +117,6 @@ const mapStateToProps = state => ({
 
 /* istanbul ignore next */
 const mapDispatchToProps = {
-	hideServerMessage,
 	resetPassword,
 };
 

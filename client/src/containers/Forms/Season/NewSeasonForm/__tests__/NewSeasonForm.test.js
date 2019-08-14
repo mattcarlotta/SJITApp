@@ -2,12 +2,10 @@ import moment from "moment";
 import { NewSeasonForm } from "../index";
 
 const createSeason = jest.fn();
-const hideServerMessage = jest.fn();
 const push = jest.fn();
 
 const initProps = {
 	createSeason,
-	hideServerMessage,
 	push,
 	serverMessage: "",
 };
@@ -36,7 +34,6 @@ describe("Create Season Form", () => {
 	it("if there are errors, it doesn't submit the form", () => {
 		submitForm();
 
-		expect(hideServerMessage).toHaveBeenCalledTimes(0);
 		expect(createSeason).toHaveBeenCalledTimes(0);
 	});
 
@@ -88,7 +85,6 @@ describe("Create Season Form", () => {
 
 		afterEach(() => {
 			createSeason.mockClear();
-			hideServerMessage.mockClear();
 		});
 
 		it("selecting a start and end date, automatically fills in the seasonId field", () => {
@@ -113,13 +109,6 @@ describe("Create Season Form", () => {
 
 			expect(wrapper.state("isSubmitting")).toBeFalsy();
 			expect(wrapper.find("button[type='submit']").exists()).toBeTruthy();
-		});
-
-		it("on form resubmission, if the serverMessage is still visible, it will hide the message", () => {
-			wrapper.setProps({ serverMessage: "Example error message." });
-
-			submitForm();
-			expect(hideServerMessage).toHaveBeenCalledTimes(1);
 		});
 	});
 });

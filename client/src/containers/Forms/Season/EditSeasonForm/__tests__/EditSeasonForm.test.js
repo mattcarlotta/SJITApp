@@ -9,7 +9,6 @@ const editSeason = {
 	endDate: new Date(2001, 7, 6),
 };
 const fetchSeason = jest.fn();
-const hideServerMessage = jest.fn();
 const push = jest.fn();
 const updateSeason = jest.fn();
 
@@ -21,7 +20,6 @@ const initProps = {
 	},
 	editSeason: {},
 	fetchSeason,
-	hideServerMessage,
 	isLoading: true,
 	push,
 	serverMessage: "",
@@ -145,7 +143,6 @@ describe("Edit Season Form", () => {
 
 			afterEach(() => {
 				updateSeason.mockClear();
-				hideServerMessage.mockClear();
 			});
 
 			it("successful validation calls updateSeason with fields", done => {
@@ -163,14 +160,6 @@ describe("Edit Season Form", () => {
 
 				expect(wrapper.state("isSubmitting")).toBeFalsy();
 				expect(wrapper.find("button[type='submit']").exists()).toBeTruthy();
-				done();
-			});
-
-			it("on form resubmission, if the serverMessage is still visible, it will hide the message", done => {
-				wrapper.setProps({ serverMessage: "Example error message." });
-
-				submitForm();
-				expect(hideServerMessage).toHaveBeenCalledTimes(1);
 				done();
 			});
 		});

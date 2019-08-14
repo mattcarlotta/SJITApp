@@ -4,7 +4,6 @@ import isEmpty from "lodash/isEmpty";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import { Card } from "antd";
-import { hideServerMessage } from "actions/Messages";
 import { createSeason } from "actions/Seasons";
 import { BackButton, FormContainer, SubmitButton } from "components/Body";
 import { FieldGenerator, FormTitle } from "components/Forms";
@@ -50,13 +49,10 @@ export class NewSeasonForm extends Component {
 
 		this.setState({ fields: validatedFields, isSubmitting: !errors }, () => {
 			const { fields: formFields } = this.state;
-			const { createSeason, hideServerMessage, serverMessage } = this.props;
 
 			if (!errors) {
 				const parsedFields = parseFields(formFields);
-
-				if (serverMessage) hideServerMessage();
-				setTimeout(() => createSeason({ ...parsedFields }), 350);
+				this.props.createSeason({ ...parsedFields });
 			}
 		});
 	};
@@ -94,7 +90,6 @@ export class NewSeasonForm extends Component {
 
 NewSeasonForm.propTypes = {
 	createSeason: PropTypes.func.isRequired,
-	hideServerMessage: PropTypes.func.isRequired,
 	push: PropTypes.func.isRequired,
 	serverMessage: PropTypes.string,
 };
@@ -105,7 +100,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
 	createSeason,
-	hideServerMessage,
 	push,
 };
 

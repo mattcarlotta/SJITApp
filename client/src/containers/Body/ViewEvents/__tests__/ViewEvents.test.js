@@ -4,7 +4,8 @@ import { ViewEvents } from "../index";
 const data = [
 	{
 		_id: "5d4cb97fdfbf3c0416f6148b",
-		league: "NHL",
+		team: "San Jose Sharks",
+		opponent: "Anaheim Ducks",
 		eventType: "Game",
 		location: "SAP Center at San Jose",
 		callTimes: [

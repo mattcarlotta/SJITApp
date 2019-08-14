@@ -1,6 +1,5 @@
 import { EditMemberForm } from "../index";
 
-const hideServerMessage = jest.fn();
 const updateMember = jest.fn();
 
 const viewMember = {
@@ -16,7 +15,6 @@ const viewMember = {
 };
 
 const initProps = {
-	hideServerMessage,
 	serverMessage: "",
 	updateMember,
 	viewMember: {},
@@ -30,7 +28,6 @@ describe("Edit Member Form", () => {
 
 	afterEach(() => {
 		updateMember.mockClear();
-		hideServerMessage.mockClear();
 	});
 
 	it("renders without errors", () => {
@@ -122,14 +119,6 @@ describe("Edit Member Form", () => {
 
 				expect(wrapper.state("isSubmitting")).toBeFalsy();
 				expect(wrapper.find("button[type='submit']").exists()).toBeTruthy();
-				done();
-			});
-
-			it("on form resubmission, if the serverMessage is still visible, it will hide the message", done => {
-				wrapper.setProps({ serverMessage: "Example error message." });
-
-				wrapper.find("form").simulate("submit");
-				expect(hideServerMessage).toHaveBeenCalledTimes(1);
 				done();
 			});
 		});

@@ -21,10 +21,11 @@ describe("Create Event Controller", () => {
       callTimes: "",
       eventDate: "",
       eventType: "",
-      league: "",
       location: "",
       notes: "",
+      opponent: "",
       seasonId: "",
+      team: "",
       uniform: "",
     };
     const req = mockRequest(null, null, emptyBody);
@@ -43,7 +44,8 @@ describe("Create Event Controller", () => {
       callTimes: ["2019-08-09T19:00:38-07:00"],
       eventDate: "2019-08-11T02:30:30.036+00:00",
       eventType: "Game",
-      league: "AHL",
+      team: "San Jose Barracuda",
+      opponent: "San Diego Gulls",
       location: "SAP Center at San Jose",
       notes: "",
       seasonId,

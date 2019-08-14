@@ -3,7 +3,6 @@ import { NewEventForm } from "../index";
 
 const createEvent = jest.fn();
 const fetchSeasonsIds = jest.fn();
-const hideServerMessage = jest.fn();
 const push = jest.fn();
 const seasonIds = ["20002001", "20012002", "20022003"];
 
@@ -12,7 +11,6 @@ const newDate = moment("2019-08-11T02:30:30.036+00:00");
 const initProps = {
 	createEvent,
 	fetchSeasonsIds,
-	hideServerMessage,
 	push,
 	seasonIds: [],
 	serverMessage: "",
@@ -27,7 +25,6 @@ describe("New Event Form", () => {
 	afterEach(() => {
 		createEvent.mockClear();
 		fetchSeasonsIds.mockClear();
-		hideServerMessage.mockClear();
 	});
 
 	it("renders without errors", () => {
@@ -99,8 +96,6 @@ describe("New Event Form", () => {
 
 		describe("Form Submission", () => {
 			beforeEach(() => {
-				jest.useFakeTimers();
-
 				wrapper
 					.instance()
 					.handleChange({ target: { name: "seasonId", value: "20002001" } });
@@ -110,23 +105,27 @@ describe("New Event Form", () => {
 					.handleChange({ target: { name: "eventDate", value: newDate } });
 
 				wrapper.instance().handleChange({
+					target: { name: "opponent", value: "Anaheim Ducks" },
+				});
+
+				wrapper.instance().handleChange({
 					target: { name: "callTime", value: newDate },
 				});
 
 				wrapper.update();
 
 				wrapper.find("form").simulate("submit");
-				jest.runOnlyPendingTimers();
 			});
 
 			it("successful validation calls createEvent with fields", done => {
 				expect(wrapper.state("isSubmitting")).toBeTruthy();
 				expect(createEvent).toHaveBeenCalledWith({
 					seasonId: "20002001",
-					league: "NHL",
+					team: "San Jose Sharks",
+					opponent: "Anaheim Ducks",
 					eventType: "Game",
 					location: "SAP Center at San Jose",
-					eventDate: expect.any(moment),
+					eventDate: "2019-08-10T19:30:30-07:00",
 					uniform: "Sharks Teal Jersey",
 					notes: "",
 					callTimes: ["2019-08-10T19:30:30-07:00"],
@@ -139,14 +138,6 @@ describe("New Event Form", () => {
 
 				expect(wrapper.state("isSubmitting")).toBeFalsy();
 				expect(wrapper.find("button[type='submit']").exists()).toBeTruthy();
-				done();
-			});
-
-			it("on form resubmission, if the serverMessage is still visible, it will hide the message", done => {
-				wrapper.setProps({ serverMessage: "Example error message." });
-
-				wrapper.find("form").simulate("submit");
-				expect(hideServerMessage).toHaveBeenCalledTimes(1);
 				done();
 			});
 		});

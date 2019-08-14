@@ -8,8 +8,8 @@ import { FaUserPlus } from "react-icons/fa";
 import {
 	Button,
 	DisplayFullDate,
-	DisplayLeague,
 	DisplayTime,
+	DisplayTeam,
 	FlexEnd,
 	Table,
 } from "components/Body";
@@ -20,10 +20,16 @@ const title = "View Events";
 const columns = [
 	{ title: "Season Id", dataIndex: "seasonId", key: "seasonId" },
 	{
-		title: "League",
-		dataIndex: "league",
-		key: "league",
-		render: league => <DisplayLeague league={league} />,
+		title: "Team",
+		dataIndex: "team",
+		key: "team",
+		render: team => <DisplayTeam team={team} />,
+	},
+	{
+		title: "Opponent",
+		dataIndex: "opponent",
+		key: "opponent",
+		render: team => <DisplayTeam team={team} />,
 	},
 	{ title: "Event Type", dataIndex: "eventType", key: "eventType" },
 	{ title: "Location", dataIndex: "location", key: "location" },

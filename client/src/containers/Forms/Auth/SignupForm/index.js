@@ -7,7 +7,6 @@ import { FieldGenerator, FormTitle } from "components/Forms";
 import { Link } from "components/Navigation";
 import { fieldValidator, fieldUpdater, parseFields, parseToken } from "utils";
 import { signupUser } from "actions/Auth";
-import { hideServerMessage } from "actions/Messages";
 
 export class SignupForm extends Component {
 	constructor(props) {
@@ -87,13 +86,11 @@ export class SignupForm extends Component {
 
 		this.setState({ fields: validatedFields, isSubmitting: !errors }, () => {
 			const { fields: formFields } = this.state;
-			const { hideServerMessage, signupUser, serverMessage } = this.props;
 
 			if (!errors) {
 				const parsedFields = parseFields(formFields);
 
-				if (serverMessage) hideServerMessage();
-				setTimeout(() => signupUser(parsedFields), 350);
+				this.props.signupUser(parsedFields);
 			}
 		});
 	};
@@ -131,7 +128,6 @@ export class SignupForm extends Component {
 }
 
 SignupForm.propTypes = {
-	hideServerMessage: PropTypes.func.isRequired,
 	history: PropTypes.shape({
 		action: PropTypes.string,
 		block: PropTypes.func,
@@ -161,7 +157,6 @@ const mapStateToProps = state => ({
 
 /* istanbul ignore next */
 const mapDispatchToProps = {
-	hideServerMessage,
 	signupUser,
 };
 

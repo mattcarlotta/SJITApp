@@ -63,19 +63,15 @@ const getMember = async (req, res) => {
 
 const updateMember = async (req, res) => {
   try {
-    const {
-      _id, email, firstName, lastName, role,
-    } = req.body;
-    if (!_id || !email || !firstName || !lastName || !role) throw missingUpdateMemberParams;
+    const { _id, email, firstName, lastName, role } = req.body;
+    if (!_id || !email || !firstName || !lastName || !role)
+      throw missingUpdateMemberParams;
 
     const existingMember = await User.findOne({ _id });
     if (!existingMember) throw unableToLocateMember;
 
-    /* istanbul ignore next */
     if (existingMember.email !== email) {
-      /* istanbul ignore next */
       const emailInUse = await User.findOne({ email });
-      /* istanbul ignore next */
       if (emailInUse) throw emailAlreadyTaken;
     }
 

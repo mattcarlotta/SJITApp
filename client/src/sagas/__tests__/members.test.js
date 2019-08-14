@@ -35,6 +35,8 @@ describe("Member Sagas", () => {
 
 			testSaga(sagas.createMember, { props })
 				.next()
+				.put(hideServerMessage())
+				.next()
 				.call(app.post, "token/create", { ...props })
 				.next(res)
 				.call(parseMessage, res)
@@ -188,6 +190,8 @@ describe("Member Sagas", () => {
 			const res = { data };
 
 			testSaga(sagas.fetchProfile, { memberId })
+				.next()
+				.put(hideServerMessage())
 				.next()
 				.call(app.get, `member/review/${memberId}`)
 				.next(res)
@@ -416,6 +420,8 @@ describe("Member Sagas", () => {
 
 			testSaga(sagas.updateMember, { props })
 				.next()
+				.put(hideServerMessage())
+				.next()
 				.call(app.put, "member/update", { ...props })
 				.next(res)
 				.call(parseMessage, res)
@@ -525,6 +531,8 @@ describe("Member Sagas", () => {
 			const res = { data: { message } };
 
 			testSaga(sagas.updateMemberToken, { props })
+				.next()
+				.put(hideServerMessage())
 				.next()
 				.call(app.put, "token/update", { ...props })
 				.next(res)

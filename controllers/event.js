@@ -14,29 +14,34 @@ const createEvent = async (req, res) => {
       callTimes,
       eventDate,
       eventType,
-      league,
       location,
       notes,
+      opponent,
       seasonId,
+      team,
       uniform,
     } = req.body;
     if (
-      !eventDate
-      || !callTimes
-      || !league
-      || !location
-      || !seasonId
-      || !uniform
-    ) throw invalidCreateEventRequest;
+      !callTimes ||
+      !eventDate ||
+      !eventType ||
+      !location ||
+      !opponent ||
+      !seasonId ||
+      !team ||
+      !uniform
+    )
+      throw invalidCreateEventRequest;
 
     await Event.create({
-      seasonId,
+      callTimes,
       eventDate,
       eventType,
-      league,
       location,
-      callTimes,
       notes,
+      opponent,
+      seasonId,
+      team,
       uniform,
     });
 
@@ -70,7 +75,8 @@ const getAllEvents = async (_, res) => {
       $project: {
         seasonId: 1,
         eventDate: 1,
-        league: 1,
+        team: 1,
+        opponent: 1,
         eventType: 1,
         location: 1,
         callTimes: 1,
@@ -108,33 +114,38 @@ const updateEvent = async (req, res) => {
       callTimes,
       eventDate,
       eventType,
-      league,
       location,
       notes,
+      opponent,
       seasonId,
+      team,
       uniform,
     } = req.body;
     if (
-      !_id
-      || !eventDate
-      || !callTimes
-      || !league
-      || !location
-      || !seasonId
-      || !uniform
-    ) throw invalidUpdateEventRequest;
+      !_id ||
+      !callTimes ||
+      !eventDate ||
+      !eventType ||
+      !location ||
+      !opponent ||
+      !seasonId ||
+      !team ||
+      !uniform
+    )
+      throw invalidUpdateEventRequest;
 
     const existingEvent = await Event.findOne({ _id });
     if (!existingEvent) throw unableToLocateEvent;
 
     await existingEvent.updateOne({
-      seasonId,
+      callTimes,
       eventDate,
       eventType,
-      league,
       location,
-      callTimes,
       notes,
+      opponent,
+      seasonId,
+      team,
       uniform,
     });
 
@@ -144,6 +155,4 @@ const updateEvent = async (req, res) => {
   }
 };
 
-export {
-  createEvent, deleteEvent, getAllEvents, getEvent, updateEvent,
-};
+export { createEvent, deleteEvent, getAllEvents, getEvent, updateEvent };

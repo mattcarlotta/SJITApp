@@ -7,7 +7,6 @@ import { push } from "connected-react-router";
 import { Card } from "antd";
 import { BackButton, FormContainer, SubmitButton } from "components/Body";
 import { FieldGenerator, FormTitle } from "components/Forms";
-import { hideServerMessage } from "actions/Messages";
 import { fetchSeason, updateSeason } from "actions/Seasons";
 import { fieldUpdater, parseFields } from "utils";
 import fields from "./Fields";
@@ -77,14 +76,11 @@ export class EditSeasonForm extends Component {
 			const { fields: formFields } = this.state;
 			const {
 				editSeason: { _id },
-				hideServerMessage,
-				serverMessage,
 				updateSeason,
 			} = this.props;
 
 			const parsedFields = parseFields(formFields);
 
-			if (serverMessage) hideServerMessage();
 			setTimeout(() => updateSeason({ ...parsedFields, _id }), 350);
 		});
 	};
@@ -135,7 +131,6 @@ EditSeasonForm.propTypes = {
 		]),
 	}),
 	fetchSeason: PropTypes.func.isRequired,
-	hideServerMessage: PropTypes.func.isRequired,
 	match: PropTypes.shape({
 		params: PropTypes.shape({
 			id: PropTypes.string.isRequired,
@@ -157,7 +152,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
 	fetchSeason,
-	hideServerMessage,
 	push,
 	updateSeason,
 };

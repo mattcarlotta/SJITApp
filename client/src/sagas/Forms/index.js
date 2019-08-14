@@ -3,7 +3,7 @@ import { all, put, call, takeLatest } from "redux-saga/effects";
 import { app } from "utils";
 import { hideServerMessage, setServerMessage } from "actions/Messages";
 // import { setEvents, setEventToEdit } from "actions/Events";
-import { parseData, parseMessage } from "utils/parseResponse";
+import { parseMessage } from "utils/parseResponse";
 import * as types from "types";
 
 /**
@@ -21,6 +21,8 @@ import * as types from "types";
 
 export function* createForm({ props }) {
 	try {
+		yield put(hideServerMessage());
+
 		const res = yield call(app.post, "form/create", { ...props });
 		const message = yield call(parseMessage, res);
 

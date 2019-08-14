@@ -1,16 +1,15 @@
-import moment from "moment";
 import { EditEventForm } from "../index";
 
 const id = "5d4e00bcf2d83c45a863e2bc";
 const fetchEvent = jest.fn();
-const hideServerMessage = jest.fn();
 const push = jest.fn();
 const updateEvent = jest.fn();
 
 const editEvent = {
 	_id: "5d4e00bcf2d83c45a863e2bc",
 	seasonIds: ["20002001", "20012002", "20022003"],
-	league: "NHL",
+	team: "San Jose Sharks",
+	opponent: "Anaheim Ducks",
 	eventType: "Game",
 	location: "SAP Center at San Jose",
 	callTimes: [
@@ -28,7 +27,6 @@ const editEvent = {
 const initProps = {
 	editEvent: {},
 	fetchEvent,
-	hideServerMessage,
 	match: {
 		params: {
 			id,
@@ -47,7 +45,6 @@ describe("New Event Form", () => {
 
 	afterEach(() => {
 		fetchEvent.mockClear();
-		hideServerMessage.mockClear();
 		updateEvent.mockClear();
 	});
 
@@ -117,9 +114,7 @@ describe("New Event Form", () => {
 
 		describe("Form Submission", () => {
 			beforeEach(() => {
-				jest.useFakeTimers();
 				wrapper.find("form").simulate("submit");
-				jest.runOnlyPendingTimers();
 			});
 
 			it("successful validation calls updateEvent with fields", done => {
@@ -127,10 +122,11 @@ describe("New Event Form", () => {
 				expect(updateEvent).toHaveBeenCalledWith({
 					_id: id,
 					seasonId: "20192020",
-					league: "NHL",
+					team: "San Jose Sharks",
+					opponent: "Anaheim Ducks",
 					eventType: "Game",
 					location: "SAP Center at San Jose",
-					eventDate: expect.any(moment),
+					eventDate: "2019-08-09T19:30:31-07:00",
 					uniform: "Sharks Teal Jersey",
 					notes: "",
 					callTimes: [
@@ -148,14 +144,6 @@ describe("New Event Form", () => {
 
 				expect(wrapper.state("isSubmitting")).toBeFalsy();
 				expect(wrapper.find("button[type='submit']").exists()).toBeTruthy();
-				done();
-			});
-
-			it("on form resubmission, if the serverMessage is still visible, it will hide the message", done => {
-				wrapper.setProps({ serverMessage: "Example error message." });
-
-				wrapper.find("form").simulate("submit");
-				expect(hideServerMessage).toHaveBeenCalledTimes(1);
 				done();
 			});
 		});
