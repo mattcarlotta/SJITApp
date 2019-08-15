@@ -4,13 +4,13 @@ import isEmpty from "lodash/isEmpty";
 import { Card } from "antd";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
+import { BackButton, FormContainer, SubmitButton } from "components/Body";
 import {
-	BackButton,
-	FormContainer,
-	Spinner,
-	SubmitButton,
-} from "components/Body";
-import { AddField, FieldGenerator, FormTitle } from "components/Forms";
+	AddField,
+	FieldGenerator,
+	FormTitle,
+	LoadingForm,
+} from "components/Forms";
 import { createEvent, initializeNewEvent } from "actions/Events";
 import { fieldValidator, fieldUpdater, parseFields } from "utils";
 import updateFormFields from "./UpdateFormFields";
@@ -109,7 +109,7 @@ export class NewEventForm extends Component {
 				/>
 				<form onSubmit={this.handleSubmit}>
 					{this.state.isLoading ? (
-						<Spinner />
+						<LoadingForm rows={9} />
 					) : (
 						<Fragment>
 							<FieldGenerator

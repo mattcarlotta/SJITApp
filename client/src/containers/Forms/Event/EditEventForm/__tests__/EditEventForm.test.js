@@ -52,8 +52,8 @@ describe("New Event Form", () => {
 		expect(wrapper.find("Card").exists()).toBeTruthy();
 	});
 
-	it("shows a Spinner when fetching seasonIds", () => {
-		expect(wrapper.find("Spinner").exists()).toBeTruthy();
+	it("shows a LoadingForm when fetching seasonIds", () => {
+		expect(wrapper.find("LoadingForm").exists()).toBeTruthy();
 	});
 
 	it("calls fetchEvent on mount", () => {

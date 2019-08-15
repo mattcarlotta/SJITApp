@@ -34,8 +34,8 @@ describe("Edit Member Form", () => {
 		expect(wrapper.find("form").exists()).toBeTruthy();
 	});
 
-	it("shows a Spinner when fetching seasonIds and the token to edit", () => {
-		expect(wrapper.find("Spinner").exists()).toBeTruthy();
+	it("shows a LoadingForm when fetching seasonIds and the token to edit", () => {
+		expect(wrapper.find("LoadingForm").exists()).toBeTruthy();
 	});
 
 	describe("Form Initialized", () => {

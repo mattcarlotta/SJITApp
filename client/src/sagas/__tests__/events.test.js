@@ -262,6 +262,79 @@ describe("Event Sagas", () => {
 		});
 	});
 
+	describe("Initialize Event", () => {
+		let data;
+		let data2;
+		beforeEach(() => {
+			data = { seasonIds: mocks.seasonIdsData };
+			data2 = { team: mocks.eventsData };
+		});
+
+		it("logical flow matches pattern for fetch event requests", () => {
+			const res = { data };
+			const res2 = { data2 };
+
+			testSaga(sagas.initializeNewEvent)
+				.next()
+				.put(hideServerMessage())
+				.next()
+				.call(app.get, "seasons/all/ids")
+				.next(res)
+				.call(parseData, res)
+				.next(res.data)
+				.call(app.get, "teams/all/names")
+				.next(res2)
+				.call(parseData, res2)
+				.next(res2.data2)
+				.put(
+					actions.setNewEvent({
+						seasonIds: res.data.seasonIds,
+						teams: res2.data2.names,
+					}),
+				)
+				.next()
+				.isDone();
+		});
+
+		it("successfully initialzie a new event form", async () => {
+			mockApp
+				.onGet("seasons/all/ids")
+				.reply(200, { seasonIds: mocks.seasonIdsData });
+
+			mockApp
+				.onGet("teams/all/names")
+				.reply(200, { names: mocks.teamNamesData });
+
+			return expectSaga(sagas.initializeNewEvent)
+				.dispatch(actions.initializeNewEvent)
+				.withReducer(memberReducer)
+				.hasFinalState({
+					data: [],
+					editEvent: {},
+					newEvent: {
+						seasonIds: mocks.seasonIdsData,
+						teams: mocks.teamNamesData,
+					},
+				})
+				.run();
+		});
+
+		it("if API call fails, it displays a message", async () => {
+			const err = "Unable to fetch to initialize event form.";
+			mockApp.onGet("seasons/all/ids").reply(404, { err });
+
+			return expectSaga(sagas.initializeNewEvent)
+				.dispatch(actions.initializeNewEvent)
+				.withReducer(messageReducer)
+				.hasFinalState({
+					message: err,
+					show: true,
+					type: "error",
+				})
+				.run();
+		});
+	});
+
 	describe("Update Event", () => {
 		let message;
 		let props;

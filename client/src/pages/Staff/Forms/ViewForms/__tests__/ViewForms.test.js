@@ -1,6 +1,6 @@
 import ViewForms from "../index";
 
-const wrapper = mount(<ViewForms />);
+const wrapper = HOCWrap(ViewForms);
 
 describe("ViewForms Page", () => {
 	it("renders without errors", () => {

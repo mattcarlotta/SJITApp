@@ -2,8 +2,8 @@ import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
 import { connect } from "react-redux";
-import { Spinner, SubmitButton } from "components/Body";
-import { FieldGenerator } from "components/Forms";
+import { SubmitButton } from "components/Body";
+import { FieldGenerator, LoadingForm } from "components/Forms";
 import { updateMember } from "actions/Members";
 import { fieldValidator, fieldUpdater, parseFields } from "utils";
 import fields from "./Fields";
@@ -66,7 +66,7 @@ export class EditMemberForm extends Component {
 	render = () => (
 		<form style={formStyles} onSubmit={this.handleSubmit}>
 			{this.state.isLoading ? (
-				<Spinner />
+				<LoadingForm rows={4} />
 			) : (
 				<Fragment>
 					<FieldGenerator

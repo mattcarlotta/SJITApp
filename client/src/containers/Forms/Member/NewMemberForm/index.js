@@ -4,13 +4,8 @@ import isEmpty from "lodash/isEmpty";
 import { Card } from "antd";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
-import {
-	BackButton,
-	FormContainer,
-	Spinner,
-	SubmitButton,
-} from "components/Body";
-import { FieldGenerator } from "components/Forms";
+import { BackButton, FormContainer, SubmitButton } from "components/Body";
+import { FieldGenerator, LoadingForm } from "components/Forms";
 import { fetchSeasonsIds } from "actions/Seasons";
 import { createMember } from "actions/Members";
 import { fieldValidator, fieldUpdater, parseFields } from "utils";
@@ -81,7 +76,7 @@ export class NewMemberForm extends Component {
 			<FormContainer>
 				<form onSubmit={this.handleSubmit}>
 					{this.state.isLoading ? (
-						<Spinner />
+						<LoadingForm rows={3} />
 					) : (
 						<Fragment>
 							<FieldGenerator

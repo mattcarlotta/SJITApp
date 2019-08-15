@@ -53,24 +53,12 @@ describe("Edit Season Form", () => {
 		expect(wrapper.find("form").exists()).toBeTruthy();
 	});
 
-	it("initially calls fetchSeason when isLoading is true", () => {
-		expect(fetchSeason).toHaveBeenCalledWith(seasonId);
+	it("shows a LoadingForm when fetching seasonIds and the token to edit", () => {
+		expect(wrapper.find("LoadingForm").exists()).toBeTruthy();
 	});
 
-	it("initially disables the inputs and submit button when loading", () => {
-		expect(
-			wrapper
-				.find("input.ant-calendar-range-picker-input")
-				.first()
-				.props().disabled,
-		).toBeTruthy();
-
-		expect(
-			wrapper
-				.find("button")
-				.at(1)
-				.props().disabled,
-		).toBeTruthy();
+	it("initially calls fetchSeason when isLoading is true", () => {
+		expect(fetchSeason).toHaveBeenCalledWith(seasonId);
 	});
 
 	describe("Form has been loaded", () => {

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
 import moment from "moment";
@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import { Card } from "antd";
 import { BackButton, FormContainer, SubmitButton } from "components/Body";
-import { FieldGenerator, FormTitle } from "components/Forms";
+import { FieldGenerator, FormTitle, LoadingForm } from "components/Forms";
 import { fetchSeason, updateSeason } from "actions/Seasons";
 import { fieldUpdater, parseFields } from "utils";
 import fields from "./Fields";
@@ -16,6 +16,7 @@ const title = "Edit Season Form";
 export class EditSeasonForm extends Component {
 	state = {
 		fields,
+		isLoading: true,
 		seasonId: "",
 		isSubmitting: false,
 	};
@@ -24,6 +25,7 @@ export class EditSeasonForm extends Component {
 		if (!state.seasonId && !isEmpty(editSeason)) {
 			const { endDate, seasonId, startDate } = editSeason;
 			return {
+				isLoading: false,
 				seasonId,
 				fields: state.fields.map(field =>
 					field.type === "range"
@@ -102,15 +104,21 @@ export class EditSeasonForm extends Component {
 					description="Select a new start and end date to update the season."
 				/>
 				<form onSubmit={this.handleSubmit}>
-					<FieldGenerator
-						fields={this.state.fields}
-						onChange={this.handleChange}
-					/>
-					<SubmitButton
-						disabled={isEmpty(this.props.editSeason)}
-						isSubmitting={this.state.isSubmitting}
-						title="Update Event"
-					/>
+					{this.state.isLoading ? (
+						<LoadingForm rows={2} />
+					) : (
+						<Fragment>
+							<FieldGenerator
+								fields={this.state.fields}
+								onChange={this.handleChange}
+							/>
+							<SubmitButton
+								disabled={isEmpty(this.props.editSeason)}
+								isSubmitting={this.state.isSubmitting}
+								title="Update Event"
+							/>
+						</Fragment>
+					)}
 				</form>
 			</FormContainer>
 		</Card>

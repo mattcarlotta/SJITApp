@@ -7,6 +7,28 @@ describe("Parse Fields Helper", () => {
 		expect(nextFields).toEqual("Error: You must supply an array of fields!");
 	});
 
+	it("doesn't parse empty callTime values", () => {
+		const fields = [
+			{
+				name: "callTime1",
+				type: "time",
+				value: moment(new Date("2019-12-17T01:00:00")),
+			},
+			{
+				name: "callTime2",
+				type: "time",
+				value: "",
+			},
+		];
+
+		const nextFields = parsedFields(fields);
+		expect(nextFields).toEqual(
+			expect.objectContaining({
+				callTimes: ["2019-12-17T01:00:00-08:00"],
+			}),
+		);
+	});
+
 	it("parses an array of fields", () => {
 		const fields = [
 			{

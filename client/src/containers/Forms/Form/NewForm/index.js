@@ -4,13 +4,8 @@ import isEmpty from "lodash/isEmpty";
 import { Card } from "antd";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
-import {
-	BackButton,
-	FormContainer,
-	Spinner,
-	SubmitButton,
-} from "components/Body";
-import { FieldGenerator, FormTitle } from "components/Forms";
+import { BackButton, FormContainer, SubmitButton } from "components/Body";
+import { FieldGenerator, FormTitle, LoadingForm } from "components/Forms";
 import { fetchSeasonsIds } from "actions/Seasons";
 import { createForm } from "actions/Forms";
 import { fieldValidator, fieldUpdater, parseFields } from "utils";
@@ -82,7 +77,7 @@ export class NewForm extends Component {
 				/>
 				<form onSubmit={this.handleSubmit}>
 					{this.state.isLoading ? (
-						<Spinner />
+						<LoadingForm rows={4} />
 					) : (
 						<Fragment>
 							<FieldGenerator
