@@ -7,6 +7,7 @@ import {
 	Dashboard,
 	EditAuthorization,
 	EditEvent,
+	EditForm,
 	EditSeason,
 	NewEvent,
 	NewForm,
@@ -41,6 +42,7 @@ const AppRoutes = ({ match: { url }, role }) =>
 			<Route exact path={`${url}/events/edit/:id`} component={EditEvent} />
 			<Route exact path={`${url}/events/viewall`} component={ViewEvents} />
 			<Route exact path={`${url}/forms/create`} component={NewForm} />
+			<Route exact path={`${url}/forms/edit/:id`} component={EditForm} />
 			<Route exact path={`${url}/forms/viewall`} component={ViewForms} />
 			<Route exact path={`${url}/members/create`} component={NewMember} />
 			<Route

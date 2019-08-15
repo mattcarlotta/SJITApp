@@ -2,7 +2,7 @@ import { push } from "connected-react-router";
 import { all, put, call, takeLatest } from "redux-saga/effects";
 import { app } from "utils";
 import { hideServerMessage, setServerMessage } from "actions/Messages";
-import { setForms } from "actions/Forms";
+import { setForms, setFormToEdit } from "actions/Forms";
 import { parseData, parseMessage } from "utils/parseResponse";
 import * as types from "types";
 
@@ -73,6 +73,41 @@ export function* deleteForm({ formId }) {
 }
 
 /**
+ * Attempts to get form for editing.
+ *
+ * @generator
+ * @function fetchEvent
+ * @param {object} formId
+ * @yields {object} - A response from a call to the API.
+ * @function parseData - Returns a parsed res.data (form data).
+ * @yields {object} - A response from a call to the API.
+ * @function parseData - Returns a parsed res.data (seasonIds data).
+ * @yields {action} - A redux action to set event data to redux state.
+ * @throws {action} - A redux action to display a server message by type.
+ */
+
+export function* fetchForm({ formId }) {
+	try {
+		yield put(hideServerMessage());
+
+		let res = yield call(app.get, `form/edit/${formId}`);
+		const forms = yield call(parseData, res);
+
+		res = yield call(app.get, "seasons/all/ids");
+		const seasons = yield call(parseData, res);
+
+		yield put(
+			setFormToEdit({
+				...forms.form,
+				seasonIds: seasons.seasonIds,
+			}),
+		);
+	} catch (e) {
+		yield put(setServerMessage({ type: "error", message: e.toString() }));
+	}
+}
+
+/**
  * Attempts to get all forms.
  *
  * @generator
@@ -95,6 +130,39 @@ export function* fetchForms() {
 }
 
 /**
+ * Attempts to update an existing event.
+ *
+ * @generator
+ * @function updateForm
+ * @param {object} props - contains event data ([_id, seasonId, startMonth, startDate, expirationDate]).
+ * @yields {object} - A response from a call to the API.
+ * @function parseMessage - Returns a parsed res.data.message.
+ * @yields {action} - A redux action to display a server message by type.
+ * @yields {action} - A redux action to push to a URL.
+ * @throws {action} - A redux action to display a server message by type.
+ */
+
+export function* updateForm({ props }) {
+	try {
+		yield put(hideServerMessage());
+
+		const res = yield call(app.put, "form/update", { ...props });
+		const message = yield call(parseMessage, res);
+
+		yield put(
+			setServerMessage({
+				type: "success",
+				message,
+			}),
+		);
+
+		yield put(push("/employee/forms/viewall"));
+	} catch (e) {
+		yield put(setServerMessage({ type: "error", message: e.toString() }));
+	}
+}
+
+/**
  * Creates watchers for all generators.
  *
  * @generator
@@ -105,8 +173,8 @@ export default function* formsSagas() {
 	yield all([
 		takeLatest(types.FORMS_CREATE, createForm),
 		takeLatest(types.FORMS_DELETE, deleteForm),
-		// takeLatest(types.EVENTS_EDIT, fetchEvent),
+		takeLatest(types.FORMS_EDIT, fetchForm),
 		takeLatest(types.FORMS_FETCH, fetchForms),
-		// takeLatest(types.EVENTS_UPDATE, updateEvent),
+		takeLatest(types.FORMS_UPDATE, updateForm),
 	]);
 }

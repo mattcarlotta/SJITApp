@@ -1,21 +1,18 @@
+/* istanbul ignore file */
 /* eslint-disable no-console */
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
 class DisplayTeam extends Component {
-	constructor(props) {
-		super(props);
-
-		this.controller = new AbortController();
-
-		this.state = {
-			loadedFile: "",
-		};
-	}
+	state = {
+		loadedFile: "",
+	};
 
 	componentDidMount = () => this.importFile();
 
-	componentWillUnmount = () => this.controller.abort();
+	componentWillUnmount = () => (this.cancelImport = true);
+
+	cancelImport = false;
 
 	importFile = async () => {
 		try {
@@ -23,7 +20,7 @@ class DisplayTeam extends Component {
 				/* webpackMode: "lazy" */ `images/lowres/${this.props.team}.png`
 			);
 
-			if (!this.controller.signal.aborted) this.setState({ loadedFile: file });
+			if (!this.cancelImport) this.setState({ loadedFile: file });
 		} catch (err) {
 			console.error(err.toString());
 		}

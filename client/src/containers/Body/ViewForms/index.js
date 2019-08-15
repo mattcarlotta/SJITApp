@@ -4,7 +4,7 @@ import Helmet from "react-helmet";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import { Card } from "antd";
-import { FaUserPlus } from "react-icons/fa";
+import { MdNoteAdd } from "react-icons/md";
 import {
 	Button,
 	DisplayDate,
@@ -51,7 +51,7 @@ export const ViewForms = ({ data, deleteForm, fetchForms, push }) => (
 					style={{ marginBottom: 20 }}
 					onClick={() => push("/employee/forms/create")}
 				>
-					<FaUserPlus style={{ position: "relative", top: 2 }} />
+					<MdNoteAdd style={{ position: "relative", top: 4, fontSize: 20 }} />
 					&nbsp; Add Form
 				</Button>
 			</FlexEnd>

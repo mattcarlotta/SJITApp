@@ -28,17 +28,17 @@ export const deleteForm = formId => ({
 /**
  * Fetches a single event.
  *
- * @function fetchEvent
- * @param {string} eventId
+ * @function fetchForm
+ * @param {string} formId
  * @returns {object}
  */
-// export const fetchEvent = eventId => ({
-// 	type: types.EVENTS_EDIT,
-// 	eventId,
-// });
+export const fetchForm = formId => ({
+	type: types.FORMS_EDIT,
+	formId,
+});
 
 /**
- * Fetches all events.
+ * Fetches all forms.
  *
  * @function fetchForms
  * @returns {object}
@@ -62,23 +62,23 @@ export const setForms = data => ({
 /**
  * Sets a single season to redux state for editing.
  *
- * @function setEventToEdit
- * @param {object} data - contains event data ({_id, league, eventType,location,	callTimes, uniform,		seasonId, eventDate, notes, employeeResponses, scheduledEmployees}).
+ * @function setFormToEdit
+ * @param {object} data - contains event data ([_id, seasonId, startMonth, startDate, expirationDate]).
  * @returns {object}
  */
-// export const setEventToEdit = data => ({
-// 	type: types.EVENTS_SET_EDIT,
-// 	payload: !isEmpty(data) ? data : {},
-// });
+export const setFormToEdit = data => ({
+	type: types.FORMS_SET_EDIT,
+	payload: !isEmpty(data) ? data : {},
+});
 
 /**
- * Updates a single event.
+ * Updates a single form.
  *
- * @function updateEvent
- * @param {object} data - contains event data ({_id, league, eventType,location,	callTimes, uniform,		seasonId, eventDate, notes, employeeResponses, scheduledEmployees}).
+ * @function updateForm
+ * @param {object} data - contains event data ([_id, seasonId, startMonth, startDate, expirationDate])
  * @returns {object}
  */
-// export const updateEvent = props => ({
-// 	type: types.EVENTS_UPDATE,
-// 	props,
-// });
+export const updateForm = props => ({
+	type: types.FORMS_UPDATE,
+	props,
+});

@@ -54,7 +54,7 @@ const Selection = ({
 			</DisplayOption>
 			{!isSearchable ? (
 				<ChevronIcon isVisible={isVisible} />
-			) : !value ? (
+			) : !value && !searchText ? (
 				<Icon style={searchStyle} type="search" />
 			) : (
 				<Icon

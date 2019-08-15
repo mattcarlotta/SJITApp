@@ -3,6 +3,7 @@ import {
 	Dashboard,
 	EditAuthorization,
 	EditEvent,
+	EditForm,
 	EditSeason,
 	NewEvent,
 	NewForm,
@@ -43,8 +44,8 @@ describe("Application routes", () => {
 	});
 
 	describe("Staff and Admin routes", () => {
-		it("initially renders 21 routes", () => {
-			expect(wrapper.find("Route")).toHaveLength(21);
+		it("initially renders 22 routes", () => {
+			expect(wrapper.find("Route")).toHaveLength(22);
 		});
 
 		it("routes to Dashboard", () => {
@@ -85,6 +86,14 @@ describe("Application routes", () => {
 					.find("Route[exact=true][path='/employee/forms/create']")
 					.prop("component"),
 			).toBe(NewForm);
+		});
+
+		it("routes to EditForm", () => {
+			expect(
+				wrapper
+					.find("Route[exact=true][path='/employee/forms/edit/:id']")
+					.prop("component"),
+			).toBe(EditForm);
 		});
 
 		it("routes to ViewForms", () => {
@@ -215,7 +224,7 @@ describe("Application routes", () => {
 			expect(
 				wrapper
 					.find("Route")
-					.at(20)
+					.at(21)
 					.prop("component"),
 			).toBe(AppPageNotFound);
 		});

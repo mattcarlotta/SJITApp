@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 const LoadingForm = ({ className, rows }) => {
-	const inputs = Array.from({ length: rows }, (_, k) => k + 1);
+	const inputs = [...Array(rows).keys()];
 
 	return (
 		<div className={className}>

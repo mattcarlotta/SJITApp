@@ -1,9 +1,11 @@
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
+import { FaSearchLocation } from "react-icons/fa";
 import DropContainer from "./DropContainer";
 import Option from "./Option";
 import OptionsContainer from "./OptionsContainer";
+import NoOptions from "./NoOptions";
 
 class SelectOptionsContainer extends PureComponent {
 	componentDidUpdate = prevProps => {
@@ -69,7 +71,12 @@ class SelectOptionsContainer extends PureComponent {
 							/>
 						))
 					) : (
-						<div className="no-options">No options</div>
+						<NoOptions>
+							<FaSearchLocation
+								style={{ position: "relative", top: 4, marginRight: 5 }}
+							/>
+							<span>Oops! No results were found.</span>
+						</NoOptions>
 					)}
 				</OptionsContainer>
 			</DropContainer>

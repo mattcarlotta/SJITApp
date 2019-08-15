@@ -11,6 +11,7 @@ export { default as EditEventForm } from "./Event/EditEventForm";
 export { default as NewEventForm } from "./Event/NewEventForm";
 
 // form
+export { default as EditForm } from "./Form/EditForm";
 export { default as NewForm } from "./Form/NewForm";
 
 // member

@@ -115,14 +115,19 @@ const unableToDeleteMember = "Unable to delete that member. It doesn't exist.";
 
 const unableToLocateEvent = "Unable to locate that event. It doesn't exist.";
 
+const unableToLocateForm = "Unable to locate that form. It doesn't exist.";
+
 const unableToLocateMember = "Unable to locate that member. It doesn't exist.";
 
 const unableToLocateSeason = "Unable to locate that season. It doesn't exist.";
 
 const unableToLocateToken = "Unable to locate that token. It doesn't exist.";
 
+const unableToUpdateForm =
+  "Unable to update the existing form. You must provide a model id, season id, start of month date, end of month date, and expiration date.";
+
 const unableToUpdateSeason =
-  "Unable to update the existing season. You must provide a model id, seasonId, startDate, and endDate.";
+  "Unable to update the existing season. You must provide a model id, season id, start date, and end date.";
 
 const unableToUpdateToken =
   "Unable to update this authorization key. The key has already been used and is associated with an active account.";
@@ -171,9 +176,11 @@ export {
   unableToDeleteMember,
   unableToDeleteSeason,
   unableToLocateEvent,
+  unableToLocateForm,
   unableToLocateMember,
   unableToLocateSeason,
   unableToLocateToken,
+  unableToUpdateForm,
   unableToUpdateSeason,
   unableToUpdateToken,
 };
