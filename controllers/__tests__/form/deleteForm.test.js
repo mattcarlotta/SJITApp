@@ -1,8 +1,8 @@
-import { User } from "models";
-import { deleteMember } from "controllers/member";
-import { missingMemberId, unableToDeleteMember } from "shared/authErrors";
+import { Form } from "models";
+import { deleteForm } from "controllers/form";
+import { missingFormId, unableToDeleteForm } from "shared/authErrors";
 
-describe("Delete Member Controller", () => {
+describe("Delete Form Controller", () => {
   let res;
   beforeEach(() => {
     res = mockResponse();
@@ -21,38 +21,38 @@ describe("Delete Member Controller", () => {
     const id = "";
     const req = mockRequest(null, null, null, null, { id });
 
-    await deleteMember(req, res);
+    await deleteForm(req, res);
 
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith({
-      err: missingMemberId,
+      err: missingFormId,
     });
   });
 
-  it("handles invalid delete member requests", async () => {
+  it("handles invalid delete form requests", async () => {
     const id = "5d36409b0aa1b50ba8f926dc";
     const req = mockRequest(null, null, null, null, { id });
 
-    await deleteMember(req, res);
+    await deleteForm(req, res);
 
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith({
-      err: unableToDeleteMember,
+      err: unableToDeleteForm,
     });
   });
 
-  it("handles valid delete member requests", async () => {
-    const existingMember = await User.findOne({ email: "member5@example.com" });
+  it("handles valid delete form requests", async () => {
+    const existingForm = await Form.findOne({ notes: "Form 2" });
 
     const req = mockRequest(null, null, null, null, {
-      id: existingMember._id,
+      id: existingForm._id,
     });
 
-    await deleteMember(req, res);
+    await deleteForm(req, res);
 
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.json).toHaveBeenCalledWith({
-      message: "Successfully deleted the member.",
+      message: "Successfully deleted the form.",
     });
   });
 });

@@ -74,7 +74,7 @@ const deleteToken = async (req, res) => {
     await Token.deleteOne({ _id });
 
     res
-      .status(201)
+      .status(200)
       .json({ message: "Successfully deleted the authorization key." });
   } catch (err) {
     return sendError(err, res);
@@ -109,9 +109,10 @@ const getToken = async (req, res) => {
 
 const updateToken = async (req, res) => {
   try {
-    const { _id, authorizedEmail, role, seasonId } = req.body;
-    if (!_id || !authorizedEmail || !role || !seasonId)
-      throw missingUpdateTokenParams;
+    const {
+      _id, authorizedEmail, role, seasonId,
+    } = req.body;
+    if (!_id || !authorizedEmail || !role || !seasonId) throw missingUpdateTokenParams;
 
     const existingToken = await Token.findOne({ _id });
     if (!existingToken) throw unableToLocateToken;
@@ -143,4 +144,6 @@ const updateToken = async (req, res) => {
   }
 };
 
-export { createToken, deleteToken, getAllTokens, getToken, updateToken };
+export {
+  createToken, deleteToken, getAllTokens, getToken, updateToken,
+};

@@ -19,7 +19,7 @@ const deleteMember = async (req, res) => {
 
     await existingUser.delete();
 
-    res.status(201).json({ message: "Successfully deleted the member." });
+    res.status(200).json({ message: "Successfully deleted the member." });
   } catch (err) {
     return sendError(err, res);
   }
@@ -63,9 +63,10 @@ const getMember = async (req, res) => {
 
 const updateMember = async (req, res) => {
   try {
-    const { _id, email, firstName, lastName, role } = req.body;
-    if (!_id || !email || !firstName || !lastName || !role)
-      throw missingUpdateMemberParams;
+    const {
+      _id, email, firstName, lastName, role,
+    } = req.body;
+    if (!_id || !email || !firstName || !lastName || !role) throw missingUpdateMemberParams;
 
     const existingMember = await User.findOne({ _id });
     if (!existingMember) throw unableToLocateMember;

@@ -60,14 +60,14 @@ describe("Update Token Controller", () => {
     });
   });
 
-  it("handles attempts to update to an email that already exists", async () => {
-    const emailInUse = await Token.findOne({
-      email: "carlotta.matt@gmail.com",
+  it("handles attempts to update a token with an email that already exists", async () => {
+    const existingToken = await Token.findOne({
+      authorizedEmail: "member55@example.com",
     });
 
     const usedTokenId = {
-      _id: emailInUse._id,
-      authorizedEmail: "",
+      _id: existingToken._id,
+      authorizedEmail: "carlotta.matt@gmail.com",
       role: "staff",
       seasonId: "20412042",
     };

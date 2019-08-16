@@ -1,6 +1,8 @@
 /* eslint-disable no-console */
 import { connectDatabase } from "database";
-import { Event, User, Season, Team, Token } from "models";
+import {
+  Event, Form, User, Season, Team, Token,
+} from "models";
 import {
   createSignupToken,
   createRandomToken,
@@ -139,6 +141,15 @@ const seedDB = async () => {
     });
 
     const newHire = {
+      authorizedEmail: "carlotta.matt@gmail.com",
+      email: "carlotta.matt@gmail.com",
+      role: "admin",
+      seasonId: newSeason.seasonId,
+      token: createSignupToken(),
+      expiration: expirationDate().toDate(),
+    };
+
+    const newHire1 = {
       authorizedEmail: "member@example.com",
       email: "member@example.com",
       role: "member",
@@ -147,7 +158,18 @@ const seedDB = async () => {
       expiration: expirationDate().toDate(),
     };
 
+    const newHire2 = {
+      authorizedEmail: "member55@example.com",
+      email: "",
+      role: "member",
+      seasonId: newSeason.seasonId,
+      token: createSignupToken(),
+      expiration: expirationDate().toDate(),
+    };
+
     await Token.create(newHire);
+    await Token.create(newHire1);
+    await Token.create(newHire2);
 
     const adminPassword = await User.createPassword(password);
 
@@ -248,6 +270,16 @@ const seedDB = async () => {
       status: "active",
     };
 
+    const member9 = {
+      email: "member9@example.com",
+      password: memberPassword,
+      firstName: "Member9",
+      lastName: "Member9",
+      role: "employee",
+      token: createRandomToken(),
+      status: "active",
+    };
+
     await User.create(administrator);
     await User.create(staffMember);
     await User.create(member);
@@ -258,6 +290,7 @@ const seedDB = async () => {
     await User.create(member6);
     await User.create(member7);
     await User.create(member8);
+    await User.create(member9);
 
     const newMember = await User.findOne({ email: member.email });
     const newMember2 = await User.findOne({ email: member2.email });
@@ -298,6 +331,34 @@ const seedDB = async () => {
     await Event.create(newEvent2);
 
     await Team.insertMany(teams);
+
+    const form1 = {
+      expirationDate: new Date("2000-08-10T07:00:00.000Z"),
+      startMonth: new Date("2000-08-01T07:00:00.000Z"),
+      endMonth: new Date("2000-08-31T07:00:00.000Z"),
+      notes: "Form 1",
+      seasonId: "20002001",
+    };
+
+    const form2 = {
+      expirationDate: new Date("2005-08-10T07:00:00.000Z"),
+      startMonth: new Date("2005-08-01T07:00:00.000Z"),
+      endMonth: new Date("2005-08-31T07:00:00.000Z"),
+      notes: "Form 2",
+      seasonId: "20052006",
+    };
+
+    const form3 = {
+      expirationDate: new Date("2011-08-10T07:00:00.000Z"),
+      startMonth: new Date("2011-08-01T07:00:00.000Z"),
+      endMonth: new Date("2011-08-31T07:00:00.000Z"),
+      notes: "Form 3",
+      seasonId: "20112012",
+    };
+
+    await Form.create(form1);
+    await Form.create(form2);
+    await Form.create(form3);
 
     await db.close();
 

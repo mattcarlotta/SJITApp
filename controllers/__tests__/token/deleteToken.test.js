@@ -89,7 +89,7 @@ describe("Delete Token Controller", () => {
 
     await deleteToken(req, res);
 
-    expect(res.status).toHaveBeenCalledWith(201);
+    expect(res.status).toHaveBeenCalledWith(200);
     expect(res.json).toHaveBeenCalledWith({
       message: "Successfully deleted the authorization key.",
     });

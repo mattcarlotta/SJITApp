@@ -12,7 +12,7 @@ jest.mock("services/strategies/requireStaffRole", () => jest.fn((req, res, done)
 describe("Get A Team Route", () => {
   it("routes requests to the getTeam controller", async () => {
     await app()
-      .get("/api/team/12345")
+      .get("/api/team/edit/12345")
       .then(() => {
         expect(requireStaffRole).toHaveBeenCalledTimes(1);
         expect(getTeam).toHaveBeenCalledTimes(1);

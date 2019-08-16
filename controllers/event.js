@@ -9,7 +9,6 @@ import {
 } from "shared/authErrors";
 
 const createEvent = async (req, res) => {
-  console.log(req.body);
   try {
     const {
       callTimes,
@@ -23,15 +22,14 @@ const createEvent = async (req, res) => {
       uniform,
     } = req.body;
     if (
-      !callTimes ||
-      !eventDate ||
-      !eventType ||
-      !location ||
-      !seasonId ||
-      !team ||
-      !uniform
-    )
-      throw invalidCreateEventRequest;
+      !callTimes
+      || !eventDate
+      || !eventType
+      || !location
+      || !seasonId
+      || !team
+      || !uniform
+    ) throw invalidCreateEventRequest;
 
     await Event.create({
       callTimes,
@@ -122,16 +120,15 @@ const updateEvent = async (req, res) => {
       uniform,
     } = req.body;
     if (
-      !_id ||
-      !callTimes ||
-      !eventDate ||
-      !eventType ||
-      !location ||
-      !seasonId ||
-      !team ||
-      !uniform
-    )
-      throw invalidUpdateEventRequest;
+      !_id
+      || !callTimes
+      || !eventDate
+      || !eventType
+      || !location
+      || !seasonId
+      || !team
+      || !uniform
+    ) throw invalidUpdateEventRequest;
 
     const existingEvent = await Event.findOne({ _id });
     if (!existingEvent) throw unableToLocateEvent;
@@ -154,4 +151,6 @@ const updateEvent = async (req, res) => {
   }
 };
 
-export { createEvent, deleteEvent, getAllEvents, getEvent, updateEvent };
+export {
+  createEvent, deleteEvent, getAllEvents, getEvent, updateEvent,
+};

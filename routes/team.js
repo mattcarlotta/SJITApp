@@ -14,5 +14,5 @@ export default app => {
   app.get("/api/teams/all/names", requireStaffRole, getAllTeamNames);
   app.get("/api/teams/all", requireStaffRole, getAllTeams);
   app.get("/api/team/edit/:id", requireStaffRole, getTeam);
-  app.put("/api/team/update/:id", requireStaffRole, updateTeam);
+  app.put("/api/team/update", requireStaffRole, updateTeam);
 };

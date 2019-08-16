@@ -11,13 +11,13 @@ const createTeam = async (req, res) => {
     const existingTeam = await Team.findOne({ name });
     if (existingTeam) throw teamAlreadyExists;
 
-    Team.create({
+    await Team.create({
       name,
       league,
       team,
     });
 
-    res.status(202).json({
+    res.status(201).json({
       message: `Successfully added the ${team} to the ${league}.`,
     });
   } catch (err) {
