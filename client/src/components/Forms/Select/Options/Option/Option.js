@@ -1,4 +1,4 @@
-import React, { forwardRef } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 
 const Option = ({ className, onClick, onKeyPress, name, value }) => (
