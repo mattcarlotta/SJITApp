@@ -62,3 +62,14 @@ export const eventsData = [
 		uniform: "Barracuda Jersey",
 	},
 ];
+
+export const formData = [
+	{
+		_id: "0123456789",
+		seasonId: "20192020",
+		startMonth: "2019-08-01T07:00:00.000Z",
+		endMonth: "2019-09-01T06:59:59.000Z",
+		expirationDate: "2019-08-08T06:59:00.000Z",
+		notes: "Test",
+	},
+];

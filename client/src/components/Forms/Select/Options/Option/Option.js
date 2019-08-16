@@ -1,4 +1,4 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import PropTypes from "prop-types";
 
 const Option = ({ className, onClick, onKeyPress, name, value }) => (
@@ -16,7 +16,7 @@ const Option = ({ className, onClick, onKeyPress, name, value }) => (
 );
 
 Option.propTypes = {
-	className: PropTypes.string.isRequired,
+	className: PropTypes.string,
 	onClick: PropTypes.func.isRequired,
 	onKeyPress: PropTypes.func.isRequired,
 	name: PropTypes.string.isRequired,

@@ -7,7 +7,7 @@ import { hideServerMessage, setServerMessage } from "actions/Messages";
 import * as sagas from "sagas/Events";
 import * as mocks from "sagas/__mocks__/sagas.mocks";
 import messageReducer from "reducers/Messages";
-import memberReducer from "reducers/Events";
+import eventReducer from "reducers/Events";
 import { parseData, parseMessage } from "utils/parseResponse";
 
 const eventId = "0123456789";
@@ -183,7 +183,7 @@ describe("Event Sagas", () => {
 
 			return expectSaga(sagas.fetchEvent, { eventId })
 				.dispatch(actions.fetchEvent)
-				.withReducer(memberReducer)
+				.withReducer(eventReducer)
 				.hasFinalState({
 					data: [],
 					editEvent: {
@@ -237,7 +237,7 @@ describe("Event Sagas", () => {
 
 			return expectSaga(sagas.fetchEvents)
 				.dispatch(actions.fetchEvents)
-				.withReducer(memberReducer)
+				.withReducer(eventReducer)
 				.hasFinalState({
 					data: mocks.eventsData,
 					editEvent: {},
@@ -307,7 +307,7 @@ describe("Event Sagas", () => {
 
 			return expectSaga(sagas.initializeNewEvent)
 				.dispatch(actions.initializeNewEvent)
-				.withReducer(memberReducer)
+				.withReducer(eventReducer)
 				.hasFinalState({
 					data: [],
 					editEvent: {},

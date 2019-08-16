@@ -89,6 +89,24 @@ describe("Events Actions", () => {
 		});
 	});
 
+	it("returns EVENTS_SET_NEW_EVENT with an empty object if data is empty", () => {
+		const value = actions.setNewEvent({});
+
+		expect(value).toEqual({
+			type: types.EVENTS_SET_NEW_EVENT,
+			payload: {},
+		});
+	});
+
+	it("returns EVENTS_SET_NEW_EVENT with data", () => {
+		const value = actions.setNewEvent({ ...data });
+
+		expect(value).toEqual({
+			type: types.EVENTS_SET_NEW_EVENT,
+			payload: { ...data },
+		});
+	});
+
 	it("returns EVENTS_UPDATE with props", () => {
 		const props = data;
 

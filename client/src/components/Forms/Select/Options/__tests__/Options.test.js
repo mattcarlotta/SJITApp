@@ -7,7 +7,8 @@ const initProps = {
 	isVisible: false,
 	name: "test",
 	selected: "",
-	selectOptions: ["option1", "option2"],
+	searchText: "",
+	selectOptions: ["Ducks", "Kings"],
 };
 
 describe("Options", () => {
@@ -29,17 +30,17 @@ describe("Options", () => {
 			expect(
 				wrapper
 					.find("Option")
-					.first()
+					.at(1)
 					.find("div")
 					.text(),
-			).toContain("option1");
+			).toContain("Ducks");
 			expect(
 				wrapper
 					.find("Option")
-					.at(2)
+					.at(3)
 					.find("div")
 					.text(),
-			).toContain("option2");
+			).toContain("Kings");
 		});
 
 		it("calls handleOptionSelect when clicked or when enter is pressed", () => {
@@ -47,7 +48,7 @@ describe("Options", () => {
 			const target = {
 				dataset: {
 					name: "test",
-					value: "option1",
+					value: "Ducks",
 				},
 			};
 
@@ -58,7 +59,24 @@ describe("Options", () => {
 			expect(handleOptionSelect).toHaveBeenCalledTimes(2);
 		});
 
-		describe("individual Option", () => {
+		it("filters the options by searchText", () => {
+			wrapper.setProps({ searchText: "option3" });
+
+			expect(wrapper.find("Option")).toHaveLength(0);
+			expect(wrapper.find("NoOptions").exists()).toBeTruthy();
+		});
+
+		it("calls handleScroll when an option has been selected", () => {
+			const spy = jest.spyOn(wrapper.instance(), "handleScroll");
+
+			wrapper.setProps({ selected: "Ducks" });
+			wrapper.setProps({ isVisible: false });
+
+			expect(spy).toHaveBeenCalledTimes(1);
+			spy.mockRestore();
+		});
+
+		describe("Individual Option", () => {
 			let optionNode;
 			beforeEach(() => {
 				optionNode = () =>
@@ -80,7 +98,7 @@ describe("Options", () => {
 			});
 
 			it("highlights the selected option", () => {
-				wrapper.setProps({ value: "option1", selected: "option1" });
+				wrapper.setProps({ value: "Ducks", selected: "Ducks" });
 
 				expect(optionNode()).toHaveStyleRule("color", "#0f7ae5");
 				expect(optionNode()).toHaveStyleRule("background-color", "#f3f3f3");

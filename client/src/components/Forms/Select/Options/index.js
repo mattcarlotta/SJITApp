@@ -20,6 +20,7 @@ class SelectOptionsContainer extends PureComponent {
 		const { selected } = this.props;
 		const element = document.getElementById(selected);
 
+		/* istanbul ignore next */
 		if (element)
 			element.scrollIntoView({
 				behavior: "auto",

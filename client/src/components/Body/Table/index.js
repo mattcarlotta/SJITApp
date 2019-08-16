@@ -31,6 +31,7 @@ class CustomTable extends Component {
 		nextProps.data !== this.props.data ||
 		nextState.isLoading !== this.state.isLoading;
 
+	/* istanbul ignore next */
 	componentWillUnmount = () => clearTimeout(this.timeout);
 
 	clearTimer = () => {

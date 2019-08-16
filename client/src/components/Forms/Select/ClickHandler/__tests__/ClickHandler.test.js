@@ -9,6 +9,13 @@ const event = {
 	},
 };
 
+const clearValue = {
+	target: {
+		name: "test",
+		value: "",
+	},
+};
+
 const eventListener = {};
 document.addEventListener = (evt, cb) => (eventListener[evt] = cb);
 document.removeEventListener = jest.fn();
@@ -20,8 +27,27 @@ describe("Click Handler", () => {
 		wrapper = mount(
 			<div>
 				<ClickHandler onChange={onChange}>
-					{({ isVisible, handleSelectClick, handleOptionSelect }) => (
+					{({
+						isVisible,
+						handleInputChange,
+						handleSelectClick,
+						handleOptionSelect,
+						handleSearchClear,
+						searchText,
+					}) => (
 						<div className="wrapper">
+							<input
+								type="text"
+								value={searchText}
+								onChange={handleInputChange}
+							/>
+							<button
+								type="button"
+								className="clear"
+								onClick={() => handleSearchClear(clearValue)}
+							>
+								Clear Search
+							</button>
 							{isVisible ? (
 								<div
 									tabIndex={0}
@@ -144,6 +170,24 @@ describe("Click Handler", () => {
 			});
 
 		expect(wrapper.find("ClickHandler").state("isVisible")).toBeTruthy();
+	});
+
+	it("updates searchText with a value and opens the options menu", () => {
+		const value = "hello";
+		wrapper.find("input").simulate("change", { target: { value } });
+
+		expect(wrapper.find("input").props().value).toEqual(value);
+		expect(wrapper.find("ClickHandler").state("searchText")).toEqual(value);
+		expect(wrapper.find("ClickHandler").state("isVisible")).toBeTruthy();
+	});
+
+	it("clears searchText when a button is clicked and calls onChange with props", () => {
+		wrapper.find("input").simulate("change", { target: { value: "hello" } });
+
+		wrapper.find("button").simulate("click");
+
+		expect(wrapper.find("ClickHandler").state("searchText")).toEqual("");
+		expect(onChange).toHaveBeenCalledWith(clearValue);
 	});
 
 	it("removes the event listeners on unmount", () => {
