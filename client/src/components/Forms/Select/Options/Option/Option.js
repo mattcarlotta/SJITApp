@@ -16,7 +16,7 @@ const Option = ({ className, onClick, onKeyPress, name, value }) => (
 );
 
 Option.propTypes = {
-	className: PropTypes.string,
+	className: PropTypes.string.isRequired,
 	onClick: PropTypes.func.isRequired,
 	onKeyPress: PropTypes.func.isRequired,
 	name: PropTypes.string.isRequired,
