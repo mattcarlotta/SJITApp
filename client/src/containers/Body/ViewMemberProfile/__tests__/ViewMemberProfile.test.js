@@ -54,20 +54,20 @@ describe("View Member Profile", () => {
 		expect(wrapper.find("TabPane")).toHaveLength(4);
 	});
 
-	it("pushes back to the members table if viewMember is empty and a server message is visible", () => {
-		wrapper.setProps({
-			serverMessage: "Unable to locate that member.",
-		});
-
-		expect(push).toHaveBeenCalledWith("/employee/members/viewall");
-	});
-
-	it("doesn't push back to the members table if viewMember is present, but a server message is visible", () => {
-		wrapper.setProps({
-			viewMember,
-			serverMessage: "Unable to submit the form.",
-		});
-
-		expect(push).toHaveBeenCalledTimes(0);
-	});
+	// it("pushes back to the members table if viewMember is empty and a server message is visible", () => {
+	// 	wrapper.setProps({
+	// 		serverMessage: "Unable to locate that member.",
+	// 	});
+	//
+	// 	expect(push).toHaveBeenCalledWith("/employee/members/viewall");
+	// });
+	//
+	// it("doesn't push back to the members table if viewMember is present, but a server message is visible", () => {
+	// 	wrapper.setProps({
+	// 		viewMember,
+	// 		serverMessage: "Unable to submit the form.",
+	// 	});
+	//
+	// 	expect(push).toHaveBeenCalledTimes(0);
+	// });
 });

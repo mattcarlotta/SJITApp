@@ -105,23 +105,32 @@ const unableToCreateNewSeason =
 const unableToCreateTeam =
   "Unable to create a new team. You must provide the league and team name fields.";
 
-const unableToDeleteEvent = "Unable to delete that event. It doesn't exist.";
+const unableToDeleteEvent =
+  "Unable to delete that event. That event doesn't exist.";
 
-const unableToDeleteForm = "Unable to delete that form. It doesn't exist.";
+const unableToDeleteForm =
+  "Unable to delete that form. That form doesn't exist.";
 
-const unableToDeleteSeason = "Unable to delete that season. It doesn't exist.";
+const unableToDeleteSeason =
+  "Unable to delete that season. That season doesn't exist.";
 
-const unableToDeleteMember = "Unable to delete that member. It doesn't exist.";
+const unableToDeleteMember =
+  "Unable to delete that member. That member doesn't exist.";
 
-const unableToLocateEvent = "Unable to locate that event. It doesn't exist.";
+const unableToLocateEvent =
+  "Unable to locate that event. That event doesn't exist.";
 
-const unableToLocateForm = "Unable to locate that form. It doesn't exist.";
+const unableToLocateForm =
+  "Unable to locate that form. That form doesn't exist.";
 
-const unableToLocateMember = "Unable to locate that member. It doesn't exist.";
+const unableToLocateMember =
+  "Unable to locate that member. That member doesn't exist.";
 
-const unableToLocateSeason = "Unable to locate that season. It doesn't exist.";
+const unableToLocateSeason =
+  "Unable to locate that season. That season doesn't exist.";
 
-const unableToLocateToken = "Unable to locate that token. It doesn't exist.";
+const unableToLocateToken =
+  "Unable to locate that token. That authorization key doesn't exist.";
 
 const unableToUpdateApForm =
   "Unable to update the A/P form. You must provide a model id and all responses.";

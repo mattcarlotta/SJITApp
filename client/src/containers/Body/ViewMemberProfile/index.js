@@ -6,6 +6,7 @@ import { push } from "connected-react-router";
 import { connect } from "react-redux";
 import { Card, Icon, Tabs } from "antd";
 import { FaUserCircle, FaChartBar, FaReply, FaClock } from "react-icons/fa";
+import { hideServerMessage } from "actions/Messages";
 import { fetchMember, updateMemberStatus } from "actions/Members";
 import { BackButton, PaneBody, Spinner } from "components/Body";
 import Profile from "./Profile";
@@ -44,25 +45,18 @@ const scheduling = (
 
 export class ViewMemberProfile extends PureComponent {
 	componentDidMount = () => {
-		const { id } = this.props.match.params;
+		const { hideServerMessage, fetchMember, match, serverMessage } = this.props;
 
-		this.props.fetchMember(id);
-	};
+		const { id } = match.params;
+		fetchMember(id);
 
-	componentDidUpdate = prevProps => {
-		if (
-			isEmpty(this.props.viewMember) &&
-			prevProps.serverMessage !== this.props.serverMessage
-		) {
-			this.props.push("/employee/members/viewall");
-		}
+		if (serverMessage) hideServerMessage();
 	};
 
 	render = () => {
 		const { push, viewMember, updateMemberStatus } = this.props;
 
 		const { eventResponses, schedule, status } = viewMember;
-		console.log(viewMember);
 
 		return (
 			<Fragment>
@@ -109,6 +103,7 @@ export class ViewMemberProfile extends PureComponent {
 
 ViewMemberProfile.propTypes = {
 	fetchMember: PropTypes.func.isRequired,
+	hideServerMessage: PropTypes.func.isRequired,
 	match: PropTypes.shape({
 		params: PropTypes.shape({
 			id: PropTypes.string,
@@ -118,13 +113,22 @@ ViewMemberProfile.propTypes = {
 	viewMember: PropTypes.shape({
 		_id: PropTypes.string,
 		email: PropTypes.string,
-		events: PropTypes.any,
+		events: PropTypes.number,
 		firstName: PropTypes.string,
 		lastName: PropTypes.string,
 		registered: PropTypes.string,
 		role: PropTypes.string,
 		schedule: PropTypes.any,
 		status: PropTypes.string,
+		eventResponses: PropTypes.arrayOf(
+			PropTypes.shape({
+				eventDate: PropTypes.string,
+				notes: PropTypes.string,
+				opponent: PropTypes.string,
+				response: PropTypes.string,
+				team: PropTypes.string,
+			}),
+		),
 	}),
 	updateMemberStatus: PropTypes.func.isRequired,
 	serverMessage: PropTypes.string,
@@ -137,6 +141,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
 	fetchMember,
+	hideServerMessage,
 	push,
 	updateMemberStatus,
 };

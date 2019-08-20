@@ -51,7 +51,9 @@ export const localLogin = async (req, res, next) => {
 
   try {
     const existingUser = await new Promise((resolve, reject) => {
-      passport.authenticate("local-login", (err, user) => (err ? reject(err) : resolve(user)))(req, res, next);
+      passport.authenticate("local-login", (err, user) =>
+        err ? reject(err) : resolve(user),
+      )(req, res, next);
     });
 
     req.session.user = {

@@ -191,8 +191,6 @@ describe("Member Sagas", () => {
 
 			testSaga(sagas.fetchProfile, { memberId })
 				.next()
-				.put(hideServerMessage())
-				.next()
 				.call(app.get, `member/review/${memberId}`)
 				.next(res)
 				.call(parseData, res)

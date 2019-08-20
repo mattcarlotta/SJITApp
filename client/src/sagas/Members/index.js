@@ -125,13 +125,12 @@ export function* deleteToken({ tokenId }) {
 
 export function* fetchProfile({ memberId }) {
 	try {
-		yield put(hideServerMessage());
-
 		const res = yield call(app.get, `member/review/${memberId}`);
 		const data = yield call(parseData, res);
 
 		yield put(setMemberToReview(data));
 	} catch (e) {
+		yield put(push("/employee/members/viewall"));
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
 }
