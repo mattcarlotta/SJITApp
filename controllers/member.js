@@ -1,3 +1,4 @@
+import moment from "moment";
 import { Event, User } from "models";
 import { sendError } from "shared/helpers";
 import {
@@ -55,9 +56,38 @@ const getMember = async (req, res) => {
     );
     if (!existingMember) throw unableToLocateMember;
 
+    res.status(200).json({ member: existingMember });
+  } catch (err) {
+    return sendError(err, res);
+  }
+};
+
+const getMemberEvents = async (req, res) => {
+  try {
+    const { id: _id, selectedDate } = req.query;
+    if (!_id) throw missingMemberId;
+
+    const existingMember = await User.findOne(
+      { _id },
+      { password: 0, token: 0, events: 0 },
+    );
+    if (!existingMember) throw unableToLocateMember;
+
+    const currentDate = selectedDate ? selectedDate : Date.now();
+    const startMonth = moment(currentDate)
+      .startOf("month")
+      .toDate();
+    const endMonth = moment(currentDate)
+      .endOf("month")
+      .toDate();
+
     const events = await Event.aggregate([
       {
         $match: {
+          eventDate: {
+            $gte: startMonth,
+            $lte: endMonth,
+          },
           employeeResponses: { $elemMatch: { _id: existingMember._id } },
         },
       },
@@ -70,6 +100,7 @@ const getMember = async (req, res) => {
               team: "$team",
               opponent: "$opponent",
               eventDate: "$eventDate",
+              eventType: "$eventType",
               response: "$employeeResponses.response",
               notes: "$employeeResponses.notes",
             },
@@ -79,9 +110,7 @@ const getMember = async (req, res) => {
       { $project: { _id: 0, eventResponses: 1 } },
     ]);
 
-    res
-      .status(200)
-      .json({ member: { ...existingMember.toObject(), ...events[0] } });
+    res.status(200).json({ ...events[0] });
   } catch (err) {
     return sendError(err, res);
   }
@@ -140,6 +169,7 @@ export {
   deleteMember,
   getAllMembers,
   getMember,
+  getMemberEvents,
   updateMember,
   updateMemberStatus,
 };

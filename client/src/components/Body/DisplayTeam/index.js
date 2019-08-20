@@ -17,7 +17,7 @@ class DisplayTeam extends Component {
 	importFile = async () => {
 		try {
 			const { default: file } = await import(
-				/* webpackMode: "lazy" */ `images/lowres/${this.props.team}.png`
+				/* webpackMode: "lazy" */ `images/${this.props.folder}/${this.props.team}.png`
 			);
 
 			if (!this.cancelImport) this.setState({ loadedFile: file });
@@ -32,6 +32,7 @@ class DisplayTeam extends Component {
 }
 
 DisplayTeam.propTypes = {
+	folder: PropTypes.string.isRequired,
 	team: PropTypes.string.isRequired,
 };
 

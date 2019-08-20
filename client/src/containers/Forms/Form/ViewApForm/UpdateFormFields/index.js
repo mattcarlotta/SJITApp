@@ -11,11 +11,12 @@ export default (result, field, events) => {
 					name: _id,
 					label: (
 						<Fragment>
-							<DisplayFullDate date={eventDate} /> - <DisplayTeam team={team} />{" "}
+							<DisplayFullDate date={eventDate} /> -{" "}
+							<DisplayTeam folder="lowres" team={team} />{" "}
 							{opponent && (
 								<Fragment>
 									<span style={{ margin: "0 5px" }}>vs.</span>
-									<DisplayTeam team={opponent} />
+									<DisplayTeam folder="lowres" team={opponent} />
 									&nbsp;
 								</Fragment>
 							)}

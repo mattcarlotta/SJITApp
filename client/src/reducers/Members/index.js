@@ -5,6 +5,7 @@ export const initialState = {
 	tokens: [],
 	editToken: {},
 	viewMember: {},
+	eventResponses: [],
 };
 
 /**
@@ -22,12 +23,18 @@ const memberReducer = (state = initialState, { payload, type }) => {
 			return initialState;
 		case types.MEMBERS_SET:
 			return { ...state, data: payload.members };
+		case types.MEMBERS_SET_EVENTS:
+			return { ...state, eventResponses: payload.eventResponses };
 		case types.MEMBERS_SET_TOKENS:
 			return { ...state, tokens: payload.tokens };
 		case types.MEMBERS_SET_TOKEN:
 			return { ...state, editToken: payload };
 		case types.MEMBERS_SET_REVIEW:
-			return { ...state, viewMember: payload.member };
+			return {
+				...state,
+				viewMember: payload.member,
+				eventResponses: payload.eventResponses,
+			};
 		default:
 			return state;
 	}

@@ -2,6 +2,7 @@ import DisplayTeam from "../index";
 import SharksLogo from "images/lowres/San Jose Sharks.png";
 
 const initProps = {
+	folder: "lowres",
 	team: "San Jose Sharks",
 };
 

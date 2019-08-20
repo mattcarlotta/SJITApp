@@ -7,9 +7,14 @@ import { connect } from "react-redux";
 import { Card, Icon, Tabs } from "antd";
 import { FaUserCircle, FaChartBar, FaReply, FaClock } from "react-icons/fa";
 import { hideServerMessage } from "actions/Messages";
-import { fetchMember, updateMemberStatus } from "actions/Members";
+import {
+	fetchMember,
+	fetchMemberEvents,
+	updateMemberStatus,
+} from "actions/Members";
 import { BackButton, PaneBody, Spinner } from "components/Body";
 import Profile from "./Profile";
+import ResponseCalander from "./ResponseCalander";
 
 const Pane = Tabs.TabPane;
 
@@ -54,9 +59,15 @@ export class ViewMemberProfile extends PureComponent {
 	};
 
 	render = () => {
-		const { push, viewMember, updateMemberStatus } = this.props;
+		const {
+			eventResponses,
+			fetchMemberEvents,
+			push,
+			updateMemberStatus,
+			viewMember,
+		} = this.props;
 
-		const { eventResponses, schedule, status } = viewMember;
+		const { _id, schedule, status } = viewMember;
 
 		return (
 			<Fragment>
@@ -85,7 +96,11 @@ export class ViewMemberProfile extends PureComponent {
 							</Pane>
 							<Pane tab={responses} key="responses">
 								<PaneBody>
-									<p>Responses: {JSON.stringify(eventResponses)}</p>
+									<ResponseCalander
+										id={_id}
+										eventResponses={eventResponses}
+										fetchMemberEvents={fetchMemberEvents}
+									/>
 								</PaneBody>
 							</Pane>
 							<Pane tab={scheduling} key="schedule">
@@ -102,7 +117,18 @@ export class ViewMemberProfile extends PureComponent {
 }
 
 ViewMemberProfile.propTypes = {
+	eventResponses: PropTypes.arrayOf(
+		PropTypes.shape({
+			eventDate: PropTypes.string,
+			eventType: PropTypes.string,
+			notes: PropTypes.string,
+			opponent: PropTypes.string,
+			response: PropTypes.string,
+			team: PropTypes.string,
+		}),
+	),
 	fetchMember: PropTypes.func.isRequired,
+	fetchMemberEvents: PropTypes.func.isRequired,
 	hideServerMessage: PropTypes.func.isRequired,
 	match: PropTypes.shape({
 		params: PropTypes.shape({
@@ -120,27 +146,20 @@ ViewMemberProfile.propTypes = {
 		role: PropTypes.string,
 		schedule: PropTypes.any,
 		status: PropTypes.string,
-		eventResponses: PropTypes.arrayOf(
-			PropTypes.shape({
-				eventDate: PropTypes.string,
-				notes: PropTypes.string,
-				opponent: PropTypes.string,
-				response: PropTypes.string,
-				team: PropTypes.string,
-			}),
-		),
 	}),
 	updateMemberStatus: PropTypes.func.isRequired,
 	serverMessage: PropTypes.string,
 };
 
 const mapStateToProps = state => ({
+	eventResponses: state.members.eventResponses,
 	viewMember: state.members.viewMember,
 	serverMessage: state.server.message,
 });
 
 const mapDispatchToProps = {
 	fetchMember,
+	fetchMemberEvents,
 	hideServerMessage,
 	push,
 	updateMemberStatus,
