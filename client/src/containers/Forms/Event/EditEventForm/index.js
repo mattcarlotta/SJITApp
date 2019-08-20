@@ -25,11 +25,8 @@ export class EditEventForm extends Component {
 		isSubmitting: false,
 	};
 
-	static getDerivedStateFromProps = ({ serverMessage }) => {
-		if (serverMessage) return { isSubmitting: false };
-
-		return null;
-	};
+	static getDerivedStateFromProps = ({ serverMessage }) =>
+		serverMessage ? { isSubmitting: false } : null;
 
 	componentDidMount = () => {
 		const { id } = this.props.match.params;
@@ -152,7 +149,8 @@ export class EditEventForm extends Component {
 EditEventForm.propTypes = {
 	editEvent: PropTypes.shape({
 		_id: PropTypes.string,
-		league: PropTypes.string,
+		team: PropTypes.string,
+		opponent: PropTypes.string,
 		eventType: PropTypes.string,
 		location: PropTypes.string,
 		callTimes: PropTypes.arrayOf(PropTypes.string),

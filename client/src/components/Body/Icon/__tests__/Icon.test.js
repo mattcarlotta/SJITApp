@@ -20,7 +20,7 @@ describe("Icon", () => {
 		expect(wrapper.find("FaCalendarAlt").exists()).toBeTruthy();
 
 		wrapper.setProps({ type: "erase" });
-		expect(wrapper.find("FaEraser").exists()).toBeTruthy();
+		expect(wrapper.find("FaTimesCircle").exists()).toBeTruthy();
 
 		wrapper.setProps({ type: "id" });
 		expect(wrapper.find("FaIdCard").exists()).toBeTruthy();

@@ -3,6 +3,8 @@ import * as types from "types";
 export const initialState = {
 	data: [],
 	editForm: {},
+	events: [],
+	viewForm: {},
 };
 
 /**
@@ -18,6 +20,8 @@ const formReducer = (state = initialState, { payload, type }) => {
 			return initialState;
 		case types.FORMS_SET:
 			return { ...state, data: payload.forms };
+		case types.FORMS_SET_AP:
+			return { ...state, viewForm: payload.form, events: payload.events };
 		case types.FORMS_SET_EDIT:
 			return { ...state, editForm: payload };
 		default:

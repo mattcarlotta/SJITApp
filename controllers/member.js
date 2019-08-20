@@ -1,4 +1,4 @@
-import { User } from "models";
+import { Event, User } from "models";
 import { sendError } from "shared/helpers";
 import {
   emailAlreadyTaken,
@@ -27,10 +27,10 @@ const deleteMember = async (req, res) => {
 
 const getAllMembers = async (_, res) => {
   const members = await User.aggregate([
-    { $match: { role: { $ne: "admin" } } },
+    // { $match: { role: { $ne: "admin" } } },
     {
       $project: {
-        events: { $size: "$events" },
+        events: 1,
         role: 1,
         status: 1,
         registered: 1,
@@ -51,11 +51,37 @@ const getMember = async (req, res) => {
 
     const existingMember = await User.findOne(
       { _id },
-      { password: 0, token: 0 },
+      { password: 0, token: 0, events: 0 },
     );
     if (!existingMember) throw unableToLocateMember;
 
-    res.status(200).json({ member: existingMember });
+    const events = await Event.aggregate([
+      {
+        $match: {
+          employeeResponses: { $elemMatch: { _id: existingMember._id } },
+        },
+      },
+      { $unwind: "$employeeResponses" },
+      {
+        $group: {
+          _id: null,
+          eventResponses: {
+            $push: {
+              team: "$team",
+              opponent: "$opponent",
+              eventDate: "$eventDate",
+              response: "$employeeResponses.response",
+              notes: "$employeeResponses.notes",
+            },
+          },
+        },
+      },
+      { $project: { _id: 0, eventResponses: 1 } },
+    ]);
+
+    res
+      .status(200)
+      .json({ member: { ...existingMember.toObject(), ...events[0] } });
   } catch (err) {
     return sendError(err, res);
   }
@@ -63,10 +89,9 @@ const getMember = async (req, res) => {
 
 const updateMember = async (req, res) => {
   try {
-    const {
-      _id, email, firstName, lastName, role,
-    } = req.body;
-    if (!_id || !email || !firstName || !lastName || !role) throw missingUpdateMemberParams;
+    const { _id, email, firstName, lastName, role } = req.body;
+    if (!_id || !email || !firstName || !lastName || !role)
+      throw missingUpdateMemberParams;
 
     const existingMember = await User.findOne({ _id });
     if (!existingMember) throw unableToLocateMember;

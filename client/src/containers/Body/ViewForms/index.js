@@ -36,6 +36,11 @@ const columns = [
 		key: "expirationDate",
 		render: date => <DisplayDateTime date={date} />,
 	},
+	{
+		title: "Form Id",
+		dataIndex: "_id",
+		key: "_id",
+	},
 ];
 
 export const ViewForms = ({ data, deleteForm, fetchForms, push }) => (
@@ -62,6 +67,7 @@ export const ViewForms = ({ data, deleteForm, fetchForms, push }) => (
 				fetchData={fetchForms}
 				push={push}
 				editLocation="forms"
+				viewLocation="forms"
 			/>
 		</Card>
 	</Fragment>

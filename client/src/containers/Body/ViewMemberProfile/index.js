@@ -61,7 +61,8 @@ export class ViewMemberProfile extends PureComponent {
 	render = () => {
 		const { push, viewMember, updateMemberStatus } = this.props;
 
-		const { events, schedule, status } = viewMember;
+		const { eventResponses, schedule, status } = viewMember;
+		console.log(viewMember);
 
 		return (
 			<Fragment>
@@ -90,7 +91,7 @@ export class ViewMemberProfile extends PureComponent {
 							</Pane>
 							<Pane tab={responses} key="responses">
 								<PaneBody>
-									<p>Responses: {JSON.stringify(events)}</p>
+									<p>Responses: {JSON.stringify(eventResponses)}</p>
 								</PaneBody>
 							</Pane>
 							<Pane tab={scheduling} key="schedule">

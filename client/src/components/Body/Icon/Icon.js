@@ -15,7 +15,7 @@ import {
 	FaTshirt,
 	FaStickyNote,
 	FaSearch,
-	FaEraser,
+	FaTimesCircle,
 } from "react-icons/fa";
 import { MdPersonPin } from "react-icons/md";
 
@@ -25,7 +25,7 @@ const icons = type => {
 			return <FaCalendarAlt />;
 		}
 		case "erase": {
-			return <FaEraser />;
+			return <FaTimesCircle />;
 		}
 		case "id": {
 			return <FaIdCard />;

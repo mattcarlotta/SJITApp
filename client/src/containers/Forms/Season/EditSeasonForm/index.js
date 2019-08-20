@@ -115,7 +115,7 @@ export class EditSeasonForm extends Component {
 							<SubmitButton
 								disabled={isEmpty(this.props.editSeason)}
 								isSubmitting={this.state.isSubmitting}
-								title="Update Event"
+								title="Update Season"
 							/>
 						</Fragment>
 					)}

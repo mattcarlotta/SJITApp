@@ -14,7 +14,7 @@ export const createForm = props => ({
 });
 
 /**
- * Deletes a new event.
+ * Deletes a new form.
  *
  * @function deleteForm
  * @param {string} formId
@@ -26,7 +26,7 @@ export const deleteForm = formId => ({
 });
 
 /**
- * Fetches a single event.
+ * Fetches a single form.
  *
  * @function fetchForm
  * @param {string} formId
@@ -34,6 +34,18 @@ export const deleteForm = formId => ({
  */
 export const fetchForm = formId => ({
 	type: types.FORMS_EDIT,
+	formId,
+});
+
+/**
+ * Fetches an AP form.
+ *
+ * @function fetchFormAp
+ * @param {string} formId
+ * @returns {object}
+ */
+export const fetchFormAp = formId => ({
+	type: types.FORMS_FETCH_AP,
 	formId,
 });
 
@@ -50,8 +62,20 @@ export const fetchForms = () => ({
 /**
  * Sets any members from API to redux state
  *
+ * @function setApForm
+ * @param {array} data - contains form and events data
+ * @returns {object}
+ */
+export const setFormAp = data => ({
+	type: types.FORMS_SET_AP,
+	payload: !isEmpty(data) ? data : [],
+});
+
+/**
+ * Sets any members from API to redux state
+ *
  * @function setForms
- * @param {array} data - contains events data ([_id, seasonId, startMonth, startDate, expirationDate]).
+ * @param {array} data - contains forms data ([_id, seasonId, startMonth, startDate, expirationDate]).
  * @returns {object}
  */
 export const setForms = data => ({
@@ -63,7 +87,7 @@ export const setForms = data => ({
  * Sets a single season to redux state for editing.
  *
  * @function setFormToEdit
- * @param {object} data - contains event data ([_id, seasonId, startMonth, startDate, expirationDate]).
+ * @param {object} data - contains form data ([_id, seasonId, startMonth, startDate, expirationDate]).
  * @returns {object}
  */
 export const setFormToEdit = data => ({
@@ -75,10 +99,22 @@ export const setFormToEdit = data => ({
  * Updates a single form.
  *
  * @function updateForm
- * @param {object} data - contains event data ([_id, seasonId, startMonth, startDate, expirationDate])
+ * @param {object} data - contains form data ([_id, seasonId, startMonth, startDate, expirationDate])
  * @returns {object}
  */
 export const updateForm = props => ({
 	type: types.FORMS_UPDATE,
+	props,
+});
+
+/**
+ * Updates a single form.
+ *
+ * @function updateFormAp
+ * @param {object} data - contains form data ([_id, value])
+ * @returns {object}
+ */
+export const updateFormAp = props => ({
+	type: types.FORMS_UPDATE_AP,
 	props,
 });

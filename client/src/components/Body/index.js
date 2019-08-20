@@ -27,6 +27,7 @@ export { default as MenuButton } from "./MenuButton";
 export { default as MenuItemContainer } from "./MenuItemContainer";
 export { default as MenuItemTitle } from "./MenuItemTitle";
 export { default as Modal } from "./Modal";
+export { default as Notes } from "./Notes";
 export { default as PaneBody } from "./PaneBody";
 export { default as Paragraph } from "./Paragraph";
 export { default as ScrollHandler } from "./ScrollHandler";

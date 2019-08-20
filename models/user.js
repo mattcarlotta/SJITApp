@@ -8,7 +8,7 @@ const userSchema = new Schema({
     unique: true,
     lowercase: true,
   },
-  events: [{ type: Schema.Types.ObjectId, ref: "Event" }],
+  events: { type: Number, default: 0 },
   role: { type: String, default: "employee" },
   status: { type: String, default: "active" },
   firstName: { type: String, required: true },

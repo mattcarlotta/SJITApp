@@ -1,11 +1,14 @@
-import { Form, Season } from "models";
+import Promise from "bluebird";
+import { Event, Form, Season } from "models";
 import { sendError } from "shared/helpers";
 import {
   missingFormId,
   unableToCreateNewForm,
   unableToDeleteForm,
+  unableToLocateEvent,
   unableToLocateForm,
   unableToLocateSeason,
+  unableToUpdateApForm,
   unableToUpdateForm,
 } from "shared/authErrors";
 
@@ -108,4 +111,80 @@ const updateForm = async (req, res) => {
   }
 };
 
-export { createForm, deleteForm, getAllForms, getForm, updateForm };
+const updateFormAp = async (req, res) => {
+  try {
+    const { _id, responses, notes } = req.body;
+
+    if (!_id || !responses) throw unableToUpdateApForm;
+
+    const formExists = await Form.findOne({ _id });
+    if (!formExists) throw unableToLocateForm;
+
+    await Promise.each(responses, async response => {
+      const eventExists = await Event.findOne({ _id: response.id });
+      if (!eventExists) throw unableToLocateEvent;
+
+      await eventExists.updateOne({
+        $addToSet: {
+          employeeResponses: {
+            _id: req.session.user.id,
+            response: response.value,
+            notes,
+          },
+        },
+      });
+    });
+
+    res
+      .status(201)
+      .json({ message: "Successfully added your responses to the A/P form!" });
+  } catch (err) {
+    return sendError(err, res);
+  }
+};
+
+const viewApForm = async (req, res) => {
+  try {
+    const { id: _id } = req.params;
+    if (!_id) throw missingFormId;
+
+    const existingForm = await Form.findOne({ _id }, { __v: 0, seasonId: 0 });
+    if (!existingForm) throw unableToLocateForm;
+
+    const events = await Event.aggregate([
+      {
+        $match: {
+          eventDate: {
+            $gte: new Date(existingForm.startMonth),
+            $lte: new Date(existingForm.endMonth),
+          },
+        },
+      },
+      {
+        $project: {
+          __id: 1,
+          location: 1,
+          team: 1,
+          opponent: 1,
+          eventDate: 1,
+          eventType: 1,
+          notes: 1,
+        },
+      },
+    ]);
+
+    res.status(200).json({ form: existingForm, events });
+  } catch (err) {
+    return sendError(err, res);
+  }
+};
+
+export {
+  createForm,
+  deleteForm,
+  getAllForms,
+  getForm,
+  updateForm,
+  updateFormAp,
+  viewApForm,
+};

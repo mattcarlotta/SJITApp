@@ -8,7 +8,7 @@ const wrapper = shallow(<DisplayDate {...initProps} />);
 
 describe("Display Date", () => {
 	it("renders a date with format", () => {
-		expect(wrapper.find("span").text()).toEqual("10/6/2000");
+		expect(wrapper.find("span").text()).toEqual("10/06/2000");
 	});
 
 	it("renders an invalid date if missing a 'date' prop", () => {

@@ -12,15 +12,8 @@ class CustomTable extends Component {
 		isLoading: true,
 	};
 
-	static getDerivedStateFromProps = ({ data }, state) => {
-		if (state.isLoading && !isEmpty(data)) {
-			return {
-				isLoading: false,
-			};
-		}
-
-		return null;
-	};
+	static getDerivedStateFromProps = ({ data }, state) =>
+		state.isLoading && !isEmpty(data) ? { isLoading: false } : null;
 
 	componentDidMount = () => {
 		this.props.fetchData();

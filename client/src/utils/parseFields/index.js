@@ -28,6 +28,11 @@ export default fields => {
 					acc[name] = values;
 					break;
 				}
+				case "radiogroup": {
+					acc["responses"] = acc["responses"] || [];
+					if (value) acc["responses"].push({ id: name, value });
+					break;
+				}
 				default: {
 					acc[name] = value;
 					break;

@@ -4,8 +4,10 @@ import {
   getAllForms,
   getForm,
   updateForm,
+  updateFormAp,
+  viewApForm,
 } from "controllers/form";
-import { requireStaffRole } from "services/strategies";
+import { requireAuth, requireStaffRole } from "services/strategies";
 
 export default app => {
   app.post("/api/form/create", requireStaffRole, createForm);
@@ -13,4 +15,6 @@ export default app => {
   app.get("/api/forms/all", requireStaffRole, getAllForms);
   app.get("/api/form/edit/:id", requireStaffRole, getForm);
   app.put("/api/form/update", requireStaffRole, updateForm);
+  app.put("/api/form/update/ap", requireStaffRole, updateFormAp);
+  app.get("/api/form/view/:id", requireAuth, viewApForm);
 };

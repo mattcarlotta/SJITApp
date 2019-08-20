@@ -24,6 +24,8 @@ import {
 	ViewTemplates,
 } from "pages/Staff";
 
+import { ViewApForm } from "pages/Shared";
+
 import {
 	MemberDashboard,
 	MemberEvents,
@@ -43,6 +45,7 @@ const AppRoutes = ({ match: { url }, role }) =>
 			<Route exact path={`${url}/events/viewall`} component={ViewEvents} />
 			<Route exact path={`${url}/forms/create`} component={NewForm} />
 			<Route exact path={`${url}/forms/edit/:id`} component={EditForm} />
+			<Route exact path={`${url}/forms/view/:id`} component={ViewApForm} />
 			<Route exact path={`${url}/forms/viewall`} component={ViewForms} />
 			<Route exact path={`${url}/members/create`} component={NewMember} />
 			<Route

@@ -58,7 +58,8 @@ const Selection = ({
 				<Icon style={searchStyle} type="search" />
 			) : (
 				<Icon
-					onHoverColor="rgba(255,0,0,0.65) !important"
+					color="rgba(255, 0, 0, 0.65) !important"
+					onHoverColor="rgba(204, 0, 0, 0.65) !important"
 					onClick={() => handleSearchClear({ target: { name, value: "" } })}
 					style={searchStyle}
 					type="erase"

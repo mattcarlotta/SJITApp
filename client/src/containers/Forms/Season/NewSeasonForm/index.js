@@ -80,7 +80,7 @@ export class NewSeasonForm extends Component {
 					/>
 					<SubmitButton
 						isSubmitting={this.state.isSubmitting}
-						title="Add Event"
+						title="Add Season"
 					/>
 				</form>
 			</FormContainer>

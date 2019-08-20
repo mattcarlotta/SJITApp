@@ -2,7 +2,7 @@ import { push } from "connected-react-router";
 import { all, put, call, takeLatest } from "redux-saga/effects";
 import { app } from "utils";
 import { hideServerMessage, setServerMessage } from "actions/Messages";
-import { setForms, setFormToEdit } from "actions/Forms";
+import { setFormAp, setForms, setFormToEdit } from "actions/Forms";
 import { parseData, parseMessage } from "utils/parseResponse";
 import * as types from "types";
 
@@ -11,7 +11,7 @@ import * as types from "types";
  *
  * @generator
  * @function createEvent
- * @param {object} props - props contain league, eventType, location, timeSlots, uniform, start/end dates and times, and seasonId.
+ * @param {object} props - props contain league, formType, location, timeSlots, uniform, start/end dates and times, and seasonId.
  * @yields {object} - A response from a call to the API.
  * @function parseMessage - Returns a parsed res.data.message.
  * @yields {action} - A redux action to display a server message by type.
@@ -76,13 +76,13 @@ export function* deleteForm({ formId }) {
  * Attempts to get form for editing.
  *
  * @generator
- * @function fetchEvent
+ * @function fetchForm
  * @param {object} formId
  * @yields {object} - A response from a call to the API.
  * @function parseData - Returns a parsed res.data (form data).
  * @yields {object} - A response from a call to the API.
  * @function parseData - Returns a parsed res.data (seasonIds data).
- * @yields {action} - A redux action to set event data to redux state.
+ * @yields {action} - A redux action to set form data to redux state.
  * @throws {action} - A redux action to display a server message by type.
  */
 
@@ -100,6 +100,35 @@ export function* fetchForm({ formId }) {
 			setFormToEdit({
 				...forms.form,
 				seasonIds: seasons.seasonIds,
+			}),
+		);
+	} catch (e) {
+		yield put(setServerMessage({ type: "error", message: e.toString() }));
+	}
+}
+
+/**
+ * Attempts to get form for viewing/updating.
+ *
+ * @generator
+ * @function fetchFormAp
+ * @param {object} formId
+ * @yields {object} - A response from a call to the API.
+ * @function parseData - Returns a parsed res.data (form and forms data).
+ * @yields {action} - A redux action to set form data to redux state.
+ * @throws {action} - A redux action to display a server message by type.
+ */
+
+export function* fetchFormAp({ formId }) {
+	try {
+		yield put(hideServerMessage());
+
+		const res = yield call(app.get, `form/view/${formId}`);
+		const data = yield call(parseData, res);
+
+		yield put(
+			setFormAp({
+				...data,
 			}),
 		);
 	} catch (e) {
@@ -130,11 +159,11 @@ export function* fetchForms() {
 }
 
 /**
- * Attempts to update an existing event.
+ * Attempts to update an existing form.
  *
  * @generator
  * @function updateForm
- * @param {object} props - contains event data ([_id, seasonId, startMonth, startDate, expirationDate]).
+ * @param {object} props - contains form data ([_id, seasonId, startMonth, startDate, expirationDate]).
  * @yields {object} - A response from a call to the API.
  * @function parseMessage - Returns a parsed res.data.message.
  * @yields {action} - A redux action to display a server message by type.
@@ -163,6 +192,39 @@ export function* updateForm({ props }) {
 }
 
 /**
+ * Attempts to update the a/p month form.
+ *
+ * @generator
+ * @function updateFormAp
+ * @param {object} props - contains form data ([_id, seasonId, startMonth, startDate, expirationDate]).
+ * @yields {object} - A response from a call to the API.
+ * @function parseMessage - Returns a parsed res.data.message.
+ * @yields {action} - A redux action to display a server message by type.
+ * @yields {action} - A redux action to push to a URL.
+ * @throws {action} - A redux action to display a server message by type.
+ */
+
+export function* updateFormAp({ props }) {
+	try {
+		yield put(hideServerMessage());
+
+		const res = yield call(app.put, "form/update/ap", { ...props });
+		const message = yield call(parseMessage, res);
+
+		yield put(
+			setServerMessage({
+				type: "success",
+				message,
+			}),
+		);
+
+		yield put(push("/employee/forms/viewall"));
+	} catch (e) {
+		yield put(setServerMessage({ type: "error", message: e.toString() }));
+	}
+}
+
+/**
  * Creates watchers for all generators.
  *
  * @generator
@@ -174,7 +236,9 @@ export default function* formsSagas() {
 		takeLatest(types.FORMS_CREATE, createForm),
 		takeLatest(types.FORMS_DELETE, deleteForm),
 		takeLatest(types.FORMS_EDIT, fetchForm),
+		takeLatest(types.FORMS_FETCH_AP, fetchFormAp),
 		takeLatest(types.FORMS_FETCH, fetchForms),
 		takeLatest(types.FORMS_UPDATE, updateForm),
+		takeLatest(types.FORMS_UPDATE_AP, updateFormAp),
 	]);
 }

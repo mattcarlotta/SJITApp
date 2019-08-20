@@ -6,14 +6,14 @@ const eventSchema = new Schema({
   location: { type: String, default: "SAP Center at San Jose" },
   employeeResponses: [
     {
-      id: { type: Schema.Types.ObjectId, ref: "User" },
+      _id: { type: Schema.Types.ObjectId, ref: "User" },
       response: { type: String, required: true },
       notes: String,
     },
   ],
   scheduledEmployees: [
     {
-      id: { type: Schema.Types.ObjectId, ref: "User" },
+      _id: { type: Schema.Types.ObjectId, ref: "User" },
     },
   ],
   seasonId: { type: String, required: true },

@@ -123,6 +123,9 @@ const unableToLocateSeason = "Unable to locate that season. It doesn't exist.";
 
 const unableToLocateToken = "Unable to locate that token. It doesn't exist.";
 
+const unableToUpdateApForm =
+  "Unable to update the A/P form. You must provide a model id and all responses.";
+
 const unableToUpdateForm =
   "Unable to update the existing form. You must provide a model id, season id, start of month date, end of month date, and expiration date.";
 
@@ -180,6 +183,7 @@ export {
   unableToLocateMember,
   unableToLocateSeason,
   unableToLocateToken,
+  unableToUpdateApForm,
   unableToUpdateForm,
   unableToUpdateSeason,
   unableToUpdateToken,
