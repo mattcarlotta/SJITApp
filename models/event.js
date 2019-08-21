@@ -6,7 +6,11 @@ const eventSchema = new Schema({
   location: { type: String, default: "SAP Center at San Jose" },
   employeeResponses: [
     {
-      _id: { type: Schema.Types.ObjectId, ref: "User" },
+      _id: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+        required: true,
+      },
       response: { type: String, required: true },
       notes: String,
     },

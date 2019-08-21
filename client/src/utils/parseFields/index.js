@@ -12,34 +12,37 @@ export default fields => {
 	try {
 		if (isEmpty(fields)) throw new Error("You must supply an array of fields!");
 
-		const parsedFields = fields.reduce((acc, { name, type, value }) => {
-			switch (type) {
-				case "time": {
-					acc["callTimes"] = acc["callTimes"] || [];
-					if (value) acc["callTimes"].push(value.format());
-					break;
+		const parsedFields = fields.reduce(
+			(acc, { name, type, value, updateEvent }) => {
+				switch (type) {
+					case "time": {
+						acc["callTimes"] = acc["callTimes"] || [];
+						if (value) acc["callTimes"].push(value.format());
+						break;
+					}
+					case "date": {
+						acc[name] = value.format();
+						break;
+					}
+					case "range": {
+						const values = value.map(val => val.format());
+						acc[name] = values;
+						break;
+					}
+					case "radiogroup": {
+						acc["responses"] = acc["responses"] || [];
+						if (value) acc["responses"].push({ id: name, value, updateEvent });
+						break;
+					}
+					default: {
+						acc[name] = value;
+						break;
+					}
 				}
-				case "date": {
-					acc[name] = value.format();
-					break;
-				}
-				case "range": {
-					const values = value.map(val => val.format());
-					acc[name] = values;
-					break;
-				}
-				case "radiogroup": {
-					acc["responses"] = acc["responses"] || [];
-					if (value) acc["responses"].push({ id: name, value });
-					break;
-				}
-				default: {
-					acc[name] = value;
-					break;
-				}
-			}
-			return acc;
-		}, {});
+				return acc;
+			},
+			{},
+		);
 
 		return parsedFields;
 	} catch (err) {

@@ -28,13 +28,14 @@ export class ViewApForm extends Component {
 	};
 
 	static getDerivedStateFromProps = (
-		{ events, viewForm, serverMessage },
+		{ eventResponses, events, viewForm, serverMessage },
 		state,
 	) => {
 		if (state.isLoading && !isEmpty(events) && !isEmpty(viewForm)) {
 			return {
 				fields: state.fields.reduce(
-					(result, field) => updateFormFields(result, field, events),
+					(result, field) =>
+						updateFormFields(result, field, events, eventResponses),
 					[],
 				),
 				isLoading: false,
@@ -68,9 +69,11 @@ export class ViewApForm extends Component {
 			if (!errors) {
 				const parsedFields = parseFields(formFields);
 
+				const { viewForm } = this.props;
+
 				this.props.updateFormAp({
 					...parsedFields,
-					_id: this.props.viewForm._id,
+					_id: viewForm._id,
 				});
 			}
 		});
@@ -78,7 +81,7 @@ export class ViewApForm extends Component {
 
 	render = () => {
 		const { fields, isLoading, isSubmitting } = this.state;
-		const { viewForm, push } = this.props;
+		const { viewForm, push, eventResponses } = this.props;
 
 		return (
 			<Card
@@ -99,12 +102,22 @@ export class ViewApForm extends Component {
 								<Title style={{ color: "#025f6d" }}>
 									{moment(viewForm.startMonth).format("MMMM YYYY")}
 								</Title>
+								<Title style={{ color: "#025f6d", fontSize: 16 }}>
+									This form will expire after:{" "}
+									<span style={{ color: "#f56342" }}>
+										{moment(viewForm.expirationDate).format(
+											"MMMM Do YYYY @ hh:mm a",
+										)}
+									</span>
+								</Title>
 								{viewForm.notes && (
 									<Notes style={{ marginBottom: 60 }} notes={viewForm.notes} />
 								)}
 								<FieldGenerator fields={fields} onChange={this.handleChange} />
 								<SubmitButton
-									title="Submit AP Form"
+									title={`${
+										isEmpty(eventResponses) ? "Submit" : "Update"
+									} AP Form`}
 									isSubmitting={isSubmitting}
 								/>
 							</Fragment>
@@ -117,6 +130,13 @@ export class ViewApForm extends Component {
 }
 
 ViewApForm.propTypes = {
+	eventResponses: PropTypes.arrayOf(
+		PropTypes.shape({
+			_id: PropTypes.string,
+			response: PropTypes.string,
+			notes: PropTypes.string,
+		}),
+	),
 	events: PropTypes.arrayOf(
 		PropTypes.shape({
 			_id: PropTypes.string,
@@ -150,6 +170,7 @@ ViewApForm.propTypes = {
 };
 
 const mapStateToProps = state => ({
+	eventResponses: state.forms.eventResponses,
 	events: state.forms.events,
 	serverMessage: state.server.message,
 	viewForm: state.forms.viewForm,

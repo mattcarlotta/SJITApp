@@ -32,22 +32,7 @@ export const Modal = ({ children, history, maxWidth, onClick }) => (
 Modal.propTypes = {
 	children: PropTypes.node.isRequired,
 	history: PropTypes.shape({
-		action: PropTypes.string,
-		block: PropTypes.func,
-		createHref: PropTypes.func,
-		go: PropTypes.func,
-		goBack: PropTypes.func,
-		goForward: PropTypes.func,
-		length: PropTypes.number,
-		listen: PropTypes.func,
-		location: PropTypes.shape({
-			pathname: PropTypes.string,
-			search: PropTypes.string,
-			hash: PropTypes.string,
-			state: PropTypes.oneOf(["object", "undefined"]),
-		}),
 		push: PropTypes.func,
-		replace: PropTypes.func,
 	}),
 	maxWidth: PropTypes.string,
 	onClick: PropTypes.func,

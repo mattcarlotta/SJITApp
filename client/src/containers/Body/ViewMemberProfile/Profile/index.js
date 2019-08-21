@@ -61,7 +61,7 @@ const Profile = ({ viewMember, updateMemberStatus }) => {
 				</Button>
 			</LightText>
 			<LightText>
-				Registered: <Small>{moment(registered).format("l")}</Small>
+				Registered: <Small>{moment(registered).format("MMMM Do, YYYY")}</Small>
 			</LightText>
 			<Line style={{ width: "400px" }} />
 			<EditMemberForm />

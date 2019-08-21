@@ -1,5 +1,8 @@
 import Promise from "bluebird";
-import { Event, Form, Season } from "models";
+import moment from "moment";
+import isEmpty from "lodash/isEmpty";
+import { Types } from "mongoose";
+import { Event, Form, Season, User } from "models";
 import { sendError } from "shared/helpers";
 import {
   missingFormId,
@@ -11,6 +14,8 @@ import {
   unableToUpdateApForm,
   unableToUpdateForm,
 } from "shared/authErrors";
+
+const { ObjectId } = Types;
 
 const createForm = async (req, res) => {
   try {
@@ -120,20 +125,49 @@ const updateFormAp = async (req, res) => {
     const formExists = await Form.findOne({ _id });
     if (!formExists) throw unableToLocateForm;
 
-    await Promise.each(responses, async response => {
-      const eventExists = await Event.findOne({ _id: response.id });
-      if (!eventExists) throw unableToLocateEvent;
+    await Event.bulkWrite(
+      responses.map(response => {
+        try {
+          const { id: eventId, value, updateEvent } = response;
+          const { id: userId } = req.session.user;
 
-      await eventExists.updateOne({
-        $addToSet: {
-          employeeResponses: {
-            _id: req.session.user.id,
-            response: response.value,
-            notes,
-          },
-        },
-      });
-    });
+          const filter = updateEvent
+            ? {
+                _id: eventId,
+                "employeeResponses._id": userId,
+              }
+            : {
+                _id: eventId,
+              };
+
+          const update = updateEvent
+            ? {
+                $set: {
+                  "employeeResponses.$.response": value,
+                  "employeeResponses.$.notes": notes,
+                },
+              }
+            : {
+                $push: {
+                  employeeResponses: {
+                    _id: userId,
+                    response: value,
+                    notes,
+                  },
+                },
+              };
+
+          return {
+            updateOne: {
+              filter,
+              update,
+            },
+          };
+        } catch (error) {
+          throw error;
+        }
+      }),
+    );
 
     res
       .status(201)
@@ -151,12 +185,15 @@ const viewApForm = async (req, res) => {
     const existingForm = await Form.findOne({ _id }, { __v: 0, seasonId: 0 });
     if (!existingForm) throw unableToLocateForm;
 
+    const startMonth = moment(existingForm.startMonth).toDate();
+    const endMonth = moment(existingForm.endMonth).toDate();
+
     const events = await Event.aggregate([
       {
         $match: {
           eventDate: {
-            $gte: new Date(existingForm.startMonth),
-            $lte: new Date(existingForm.endMonth),
+            $gte: startMonth,
+            $lte: endMonth,
           },
         },
       },
@@ -175,7 +212,40 @@ const viewApForm = async (req, res) => {
       },
     ]);
 
-    res.status(200).json({ form: existingForm, events });
+    const { id: userId } = req.session.user;
+
+    const responses = await Event.aggregate([
+      {
+        $match: {
+          eventDate: {
+            $gte: startMonth,
+            $lte: endMonth,
+          },
+        },
+      },
+      { $unwind: "$employeeResponses" },
+      { $match: { "employeeResponses._id": ObjectId(userId) } },
+      { $sort: { eventDate: 1 } },
+      {
+        $group: {
+          _id: null,
+          eventResponses: {
+            $push: {
+              _id: "$employeeResponses._id",
+              response: "$employeeResponses.response",
+              notes: "$employeeResponses.notes",
+            },
+          },
+        },
+      },
+      { $project: { _id: 0, eventResponses: 1, eventNotes: 1 } },
+    ]);
+
+    res.status(200).json({
+      form: existingForm,
+      events,
+      eventResponses: !isEmpty(responses) ? responses[0].eventResponses : [],
+    });
   } catch (err) {
     return sendError(err, res);
   }

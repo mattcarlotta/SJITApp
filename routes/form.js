@@ -15,6 +15,6 @@ export default app => {
   app.get("/api/forms/all", requireStaffRole, getAllForms);
   app.get("/api/form/edit/:id", requireStaffRole, getForm);
   app.put("/api/form/update", requireStaffRole, updateForm);
-  app.put("/api/form/update/ap", requireStaffRole, updateFormAp);
+  app.put("/api/form/update/ap", requireAuth, updateFormAp);
   app.get("/api/form/view/:id", requireAuth, viewApForm);
 };

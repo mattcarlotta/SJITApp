@@ -61,7 +61,7 @@ export class ResponseCalendar extends Component {
 			? eventResponses.filter(
 					event => moment(event.eventDate).format("l") === calanderDate,
 			  )
-			: undefined;
+			: [];
 
 		return (
 			<List>
@@ -75,15 +75,15 @@ export class ResponseCalendar extends Component {
 							style={{ margin: "2px 0" }}
 							onClick={() => this.handleShowModal(item)}
 						>
-							<li>
-								<DisplayTeam folder="badges" team={item.team} />
+							<ListItem style={{ margin: 0 }}>
+								<DisplayTeam folder="calendar" team={item.team} />
 								{item.opponent && (
 									<Fragment>
 										<span style={{ margin: "0 5px" }}>vs.</span>
-										<DisplayTeam folder="badges" team={item.opponent} />
+										<DisplayTeam folder="calendar" team={item.opponent} />
 									</Fragment>
 								)}
-							</li>
+							</ListItem>
 						</Button>
 					))}
 			</List>
@@ -98,7 +98,7 @@ export class ResponseCalendar extends Component {
 				onPanelChange={this.handlePanelChange}
 			/>
 			{this.state.isVisible && (
-				<Modal onClick={this.handleCloseModal}>
+				<Modal maxWidth="600px" onClick={this.handleCloseModal}>
 					{this.state.children.map(
 						({
 							eventDate,
@@ -113,7 +113,7 @@ export class ResponseCalendar extends Component {
 								<List style={{ padding: 10 }}>
 									<ListItem>
 										<strong>Date: </strong>{" "}
-										{moment(eventDate).format("MMMM Do YYYY @ h:mm a")}
+										{moment(eventDate).format("MMMM Do, YYYY @ h:mm a")}
 									</ListItem>
 									<ListItem>
 										<strong>Event Type: </strong> {eventType}

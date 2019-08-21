@@ -162,7 +162,6 @@ export function* fetchMemberEvents({ params }) {
 
 		yield put(setMemberEventsByDate(data));
 	} catch (e) {
-		yield put(push("/employee/members/viewall"));
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
 }

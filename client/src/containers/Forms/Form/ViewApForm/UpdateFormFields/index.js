@@ -1,11 +1,15 @@
 import React, { Fragment } from "react";
+// import isEmpty from "lodash/isEmpty";
+import get from "lodash/get";
 import { DisplayFullDate, DisplayTeam } from "components/Body";
 
-export default (result, field, events) => {
+export default (result, field, events, eventResponses) => {
 	switch (field.type) {
 		case "radiogroup": {
-			const initializedFields = events.map(event => {
+			const initializedFields = events.map((event, key) => {
 				const { _id, team, opponent, eventDate, eventType, notes } = event;
+				const response = get(eventResponses[key], ["response"]);
+
 				return {
 					...field,
 					name: _id,
@@ -24,6 +28,8 @@ export default (result, field, events) => {
 						</Fragment>
 					),
 					disabled: false,
+					value: response || "",
+					updateEvent: !!response,
 					notes,
 					selectOptions: [
 						"I want to work.",
@@ -33,10 +39,19 @@ export default (result, field, events) => {
 					],
 				};
 			});
+
 			return [...result, ...initializedFields];
 		}
 		default: {
-			return [...result, { ...field, disabled: false }];
+			const eventNotes = get(eventResponses[0], ["notes"]);
+			return [
+				...result,
+				{
+					...field,
+					value: eventNotes || "",
+					disabled: false,
+				},
+			];
 		}
 	}
 };

@@ -88,11 +88,11 @@ const getMemberEvents = async (req, res) => {
             $gte: startMonth,
             $lte: endMonth,
           },
-          employeeResponses: { $elemMatch: { _id: existingMember._id } },
         },
       },
-      { $sort: { eventDate: 1 } },
       { $unwind: "$employeeResponses" },
+      { $match: { "employeeResponses._id": existingMember._id } },
+      { $sort: { eventDate: 1 } },
       {
         $group: {
           _id: null,
