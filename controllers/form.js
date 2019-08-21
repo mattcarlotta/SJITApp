@@ -160,6 +160,8 @@ const viewApForm = async (req, res) => {
           },
         },
       },
+      { $unwind: "$eventDate" },
+      { $sort: { eventDate: 1 } },
       {
         $project: {
           __id: 1,

@@ -14,7 +14,7 @@ import {
 } from "actions/Members";
 import { BackButton, PaneBody, Spinner } from "components/Body";
 import Profile from "./Profile";
-import ResponseCalander from "./ResponseCalander";
+import ResponseCalendar from "./ResponseCalendar";
 
 const Pane = Tabs.TabPane;
 
@@ -96,7 +96,7 @@ export class ViewMemberProfile extends PureComponent {
 							</Pane>
 							<Pane tab={responses} key="responses">
 								<PaneBody>
-									<ResponseCalander
+									<ResponseCalendar
 										id={_id}
 										eventResponses={eventResponses}
 										fetchMemberEvents={fetchMemberEvents}
@@ -120,6 +120,7 @@ ViewMemberProfile.propTypes = {
 	eventResponses: PropTypes.arrayOf(
 		PropTypes.shape({
 			eventDate: PropTypes.string,
+			eventNotes: PropTypes.string,
 			eventType: PropTypes.string,
 			notes: PropTypes.string,
 			opponent: PropTypes.string,

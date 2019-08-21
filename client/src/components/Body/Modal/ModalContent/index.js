@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export default styled.div`
-	max-width: ${({ maxWidth }) => maxWidth || "500px"};
+	max-width: ${({ maxWidth }) => maxWidth || "600px"};
 	flex: 0 1 auto;
 	max-height: calc(100% - 96px);
 	padding: 25px;

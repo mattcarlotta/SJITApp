@@ -91,6 +91,7 @@ const getMemberEvents = async (req, res) => {
           employeeResponses: { $elemMatch: { _id: existingMember._id } },
         },
       },
+      { $sort: { eventDate: 1 } },
       { $unwind: "$employeeResponses" },
       {
         $group: {
@@ -101,6 +102,7 @@ const getMemberEvents = async (req, res) => {
               opponent: "$opponent",
               eventDate: "$eventDate",
               eventType: "$eventType",
+              eventNotes: "$notes",
               response: "$employeeResponses.response",
               notes: "$employeeResponses.notes",
             },
