@@ -16,6 +16,8 @@ const emailAssociatedWithKey =
 const emptyPassword =
   "You must supply a new password in order to reset the old. Please try again.";
 
+const expiredForm = expirationDate => `The window to view and update this form was closed after ${expirationDate}.`
+
 const expiredToken =
   "The authorization key that was provided has expired. Please contact the staff supervisor to issue a new key.";
 
@@ -151,6 +153,7 @@ export {
   emailAlreadyTaken,
   emailAssociatedWithKey,
   emptyPassword,
+  expiredForm,
   expiredToken,
   invalidAuthTokenRequest,
   invalidCreateEventRequest,

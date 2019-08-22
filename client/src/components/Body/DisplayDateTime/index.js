@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import moment from "moment";
 
 const DisplayDateTime = ({ date }) => (
-	<span>{moment(date).format("MM/D/YY @ h:mm a")}</span>
+	<span>{moment(date).format("MM/DD/YY @ hh:mm a")}</span>
 );
 
 DisplayDateTime.propTypes = {

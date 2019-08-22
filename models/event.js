@@ -17,7 +17,8 @@ const eventSchema = new Schema({
   ],
   scheduledEmployees: [
     {
-      _id: { type: Schema.Types.ObjectId, ref: "User" },
+      _id: { type: Schema.Types.ObjectId, ref: "User", required: true },
+      callTime: { type: Date, required: true },
     },
   ],
   seasonId: { type: String, required: true },

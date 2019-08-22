@@ -1,14 +1,13 @@
-import Promise from "bluebird";
 import moment from "moment";
 import isEmpty from "lodash/isEmpty";
 import { Types } from "mongoose";
 import { Event, Form, Season, User } from "models";
 import { sendError } from "shared/helpers";
 import {
+  expiredForm,
   missingFormId,
   unableToCreateNewForm,
   unableToDeleteForm,
-  unableToLocateEvent,
   unableToLocateForm,
   unableToLocateSeason,
   unableToUpdateApForm,
@@ -184,6 +183,11 @@ const viewApForm = async (req, res) => {
 
     const existingForm = await Form.findOne({ _id }, { __v: 0, seasonId: 0 });
     if (!existingForm) throw unableToLocateForm;
+
+    const { expirationDate } = existingForm;
+    const currentDate = moment(Date.now()).toDate();
+    const expiredDate = moment(expirationDate).toDate();
+    if (currentDate >=expiredDate) throw expiredForm(moment(expirationDate).format("MMMM Do, YYYY @ hh:mm a"));
 
     const startMonth = moment(existingForm.startMonth).toDate();
     const endMonth = moment(existingForm.endMonth).toDate();
