@@ -1,5 +1,6 @@
 import {
   beginofMonth,
+  clearSession,
   convertDateToISO,
   createRandomToken,
   createSignupToken,
@@ -12,6 +13,25 @@ import {
 describe("Helpers", () => {
   it("returns a beginning of month Date object", () => {
     expect(beginofMonth("july")).toEqual(expect.any(Object));
+  });
+
+  it("clears the session", () => {
+    const mockResponse = () => {
+      const res = {};
+      res.clearCookie = jest.fn().mockReturnValue(res);
+      res.status = jest.fn().mockReturnValue(res);
+      res.json = jest.fn().mockReturnValue(res);
+      res.send = jest.fn().mockReturnValue(res);
+      return res;
+    };
+
+    const res = mockResponse();
+
+    clearSession(res);
+
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.clearCookie).toHaveBeenCalledWith("SJSITApp", { path: "/" });
+    expect(res.json).toHaveBeenCalledWith({ role: "guest" });
   });
 
   it("returns a Date with a PST time zone", () => {

@@ -1,11 +1,6 @@
-import { User } from "models";
 import get from "lodash/get";
-
-const clearSession = res =>
-  res
-    .status(200)
-    .clearCookie("SJSITApp", { path: "/" })
-    .json({ role: "guest" });
+import { User } from "models";
+import { clearSession } from "shared/helpers";
 
 export default async (req, res, next) => {
   const user = get(req, ["session", "user"]);

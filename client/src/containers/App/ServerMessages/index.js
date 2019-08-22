@@ -36,7 +36,8 @@ export class ServerMessages extends Component {
 		nextProps.show !== this.props.show;
 
 	componentDidUpdate = prevProps => {
-		if (prevProps.message !== this.props.message && this.props.message !== "") {
+		const { message } = this.props;
+		if (prevProps.message !== message && message !== "") {
 			clearTimeout(this.timeout);
 			this.setTimer();
 		}

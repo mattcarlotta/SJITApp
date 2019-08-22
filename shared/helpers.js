@@ -27,6 +27,18 @@ const tokenGenerator = (str, tlen) => {
 const beginofMonth = () => moment().startOf("month");
 
 /**
+ * Helper function to clear the user session.
+ *
+ * @function
+ * @returns {response}
+ */
+const clearSession = res =>
+  res
+    .status(200)
+    .clearCookie("SJSITApp", { path: "/" })
+    .json({ role: "guest" });
+
+/**
  * Helper function to convert a Date to an ISO Date.
  *
  * @function
@@ -102,6 +114,7 @@ const sendError = (err, res) => res.status(400).json({ err: err.toString() });
 
 export {
   beginofMonth,
+  clearSession,
   convertDateToISO,
   createRandomToken,
   createSignupToken,
