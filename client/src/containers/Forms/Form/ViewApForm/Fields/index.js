@@ -7,7 +7,12 @@ export default [
 		errors: "",
 		required: true,
 		disabled: true,
-		options: [],
+		selectOptions: [
+			"I want to work.",
+			"Available to work.",
+			"Prefer not to work.",
+			"Not available to work.",
+		],
 	},
 	{
 		name: "notes",

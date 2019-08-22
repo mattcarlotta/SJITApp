@@ -81,6 +81,21 @@ const initProps = {
 	onChange,
 };
 
+const radiogroup = {
+	type: "radiogroup",
+	name: "0123456789",
+	value: "",
+	errors: "",
+	required: true,
+	disabled: true,
+	selectOptions: [
+		"I want to work.",
+		"Available to work.",
+		"Prefer not to work.",
+		"Not available to work.",
+	],
+};
+
 describe("Field Generator", () => {
 	let wrapper;
 	beforeEach(() => {
@@ -103,7 +118,7 @@ describe("Field Generator", () => {
 		expect(wrapper.find("Input").exists()).toBeTruthy();
 	});
 
-	it("returns an TextArea when type is 'textarea'", () => {
+	it("returns a TextArea when type is 'textarea'", () => {
 		wrapper.setProps({ fields: [textarea] });
 
 		expect(wrapper.find("TextArea").exists()).toBeTruthy();
@@ -113,25 +128,25 @@ describe("Field Generator", () => {
 		expect(wrapper.find("Errors").exists()).toBeTruthy();
 	});
 
-	it("returns an Input when type is 'email'", () => {
+	it("returns a Input when type is 'email'", () => {
 		wrapper.setProps({ fields: [{ ...input, type: "email" }] });
 
 		expect(wrapper.find("Input").exists()).toBeTruthy();
 	});
 
-	it("returns an Input when type is 'password'", () => {
+	it("returns a Input when type is 'password'", () => {
 		wrapper.setProps({ fields: [{ ...input, type: "password" }] });
 
 		expect(wrapper.find("Input").exists()).toBeTruthy();
 	});
 
-	it("returns an Select when type is 'select'", () => {
+	it("returns a Select when type is 'select'", () => {
 		wrapper.setProps({ fields: [select] });
 
 		expect(wrapper.find("Select").exists()).toBeTruthy();
 	});
 
-	it("returns an DatePicker when type is 'date'", () => {
+	it("returns a DatePicker when type is 'date'", () => {
 		wrapper.setProps({ fields: [date] });
 
 		wrapper.find(".ant-calendar-picker-input").simulate("click");
@@ -145,10 +160,32 @@ describe("Field Generator", () => {
 		});
 	});
 
-	it("returns an RangePicker when type is 'range'", () => {
+	it("returns a RangePicker when type is 'range'", () => {
 		wrapper.setProps({ fields: [range] });
 
 		expect(wrapper.find("RangePicker").exists()).toBeTruthy();
+	});
+
+	it("returns an RadioGroup when type is 'radiogroup'", () => {
+		wrapper.setProps({ fields: [radiogroup] });
+
+		expect(wrapper.find("RadioGroup").exists()).toBeTruthy();
+	});
+
+	it("displays a RadioGroup with notes when passed a 'notes' prop", () => {
+		wrapper.setProps({
+			fields: [{ ...radiogroup, notes: "This is a special note!" }],
+		});
+
+		expect(wrapper.find("Notes").exists()).toBeTruthy();
+	});
+
+	it("displays a RadioGroup with errors when passed an 'errors' prop", () => {
+		wrapper.setProps({
+			fields: [{ ...radiogroup, errors: "Required!" }],
+		});
+
+		expect(wrapper.find("Errors").exists()).toBeTruthy();
 	});
 
 	it("returns a TimePicker when type is 'time'", () => {

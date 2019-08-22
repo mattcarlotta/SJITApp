@@ -80,6 +80,19 @@ describe("Member Actions", () => {
 		});
 	});
 
+	it("returns MEMBERS_FETCH_EVENTS", () => {
+		const params = {
+			memberid: "0123456789",
+			selectedDate: "2019-12-17T01:00:00-08:00",
+		};
+		const value = actions.fetchMemberEvents(params);
+
+		expect(value).toEqual({
+			type: types.MEMBERS_FETCH_EVENTS,
+			params,
+		});
+	});
+
 	it("returns MEMBERS_FETCH_TOKEN", () => {
 		const value = actions.fetchToken(tokenId);
 
@@ -111,6 +124,24 @@ describe("Member Actions", () => {
 
 		expect(value).toEqual({
 			type: types.MEMBERS_SET,
+			payload: membersData,
+		});
+	});
+
+	it("returns MEMBERS_SET_EVENTS with an empty array if data is empty", () => {
+		const value = actions.setMemberEventsByDate([]);
+
+		expect(value).toEqual({
+			type: types.MEMBERS_SET_EVENTS,
+			payload: [],
+		});
+	});
+
+	it("returns MEMBERS_SET_EVENTS with data", () => {
+		const value = actions.setMemberEventsByDate(membersData);
+
+		expect(value).toEqual({
+			type: types.MEMBERS_SET_EVENTS,
 			payload: membersData,
 		});
 	});

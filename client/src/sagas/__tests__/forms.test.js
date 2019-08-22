@@ -178,6 +178,9 @@ describe("Form Sagas", () => {
 						...mocks.formsData,
 						seasonIds: mocks.seasonIdsData,
 					},
+					events: [],
+					eventResponses: [],
+					viewForm: {},
 				})
 				.run();
 		});
@@ -188,6 +191,68 @@ describe("Form Sagas", () => {
 
 			return expectSaga(sagas.fetchForm, { formId })
 				.dispatch(actions.fetchForm)
+				.withReducer(messageReducer)
+				.hasFinalState({
+					message: err,
+					show: true,
+					type: "error",
+				})
+				.run();
+		});
+	});
+
+	describe("Fetch Form AP", () => {
+		let data;
+		beforeEach(() => {
+			data = {
+				form: mocks.formsData,
+				events: mocks.eventsData,
+				eventResponses: mocks.eventResponseData,
+			};
+		});
+
+		it("logical flow matches pattern for fetch form AP requests", () => {
+			const res = { data };
+
+			testSaga(sagas.fetchFormAp, { formId })
+				.next()
+				.put(hideServerMessage())
+				.next()
+				.call(app.get, `form/view/${formId}`)
+				.next(res)
+				.call(parseData, res)
+				.next(res.data)
+				.put(
+					actions.setFormAp({
+						...res.data,
+					}),
+				)
+				.next()
+				.isDone();
+		});
+
+		it("successfully fetches a fetch AP form for editing", async () => {
+			mockApp.onGet(`form/view/${formId}`).reply(200, data);
+
+			return expectSaga(sagas.fetchFormAp, { formId })
+				.dispatch(actions.fetchFormAp)
+				.withReducer(formReducer)
+				.hasFinalState({
+					data: [],
+					editForm: {},
+					events: mocks.eventsData,
+					eventResponses: mocks.eventResponseData,
+					viewForm: mocks.formsData,
+				})
+				.run();
+		});
+
+		it("if API call fails, it displays a message", async () => {
+			const err = "Unable to fetch that AP form.";
+			mockApp.onGet(`form/view/${formId}`).reply(404, { err });
+
+			return expectSaga(sagas.fetchFormAp, { formId })
+				.dispatch(actions.fetchFormAp)
 				.withReducer(messageReducer)
 				.hasFinalState({
 					message: err,
@@ -227,6 +292,9 @@ describe("Form Sagas", () => {
 				.hasFinalState({
 					data: mocks.formsData,
 					editForm: {},
+					events: [],
+					eventResponses: [],
+					viewForm: {},
 				})
 				.run();
 		});
@@ -288,11 +356,67 @@ describe("Form Sagas", () => {
 		});
 
 		it("if API call fails, it displays a message", async () => {
-			const err = "Unable to delete the form.";
+			const err = "Unable to update the form.";
 			mockApp.onPut("form/update").reply(404, { err });
 
 			return expectSaga(sagas.updateForm, { props })
 				.dispatch(actions.updateForm)
+				.withReducer(messageReducer)
+				.hasFinalState({
+					message: err,
+					show: true,
+					type: "error",
+				})
+				.run();
+		});
+	});
+
+	describe("Update Form AP", () => {
+		let message;
+		let props;
+		beforeEach(() => {
+			message = "Successfully updated the AP form!";
+			props = mocks.formsData;
+		});
+
+		it("logical flow matches pattern for update AP form requests", () => {
+			const res = { data: { message } };
+
+			testSaga(sagas.updateFormAp, { props })
+				.next()
+				.put(hideServerMessage())
+				.next()
+				.call(app.put, "form/update/ap", { ...props })
+				.next(res)
+				.call(parseMessage, res)
+				.next(res.data.message)
+				.put(setServerMessage({ type: "success", message: res.data.message }))
+				.next()
+				.put(push("/employee/forms/viewall"))
+				.next()
+				.isDone();
+		});
+
+		it("successfully updates an AP form", async () => {
+			mockApp.onPut("form/update/ap").reply(200, { message });
+
+			return expectSaga(sagas.updateFormAp, { props })
+				.dispatch(actions.updateFormAp)
+				.withReducer(messageReducer)
+				.hasFinalState({
+					message,
+					show: true,
+					type: "success",
+				})
+				.run();
+		});
+
+		it("if API call fails, it displays a message", async () => {
+			const err = "Unable to update the AP form.";
+			mockApp.onPut("form/update/ap").reply(404, { err });
+
+			return expectSaga(sagas.updateFormAp, { props })
+				.dispatch(actions.updateFormAp)
 				.withReducer(messageReducer)
 				.hasFinalState({
 					message: err,

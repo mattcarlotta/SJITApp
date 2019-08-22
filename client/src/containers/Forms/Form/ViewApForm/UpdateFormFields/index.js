@@ -1,7 +1,21 @@
 import React, { Fragment } from "react";
-// import isEmpty from "lodash/isEmpty";
 import get from "lodash/get";
 import { DisplayFullDate, DisplayTeam } from "components/Body";
+
+export const Label = ({ eventType, eventDate, opponent, team }) => (
+	<Fragment>
+		<DisplayFullDate date={eventDate} /> -{" "}
+		<DisplayTeam folder="lowres" team={team} />{" "}
+		{opponent && (
+			<Fragment>
+				<span style={{ margin: "0 5px" }}>vs.</span>
+				<DisplayTeam folder="lowres" team={opponent} />
+				&nbsp;
+			</Fragment>
+		)}
+		({eventType})
+	</Fragment>
+);
 
 export default (result, field, events, eventResponses) => {
 	switch (field.type) {
@@ -14,29 +28,17 @@ export default (result, field, events, eventResponses) => {
 					...field,
 					name: _id,
 					label: (
-						<Fragment>
-							<DisplayFullDate date={eventDate} /> -{" "}
-							<DisplayTeam folder="lowres" team={team} />{" "}
-							{opponent && (
-								<Fragment>
-									<span style={{ margin: "0 5px" }}>vs.</span>
-									<DisplayTeam folder="lowres" team={opponent} />
-									&nbsp;
-								</Fragment>
-							)}
-							({eventType})
-						</Fragment>
+						<Label
+							eventType={eventType}
+							eventDate={eventDate}
+							opponent={opponent}
+							team={team}
+						/>
 					),
 					disabled: false,
 					value: response || "",
 					updateEvent: !!response,
 					notes,
-					selectOptions: [
-						"I want to work.",
-						"Available to work.",
-						"Prefer not to work.",
-						"Not available to work.",
-					],
 				};
 			});
 

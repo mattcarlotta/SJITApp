@@ -73,3 +73,23 @@ export const formData = [
 		notes: "Test",
 	},
 ];
+
+export const eventsApData = [
+	{
+		_id: "0123456789",
+		eventDate: "2019-08-21T02:30:36.000Z",
+		eventType: "Game",
+		location: "SAP Center at San Jose",
+		notes: "",
+		opponent: "Vegas Golden Knights",
+		team: "San Jose Sharks",
+	},
+];
+
+export const eventResponseData = [
+	{
+		_id: "0123456789",
+		notes: "I'm gone all month.",
+		response: "Prefer not to work.",
+	},
+];

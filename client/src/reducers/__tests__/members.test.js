@@ -35,6 +35,22 @@ describe("Member Reducer", () => {
 		expect(state).toEqual({
 			data: mocks.membersData,
 			tokens: [],
+			eventResponses: [],
+			editToken: {},
+			viewMember: {},
+		});
+	});
+
+	it("sets members event response data", () => {
+		const state = memberReducer(undefined, {
+			type: types.MEMBERS_SET_EVENTS,
+			payload: { eventResponses: mocks.eventResponseData },
+		});
+
+		expect(state).toEqual({
+			data: [],
+			tokens: [],
+			eventResponses: mocks.eventResponseData,
 			editToken: {},
 			viewMember: {},
 		});
@@ -101,6 +117,7 @@ describe("Member Reducer", () => {
 		expect(state).toEqual({
 			data: [],
 			tokens: mocks.tokensData,
+			eventResponses: [],
 			editToken: {},
 			viewMember: {},
 		});
@@ -115,6 +132,7 @@ describe("Member Reducer", () => {
 		expect(state).toEqual({
 			data: [],
 			tokens: [],
+			eventResponses: [],
 			editToken: { ...mocks.tokensData, seasonIds: mocks.seasonIdsData },
 			viewMember: {},
 		});

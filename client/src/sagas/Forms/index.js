@@ -196,7 +196,7 @@ export function* updateForm({ props }) {
  *
  * @generator
  * @function updateFormAp
- * @param {object} props - contains form data ([_id, seasonId, startMonth, startDate, expirationDate]).
+ * @param {object} props - contains form data ({_id, responses, notes}).
  * @yields {object} - A response from a call to the API.
  * @function parseMessage - Returns a parsed res.data.message.
  * @yields {action} - A redux action to display a server message by type.

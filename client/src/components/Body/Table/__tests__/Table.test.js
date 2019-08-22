@@ -135,13 +135,13 @@ describe("Custom Table", () => {
 					.find("td")
 					.at(1)
 					.text(),
-			).toEqual("10/6/2000");
+			).toEqual("10/06/2000");
 			expect(
 				wrapper
 					.find("td")
 					.at(2)
 					.text(),
-			).toEqual("8/6/2001");
+			).toEqual("08/06/2001");
 		});
 
 		it("handles searches", () => {

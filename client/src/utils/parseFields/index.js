@@ -31,7 +31,7 @@ export default fields => {
 					}
 					case "radiogroup": {
 						acc["responses"] = acc["responses"] || [];
-						if (value) acc["responses"].push({ id: name, value, updateEvent });
+						acc["responses"].push({ id: name, value, updateEvent });
 						break;
 					}
 					default: {

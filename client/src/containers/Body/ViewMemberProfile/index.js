@@ -140,7 +140,6 @@ ViewMemberProfile.propTypes = {
 	viewMember: PropTypes.shape({
 		_id: PropTypes.string,
 		email: PropTypes.string,
-		events: PropTypes.number,
 		firstName: PropTypes.string,
 		lastName: PropTypes.string,
 		registered: PropTypes.string,

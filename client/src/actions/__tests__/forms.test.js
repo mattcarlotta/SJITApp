@@ -49,6 +49,24 @@ describe("Forms Actions", () => {
 		});
 	});
 
+	it("returns FORMS_SET_AP with an empty array if data is empty", () => {
+		const value = actions.setFormAp([]);
+
+		expect(value).toEqual({
+			type: types.FORMS_SET_AP,
+			payload: [],
+		});
+	});
+
+	it("returns FORMS_SET with data", () => {
+		const value = actions.setFormAp(data);
+
+		expect(value).toEqual({
+			type: types.FORMS_SET_AP,
+			payload: data,
+		});
+	});
+
 	it("returns FORMS_SET with an empty array if data is empty", () => {
 		const value = actions.setForms([]);
 
@@ -92,6 +110,17 @@ describe("Forms Actions", () => {
 
 		expect(value).toEqual({
 			type: types.FORMS_UPDATE,
+			props,
+		});
+	});
+
+	it("returns FORMS_UPDATE_AP with props", () => {
+		const props = data;
+
+		const value = actions.updateFormAp(props);
+
+		expect(value).toEqual({
+			type: types.FORMS_UPDATE_AP,
 			props,
 		});
 	});

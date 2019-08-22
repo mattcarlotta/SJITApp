@@ -143,13 +143,13 @@ describe("Select - Selection", () => {
 			expect(wrapper.find("FaSearch").exists()).toBeTruthy();
 		});
 
-		it("renders a FaEraser icon if 'isSearchable' is true and a value or searchText is present", () => {
+		it("renders a FaTimesCircle icon if 'isSearchable' is true and a value or searchText is present", () => {
 			wrapper.setProps({ isSearchable: true, searchText: "Test" });
 
-			expect(wrapper.find("FaEraser").exists()).toBeTruthy();
+			expect(wrapper.find("FaTimesCircle").exists()).toBeTruthy();
 		});
 
-		it("clicking on the FaEraser calls handleSearchClear", () => {
+		it("clicking on the FaTimesCircle calls handleSearchClear", () => {
 			wrapper.setProps({ isSearchable: true, searchText: "Test" });
 
 			wrapper

@@ -44,8 +44,8 @@ describe("Application routes", () => {
 	});
 
 	describe("Staff and Admin routes", () => {
-		it("initially renders 22 routes", () => {
-			expect(wrapper.find("Route")).toHaveLength(22);
+		it("initially renders 23 routes", () => {
+			expect(wrapper.find("Route")).toHaveLength(23);
 		});
 
 		it("routes to Dashboard", () => {
@@ -224,7 +224,7 @@ describe("Application routes", () => {
 			expect(
 				wrapper
 					.find("Route")
-					.at(21)
+					.at(22)
 					.prop("component"),
 			).toBe(AppPageNotFound);
 		});

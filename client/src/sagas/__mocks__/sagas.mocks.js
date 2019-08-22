@@ -58,7 +58,6 @@ export const membersData = [
 		role: "employee",
 		email: "member@example.com",
 		registered: "2000-10-06T07:00:00.000+00:00",
-		events: 0,
 	},
 ];
 
@@ -105,5 +104,17 @@ export const formsData = [
 		endMonth: "2019-09-01T06:59:59.000Z",
 		expirationDate: "2019-08-08T06:59:00.000Z",
 		notes: "Test",
+	},
+];
+
+export const eventResponseData = [
+	{
+		eventDate: "2019-08-21T02:30:36.000Z",
+		eventNotes: "",
+		eventType: "Game",
+		notes: "I'm gone all month.",
+		opponent: "Vegas Golden Knights",
+		response: "Prefer not to work.",
+		team: "San Jose Sharks",
 	},
 ];

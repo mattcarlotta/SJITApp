@@ -6,6 +6,12 @@ const formsData = {
 	forms: mocks.formData,
 };
 
+const apformData = {
+	form: mocks.formData,
+	eventResponses: mocks.eventResponseData,
+	events: mocks.eventsApData,
+};
+
 describe("Form Reducer", () => {
 	it("initially matches the initialState pattern", () => {
 		expect(formReducer(undefined, { payload: {}, type: "" })).toEqual(
@@ -22,6 +28,24 @@ describe("Form Reducer", () => {
 		expect(state).toEqual({
 			data: mocks.formData,
 			editForm: {},
+			eventResponses: [],
+			events: [],
+			viewForm: {},
+		});
+	});
+
+	it("sets forms AP data", () => {
+		const state = formReducer(undefined, {
+			type: types.FORMS_SET_AP,
+			payload: apformData,
+		});
+
+		expect(state).toEqual({
+			data: [],
+			editForm: {},
+			eventResponses: mocks.eventResponseData,
+			events: mocks.eventsApData,
+			viewForm: mocks.formData,
 		});
 	});
 
@@ -60,6 +84,9 @@ describe("Form Reducer", () => {
 		expect(state).toEqual({
 			data: [],
 			editForm: { ...mocks.formData },
+			eventResponses: [],
+			events: [],
+			viewForm: {},
 		});
 	});
 });

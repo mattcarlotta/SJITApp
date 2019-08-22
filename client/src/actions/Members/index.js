@@ -50,6 +50,16 @@ export const fetchMember = memberId => ({
 });
 
 /**
+ * Fetches all members.
+ *
+ * @function fetchMembers
+ * @returns {object}
+ */
+export const fetchMembers = () => ({
+	type: types.MEMBERS_FETCH,
+});
+
+/**
  * Fetches a single member's events based upon a date.
  *
  * @function fetchMemberEvents
@@ -59,16 +69,6 @@ export const fetchMember = memberId => ({
 export const fetchMemberEvents = params => ({
 	type: types.MEMBERS_FETCH_EVENTS,
 	params,
-});
-
-/**
- * Fetches all members.
- *
- * @function fetchMembers
- * @returns {object}
- */
-export const fetchMembers = () => ({
-	type: types.MEMBERS_FETCH,
 });
 
 /**

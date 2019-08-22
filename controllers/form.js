@@ -87,6 +87,88 @@ const getForm = async (req, res) => {
   }
 };
 
+const viewApForm = async (req, res) => {
+  try {
+    const { id: _id } = req.params;
+    if (!_id) throw missingFormId;
+
+    const existingForm = await Form.findOne({ _id }, { __v: 0, seasonId: 0 });
+    if (!existingForm) throw unableToLocateForm;
+
+    const { expirationDate } = existingForm;
+    const currentDate = moment(Date.now()).toDate();
+    const expiredDate = moment(expirationDate).toDate();
+    if (currentDate >= expiredDate)
+      throw expiredForm(
+        moment(expirationDate).format("MMMM Do, YYYY @ hh:mm a"),
+      );
+
+    const startMonth = moment(existingForm.startMonth).toDate();
+    const endMonth = moment(existingForm.endMonth).toDate();
+
+    const events = await Event.aggregate([
+      {
+        $match: {
+          eventDate: {
+            $gte: startMonth,
+            $lte: endMonth,
+          },
+        },
+      },
+      { $unwind: "$eventDate" },
+      { $sort: { eventDate: 1 } },
+      {
+        $project: {
+          __id: 1,
+          location: 1,
+          team: 1,
+          opponent: 1,
+          eventDate: 1,
+          eventType: 1,
+          notes: 1,
+        },
+      },
+    ]);
+
+    const { id: userId } = req.session.user;
+
+    const responses = await Event.aggregate([
+      {
+        $match: {
+          eventDate: {
+            $gte: startMonth,
+            $lte: endMonth,
+          },
+        },
+      },
+      { $unwind: "$employeeResponses" },
+      { $match: { "employeeResponses._id": ObjectId(userId) } },
+      { $sort: { eventDate: 1 } },
+      {
+        $group: {
+          _id: null,
+          eventResponses: {
+            $push: {
+              _id: "$employeeResponses._id",
+              response: "$employeeResponses.response",
+              notes: "$employeeResponses.notes",
+            },
+          },
+        },
+      },
+      { $project: { _id: 0, eventResponses: 1, eventNotes: 1 } },
+    ]);
+
+    res.status(200).json({
+      form: existingForm,
+      events,
+      eventResponses: !isEmpty(responses) ? responses[0].eventResponses : [],
+    });
+  } catch (err) {
+    return sendError(err, res);
+  }
+};
+
 const updateForm = async (req, res) => {
   try {
     const { _id, expirationDate, enrollMonth, notes, seasonId } = req.body;
@@ -176,91 +258,12 @@ const updateFormAp = async (req, res) => {
   }
 };
 
-const viewApForm = async (req, res) => {
-  try {
-    const { id: _id } = req.params;
-    if (!_id) throw missingFormId;
-
-    const existingForm = await Form.findOne({ _id }, { __v: 0, seasonId: 0 });
-    if (!existingForm) throw unableToLocateForm;
-
-    const { expirationDate } = existingForm;
-    const currentDate = moment(Date.now()).toDate();
-    const expiredDate = moment(expirationDate).toDate();
-    if (currentDate >=expiredDate) throw expiredForm(moment(expirationDate).format("MMMM Do, YYYY @ hh:mm a"));
-
-    const startMonth = moment(existingForm.startMonth).toDate();
-    const endMonth = moment(existingForm.endMonth).toDate();
-
-    const events = await Event.aggregate([
-      {
-        $match: {
-          eventDate: {
-            $gte: startMonth,
-            $lte: endMonth,
-          },
-        },
-      },
-      { $unwind: "$eventDate" },
-      { $sort: { eventDate: 1 } },
-      {
-        $project: {
-          __id: 1,
-          location: 1,
-          team: 1,
-          opponent: 1,
-          eventDate: 1,
-          eventType: 1,
-          notes: 1,
-        },
-      },
-    ]);
-
-    const { id: userId } = req.session.user;
-
-    const responses = await Event.aggregate([
-      {
-        $match: {
-          eventDate: {
-            $gte: startMonth,
-            $lte: endMonth,
-          },
-        },
-      },
-      { $unwind: "$employeeResponses" },
-      { $match: { "employeeResponses._id": ObjectId(userId) } },
-      { $sort: { eventDate: 1 } },
-      {
-        $group: {
-          _id: null,
-          eventResponses: {
-            $push: {
-              _id: "$employeeResponses._id",
-              response: "$employeeResponses.response",
-              notes: "$employeeResponses.notes",
-            },
-          },
-        },
-      },
-      { $project: { _id: 0, eventResponses: 1, eventNotes: 1 } },
-    ]);
-
-    res.status(200).json({
-      form: existingForm,
-      events,
-      eventResponses: !isEmpty(responses) ? responses[0].eventResponses : [],
-    });
-  } catch (err) {
-    return sendError(err, res);
-  }
-};
-
 export {
   createForm,
   deleteForm,
   getAllForms,
   getForm,
+  viewApForm,
   updateForm,
   updateFormAp,
-  viewApForm,
 };
