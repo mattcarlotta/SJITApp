@@ -98,6 +98,7 @@ const getMemberEvents = async (req, res) => {
           _id: null,
           eventResponses: {
             $push: {
+              _id: "$_id",
               team: "$team",
               opponent: "$opponent",
               eventDate: "$eventDate",

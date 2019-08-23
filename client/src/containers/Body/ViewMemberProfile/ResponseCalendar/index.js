@@ -14,19 +14,19 @@ const iconStyle = {
 };
 
 export class ResponseCalendar extends Component {
-	state = { isVisible: false, children: null };
+	state = { isVisible: false, modalChildren: null };
 
-	handleShowModal = children => {
+	handleShowModal = modalChildren => {
 		this.setState({
 			isVisible: true,
-			children: [children],
+			modalChildren: [modalChildren],
 		});
 	};
 
 	handleCloseModal = () => {
 		this.setState({
 			isVisible: false,
-			children: null,
+			modalChildren: null,
 		});
 	};
 
@@ -39,16 +39,16 @@ export class ResponseCalendar extends Component {
 	handleBadgeRender = response => {
 		switch (response) {
 			case "I want to work.": {
-				return <FaCircle style={{ ...iconStyle, color: "green" }} />;
+				return "green";
 			}
 			case "Available to work.": {
-				return <FaCircle style={{ ...iconStyle, color: "cadetblue" }} />;
+				return "cadetblue";
 			}
 			case "Prefer not to work.": {
-				return <FaCircle style={{ ...iconStyle, color: "orange" }} />;
+				return "orange";
 			}
 			default: {
-				return <FaCircle style={{ ...iconStyle, color: "red" }} />;
+				return "red";
 			}
 		}
 	};
@@ -68,7 +68,7 @@ export class ResponseCalendar extends Component {
 				{!isEmpty(content) &&
 					content.map(item => (
 						<Button
-							key={item.eventDate}
+							key={item._id}
 							primary={item.team === "San Jose Sharks"}
 							danger={item.team === "San Jose Barracuda"}
 							padding="2px 0"
@@ -99,7 +99,7 @@ export class ResponseCalendar extends Component {
 			/>
 			{this.state.isVisible && (
 				<Modal maxWidth="600px" onClick={this.handleCloseModal}>
-					{this.state.children.map(
+					{this.state.modalChildren.map(
 						({
 							eventDate,
 							eventNotes,
@@ -135,7 +135,12 @@ export class ResponseCalendar extends Component {
 									</ListItem>
 									<ListItem>
 										<strong>Employee Response:</strong>
-										{this.handleBadgeRender(response)}
+										<FaCircle
+											style={{
+												...iconStyle,
+												color: this.handleBadgeRender(response),
+											}}
+										/>
 										{response}
 									</ListItem>
 									{notes && (
@@ -158,6 +163,7 @@ ResponseCalendar.propTypes = {
 	fetchMemberEvents: PropTypes.func.isRequired,
 	eventResponses: PropTypes.arrayOf(
 		PropTypes.shape({
+			_id: PropTypes.string,
 			eventDate: PropTypes.string,
 			eventNotes: PropTypes.string,
 			eventType: PropTypes.string,
@@ -170,16 +176,3 @@ ResponseCalendar.propTypes = {
 };
 
 export default ResponseCalendar;
-
-/*
-						<li>
-							<Tooltip title={<span>{content.response}</span>}>
-								{this.handleBadgeRender(content.response)}
-							</Tooltip>
-							{content.notes && (
-								<Tooltip title={<span>{content.notes}</span>}>
-									<FaEnvelopeOpenText style={{ fontSize: 18 }} />
-								</Tooltip>
-							)}
-            </li>
-            */

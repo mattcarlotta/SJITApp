@@ -86,7 +86,7 @@ describe("Edit Form", () => {
 				wrapper.find("form").simulate("submit");
 			});
 
-			it("successful validation calls updateEvent with fields", done => {
+			it("successful validation calls updateEvent with fields", () => {
 				expect(wrapper.state("isSubmitting")).toBeTruthy();
 				expect(updateForm).toHaveBeenCalledWith({
 					_id: id,
@@ -98,15 +98,13 @@ describe("Edit Form", () => {
 					expirationDate: "2019-08-07T23:59:00-07:00",
 					notes: "Hello",
 				});
-				done();
 			});
 
-			it("on submission error, enables the form submit button", done => {
+			it("on submission error, enables the form submit button", () => {
 				wrapper.setProps({ serverMessage: "Example error message." });
 
 				expect(wrapper.state("isSubmitting")).toBeFalsy();
 				expect(wrapper.find("button[type='submit']").exists()).toBeTruthy();
-				done();
 			});
 		});
 	});

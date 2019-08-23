@@ -130,7 +130,7 @@ describe("New Event Form", () => {
 				wrapper.find("form").simulate("submit");
 			});
 
-			it("successful validation calls createEvent with fields", done => {
+			it("successful validation calls createEvent with fields", () => {
 				expect(wrapper.state("isSubmitting")).toBeTruthy();
 				expect(createEvent).toHaveBeenCalledWith({
 					seasonId: "20002001",
@@ -143,15 +143,13 @@ describe("New Event Form", () => {
 					notes: "",
 					callTimes: ["2019-08-10T19:30:30-07:00"],
 				});
-				done();
 			});
 
-			it("on submission error, enables the form submit button", done => {
+			it("on submission error, enables the form submit button", () => {
 				wrapper.setProps({ serverMessage: "Example error message." });
 
 				expect(wrapper.state("isSubmitting")).toBeFalsy();
 				expect(wrapper.find("button[type='submit']").exists()).toBeTruthy();
-				done();
 			});
 		});
 	});

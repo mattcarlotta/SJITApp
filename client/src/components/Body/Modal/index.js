@@ -17,6 +17,7 @@ export const Modal = ({ children, history, maxWidth, onClick }) => (
 				<ClickHandler closeModal={onClick}>
 					<ModalContent maxWidth={maxWidth}>
 						<CloseModalButton
+							id="close-modal"
 							onClick={() => (onClick ? onClick() : history.push("/"))}
 						>
 							<FaTimes />

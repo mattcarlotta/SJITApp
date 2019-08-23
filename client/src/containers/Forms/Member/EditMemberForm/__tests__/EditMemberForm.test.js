@@ -102,7 +102,7 @@ describe("Edit Member Form", () => {
 				jest.runOnlyPendingTimers();
 			});
 
-			it("successful validation calls updateMember with fields", done => {
+			it("successful validation calls updateMember with fields", () => {
 				expect(wrapper.state("isSubmitting")).toBeTruthy();
 				expect(updateMember).toHaveBeenCalledWith({
 					_id: viewMember._id,
@@ -111,15 +111,13 @@ describe("Edit Member Form", () => {
 					lastName: viewMember.lastName,
 					role: viewMember.role,
 				});
-				done();
 			});
 
-			it("on submission error, enables the form submit button", done => {
+			it("on submission error, enables the form submit button", () => {
 				wrapper.setProps({ serverMessage: "Example error message." });
 
 				expect(wrapper.state("isSubmitting")).toBeFalsy();
 				expect(wrapper.find("button[type='submit']").exists()).toBeTruthy();
-				done();
 			});
 		});
 	});

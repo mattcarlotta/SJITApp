@@ -133,22 +133,20 @@ describe("Edit Season Form", () => {
 				updateSeason.mockClear();
 			});
 
-			it("successful validation calls updateSeason with fields", done => {
+			it("successful validation calls updateSeason with fields", () => {
 				expect(wrapper.state("isSubmitting")).toBeTruthy();
 				expect(updateSeason).toHaveBeenCalledWith({
 					_id: "123456789",
 					seasonId: newSeasonId,
 					seasonDuration: [newStartYear.format(), newEndYear.format()],
 				});
-				done();
 			});
 
-			it("on submission error, enables the form submit button", done => {
+			it("on submission error, enables the form submit button", () => {
 				wrapper.setProps({ serverMessage: "Example error message." });
 
 				expect(wrapper.state("isSubmitting")).toBeFalsy();
 				expect(wrapper.find("button[type='submit']").exists()).toBeTruthy();
-				done();
 			});
 		});
 	});

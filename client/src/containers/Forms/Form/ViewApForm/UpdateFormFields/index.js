@@ -1,4 +1,5 @@
 import React, { Fragment } from "react";
+import PropTypes from "prop-types";
 import get from "lodash/get";
 import { DisplayFullDate, DisplayTeam } from "components/Body";
 
@@ -16,6 +17,13 @@ export const Label = ({ eventType, eventDate, opponent, team }) => (
 		({eventType})
 	</Fragment>
 );
+
+Label.propTypes = {
+	team: PropTypes.string,
+	opponent: PropTypes.string,
+	eventType: PropTypes.string,
+	eventDate: PropTypes.string,
+};
 
 export default (result, field, events, eventResponses) => {
 	switch (field.type) {
