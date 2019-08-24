@@ -60,7 +60,7 @@ describe("Employee App", () => {
 		expect(wrapper.find("AppRoutes").exists()).toBeTruthy();
 	});
 
-	it("handles submenu clicks", done => {
+	it("handles submenu clicks", () => {
 		wrapper
 			.find("App")
 			.instance()
@@ -82,7 +82,6 @@ describe("Employee App", () => {
 
 		expect(wrapper.find("li.ant-menu-submenu-open").exists()).toBeFalsy();
 		expect(wrapper.find("App").state("openKeys")).toEqual([""]);
-		done();
 	});
 
 	it("handles tab clicks and closes any unneccessary sub menus", () => {
@@ -104,7 +103,7 @@ describe("Employee App", () => {
 		expect(wrapper.find("App").state("openKeys")).toEqual([""]);
 	});
 
-	it("toggles sidebar menu", done => {
+	it("toggles sidebar menu", () => {
 		expect(
 			wrapper.find("aside.ant-layout-sider-collapsed").exists(),
 		).toBeFalsy();
@@ -122,11 +121,9 @@ describe("Employee App", () => {
 		expect(
 			wrapper.find("aside.ant-layout-sider-collapsed").exists(),
 		).toBeTruthy();
-
-		done();
 	});
 
-	it("stores the openTab when sidebar is collapsed and opened", done => {
+	it("stores the openTab when sidebar is collapsed and opened", () => {
 		wrapper
 			.find("App")
 			.instance()
@@ -159,18 +156,16 @@ describe("Employee App", () => {
 		wrapper.update();
 		expect(wrapper.find("App").state("openKeys")).toEqual(["forms"]);
 		expect(wrapper.find("App").state("storedKeys")).toEqual(["forms"]);
-
-		done();
 	});
 
-	it("updates the active tab", done => {
+	it("updates the active tab", () => {
 		expect(wrapper.find("li.ant-menu-item-selected").text()).toEqual(
 			"dashboard",
 		);
 
 		wrapper.setProps({
 			location: {
-				pathname: "/employee/schedule",
+				pathname: "/employee/forms/viewall",
 			},
 		});
 
@@ -178,10 +173,30 @@ describe("Employee App", () => {
 
 		wrapper.update();
 
-		expect(wrapper.find("App").state("selectedKey")).toContain("schedule");
+		expect(wrapper.find("App").state("openKeys")).toContain("forms");
+		expect(wrapper.find("App").state("selectedKey")).toContain("forms/viewall");
 		expect(wrapper.find("li.ant-menu-item-selected").text()).toEqual(
-			"schedule",
+			"View Forms",
 		);
-		done();
+
+		wrapper
+			.find("App")
+			.instance()
+			.toggleSideMenu();
+
+		wrapper.setProps({
+			location: {
+				pathname: "/employee/events/viewall",
+			},
+		});
+
+		jest.advanceTimersByTime(3000);
+
+		wrapper.update();
+
+		expect(wrapper.find("App").state("openKeys")).toContain("");
+		expect(wrapper.find("App").state("selectedKey")).toContain(
+			"events/viewall",
+		);
 	});
 });

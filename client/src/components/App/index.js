@@ -52,9 +52,16 @@ class App extends Component {
 		};
 	}
 
-	static getDerivedStateFromProps = props => ({
-		selectedKey: selectedTab(props.location.pathname),
-	});
+	componentDidUpdate = prevProps => {
+		const { pathname } = this.props.location;
+
+		if (prevProps.location.pathname !== pathname) {
+			this.setState(prevState => ({
+				openKeys: !prevState.isCollapsed ? openedKey(pathname) : [""],
+				selectedKey: selectedTab(pathname),
+			}));
+		}
+	};
 
 	handleOpenMenuChange = currentKeys => {
 		const openKeys = currentKeys.length > 1 ? [currentKeys[1]] : [""];
@@ -66,17 +73,13 @@ class App extends Component {
 	};
 
 	handleTabClick = ({ key }) => {
-		this.setState(prevState => {
-			this.props.push(`/employee/${key}`);
+		this.props.push(`/employee/${key}`);
 
-			const openKeys = ROOTTABS.some(tab => key.includes(tab))
-				? prevState.openKeys
-				: [""];
+		const openKeys = ROOTTABS.find(tab => key.includes(tab));
 
-			return {
-				openKeys,
-				storedKeys: openKeys,
-			};
+		this.setState({
+			openKeys: openKeys ? [openKeys] : [""],
+			storedKeys: openKeys,
 		});
 	};
 
