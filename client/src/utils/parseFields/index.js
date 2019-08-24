@@ -13,7 +13,7 @@ export default fields => {
 		if (isEmpty(fields)) throw new Error("You must supply an array of fields!");
 
 		const parsedFields = fields.reduce(
-			(acc, { name, type, value, updateEvent }) => {
+			(acc, { name, type, value, notes, updateEvent }) => {
 				switch (type) {
 					case "time": {
 						acc["callTimes"] = acc["callTimes"] || [];
@@ -31,7 +31,7 @@ export default fields => {
 					}
 					case "radiogroup": {
 						acc["responses"] = acc["responses"] || [];
-						acc["responses"].push({ id: name, value, updateEvent });
+						acc["responses"].push({ id: name, value, notes, updateEvent });
 						break;
 					}
 					default: {

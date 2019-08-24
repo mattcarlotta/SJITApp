@@ -16,6 +16,7 @@ import { FieldGenerator, FormTitle, LoadingForm } from "components/Forms";
 import { fetchFormAp, updateFormAp } from "actions/Forms";
 import { fieldValidator, fieldUpdater, parseFields } from "utils";
 import updateFormFields from "./UpdateFormFields";
+import condenseFormFields from "./CondenseFormFields";
 import fields from "./Fields";
 
 const title = "Sharks & Barracuda A/P Form";
@@ -65,11 +66,11 @@ export class ViewApForm extends Component {
 
 		this.setState({ fields: validatedFields, isSubmitting: !errors }, () => {
 			const { fields: formFields } = this.state;
+			const { viewForm } = this.props;
 
 			if (!errors) {
-				const parsedFields = parseFields(formFields);
-
-				const { viewForm } = this.props;
+				const condensedFields = condenseFormFields(formFields);
+				const parsedFields = parseFields(condensedFields);
 
 				this.props.updateFormAp({
 					...parsedFields,

@@ -1,6 +1,6 @@
 import updateFormFields, { Label } from "../index";
 
-const events = [
+const eventsGame = [
 	{
 		_id: "5d5b5ee857a6d20abf49db19",
 		eventDate: "2019-08-21T02:30:36.000Z",
@@ -51,6 +51,7 @@ describe("UpdateFormFields", () => {
 	beforeEach(() => {
 		wrapper = mount(<Label {...initProps} />);
 	});
+
 	it("initializes a radiogroup field value, adds a label, adds an updateEvent flag, includes event notes, and enables the field", () => {
 		const field = {
 			type: "radiogroup",
@@ -71,6 +72,7 @@ describe("UpdateFormFields", () => {
 		expect(updatedField).toEqual([
 			{
 				...field,
+				id: eventsPromo[0]._id,
 				name: eventsPromo[0]._id,
 				value: "",
 				label: (
@@ -84,6 +86,19 @@ describe("UpdateFormFields", () => {
 				updateEvent: false,
 				notes: eventsPromo[0].notes,
 				disabled: false,
+			},
+			{
+				id: eventsPromo[0]._id,
+				name: `${eventsPromo[0]._id}-notes`,
+				type: "textarea",
+				value: "",
+				errors: "",
+				placeholder:
+					"(Optional) Include any special notes for the above event...",
+				required: false,
+				disabled: false,
+				width: "350px",
+				rows: 3,
 			},
 		]);
 	});
@@ -103,24 +118,43 @@ describe("UpdateFormFields", () => {
 			],
 		};
 
-		const updatedField = updateFormFields([], field, events, eventResponses);
+		const updatedField = updateFormFields(
+			[],
+			field,
+			eventsGame,
+			eventResponses,
+		);
 
 		expect(updatedField).toEqual([
 			{
 				...field,
-				name: events[0]._id,
+				id: eventsGame[0]._id,
+				name: eventsGame[0]._id,
 				value: eventResponses[0].response,
 				label: (
 					<Label
-						eventType={events[0].eventType}
-						eventDate={events[0].eventDate}
-						opponent={events[0].opponent}
-						team={events[0].team}
+						eventType={eventsGame[0].eventType}
+						eventDate={eventsGame[0].eventDate}
+						opponent={eventsGame[0].opponent}
+						team={eventsGame[0].team}
 					/>
 				),
 				updateEvent: !!eventResponses[0].response,
-				notes: events[0].notes,
+				notes: eventsGame[0].notes,
 				disabled: false,
+			},
+			{
+				id: eventsGame[0]._id,
+				name: `${eventsGame[0]._id}-notes`,
+				type: "textarea",
+				value: eventResponses[0].notes,
+				errors: "",
+				placeholder:
+					"(Optional) Include any special notes for the above event...",
+				required: false,
+				disabled: false,
+				width: "350px",
+				rows: 3,
 			},
 		]);
 	});
@@ -138,54 +172,5 @@ describe("UpdateFormFields", () => {
 		expect(wrapper.find("DisplayFullDate").exists()).toBeTruthy();
 		expect(wrapper.find("DisplayTeam")).toHaveLength(1);
 		expect(wrapper.find(Label).text()).toContain(`(${nextProps.eventType})`);
-	});
-
-	it("updates notes field value and enables the field", () => {
-		const field = {
-			name: "notes",
-			type: "textarea",
-			label: "Event Notes",
-			value: "",
-			errors: "",
-			placeholder: "(Optional) Include any special notes for the month...",
-			required: false,
-			disabled: true,
-			width: "450px",
-			rows: 3,
-		};
-
-		const updatedField = updateFormFields([], field, events, eventResponses);
-
-		expect(updatedField).toEqual([
-			{
-				...field,
-				value: eventResponses[0].notes,
-				disabled: false,
-			},
-		]);
-	});
-
-	it("doesn't update notes field value but enables the field if eventResponse notes are empty", () => {
-		const field = {
-			name: "notes",
-			type: "textarea",
-			label: "Event Notes",
-			value: "",
-			errors: "",
-			placeholder: "(Optional) Include any special notes for the month...",
-			required: false,
-			disabled: true,
-			width: "450px",
-			rows: 3,
-		};
-
-		const updatedField = updateFormFields([], field, events, []);
-
-		expect(updatedField).toEqual([
-			{
-				...field,
-				disabled: false,
-			},
-		]);
 	});
 });

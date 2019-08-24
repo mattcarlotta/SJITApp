@@ -199,7 +199,7 @@ const updateForm = async (req, res) => {
 
 const updateFormAp = async (req, res) => {
   try {
-    const { _id, responses, notes } = req.body;
+    const { _id, responses } = req.body;
 
     if (!_id || !responses) throw unableToUpdateApForm;
 
@@ -209,7 +209,7 @@ const updateFormAp = async (req, res) => {
     await Event.bulkWrite(
       responses.map(response => {
         try {
-          const { id: eventId, value, updateEvent } = response;
+          const { id: eventId, value, notes, updateEvent } = response;
           const { id: userId } = req.session.user;
 
           const filter = updateEvent

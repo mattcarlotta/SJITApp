@@ -59,7 +59,7 @@ const FieldGenerator = ({ fields, onChange }) =>
 				return (
 					<Form.Item
 						key={props.name}
-						style={{ height: 220, marginBottom: props.notes ? 90 : 30 }}
+						style={{ height: 220, marginBottom: props.notes ? 60 : 30 }}
 					>
 						<Label style={{ marginBottom: 25 }} {...props} />
 						{props.notes && <Notes {...props} />}
@@ -75,7 +75,9 @@ const FieldGenerator = ({ fields, onChange }) =>
 									</Radio>
 								))}
 						</RadioGroup>
-						{props.errors && <Errors>{props.errors}</Errors>}
+						{props.errors && (
+							<Errors style={{ textAlign: "center" }}>{props.errors}</Errors>
+						)}
 					</Form.Item>
 				);
 			case "range":
@@ -103,9 +105,9 @@ const FieldGenerator = ({ fields, onChange }) =>
 				return (
 					<Form.Item
 						key={props.name}
-						style={{ minHeight: 105, marginBottom: 20 }}
+						style={{ minHeight: 105, marginBottom: props.label ? 20 : 40 }}
 					>
-						<Label {...props} />
+						{props.label && <Label {...props} />}
 						<TextArea
 							{...props}
 							style={{ width: props.width || "100%" }}

@@ -134,11 +134,11 @@ describe("View Ap Form", () => {
 				expect(wrapper.state("isSubmitting")).toBeTruthy();
 				expect(updateFormAp).toHaveBeenCalledWith({
 					_id: viewForm._id,
-					notes: "",
 					responses: [
 						{
 							id: events[0]._id,
 							value,
+							notes: "",
 							updateEvent: false,
 						},
 					],
