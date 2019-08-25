@@ -10,6 +10,7 @@ const Content = Layout.Content;
 const TABS = [
 	"dashboard",
 	"events/create",
+	"events/edit",
 	"events/viewall",
 	"forms/create",
 	"forms/viewall",
@@ -33,7 +34,7 @@ const selectedTab = path => TABS.filter(tab => path.indexOf(tab) >= 1);
 const openedKey = path => {
 	const opened = ROOTTABS.find(tab => path.includes(tab));
 
-	return opened ? [opened] : [""];
+	return opened ? [opened] : [];
 };
 
 class App extends Component {
@@ -52,40 +53,56 @@ class App extends Component {
 		};
 	}
 
-	componentDidUpdate = prevProps => {
+	componentDidUpdate = (prevProps, prevState) => {
 		const { pathname } = this.props.location;
 
 		if (prevProps.location.pathname !== pathname) {
 			this.setState(prevState => ({
-				openKeys: !prevState.isCollapsed ? openedKey(pathname) : [""],
+				openKeys: !prevState.isCollapsed ? openedKey(pathname) : [],
 				selectedKey: selectedTab(pathname),
+				storedKeys: selectedTab(pathname),
 			}));
+		}
+
+		if (
+			prevState.isCollapsed !== this.state.isCollapsed &&
+			!this.state.isCollapsed
+		) {
+			this.setState({
+				openKeys: openedKey(pathname),
+			});
 		}
 	};
 
-	handleOpenMenuChange = currentKeys => {
-		const openKeys = currentKeys.length > 1 ? [currentKeys[1]] : [""];
+	handleOpenMenuChange = openKeys => {
+		const latestOpenKey = openKeys.find(
+			key => this.state.openKeys.indexOf(key) === -1,
+		);
 
-		this.setState({
-			openKeys,
-			storedKeys: openKeys,
-		});
+		if (ROOTTABS.indexOf(latestOpenKey) === -1) {
+			this.setState({ openKeys });
+		} else {
+			this.setState({
+				openKeys: [latestOpenKey],
+			});
+		}
 	};
 
 	handleTabClick = ({ key }) => {
-		this.props.push(`/employee/${key}`);
+		this.setState(() => {
+			this.props.push(`/employee/${key}`);
+			const openKeys = ROOTTABS.find(tab => key.includes(tab));
 
-		const openKeys = ROOTTABS.find(tab => key.includes(tab));
-
-		this.setState({
-			openKeys: openKeys ? [openKeys] : [""],
-			storedKeys: openKeys,
+			return {
+				openKeys: openKeys ? [openKeys] : [],
+				storedKeys: [openKeys],
+			};
 		});
 	};
 
 	toggleSideMenu = () =>
 		this.setState(prevState => ({
-			openKeys: !prevState.isCollapsed ? [""] : prevState.storedKeys,
+			openKeys: [],
 			isCollapsed: !prevState.isCollapsed,
 		}));
 

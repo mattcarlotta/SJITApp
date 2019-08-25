@@ -64,8 +64,8 @@ const SideMenu = ({
 							</Fragment>
 						}
 					>
-						{submenu.map(({ component, tab, key }) => (
-							<MenuItem key={key}>
+						{submenu.map(({ component, disabled, tab, key }) => (
+							<MenuItem disabled={disabled} key={key}>
 								<Icon component={component} />
 								<Tab>{tab}</Tab>
 							</MenuItem>

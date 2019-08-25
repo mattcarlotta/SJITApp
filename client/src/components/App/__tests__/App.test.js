@@ -38,8 +38,8 @@ describe("Employee App", () => {
 	});
 
 	it("handles sub menu opening during application load", () => {
-		expect(wrapper.find("App").state("openKeys")).toEqual([""]);
-		expect(wrapper.find("App").state("storedKeys")).toEqual([""]);
+		expect(wrapper.find("App").state("openKeys")).toEqual([]);
+		expect(wrapper.find("App").state("storedKeys")).toEqual([]);
 		wrapper.unmount();
 
 		wrapper = HOCWrap(App, nextProps, null, ["/employee/forms/create"]);
@@ -60,6 +60,28 @@ describe("Employee App", () => {
 		expect(wrapper.find("AppRoutes").exists()).toBeTruthy();
 	});
 
+	it("opens a submenu", () => {
+		wrapper
+			.find("App")
+			.instance()
+			.handleOpenMenuChange(["events"]);
+
+		jest.advanceTimersByTime(3000);
+		wrapper.update();
+
+		expect(wrapper.find("App").state("openKeys")).toEqual(["events"]);
+
+		wrapper
+			.find("App")
+			.instance()
+			.handleOpenMenuChange(["events", "forms"]);
+
+		jest.advanceTimersByTime(3000);
+		wrapper.update();
+
+		expect(wrapper.find("App").state("openKeys")).toEqual(["forms"]);
+	});
+
 	it("handles submenu clicks", () => {
 		wrapper
 			.find("App")
@@ -69,7 +91,7 @@ describe("Employee App", () => {
 		jest.advanceTimersByTime(3000);
 		wrapper.update();
 
-		expect(wrapper.find("App").state("openKeys")).toEqual(["forms"]);
+		expect(wrapper.find("App").state("openKeys")).toEqual(["", "forms"]);
 		expect(wrapper.find("li.ant-menu-submenu-open").text()).toContain("forms");
 
 		wrapper
@@ -81,7 +103,7 @@ describe("Employee App", () => {
 		wrapper.update();
 
 		expect(wrapper.find("li.ant-menu-submenu-open").exists()).toBeFalsy();
-		expect(wrapper.find("App").state("openKeys")).toEqual([""]);
+		expect(wrapper.find("App").state("openKeys")).toEqual([]);
 	});
 
 	it("handles tab clicks and closes any unneccessary sub menus", () => {
@@ -100,7 +122,7 @@ describe("Employee App", () => {
 			.instance()
 			.handleTabClick({ key: "schedule" });
 
-		expect(wrapper.find("App").state("openKeys")).toEqual([""]);
+		expect(wrapper.find("App").state("openKeys")).toEqual([]);
 	});
 
 	it("toggles sidebar menu", () => {
@@ -117,7 +139,7 @@ describe("Employee App", () => {
 
 		wrapper.update();
 		expect(wrapper.find("App").state("isCollapsed")).toBeTruthy();
-		expect(wrapper.find("App").state("openKeys")).toEqual([""]);
+		expect(wrapper.find("App").state("openKeys")).toEqual([]);
 		expect(
 			wrapper.find("aside.ant-layout-sider-collapsed").exists(),
 		).toBeTruthy();
@@ -132,8 +154,8 @@ describe("Employee App", () => {
 		jest.advanceTimersByTime(3000);
 
 		wrapper.update();
-		expect(wrapper.find("App").state("openKeys")).toEqual(["forms"]);
-		expect(wrapper.find("App").state("storedKeys")).toEqual(["forms"]);
+		expect(wrapper.find("App").state("openKeys")).toEqual(["", "forms"]);
+		expect(wrapper.find("App").state("storedKeys")).toEqual([]);
 
 		wrapper
 			.find("App")
@@ -143,8 +165,8 @@ describe("Employee App", () => {
 		jest.advanceTimersByTime(3000);
 
 		wrapper.update();
-		expect(wrapper.find("App").state("openKeys")).toEqual([""]);
-		expect(wrapper.find("App").state("storedKeys")).toEqual(["forms"]);
+		expect(wrapper.find("App").state("openKeys")).toEqual([]);
+		expect(wrapper.find("App").state("storedKeys")).toEqual([]);
 
 		wrapper
 			.find("App")
@@ -154,8 +176,8 @@ describe("Employee App", () => {
 		jest.advanceTimersByTime(3000);
 
 		wrapper.update();
-		expect(wrapper.find("App").state("openKeys")).toEqual(["forms"]);
-		expect(wrapper.find("App").state("storedKeys")).toEqual(["forms"]);
+		expect(wrapper.find("App").state("openKeys")).toEqual([]);
+		expect(wrapper.find("App").state("storedKeys")).toEqual([]);
 	});
 
 	it("updates the active tab", () => {
@@ -173,7 +195,7 @@ describe("Employee App", () => {
 
 		wrapper.update();
 
-		expect(wrapper.find("App").state("openKeys")).toContain("forms");
+		expect(wrapper.find("App").state("openKeys")).toEqual(["forms"]);
 		expect(wrapper.find("App").state("selectedKey")).toContain("forms/viewall");
 		expect(wrapper.find("li.ant-menu-item-selected").text()).toEqual(
 			"View Forms",
@@ -194,7 +216,7 @@ describe("Employee App", () => {
 
 		wrapper.update();
 
-		expect(wrapper.find("App").state("openKeys")).toContain("");
+		expect(wrapper.find("App").state("openKeys")).toEqual([]);
 		expect(wrapper.find("App").state("selectedKey")).toContain(
 			"events/viewall",
 		);
