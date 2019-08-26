@@ -39,12 +39,10 @@ describe("Employee App", () => {
 
 	it("handles sub menu opening during application load", () => {
 		expect(wrapper.find("App").state("openKeys")).toEqual([]);
-		expect(wrapper.find("App").state("storedKeys")).toEqual([]);
 		wrapper.unmount();
 
 		wrapper = HOCWrap(App, nextProps, null, ["/employee/forms/create"]);
 		expect(wrapper.find("App").state("openKeys")).toEqual(["forms"]);
-		expect(wrapper.find("App").state("storedKeys")).toEqual(["forms"]);
 	});
 
 	it("renders the SideMenu", () => {
@@ -155,7 +153,6 @@ describe("Employee App", () => {
 
 		wrapper.update();
 		expect(wrapper.find("App").state("openKeys")).toEqual(["", "forms"]);
-		expect(wrapper.find("App").state("storedKeys")).toEqual([]);
 
 		wrapper
 			.find("App")
@@ -166,7 +163,6 @@ describe("Employee App", () => {
 
 		wrapper.update();
 		expect(wrapper.find("App").state("openKeys")).toEqual([]);
-		expect(wrapper.find("App").state("storedKeys")).toEqual([]);
 
 		wrapper
 			.find("App")
@@ -177,7 +173,6 @@ describe("Employee App", () => {
 
 		wrapper.update();
 		expect(wrapper.find("App").state("openKeys")).toEqual([]);
-		expect(wrapper.find("App").state("storedKeys")).toEqual([]);
 	});
 
 	it("updates the active tab", () => {

@@ -55,19 +55,16 @@ class App extends Component {
 
 	componentDidUpdate = (prevProps, prevState) => {
 		const { pathname } = this.props.location;
+		const { isCollapsed } = this.state;
 
 		if (prevProps.location.pathname !== pathname) {
 			this.setState(prevState => ({
 				openKeys: !prevState.isCollapsed ? openedKey(pathname) : [],
 				selectedKey: selectedTab(pathname),
-				storedKeys: selectedTab(pathname),
 			}));
 		}
 
-		if (
-			prevState.isCollapsed !== this.state.isCollapsed &&
-			!this.state.isCollapsed
-		) {
+		if (prevState.isCollapsed !== isCollapsed && !isCollapsed) {
 			this.setState({
 				openKeys: openedKey(pathname),
 			});
@@ -79,13 +76,9 @@ class App extends Component {
 			key => this.state.openKeys.indexOf(key) === -1,
 		);
 
-		if (ROOTTABS.indexOf(latestOpenKey) === -1) {
-			this.setState({ openKeys });
-		} else {
-			this.setState({
-				openKeys: [latestOpenKey],
-			});
-		}
+		const containLatestKey = ROOTTABS.indexOf(latestOpenKey) === -1;
+
+		this.setState({ openKeys: containLatestKey ? openKeys : [latestOpenKey] });
 	};
 
 	handleTabClick = ({ key }) => {
@@ -95,7 +88,6 @@ class App extends Component {
 
 			return {
 				openKeys: openKeys ? [openKeys] : [],
-				storedKeys: [openKeys],
 			};
 		});
 	};
