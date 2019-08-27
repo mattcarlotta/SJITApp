@@ -28,7 +28,7 @@ const deleteMember = async (req, res) => {
 
 const getAllMembers = async (_, res) => {
   const members = await User.aggregate([
-    // { $match: { role: { $ne: "admin" } } },
+    { $match: { role: { $ne: "admin" } } },
     {
       $project: {
         events: 1,
@@ -73,7 +73,9 @@ const getMemberEvents = async (req, res) => {
     );
     if (!existingMember) throw unableToLocateMember;
 
-    const currentDate = selectedDate ? selectedDate : Date.now();
+    /* istanbul ignore next */
+    const currentDate = selectedDate || Date.now();
+
     const startMonth = moment(currentDate)
       .startOf("month")
       .toDate();
@@ -121,9 +123,10 @@ const getMemberEvents = async (req, res) => {
 
 const updateMember = async (req, res) => {
   try {
-    const { _id, email, firstName, lastName, role } = req.body;
-    if (!_id || !email || !firstName || !lastName || !role)
-      throw missingUpdateMemberParams;
+    const {
+      _id, email, firstName, lastName, role,
+    } = req.body;
+    if (!_id || !email || !firstName || !lastName || !role) throw missingUpdateMemberParams;
 
     const existingMember = await User.findOne({ _id });
     if (!existingMember) throw unableToLocateMember;

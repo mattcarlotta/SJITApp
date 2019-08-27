@@ -55,7 +55,6 @@ describe("Get Member Controller", () => {
         __v: expect.any(Number),
         _id: expect.any(ObjectId),
         email: expect.any(String),
-        events: expect.any(Array),
         firstName: expect.any(String),
         lastName: expect.any(String),
         registered: expect.any(Date),

@@ -117,7 +117,6 @@ describe("Update Member Controller", () => {
         __v: expect.any(Number),
         _id: expect.any(ObjectId),
         email: updatedMember.email,
-        events: expect.any(Array),
         firstName: updatedMember.firstName,
         lastName: updatedMember.lastName,
         registered: expect.any(Date),

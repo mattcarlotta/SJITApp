@@ -7,12 +7,10 @@ export default async (req, res, next) => {
   const user = get(req, ["session", "user"]);
   const role = get(user, ["role"]);
 
-  if (!user || (role !== "admin" && role !== "staff"))
-    return res.status(401).send({ err: badCredentials });
+  if (!user || (role !== "admin" && role !== "staff")) return res.status(401).send({ err: badCredentials });
 
   const existingUser = await User.findOne({ _id: user.id });
-  if (!existingUser) return clearSession(res);
-  if (existingUser.status === "suspended") return clearSession(res);
+  if (!existingUser || existingUser.status === "suspended") return clearSession(res);
 
   next();
 };

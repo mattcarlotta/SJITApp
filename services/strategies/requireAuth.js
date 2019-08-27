@@ -9,8 +9,7 @@ export default async (req, res, next) => {
   if (!user) return res.status(401).send({ err: badCredentials });
 
   const existingUser = await User.findOne({ _id: user.id });
-  if (!existingUser) return clearSession(res);
-  if (existingUser.status === "suspended") return clearSession(res);
+  if (!existingUser || existingUser.status === "suspended") return clearSession(res);
 
   next();
 };

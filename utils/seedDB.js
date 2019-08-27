@@ -280,6 +280,16 @@ const seedDB = async () => {
       status: "active",
     };
 
+    const suspendedEmployee = {
+      email: "suspended.employee@example.com",
+      password: memberPassword,
+      firstName: "Suspended",
+      lastName: "Employee",
+      role: "employee",
+      token: createRandomToken(),
+      status: "suspended",
+    };
+
     await User.create(administrator);
     await User.create(staffMember);
     await User.create(member);
@@ -291,7 +301,9 @@ const seedDB = async () => {
     await User.create(member7);
     await User.create(member8);
     await User.create(member9);
+    await User.create(suspendedEmployee);
 
+    const adminAccount = await User.findOne({ email: administrator.email });
     const newMember = await User.findOne({ email: member.email });
     const newMember2 = await User.findOne({ email: member2.email });
     const newMember3 = await User.findOne({ email: member3.email });
@@ -327,8 +339,78 @@ const seedDB = async () => {
       eventDate: "2019-08-11T02:30:30.036Z",
     };
 
+    const newEvent3 = {
+      eventType: "Game",
+      location: "SAP Center at San Jose",
+      callTimes: [
+        "2019-08-19T17:15:43-07:00",
+        "2019-08-19T17:45:43-07:00",
+        "2019-08-19T18:15:43-07:00",
+        "2019-08-19T19:00:43-07:00",
+      ],
+      uniform: "Sharks Teal Jersey",
+      eventDate: "2019-08-21T02:30:36.000Z",
+      notes: "",
+      opponent: "Vegas Golden Knights",
+      seasonId: "20192020",
+      team: "San Jose Sharks",
+      employeeResponses: [
+        {
+          _id: adminAccount._id,
+          response: "I want to work.",
+          notes: "",
+        },
+      ],
+      scheduledEmployees: [],
+    };
+
+    const newEvent4 = {
+      eventType: "Game",
+      location: "SAP Center at San Jose",
+      callTimes: [
+        "2019-10-19T17:15:43-07:00",
+        "2019-10-19T17:45:43-07:00",
+        "2019-10-19T18:15:43-07:00",
+        "2019-10-19T19:00:43-07:00",
+      ],
+      uniform: "Sharks Teal Jersey",
+      eventDate: "2019-10-21T02:30:36.000Z",
+      notes: "",
+      opponent: "Dallas Stars",
+      seasonId: "20192020",
+      team: "San Jose Sharks",
+      employeeResponses: [
+        {
+          _id: adminAccount._id,
+          response: "I want to work.",
+          notes: "",
+        },
+      ],
+      scheduledEmployees: [],
+    };
+
+    const newEvent5 = {
+      eventType: "Game",
+      location: "SAP Center at San Jose",
+      callTimes: [
+        "2019-10-19T17:15:43-07:00",
+        "2019-10-19T17:45:43-07:00",
+        "2019-10-19T18:15:43-07:00",
+        "2019-10-19T19:00:43-07:00",
+      ],
+      uniform: "Sharks Teal Jersey",
+      eventDate: "2019-10-31T02:30:36.000Z",
+      notes: "",
+      opponent: "Arizona Coyotes",
+      seasonId: "20192020",
+      team: "San Jose Sharks",
+    };
+
     await Event.create(newEvent);
     await Event.create(newEvent2);
+    await Event.create(newEvent3);
+    await Event.create(newEvent4);
+    await Event.create(newEvent5);
 
     await Team.insertMany(teams);
 
@@ -356,9 +438,36 @@ const seedDB = async () => {
       seasonId: "20112012",
     };
 
+    const form4 = {
+      expirationDate: new Date("2099-08-10T07:00:00.000Z"),
+      startMonth: new Date("2019-08-01T07:00:00.000Z"),
+      endMonth: new Date("2019-08-31T07:00:00.000Z"),
+      notes: "Form 4",
+      seasonId: "20192020",
+    };
+
+    const form5 = {
+      expirationDate: new Date("2099-08-10T07:00:00.000Z"),
+      startMonth: new Date("2019-09-01T07:00:00.000Z"),
+      endMonth: new Date("2019-09-30T07:00:00.000Z"),
+      notes: "Form 5",
+      seasonId: "20192020",
+    };
+
+    const form6 = {
+      expirationDate: new Date("2099-08-10T07:00:00.000Z"),
+      startMonth: new Date("2019-10-01T07:00:00.000Z"),
+      endMonth: new Date("2019-10-31T07:00:00.000Z"),
+      notes: "Form 6",
+      seasonId: "20192020",
+    };
+
     await Form.create(form1);
     await Form.create(form2);
     await Form.create(form3);
+    await Form.create(form4);
+    await Form.create(form5);
+    await Form.create(form6);
 
     await db.close();
 

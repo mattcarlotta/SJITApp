@@ -1,3 +1,4 @@
+import { User } from "models";
 import { requireStaffRole } from "services/strategies";
 import { badCredentials } from "shared/authErrors";
 
@@ -28,14 +29,52 @@ describe("Require Staff Role Authentication Middleware", () => {
     done();
   });
 
-  it("handles valid requests requiring staff privileges", async done => {
+  it("handles suspended staff authenticated sessions", async done => {
+    const existingUser = await User.findOne({
+      email: "suspended.employee@example.com",
+    });
+
     const session = {
       user: {
-        id: "88",
-        email: "test@example.com",
-        firstName: "Beta",
-        lastName: "Tester",
+        id: existingUser._id,
         role: "staff",
+      },
+    };
+
+    const req = mockRequest(null, session);
+
+    await requireStaffRole(req, res, next);
+    expect(res.clearCookie).toHaveBeenCalledWith("SJSITApp", { path: "/" });
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith({ role: "guest" });
+    done();
+  });
+
+  it("handles deleted/non-existent staff authenticated sessions", async done => {
+    const session = {
+      user: {
+        id: "5d5b5e952871780ef474807d",
+        role: "staff",
+      },
+    };
+
+    const req = mockRequest(null, session);
+
+    await requireStaffRole(req, res, next);
+    expect(res.clearCookie).toHaveBeenCalledWith("SJSITApp", { path: "/" });
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith({ role: "guest" });
+    done();
+  });
+
+  it("handles valid requests requiring staff privileges", async done => {
+    const existingUser = await User.findOne({
+      email: "carlotta.matt@gmail.com",
+    });
+    const session = {
+      user: {
+        id: existingUser._id,
+        role: existingUser.role,
       },
     };
 

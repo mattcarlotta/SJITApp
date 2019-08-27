@@ -1,7 +1,7 @@
 import moment from "moment";
 import isEmpty from "lodash/isEmpty";
 import { Types } from "mongoose";
-import { Event, Form, Season, User } from "models";
+import { Event, Form, Season } from "models";
 import { sendError } from "shared/helpers";
 import {
   expiredForm,
@@ -18,10 +18,11 @@ const { ObjectId } = Types;
 
 const createForm = async (req, res) => {
   try {
-    const { expirationDate, enrollMonth, notes, seasonId } = req.body;
+    const {
+      expirationDate, enrollMonth, notes, seasonId,
+    } = req.body;
 
-    if (!seasonId || !expirationDate || !enrollMonth)
-      throw unableToCreateNewForm;
+    if (!seasonId || !expirationDate || !enrollMonth) throw unableToCreateNewForm;
 
     const seasonExists = await Season.findOne({ seasonId });
     if (!seasonExists) throw unableToLocateSeason;
@@ -89,6 +90,7 @@ const getForm = async (req, res) => {
 
 const viewApForm = async (req, res) => {
   try {
+    const { id: userId } = req.session.user;
     const { id: _id } = req.params;
     if (!_id) throw missingFormId;
 
@@ -98,10 +100,11 @@ const viewApForm = async (req, res) => {
     const { expirationDate } = existingForm;
     const currentDate = moment(Date.now()).toDate();
     const expiredDate = moment(expirationDate).toDate();
-    if (currentDate >= expiredDate)
+    if (currentDate >= expiredDate) {
       throw expiredForm(
-        moment(expirationDate).format("MMMM Do, YYYY @ hh:mm a"),
+        moment(expirationDate).format("MMMM Do, YYYY @ hh:mma"),
       );
+    }
 
     const startMonth = moment(existingForm.startMonth).toDate();
     const endMonth = moment(existingForm.endMonth).toDate();
@@ -129,8 +132,6 @@ const viewApForm = async (req, res) => {
         },
       },
     ]);
-
-    const { id: userId } = req.session.user;
 
     const responses = await Event.aggregate([
       {
@@ -171,10 +172,11 @@ const viewApForm = async (req, res) => {
 
 const updateForm = async (req, res) => {
   try {
-    const { _id, expirationDate, enrollMonth, notes, seasonId } = req.body;
+    const {
+      _id, expirationDate, enrollMonth, notes, seasonId,
+    } = req.body;
 
-    if (!_id || !seasonId || !expirationDate || !enrollMonth)
-      throw unableToUpdateForm;
+    if (!_id || !seasonId || !expirationDate || !enrollMonth) throw unableToUpdateForm;
 
     const seasonExists = await Season.findOne({ seasonId });
     if (!seasonExists) throw unableToLocateSeason;
@@ -197,10 +199,9 @@ const updateForm = async (req, res) => {
   }
 };
 
-const updateFormAp = async (req, res) => {
+const updateApForm = async (req, res) => {
   try {
     const { _id, responses } = req.body;
-
     if (!_id || !responses) throw unableToUpdateApForm;
 
     const formExists = await Form.findOne({ _id });
@@ -208,45 +209,43 @@ const updateFormAp = async (req, res) => {
 
     await Event.bulkWrite(
       responses.map(response => {
-        try {
-          const { id: eventId, value, notes, updateEvent } = response;
-          const { id: userId } = req.session.user;
+        const {
+          id: eventId, value, notes, updateEvent,
+        } = response;
+        const { id: userId } = req.session.user;
 
-          const filter = updateEvent
-            ? {
-                _id: eventId,
-                "employeeResponses._id": userId,
-              }
-            : {
-                _id: eventId,
-              };
+        const filter = updateEvent
+          ? {
+            _id: eventId,
+            "employeeResponses._id": userId,
+          }
+          : {
+            _id: eventId,
+          };
 
-          const update = updateEvent
-            ? {
-                $set: {
-                  "employeeResponses.$.response": value,
-                  "employeeResponses.$.notes": notes,
-                },
-              }
-            : {
-                $push: {
-                  employeeResponses: {
-                    _id: userId,
-                    response: value,
-                    notes,
-                  },
-                },
-              };
-
-          return {
-            updateOne: {
-              filter,
-              update,
+        const update = updateEvent
+          ? {
+            $set: {
+              "employeeResponses.$.response": value,
+              "employeeResponses.$.notes": notes,
+            },
+          }
+          : {
+            $push: {
+              employeeResponses: {
+                _id: userId,
+                response: value,
+                notes,
+              },
             },
           };
-        } catch (error) {
-          throw error;
-        }
+
+        return {
+          updateOne: {
+            filter,
+            update,
+          },
+        };
       }),
     );
 
@@ -265,5 +264,5 @@ export {
   getForm,
   viewApForm,
   updateForm,
-  updateFormAp,
+  updateApForm,
 };

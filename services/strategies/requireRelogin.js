@@ -8,8 +8,7 @@ export default async (req, res, next) => {
   if (!user) return clearSession(res);
 
   const existingUser = await User.findOne({ _id: user.id });
-  if (!existingUser) return clearSession(res);
-  if (existingUser.status === "suspended") return clearSession(res);
+  if (!existingUser || existingUser.status === "suspended") return clearSession(res);
 
   next();
 };
