@@ -146,9 +146,7 @@ class CustomTable extends Component {
 									<FaPencilAlt style={{ fontSize: 16 }} />
 								</Button>
 							</Tooltip>
-							{(viewLocation || editLocation || deleteAction) && (
-								<Divider type="vertical" />
-							)}
+							<Divider type="vertical" />
 						</Fragment>
 					)}
 					{viewLocation && (

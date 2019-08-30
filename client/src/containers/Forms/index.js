@@ -8,6 +8,7 @@ export { default as SignupForm } from "./Auth/SignupForm";
 
 // event
 export { default as EditEventForm } from "./Event/EditEventForm";
+export { default as EventScheduleForm } from "./Event/EventScheduleForm";
 export { default as NewEventForm } from "./Event/NewEventForm";
 
 // form

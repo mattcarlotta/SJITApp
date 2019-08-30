@@ -86,14 +86,15 @@ passport.use(
 
 export const localSignup = async (req, res, next) => {
   try {
-    const {
-      email, firstName, lastName, password, token,
-    } = req.body;
+    const { email, firstName, lastName, password, token } = req.body;
 
-    if (!email || !firstName || !lastName || !password || !token) throw missingSignupCreds;
+    if (!email || !firstName || !lastName || !password || !token)
+      throw missingSignupCreds;
 
     const newUser = await new Promise((resolve, reject) => {
-      passport.authenticate("local-signup", (err, user) => (err ? reject(err) : resolve(user)))(req, res, next);
+      passport.authenticate("local-signup", (err, user) =>
+        err ? reject(err) : resolve(user),
+      )(req, res, next);
     });
 
     req.user = {

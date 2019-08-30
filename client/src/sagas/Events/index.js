@@ -2,7 +2,12 @@ import { push } from "connected-react-router";
 import { all, put, call, takeLatest } from "redux-saga/effects";
 import { app } from "utils";
 import { hideServerMessage, setServerMessage } from "actions/Messages";
-import { setEvents, setEventToEdit, setNewEvent } from "actions/Events";
+import {
+	setEventForScheduling,
+	setEvents,
+	setEventToEdit,
+	setNewEvent,
+} from "actions/Events";
 import { parseData, parseMessage } from "utils/parseResponse";
 import * as types from "types";
 
@@ -77,7 +82,7 @@ export function* deleteEvent({ eventId }) {
  *
  * @generator
  * @function fetchEvent
- * @param {object} eventId
+ * @param {string} eventId
  * @yields {object} - A response from a call to the API.
  * @function parseData - Returns a parsed res.data.
  * @yields {action} - A redux action to set event data to redux state.
@@ -104,6 +109,31 @@ export function* fetchEvent({ eventId }) {
 				teams: teams.names,
 			}),
 		);
+	} catch (e) {
+		yield put(setServerMessage({ type: "error", message: e.toString() }));
+	}
+}
+
+/**
+ * Attempts to get event for scheduling.
+ *
+ * @generator
+ * @function fetchEventForScheduling
+ * @param {string} eventId
+ * @yields {object} - A response from a call to the API.
+ * @function parseData - Returns a parsed res.data.
+ * @yields {action} - A redux action to set event data to redux state.
+ * @throws {action} - A redux action to display a server message by type.
+ */
+
+export function* fetchEventForScheduling({ eventId }) {
+	try {
+		yield put(hideServerMessage());
+
+		const res = yield call(app.get, `event/review/${eventId}`);
+		const data = yield call(parseData, res);
+
+		yield put(setEventForScheduling(data));
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
@@ -212,6 +242,7 @@ export default function* eventsSagas() {
 		takeLatest(types.EVENTS_DELETE, deleteEvent),
 		takeLatest(types.EVENTS_EDIT, fetchEvent),
 		takeLatest(types.EVENTS_FETCH, fetchEvents),
+		takeLatest(types.EVENTS_FETCH_SCHEDULE, fetchEventForScheduling),
 		takeLatest(types.EVENTS_INIT_NEW_EVENT, initializeNewEvent),
 		takeLatest(types.EVENTS_UPDATE, updateEvent),
 	]);

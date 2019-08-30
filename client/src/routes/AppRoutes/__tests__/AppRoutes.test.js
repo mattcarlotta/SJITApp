@@ -5,6 +5,7 @@ import {
 	EditEvent,
 	EditForm,
 	EditSeason,
+	EventSchedule,
 	NewEvent,
 	NewForm,
 	NewMember,
@@ -44,8 +45,8 @@ describe("Application routes", () => {
 	});
 
 	describe("Staff and Admin routes", () => {
-		it("initially renders 23 routes", () => {
-			expect(wrapper.find("Route")).toHaveLength(23);
+		it("initially renders 24 routes", () => {
+			expect(wrapper.find("Route")).toHaveLength(24);
 		});
 
 		it("routes to Dashboard", () => {
@@ -54,6 +55,14 @@ describe("Application routes", () => {
 					.find("Route[exact=true][path='/employee/dashboard']")
 					.prop("component"),
 			).toBe(Dashboard);
+		});
+
+		it("routes to EventSchedule", () => {
+			expect(
+				wrapper
+					.find("Route[exact=true][path='/employee/assign/:id']")
+					.prop("component"),
+			).toBe(EventSchedule);
 		});
 
 		it("routes to NewEvent", () => {
@@ -224,7 +233,7 @@ describe("Application routes", () => {
 			expect(
 				wrapper
 					.find("Route")
-					.at(22)
+					.at(23)
 					.prop("component"),
 			).toBe(AppPageNotFound);
 		});

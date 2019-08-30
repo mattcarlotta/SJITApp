@@ -3,15 +3,14 @@ import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
 import moment from "moment";
 import { Calendar } from "antd";
-import { FaCircle } from "react-icons/fa";
-import { Button, DisplayTeam, List, ListItem, Modal } from "components/Body";
-
-const iconStyle = {
-	margin: "0px 5px 0 6px",
-	fontSize: 18,
-	position: "relative",
-	top: 2,
-};
+import {
+	Badge,
+	Button,
+	DisplayTeam,
+	List,
+	ListItem,
+	Modal,
+} from "components/Body";
 
 export class ResponseCalendar extends Component {
 	state = { isVisible: false, modalChildren: null };
@@ -34,23 +33,6 @@ export class ResponseCalendar extends Component {
 		const { id, fetchMemberEvents } = this.props;
 
 		fetchMemberEvents({ id, selectedDate: selectedDate.format() });
-	};
-
-	handleBadgeRender = response => {
-		switch (response) {
-			case "I want to work.": {
-				return "green";
-			}
-			case "Available to work.": {
-				return "cadetblue";
-			}
-			case "Prefer not to work.": {
-				return "orange";
-			}
-			default: {
-				return "red";
-			}
-		}
 	};
 
 	handleDateCellRender = value => {
@@ -135,13 +117,12 @@ export class ResponseCalendar extends Component {
 									</ListItem>
 									<ListItem>
 										<strong>Employee Response:</strong>
-										<FaCircle
-											style={{
-												...iconStyle,
-												color: this.handleBadgeRender(response),
-											}}
-										/>
-										{response}
+										<Badge
+											style={{ display: "inline-block" }}
+											response={response}
+										>
+											{response}
+										</Badge>
 									</ListItem>
 									{notes && (
 										<ListItem>

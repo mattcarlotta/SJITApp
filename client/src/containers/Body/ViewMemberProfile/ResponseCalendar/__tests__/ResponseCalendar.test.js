@@ -73,25 +73,25 @@ describe("Response Calendar", () => {
 		expect(wrapper.find("Button")).toHaveLength(0);
 	});
 
-	it("displays different badges based upon event response", () => {
-		const updateBadge = resp =>
-			wrapper
-				.find("ResponseCalendar")
-				.instance()
-				.handleBadgeRender(resp);
+	// it("displays different badges based upon event response", () => {
+	// 	const updateBadge = resp =>
+	// 		wrapper
+	// 			.find("ResponseCalendar")
+	// 			.instance()
+	// 			.handleBadgeRender(resp);
 
-		let badge = updateBadge("I want to work.");
-		expect(badge).toEqual("green");
+	// 	let badge = updateBadge("I want to work.");
+	// 	expect(badge).toEqual("green");
 
-		badge = updateBadge("Available to work.");
-		expect(badge).toEqual("cadetblue");
+	// 	badge = updateBadge("Available to work.");
+	// 	expect(badge).toEqual("cadetblue");
 
-		badge = updateBadge("Prefer not to work.");
-		expect(badge).toEqual("orange");
+	// 	badge = updateBadge("Prefer not to work.");
+	// 	expect(badge).toEqual("orange");
 
-		badge = updateBadge("Not available to work.");
-		expect(badge).toEqual("red");
-	});
+	// 	badge = updateBadge("Not available to work.");
+	// 	expect(badge).toEqual("red");
+	// });
 
 	it("updates the calendar when a new month or year is selected", () => {
 		wrapper

@@ -24,14 +24,15 @@ const createEvent = async (req, res) => {
       uniform,
     } = req.body;
     if (
-      !callTimes
-      || !eventDate
-      || !eventType
-      || !location
-      || !seasonId
-      || !team
-      || !uniform
-    ) throw invalidCreateEventRequest;
+      !callTimes ||
+      !eventDate ||
+      !eventType ||
+      !location ||
+      !seasonId ||
+      !team ||
+      !uniform
+    )
+      throw invalidCreateEventRequest;
 
     await Event.create({
       callTimes,
@@ -153,12 +154,12 @@ const getEventForScheduling = async (req, res) => {
       columns: [
         {
           _id: "employees",
-          title: "Employee Pool",
+          title: "Employees",
           userIds: [...season.members.map(member => member._id)],
         },
         ...existingEvent.callTimes.map(callTime => ({
           _id: callTime,
-          title: moment(callTime).format("hh:ss a"),
+          title: moment(callTime).format("hh:mm a"),
           userIds: [],
         })),
       ],
@@ -185,15 +186,16 @@ const updateEvent = async (req, res) => {
       uniform,
     } = req.body;
     if (
-      !_id
-      || !callTimes
-      || !eventDate
-      || !eventType
-      || !location
-      || !seasonId
-      || !team
-      || !uniform
-    ) throw invalidUpdateEventRequest;
+      !_id ||
+      !callTimes ||
+      !eventDate ||
+      !eventType ||
+      !location ||
+      !seasonId ||
+      !team ||
+      !uniform
+    )
+      throw invalidUpdateEventRequest;
 
     const existingEvent = await Event.findOne({ _id });
     if (!existingEvent) throw unableToLocateEvent;

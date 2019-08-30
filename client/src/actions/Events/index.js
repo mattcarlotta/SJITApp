@@ -38,6 +38,18 @@ export const fetchEvent = eventId => ({
 });
 
 /**
+ * Fetches a single event for scheduling.
+ *
+ * @function fetchEventForSchedudling
+ * @param {string} eventId
+ * @returns {object}
+ */
+export const fetchEventForScheduling = eventId => ({
+	type: types.EVENTS_FETCH_SCHEDULE,
+	eventId,
+});
+
+/**
  * Fetches all events.
  *
  * @function fetchEvents
@@ -67,6 +79,18 @@ export const initializeNewEvent = () => ({
 export const setEvents = data => ({
 	type: types.EVENTS_SET,
 	payload: !isEmpty(data) ? data : [],
+});
+
+/**
+ * Fetches a single event for scheduling.
+ *
+ * @function setEventForScheduling
+ * @param {object} data - [{event}, {users}, {columns}]
+ * @returns {object}
+ */
+export const setEventForScheduling = data => ({
+	type: types.EVENTS_SET_SCHEDULE,
+	payload: !isEmpty(data) ? data : {},
 });
 
 /**

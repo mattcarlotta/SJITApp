@@ -84,6 +84,7 @@ export const ViewEvents = ({ data, deleteEvent, fetchEvents, push }) => (
 				fetchData={fetchEvents}
 				push={push}
 				editLocation="events"
+				assignLocation="events"
 			/>
 		</Card>
 	</Fragment>

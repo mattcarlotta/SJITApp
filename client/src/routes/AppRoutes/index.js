@@ -9,6 +9,7 @@ import {
 	EditEvent,
 	EditForm,
 	EditSeason,
+	EventSchedule,
 	NewEvent,
 	NewForm,
 	NewMember,
@@ -41,6 +42,11 @@ const AppRoutes = ({ match: { url }, role }) =>
 			<Redirect from={`${url}/login`} to={`${url}/dashboard`} />
 			<Route exact path={`${url}/dashboard`} component={Dashboard} />
 			<Route exact path={`${url}/events/create`} component={NewEvent} />
+			<Route
+				exact
+				path={`${url}/events/assign/:id`}
+				component={EventSchedule}
+			/>
 			<Route exact path={`${url}/events/edit/:id`} component={EditEvent} />
 			<Route exact path={`${url}/events/viewall`} component={ViewEvents} />
 			<Route exact path={`${url}/forms/create`} component={NewForm} />

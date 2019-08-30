@@ -5,6 +5,7 @@ export { default as Dashboard } from "./Dashboard";
 
 // events
 export { default as EditEvent } from "./Events/EditEvent";
+export { default as EventSchedule } from "./Events/EventSchedule";
 export { default as NewEvent } from "./Events/NewEvent";
 export { default as ViewEvents } from "./Events/ViewEvents";
 

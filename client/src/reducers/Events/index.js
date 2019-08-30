@@ -4,6 +4,7 @@ export const initialState = {
 	data: [],
 	editEvent: {},
 	newEvent: {},
+	schedule: {},
 };
 
 /**
@@ -16,6 +17,7 @@ const eventReducer = (state = initialState, { payload, type }) => {
 	switch (type) {
 		case types.EVENTS_EDIT:
 		case types.EVENTS_FETCH:
+		case types.EVENTS_FETCH_SCHEDULE:
 			return initialState;
 		case types.EVENTS_SET:
 			return { ...state, data: payload.events };
@@ -23,6 +25,8 @@ const eventReducer = (state = initialState, { payload, type }) => {
 			return { ...state, editEvent: payload };
 		case types.EVENTS_SET_NEW_EVENT:
 			return { ...state, newEvent: payload };
+		case types.EVENTS_SET_SCHEDULE:
+			return { ...state, schedule: payload.schedule };
 		default:
 			return state;
 	}
