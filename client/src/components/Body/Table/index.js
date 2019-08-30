@@ -3,7 +3,13 @@ import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
 import { Divider, Icon, Input, Popconfirm, Table, Tooltip } from "antd";
-import { FaEdit, FaSearch, FaTrash, FaSearchPlus } from "react-icons/fa";
+import {
+	FaEdit,
+	FaSearch,
+	FaTrash,
+	FaSearchPlus,
+	FaPencilAlt,
+} from "react-icons/fa";
 import { GoStop } from "react-icons/go";
 import { Button, FlexCenter, LoadingTable } from "components/Body";
 
@@ -106,6 +112,7 @@ class CustomTable extends Component {
 
 	createTableColumns = () => {
 		const {
+			assignLocation,
 			columns,
 			deleteAction,
 			editLocation,
@@ -123,6 +130,27 @@ class CustomTable extends Component {
 			key: "action",
 			render: (_, record) => (
 				<FlexCenter>
+					{assignLocation && (
+						<Fragment>
+							<Tooltip placement="top" title={<span>View & Assign</span>}>
+								<Button
+									primary
+									display="inline-block"
+									width="50px"
+									padding="3px 0 0 0"
+									marginRight="0px"
+									onClick={() =>
+										push(`/employee/${assignLocation}/assign/${record._id}`)
+									}
+								>
+									<FaPencilAlt style={{ fontSize: 16 }} />
+								</Button>
+							</Tooltip>
+							{(viewLocation || editLocation || deleteAction) && (
+								<Divider type="vertical" />
+							)}
+						</Fragment>
+					)}
 					{viewLocation && (
 						<Fragment>
 							<Tooltip placement="top" title={<span>View</span>}>
@@ -161,25 +189,27 @@ class CustomTable extends Component {
 							<Divider type="vertical" />
 						</Fragment>
 					)}
-					<Tooltip placement="top" title={<span>Delete</span>}>
-						<Popconfirm
-							placement="top"
-							title="Are you sure? This action is irreversible."
-							icon={<Icon component={GoStop} style={{ color: "red" }} />}
-							onConfirm={() => deleteAction(record._id)}
-						>
-							<Button
-								danger
-								display="inline-block"
-								width="50px"
-								padding="5px 0 1px 0"
-								marginRight="0px"
-								style={{ fontSize: "16px" }}
+					{deleteAction && (
+						<Tooltip placement="top" title={<span>Delete</span>}>
+							<Popconfirm
+								placement="top"
+								title="Are you sure? This action is irreversible."
+								icon={<Icon component={GoStop} style={{ color: "red" }} />}
+								onConfirm={() => deleteAction(record._id)}
 							>
-								<FaTrash />
-							</Button>
-						</Popconfirm>
-					</Tooltip>
+								<Button
+									danger
+									display="inline-block"
+									width="50px"
+									padding="5px 0 1px 0"
+									marginRight="0px"
+									style={{ fontSize: "16px" }}
+								>
+									<FaTrash />
+								</Button>
+							</Popconfirm>
+						</Tooltip>
+					)}
 				</FlexCenter>
 			),
 		});
@@ -202,6 +232,7 @@ class CustomTable extends Component {
 }
 
 CustomTable.propTypes = {
+	assignLocation: PropTypes.string,
 	columns: PropTypes.arrayOf(
 		PropTypes.shape({
 			title: PropTypes.string.isRequired,

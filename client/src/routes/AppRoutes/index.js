@@ -14,7 +14,7 @@ import {
 	NewMember,
 	NewSeason,
 	NewTemplate,
-	Schedule,
+	Schedules,
 	ViewAuthorizations,
 	ViewEvents,
 	ViewForms,
@@ -64,7 +64,7 @@ const AppRoutes = ({ match: { url }, role }) =>
 				component={EditAuthorization}
 			/>
 			<Route exact path={`${url}/members/viewall`} component={ViewMembers} />
-			<Route exact path={`${url}/schedule`} component={Schedule} />
+			<Route exact path={`${url}/schedules`} component={Schedules} />
 			<Route exact path={`${url}/seasons/create`} component={NewSeason} />
 			<Route exact path={`${url}/seasons/edit/:id`} component={EditSeason} />
 			<Route exact path={`${url}/seasons/viewall`} component={ViewSeasons} />

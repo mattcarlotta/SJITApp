@@ -17,7 +17,7 @@ const TABS = [
 	"members/authorizations/viewall",
 	"members/create",
 	"members/viewall",
-	"schedule",
+	"schedules",
 	"seasons/create",
 	"seasons/viewall",
 	"templates/create",

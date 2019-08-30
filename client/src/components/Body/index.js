@@ -9,6 +9,7 @@ export { default as Container } from "./Container";
 export { default as DisplayDate } from "./DisplayDate";
 export { default as DisplayDateTime } from "./DisplayDateTime";
 export { default as DisplayFullDate } from "./DisplayFullDate";
+export { default as DisplayShortDate } from "./DisplayShortDate";
 export { default as DisplayStatus } from "./DisplayStatus";
 export { default as DisplayTime } from "./DisplayTime";
 export { default as DisplayTeam } from "./DisplayTeam";

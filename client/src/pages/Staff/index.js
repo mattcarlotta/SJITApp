@@ -21,7 +21,7 @@ export { default as ViewMemberProfile } from "./Members/ViewMemberProfile";
 export { default as ViewMembers } from "./Members/ViewMembers";
 
 // schedule
-export { default as Schedule } from "./Schedule";
+export { default as Schedules } from "./Schedules";
 
 // seasons
 export { default as EditSeason } from "./Seasons/EditSeason";

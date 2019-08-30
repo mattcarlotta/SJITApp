@@ -10,7 +10,7 @@ import {
 	NewMember,
 	NewSeason,
 	NewTemplate,
-	Schedule,
+	Schedules,
 	ViewAuthorizations,
 	ViewEvents,
 	ViewForms,
@@ -151,9 +151,9 @@ describe("Application routes", () => {
 		it("routes to Schedule", () => {
 			expect(
 				wrapper
-					.find("Route[exact=true][path='/employee/schedule']")
+					.find("Route[exact=true][path='/employee/schedules']")
 					.prop("component"),
-			).toBe(Schedule);
+			).toBe(Schedules);
 		});
 
 		it("routes to NewSeason", () => {

@@ -3,8 +3,6 @@ import {
 	FaClock,
 	FaFileSignature,
 	FaCogs,
-	FaCalendarAlt,
-	FaCalendarPlus,
 	FaUsers,
 	FaEnvelope,
 	FaMailBulk,
@@ -14,9 +12,11 @@ import {
 	FaUserFriends,
 	FaListAlt,
 	FaKey,
+	FaFolder,
+	FaFolderOpen,
+	FaFolderPlus,
 } from "react-icons/fa";
 import { MdEvent, MdNoteAdd, MdEventNote, MdDashboard } from "react-icons/md";
-import { GoCalendar } from "react-icons/go";
 
 export default [
 	{ component: MdDashboard, key: "dashboard", tab: "dashboard" },
@@ -52,18 +52,22 @@ export default [
 			{ key: "members/viewall", component: FaUsers, tab: "View Members" },
 		],
 	},
-	{ component: FaClock, key: "schedule", tab: "schedule" },
 	{
-		component: FaCalendarAlt,
+		component: FaClock,
+		key: "schedules",
+		tab: "schedules",
+	},
+	{
+		component: FaFolder,
 		key: "seasons",
 		tab: "seasons",
 		submenu: [
 			{
 				key: "seasons/create",
-				component: FaCalendarPlus,
+				component: FaFolderPlus,
 				tab: "Create Season",
 			},
-			{ key: "seasons/viewall", component: GoCalendar, tab: "View Seasons" },
+			{ key: "seasons/viewall", component: FaFolderOpen, tab: "View Seasons" },
 		],
 	},
 	{

@@ -1,4 +1,6 @@
-import { Event } from "models";
+import moment from "moment";
+import isEmpty from "lodash/isEmpty";
+import { Event, Season } from "models";
 import { sendError } from "shared/helpers";
 import {
   invalidCreateEventRequest,
@@ -105,6 +107,69 @@ const getEvent = async (req, res) => {
   }
 };
 
+const getEventForScheduling = async (req, res) => {
+  try {
+    const { id: _id } = req.params;
+    if (!_id) throw missingEventId;
+
+    const existingEvent = await Event.findOne(
+      { _id },
+      { scheduledEmployees: 0, __v: 0 },
+    ).lean();
+    if (!existingEvent) throw unableToLocateEvent;
+
+    const season = await Season.findOne(
+      {
+        seasonId: existingEvent.seasonId,
+      },
+      { _id: 0 },
+    )
+      .select("members")
+      .populate({
+        path: "members",
+        match: { role: { $nin: ["admin", "staff"] }, status: "active" },
+        select: "_id firstName lastName",
+      })
+      .lean();
+    if (!season) throw unableToLocateEvent;
+
+    const schedule = {
+      event: existingEvent,
+      users: [
+        ...season.members.map(member => {
+          const eventResponse = existingEvent.employeeResponses.find(
+            response => response._id === member._id,
+          );
+
+          const hasResponse = !isEmpty(eventResponse);
+
+          return {
+            ...member,
+            response: hasResponse ? eventResponse.response : "No response.",
+            notes: hasResponse ? eventResponse.notes : "",
+          };
+        }),
+      ],
+      columns: [
+        {
+          _id: "employees",
+          title: "Employee Pool",
+          userIds: [...season.members.map(member => member._id)],
+        },
+        ...existingEvent.callTimes.map(callTime => ({
+          _id: callTime,
+          title: moment(callTime).format("hh:ss a"),
+          userIds: [],
+        })),
+      ],
+    };
+
+    res.status(200).json({ schedule });
+  } catch (err) {
+    return sendError(err, res);
+  }
+};
+
 const updateEvent = async (req, res) => {
   try {
     const {
@@ -152,5 +217,10 @@ const updateEvent = async (req, res) => {
 };
 
 export {
-  createEvent, deleteEvent, getAllEvents, getEvent, updateEvent,
+  createEvent,
+  deleteEvent,
+  getAllEvents,
+  getEvent,
+  getEventForScheduling,
+  updateEvent,
 };
