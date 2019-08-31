@@ -1,4 +1,5 @@
-import updateFormFields, { Label } from "../index";
+import { EventLabel } from "components/Body";
+import updateFormFields from "../index";
 
 const eventsGame = [
 	{
@@ -49,7 +50,7 @@ const nextProps = {
 describe("UpdateFormFields", () => {
 	let wrapper;
 	beforeEach(() => {
-		wrapper = mount(<Label {...initProps} />);
+		wrapper = mount(<EventLabel {...initProps} />);
 	});
 
 	it("initializes a radiogroup field value, adds a label, adds an updateEvent flag, includes event notes, and enables the field", () => {
@@ -76,7 +77,7 @@ describe("UpdateFormFields", () => {
 				name: eventsPromo[0]._id,
 				value: "",
 				label: (
-					<Label
+					<EventLabel
 						eventType={eventsPromo[0].eventType}
 						eventDate={eventsPromo[0].eventDate}
 						opponent={eventsPromo[0].opponent}
@@ -132,7 +133,7 @@ describe("UpdateFormFields", () => {
 				name: eventsGame[0]._id,
 				value: eventResponses[0].response,
 				label: (
-					<Label
+					<EventLabel
 						eventType={eventsGame[0].eventType}
 						eventDate={eventsGame[0].eventDate}
 						opponent={eventsGame[0].opponent}
@@ -159,18 +160,22 @@ describe("UpdateFormFields", () => {
 		]);
 	});
 
-	it("displays a Label with two teams", () => {
-		expect(wrapper.find(Label).exists()).toBeTruthy();
+	it("displays a EventLabel with two teams", () => {
+		expect(wrapper.find(EventLabel).exists()).toBeTruthy();
 		expect(wrapper.find("DisplayFullDate").exists()).toBeTruthy();
 		expect(wrapper.find("DisplayTeam")).toHaveLength(2);
-		expect(wrapper.find(Label).text()).toContain(`(${initProps.eventType})`);
+		expect(wrapper.find(EventLabel).text()).toContain(
+			`(${initProps.eventType})`,
+		);
 	});
 
-	it("displays a Label with one team", () => {
+	it("displays a EventLabel with one team", () => {
 		wrapper.setProps({ ...nextProps });
-		expect(wrapper.find(Label).exists()).toBeTruthy();
+		expect(wrapper.find(EventLabel).exists()).toBeTruthy();
 		expect(wrapper.find("DisplayFullDate").exists()).toBeTruthy();
 		expect(wrapper.find("DisplayTeam")).toHaveLength(1);
-		expect(wrapper.find(Label).text()).toContain(`(${nextProps.eventType})`);
+		expect(wrapper.find(EventLabel).text()).toContain(
+			`(${nextProps.eventType})`,
+		);
 	});
 });

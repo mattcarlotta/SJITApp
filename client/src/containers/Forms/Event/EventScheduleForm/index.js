@@ -11,7 +11,12 @@ import {
 	Center,
 	ColumnTitle,
 	DropContainer,
+	EventDetailsContainer,
+	Flex,
+	FormatDate,
 	Legend,
+	List,
+	ListItem,
 	Row,
 	ScheduleContainer,
 	SubmitButton,
@@ -134,67 +139,115 @@ export class EventScheduleForm extends Component {
 		// console.log()
 	};
 
-	render = () => (
-		<Card
-			extra={
-				<BackButton
-					push={this.props.push}
-					location="/employee/events/viewall"
-				/>
-			}
-			title={title}
-		>
-			<Center>
-				<FormTitle
-					header={title}
-					title={title}
-					description="Drag and drop from the employee pool to any of the call times."
-				/>
-			</Center>
-			<form onSubmit={this.handleSubmit}>
-				{this.state.isLoading ? (
-					<LoadingForm rows={9} />
-				) : (
-					<Fragment>
-						<ScheduleContainer>
-							<DragDropContext onDragEnd={this.onDragEnd}>
-								<Legend>
-									<ColumnTitle style={{ marginBottom: 5 }}>Legend</ColumnTitle>
-									{responses.map(response => (
-										<Badge
-											key={response}
-											response={response}
-											style={{ fontSize: 17 }}
-										>
-											{response}
-										</Badge>
-									))}
-								</Legend>
-								<Row>
-									{this.state.columns.map(({ _id, title, userIds }) => (
-										<DropContainer
-											id={_id}
-											key={_id}
-											title={title}
-											users={userIds.map(id =>
-												this.state.users.find(user => user._id === id),
-											)}
-											width={`${100 / this.state.columns.length - 1}%`}
-										/>
-									))}
-								</Row>
-							</DragDropContext>
-						</ScheduleContainer>
-						<SubmitButton
-							title="Submit Schedule"
-							style={{ maxWidth: 300, margin: "0 auto" }}
-							isSubmitting={this.state.isSubmitting}
-						/>
-					</Fragment>
-				)}
-			</form>
-		</Card>
-	);
+	render = () => {
+		const { columns, event, isLoading, users } = this.state;
+
+		return (
+			<Card
+				extra={
+					<BackButton
+						push={this.props.push}
+						location="/employee/events/viewall"
+					/>
+				}
+				title={title}
+			>
+				<Center>
+					<FormTitle
+						header={title}
+						title={title}
+						description="Drag and drop from the employee pool to any of the call times."
+					/>
+				</Center>
+				<form onSubmit={this.handleSubmit}>
+					{isLoading ? (
+						<LoadingForm rows={9} />
+					) : (
+						<Fragment>
+							<ScheduleContainer>
+								<DragDropContext onDragEnd={this.onDragEnd}>
+									<Flex>
+										<Legend>
+											<ColumnTitle style={{ marginBottom: 5 }}>
+												Legend
+											</ColumnTitle>
+											{responses.map(response => (
+												<Badge
+													key={response}
+													response={response}
+													style={{ fontSize: 17 }}
+												>
+													{response}
+												</Badge>
+											))}
+										</Legend>
+										<EventDetailsContainer>
+											<Center
+												style={{
+													color: "#fff",
+													background: "#025f6d",
+													borderRadius: "3px",
+													padding: "10px 5px",
+													textTransform: "uppercase",
+													fontSize: 17,
+													fontWeight: "bold",
+												}}
+											>
+												{event.team}{" "}
+												{event.opponent && (
+													<Fragment>
+														<span style={{ margin: "0 5px" }}>vs.</span>
+														{event.opponent}
+														&nbsp;
+													</Fragment>
+												)}
+											</Center>
+											<List style={{ padding: "0 5px", fontSize: 17 }}>
+												<ListItem>
+													<strong>Event Date: </strong>{" "}
+													<FormatDate
+														date={event.eventDate}
+														format="MMMM Do @ h:mm a"
+													/>
+												</ListItem>
+												<ListItem>
+													<strong>Location: </strong> {event.location}
+												</ListItem>
+												<ListItem>
+													<strong>Uniform: </strong> {event.uniform}
+												</ListItem>
+												<ListItem>
+													<strong>Notes: </strong> {event.notes || "(none)"}
+												</ListItem>
+											</List>
+										</EventDetailsContainer>
+									</Flex>
+									<Row>
+										{columns.map(({ _id, title, userIds }) => (
+											<DropContainer
+												id={_id}
+												key={_id}
+												title={title}
+												users={userIds.map(id =>
+													users.find(user => user._id === id),
+												)}
+												width={`${100 / columns.length - 1}%`}
+											/>
+										))}
+									</Row>
+								</DragDropContext>
+							</ScheduleContainer>
+							<SubmitButton
+								title="Submit Schedule"
+								style={{ maxWidth: 300, margin: "0 auto" }}
+								isSubmitting={this.state.isSubmitting}
+							/>
+						</Fragment>
+					)}
+				</form>
+			</Card>
+		);
+	};
 }
 
 EventScheduleForm.propTypes = {
@@ -220,17 +273,17 @@ EventScheduleForm.propTypes = {
 		}),
 		users: PropTypes.arrayOf(
 			PropTypes.shape({
-				_id: PropTypes.string,
-				firstName: PropTypes.string,
-				lastName: PropTypes.string,
-				response: PropTypes.string,
+				_id: PropTypes.string.isRequired,
+				firstName: PropTypes.string.isRequired,
+				lastName: PropTypes.string.isRequired,
+				response: PropTypes.string.isRequired,
 				notes: PropTypes.string,
 			}),
 		),
 		columns: PropTypes.arrayOf(
 			PropTypes.shape({
-				_id: PropTypes.string,
-				title: PropTypes.string,
+				_id: PropTypes.string.isRequired,
+				title: PropTypes.string.isRequired,
 				userIds: PropTypes.arrayOf(PropTypes.string),
 			}),
 		),

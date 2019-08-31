@@ -1,29 +1,6 @@
-import React, { Fragment } from "react";
-import PropTypes from "prop-types";
+import React from "react";
 import get from "lodash/get";
-import { DisplayFullDate, DisplayTeam } from "components/Body";
-
-export const Label = ({ eventType, eventDate, opponent, team }) => (
-	<Fragment>
-		<DisplayFullDate date={eventDate} /> -{" "}
-		<DisplayTeam folder="lowres" team={team} />{" "}
-		{opponent && (
-			<Fragment>
-				<span style={{ margin: "0 5px" }}>vs.</span>
-				<DisplayTeam folder="lowres" team={opponent} />
-				&nbsp;
-			</Fragment>
-		)}
-		({eventType})
-	</Fragment>
-);
-
-Label.propTypes = {
-	team: PropTypes.string,
-	opponent: PropTypes.string,
-	eventType: PropTypes.string,
-	eventDate: PropTypes.string,
-};
+import { EventLabel } from "components/Body";
 
 export default (result, field, events, eventResponses) => {
 	const initializedFields = events.reduce((acc, event, key) => {
@@ -36,7 +13,7 @@ export default (result, field, events, eventResponses) => {
 			id: _id,
 			name: _id,
 			label: (
-				<Label
+				<EventLabel
 					eventType={eventType}
 					eventDate={eventDate}
 					opponent={opponent}
