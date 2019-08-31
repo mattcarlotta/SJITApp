@@ -4,7 +4,6 @@ export const initialState = {
 	data: [],
 	editForm: {},
 	events: [],
-	eventResponses: [],
 	viewForm: {},
 };
 
@@ -26,7 +25,6 @@ const formReducer = (state = initialState, { payload, type }) => {
 				...state,
 				viewForm: payload.form,
 				events: payload.events,
-				eventResponses: payload.eventResponses,
 			};
 		case types.FORMS_SET_EDIT:
 			return { ...state, editForm: payload };

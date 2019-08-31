@@ -16,7 +16,8 @@ const emailAssociatedWithKey =
 const emptyPassword =
   "You must supply a new password in order to reset the old. Please try again.";
 
-const expiredForm = expirationDate => `The window to view and update this form was closed after ${expirationDate}.`
+const expiredForm = expirationDate =>
+  `The window to view and update this form was closed after ${expirationDate}.`;
 
 const expiredToken =
   "The authorization key that was provided has expired. Please contact the staff supervisor to issue a new key.";
@@ -122,6 +123,9 @@ const unableToDeleteMember =
 const unableToLocateEvent =
   "Unable to locate that event. That event doesn't exist.";
 
+const unableToLocateEvents = (startMonth, endMonth) =>
+  `Unable to locate any events. Make sure to create events between ${startMonth}-${endMonth} before trying again.`;
+
 const unableToLocateForm =
   "Unable to locate that form. That form doesn't exist.";
 
@@ -191,6 +195,7 @@ export {
   unableToDeleteMember,
   unableToDeleteSeason,
   unableToLocateEvent,
+  unableToLocateEvents,
   unableToLocateForm,
   unableToLocateMember,
   unableToLocateSeason,

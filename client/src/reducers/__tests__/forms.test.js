@@ -8,7 +8,6 @@ const formsData = {
 
 const apformData = {
 	form: mocks.formData,
-	eventResponses: mocks.eventResponseData,
 	events: mocks.eventsApData,
 };
 
@@ -28,7 +27,6 @@ describe("Form Reducer", () => {
 		expect(state).toEqual({
 			data: mocks.formData,
 			editForm: {},
-			eventResponses: [],
 			events: [],
 			viewForm: {},
 		});
@@ -43,7 +41,6 @@ describe("Form Reducer", () => {
 		expect(state).toEqual({
 			data: [],
 			editForm: {},
-			eventResponses: mocks.eventResponseData,
 			events: mocks.eventsApData,
 			viewForm: mocks.formData,
 		});
@@ -84,7 +81,6 @@ describe("Form Reducer", () => {
 		expect(state).toEqual({
 			data: [],
 			editForm: { ...mocks.formData },
-			eventResponses: [],
 			events: [],
 			viewForm: {},
 		});

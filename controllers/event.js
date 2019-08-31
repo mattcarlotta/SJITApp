@@ -139,15 +139,13 @@ const getEventForScheduling = async (req, res) => {
       users: [
         ...season.members.map(member => {
           const eventResponse = existingEvent.employeeResponses.find(
-            response => response._id === member._id,
+            response => response._id.toString() === member._id.toString(),
           );
-
-          const hasResponse = !isEmpty(eventResponse);
 
           return {
             ...member,
-            response: hasResponse ? eventResponse.response : "No response.",
-            notes: hasResponse ? eventResponse.notes : "",
+            response: eventResponse ? eventResponse.response : "No response.",
+            notes: eventResponse ? eventResponse.notes : "",
           };
         }),
       ],

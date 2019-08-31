@@ -8,7 +8,7 @@ import {
 	FaSearch,
 	FaTrash,
 	FaSearchPlus,
-	FaPencilAlt,
+	FaClipboardCheck,
 } from "react-icons/fa";
 import { GoStop } from "react-icons/go";
 import { Button, FlexCenter, LoadingTable } from "components/Body";
@@ -143,7 +143,7 @@ class CustomTable extends Component {
 										push(`/employee/${assignLocation}/assign/${record._id}`)
 									}
 								>
-									<FaPencilAlt style={{ fontSize: 16 }} />
+									<FaClipboardCheck style={{ fontSize: 17 }} />
 								</Button>
 							</Tooltip>
 							<Divider type="vertical" />

@@ -60,6 +60,11 @@ export const eventsData = [
 		notes: "",
 		seasonId: "20002001",
 		uniform: "Barracuda Jersey",
+		employeeResponse: {
+			_id: "0123456789",
+			notes: "I'm gone all month.",
+			response: "Prefer not to work.",
+		},
 	},
 ];
 
@@ -83,13 +88,5 @@ export const eventsApData = [
 		notes: "",
 		opponent: "Vegas Golden Knights",
 		team: "San Jose Sharks",
-	},
-];
-
-export const eventResponseData = [
-	{
-		_id: "0123456789",
-		notes: "I'm gone all month.",
-		response: "Prefer not to work.",
 	},
 ];

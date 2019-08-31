@@ -87,6 +87,7 @@ export const eventsData = [
 		notes: "",
 		seasonId: "20002001",
 		uniform: "Barracuda Jersey",
+		employeeResponse: {},
 	},
 ];
 

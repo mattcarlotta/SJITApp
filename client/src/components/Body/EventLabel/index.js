@@ -4,11 +4,7 @@ import { DisplayFullDate, DisplayTeam } from "components/Body";
 
 const EventLabel = ({ eventType, eventDate, opponent, style, team }) => (
 	<span style={style}>
-		{eventDate && (
-			<Fragment>
-				<DisplayFullDate date={eventDate} /> -{" "}
-			</Fragment>
-		)}
+		<DisplayFullDate date={eventDate} /> -{" "}
 		<DisplayTeam folder="lowres" team={team} />{" "}
 		{opponent && (
 			<Fragment>
@@ -17,7 +13,7 @@ const EventLabel = ({ eventType, eventDate, opponent, style, team }) => (
 				&nbsp;
 			</Fragment>
 		)}
-		{eventType && <span>`(${eventType})`</span>}
+		({eventType})
 	</span>
 );
 

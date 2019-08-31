@@ -29,14 +29,13 @@ export class ViewApForm extends Component {
 	};
 
 	static getDerivedStateFromProps = (
-		{ eventResponses, events, viewForm, serverMessage },
+		{ events, viewForm, serverMessage },
 		state,
 	) => {
 		if (state.isLoading && !isEmpty(events) && !isEmpty(viewForm)) {
 			return {
 				fields: state.fields.reduce(
-					(result, field) =>
-						updateFormFields(result, field, events, eventResponses),
+					(result, field) => updateFormFields(result, field, events),
 					[],
 				),
 				isLoading: false,
@@ -82,7 +81,7 @@ export class ViewApForm extends Component {
 
 	render = () => {
 		const { fields, isLoading, isSubmitting } = this.state;
-		const { viewForm, push, eventResponses } = this.props;
+		const { push, viewForm } = this.props;
 
 		return (
 			<Card
@@ -116,9 +115,7 @@ export class ViewApForm extends Component {
 								)}
 								<FieldGenerator fields={fields} onChange={this.handleChange} />
 								<SubmitButton
-									title={`${
-										isEmpty(eventResponses) ? "Submit" : "Update"
-									} AP Form`}
+									title="Submit AP Form"
 									isSubmitting={isSubmitting}
 								/>
 							</Fragment>
@@ -131,13 +128,6 @@ export class ViewApForm extends Component {
 }
 
 ViewApForm.propTypes = {
-	eventResponses: PropTypes.arrayOf(
-		PropTypes.shape({
-			_id: PropTypes.string,
-			response: PropTypes.string,
-			notes: PropTypes.string,
-		}),
-	),
 	events: PropTypes.arrayOf(
 		PropTypes.shape({
 			_id: PropTypes.string,
@@ -171,7 +161,6 @@ ViewApForm.propTypes = {
 };
 
 const mapStateToProps = state => ({
-	eventResponses: state.forms.eventResponses,
 	events: state.forms.events,
 	serverMessage: state.server.message,
 	viewForm: state.forms.viewForm,

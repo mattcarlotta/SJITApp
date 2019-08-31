@@ -23,19 +23,15 @@ const events = [
 		notes: "",
 		opponent: "Vegas Golden Knights",
 		team: "San Jose Sharks",
-	},
-];
-
-const eventResponses = [
-	{
-		_id: "0123456789",
-		notes: "I'm gone all month.",
-		response: "Prefer not to work.",
+		employeeResponse: {
+			_id: "0123456789",
+			notes: "I'm gone all month.",
+			response: "Prefer not to work.",
+		},
 	},
 ];
 
 const initProps = {
-	eventResponses: [],
 	events: [],
 	fetchFormAp,
 	match: {
@@ -81,20 +77,6 @@ describe("View Ap Form", () => {
 
 		it("initializes the fields and sets isLoading to false", () => {
 			expect(wrapper.state("isLoading")).toBeFalsy();
-		});
-
-		it("initially displays 'submit' form if there aren't any previous recorded eventResponses", () => {
-			expect(wrapper.find("SubmitButton").props().title).toEqual(
-				"Submit AP Form",
-			);
-		});
-
-		it("displays 'update' form if there are eventResponses", () => {
-			wrapper.setProps({ eventResponses });
-
-			expect(wrapper.find("SubmitButton").props().title).toEqual(
-				"Update AP Form",
-			);
 		});
 
 		it("updates a field value when changed", () => {

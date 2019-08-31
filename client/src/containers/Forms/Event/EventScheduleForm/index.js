@@ -196,7 +196,7 @@ export class EventScheduleForm extends Component {
 												{event.team}{" "}
 												{event.opponent && (
 													<Fragment>
-														<span style={{ margin: "0 5px" }}>vs.</span>
+														<span style={{ margin: "0 5px" }}>vs. </span>
 														{event.opponent}
 														&nbsp;
 													</Fragment>

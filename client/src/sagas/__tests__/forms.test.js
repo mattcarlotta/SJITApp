@@ -179,7 +179,6 @@ describe("Form Sagas", () => {
 						seasonIds: mocks.seasonIdsData,
 					},
 					events: [],
-					eventResponses: [],
 					viewForm: {},
 				})
 				.run();
@@ -207,7 +206,6 @@ describe("Form Sagas", () => {
 			data = {
 				form: mocks.formsData,
 				events: mocks.eventsData,
-				eventResponses: mocks.eventResponseData,
 			};
 		});
 
@@ -241,7 +239,6 @@ describe("Form Sagas", () => {
 					data: [],
 					editForm: {},
 					events: mocks.eventsData,
-					eventResponses: mocks.eventResponseData,
 					viewForm: mocks.formsData,
 				})
 				.run();
@@ -293,7 +290,6 @@ describe("Form Sagas", () => {
 					data: mocks.formsData,
 					editForm: {},
 					events: [],
-					eventResponses: [],
 					viewForm: {},
 				})
 				.run();

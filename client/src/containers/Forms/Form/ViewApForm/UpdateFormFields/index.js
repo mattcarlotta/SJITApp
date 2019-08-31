@@ -2,11 +2,20 @@ import React from "react";
 import get from "lodash/get";
 import { EventLabel } from "components/Body";
 
-export default (result, field, events, eventResponses) => {
-	const initializedFields = events.reduce((acc, event, key) => {
-		const { _id, team, opponent, eventDate, eventType, notes } = event;
-		const response = get(eventResponses[key], ["response"]);
-		const eventNotes = get(eventResponses[key], ["notes"]);
+export default (result, field, events) => {
+	const initializedFields = events.reduce((acc, event) => {
+		const {
+			_id,
+			team,
+			opponent,
+			eventDate,
+			employeeResponse,
+			eventType,
+			notes,
+		} = event;
+
+		const response = get(employeeResponse[0], ["response"]);
+		const eventNotes = get(employeeResponse[0], ["notes"]);
 
 		const radioFields = {
 			...field,

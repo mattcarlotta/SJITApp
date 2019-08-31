@@ -7,6 +7,7 @@ import {
   expiredForm,
   missingFormId,
   unableToCreateNewForm,
+  unableToLocateEvents,
   unableToDeleteForm,
   unableToLocateForm,
   unableToLocateSeason,
@@ -18,11 +19,10 @@ const { ObjectId } = Types;
 
 const createForm = async (req, res) => {
   try {
-    const {
-      expirationDate, enrollMonth, notes, seasonId,
-    } = req.body;
+    const { expirationDate, enrollMonth, notes, seasonId } = req.body;
 
-    if (!seasonId || !expirationDate || !enrollMonth) throw unableToCreateNewForm;
+    if (!seasonId || !expirationDate || !enrollMonth)
+      throw unableToCreateNewForm;
 
     const seasonExists = await Season.findOne({ seasonId });
     if (!seasonExists) throw unableToLocateSeason;
@@ -106,15 +106,15 @@ const viewApForm = async (req, res) => {
       );
     }
 
-    const startMonth = moment(existingForm.startMonth).toDate();
-    const endMonth = moment(existingForm.endMonth).toDate();
+    const startMonth = moment(existingForm.startMonth);
+    const endMonth = moment(existingForm.endMonth);
 
     const events = await Event.aggregate([
       {
         $match: {
           eventDate: {
-            $gte: startMonth,
-            $lte: endMonth,
+            $gte: startMonth.toDate(),
+            $lte: endMonth.toDate(),
           },
         },
       },
@@ -122,48 +122,29 @@ const viewApForm = async (req, res) => {
       { $sort: { eventDate: 1 } },
       {
         $project: {
-          __id: 1,
           location: 1,
           team: 1,
           opponent: 1,
           eventDate: 1,
           eventType: 1,
           notes: 1,
-        },
-      },
-    ]);
-
-    const responses = await Event.aggregate([
-      {
-        $match: {
-          eventDate: {
-            $gte: startMonth,
-            $lte: endMonth,
-          },
-        },
-      },
-      { $unwind: "$employeeResponses" },
-      { $match: { "employeeResponses._id": ObjectId(userId) } },
-      { $sort: { eventDate: 1 } },
-      {
-        $group: {
-          _id: null,
-          eventResponses: {
-            $push: {
-              _id: "$employeeResponses._id",
-              response: "$employeeResponses.response",
-              notes: "$employeeResponses.notes",
+          employeeResponse: {
+            $filter: {
+              input: "$employeeResponses",
+              as: "employeeResponse",
+              cond: { $eq: ["$$employeeResponse._id", ObjectId(userId)] },
             },
           },
         },
       },
-      { $project: { _id: 0, eventResponses: 1, eventNotes: 1 } },
     ]);
+
+    if (isEmpty(events))
+      throw unableToLocateEvents(startMonth.format("L"), endMonth.format("L"));
 
     res.status(200).json({
       form: existingForm,
       events,
-      eventResponses: !isEmpty(responses) ? responses[0].eventResponses : [],
     });
   } catch (err) {
     return sendError(err, res);
@@ -172,11 +153,10 @@ const viewApForm = async (req, res) => {
 
 const updateForm = async (req, res) => {
   try {
-    const {
-      _id, expirationDate, enrollMonth, notes, seasonId,
-    } = req.body;
+    const { _id, expirationDate, enrollMonth, notes, seasonId } = req.body;
 
-    if (!_id || !seasonId || !expirationDate || !enrollMonth) throw unableToUpdateForm;
+    if (!_id || !seasonId || !expirationDate || !enrollMonth)
+      throw unableToUpdateForm;
 
     const seasonExists = await Season.findOne({ seasonId });
     if (!seasonExists) throw unableToLocateSeason;
@@ -209,36 +189,34 @@ const updateApForm = async (req, res) => {
 
     await Event.bulkWrite(
       responses.map(response => {
-        const {
-          id: eventId, value, notes, updateEvent,
-        } = response;
+        const { id: eventId, value, notes, updateEvent } = response;
         const { id: userId } = req.session.user;
 
         const filter = updateEvent
           ? {
-            _id: eventId,
-            "employeeResponses._id": userId,
-          }
+              _id: eventId,
+              "employeeResponses._id": userId,
+            }
           : {
-            _id: eventId,
-          };
+              _id: eventId,
+            };
 
         const update = updateEvent
           ? {
-            $set: {
-              "employeeResponses.$.response": value,
-              "employeeResponses.$.notes": notes,
-            },
-          }
-          : {
-            $push: {
-              employeeResponses: {
-                _id: userId,
-                response: value,
-                notes,
+              $set: {
+                "employeeResponses.$.response": value,
+                "employeeResponses.$.notes": notes,
               },
-            },
-          };
+            }
+          : {
+              $push: {
+                employeeResponses: {
+                  _id: userId,
+                  response: value,
+                  notes,
+                },
+              },
+            };
 
         return {
           updateOne: {
