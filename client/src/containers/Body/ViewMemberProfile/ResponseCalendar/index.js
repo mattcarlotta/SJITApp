@@ -5,6 +5,7 @@ import moment from "moment";
 import { Calendar } from "antd";
 import {
 	Badge,
+	Bold,
 	Button,
 	DisplayTeam,
 	List,
@@ -61,7 +62,13 @@ export class ResponseCalendar extends Component {
 								<DisplayTeam folder="calendar" team={item.team} />
 								{item.opponent && (
 									<Fragment>
-										<span style={{ margin: "0 5px" }}>vs.</span>
+										<span
+											css={`
+												margin: 0 5px;
+											`}
+										>
+											vs.
+										</span>
 										<DisplayTeam folder="calendar" team={item.opponent} />
 									</Fragment>
 								)}
@@ -94,29 +101,35 @@ export class ResponseCalendar extends Component {
 							<Fragment key="modal-content">
 								<List style={{ padding: 10 }}>
 									<ListItem>
-										<strong>Date: </strong>{" "}
+										<Bold>Date: </Bold>{" "}
 										{moment(eventDate).format("MMMM Do, YYYY @ h:mm a")}
 									</ListItem>
 									<ListItem>
-										<strong>Event Type: </strong> {eventType}
+										<Bold>Event Type: </Bold> {eventType}
 									</ListItem>
 									{eventNotes && (
 										<ListItem>
-											<strong>Event Notes: </strong> {eventNotes}
+											<Bold>Event Notes: </Bold> {eventNotes}
 										</ListItem>
 									)}
 									<ListItem>
-										<strong>Event: </strong>
+										<Bold>Event: </Bold>
 										{team}
 										{opponent && (
 											<Fragment>
-												<span style={{ margin: "0 5px" }}>vs.</span>
+												<span
+													css={`
+														margin: 0 5px;
+													`}
+												>
+													vs.
+												</span>
 												{opponent}
 											</Fragment>
 										)}
 									</ListItem>
 									<ListItem>
-										<strong>Employee Response:</strong>
+										<Bold>Employee Response:</Bold>
 										<Badge
 											style={{ display: "inline-block" }}
 											response={response}
@@ -126,7 +139,7 @@ export class ResponseCalendar extends Component {
 									</ListItem>
 									{notes && (
 										<ListItem>
-											<strong>Employee Notes:</strong> {notes}
+											<Bold>Employee Notes:</Bold> {notes}
 										</ListItem>
 									)}
 								</List>

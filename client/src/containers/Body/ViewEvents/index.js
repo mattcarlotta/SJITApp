@@ -55,8 +55,8 @@ const columns = [
 	},
 	{
 		title: "Scheduled Employees",
-		dataIndex: "scheduledEmployees",
-		key: "scheduledEmployees",
+		dataIndex: "schedule",
+		key: "schedule",
 	},
 ];
 
@@ -102,11 +102,10 @@ ViewEvents.propTypes = {
 			eventType: PropTypes.string,
 			location: PropTypes.string,
 			callTimes: PropTypes.arrayOf(PropTypes.string),
-			uniform: PropTypes.string,
 			seasonId: PropTypes.string,
 			eventDate: PropTypes.string,
 			employeeResponses: PropTypes.number,
-			scheduledEmployees: PropTypes.number,
+			schedule: PropTypes.number,
 		}),
 	),
 };

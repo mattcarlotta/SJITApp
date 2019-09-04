@@ -9,4 +9,8 @@ export default styled.li`
 	}
 
 	display: inline-block;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 `;

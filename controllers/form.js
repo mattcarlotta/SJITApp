@@ -1,6 +1,5 @@
 import moment from "moment";
 import isEmpty from "lodash/isEmpty";
-import { Types } from "mongoose";
 import { Event, Form, Season } from "models";
 import { sendError } from "shared/helpers";
 import {
@@ -14,8 +13,6 @@ import {
   unableToUpdateApForm,
   unableToUpdateForm,
 } from "shared/authErrors";
-
-const { ObjectId } = Types;
 
 const createForm = async (req, res) => {
   try {
@@ -118,7 +115,6 @@ const viewApForm = async (req, res) => {
           },
         },
       },
-      { $unwind: "$eventDate" },
       { $sort: { eventDate: 1 } },
       {
         $project: {
@@ -132,7 +128,7 @@ const viewApForm = async (req, res) => {
             $filter: {
               input: "$employeeResponses",
               as: "employeeResponse",
-              cond: { $eq: ["$$employeeResponse._id", ObjectId(userId)] },
+              cond: { $eq: ["$$employeeResponse._id", userId] },
             },
           },
         },

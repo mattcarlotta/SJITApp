@@ -1,38 +1,15 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
-import { DragDropContext } from "react-beautiful-dnd";
 import { Card } from "antd";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
-import {
-	BackButton,
-	Badge,
-	Center,
-	ColumnTitle,
-	DropContainer,
-	EventDetailsContainer,
-	Flex,
-	FormatDate,
-	Legend,
-	List,
-	ListItem,
-	Row,
-	ScheduleContainer,
-	SubmitButton,
-} from "components/Body";
+import { BackButton, Center, SubmitButton } from "components/Body";
 import { FormTitle, LoadingForm } from "components/Forms";
-import { fetchEventForScheduling } from "actions/Events";
+import { fetchEventForScheduling, updateEventSchedule } from "actions/Events";
+import Schedule from "./Schedule";
 
 const title = "Event Schedule Form";
-
-const responses = [
-	"I want to work.",
-	"Available to work.",
-	"Prefer not to work.",
-	"Not available to work.",
-	"No response.",
-];
 
 export class EventScheduleForm extends Component {
 	state = {
@@ -80,20 +57,20 @@ export class EventScheduleForm extends Component {
 					column => column._id === destinationId,
 				);
 
-				// source container "userIds" array
-				const sourceIds = Array.from(sourceContainer.userIds);
+				// source container "employeeIds" array
+				const sourceIds = Array.from(sourceContainer.employeeIds);
 
-				// destination container "userIds" array
-				const destinationIds = Array.from(destinationContainer.userIds);
+				// destination container "employeeIds" array
+				const destinationIds = Array.from(destinationContainer.employeeIds);
 
 				// check if source and destination container are the same
 				const isSameContainer =
 					sourceContainer._id === destinationContainer._id;
 
-				//  remove a userId from the source "userIds" array via the sourceIndex
+				//  remove a userId from the source "employeeIds" array via the sourceIndex
 				sourceIds.splice(sourceIndex, 1);
 
-				// add a userId (draggableId) to the source or destination "userIds" array
+				// add a userId (draggableId) to the source or destination "employeeIds" array
 				if (isSameContainer) {
 					sourceIds.splice(destinationIndex, 0, draggableId);
 				} else {
@@ -103,13 +80,13 @@ export class EventScheduleForm extends Component {
 				// update the source container with changed sourceIds
 				const newSourceContainer = {
 					...sourceContainer,
-					userIds: sourceIds,
+					employeeIds: sourceIds,
 				};
 
 				// update the destination container with changed destinationIds
 				const newDestinationContainer = {
 					...destinationContainer,
-					userIds: destinationIds,
+					employeeIds: destinationIds,
 				};
 
 				// loop through current columns and update the source
@@ -136,118 +113,46 @@ export class EventScheduleForm extends Component {
 
 	handleSubmit = e => {
 		e.preventDefault();
-		// console.log()
+		const { event, columns } = this.state;
+		const { updateEventSchedule } = this.props;
+		const schedule = columns.filter(column => column._id !== "employees");
+
+		updateEventSchedule({ _id: event._id, schedule });
 	};
 
-	render = () => {
-		const { columns, event, isLoading, users } = this.state;
-
-		return (
-			<Card
-				extra={
-					<BackButton
-						push={this.props.push}
-						location="/employee/events/viewall"
-					/>
-				}
-				title={title}
-			>
-				<Center>
-					<FormTitle
-						header={title}
-						title={title}
-						description="Drag and drop from the employee pool to any of the call times."
-					/>
-				</Center>
-				<form onSubmit={this.handleSubmit}>
-					{isLoading ? (
-						<LoadingForm rows={9} />
-					) : (
-						<Fragment>
-							<ScheduleContainer>
-								<DragDropContext onDragEnd={this.onDragEnd}>
-									<Flex>
-										<Legend>
-											<ColumnTitle style={{ marginBottom: 5 }}>
-												Legend
-											</ColumnTitle>
-											{responses.map(response => (
-												<Badge
-													key={response}
-													response={response}
-													style={{ fontSize: 17 }}
-												>
-													{response}
-												</Badge>
-											))}
-										</Legend>
-										<EventDetailsContainer>
-											<Center
-												style={{
-													color: "#fff",
-													background: "#025f6d",
-													borderRadius: "3px",
-													padding: "10px 5px",
-													textTransform: "uppercase",
-													fontSize: 17,
-													fontWeight: "bold",
-												}}
-											>
-												{event.team}{" "}
-												{event.opponent && (
-													<Fragment>
-														<span style={{ margin: "0 5px" }}>vs. </span>
-														{event.opponent}
-														&nbsp;
-													</Fragment>
-												)}
-											</Center>
-											<List style={{ padding: "0 5px", fontSize: 17 }}>
-												<ListItem>
-													<strong>Event Date: </strong>{" "}
-													<FormatDate
-														date={event.eventDate}
-														format="MMMM Do @ h:mm a"
-													/>
-												</ListItem>
-												<ListItem>
-													<strong>Location: </strong> {event.location}
-												</ListItem>
-												<ListItem>
-													<strong>Uniform: </strong> {event.uniform}
-												</ListItem>
-												<ListItem>
-													<strong>Notes: </strong> {event.notes || "(none)"}
-												</ListItem>
-											</List>
-										</EventDetailsContainer>
-									</Flex>
-									<Row>
-										{columns.map(({ _id, title, userIds }) => (
-											<DropContainer
-												id={_id}
-												key={_id}
-												title={title}
-												users={userIds.map(id =>
-													users.find(user => user._id === id),
-												)}
-												width={`${100 / columns.length - 1}%`}
-											/>
-										))}
-									</Row>
-								</DragDropContext>
-							</ScheduleContainer>
-							<SubmitButton
-								title="Submit Schedule"
-								style={{ maxWidth: 300, margin: "0 auto" }}
-								isSubmitting={this.state.isSubmitting}
-							/>
-						</Fragment>
-					)}
-				</form>
-			</Card>
-		);
-	};
+	render = () => (
+		<Card
+			extra={
+				<BackButton
+					push={this.props.push}
+					location="/employee/events/viewall"
+				/>
+			}
+			title={title}
+		>
+			<Center>
+				<FormTitle
+					header={title}
+					title={title}
+					description="Drag and drop from the employee pool to any of the call times."
+				/>
+			</Center>
+			<form onSubmit={this.handleSubmit}>
+				{this.state.isLoading ? (
+					<LoadingForm rows={9} />
+				) : (
+					<Fragment>
+						<Schedule {...this.state} handleDrag={this.onDragEnd} />
+						<SubmitButton
+							title="Submit Schedule"
+							style={{ maxWidth: 300, margin: "0 auto" }}
+							isSubmitting={this.state.isSubmitting}
+						/>
+					</Fragment>
+				)}
+			</form>
+		</Card>
+	);
 }
 
 EventScheduleForm.propTypes = {
@@ -284,7 +189,7 @@ EventScheduleForm.propTypes = {
 			PropTypes.shape({
 				_id: PropTypes.string.isRequired,
 				title: PropTypes.string.isRequired,
-				userIds: PropTypes.arrayOf(PropTypes.string),
+				employeeIds: PropTypes.arrayOf(PropTypes.string),
 			}),
 		),
 	}),
@@ -296,7 +201,7 @@ EventScheduleForm.propTypes = {
 	}).isRequired,
 	push: PropTypes.func.isRequired,
 	serverMessage: PropTypes.string,
-	// updateEvent: PropTypes.func.isRequired,
+	updateEventSchedule: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -307,7 +212,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
 	fetchEventForScheduling,
 	push,
-	// updateEvent,
+	updateEventSchedule,
 };
 
 export default connect(

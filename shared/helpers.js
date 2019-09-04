@@ -1,5 +1,29 @@
 import moment from "moment";
 import random from "lodash/random";
+import { Types } from "mongoose";
+
+const { ObjectId } = Types;
+
+/**
+ * Helper function to generate a schedule based upon calltimes.
+ *
+ * @function createSchedule
+ * @returns {object}
+ */
+const createSchedule = callTimes => {
+  return callTimes.map(time => ({
+    _id: time,
+    employeeIds: [],
+  }));
+};
+
+/**
+ * Helper function to generate a mongo ObjectId.
+ *
+ * @function convertId
+ * @returns {ObjectId}
+ */
+const convertId = id => ObjectId(id);
 
 /**
  * Helper function to generate a unique token.
@@ -116,7 +140,9 @@ export {
   beginofMonth,
   clearSession,
   convertDateToISO,
+  convertId,
   createRandomToken,
+  createSchedule,
   createSignupToken,
   createUniqueName,
   currentDate,

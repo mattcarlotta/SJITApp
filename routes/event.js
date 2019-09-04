@@ -5,6 +5,7 @@ import {
   getEvent,
   getEventForScheduling,
   updateEvent,
+  updateEventSchedule,
 } from "controllers/event";
 import { requireStaffRole } from "services/strategies";
 
@@ -15,4 +16,5 @@ export default app => {
   app.get("/api/event/edit/:id", requireStaffRole, getEvent);
   app.get("/api/event/review/:id", requireStaffRole, getEventForScheduling);
   app.put("/api/event/update", requireStaffRole, updateEvent);
+  app.put("/api/event/update/schedule", requireStaffRole, updateEventSchedule);
 };

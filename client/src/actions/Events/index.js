@@ -128,3 +128,15 @@ export const updateEvent = props => ({
 	type: types.EVENTS_UPDATE,
 	props,
 });
+
+/**
+ * Updates a single event's schedule.
+ *
+ * @function updateEventSchedule
+ * @param {object} data - contains event schedule data ([{ callTime, userIds }]).
+ * @returns {object}
+ */
+export const updateEventSchedule = props => ({
+	type: types.EVENTS_UPDATE_SCHEDULE,
+	props,
+});

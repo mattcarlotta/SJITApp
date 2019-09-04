@@ -39,14 +39,13 @@ const DropContainer = ({ id, title, users, width }) => (
 											<Badge response={response} style={{ margin: 0 }}>
 												{firstName} {lastName}
 											</Badge>
-											<span />
 											{notes && (
 												<p
-													style={{
-														margin: 0,
-														paddingLeft: 25,
-														fontStyle: "italic",
-													}}
+													css={`
+														margin: 0;
+														padding-left: 25px;
+														font-style: italic;
+													`}
 												>
 													({notes})
 												</p>

@@ -3,6 +3,7 @@
 export { default as BackButton } from "./BackButton";
 export { default as BackgroundOverlay } from "./BackgroundOverlay";
 export { default as Badge } from "./Badge";
+export { default as Bold } from "./Bold";
 export { default as Button } from "./Button";
 export { default as ButtonContainer } from "./ButtonContainer";
 export { default as Center } from "./Center";

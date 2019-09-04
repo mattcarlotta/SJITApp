@@ -6,7 +6,6 @@ export default styled.div`
 	font-size: 17px;
 	color: #ebecf0;
 	text-transform: uppercase;
-	font-weight: bold;
 	padding: 10px 5px;
 	border-radius: 3px;
 	text-align: center;

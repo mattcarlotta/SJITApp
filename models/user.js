@@ -25,7 +25,7 @@ userSchema.statics.createUser = function newUser(user) {
   return this.create(user);
 };
 
-// // Generate a salt, password, then run callback
+// Generate a salt, password, then run callback
 userSchema.statics.createPassword = async function createNewPassword(password) {
   const salt = await bcrypt.genSalt(12);
   const newPassword = await bcrypt.hash(password, salt, null);

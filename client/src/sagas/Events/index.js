@@ -230,6 +230,39 @@ export function* updateEvent({ props }) {
 }
 
 /**
+ * Attempts to update an existing event.
+ *
+ * @generator
+ * @function updateEventSchedule
+ * @param {object} props - contains event schedule data ([{ callTime, userIds }]).
+ * @yields {object} - A response from a call to the API.
+ * @function parseMessage - Returns a parsed res.data.message.
+ * @yields {action} - A redux action to display a server message by type.
+ * @yields {action} - A redux action to push to a URL.
+ * @throws {action} - A redux action to display a server message by type.
+ */
+
+export function* updateEventSchedule({ props }) {
+	try {
+		yield put(hideServerMessage());
+
+		const res = yield call(app.put, "event/update/schedule", { ...props });
+		const message = yield call(parseMessage, res);
+
+		yield put(
+			setServerMessage({
+				type: "success",
+				message,
+			}),
+		);
+
+		yield put(push("/employee/events/viewall"));
+	} catch (e) {
+		yield put(setServerMessage({ type: "error", message: e.toString() }));
+	}
+}
+
+/**
  * Creates watchers for all generators.
  *
  * @generator
@@ -245,5 +278,6 @@ export default function* eventsSagas() {
 		takeLatest(types.EVENTS_FETCH_SCHEDULE, fetchEventForScheduling),
 		takeLatest(types.EVENTS_INIT_NEW_EVENT, initializeNewEvent),
 		takeLatest(types.EVENTS_UPDATE, updateEvent),
+		takeLatest(types.EVENTS_UPDATE_SCHEDULE, updateEventSchedule),
 	]);
 }

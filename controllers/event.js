@@ -1,5 +1,4 @@
 import moment from "moment";
-import isEmpty from "lodash/isEmpty";
 import { Event, Season } from "models";
 import { sendError } from "shared/helpers";
 import {
@@ -9,6 +8,7 @@ import {
   unableToDeleteEvent,
   unableToLocateEvent,
 } from "shared/authErrors";
+import { convertId, createSchedule } from "shared/helpers";
 
 const createEvent = async (req, res) => {
   try {
@@ -82,8 +82,17 @@ const getAllEvents = async (_, res) => {
         location: 1,
         callTimes: 1,
         employeeResponses: { $size: "$employeeResponses" },
-        scheduledEmployees: { $size: "$scheduledEmployees" },
-        uniform: 1,
+        schedule: {
+          $sum: {
+            $map: {
+              input: "$schedule",
+              as: "result",
+              in: {
+                $size: "$$result.employeeIds",
+              },
+            },
+          },
+        },
       },
     },
   ]);
@@ -113,15 +122,12 @@ const getEventForScheduling = async (req, res) => {
     const { id: _id } = req.params;
     if (!_id) throw missingEventId;
 
-    const existingEvent = await Event.findOne(
-      { _id },
-      { scheduledEmployees: 0, __v: 0 },
-    ).lean();
-    if (!existingEvent) throw unableToLocateEvent;
+    const event = await Event.findOne({ _id }, { __v: 0 }).lean();
+    if (!event) throw unableToLocateEvent;
 
     const season = await Season.findOne(
       {
-        seasonId: existingEvent.seasonId,
+        seasonId: event.seasonId,
       },
       { _id: 0 },
     )
@@ -132,13 +138,13 @@ const getEventForScheduling = async (req, res) => {
         select: "_id firstName lastName",
       })
       .lean();
-    if (!season) throw unableToLocateEvent;
+    if (!season) throw "Unable to locate that season";
 
     const schedule = {
-      event: existingEvent,
+      event,
       users: [
         ...season.members.map(member => {
-          const eventResponse = existingEvent.employeeResponses.find(
+          const eventResponse = event.employeeResponses.find(
             response => response._id.toString() === member._id.toString(),
           );
 
@@ -153,12 +159,17 @@ const getEventForScheduling = async (req, res) => {
         {
           _id: "employees",
           title: "Employees",
-          userIds: [...season.members.map(member => member._id)],
+          employeeIds: season.members.reduce((result, member) => {
+            const { _id } = member;
+            const isScheduled = !event.scheduledIds.includes(_id.toString());
+
+            return isScheduled ? [...result, _id] : result;
+          }, []),
         },
-        ...existingEvent.callTimes.map(callTime => ({
-          _id: callTime,
-          title: moment(callTime).format("hh:mm a"),
-          userIds: [],
+        ...event.schedule.map(({ _id, employeeIds }) => ({
+          _id,
+          title: moment(_id).format("hh:mm a"),
+          employeeIds,
         })),
       ],
     };
@@ -198,6 +209,8 @@ const updateEvent = async (req, res) => {
     const existingEvent = await Event.findOne({ _id });
     if (!existingEvent) throw unableToLocateEvent;
 
+    const schedule = createSchedule(callTimes);
+
     await existingEvent.updateOne({
       callTimes,
       eventDate,
@@ -208,9 +221,36 @@ const updateEvent = async (req, res) => {
       seasonId,
       team,
       uniform,
+      schedule,
+      scheduledIds: [],
     });
 
     res.status(201).json({ message: "Successfully updated the event." });
+  } catch (err) {
+    return sendError(err, res);
+  }
+};
+
+const updateEventSchedule = async (req, res) => {
+  try {
+    const { _id, schedule } = req.body;
+    if (!_id || !schedule) throw invalidUpdateEventRequest;
+
+    const existingEvent = await Event.findOne({ _id });
+    if (!existingEvent) throw unableToLocateEvent;
+
+    const scheduledIds = schedule.reduce(
+      (result, { employeeIds }) => [...result, ...employeeIds],
+      [],
+    );
+
+    await existingEvent.updateOne({
+      $set: { schedule, scheduledIds },
+    });
+
+    res
+      .status(201)
+      .json({ message: "Successfully updated the event's schedule." });
   } catch (err) {
     return sendError(err, res);
   }
@@ -223,4 +263,5 @@ export {
   getEvent,
   getEventForScheduling,
   updateEvent,
+  updateEventSchedule,
 };
