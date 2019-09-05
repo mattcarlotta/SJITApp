@@ -10,6 +10,6 @@ export default styled.div`
 	width: 100%;
 	z-index: 1000000;
 	box-sizing: border-box;
-	max-height: 300px;
+	max-height: 250px;
 	overflow: auto;
 `;

@@ -4,24 +4,48 @@ import isEmpty from "lodash/isEmpty";
 import moment from "moment";
 import Helmet from "react-helmet";
 import { connect } from "react-redux";
-import { Card, Calendar } from "antd";
+import { Calendar, Card, Select } from "antd";
 import {
 	Badge,
 	Bold,
 	Button,
 	DisplayTeam,
+	FlexEnd,
 	List,
 	ListItem,
 	Modal,
 } from "components/Body";
 import { fetchScheduleEvents } from "actions/Events";
 
+const Option = Select.Option;
 const title = "View Schedule";
+
+const setValidRange = date => [
+	moment(date).startOf("month"),
+	moment(date).endOf("month"),
+];
 
 export class ViewSchedule extends Component {
 	state = {
 		isVisible: false,
 		modalChildren: null,
+		months: moment.monthsShort(),
+		years: [
+			...Array(10)
+				.fill()
+				.map(
+					(_, key) =>
+						parseInt(
+							moment()
+								.add(5, "year")
+								.format("YYYY"),
+							10,
+						) - key,
+				),
+		],
+		validRange: setValidRange(Date.now()),
+		selectedMonth: moment().format("MMM"),
+		selectedYear: parseInt(moment().format("YYYY"), 10),
 	};
 
 	componentDidMount = () => {
@@ -42,9 +66,72 @@ export class ViewSchedule extends Component {
 		});
 	};
 
-	handlePanelChange = selectedDate => {
-		this.props.fetchScheduleEvents({ selectedDate: selectedDate.toDate() });
+	handleSelection = ({ name, value, calendarDate, updateCalendarDate }) => {
+		const newCalendarDate =
+			name === "selectedMonth"
+				? calendarDate.clone().month(value)
+				: calendarDate.clone().year(value);
+
+		updateCalendarDate(newCalendarDate);
+
+		this.setState(
+			{ [name]: value, validRange: setValidRange(newCalendarDate) },
+			() => {
+				const { selectedMonth, selectedYear } = this.state;
+				const selectedDate = moment(
+					`${selectedMonth} ${selectedYear}`,
+					"MMM YYYY",
+				).format();
+				this.props.fetchScheduleEvents({ selectedDate });
+			},
+		);
 	};
+
+	handleRenderHeader = ({
+		value: calendarDate,
+		onChange: updateCalendarDate,
+	}) => (
+		<FlexEnd style={{ padding: "8px 20px" }}>
+			<Select
+				size="small"
+				dropdownMatchSelectWidth={false}
+				onChange={month => {
+					this.handleSelection({
+						name: "selectedMonth",
+						value: month,
+						calendarDate,
+						updateCalendarDate,
+					});
+				}}
+				value={this.state.selectedMonth}
+			>
+				{this.state.months.map(month => (
+					<Option key={month} value={month}>
+						{month}
+					</Option>
+				))}
+			</Select>
+			<Select
+				size="small"
+				dropdownMatchSelectWidth={false}
+				value={this.state.selectedYear}
+				onChange={year => {
+					this.handleSelection({
+						name: "selectedYear",
+						value: year,
+						calendarDate,
+						updateCalendarDate,
+					});
+				}}
+			>
+				{this.state.years.map(year => (
+					<Option key={year} value={year}>
+						{year}
+					</Option>
+				))}
+			</Select>
+		</FlexEnd>
+	);
 
 	handleDateCellRender = value => {
 		const { scheduleEvents } = this.props;
@@ -95,8 +182,9 @@ export class ViewSchedule extends Component {
 			<Card title={title}>
 				<Calendar
 					mode="month"
+					validRange={this.state.validRange}
+					headerRender={this.handleRenderHeader}
 					dateCellRender={this.handleDateCellRender}
-					onPanelChange={this.handlePanelChange}
 				/>
 			</Card>
 			{this.state.isVisible && (

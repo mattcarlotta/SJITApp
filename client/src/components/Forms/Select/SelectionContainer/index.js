@@ -20,8 +20,8 @@ export default styled.div`
 
 	svg {
 		color: ${({ errors, isVisible, value }) => {
-			if (errors && !value) return "#d14023 !important";
-			if (isVisible) return "#1e90ff !important";
+			if (errors && !value) return "#d14023";
+			if (isVisible) return "#1e90ff";
 			return "#d3dce6";
 		}};
 	}

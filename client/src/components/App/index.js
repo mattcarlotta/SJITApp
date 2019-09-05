@@ -76,9 +76,9 @@ class App extends Component {
 			key => this.state.openKeys.indexOf(key) === -1,
 		);
 
-		const containLatestKey = ROOTTABS.indexOf(latestOpenKey) === -1;
+		const containsLatestKey = ROOTTABS.indexOf(latestOpenKey) === -1;
 
-		this.setState({ openKeys: containLatestKey ? openKeys : [latestOpenKey] });
+		this.setState({ openKeys: containsLatestKey ? openKeys : [latestOpenKey] });
 	};
 
 	handleTabClick = ({ key }) => {

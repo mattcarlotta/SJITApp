@@ -44,6 +44,41 @@
 	}
 }
 
+.selector {
+	& .ant-select-selection--single {
+		height: 52px;
+	}
+
+	& .ant-select-selection-selected-value {
+		padding: 11px 0 14px 38px;
+		font-size: 20px;
+	}
+
+	& .ant-select-dropdown-menu-item {
+		padding: 10px 12px;
+		font-size: 18px;
+	}
+
+	& .ant-select-search--inline .ant-select-search__field {
+		padding: 25px 0 28px 38px;
+		font-size: 20px;
+	}
+}
+
+.form-input {
+	height: 52px;
+	padding: 25px 0 25px 48px;
+}
+
+.select-placeholder {
+	& .ant-select-selection__placeholder {
+		padding: 10px 0 30px 37px;
+		height: 100%;
+		font-size: 20px;
+		display: block !important;
+	}
+}
+
 // .date-picker > div > input {
 // 	padding: 14px 0 14px 48px !important;
 // }
