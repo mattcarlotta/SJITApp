@@ -6,7 +6,6 @@ import {
 	Bold,
 	ColumnTitle,
 	DropContainer,
-	EventDetailsContainer,
 	Flex,
 	FormatDate,
 	Legend,
@@ -36,7 +35,15 @@ const Schedule = ({ handleDrag, event, columns, users }) => (
 						</Badge>
 					))}
 				</Legend>
-				<EventDetailsContainer>
+				<div
+					css={`
+						flex: 1 0 auto;
+						background-color: #ebecf0;
+						margin: 0px 20px 10px 20px;
+						padding: 10px;
+						border-radius: 3px;
+					`}
+				>
 					<div
 						css={`
 							text-align: center;
@@ -78,7 +85,7 @@ const Schedule = ({ handleDrag, event, columns, users }) => (
 							<Bold>Notes: </Bold> {event.notes || "(none)"}
 						</ListItem>
 					</List>
-				</EventDetailsContainer>
+				</div>
 			</Flex>
 			<Row>
 				{columns.map(({ _id, title, employeeIds }) => (

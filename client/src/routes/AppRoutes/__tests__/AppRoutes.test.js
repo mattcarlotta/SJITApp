@@ -11,7 +11,6 @@ import {
 	NewMember,
 	NewSeason,
 	NewTemplate,
-	Schedules,
 	ViewAuthorizations,
 	ViewEvents,
 	ViewForms,
@@ -20,6 +19,8 @@ import {
 	ViewSeasons,
 	ViewTemplates,
 } from "pages/Staff";
+
+import { ViewSchedule } from "pages/Shared";
 
 import {
 	MemberDashboard,
@@ -160,9 +161,9 @@ describe("Application routes", () => {
 		it("routes to Schedule", () => {
 			expect(
 				wrapper
-					.find("Route[exact=true][path='/employee/schedules']")
+					.find("Route[exact=true][path='/employee/schedule']")
 					.prop("component"),
-			).toBe(Schedules);
+			).toBe(ViewSchedule);
 		});
 
 		it("routes to NewSeason", () => {

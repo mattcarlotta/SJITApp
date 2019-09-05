@@ -15,7 +15,7 @@ import {
 	NewMember,
 	NewSeason,
 	NewTemplate,
-	Schedules,
+	// Schedules,
 	ViewAuthorizations,
 	ViewEvents,
 	ViewForms,
@@ -25,7 +25,7 @@ import {
 	ViewTemplates,
 } from "pages/Staff";
 
-import { ViewApForm } from "pages/Shared";
+import { ViewApForm, ViewSchedule } from "pages/Shared";
 
 import {
 	MemberDashboard,
@@ -70,7 +70,7 @@ const AppRoutes = ({ match: { url }, role }) =>
 				component={EditAuthorization}
 			/>
 			<Route exact path={`${url}/members/viewall`} component={ViewMembers} />
-			<Route exact path={`${url}/schedules`} component={Schedules} />
+			<Route exact path={`${url}/schedule`} component={ViewSchedule} />
 			<Route exact path={`${url}/seasons/create`} component={NewSeason} />
 			<Route exact path={`${url}/seasons/edit/:id`} component={EditSeason} />
 			<Route exact path={`${url}/seasons/viewall`} component={ViewSeasons} />

@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import { Card } from "antd";
 import { FaCalendarPlus } from "react-icons/fa";
-import { Button, DisplayDate, FlexEnd, Table } from "components/Body";
+import { Button, FormatDate, FlexEnd, Table } from "components/Body";
 import { deleteSeason, fetchSeasons } from "actions/Seasons";
 
 const title = "View Seasons";
@@ -16,13 +16,13 @@ const columns = [
 		title: "Start Date",
 		dataIndex: "startDate",
 		key: "startDate",
-		render: date => <DisplayDate date={date} />,
+		render: date => <FormatDate format="MM/DD/YYYY" date={date} />,
 	},
 	{
 		title: "End Date",
 		dataIndex: "endDate",
 		key: "endDate",
-		render: date => <DisplayDate date={date} />,
+		render: date => <FormatDate format="MM/DD/YYYY" date={date} />,
 	},
 	{ title: "Members", dataIndex: "members", key: "members" },
 ];

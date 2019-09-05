@@ -7,6 +7,7 @@ import {
 	setEvents,
 	setEventToEdit,
 	setNewEvent,
+	setScheduleEvents,
 } from "actions/Events";
 import { parseData, parseMessage } from "utils/parseResponse";
 import * as types from "types";
@@ -162,6 +163,29 @@ export function* fetchEvents() {
 }
 
 /**
+ * Attempts to get a single member profile for review/editing.
+ *
+ * @generator
+ * @function fetchScheduleEvents
+ * @param {object} params
+ * @yields {object} - A response from a call to the API.
+ * @function parseData - Returns a parsed res.data.
+ * @yields {action} - A redux action to set member data to redux state.
+ * @throws {action} - A redux action to display a server message by type.
+ */
+
+export function* fetchScheduleEvents({ params }) {
+	try {
+		const res = yield call(app.get, "events/schedule", { params });
+		const data = yield call(parseData, res);
+
+		yield put(setScheduleEvents(data));
+	} catch (e) {
+		yield put(setServerMessage({ type: "error", message: e.toString() }));
+	}
+}
+
+/**
  * Attempts to get event for editing.
  *
  * @generator
@@ -276,6 +300,7 @@ export default function* eventsSagas() {
 		takeLatest(types.EVENTS_EDIT, fetchEvent),
 		takeLatest(types.EVENTS_FETCH, fetchEvents),
 		takeLatest(types.EVENTS_FETCH_SCHEDULE, fetchEventForScheduling),
+		takeLatest(types.EVENTS_FETCH_SCHEDULE_EVENTS, fetchScheduleEvents),
 		takeLatest(types.EVENTS_INIT_NEW_EVENT, initializeNewEvent),
 		takeLatest(types.EVENTS_UPDATE, updateEvent),
 		takeLatest(types.EVENTS_UPDATE_SCHEDULE, updateEventSchedule),

@@ -5,13 +5,7 @@ import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import { Card } from "antd";
 import { MdNoteAdd } from "react-icons/md";
-import {
-	Button,
-	DisplayDate,
-	DisplayDateTime,
-	FlexEnd,
-	Table,
-} from "components/Body";
+import { Button, FormatDate, FlexEnd, Table } from "components/Body";
 import { deleteForm, fetchForms } from "actions/Forms";
 
 const title = "View Forms";
@@ -22,19 +16,19 @@ const columns = [
 		title: "Start Month",
 		dataIndex: "startMonth",
 		key: "startMonth",
-		render: date => <DisplayDate date={date} />,
+		render: date => <FormatDate format="MM/DD/YYYY" date={date} />,
 	},
 	{
 		title: "End Month",
 		dataIndex: "endMonth",
 		key: "endMonth",
-		render: date => <DisplayDate date={date} />,
+		render: date => <FormatDate format="MM/DD/YYYY" date={date} />,
 	},
 	{
 		title: "Expiration Date",
 		dataIndex: "expirationDate",
 		key: "expirationDate",
-		render: date => <DisplayDateTime date={date} />,
+		render: date => <FormatDate format="MM/DD/YY @ hh:mm a" date={date} />,
 	},
 	{
 		title: "Form Id",

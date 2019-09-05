@@ -54,8 +54,8 @@ export default [
 	},
 	{
 		component: FaClock,
-		key: "schedules",
-		tab: "schedules",
+		key: "schedule",
+		tab: "schedule",
 	},
 	{
 		component: FaFolder,

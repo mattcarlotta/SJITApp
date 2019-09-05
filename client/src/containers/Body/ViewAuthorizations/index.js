@@ -7,7 +7,7 @@ import { Card } from "antd";
 import { FaUserPlus } from "react-icons/fa";
 import {
 	Button,
-	DisplayDate,
+	FormatDate,
 	FlexEnd,
 	Table,
 	TokenStatus,
@@ -36,7 +36,7 @@ const columns = [
 		dataIndex: "expiration",
 		key: "expiration",
 		render: (date, { email }) =>
-			!email ? <DisplayDate date={date} /> : <span>-</span>,
+			!email ? <FormatDate format="MM/DD/YYYY" date={date} /> : <span>-</span>,
 	},
 ];
 

@@ -26,6 +26,9 @@ export const showBadge = response => {
 		case "No response.": {
 			return "#bfbfbf"; // F4A261
 		}
+		case "Scheduled.": {
+			return "limegreen";
+		}
 		default: {
 			return "transparent";
 		}

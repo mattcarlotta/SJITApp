@@ -180,6 +180,46 @@ const getEventForScheduling = async (req, res) => {
   }
 };
 
+const getScheduledEvents = async (req, res) => {
+  try {
+    const { selectedDate } = req.query;
+
+    // const existingMember = await User.findOne(
+    //   { _id },
+    //   { password: 0, token: 0, events: 0 },
+    // );
+    // if (!existingMember) throw unableToLocateMember;
+
+    /* istanbul ignore next */
+    const currentDate = selectedDate || Date.now();
+
+    const startMonth = moment(currentDate)
+      .startOf("month")
+      .toDate();
+    const endMonth = moment(currentDate)
+      .endOf("month")
+      .toDate();
+
+    const events = await Event.find(
+      {
+        eventDate: {
+          $gte: startMonth,
+          $lte: endMonth,
+        },
+      },
+      { seasonId: 0, callTimes: 0, schedule: 0, employeeResponses: 0, __v: 0 },
+      { sort: { eventDate: 1 } },
+    ).populate({
+      path: "scheduledIds",
+      select: "_id firstName lastName",
+    });
+
+    res.status(200).json({ events });
+  } catch (err) {
+    return sendError(err, res);
+  }
+};
+
 const updateEvent = async (req, res) => {
   try {
     const {
@@ -240,7 +280,10 @@ const updateEventSchedule = async (req, res) => {
     if (!existingEvent) throw unableToLocateEvent;
 
     const scheduledIds = schedule.reduce(
-      (result, { employeeIds }) => [...result, ...employeeIds],
+      (result, { employeeIds }) => [
+        ...result,
+        ...employeeIds.map(id => convertId(id)),
+      ],
       [],
     );
 
@@ -262,6 +305,7 @@ export {
   getAllEvents,
   getEvent,
   getEventForScheduling,
+  getScheduledEvents,
   updateEvent,
   updateEventSchedule,
 };

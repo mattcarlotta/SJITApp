@@ -1,10 +1,10 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
-import { DisplayFullDate, DisplayTeam } from "components/Body";
+import { FormatDate, DisplayTeam } from "components/Body";
 
 const EventLabel = ({ eventType, eventDate, opponent, style, team }) => (
 	<span style={style}>
-		<DisplayFullDate date={eventDate} /> -{" "}
+		<FormatDate format="MMM Do @ h:mm a" date={eventDate} /> -{" "}
 		<DisplayTeam folder="lowres" team={team} />{" "}
 		{opponent && (
 			<Fragment>

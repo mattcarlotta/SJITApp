@@ -9,7 +9,6 @@ export default styled.div`
 	box-sizing: border-box;
 	display: flex;
 	flex-direction: column;
-	flex-wrap: row;
 	position: relative;
 	white-space: normal;
 	padding: 8px;

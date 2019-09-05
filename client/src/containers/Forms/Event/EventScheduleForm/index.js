@@ -1,11 +1,11 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
 import { Card } from "antd";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import { BackButton, Center, SubmitButton } from "components/Body";
-import { FormTitle, LoadingForm } from "components/Forms";
+import { FormTitle, LoadingScheduleForm } from "components/Forms";
 import { fetchEventForScheduling, updateEventSchedule } from "actions/Events";
 import Schedule from "./Schedule";
 
@@ -114,10 +114,9 @@ export class EventScheduleForm extends Component {
 	handleSubmit = e => {
 		e.preventDefault();
 		const { event, columns } = this.state;
-		const { updateEventSchedule } = this.props;
 		const schedule = columns.filter(column => column._id !== "employees");
 
-		updateEventSchedule({ _id: event._id, schedule });
+		this.props.updateEventSchedule({ _id: event._id, schedule });
 	};
 
 	render = () => (
@@ -139,17 +138,16 @@ export class EventScheduleForm extends Component {
 			</Center>
 			<form onSubmit={this.handleSubmit}>
 				{this.state.isLoading ? (
-					<LoadingForm rows={9} />
+					<LoadingScheduleForm />
 				) : (
-					<Fragment>
-						<Schedule {...this.state} handleDrag={this.onDragEnd} />
-						<SubmitButton
-							title="Submit Schedule"
-							style={{ maxWidth: 300, margin: "0 auto" }}
-							isSubmitting={this.state.isSubmitting}
-						/>
-					</Fragment>
+					<Schedule {...this.state} handleDrag={this.onDragEnd} />
 				)}
+				<SubmitButton
+					disabled={this.state.isLoading}
+					title="Submit Schedule"
+					style={{ maxWidth: 300, margin: "0 auto" }}
+					isSubmitting={this.state.isSubmitting}
+				/>
 			</form>
 		</Card>
 	);

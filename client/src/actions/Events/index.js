@@ -60,6 +60,18 @@ export const fetchEvents = () => ({
 });
 
 /**
+ * Fetches all scheduled events.
+ *
+ * @function fetchScheduleEvents
+ * @param {params} - selectedDate and all games or user scheduled games
+ * @returns {object}
+ */
+export const fetchScheduleEvents = params => ({
+	type: types.EVENTS_FETCH_SCHEDULE_EVENTS,
+	params,
+});
+
+/**
  * Fetches season ids and team names.
  *
  * @function initializeNewEvent
@@ -115,6 +127,18 @@ export const setEventToEdit = data => ({
 export const setNewEvent = data => ({
 	type: types.EVENTS_SET_NEW_EVENT,
 	payload: !isEmpty(data) ? data : {},
+});
+
+/**
+ * Sets scheduled events.
+ *
+ * @function setScheduledEvents
+ * @param {object} data - contains newEvent data ({eventType, eventDate, team, opponent, uniform, location, notes, scheduledEmployees}).
+ * @returns {object}
+ */
+export const setScheduleEvents = data => ({
+	type: types.EVENTS_SET_SCHEDULE_EVENTS,
+	payload: !isEmpty(data) ? data : [],
 });
 
 /**

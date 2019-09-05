@@ -7,10 +7,10 @@ import { Card } from "antd";
 import { FaUserPlus } from "react-icons/fa";
 import {
 	Button,
-	DisplayFullDate,
 	DisplayTime,
 	DisplayTeam,
 	FlexEnd,
+	FormatDate,
 	Table,
 } from "components/Body";
 import { deleteEvent, fetchEvents } from "actions/Events";
@@ -39,7 +39,7 @@ const columns = [
 		dataIndex: "eventDate",
 		key: "eventDate",
 		width: 200,
-		render: date => <DisplayFullDate date={date} />,
+		render: date => <FormatDate format="MMM Do @ h:mm a" date={date} />,
 	},
 	{
 		title: "Call Times",

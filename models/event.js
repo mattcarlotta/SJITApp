@@ -22,7 +22,7 @@ const eventSchema = new Schema({
       employeeIds: { type: Array, of: String },
     },
   ],
-  scheduledIds: { type: Array, of: String },
+  scheduledIds: [{ type: Schema.Types.ObjectId, ref: "User" }],
   seasonId: { type: String, required: true },
   team: { type: String, required: true },
   opponent: String,

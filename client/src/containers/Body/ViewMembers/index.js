@@ -7,9 +7,9 @@ import { Card } from "antd";
 import { FaUserPlus } from "react-icons/fa";
 import {
 	Button,
-	DisplayDate,
 	DisplayStatus,
 	FlexEnd,
+	FormatDate,
 	Table,
 } from "components/Body";
 import { deleteMember, fetchMembers } from "actions/Members";
@@ -31,7 +31,7 @@ const columns = [
 		title: "Registered",
 		dataIndex: "registered",
 		key: "registered",
-		render: date => <DisplayDate date={date} />,
+		render: date => <FormatDate format="MM/DD/YYYY" date={date} />,
 	},
 	{ title: "Events (total)", dataIndex: "events", key: "events" },
 ];
