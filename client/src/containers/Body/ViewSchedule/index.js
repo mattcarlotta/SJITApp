@@ -68,10 +68,18 @@ export class ViewSchedule extends Component {
 	};
 
 	handleSelection = ({ name, value, calendarDate, updateCalendarDate }) => {
-		const newCalendarDate =
-			name === "selectedMonth"
-				? calendarDate.clone().month(value)
-				: calendarDate.clone().year(value);
+		let newCalendarDate = calendarDate;
+
+		switch (name) {
+			case "selectedMonth": {
+				newCalendarDate = calendarDate.clone().month(value);
+				break;
+			}
+			case "selectedYear": {
+				newCalendarDate = calendarDate.clone().year(value);
+				break;
+			}
+		}
 
 		updateCalendarDate(newCalendarDate);
 

@@ -19,20 +19,27 @@ const eventReducer = (state = initialState, { payload, type }) => {
 		case types.EVENTS_EDIT:
 		case types.EVENTS_FETCH:
 		case types.EVENTS_FETCH_SCHEDULE:
-		case types.EVENTS_FETCH_SCHEDULE_EVENTS:
+		case types.EVENTS_FETCH_SCHEDULE_EVENTS: {
 			return initialState;
-		case types.EVENTS_SET:
+		}
+		case types.EVENTS_SET: {
 			return { ...state, data: payload.events };
-		case types.EVENTS_SET_EDIT:
+		}
+		case types.EVENTS_SET_EDIT: {
 			return { ...state, editEvent: payload };
-		case types.EVENTS_SET_NEW_EVENT:
+		}
+		case types.EVENTS_SET_NEW_EVENT: {
 			return { ...state, newEvent: payload };
-		case types.EVENTS_SET_SCHEDULE:
+		}
+		case types.EVENTS_SET_SCHEDULE: {
 			return { ...state, schedule: payload.schedule };
-		case types.EVENTS_SET_SCHEDULE_EVENTS:
+		}
+		case types.EVENTS_SET_SCHEDULE_EVENTS: {
 			return { ...state, scheduleEvents: payload.events };
-		default:
+		}
+		default: {
 			return state;
+		}
 	}
 };
 

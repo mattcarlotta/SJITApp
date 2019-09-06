@@ -14,14 +14,18 @@ export const initialState = {
  */
 const serverMessageReducer = (state = initialState, { payload, type }) => {
 	switch (type) {
-		case types.MESSAGE_HIDE:
+		case types.MESSAGE_HIDE: {
 			return { ...state, show: false };
-		case types.MESSAGE_RESET:
+		}
+		case types.MESSAGE_RESET: {
 			return { ...state, message: "", type: "" };
-		case types.MESSAGE_SET:
+		}
+		case types.MESSAGE_SET: {
 			return { message: payload.message, show: true, type: payload.type };
-		default:
+		}
+		default: {
 			return state;
+		}
 	}
 };
 

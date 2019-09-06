@@ -16,12 +16,15 @@ export const initialState = {
  */
 const authReducer = (state = initialState, { payload, type }) => {
 	switch (type) {
-		case types.USER_SIGNIN:
+		case types.USER_SIGNIN: {
 			return { ...state, ...payload };
-		case types.USER_SIGNOUT:
+		}
+		case types.USER_SIGNOUT: {
 			return initialState;
-		default:
+		}
+		default: {
 			return state;
+		}
 	}
 };
 

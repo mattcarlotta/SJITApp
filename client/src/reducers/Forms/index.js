@@ -18,18 +18,22 @@ const formReducer = (state = initialState, { payload, type }) => {
 		case types.FORMS_EDIT:
 		case types.FORMS_FETCH:
 			return initialState;
-		case types.FORMS_SET:
+		case types.FORMS_SET: {
 			return { ...state, data: payload.forms };
-		case types.FORMS_SET_AP:
+		}
+		case types.FORMS_SET_AP: {
 			return {
 				...state,
 				viewForm: payload.form,
 				events: payload.events,
 			};
-		case types.FORMS_SET_EDIT:
+		}
+		case types.FORMS_SET_EDIT: {
 			return { ...state, editForm: payload };
-		default:
+		}
+		default: {
 			return state;
+		}
 	}
 };
 
