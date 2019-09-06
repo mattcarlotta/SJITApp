@@ -9,4 +9,8 @@ export default styled.div`
 	padding: 10px 5px;
 	border-radius: 3px;
 	text-align: center;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 `;

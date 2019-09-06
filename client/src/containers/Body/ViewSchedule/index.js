@@ -31,19 +31,20 @@ export class ViewSchedule extends Component {
 		modalChildren: null,
 		months: moment.monthsShort(),
 		years: [
-			...Array(10)
+			...Array(11)
 				.fill()
 				.map(
 					(_, key) =>
 						parseInt(
 							moment()
-								.add(5, "year")
+								.subtract(5, "year")
 								.format("YYYY"),
 							10,
-						) - key,
+						) + key,
 				),
 		],
 		validRange: setValidRange(Date.now()),
+		selectedGames: "All Games",
 		selectedMonth: moment().format("MMM"),
 		selectedYear: parseInt(moment().format("YYYY"), 10),
 	};
@@ -77,12 +78,12 @@ export class ViewSchedule extends Component {
 		this.setState(
 			{ [name]: value, validRange: setValidRange(newCalendarDate) },
 			() => {
-				const { selectedMonth, selectedYear } = this.state;
+				const { selectedGames, selectedMonth, selectedYear } = this.state;
 				const selectedDate = moment(
 					`${selectedMonth} ${selectedYear}`,
 					"MMM YYYY",
 				).format();
-				this.props.fetchScheduleEvents({ selectedDate });
+				this.props.fetchScheduleEvents({ selectedDate, selectedGames });
 			},
 		);
 	};
@@ -95,10 +96,29 @@ export class ViewSchedule extends Component {
 			<Select
 				size="small"
 				dropdownMatchSelectWidth={false}
-				onChange={month => {
+				onChange={value => {
+					this.handleSelection({
+						name: "selectedGames",
+						value,
+						calendarDate,
+						updateCalendarDate,
+					});
+				}}
+				value={this.state.selectedGames}
+			>
+				{["All Games", "My Games"].map(game => (
+					<Option key={game} value={game}>
+						{game}
+					</Option>
+				))}
+			</Select>
+			<Select
+				size="small"
+				dropdownMatchSelectWidth={false}
+				onChange={value => {
 					this.handleSelection({
 						name: "selectedMonth",
-						value: month,
+						value,
 						calendarDate,
 						updateCalendarDate,
 					});
@@ -115,10 +135,10 @@ export class ViewSchedule extends Component {
 				size="small"
 				dropdownMatchSelectWidth={false}
 				value={this.state.selectedYear}
-				onChange={year => {
+				onChange={value => {
 					this.handleSelection({
 						name: "selectedYear",
-						value: year,
+						value,
 						calendarDate,
 						updateCalendarDate,
 					});

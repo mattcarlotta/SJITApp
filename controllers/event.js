@@ -160,10 +160,11 @@ const getEventForScheduling = async (req, res) => {
           _id: "employees",
           title: "Employees",
           employeeIds: season.members.reduce((result, member) => {
-            const { _id } = member;
-            const isScheduled = !event.scheduledIds.includes(_id.toString());
+            const isScheduled = !event.scheduledIds.some(id =>
+              member._id.equals(id),
+            );
 
-            return isScheduled ? [...result, _id] : result;
+            return isScheduled ? [...result, member._id] : result;
           }, []),
         },
         ...event.schedule.map(({ _id, employeeIds }) => ({
@@ -182,13 +183,7 @@ const getEventForScheduling = async (req, res) => {
 
 const getScheduledEvents = async (req, res) => {
   try {
-    const { selectedDate } = req.query;
-
-    // const existingMember = await User.findOne(
-    //   { _id },
-    //   { password: 0, token: 0, events: 0 },
-    // );
-    // if (!existingMember) throw unableToLocateMember;
+    const { selectedDate, selectedGames } = req.query;
 
     /* istanbul ignore next */
     const currentDate = selectedDate || Date.now();
@@ -200,12 +195,29 @@ const getScheduledEvents = async (req, res) => {
       .endOf("month")
       .toDate();
 
+    // console.log(req.session.user.id);
+
+    const filters =
+      !selectedGames || selectedGames === "All Games"
+        ? {
+            eventDate: {
+              $gte: startMonth,
+              $lte: endMonth,
+            },
+          }
+        : {
+            eventDate: {
+              $gte: startMonth,
+              $lte: endMonth,
+            },
+            scheduledIds: {
+              $in: [convertId(req.session.user.id)],
+            },
+          };
+
     const events = await Event.find(
       {
-        eventDate: {
-          $gte: startMonth,
-          $lte: endMonth,
-        },
+        ...filters,
       },
       { seasonId: 0, callTimes: 0, schedule: 0, employeeResponses: 0, __v: 0 },
       { sort: { eventDate: 1 } },
