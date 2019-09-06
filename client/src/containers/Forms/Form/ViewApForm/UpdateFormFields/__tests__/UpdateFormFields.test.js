@@ -95,7 +95,7 @@ describe("UpdateFormFields", () => {
 				value: "",
 				errors: "",
 				placeholder:
-					"(Optional) Include any special notes for the above event...",
+					"(Optional) Include any special notes for the event above...",
 				required: false,
 				disabled: false,
 				width: "350px",
@@ -151,7 +151,7 @@ describe("UpdateFormFields", () => {
 				value: eventResponses[0].notes,
 				errors: "",
 				placeholder:
-					"(Optional) Include any special notes for the above event...",
+					"(Optional) Include any special notes for the event above...",
 				required: false,
 				disabled: false,
 				width: "350px",

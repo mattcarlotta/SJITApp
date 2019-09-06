@@ -78,12 +78,13 @@ export class ViewSchedule extends Component {
 		this.setState(
 			{ [name]: value, validRange: setValidRange(newCalendarDate) },
 			() => {
-				const { selectedGames, selectedMonth, selectedYear } = this.state;
-				const selectedDate = moment(
-					`${selectedMonth} ${selectedYear}`,
-					"MMM YYYY",
-				).format();
-				this.props.fetchScheduleEvents({ selectedDate, selectedGames });
+				this.props.fetchScheduleEvents({
+					selectedDate: moment(
+						`${this.state.selectedMonth} ${this.state.selectedYear}`,
+						"MMM YYYY",
+					).format(),
+					selectedGames: this.state.selectedGames,
+				});
 			},
 		);
 	};
@@ -94,8 +95,7 @@ export class ViewSchedule extends Component {
 	}) => (
 		<FlexEnd style={{ padding: "8px 20px" }}>
 			<Select
-				size="small"
-				dropdownMatchSelectWidth={false}
+				size="large"
 				onChange={value => {
 					this.handleSelection({
 						name: "selectedGames",
@@ -113,8 +113,7 @@ export class ViewSchedule extends Component {
 				))}
 			</Select>
 			<Select
-				size="small"
-				dropdownMatchSelectWidth={false}
+				size="large"
 				onChange={value => {
 					this.handleSelection({
 						name: "selectedMonth",
@@ -132,8 +131,7 @@ export class ViewSchedule extends Component {
 				))}
 			</Select>
 			<Select
-				size="small"
-				dropdownMatchSelectWidth={false}
+				size="large"
 				value={this.state.selectedYear}
 				onChange={value => {
 					this.handleSelection({

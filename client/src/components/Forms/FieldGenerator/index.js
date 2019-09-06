@@ -57,17 +57,10 @@ const FieldGenerator = ({ fields, onChange }) =>
 				);
 			case "radiogroup":
 				return (
-					<Form.Item
-						key={props.name}
-						style={{ height: 220, marginBottom: props.notes ? 60 : 30 }}
-					>
+					<Form.Item key={props.name}>
 						<Label style={{ marginBottom: 25 }} {...props} />
 						{props.notes && <Notes {...props} />}
-						<RadioGroup
-							{...props}
-							style={{ textAlign: "left" }}
-							onChange={onChange}
-						>
+						<RadioGroup {...props} onChange={onChange}>
 							{!isEmpty(props.selectOptions) &&
 								props.selectOptions.map(value => (
 									<Radio style={radioStyle} key={value} value={value}>

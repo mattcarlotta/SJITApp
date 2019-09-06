@@ -125,12 +125,9 @@ const getEventForScheduling = async (req, res) => {
     const event = await Event.findOne({ _id }, { __v: 0 }).lean();
     if (!event) throw unableToLocateEvent;
 
-    const season = await Season.findOne(
-      {
-        seasonId: event.seasonId,
-      },
-      { _id: 0 },
-    )
+    const season = await Season.findOne({
+      seasonId: event.seasonId,
+    })
       .select("members")
       .populate({
         path: "members",
@@ -144,8 +141,8 @@ const getEventForScheduling = async (req, res) => {
       event,
       users: [
         ...season.members.map(member => {
-          const eventResponse = event.employeeResponses.find(
-            response => response._id.toString() === member._id.toString(),
+          const eventResponse = event.employeeResponses.find(response =>
+            response._id.equals(member._id),
           );
 
           return {
@@ -160,11 +157,11 @@ const getEventForScheduling = async (req, res) => {
           _id: "employees",
           title: "Employees",
           employeeIds: season.members.reduce((result, member) => {
-            const isScheduled = !event.scheduledIds.some(id =>
+            const isScheduled = event.scheduledIds.some(id =>
               member._id.equals(id),
             );
 
-            return isScheduled ? [...result, member._id] : result;
+            return !isScheduled ? [...result, member._id] : result;
           }, []),
         },
         ...event.schedule.map(({ _id, employeeIds }) => ({
@@ -194,8 +191,6 @@ const getScheduledEvents = async (req, res) => {
     const endMonth = moment(currentDate)
       .endOf("month")
       .toDate();
-
-    // console.log(req.session.user.id);
 
     const filters =
       !selectedGames || selectedGames === "All Games"
