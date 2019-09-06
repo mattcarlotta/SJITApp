@@ -11,6 +11,7 @@ import {
 	Button,
 	DisplayTeam,
 	FlexEnd,
+	FormatDate,
 	List,
 	ListItem,
 	Modal,
@@ -224,7 +225,7 @@ export class ViewSchedule extends Component {
 							team,
 							opponent,
 							notes,
-							scheduledIds,
+							schedule,
 						}) => (
 							<Fragment key="modal-content">
 								<List style={{ padding: 10 }}>
@@ -264,22 +265,34 @@ export class ViewSchedule extends Component {
 											<Bold>Employee Notes:</Bold> {notes}
 										</ListItem>
 									)}
-									{this.props.role !== "employee" && (
-										<ListItem>
-											<Bold>Scheduled Employees:</Bold>
-											{!isEmpty(scheduledIds) ? (
-												scheduledIds.map(({ _id, firstName, lastName }) => (
-													<div key={_id}>
-														<Badge response="Scheduled.">
-															{firstName} {lastName}
-														</Badge>
-													</div>
-												))
-											) : (
-												<span>&#40;none&#41;</span>
-											)}
-										</ListItem>
-									)}
+									<ListItem>
+										<Bold>Scheduled Employees</Bold>
+										{!isEmpty(schedule) ? (
+											schedule.map(({ _id, employeeIds }) => (
+												<List style={{ marginTop: 5 }} key={_id}>
+													<Bold style={{ paddingLeft: 5 }}>
+														<span style={{ marginRight: 5 }}>&#8226;</span>
+														<FormatDate format="hh:mm a" date={_id} />
+													</Bold>
+													{!isEmpty(employeeIds) ? (
+														employeeIds.map(({ _id, firstName, lastName }) => (
+															<ListItem style={{ paddingLeft: 12 }} key={_id}>
+																<Badge response="Scheduled.">
+																	{firstName} {lastName}
+																</Badge>
+															</ListItem>
+														))
+													) : (
+														<ListItem style={{ paddingLeft: 16 }}>
+															&#40;none&#41;
+														</ListItem>
+													)}
+												</List>
+											))
+										) : (
+											<span>&#40;none&#41;</span>
+										)}
+									</ListItem>
 								</List>
 							</Fragment>
 						),
@@ -292,7 +305,6 @@ export class ViewSchedule extends Component {
 
 ViewSchedule.propTypes = {
 	fetchScheduleEvents: PropTypes.func.isRequired,
-	role: PropTypes.string.isRequired,
 	scheduleEvents: PropTypes.arrayOf(
 		PropTypes.shape({
 			_id: PropTypes.string,
@@ -303,11 +315,17 @@ ViewSchedule.propTypes = {
 			opponent: PropTypes.string,
 			response: PropTypes.string,
 			team: PropTypes.string,
-			scheduledEmployees: PropTypes.arrayOf(
+			schedule: PropTypes.arrayOf(
 				PropTypes.shape({
 					_id: PropTypes.string,
-					firstName: PropTypes.string,
-					lastName: PropTypes.string,
+					title: PropTypes.string,
+					employeeIds: PropTypes.arrayOf(
+						PropTypes.shape({
+							_id: PropTypes.string,
+							firstName: PropTypes.string,
+							lastName: PropTypes.string,
+						}),
+					),
 				}),
 			),
 		}),
@@ -315,7 +333,6 @@ ViewSchedule.propTypes = {
 };
 
 const mapStateToProps = state => ({
-	role: state.auth.role,
 	scheduleEvents: state.events.scheduleEvents,
 });
 

@@ -19,7 +19,7 @@ const eventSchema = new Schema({
     {
       _id: { type: String, required: true },
       title: String,
-      employeeIds: { type: Array, of: String },
+      employeeIds: [{ type: Schema.Types.ObjectId, ref: "User" }],
     },
   ],
   scheduledIds: [{ type: Schema.Types.ObjectId, ref: "User" }],

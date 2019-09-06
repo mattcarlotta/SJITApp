@@ -214,10 +214,10 @@ const getScheduledEvents = async (req, res) => {
       {
         ...filters,
       },
-      { seasonId: 0, callTimes: 0, schedule: 0, employeeResponses: 0, __v: 0 },
+      { seasonId: 0, callTimes: 0, employeeResponses: 0, __v: 0 },
       { sort: { eventDate: 1 } },
     ).populate({
-      path: "scheduledIds",
+      path: "schedule.employeeIds",
       select: "_id firstName lastName",
     });
 
