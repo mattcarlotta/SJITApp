@@ -82,7 +82,7 @@ export class EditAuthorizationForm extends Component {
 				/>
 				<form onSubmit={this.handleSubmit}>
 					{this.state.isLoading ? (
-						<LoadingForm rows={3} />
+						<LoadingForm rows={2} />
 					) : (
 						<Fragment>
 							<FieldGenerator

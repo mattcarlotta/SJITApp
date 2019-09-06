@@ -24,7 +24,6 @@ const columns = [
 		key: "endDate",
 		render: date => <FormatDate format="MM/DD/YYYY" date={date} />,
 	},
-	{ title: "Members", dataIndex: "members", key: "members" },
 ];
 
 export const ViewSeasons = ({ data, deleteSeason, fetchSeasons, push }) => (
@@ -60,7 +59,6 @@ ViewSeasons.propTypes = {
 	data: PropTypes.arrayOf(
 		PropTypes.shape({
 			_id: PropTypes.any,
-			members: PropTypes.number,
 			seasonId: PropTypes.string,
 			startDate: PropTypes.string,
 			endDate: PropTypes.string,

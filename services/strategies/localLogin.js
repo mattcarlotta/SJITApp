@@ -1,14 +1,9 @@
-import get from "lodash/get";
 import bcrypt from "bcryptjs";
 import { Strategy as LocalStrategy } from "passport-local";
 import passport from "passport";
 import { User } from "models";
 import { sendError } from "shared/helpers";
-import {
-  alreadyLoggedIn,
-  badCredentials,
-  invalidStatus,
-} from "shared/authErrors";
+import { badCredentials, invalidStatus } from "shared/authErrors";
 
 passport.use(
   "local-login",
@@ -16,14 +11,9 @@ passport.use(
     {
       usernameField: "email",
       passwordField: "password",
-      passReqToCallback: true,
     },
-    async (req, email, password, done) => {
+    async (email, password, done) => {
       try {
-        // see if user is logged in from another session
-        const user = get(req, ["session", "user"]);
-        if (user) throw alreadyLoggedIn;
-
         // see if the user exists
         const existingUser = await User.findOne({ email });
         if (!existingUser) throw badCredentials;

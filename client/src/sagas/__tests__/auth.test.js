@@ -24,8 +24,6 @@ describe("Auth Sagas", () => {
 
 			testSaga(sagas.authenticateUser)
 				.next()
-				.put(hideServerMessage())
-				.next()
 				.call(app.get, "signedin")
 				.next(res)
 				.call(parseData, res)
@@ -39,8 +37,6 @@ describe("Auth Sagas", () => {
 			const res = { data: { role: "guest" } };
 
 			testSaga(sagas.authenticateUser)
-				.next()
-				.put(hideServerMessage())
 				.next()
 				.call(app.get, "signedin")
 				.next(res)

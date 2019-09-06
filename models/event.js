@@ -8,7 +8,8 @@ const eventSchema = new Schema({
   employeeResponses: [
     {
       _id: {
-        type: String,
+        type: Schema.Types.ObjectId,
+        ref: "User",
         required: true,
       },
       response: { type: String, required: true },

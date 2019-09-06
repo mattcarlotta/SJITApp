@@ -24,7 +24,7 @@ passport.use(
         if (!existingUser) throw missingEmailCreds;
 
         // add token to user
-        await User.updateOne({ email }, { $set: { token } });
+        await User.updateOne({ email }, { token });
 
         // creates an email template for a password reset
         const msg = {
@@ -58,7 +58,9 @@ export const resetToken = async (req, res, next) => {
     if (!email) throw missingEmailCreds;
 
     const existingUser = await new Promise((resolve, reject) => {
-      passport.authenticate("reset-token", (err, existingEmail) => (err ? reject(err) : resolve(existingEmail)))(req, res, next);
+      passport.authenticate("reset-token", (err, existingEmail) =>
+        err ? reject(err) : resolve(existingEmail),
+      )(req, res, next);
     });
 
     req.user = existingUser;

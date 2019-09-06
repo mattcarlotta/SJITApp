@@ -33,7 +33,6 @@ const columns = [
 		key: "registered",
 		render: date => <FormatDate format="MM/DD/YYYY" date={date} />,
 	},
-	{ title: "Events (total)", dataIndex: "events", key: "events" },
 ];
 
 export const ViewMembers = ({ data, deleteMember, fetchMembers, push }) => (
@@ -75,7 +74,6 @@ ViewMembers.propTypes = {
 			email: PropTypes.string,
 			firstName: PropTypes.string,
 			lastName: PropTypes.string,
-			events: PropTypes.number,
 		}),
 	),
 	deleteMember: PropTypes.func,

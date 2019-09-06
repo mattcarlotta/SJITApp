@@ -1,9 +1,8 @@
 /* eslint-disable no-console */
 import { connectDatabase } from "database";
+import { Event, Form, User, Season, Team, Token } from "models";
 import {
-  Event, Form, User, Season, Team, Token,
-} from "models";
-import {
+  createSchedule,
   createSignupToken,
   createRandomToken,
   expirationDate,
@@ -133,18 +132,18 @@ const seedDB = async () => {
       endDate: new Date(2012, 5, 12),
     };
 
-    await Season.create(newSeason);
-    await Season.create(newSeason2);
-    await Season.create(newSeason3);
-    const createdSeason = await Season.findOne({
-      seasonId: newSeason.seasonId,
-    });
+    const newSeason4 = {
+      seasonId: "20192020",
+      startDate: new Date(2019, 8, 26),
+      endDate: new Date(2020, 5, 12),
+    };
+
+    await Season.insertMany([newSeason, newSeason2, newSeason3, newSeason4]);
 
     const newHire = {
       authorizedEmail: "carlotta.matt@gmail.com",
       email: "carlotta.matt@gmail.com",
       role: "admin",
-      seasonId: newSeason.seasonId,
       token: createSignupToken(),
       expiration: expirationDate().toDate(),
     };
@@ -153,7 +152,6 @@ const seedDB = async () => {
       authorizedEmail: "member@example.com",
       email: "member@example.com",
       role: "member",
-      seasonId: newSeason.seasonId,
       token: createSignupToken(),
       expiration: expirationDate().toDate(),
     };
@@ -162,14 +160,11 @@ const seedDB = async () => {
       authorizedEmail: "member55@example.com",
       email: "",
       role: "member",
-      seasonId: newSeason.seasonId,
       token: createSignupToken(),
       expiration: expirationDate().toDate(),
     };
 
-    await Token.create(newHire);
-    await Token.create(newHire1);
-    await Token.create(newHire2);
+    await Token.insertMany([newHire, newHire1, newHire2]);
 
     const adminPassword = await User.createPassword(password);
 
@@ -290,64 +285,67 @@ const seedDB = async () => {
       status: "suspended",
     };
 
-    await User.create(administrator);
-    await User.create(staffMember);
-    await User.create(member);
-    await User.create(member2);
-    await User.create(member3);
-    await User.create(member4);
-    await User.create(member5);
-    await User.create(member6);
-    await User.create(member7);
-    await User.create(member8);
-    await User.create(member9);
-    await User.create(suspendedEmployee);
+    await User.insertMany([
+      administrator,
+      staffMember,
+      member,
+      member2,
+      member3,
+      member4,
+      member5,
+      member6,
+      member7,
+      member8,
+      member9,
+      suspendedEmployee,
+    ]);
 
     const adminAccount = await User.findOne({ email: administrator.email });
-    const newMember = await User.findOne({ email: member.email });
-    const newMember2 = await User.findOne({ email: member2.email });
-    const newMember3 = await User.findOne({ email: member3.email });
 
-    await Season.addUser(createdSeason._id, newMember._id);
-    await Season.addUser(createdSeason._id, newMember2._id);
-    await Season.addUser(createdSeason._id, newMember3._id);
+    const newEventCallTimes = [
+      "2019-08-09T17:45:26-07:00",
+      "2019-08-09T18:15:26-07:00",
+      "2019-08-09T18:30:26-07:00",
+      "2019-08-09T19:00:26-07:00",
+    ];
 
     const newEvent = {
       team: "San Jose Sharks",
       opponent: "Los Angeles Kings",
       eventType: "Game",
       location: "Test Location",
-      callTimes: [
-        "2019-08-09T17:45:26-07:00",
-        "2019-08-09T18:15:26-07:00",
-        "2019-08-09T18:30:26-07:00",
-        "2019-08-09T19:00:26-07:00",
-      ],
+      callTimes: newEventCallTimes,
       uniform: "Teal Jersey",
       seasonId: "20192020",
       eventDate: "2019-08-10T02:30:31.834Z",
+      schedule: createSchedule(newEventCallTimes),
     };
+
+    const newEventCallTimes2 = ["2019-08-09T19:00:38-07:00"];
 
     const newEvent2 = {
       team: "San Jose Barracuda",
       opponent: "San Diego Gulls",
       eventType: "Game",
       location: "SAP Center at San Jose",
-      callTimes: ["2019-08-09T19:00:38-07:00"],
+      callTimes: newEventCallTimes2,
       uniform: "Barracuda Jacket",
       seasonId: "20192020",
       eventDate: "2019-08-11T02:30:30.036Z",
+      schedule: createSchedule(newEventCallTimes2),
     };
+
+    const newEventCallTimes3 = [
+      "2019-08-19T17:15:43-07:00",
+      "2019-08-19T17:45:43-07:00",
+      "2019-08-19T18:15:43-07:00",
+      "2019-08-19T19:00:43-07:00",
+    ];
 
     const newEvent3 = {
       eventType: "Game",
       location: "SAP Center at San Jose",
-      callTimes: [
-        "2019-08-19T17:15:43-07:00",
-        "2019-08-19T17:45:43-07:00",
-        "2019-08-19T18:15:43-07:00",
-        "2019-08-19T19:00:43-07:00",
-      ],
+      callTimes: newEventCallTimes3,
       uniform: "Sharks Teal Jersey",
       eventDate: "2019-08-21T02:30:36.000Z",
       notes: "",
@@ -361,18 +359,20 @@ const seedDB = async () => {
           notes: "",
         },
       ],
-      scheduledEmployees: [],
+      schedule: createSchedule(newEventCallTimes3),
     };
+
+    const newEventCallTimes4 = [
+      "2019-10-19T17:15:43-07:00",
+      "2019-10-19T17:45:43-07:00",
+      "2019-10-19T18:15:43-07:00",
+      "2019-10-19T19:00:43-07:00",
+    ];
 
     const newEvent4 = {
       eventType: "Game",
       location: "SAP Center at San Jose",
-      callTimes: [
-        "2019-10-19T17:15:43-07:00",
-        "2019-10-19T17:45:43-07:00",
-        "2019-10-19T18:15:43-07:00",
-        "2019-10-19T19:00:43-07:00",
-      ],
+      callTimes: newEventCallTimes4,
       uniform: "Sharks Teal Jersey",
       eventDate: "2019-10-21T02:30:36.000Z",
       notes: "",
@@ -386,31 +386,52 @@ const seedDB = async () => {
           notes: "",
         },
       ],
-      scheduledEmployees: [],
+      schedule: createSchedule(newEventCallTimes4),
     };
+
+    const newEventCallTimes5 = [
+      "2019-10-31T17:15:43-07:00",
+      "2019-10-31T17:45:43-07:00",
+      "2019-10-31T18:15:43-07:00",
+      "2019-10-31T19:00:43-07:00",
+    ];
 
     const newEvent5 = {
       eventType: "Game",
       location: "SAP Center at San Jose",
-      callTimes: [
-        "2019-10-19T17:15:43-07:00",
-        "2019-10-19T17:45:43-07:00",
-        "2019-10-19T18:15:43-07:00",
-        "2019-10-19T19:00:43-07:00",
-      ],
+      callTimes: newEventCallTimes5,
       uniform: "Sharks Teal Jersey",
       eventDate: "2019-10-31T02:30:36.000Z",
       notes: "",
       opponent: "Arizona Coyotes",
       seasonId: "20192020",
       team: "San Jose Sharks",
+      schedule: createSchedule(newEventCallTimes5),
     };
 
-    await Event.create(newEvent);
-    await Event.create(newEvent2);
-    await Event.create(newEvent3);
-    await Event.create(newEvent4);
-    await Event.create(newEvent5);
+    const newEventCallTimes6 = ["2019-09-06T16:00:00-07:00"];
+
+    const newEvent6 = {
+      eventType: "Game",
+      location: "SAP Center at San Jose",
+      callTimes: newEventCallTimes6,
+      uniform: "Barracuda Jacket",
+      eventDate: "2019-09-06T16:30:36.000Z",
+      notes: "",
+      opponent: "San Diego Gulls",
+      seasonId: "20192020",
+      team: "San Jose Barracuda",
+      schedule: createSchedule(newEventCallTimes6),
+    };
+
+    await Event.insertMany([
+      newEvent,
+      newEvent2,
+      newEvent3,
+      newEvent4,
+      newEvent5,
+      newEvent6,
+    ]);
 
     await Team.insertMany(teams);
 
@@ -462,12 +483,7 @@ const seedDB = async () => {
       seasonId: "20192020",
     };
 
-    await Form.create(form1);
-    await Form.create(form2);
-    await Form.create(form3);
-    await Form.create(form4);
-    await Form.create(form5);
-    await Form.create(form6);
+    await Form.insertMany([form1, form2, form3, form4, form5, form6]);
 
     await db.close();
 

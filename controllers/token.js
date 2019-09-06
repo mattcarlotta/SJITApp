@@ -5,7 +5,6 @@ import {
   emailAssociatedWithKey,
   invalidAuthTokenRequest,
   invalidDeleteTokenRequest,
-  invalidSeasonId,
   missingTokenId,
   missingUpdateTokenParams,
   unableToLocateToken,
@@ -30,11 +29,8 @@ const createMessage = (authorizedEmail, token, expiration) => {
 
 const createToken = async (req, res) => {
   try {
-    const { authorizedEmail, role, seasonId } = req.body;
-    if (!authorizedEmail || !role || !seasonId) throw invalidAuthTokenRequest;
-
-    const seasonExists = await Season.findOne({ seasonId });
-    if (!seasonExists) throw invalidSeasonId;
+    const { authorizedEmail, role } = req.body;
+    if (!authorizedEmail || !role) throw invalidAuthTokenRequest;
 
     const emailExists = await Token.findOne({ authorizedEmail });
     if (emailExists) throw emailAssociatedWithKey;
@@ -47,7 +43,6 @@ const createToken = async (req, res) => {
       expiration: expiration.toDate(),
       token,
       role,
-      seasonId,
     });
 
     const msg = createMessage(authorizedEmail, token, expiration);
@@ -109,10 +104,8 @@ const getToken = async (req, res) => {
 
 const updateToken = async (req, res) => {
   try {
-    const {
-      _id, authorizedEmail, role, seasonId,
-    } = req.body;
-    if (!_id || !authorizedEmail || !role || !seasonId) throw missingUpdateTokenParams;
+    const { _id, authorizedEmail, role } = req.body;
+    if (!_id || !authorizedEmail || !role) throw missingUpdateTokenParams;
 
     const existingToken = await Token.findOne({ _id });
     if (!existingToken) throw unableToLocateToken;
@@ -128,7 +121,6 @@ const updateToken = async (req, res) => {
       authorizedEmail,
       expiration,
       role,
-      seasonId,
       token,
     });
 
@@ -144,6 +136,4 @@ const updateToken = async (req, res) => {
   }
 };
 
-export {
-  createToken, deleteToken, getAllTokens, getToken, updateToken,
-};
+export { createToken, deleteToken, getAllTokens, getToken, updateToken };

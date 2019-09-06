@@ -29,9 +29,9 @@ const deleteMember = async (req, res) => {
 const getAllMembers = async (_, res) => {
   const members = await User.aggregate([
     { $match: { role: { $ne: "admin" } } },
+    { $sort: { lastName: 1 } },
     {
       $project: {
-        events: 1,
         role: 1,
         status: 1,
         registered: 1,
@@ -93,7 +93,7 @@ const getMemberEvents = async (req, res) => {
         },
       },
       { $unwind: "$employeeResponses" },
-      { $match: { "employeeResponses._id": existingMember._id.toString() } },
+      { $match: { "employeeResponses._id": existingMember._id } },
       { $sort: { eventDate: 1 } },
       {
         $group: {

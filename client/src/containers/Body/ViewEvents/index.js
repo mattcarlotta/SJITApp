@@ -39,7 +39,13 @@ const columns = [
 		dataIndex: "eventDate",
 		key: "eventDate",
 		width: 200,
-		render: date => <FormatDate format="MMM Do @ h:mm a" date={date} />,
+		render: date => (
+			<FormatDate
+				style={{ wordWrap: "break-word", wordBreak: "break-word" }}
+				format="MMM Do @ h:mm a"
+				date={date}
+			/>
+		),
 	},
 	{
 		title: "Call Times",

@@ -102,7 +102,7 @@ export class ViewSchedule extends Component {
 		value: calendarDate,
 		onChange: updateCalendarDate,
 	}) => (
-		<FlexEnd style={{ padding: "8px 20px" }}>
+		<FlexEnd style={{ padding: "8px 8px 20px 8px" }}>
 			<Select
 				size="large"
 				onChange={value => {

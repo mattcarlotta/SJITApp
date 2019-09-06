@@ -1,5 +1,6 @@
 import moment from "moment";
-import { Event, Season } from "models";
+import isEmpty from "lodash/isEmpty";
+import { Event, User } from "models";
 import { sendError } from "shared/helpers";
 import {
   invalidCreateEventRequest,
@@ -81,6 +82,7 @@ const getAllEvents = async (_, res) => {
         eventType: 1,
         location: 1,
         callTimes: 1,
+        uniform: 1,
         employeeResponses: { $size: "$employeeResponses" },
         schedule: {
           $sum: {
@@ -95,6 +97,7 @@ const getAllEvents = async (_, res) => {
         },
       },
     },
+    { $sort: { eventDate: -1 } },
   ]);
 
   res.status(200).json({ events });
@@ -125,22 +128,16 @@ const getEventForScheduling = async (req, res) => {
     const event = await Event.findOne({ _id }, { __v: 0 }).lean();
     if (!event) throw unableToLocateEvent;
 
-    const season = await Season.findOne({
-      seasonId: event.seasonId,
-    })
-      .select("members")
-      .populate({
-        path: "members",
-        match: { role: { $nin: ["admin", "staff"] }, status: "active" },
-        select: "_id firstName lastName",
-      })
-      .lean();
-    if (!season) throw "Unable to locate that season";
+    const members = await User.find(
+      { role: { $nin: ["admin", "staff"] }, status: "active" },
+      { _id: 1, firstName: 1, lastName: 1 },
+    ).lean();
+    if (isEmpty(members)) throw "Unable to locate any members";
 
     const schedule = {
       event,
       users: [
-        ...season.members.map(member => {
+        ...members.map(member => {
           const eventResponse = event.employeeResponses.find(response =>
             response._id.equals(member._id),
           );
@@ -156,7 +153,7 @@ const getEventForScheduling = async (req, res) => {
         {
           _id: "employees",
           title: "Employees",
-          employeeIds: season.members.reduce((result, member) => {
+          employeeIds: members.reduce((result, member) => {
             const isScheduled = event.scheduledIds.some(id =>
               member._id.equals(id),
             );

@@ -8,7 +8,10 @@ const DisplayTime = ({ times }) =>
 		times.map(time => (
 			<div
 				key={time}
-				style={{ wordWrap: "break-word", wordBreak: "break-all" }}
+				css={`
+					word-wrap: break-word;
+					word-break: break-all;
+				`}
 			>
 				{moment(time).format("h:mm a")}
 			</div>

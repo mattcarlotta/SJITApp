@@ -18,8 +18,6 @@ import * as types from "types";
  */
 export function* authenticateUser() {
 	try {
-		yield put(hideServerMessage());
-
 		const res = yield call(app.get, "signedin");
 		const data = yield call(parseData, res);
 

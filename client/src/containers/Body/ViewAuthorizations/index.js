@@ -29,7 +29,6 @@ const columns = [
 		key: "authorizedEmail",
 	},
 	{ title: "Role", dataIndex: "role", key: "role" },
-	{ title: "Season ID", dataIndex: "seasonId", key: "seasonId" },
 	{ title: "Token", dataIndex: "token", key: "token" },
 	{
 		title: "Expiration Date",
@@ -84,7 +83,6 @@ ViewAuthorizations.propTypes = {
 			authorizedEmail: PropTypes.string,
 			email: PropTypes.string,
 			role: PropTypes.string,
-			seasonId: PropTypes.string,
 			token: PropTypes.string,
 		}),
 	),
