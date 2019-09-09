@@ -12,9 +12,16 @@ import {
 	fetchMemberEvents,
 	updateMemberStatus,
 } from "actions/Members";
-import { BackButton, PaneBody, Spinner } from "components/Body";
+import { fetchScheduleEvents } from "actions/Events";
+import {
+	BackButton,
+	Calendar,
+	Line,
+	PaneBody,
+	Spinner,
+	Title,
+} from "components/Body";
 import Profile from "./Profile";
-import ResponseCalendar from "./ResponseCalendar";
 
 const Pane = Tabs.TabPane;
 
@@ -67,7 +74,7 @@ export class ViewMemberProfile extends PureComponent {
 			viewMember,
 		} = this.props;
 
-		const { _id, schedule, status } = viewMember;
+		const { _id, status, firstName, lastName } = viewMember;
 
 		return (
 			<Fragment>
@@ -96,16 +103,29 @@ export class ViewMemberProfile extends PureComponent {
 							</Pane>
 							<Pane tab={responses} key="responses">
 								<PaneBody>
-									<ResponseCalendar
+									<Title style={{ textAlign: "center" }}>
+										{firstName} {lastName}&#39;s Responses
+									</Title>
+									<Line centered width="400px" />
+									<Calendar
+										{...this.props}
 										id={_id}
-										eventResponses={eventResponses}
-										fetchMemberEvents={fetchMemberEvents}
+										scheduleEvents={eventResponses}
+										fetchAction={fetchMemberEvents}
 									/>
 								</PaneBody>
 							</Pane>
 							<Pane tab={scheduling} key="schedule">
 								<PaneBody>
-									<p>Schedule: {JSON.stringify(schedule)}</p>
+									<Title style={{ textAlign: "center" }}>
+										{firstName} {lastName}&#39;s Schedule
+									</Title>
+									<Line centered width="400px" />
+									<Calendar
+										{...this.props}
+										fetchAction={this.props.fetchScheduleEvents}
+										title="View Member Schedule"
+									/>
 								</PaneBody>
 							</Pane>
 						</Tabs>
@@ -119,17 +139,20 @@ export class ViewMemberProfile extends PureComponent {
 ViewMemberProfile.propTypes = {
 	eventResponses: PropTypes.arrayOf(
 		PropTypes.shape({
+			_id: PropTypes.string,
 			eventDate: PropTypes.string,
 			eventNotes: PropTypes.string,
 			eventType: PropTypes.string,
-			notes: PropTypes.string,
+			employeeResponse: PropTypes.string,
+			employeeNotes: PropTypes.string,
+			location: PropTypes.string,
 			opponent: PropTypes.string,
-			response: PropTypes.string,
 			team: PropTypes.string,
 		}),
 	),
 	fetchMember: PropTypes.func.isRequired,
 	fetchMemberEvents: PropTypes.func.isRequired,
+	fetchScheduleEvents: PropTypes.func.isRequired,
 	hideServerMessage: PropTypes.func.isRequired,
 	match: PropTypes.shape({
 		params: PropTypes.shape({
@@ -149,17 +172,44 @@ ViewMemberProfile.propTypes = {
 	}),
 	updateMemberStatus: PropTypes.func.isRequired,
 	serverMessage: PropTypes.string,
+	scheduleEvents: PropTypes.arrayOf(
+		PropTypes.shape({
+			_id: PropTypes.string,
+			eventDate: PropTypes.string,
+			eventNotes: PropTypes.string,
+			eventType: PropTypes.string,
+			notes: PropTypes.string,
+			opponent: PropTypes.string,
+			response: PropTypes.string,
+			team: PropTypes.string,
+			schedule: PropTypes.arrayOf(
+				PropTypes.shape({
+					_id: PropTypes.string,
+					title: PropTypes.string,
+					employeeIds: PropTypes.arrayOf(
+						PropTypes.shape({
+							_id: PropTypes.string,
+							firstName: PropTypes.string,
+							lastName: PropTypes.string,
+						}),
+					),
+				}),
+			),
+		}),
+	),
 };
 
 const mapStateToProps = state => ({
 	eventResponses: state.members.eventResponses,
 	viewMember: state.members.viewMember,
+	scheduleEvents: state.events.scheduleEvents,
 	serverMessage: state.server.message,
 });
 
 const mapDispatchToProps = {
 	fetchMember,
 	fetchMemberEvents,
+	fetchScheduleEvents,
 	hideServerMessage,
 	push,
 	updateMemberStatus,

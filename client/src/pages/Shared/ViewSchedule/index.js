@@ -1,6 +1,6 @@
 import React from "react";
 import { ViewSchedule } from "containers/Body";
 
-const ViewSchedulePage = () => <ViewSchedule />;
+const ViewSchedulePage = props => <ViewSchedule {...props} />;
 
 export default ViewSchedulePage;

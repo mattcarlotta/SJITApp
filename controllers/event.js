@@ -177,10 +177,12 @@ const getEventForScheduling = async (req, res) => {
 
 const getScheduledEvents = async (req, res) => {
   try {
-    const { selectedDate, selectedGames } = req.query;
+    const { id, selectedDate, selectedGames } = req.query;
 
     /* istanbul ignore next */
     const currentDate = selectedDate || Date.now();
+
+    const selectedId = id || req.session.user.id;
 
     const startMonth = moment(currentDate)
       .startOf("month")
@@ -203,7 +205,7 @@ const getScheduledEvents = async (req, res) => {
               $lte: endMonth,
             },
             scheduledIds: {
-              $in: [convertId(req.session.user.id)],
+              $in: [convertId(selectedId)],
             },
           };
 

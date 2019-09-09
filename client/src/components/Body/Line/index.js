@@ -10,4 +10,5 @@ export default styled.div`
 	width: ${({ width }) => width || "100%"};
 	background-color: #e8e8e8;
 	vertical-align: middle;
+	${({ centered }) => centered && "margin: 0 auto"}
 `;
