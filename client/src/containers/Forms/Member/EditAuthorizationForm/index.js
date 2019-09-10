@@ -106,7 +106,6 @@ EditAuthorizationForm.propTypes = {
 		_id: PropTypes.string,
 		authorizedEmail: PropTypes.string,
 		role: PropTypes.string,
-		seasonId: PropTypes.string,
 	}),
 	fetchToken: PropTypes.func.isRequired,
 	match: PropTypes.shape({

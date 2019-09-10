@@ -117,6 +117,10 @@ const GlobalStyle = createGlobalStyle`
   ::-webkit-scrollbar {
     width: 0;
   }
+
+  ::-moz-focus-inner {
+    border: 0;
+  }
 `;
 
 export default GlobalStyle;

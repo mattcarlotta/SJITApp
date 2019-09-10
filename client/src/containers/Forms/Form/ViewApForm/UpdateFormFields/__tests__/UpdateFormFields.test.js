@@ -3,13 +3,20 @@ import updateFormFields from "../index";
 
 const eventsGame = [
 	{
-		_id: "5d5b5ee857a6d20abf49db19",
-		eventDate: "2019-08-21T02:30:36.000Z",
+		employeeResponse: [
+			{
+				_id: "5d72dffe65ec39141ae78551",
+				response: "I want to work.",
+				notes: "I am ready!",
+			},
+		],
+		eventDate: "2019-09-06T16:30:36.000Z",
 		eventType: "Game",
 		location: "SAP Center at San Jose",
-		notes: "",
-		opponent: "Vegas Golden Knights",
-		team: "San Jose Sharks",
+		notes: "This is a note.",
+		opponent: "San Diego Gulls",
+		team: "San Jose Barracuda",
+		_id: "5d72dffe65ec39141ae78562",
 	},
 ];
 
@@ -18,41 +25,15 @@ const eventsPromo = [
 		_id: "5d5b5ee857a6d20abf49db1a",
 		eventDate: "2019-08-21T02:30:36.000Z",
 		eventType: "Promotional",
+		employeeResponse: [],
 		location: "SAP Center at San Jose",
-		notes: "Sharks Fan Fest!",
+		notes: "",
 		opponent: "",
 		team: "San Jose Sharks",
 	},
 ];
 
-const eventResponses = [
-	{
-		_id: "5d5b5e952871780ef474807b",
-		notes: "I'm gone all month.",
-		response: "Prefer not to work.",
-	},
-];
-
-const initProps = {
-	eventType: "Game",
-	eventDate: "2019-08-21T02:30:36.000Z",
-	opponent: "Los Angeles Kings",
-	team: "San Jose Sharks",
-};
-
-const nextProps = {
-	eventType: "Promotional",
-	eventDate: "2019-08-21T02:30:36.000Z",
-	opponent: "",
-	team: "San Jose Sharks",
-};
-
 describe("UpdateFormFields", () => {
-	let wrapper;
-	beforeEach(() => {
-		wrapper = mount(<EventLabel {...initProps} />);
-	});
-
 	it("initializes a radiogroup field value, adds a label, adds an updateEvent flag, includes event notes, and enables the field", () => {
 		const field = {
 			type: "radiogroup",
@@ -68,7 +49,58 @@ describe("UpdateFormFields", () => {
 			],
 		};
 
-		const updatedField = updateFormFields([], field, eventsPromo, []);
+		const updatedField = updateFormFields([], field, eventsGame);
+
+		expect(updatedField).toEqual([
+			{
+				...field,
+				id: eventsGame[0]._id,
+				name: eventsGame[0]._id,
+				value: eventsGame[0].employeeResponse[0].response,
+				label: (
+					<EventLabel
+						eventType={eventsGame[0].eventType}
+						eventDate={eventsGame[0].eventDate}
+						opponent={eventsGame[0].opponent}
+						team={eventsGame[0].team}
+					/>
+				),
+				updateEvent: true,
+				notes: eventsGame[0].notes,
+				disabled: false,
+			},
+			{
+				id: eventsGame[0]._id,
+				name: `${eventsGame[0]._id}-notes`,
+				type: "textarea",
+				value: eventsGame[0].employeeResponse[0].notes,
+				errors: "",
+				placeholder:
+					"(Optional) Include any special notes for the event above...",
+				required: false,
+				disabled: false,
+				width: "350px",
+				rows: 3,
+			},
+		]);
+	});
+
+	it("updates a radiogroup field value, adds a label, and enables the field", () => {
+		const field = {
+			type: "radiogroup",
+			value: "",
+			errors: "",
+			required: true,
+			disabled: true,
+			selectOptions: [
+				"I want to work.",
+				"Available to work.",
+				"Prefer not to work.",
+				"Not available to work.",
+			],
+		};
+
+		const updatedField = updateFormFields([], field, eventsPromo);
 
 		expect(updatedField).toEqual([
 			{
@@ -92,7 +124,7 @@ describe("UpdateFormFields", () => {
 				id: eventsPromo[0]._id,
 				name: `${eventsPromo[0]._id}-notes`,
 				type: "textarea",
-				value: "",
+				value: eventsPromo[0].notes,
 				errors: "",
 				placeholder:
 					"(Optional) Include any special notes for the event above...",
@@ -102,80 +134,5 @@ describe("UpdateFormFields", () => {
 				rows: 3,
 			},
 		]);
-	});
-
-	it("updates a radiogroup field value, adds a label, adds an updateEvent flag, includes event notes, and enables the field", () => {
-		const field = {
-			type: "radiogroup",
-			value: "",
-			errors: "",
-			required: true,
-			disabled: true,
-			selectOptions: [
-				"I want to work.",
-				"Available to work.",
-				"Prefer not to work.",
-				"Not available to work.",
-			],
-		};
-
-		const updatedField = updateFormFields(
-			[],
-			field,
-			eventsGame,
-			eventResponses,
-		);
-
-		expect(updatedField).toEqual([
-			{
-				...field,
-				id: eventsGame[0]._id,
-				name: eventsGame[0]._id,
-				value: eventResponses[0].response,
-				label: (
-					<EventLabel
-						eventType={eventsGame[0].eventType}
-						eventDate={eventsGame[0].eventDate}
-						opponent={eventsGame[0].opponent}
-						team={eventsGame[0].team}
-					/>
-				),
-				updateEvent: !!eventResponses[0].response,
-				notes: eventsGame[0].notes,
-				disabled: false,
-			},
-			{
-				id: eventsGame[0]._id,
-				name: `${eventsGame[0]._id}-notes`,
-				type: "textarea",
-				value: eventResponses[0].notes,
-				errors: "",
-				placeholder:
-					"(Optional) Include any special notes for the event above...",
-				required: false,
-				disabled: false,
-				width: "350px",
-				rows: 3,
-			},
-		]);
-	});
-
-	it("displays a EventLabel with two teams", () => {
-		expect(wrapper.find(EventLabel).exists()).toBeTruthy();
-		expect(wrapper.find("DisplayFullDate").exists()).toBeTruthy();
-		expect(wrapper.find("DisplayTeam")).toHaveLength(2);
-		expect(wrapper.find(EventLabel).text()).toContain(
-			`(${initProps.eventType})`,
-		);
-	});
-
-	it("displays a EventLabel with one team", () => {
-		wrapper.setProps({ ...nextProps });
-		expect(wrapper.find(EventLabel).exists()).toBeTruthy();
-		expect(wrapper.find("DisplayFullDate").exists()).toBeTruthy();
-		expect(wrapper.find("DisplayTeam")).toHaveLength(1);
-		expect(wrapper.find(EventLabel).text()).toContain(
-			`(${nextProps.eventType})`,
-		);
 	});
 });

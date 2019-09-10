@@ -63,7 +63,7 @@ const Profile = ({ viewMember, updateMemberStatus }) => {
 			<LightText>
 				Registered: <Small>{moment(registered).format("MMMM Do, YYYY")}</Small>
 			</LightText>
-			<Line style={{ width: "400px" }} />
+			<Line width="400px" />
 			<EditMemberForm />
 		</PaneBody>
 	);

@@ -57,7 +57,7 @@ describe("View Member Profile", () => {
 			.find("TableRow")
 			.first()
 			.find("td")
-			.at(5);
+			.at(4);
 
 		expect(emptyExpirationDate.text()).toContain("-");
 
@@ -65,7 +65,7 @@ describe("View Member Profile", () => {
 			.find("TableRow")
 			.at(1)
 			.find("td")
-			.at(5);
+			.at(4);
 
 		expect(expirationDate.text()).toContain("10/31/2019");
 	});

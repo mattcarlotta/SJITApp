@@ -23,6 +23,8 @@ describe("Event Reducer", () => {
 			data: mocks.eventsData,
 			editEvent: {},
 			newEvent: {},
+			schedule: {},
+			scheduleEvents: [],
 		});
 	});
 
@@ -62,6 +64,8 @@ describe("Event Reducer", () => {
 			data: [],
 			editEvent: { ...mocks.eventsData },
 			newEvent: {},
+			schedule: {},
+			scheduleEvents: [],
 		});
 	});
 });

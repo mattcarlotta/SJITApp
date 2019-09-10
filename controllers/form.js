@@ -1,7 +1,7 @@
 import moment from "moment";
 import isEmpty from "lodash/isEmpty";
 import { Event, Form, Season } from "models";
-import { sendError } from "shared/helpers";
+import { convertId, sendError } from "shared/helpers";
 import {
   expiredForm,
   missingFormId,
@@ -128,7 +128,7 @@ const viewApForm = async (req, res) => {
             $filter: {
               input: "$employeeResponses",
               as: "employeeResponse",
-              cond: { $eq: ["$$employeeResponse._id", userId] },
+              cond: { $eq: ["$$employeeResponse._id", convertId(userId)] },
             },
           },
         },

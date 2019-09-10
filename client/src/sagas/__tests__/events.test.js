@@ -192,6 +192,8 @@ describe("Event Sagas", () => {
 						teams: mocks.teamNamesData,
 					},
 					newEvent: {},
+					schedule: {},
+					scheduleEvents: [],
 				})
 				.run();
 		});
@@ -242,6 +244,8 @@ describe("Event Sagas", () => {
 					data: mocks.eventsData,
 					editEvent: {},
 					newEvent: {},
+					schedule: {},
+					scheduleEvents: [],
 				})
 				.run();
 		});
@@ -315,6 +319,8 @@ describe("Event Sagas", () => {
 						seasonIds: mocks.seasonIdsData,
 						teams: mocks.teamNamesData,
 					},
+					schedule: {},
+					scheduleEvents: [],
 				})
 				.run();
 		});

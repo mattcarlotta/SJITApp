@@ -66,13 +66,7 @@ export class ViewMemberProfile extends PureComponent {
 	};
 
 	render = () => {
-		const {
-			eventResponses,
-			fetchMemberEvents,
-			push,
-			updateMemberStatus,
-			viewMember,
-		} = this.props;
+		const { eventResponses, fetchMemberEvents, push, viewMember } = this.props;
 
 		const { _id, status, firstName, lastName } = viewMember;
 
@@ -91,10 +85,7 @@ export class ViewMemberProfile extends PureComponent {
 					) : (
 						<Tabs tabPosition="left">
 							<Pane tab={profile} key="profile">
-								<Profile
-									viewMember={viewMember}
-									updateMemberStatus={updateMemberStatus}
-								/>
+								<Profile {...this.props} />
 							</Pane>
 							<Pane tab={analytics} key="analytics">
 								<PaneBody>
@@ -103,7 +94,7 @@ export class ViewMemberProfile extends PureComponent {
 							</Pane>
 							<Pane tab={responses} key="responses">
 								<PaneBody>
-									<Title style={{ textAlign: "center" }}>
+									<Title centered>
 										{firstName} {lastName}&#39;s Responses
 									</Title>
 									<Line centered width="400px" />
@@ -117,7 +108,7 @@ export class ViewMemberProfile extends PureComponent {
 							</Pane>
 							<Pane tab={scheduling} key="schedule">
 								<PaneBody>
-									<Title style={{ textAlign: "center" }}>
+									<Title centered>
 										{firstName} {lastName}&#39;s Schedule
 									</Title>
 									<Line centered width="400px" />

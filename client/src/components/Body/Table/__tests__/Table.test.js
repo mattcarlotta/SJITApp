@@ -1,4 +1,4 @@
-import { DisplayDate, DisplayStatus } from "components/Body";
+import { FormatDate, DisplayStatus } from "components/Body";
 import Table from "../index";
 
 const columns = [
@@ -11,13 +11,13 @@ const columns = [
 		title: "Start Date",
 		dataIndex: "startDate",
 		key: "startDate",
-		render: date => <DisplayDate date={date} />,
+		render: date => <FormatDate format="MM/DD/YYYY" date={date} />,
 	},
 	{
 		title: "End Date",
 		dataIndex: "endDate",
 		key: "endDate",
-		render: date => <DisplayDate date={date} />,
+		render: date => <FormatDate format="MM/DD/YYYY" date={date} />,
 	},
 	{
 		title: "Members",
@@ -86,6 +86,7 @@ describe("Custom Table", () => {
 	afterEach(() => {
 		fetchData.mockClear();
 		push.mockClear();
+		jest.runAllTimers();
 	});
 
 	it("initially displays a LoadingTable component", () => {
@@ -102,12 +103,10 @@ describe("Custom Table", () => {
 
 		expect(wrapper.state("isLoading")).toBeFalsy();
 		expect(wrapper.find(".ant-empty-image").exists()).toBeTruthy();
-		jest.runAllTimers();
 	});
 
 	describe("Ant Table With Data", () => {
 		beforeEach(() => {
-			jest.runAllTimers();
 			wrapper.setProps({ ...nextProps });
 		});
 
@@ -239,12 +238,6 @@ describe("Custom Table", () => {
 			);
 		});
 
-		it("doesn't display a view button when 'viewLocation' is missing", () => {
-			// wrapper.setProps({ viewLocation: "" });
-			// console.log(wrapper.find("FaSearchPlus").debug());
-			// expect(wrapper.find("FaSearchPlus").exists()).toBeFalsy();
-		});
-
 		it("edits the selected record", () => {
 			wrapper
 				.find("td")
@@ -256,12 +249,6 @@ describe("Custom Table", () => {
 			expect(push).toHaveBeenCalledWith(
 				"/employee/seasons/edit/5d323ee2b02dee15483e5d9f",
 			);
-		});
-
-		it("doesn't display an edit button when 'editLocation' is missing", () => {
-			// wrapper.setProps({ editLocation: "" });
-			// console.log(wrapper.debug());
-			// expect(wrapper.find("FaEdit").exists()).toBeFalsy();
 		});
 
 		it("deletes the selected record", () => {

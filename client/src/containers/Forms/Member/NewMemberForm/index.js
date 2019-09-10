@@ -17,11 +17,8 @@ export class NewMemberForm extends Component {
 		isSubmitting: false,
 	};
 
-	static getDerivedStateFromProps = ({ serverMessage }) => {
-		if (serverMessage) return { isSubmitting: false };
-
-		return null;
-	};
+	static getDerivedStateFromProps = ({ serverMessage }) =>
+		serverMessage ? { isSubmitting: false } : null;
 
 	handleChange = ({ target: { name, value } }) => {
 		this.setState(prevState => ({

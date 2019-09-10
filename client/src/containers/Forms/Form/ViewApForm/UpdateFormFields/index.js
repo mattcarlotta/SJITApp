@@ -15,7 +15,7 @@ export default (result, field, events) => {
 		} = event;
 
 		const response = get(employeeResponse[0], ["response"]);
-		const eventNotes = get(employeeResponse[0], ["notes"]);
+		const employeeNotes = get(employeeResponse[0], ["notes"]);
 
 		const radioFields = {
 			...field,
@@ -39,7 +39,7 @@ export default (result, field, events) => {
 			id: _id,
 			name: `${_id}-notes`,
 			type: "textarea",
-			value: eventNotes || "",
+			value: employeeNotes || "",
 			errors: "",
 			placeholder:
 				"(Optional) Include any special notes for the event above...",

@@ -59,7 +59,6 @@ const ScheduleModal = ({ id, handleCloseModal, isVisible, modalChildren }) =>
 							<ListItem>
 								<Bold>Location: </Bold> {location}
 							</ListItem>
-
 							{employeeResponse && (
 								<ListItem>
 									<Bold>Employee Response:</Bold>
@@ -83,7 +82,13 @@ const ScheduleModal = ({ id, handleCloseModal, isVisible, modalChildren }) =>
 										schedule.map(({ _id, employeeIds }) => (
 											<List style={{ marginTop: 5 }} key={_id}>
 												<Bold style={{ paddingLeft: 5 }}>
-													<span style={{ marginRight: 5 }}>&#8226;</span>
+													<span
+														css={`
+															margin-right: 5px;
+														`}
+													>
+														&#8226;
+													</span>
 													<FormatDate format="hh:mm a" date={_id} />
 												</Bold>
 												{!isEmpty(employeeIds) ? (

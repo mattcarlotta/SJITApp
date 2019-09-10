@@ -21,8 +21,6 @@ const editToken = {
 	_id: "5d44a76ad49a24023e0af7dc",
 	authorizedEmail: "test@test.com",
 	role: "employee",
-	seasonId: "20002001",
-	seasonIds: ["20002001", "20012002", "20022003"],
 };
 
 describe("Edit Authorization Form", () => {
@@ -58,20 +56,6 @@ describe("Edit Authorization Form", () => {
 				wrapper
 					.find("DisplayOption")
 					.first()
-					.props().value,
-			).toEqual(editToken.seasonId);
-
-			expect(
-				wrapper
-					.find("Select")
-					.first()
-					.props().selectOptions,
-			).toEqual(editToken.seasonIds);
-
-			expect(
-				wrapper
-					.find("DisplayOption")
-					.at(1)
 					.props().value,
 			).toEqual(editToken.role);
 			expect(wrapper.find("input").props().value).toEqual(

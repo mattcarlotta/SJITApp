@@ -61,7 +61,7 @@ describe("Application routes", () => {
 		it("routes to EventSchedule", () => {
 			expect(
 				wrapper
-					.find("Route[exact=true][path='/employee/assign/:id']")
+					.find("Route[exact=true][path='/employee/events/assign/:id']")
 					.prop("component"),
 			).toBe(EventSchedule);
 		});

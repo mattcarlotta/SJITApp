@@ -3,6 +3,7 @@ import { ViewMemberProfile } from "../index";
 const fetchMember = jest.fn();
 const fetchMemberEvents = jest.fn();
 const hideServerMessage = jest.fn();
+const fetchScheduleEvents = jest.fn();
 const push = jest.fn();
 const updateMemberStatus = jest.fn();
 
@@ -10,6 +11,7 @@ const initProps = {
 	eventResponses: [],
 	fetchMember,
 	fetchMemberEvents,
+	fetchScheduleEvents,
 	hideServerMessage,
 	match: {
 		params: {
@@ -20,6 +22,7 @@ const initProps = {
 	viewMember: {},
 	updateMemberStatus,
 	serverMessage: "This is a server message.",
+	scheduleEvents: [],
 };
 
 const viewMember = {

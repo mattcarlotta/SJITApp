@@ -15,7 +15,6 @@ class CustomCalendar extends Component {
 		super(props);
 
 		const { id } = props.match.params;
-		const selectedGames = id ? "My Games" : "All Games";
 
 		this.state = {
 			id: props.id || id,
@@ -36,7 +35,7 @@ class CustomCalendar extends Component {
 					),
 			],
 			validRange: setValidRange(Date.now()),
-			selectedGames,
+			selectedGames: id ? "My Games" : "All Games",
 			selectedMonth: moment().format("MMM"),
 			selectedYear: parseInt(moment().format("YYYY"), 10),
 		};

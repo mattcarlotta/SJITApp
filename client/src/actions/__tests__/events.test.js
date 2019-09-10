@@ -45,11 +45,33 @@ describe("Events Actions", () => {
 		});
 	});
 
+	it("returns EVENTS_FETCH_SCHEDULE", () => {
+		const value = actions.fetchEventForScheduling(eventId);
+
+		expect(value).toEqual({
+			type: types.EVENTS_FETCH_SCHEDULE,
+			eventId,
+		});
+	});
+
 	it("returns EVENTS_FETCH", () => {
 		const value = actions.fetchEvents();
 
 		expect(value).toEqual({
 			type: types.EVENTS_FETCH,
+		});
+	});
+
+	it("returns EVENTS_FETCH_SCHEDULE_EVENTS", () => {
+		const params = {
+			id: "5d72dffe65ec39141ae78553",
+			selectedGames: "My Games",
+		};
+		const value = actions.fetchScheduleEvents(params);
+
+		expect(value).toEqual({
+			type: types.EVENTS_FETCH_SCHEDULE_EVENTS,
+			params,
 		});
 	});
 
@@ -71,6 +93,24 @@ describe("Events Actions", () => {
 		});
 	});
 
+	it("returns EVENTS_SET_SCHEDULE with an empty object if data is empty", () => {
+		const value = actions.setEventForScheduling({});
+
+		expect(value).toEqual({
+			type: types.EVENTS_SET_SCHEDULE,
+			payload: {},
+		});
+	});
+
+	it("returns EVENTS_SET_SCHEDULE with data", () => {
+		const value = actions.setEventForScheduling(data);
+
+		expect(value).toEqual({
+			type: types.EVENTS_SET_SCHEDULE,
+			payload: data,
+		});
+	});
+
 	it("returns EVENTS_SET_EDIT with an empty object if data is empty", () => {
 		const value = actions.setEventToEdit({});
 
@@ -81,11 +121,11 @@ describe("Events Actions", () => {
 	});
 
 	it("returns EVENTS_SET_EDIT with data", () => {
-		const value = actions.setEventToEdit({ ...data });
+		const value = actions.setEventToEdit(data);
 
 		expect(value).toEqual({
 			type: types.EVENTS_SET_EDIT,
-			payload: { ...data },
+			payload: data,
 		});
 	});
 
@@ -99,11 +139,29 @@ describe("Events Actions", () => {
 	});
 
 	it("returns EVENTS_SET_NEW_EVENT with data", () => {
-		const value = actions.setNewEvent({ ...data });
+		const value = actions.setNewEvent(data);
 
 		expect(value).toEqual({
 			type: types.EVENTS_SET_NEW_EVENT,
-			payload: { ...data },
+			payload: data,
+		});
+	});
+
+	it("returns EVENTS_SET_SCHEDULE_EVENTS with an empty array if data is empty", () => {
+		const value = actions.setScheduleEvents({});
+
+		expect(value).toEqual({
+			type: types.EVENTS_SET_SCHEDULE_EVENTS,
+			payload: [],
+		});
+	});
+
+	it("returns EVENTS_SET_SCHEDULE_EVENTS with data", () => {
+		const value = actions.setScheduleEvents(data);
+
+		expect(value).toEqual({
+			type: types.EVENTS_SET_SCHEDULE_EVENTS,
+			payload: data,
 		});
 	});
 
@@ -114,6 +172,20 @@ describe("Events Actions", () => {
 
 		expect(value).toEqual({
 			type: types.EVENTS_UPDATE,
+			props,
+		});
+	});
+
+	it("returns EVENTS_UPDATE_SCHEDULE with props", () => {
+		const props = {
+			callTimes: [],
+			userIds: [],
+		};
+
+		const value = actions.updateEventSchedule(props);
+
+		expect(value).toEqual({
+			type: types.EVENTS_UPDATE_SCHEDULE,
 			props,
 		});
 	});
