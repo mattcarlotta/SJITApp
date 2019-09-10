@@ -26,6 +26,10 @@ describe("Select - Selection", () => {
 		wrapper = mount(<Selection {...initProps} />);
 	});
 
+	afterEach(() => {
+		handleSelectClick.mockClear();
+	});
+
 	it("renders without errors", () => {
 		expect(wrapper.find("SelectionContainer").exists()).toBeTruthy();
 	});
@@ -73,6 +77,15 @@ describe("Select - Selection", () => {
 			.at(1)
 			.simulate("click");
 		expect(handleSelectClick).toHaveBeenCalledTimes(1);
+	});
+
+	it("if disabled doesn't call handleSelectClick", () => {
+		wrapper.setProps({ disabled: true });
+		wrapper
+			.find("SelectText")
+			.at(1)
+			.simulate("click");
+		expect(handleSelectClick).toHaveBeenCalledTimes(0);
 	});
 
 	it("renders an Icon based upon an 'icon' prop", () => {

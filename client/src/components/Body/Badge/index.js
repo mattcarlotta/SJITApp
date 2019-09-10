@@ -24,7 +24,7 @@ export const showBadge = response => {
 			return "#FF8060";
 		}
 		case "No response.": {
-			return "#bfbfbf"; // F4A261
+			return "#BFBFBF"; // F4A261
 		}
 		case "Scheduled.": {
 			return "limegreen";

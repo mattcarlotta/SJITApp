@@ -8,7 +8,7 @@ import { fetchScheduleEvents } from "actions/Events";
 
 const title = "View Schedule";
 
-const ViewSchedule = ({ fetchScheduleEvents, ...rest }) => (
+export const ViewSchedule = ({ fetchScheduleEvents, ...rest }) => (
 	<Fragment>
 		<Helmet title={title} />
 		<Card title={title}>
@@ -46,10 +46,12 @@ ViewSchedule.propTypes = {
 	),
 };
 
+/* istanbul ignore next */
 const mapStateToProps = state => ({
 	scheduleEvents: state.events.scheduleEvents,
 });
 
+/* istanbul ignore next */
 const mapDispatchToProps = {
 	fetchScheduleEvents,
 };

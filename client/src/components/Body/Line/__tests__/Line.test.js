@@ -2,6 +2,7 @@ import Line from "../index";
 
 const initProps = {
 	width: "",
+	centered: false,
 };
 
 describe("Line", () => {
@@ -20,5 +21,10 @@ describe("Line", () => {
 	it("renders a small line", () => {
 		wrapper.setProps({ width: "100px" });
 		expect(StyledLine()).toHaveStyleRule("width", "100px");
+	});
+
+	it("renders a centered line", () => {
+		wrapper.setProps({ centered: true });
+		expect(StyledLine()).toHaveStyleRule("margin", "0 auto");
 	});
 });
