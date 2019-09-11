@@ -56,6 +56,7 @@ const fetchData = jest.fn();
 const push = jest.fn();
 
 const initProps = {
+	assignLocation: "seasons",
 	columns,
 	data: [],
 	deleteAction,
@@ -66,6 +67,7 @@ const initProps = {
 };
 
 const nextProps = {
+	assignLocation: "seasons",
 	columns,
 	data,
 	deleteAction,
@@ -225,12 +227,25 @@ describe("Custom Table", () => {
 			expect(setSelectedKeys).toHaveBeenCalledWith([]);
 		});
 
-		it("views the selected record", () => {
+		it("views and assigns the selected record", () => {
 			wrapper
 				.find("td")
 				.at(5)
 				.find("button")
 				.first()
+				.simulate("click");
+
+			expect(push).toHaveBeenCalledWith(
+				"/employee/seasons/assign/5d323ee2b02dee15483e5d9f",
+			);
+		});
+
+		it("views the selected record", () => {
+			wrapper
+				.find("td")
+				.at(5)
+				.find("button")
+				.at(1)
 				.simulate("click");
 
 			expect(push).toHaveBeenCalledWith(
@@ -243,7 +258,7 @@ describe("Custom Table", () => {
 				.find("td")
 				.at(5)
 				.find("button")
-				.at(1)
+				.at(2)
 				.simulate("click");
 
 			expect(push).toHaveBeenCalledWith(
@@ -256,7 +271,7 @@ describe("Custom Table", () => {
 				.find("td")
 				.at(5)
 				.find("button")
-				.at(2)
+				.at(3)
 				.simulate("click");
 
 			wrapper

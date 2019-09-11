@@ -75,48 +75,48 @@ const ScheduleModal = ({ id, handleCloseModal, isVisible, modalChildren }) =>
 									<Bold>Employee Notes:</Bold> {employeeNotes}
 								</ListItem>
 							)}
-							{!isEmpty(schedule) ? (
+							{!isEmpty(schedule) && (
 								<ListItem>
 									<Bold>Scheduled Employees</Bold>
-									{!isEmpty(schedule) ? (
-										schedule.map(({ _id, employeeIds }) => (
-											<List style={{ marginTop: 5 }} key={_id}>
-												<Bold style={{ paddingLeft: 5 }}>
-													<span
-														css={`
-															margin-right: 5px;
-														`}
+									{schedule.map(({ _id, employeeIds }) => (
+										<List style={{ marginTop: 5 }} key={_id}>
+											<Bold style={{ paddingLeft: 5 }}>
+												<span
+													css={`
+														margin-right: 5px;
+													`}
+												>
+													&#8226;
+												</span>
+												<FormatDate format="hh:mm a" date={_id} />
+											</Bold>
+											{!isEmpty(employeeIds) ? (
+												employeeIds.map(({ _id, firstName, lastName }) => (
+													<ListItem
+														className="employee"
+														style={{
+															paddingLeft: 12,
+															backgroundColor: _id === id ? "yellow" : "",
+														}}
+														key={_id}
 													>
-														&#8226;
-													</span>
-													<FormatDate format="hh:mm a" date={_id} />
-												</Bold>
-												{!isEmpty(employeeIds) ? (
-													employeeIds.map(({ _id, firstName, lastName }) => (
-														<ListItem
-															style={{
-																paddingLeft: 12,
-																backgroundColor: _id === id ? "yellow" : "",
-															}}
-															key={_id}
-														>
-															<Badge response="Scheduled.">
-																{firstName} {lastName}
-															</Badge>
-														</ListItem>
-													))
-												) : (
-													<ListItem style={{ paddingLeft: 16 }}>
-														&#40;none&#41;
+														<Badge response="Scheduled.">
+															{firstName} {lastName}
+														</Badge>
 													</ListItem>
-												)}
-											</List>
-										))
-									) : (
-										<span>&#40;none&#41;</span>
-									)}
+												))
+											) : (
+												<ListItem
+													className="none-scheduled"
+													style={{ paddingLeft: 16 }}
+												>
+													&#40;none&#41;
+												</ListItem>
+											)}
+										</List>
+									))}
 								</ListItem>
-							) : null}
+							)}
 						</List>
 					</Fragment>
 				),
@@ -143,7 +143,6 @@ ScheduleModal.propTypes = {
 			schedule: PropTypes.arrayOf(
 				PropTypes.shape({
 					_id: PropTypes.string,
-					title: PropTypes.string,
 					employeeIds: PropTypes.arrayOf(
 						PropTypes.shape({
 							_id: PropTypes.string,
