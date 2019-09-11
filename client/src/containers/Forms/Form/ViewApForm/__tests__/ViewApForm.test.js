@@ -68,7 +68,7 @@ describe("View Ap Form", () => {
 		expect(fetchFormAp).toHaveBeenCalledWith(id);
 	});
 
-	describe("Form Initializied", () => {
+	describe("Form Initialized", () => {
 		beforeEach(() => {
 			jest.useFakeTimers();
 			wrapper.setProps({ events, viewForm });

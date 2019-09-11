@@ -68,4 +68,34 @@ describe("Event Reducer", () => {
 			scheduleEvents: [],
 		});
 	});
+
+	it("sets a scheduled event for viewing and assigning", () => {
+		const state = eventReducer(undefined, {
+			type: types.EVENTS_SET_SCHEDULE,
+			payload: { schedule: mocks.eventForSchedulingData },
+		});
+
+		expect(state).toEqual({
+			data: [],
+			editEvent: {},
+			newEvent: {},
+			schedule: mocks.eventForSchedulingData,
+			scheduleEvents: [],
+		});
+	});
+
+	it("sets scheduled events for viewing", () => {
+		const state = eventReducer(undefined, {
+			type: types.EVENTS_SET_SCHEDULE_EVENTS,
+			payload: { events: mocks.scheduleEventsData },
+		});
+
+		expect(state).toEqual({
+			data: [],
+			editEvent: {},
+			newEvent: {},
+			schedule: {},
+			scheduleEvents: mocks.scheduleEventsData,
+		});
+	});
 });

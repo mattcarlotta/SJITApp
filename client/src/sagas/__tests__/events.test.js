@@ -214,6 +214,60 @@ describe("Event Sagas", () => {
 		});
 	});
 
+	describe("Fetch Event For Scheduling", () => {
+		let data;
+		beforeEach(() => {
+			data = { schedule: mocks.eventForSchedulingData };
+		});
+
+		it("logical flow matches pattern for fetch event for scheduling requests", () => {
+			const res = { data };
+
+			testSaga(sagas.fetchEventForScheduling, { eventId })
+				.next()
+				.put(hideServerMessage())
+				.next()
+				.call(app.get, `event/review/${eventId}`)
+				.next(res)
+				.call(parseData, res)
+				.next(res.data)
+				.put(actions.setEventForScheduling(res.data))
+				.next()
+				.isDone();
+		});
+
+		it("successfully fetches a fetch event for scheduling", async () => {
+			mockApp.onGet(`event/review/${eventId}`).reply(200, data);
+
+			return expectSaga(sagas.fetchEventForScheduling, { eventId })
+				.dispatch(actions.fetchEventForScheduling)
+				.withReducer(eventReducer)
+				.hasFinalState({
+					data: [],
+					editEvent: {},
+					newEvent: {},
+					schedule: mocks.eventForSchedulingData,
+					scheduleEvents: [],
+				})
+				.run();
+		});
+
+		it("if API call fails, it displays a message", async () => {
+			const err = "Unable to fetch that event for scheduling.";
+			mockApp.onGet(`event/review/${eventId}`).reply(404, { err });
+
+			return expectSaga(sagas.fetchEventForScheduling, { eventId })
+				.dispatch(actions.fetchEventForScheduling)
+				.withReducer(messageReducer)
+				.hasFinalState({
+					message: err,
+					show: true,
+					type: "error",
+				})
+				.run();
+		});
+	});
+
 	describe("Fetch Events", () => {
 		let data;
 		beforeEach(() => {
@@ -266,6 +320,63 @@ describe("Event Sagas", () => {
 		});
 	});
 
+	describe("Fetch Scheduled Events", () => {
+		let data;
+		let params;
+		beforeEach(() => {
+			data = { events: mocks.scheduleEventsData };
+			params = {
+				selectedDate: "2018-09-01T00:00:00-07:00",
+				selectedGame: "All Games",
+			};
+		});
+
+		it("logical flow matches pattern for fetch scheduled events requests", () => {
+			const res = { data };
+
+			testSaga(sagas.fetchScheduleEvents, { params })
+				.next()
+				.call(app.get, "events/schedule", { params })
+				.next(res)
+				.call(parseData, res)
+				.next(res.data)
+				.put(actions.setScheduleEvents(res.data))
+				.next()
+				.isDone();
+		});
+
+		it("successfully fetches all scheduled events", async () => {
+			mockApp.onGet("events/schedule").reply(200, data);
+
+			return expectSaga(sagas.fetchScheduleEvents, { params })
+				.dispatch(actions.fetchScheduleEvents)
+				.withReducer(eventReducer)
+				.hasFinalState({
+					data: [],
+					editEvent: {},
+					newEvent: {},
+					schedule: {},
+					scheduleEvents: mocks.scheduleEventsData,
+				})
+				.run();
+		});
+
+		it("if API call fails, it displays a message", async () => {
+			const err = "Unable to fetch scheduled events.";
+			mockApp.onGet("events/schedule").reply(404, { err });
+
+			return expectSaga(sagas.fetchScheduleEvents, { params })
+				.dispatch(actions.fetchScheduleEvents)
+				.withReducer(messageReducer)
+				.hasFinalState({
+					message: err,
+					show: true,
+					type: "error",
+				})
+				.run();
+		});
+	});
+
 	describe("Initialize Event", () => {
 		let data;
 		let data2;
@@ -300,7 +411,7 @@ describe("Event Sagas", () => {
 				.isDone();
 		});
 
-		it("successfully initialzie a new event form", async () => {
+		it("successfully initialize a new event form", async () => {
 			mockApp
 				.onGet("seasons/all/ids")
 				.reply(200, { seasonIds: mocks.seasonIdsData });
@@ -382,11 +493,67 @@ describe("Event Sagas", () => {
 		});
 
 		it("if API call fails, it displays a message", async () => {
-			const err = "Unable to delete the event.";
+			const err = "Unable to update the event.";
 			mockApp.onPut("event/update").reply(404, { err });
 
 			return expectSaga(sagas.updateEvent, { props })
 				.dispatch(actions.updateEvent)
+				.withReducer(messageReducer)
+				.hasFinalState({
+					message: err,
+					show: true,
+					type: "error",
+				})
+				.run();
+		});
+	});
+
+	describe("Update Scheduled Event", () => {
+		let message;
+		let props;
+		beforeEach(() => {
+			message = "Successfully updated the scheduled event!";
+			props = mocks.eventsData;
+		});
+
+		it("logical flow matches pattern for update scheduled event requests", () => {
+			const res = { data: { message } };
+
+			testSaga(sagas.updateEventSchedule, { props })
+				.next()
+				.put(hideServerMessage())
+				.next()
+				.call(app.put, "event/update/schedule", { ...props })
+				.next(res)
+				.call(parseMessage, res)
+				.next(res.data.message)
+				.put(setServerMessage({ type: "success", message: res.data.message }))
+				.next()
+				.put(push("/employee/events/viewall"))
+				.next()
+				.isDone();
+		});
+
+		it("successfully updates a scheduled event", async () => {
+			mockApp.onPut("event/update/schedule").reply(200, { message });
+
+			return expectSaga(sagas.updateEventSchedule, { props })
+				.dispatch(actions.updateEventSchedule)
+				.withReducer(messageReducer)
+				.hasFinalState({
+					message,
+					show: true,
+					type: "success",
+				})
+				.run();
+		});
+
+		it("if API call fails, it displays a message", async () => {
+			const err = "Unable to update the scheduled event.";
+			mockApp.onPut("event/update/schedule").reply(404, { err });
+
+			return expectSaga(sagas.updateEventSchedule, { props })
+				.dispatch(actions.updateEventSchedule)
 				.withReducer(messageReducer)
 				.hasFinalState({
 					message: err,

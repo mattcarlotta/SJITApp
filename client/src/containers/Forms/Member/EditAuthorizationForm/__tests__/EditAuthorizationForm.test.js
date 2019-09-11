@@ -46,7 +46,7 @@ describe("Edit Authorization Form", () => {
 		expect(fetchToken).toHaveBeenCalledTimes(1);
 	});
 
-	describe("Form Initializied", () => {
+	describe("Form Initialized", () => {
 		beforeEach(() => {
 			wrapper.setProps({ editToken });
 		});

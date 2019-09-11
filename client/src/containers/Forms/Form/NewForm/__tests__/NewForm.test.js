@@ -38,7 +38,7 @@ describe("Edit Authorization Form", () => {
 		expect(fetchSeasonsIds).toHaveBeenCalledTimes(1);
 	});
 
-	describe("Form Initializied", () => {
+	describe("Form Initialized", () => {
 		beforeEach(() => {
 			wrapper.setProps({ seasonIds });
 		});

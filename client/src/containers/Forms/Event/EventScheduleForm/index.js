@@ -114,9 +114,12 @@ export class EventScheduleForm extends Component {
 	handleSubmit = e => {
 		e.preventDefault();
 		const { event, columns } = this.state;
+		const { updateEventSchedule } = this.props;
 		const schedule = columns.filter(column => column._id !== "employees");
 
-		this.props.updateEventSchedule({ _id: event._id, schedule });
+		this.setState({ isSubmitting: true }, () =>
+			updateEventSchedule({ _id: event._id, schedule }),
+		);
 	};
 
 	render = () => (

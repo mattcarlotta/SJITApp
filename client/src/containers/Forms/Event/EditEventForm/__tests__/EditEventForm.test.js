@@ -60,7 +60,7 @@ describe("New Event Form", () => {
 		expect(fetchEvent).toHaveBeenCalledWith(id);
 	});
 
-	describe("Form Initializied", () => {
+	describe("Form Initialized", () => {
 		beforeEach(() => {
 			wrapper.setProps({ editEvent });
 			wrapper.update();
