@@ -14,7 +14,7 @@ export default app => {
   app.delete("/api/form/delete/:id", requireStaffRole, deleteForm);
   app.get("/api/forms/all", requireAuth, getAllForms);
   app.get("/api/form/edit/:id", requireStaffRole, getForm);
-  app.get("/api/form/view/:id", requireAuth, viewApForm);
-  app.put("/api/form/update", requireStaffRole, updateForm);
   app.put("/api/form/update/ap", requireAuth, updateApForm);
+  app.put("/api/form/update", requireStaffRole, updateForm);
+  app.get("/api/form/view/:id", requireAuth, viewApForm);
 };

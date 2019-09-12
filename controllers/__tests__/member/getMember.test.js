@@ -59,7 +59,6 @@ describe("Get Member Controller", () => {
         lastName: expect.any(String),
         registered: expect.any(Date),
         role: expect.any(String),
-        schedule: expect.any(Array),
         status: expect.any(String),
       }),
     });

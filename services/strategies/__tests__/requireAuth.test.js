@@ -23,8 +23,8 @@ describe("Require Authentication Middleware", () => {
     const req = mockRequest();
 
     await requireAuth(req, res, next);
-    expect(res.status).toHaveBeenCalledWith(401);
-    expect(res.send).toHaveBeenCalledWith({ err: badCredentials });
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.json).toHaveBeenCalledWith({ err: badCredentials });
     done();
   });
 
@@ -42,9 +42,8 @@ describe("Require Authentication Middleware", () => {
     const req = mockRequest(null, session);
 
     await requireAuth(req, res, next);
-    expect(res.clearCookie).toHaveBeenCalledWith("SJSITApp", { path: "/" });
-    expect(res.status).toHaveBeenCalledWith(200);
-    expect(res.json).toHaveBeenCalledWith({ role: "guest" });
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.json).toHaveBeenCalledWith({ err: badCredentials });
     done();
   });
 
@@ -58,9 +57,8 @@ describe("Require Authentication Middleware", () => {
     const req = mockRequest(null, session);
 
     await requireAuth(req, res, next);
-    expect(res.clearCookie).toHaveBeenCalledWith("SJSITApp", { path: "/" });
-    expect(res.status).toHaveBeenCalledWith(200);
-    expect(res.json).toHaveBeenCalledWith({ role: "guest" });
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.json).toHaveBeenCalledWith({ err: badCredentials });
     done();
   });
 

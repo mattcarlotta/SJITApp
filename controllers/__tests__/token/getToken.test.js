@@ -53,7 +53,6 @@ describe("Get Token Controller", () => {
       authorizedEmail: "pop@example.com",
       email: "",
       role: "employee",
-      seasonId: "20402041",
       token: createSignupToken(),
       expiration: expirationDate().toDate(),
     };
@@ -76,7 +75,6 @@ describe("Get Token Controller", () => {
         email: expect.any(String),
         expiration: expect.any(Date),
         role: expect.any(String),
-        seasonId: expect.any(String),
       }),
     });
   });

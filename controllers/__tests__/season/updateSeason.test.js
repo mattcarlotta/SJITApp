@@ -111,7 +111,6 @@ describe("Update Season Controller", () => {
       expect.objectContaining({
         __v: expect.any(Number),
         _id: existingSeason._id,
-        members: expect.any(Array),
         seasonId: newSeasonId,
         startDate: newStartDate,
         endDate: newEndDate,
@@ -143,7 +142,6 @@ describe("Update Season Controller", () => {
       expect.objectContaining({
         __v: expect.any(Number),
         _id: existingSeason._id,
-        members: expect.any(Array),
         seasonId: newSeasonId,
         startDate: updateStartDate,
         endDate: upateEndDate,

@@ -15,8 +15,8 @@ export default app => {
   app.delete("/api/event/delete/:id", requireStaffRole, deleteEvent);
   app.get("/api/events/all", requireStaffRole, getAllEvents);
   app.get("/api/event/edit/:id", requireStaffRole, getEvent);
-  app.get("/api/events/schedule", requireAuth, getScheduledEvents);
   app.get("/api/event/review/:id", requireStaffRole, getEventForScheduling);
+  app.get("/api/events/schedule", requireAuth, getScheduledEvents);
   app.put("/api/event/update", requireStaffRole, updateEvent);
   app.put("/api/event/update/schedule", requireStaffRole, updateEventSchedule);
 };

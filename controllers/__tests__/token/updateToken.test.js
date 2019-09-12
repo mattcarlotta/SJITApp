@@ -117,7 +117,6 @@ describe("Update Token Controller", () => {
       authorizedEmail: "mywaterbottle@example.com",
       email: "",
       role: "employee",
-      seasonId: "20402041",
       token,
       expiration: expirationDate().toDate(),
     };
@@ -129,7 +128,6 @@ describe("Update Token Controller", () => {
       _id: createdToken._id,
       authorizedEmail,
       role: "staff",
-      seasonId: "20012002",
     };
 
     const req = mockRequest(null, null, updatedToken);
@@ -146,7 +144,6 @@ describe("Update Token Controller", () => {
         email: expect.any(String),
         expiration: expect.any(Date),
         role: updatedToken.role,
-        seasonId: updatedToken.seasonId,
       }),
     );
 

@@ -1,4 +1,4 @@
-import { Token, Season } from "models";
+import { Token } from "models";
 import { getAllTokens } from "controllers/token";
 import { createSignupToken } from "shared/helpers";
 
@@ -13,25 +13,15 @@ describe("Get All Tokens Controller", () => {
   });
 
   it("handles valid get all tokens requests", async () => {
-    const newSeason = {
-      seasonId: "20222023",
-      startDate: new Date(2022, 9, 6),
-      endDate: new Date(2023, 7, 6),
-    };
-
-    await Season.create(newSeason);
-
     const newHire1 = {
       authorizedEmail: "test88@example.com",
       role: "employee",
-      seasonId: newSeason.seasonId,
       token: createSignupToken(),
     };
 
     const newHire2 = {
       authorizedEmail: "test1884@example.com",
       role: "employee",
-      seasonId: newSeason.seasonId,
       token: createSignupToken(),
     };
 
@@ -52,7 +42,6 @@ describe("Get All Tokens Controller", () => {
           _id: expect.any(ObjectId),
           authorizedEmail: expect.any(String),
           role: expect.any(String),
-          seasonId: expect.any(String),
           token: expect.any(String),
         }),
       ]),

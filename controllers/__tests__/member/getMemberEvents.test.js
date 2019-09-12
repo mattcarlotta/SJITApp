@@ -60,12 +60,13 @@ describe("Get Member Events", () => {
       eventResponses: expect.arrayContaining([
         expect.objectContaining({
           _id: expect.any(ObjectId),
+          employeeNotes: expect.any(String),
+          employeeResponse: expect.any(String),
           eventDate: expect.any(Date),
           eventNotes: expect.any(String),
           eventType: expect.any(String),
-          notes: expect.any(String),
+          location: expect.any(String),
           opponent: expect.any(String),
-          response: expect.any(String),
           team: expect.any(String),
         }),
       ]),

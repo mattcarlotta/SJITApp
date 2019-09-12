@@ -79,7 +79,14 @@ describe("Update Form Controller", () => {
   });
 
   it("handles valid update form requests", async () => {
-    const existingForm = await Form.findOne({ notes: "Form 3" });
+    const form = {
+      expirationDate: new Date("2011-08-10T07:00:00.000Z"),
+      startMonth: new Date("2011-08-01T07:00:00.000Z"),
+      endMonth: new Date("2011-08-31T07:00:00.000Z"),
+      notes: "Form 88",
+      seasonId: "20112012",
+    };
+    const existingForm = await Form.create(form);
 
     const updatedFormDetails = {
       _id: existingForm._id,

@@ -4,7 +4,6 @@ import { createToken } from "controllers/token";
 import {
   emailAssociatedWithKey,
   invalidAuthTokenRequest,
-  invalidSeasonId,
 } from "shared/authErrors";
 
 describe("Create Token Controller", () => {
@@ -26,7 +25,6 @@ describe("Create Token Controller", () => {
     const emptyBody = {
       authorizedEmail: "",
       role: "",
-      seasonId: "",
     };
 
     const req = mockRequest(null, null, emptyBody);
@@ -39,28 +37,10 @@ describe("Create Token Controller", () => {
     });
   });
 
-  it("handles requests with invalid seasonIds", async () => {
-    const invalidSeason = {
-      authorizedEmail: "test@example.com",
-      role: "employee",
-      seasonId: "00000000",
-    };
-
-    const req = mockRequest(null, null, invalidSeason);
-
-    await createToken(req, res);
-
-    expect(res.status).toHaveBeenCalledWith(400);
-    expect(res.json).toHaveBeenCalledWith({
-      err: invalidSeasonId,
-    });
-  });
-
   it("handles requests with invalid bodies", async () => {
     const invalidSeason = {
       authorizedEmail: { email: "test@example.com" },
       role: "employee",
-      seasonId: "20002001",
     };
 
     const req = mockRequest(null, null, invalidSeason);
@@ -77,7 +57,6 @@ describe("Create Token Controller", () => {
     const emailInUse = {
       authorizedEmail: "member@example.com",
       role: "employee",
-      seasonId: "20002001",
     };
 
     const req = mockRequest(null, null, emailInUse);
@@ -118,7 +97,6 @@ describe("Create Token Controller", () => {
         _id: expect.any(ObjectId),
         authorizedEmail: expect.any(String),
         role: expect.any(String),
-        seasonId: expect.any(String),
         token: expect.any(String),
       }),
     );

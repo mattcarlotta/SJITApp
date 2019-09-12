@@ -110,21 +110,19 @@ describe("Update Member Controller", () => {
 
     await updateMember(req, res);
 
-    const updatedMember = await User.findOne({ email: changedMember.email });
+    const updatedMember = await User.findOne(
+      { email: changedMember.email },
+      {
+        _id: 0, email: 1, firstName: 1, lastName: 1, role: 1,
+      },
+    ).lean();
 
-    expect(updatedMember).toEqual(
-      expect.objectContaining({
-        __v: expect.any(Number),
-        _id: expect.any(ObjectId),
-        email: updatedMember.email,
-        firstName: updatedMember.firstName,
-        lastName: updatedMember.lastName,
-        registered: expect.any(Date),
-        role: updatedMember.role,
-        schedule: expect.any(Array),
-        status: expect.any(String),
-      }),
-    );
+    expect(updatedMember).toEqual({
+      email: updatedMember.email,
+      firstName: updatedMember.firstName,
+      lastName: updatedMember.lastName,
+      role: updatedMember.role,
+    });
 
     expect(res.status).toHaveBeenCalledWith(201);
     expect(res.json).toHaveBeenCalledWith({

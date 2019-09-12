@@ -24,8 +24,8 @@ describe("Require Staff Role Authentication Middleware", () => {
 
     await requireStaffRole(req, res, next);
 
-    expect(res.status).toHaveBeenCalledWith(401);
-    expect(res.send).toHaveBeenCalledWith({ err: badCredentials });
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.json).toHaveBeenCalledWith({ err: badCredentials });
     done();
   });
 
@@ -44,9 +44,8 @@ describe("Require Staff Role Authentication Middleware", () => {
     const req = mockRequest(null, session);
 
     await requireStaffRole(req, res, next);
-    expect(res.clearCookie).toHaveBeenCalledWith("SJSITApp", { path: "/" });
-    expect(res.status).toHaveBeenCalledWith(200);
-    expect(res.json).toHaveBeenCalledWith({ role: "guest" });
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.json).toHaveBeenCalledWith({ err: badCredentials });
     done();
   });
 
@@ -61,9 +60,8 @@ describe("Require Staff Role Authentication Middleware", () => {
     const req = mockRequest(null, session);
 
     await requireStaffRole(req, res, next);
-    expect(res.clearCookie).toHaveBeenCalledWith("SJSITApp", { path: "/" });
-    expect(res.status).toHaveBeenCalledWith(200);
-    expect(res.json).toHaveBeenCalledWith({ role: "guest" });
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.json).toHaveBeenCalledWith({ err: badCredentials });
     done();
   });
 

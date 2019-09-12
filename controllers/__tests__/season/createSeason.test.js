@@ -70,7 +70,6 @@ describe("Create Season Controller", () => {
       expect.objectContaining({
         __v: expect.any(Number),
         _id: expect.any(ObjectId),
-        members: expect.any(Array),
         seasonId,
         startDate: expect.any(Date),
         endDate: expect.any(Date),

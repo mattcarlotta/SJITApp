@@ -21,10 +21,9 @@ describe("Get All Seasons Controller", () => {
       seasons: expect.arrayContaining([
         expect.objectContaining({
           _id: expect.any(ObjectId),
-          members: expect.any(Number),
+          endDate: expect.any(Date),
           seasonId: expect.any(String),
           startDate: expect.any(Date),
-          endDate: expect.any(Date),
         }),
       ]),
     });
