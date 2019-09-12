@@ -5,7 +5,7 @@ import moment from "moment";
 import { Calendar } from "antd";
 import { ScheduleList, ScheduleHeader, ScheduleModal } from "components/Body";
 
-const setValidRange = date => [
+export const setValidRange = date => [
 	moment(date).startOf("month"),
 	moment(date).endOf("month"),
 ];
