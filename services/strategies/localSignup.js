@@ -11,7 +11,7 @@ import {
 } from "shared/authErrors";
 import { createRandomToken, sendError } from "shared/helpers";
 import { newUserTemplate } from "services/templates";
-import { User, Season, Token } from "models";
+import { User, Token } from "models";
 
 const { CLIENT } = process.env;
 
@@ -32,21 +32,12 @@ passport.use(
         // see if the token is valid and hasn't been used already
         const validToken = await Token.findOne({ token });
         if (!validToken) throw invalidToken;
-
-        // see if authorizedEmail equals supplied email
         if (validToken.authorizedEmail !== email) throw invalidSignupEmail;
-
-        // see if the email is already in use
         if (validToken.email) throw tokenAlreadyUsed;
 
         // see if the token has expired
         const todaysDate = moment(Date.now()).utcOffset(-7);
         if (todaysDate > validToken.expiration) throw expiredToken;
-
-        // find currently selected season
-        const season = await Season.findOne({
-          seasonId: validToken.seasonId,
-        });
 
         // hash password before attempting to create the user
         const newPassword = await User.createPassword(password);
@@ -60,10 +51,7 @@ passport.use(
         });
 
         // assign signup token to current user
-        await Token.updateOne({ token }, { $set: { email: newUser.email } });
-
-        // add user to selected season
-        await Season.addUser(season._id, newUser._id);
+        await Token.updateOne({ token }, { email: newUser.email });
 
         // send an email template for a new user signup
         const msg = {
@@ -86,14 +74,15 @@ passport.use(
 
 export const localSignup = async (req, res, next) => {
   try {
-    const {
-      email, firstName, lastName, password, token,
-    } = req.body;
+    const { email, firstName, lastName, password, token } = req.body;
 
-    if (!email || !firstName || !lastName || !password || !token) throw missingSignupCreds;
+    if (!email || !firstName || !lastName || !password || !token)
+      throw missingSignupCreds;
 
     const newUser = await new Promise((resolve, reject) => {
-      passport.authenticate("local-signup", (err, user) => (err ? reject(err) : resolve(user)))(req, res, next);
+      passport.authenticate("local-signup", (err, user) =>
+        err ? reject(err) : resolve(user),
+      )(req, res, next);
     });
 
     req.user = {

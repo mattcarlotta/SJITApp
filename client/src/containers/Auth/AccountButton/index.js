@@ -32,7 +32,7 @@ export const AccountButton = ({ firstName, lastName, push, signoutUser }) => {
 
 	return (
 		<Dropdown overlay={options} trigger={["click"]} placement="bottomRight">
-			<MenuButton hoverable style={{ marginRight: 38 }}>
+			<MenuButton hoverable style={{ padding: "0 20px", marginRight: 0 }}>
 				<FaUserCircle style={{ position: "relative", top: 3 }} />
 				<MenuItemTitle>
 					{firstName} {lastName}

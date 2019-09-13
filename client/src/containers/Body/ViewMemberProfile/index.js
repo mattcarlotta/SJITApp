@@ -6,8 +6,21 @@ import { push } from "connected-react-router";
 import { connect } from "react-redux";
 import { Card, Icon, Tabs } from "antd";
 import { FaUserCircle, FaChartBar, FaReply, FaClock } from "react-icons/fa";
-import { fetchMember, updateMemberStatus } from "actions/Members";
-import { BackButton, PaneBody, Spinner } from "components/Body";
+import { hideServerMessage } from "actions/Messages";
+import {
+	fetchMember,
+	fetchMemberEvents,
+	updateMemberStatus,
+} from "actions/Members";
+import { fetchScheduleEvents } from "actions/Events";
+import {
+	BackButton,
+	Calendar,
+	Line,
+	PaneBody,
+	Spinner,
+	Title,
+} from "components/Body";
 import Profile from "./Profile";
 
 const Pane = Tabs.TabPane;
@@ -44,24 +57,18 @@ const scheduling = (
 
 export class ViewMemberProfile extends PureComponent {
 	componentDidMount = () => {
-		const { id } = this.props.match.params;
+		const { hideServerMessage, fetchMember, match, serverMessage } = this.props;
 
-		this.props.fetchMember(id);
-	};
+		const { id } = match.params;
+		fetchMember(id);
 
-	componentDidUpdate = prevProps => {
-		if (
-			isEmpty(this.props.viewMember) &&
-			prevProps.serverMessage !== this.props.serverMessage
-		) {
-			this.props.push("/employee/members/viewall");
-		}
+		if (serverMessage) hideServerMessage();
 	};
 
 	render = () => {
-		const { push, viewMember, updateMemberStatus } = this.props;
+		const { eventResponses, fetchMemberEvents, push, viewMember } = this.props;
 
-		const { events, schedule, status } = viewMember;
+		const { _id, status, firstName, lastName } = viewMember;
 
 		return (
 			<Fragment>
@@ -78,10 +85,7 @@ export class ViewMemberProfile extends PureComponent {
 					) : (
 						<Tabs tabPosition="left">
 							<Pane tab={profile} key="profile">
-								<Profile
-									viewMember={viewMember}
-									updateMemberStatus={updateMemberStatus}
-								/>
+								<Profile {...this.props} />
 							</Pane>
 							<Pane tab={analytics} key="analytics">
 								<PaneBody>
@@ -90,12 +94,29 @@ export class ViewMemberProfile extends PureComponent {
 							</Pane>
 							<Pane tab={responses} key="responses">
 								<PaneBody>
-									<p>Responses: {JSON.stringify(events)}</p>
+									<Title centered>
+										{firstName} {lastName}&#39;s Responses
+									</Title>
+									<Line centered width="400px" />
+									<Calendar
+										{...this.props}
+										id={_id}
+										scheduleEvents={eventResponses}
+										fetchAction={fetchMemberEvents}
+									/>
 								</PaneBody>
 							</Pane>
 							<Pane tab={scheduling} key="schedule">
 								<PaneBody>
-									<p>Schedule: {JSON.stringify(schedule)}</p>
+									<Title centered>
+										{firstName} {lastName}&#39;s Schedule
+									</Title>
+									<Line centered width="400px" />
+									<Calendar
+										{...this.props}
+										fetchAction={this.props.fetchScheduleEvents}
+										title="View Member Schedule"
+									/>
 								</PaneBody>
 							</Pane>
 						</Tabs>
@@ -107,7 +128,23 @@ export class ViewMemberProfile extends PureComponent {
 }
 
 ViewMemberProfile.propTypes = {
+	eventResponses: PropTypes.arrayOf(
+		PropTypes.shape({
+			_id: PropTypes.string,
+			eventDate: PropTypes.string,
+			eventNotes: PropTypes.string,
+			eventType: PropTypes.string,
+			employeeResponse: PropTypes.string,
+			employeeNotes: PropTypes.string,
+			location: PropTypes.string,
+			opponent: PropTypes.string,
+			team: PropTypes.string,
+		}),
+	),
 	fetchMember: PropTypes.func.isRequired,
+	fetchMemberEvents: PropTypes.func.isRequired,
+	fetchScheduleEvents: PropTypes.func.isRequired,
+	hideServerMessage: PropTypes.func.isRequired,
 	match: PropTypes.shape({
 		params: PropTypes.shape({
 			id: PropTypes.string,
@@ -117,7 +154,6 @@ ViewMemberProfile.propTypes = {
 	viewMember: PropTypes.shape({
 		_id: PropTypes.string,
 		email: PropTypes.string,
-		events: PropTypes.any,
 		firstName: PropTypes.string,
 		lastName: PropTypes.string,
 		registered: PropTypes.string,
@@ -127,15 +163,45 @@ ViewMemberProfile.propTypes = {
 	}),
 	updateMemberStatus: PropTypes.func.isRequired,
 	serverMessage: PropTypes.string,
+	scheduleEvents: PropTypes.arrayOf(
+		PropTypes.shape({
+			_id: PropTypes.string,
+			eventDate: PropTypes.string,
+			eventNotes: PropTypes.string,
+			eventType: PropTypes.string,
+			notes: PropTypes.string,
+			opponent: PropTypes.string,
+			response: PropTypes.string,
+			team: PropTypes.string,
+			schedule: PropTypes.arrayOf(
+				PropTypes.shape({
+					_id: PropTypes.string,
+					title: PropTypes.string,
+					employeeIds: PropTypes.arrayOf(
+						PropTypes.shape({
+							_id: PropTypes.string,
+							firstName: PropTypes.string,
+							lastName: PropTypes.string,
+						}),
+					),
+				}),
+			),
+		}),
+	),
 };
 
 const mapStateToProps = state => ({
+	eventResponses: state.members.eventResponses,
 	viewMember: state.members.viewMember,
+	scheduleEvents: state.events.scheduleEvents,
 	serverMessage: state.server.message,
 });
 
 const mapDispatchToProps = {
 	fetchMember,
+	fetchMemberEvents,
+	fetchScheduleEvents,
+	hideServerMessage,
 	push,
 	updateMemberStatus,
 };

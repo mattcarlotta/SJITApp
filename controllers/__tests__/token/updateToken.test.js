@@ -3,6 +3,7 @@ import { Token } from "models";
 import { updateToken } from "controllers/token";
 import { createSignupToken, expirationDate } from "shared/helpers";
 import {
+  emailAlreadyTaken,
   missingUpdateTokenParams,
   unableToUpdateToken,
   unableToLocateToken,
@@ -59,6 +60,28 @@ describe("Update Token Controller", () => {
     });
   });
 
+  it("handles attempts to update a token with an email that already exists", async () => {
+    const existingToken = await Token.findOne({
+      authorizedEmail: "member55@example.com",
+    });
+
+    const usedTokenId = {
+      _id: existingToken._id,
+      authorizedEmail: "carlotta.matt@gmail.com",
+      role: "staff",
+      seasonId: "20412042",
+    };
+
+    const req = mockRequest(null, null, usedTokenId);
+
+    await updateToken(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.json).toHaveBeenCalledWith({
+      err: emailAlreadyTaken,
+    });
+  });
+
   it("handles attempts to edit used tokens", async () => {
     const newHire = {
       authorizedEmail: "usedmember@example.com",
@@ -94,7 +117,6 @@ describe("Update Token Controller", () => {
       authorizedEmail: "mywaterbottle@example.com",
       email: "",
       role: "employee",
-      seasonId: "20402041",
       token,
       expiration: expirationDate().toDate(),
     };
@@ -106,7 +128,6 @@ describe("Update Token Controller", () => {
       _id: createdToken._id,
       authorizedEmail,
       role: "staff",
-      seasonId: "20012002",
     };
 
     const req = mockRequest(null, null, updatedToken);
@@ -123,7 +144,6 @@ describe("Update Token Controller", () => {
         email: expect.any(String),
         expiration: expect.any(Date),
         role: updatedToken.role,
-        seasonId: updatedToken.seasonId,
       }),
     );
 

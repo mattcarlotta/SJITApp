@@ -2,18 +2,6 @@
 
 export default [
 	{
-		name: "seasonId",
-		type: "select",
-		label: "Season ID",
-		placeholder: "Select a season id...",
-		icon: "id",
-		value: "",
-		errors: "",
-		required: true,
-		disabled: true,
-		selectOptions: [],
-	},
-	{
 		name: "role",
 		type: "select",
 		label: "Role",

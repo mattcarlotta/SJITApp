@@ -1,4 +1,4 @@
-import { DisplayDate, DisplayStatus } from "components/Body";
+import { FormatDate, DisplayStatus } from "components/Body";
 import Table from "../index";
 
 const columns = [
@@ -11,13 +11,13 @@ const columns = [
 		title: "Start Date",
 		dataIndex: "startDate",
 		key: "startDate",
-		render: date => <DisplayDate date={date} />,
+		render: date => <FormatDate format="MM/DD/YYYY" date={date} />,
 	},
 	{
 		title: "End Date",
 		dataIndex: "endDate",
 		key: "endDate",
-		render: date => <DisplayDate date={date} />,
+		render: date => <FormatDate format="MM/DD/YYYY" date={date} />,
 	},
 	{
 		title: "Members",
@@ -56,26 +56,28 @@ const fetchData = jest.fn();
 const push = jest.fn();
 
 const initProps = {
+	assignLocation: "seasons",
 	columns,
 	data: [],
 	deleteAction,
 	editLocation: "seasons",
 	fetchData,
-	isLoading: true,
 	push,
 	viewLocation: "seasons",
 };
 
 const nextProps = {
+	assignLocation: "seasons",
 	columns,
 	data,
 	deleteAction,
 	editLocation: "seasons",
 	fetchData,
-	isLoading: false,
 	push,
 	viewLocation: "seasons",
 };
+
+jest.useFakeTimers();
 
 describe("Custom Table", () => {
 	let wrapper;
@@ -86,19 +88,26 @@ describe("Custom Table", () => {
 	afterEach(() => {
 		fetchData.mockClear();
 		push.mockClear();
+		jest.runAllTimers();
 	});
 
-	it("initially displays a LoadingTable component", done => {
+	it("initially displays a LoadingTable component", () => {
 		expect(wrapper.find("LoadingTable").exists()).toBeTruthy();
-		done();
 	});
 
-	it("initially calls fetchData when isLoading is true", done => {
+	it("initially calls fetchData when isLoading is true", () => {
 		expect(fetchData).toHaveBeenCalledTimes(1);
-		done();
 	});
 
-	describe("Ant Table", () => {
+	it("sets isLoading to false after a 3s timeout and display an empty data table", () => {
+		jest.advanceTimersByTime(3100);
+		wrapper.update();
+
+		expect(wrapper.state("isLoading")).toBeFalsy();
+		expect(wrapper.find(".ant-empty-image").exists()).toBeTruthy();
+	});
+
+	describe("Ant Table With Data", () => {
 		beforeEach(() => {
 			wrapper.setProps({ ...nextProps });
 		});
@@ -108,7 +117,11 @@ describe("Custom Table", () => {
 			push.mockClear();
 		});
 
-		it("displays a 5 column Table component with data if isLoading is false", done => {
+		it("when data is present, isLoading is false", () => {
+			expect(wrapper.state("isLoading")).toBeFalsy();
+		});
+
+		it("displays a 5 column Table component with data", () => {
 			expect(wrapper.find("Table").exists()).toBeTruthy();
 			expect(wrapper.find("th")).toHaveLength(6);
 			expect(wrapper.find("td")).toHaveLength(12);
@@ -123,36 +136,33 @@ describe("Custom Table", () => {
 					.find("td")
 					.at(1)
 					.text(),
-			).toEqual("10/6/2000");
+			).toEqual("10/06/2000");
 			expect(
 				wrapper
 					.find("td")
 					.at(2)
 					.text(),
-			).toEqual("8/6/2001");
-			done();
+			).toEqual("08/06/2001");
 		});
 
-		it("handles searches", done => {
+		it("handles searches", () => {
 			const confirm = jest.fn();
 			const selectedKeys = ["test"];
 			wrapper.instance().handleSearch(selectedKeys, confirm);
 
 			// expect(wrapper.state("searchText")).toEqual("test");
 			expect(confirm).toHaveBeenCalledTimes(1);
-			done();
 		});
 
-		it("clears filters", done => {
+		it("clears filters", () => {
 			const clearFilters = jest.fn();
 			wrapper.instance().handleReset(clearFilters);
 
 			// expect(wrapper.state("searchText")).toEqual("");
 			expect(clearFilters).toHaveBeenCalledTimes(1);
-			done();
 		});
 
-		it("handles setting selected keys", done => {
+		it("handles setting selected keys", () => {
 			const value = "test";
 			const setSelectedKeys = jest.fn();
 			wrapper.instance().handleSelectKeys(value, setSelectedKeys);
@@ -162,10 +172,9 @@ describe("Custom Table", () => {
 			wrapper.instance().handleSelectKeys("", setSelectedKeys);
 
 			expect(setSelectedKeys).toHaveBeenCalledWith([]);
-			done();
 		});
 
-		it("filters the table by searchText, as well as clears the table filters", done => {
+		it("filters the table by searchText, as well as clears the table filters", () => {
 			const clickSearchIcon = () => {
 				wrapper
 					.find(".ant-dropdown-trigger")
@@ -216,10 +225,9 @@ describe("Custom Table", () => {
 			setSelectedKeys.mockClear();
 			wrapper.instance().handleSelectKeys("", setSelectedKeys);
 			expect(setSelectedKeys).toHaveBeenCalledWith([]);
-			done();
 		});
 
-		it("views the selected record", done => {
+		it("views and assigns the selected record", () => {
 			wrapper
 				.find("td")
 				.at(5)
@@ -228,19 +236,11 @@ describe("Custom Table", () => {
 				.simulate("click");
 
 			expect(push).toHaveBeenCalledWith(
-				"/employee/seasons/view/5d323ee2b02dee15483e5d9f",
+				"/employee/seasons/assign/5d323ee2b02dee15483e5d9f",
 			);
-			done();
 		});
 
-		it("doesn't display a view button when 'viewLocation' is missing", done => {
-			wrapper.setProps({ viewLocation: "" });
-
-			expect(wrapper.find("FaSearchPlus").exists()).toBeFalsy();
-			done();
-		});
-
-		it("edits the selected record", done => {
+		it("views the selected record", () => {
 			wrapper
 				.find("td")
 				.at(5)
@@ -249,24 +249,29 @@ describe("Custom Table", () => {
 				.simulate("click");
 
 			expect(push).toHaveBeenCalledWith(
-				"/employee/seasons/edit/5d323ee2b02dee15483e5d9f",
+				"/employee/seasons/view/5d323ee2b02dee15483e5d9f",
 			);
-			done();
 		});
 
-		it("doesn't display an edit button when 'editLocation' is missing", done => {
-			wrapper.setProps({ editLocation: "" });
-
-			expect(wrapper.find("FaEdit").exists()).toBeFalsy();
-			done();
-		});
-
-		it("deletes the selected record", done => {
+		it("edits the selected record", () => {
 			wrapper
 				.find("td")
 				.at(5)
 				.find("button")
 				.at(2)
+				.simulate("click");
+
+			expect(push).toHaveBeenCalledWith(
+				"/employee/seasons/edit/5d323ee2b02dee15483e5d9f",
+			);
+		});
+
+		it("deletes the selected record", () => {
+			wrapper
+				.find("td")
+				.at(5)
+				.find("button")
+				.at(3)
 				.simulate("click");
 
 			wrapper
@@ -275,7 +280,6 @@ describe("Custom Table", () => {
 				.simulate("click");
 
 			expect(deleteAction).toHaveBeenCalledTimes(1);
-			done();
 		});
 	});
 });

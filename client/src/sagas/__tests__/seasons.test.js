@@ -34,6 +34,8 @@ describe("Season Sagas", () => {
 
 			testSaga(sagas.createSeason, { props })
 				.next()
+				.put(hideServerMessage())
+				.next()
 				.call(app.post, "season/create", { ...props })
 				.next(res)
 				.call(parseMessage, res)
@@ -137,6 +139,8 @@ describe("Season Sagas", () => {
 
 			testSaga(sagas.fetchSeason, { seasonId })
 				.next()
+				.put(hideServerMessage())
+				.next()
 				.call(app.get, `season/edit/${seasonId}`)
 				.next(res)
 				.call(parseData, res)
@@ -156,7 +160,6 @@ describe("Season Sagas", () => {
 					data: [],
 					editSeason: mocks.seasonsData,
 					ids: [],
-					isLoading: false,
 				})
 				.run();
 		});
@@ -207,7 +210,6 @@ describe("Season Sagas", () => {
 					data: mocks.seasonsData,
 					editSeason: {},
 					ids: [],
-					isLoading: false,
 				})
 				.run();
 		});
@@ -260,7 +262,6 @@ describe("Season Sagas", () => {
 					data: [],
 					editSeason: {},
 					ids: mocks.seasonIdsData,
-					isLoading: false,
 				})
 				.run();
 		});
@@ -293,6 +294,8 @@ describe("Season Sagas", () => {
 			const res = { data: { message } };
 
 			testSaga(sagas.updateSeason, { props })
+				.next()
+				.put(hideServerMessage())
 				.next()
 				.call(app.put, "season/update", { ...props })
 				.next(res)

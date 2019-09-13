@@ -10,6 +10,7 @@ const Content = Layout.Content;
 const TABS = [
 	"dashboard",
 	"events/create",
+	"events/edit",
 	"events/viewall",
 	"forms/create",
 	"forms/viewall",
@@ -33,7 +34,7 @@ const selectedTab = path => TABS.filter(tab => path.indexOf(tab) >= 1);
 const openedKey = path => {
 	const opened = ROOTTABS.find(tab => path.includes(tab));
 
-	return opened ? [opened] : [""];
+	return opened ? [opened] : [];
 };
 
 class App extends Component {
@@ -52,37 +53,48 @@ class App extends Component {
 		};
 	}
 
-	static getDerivedStateFromProps = props => ({
-		selectedKey: selectedTab(props.location.pathname),
-	});
+	componentDidUpdate = (prevProps, prevState) => {
+		const { pathname } = this.props.location;
+		const { isCollapsed } = this.state;
 
-	handleOpenMenuChange = currentKeys => {
-		const openKeys = currentKeys.length > 1 ? [currentKeys[1]] : [""];
+		if (prevProps.location.pathname !== pathname) {
+			this.setState(prevState => ({
+				openKeys: !prevState.isCollapsed ? openedKey(pathname) : [],
+				selectedKey: selectedTab(pathname),
+			}));
+		}
 
-		this.setState({
-			openKeys,
-			storedKeys: openKeys,
-		});
+		if (prevState.isCollapsed !== isCollapsed && !isCollapsed) {
+			this.setState({
+				openKeys: openedKey(pathname),
+			});
+		}
+	};
+
+	handleOpenMenuChange = openKeys => {
+		const latestOpenKey = openKeys.find(
+			key => this.state.openKeys.indexOf(key) === -1,
+		);
+
+		const containsLatestKey = ROOTTABS.indexOf(latestOpenKey) === -1;
+
+		this.setState({ openKeys: containsLatestKey ? openKeys : [latestOpenKey] });
 	};
 
 	handleTabClick = ({ key }) => {
-		this.setState(prevState => {
+		this.setState(() => {
 			this.props.push(`/employee/${key}`);
-
-			const openKeys = ROOTTABS.some(tab => key.includes(tab))
-				? prevState.openKeys
-				: [""];
+			const openKeys = ROOTTABS.find(tab => key.includes(tab));
 
 			return {
-				openKeys,
-				storedKeys: openKeys,
+				openKeys: openKeys ? [openKeys] : [],
 			};
 		});
 	};
 
 	toggleSideMenu = () =>
 		this.setState(prevState => ({
-			openKeys: !prevState.isCollapsed ? [""] : prevState.storedKeys,
+			openKeys: [],
 			isCollapsed: !prevState.isCollapsed,
 		}));
 

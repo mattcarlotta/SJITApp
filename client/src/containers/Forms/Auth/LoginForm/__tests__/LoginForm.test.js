@@ -1,10 +1,8 @@
 import { LoginForm } from "../index";
 
-const hideServerMessage = jest.fn();
 const signinUser = jest.fn();
 
 const initProps = {
-	hideServerMessage,
 	serverMessage: "",
 	signinUser,
 };
@@ -23,14 +21,11 @@ describe("Login Form", () => {
 
 	it("if there are errors, it doesn't submit the form", () => {
 		submitForm();
-
-		expect(hideServerMessage).toHaveBeenCalledTimes(0);
 		expect(signinUser).toHaveBeenCalledTimes(0);
 	});
 
 	describe("Form Submission", () => {
 		beforeEach(() => {
-			jest.useFakeTimers();
 			wrapper
 				.find("input")
 				.first()
@@ -44,12 +39,10 @@ describe("Login Form", () => {
 				.simulate("change", { target: { name: "password", value: "12345" } });
 
 			submitForm();
-			jest.runOnlyPendingTimers();
 		});
 
 		afterEach(() => {
 			signinUser.mockClear();
-			hideServerMessage.mockClear();
 		});
 
 		it("submits the form after a successful validation", () => {
@@ -62,13 +55,6 @@ describe("Login Form", () => {
 
 			expect(wrapper.find("LoginForm").state("isSubmitting")).toBeFalsy();
 			expect(wrapper.find("button[type='submit']").exists()).toBeTruthy();
-		});
-
-		it("on form resubmission, if the serverMessage is still visible, it will hide the message", () => {
-			wrapper.setProps({ serverMessage: "Example error message." });
-
-			submitForm();
-			expect(hideServerMessage).toHaveBeenCalledTimes(1);
 		});
 	});
 });

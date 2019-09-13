@@ -7,7 +7,7 @@ import { Card } from "antd";
 import { FaUserPlus } from "react-icons/fa";
 import {
 	Button,
-	DisplayDate,
+	FormatDate,
 	FlexEnd,
 	Table,
 	TokenStatus,
@@ -29,21 +29,19 @@ const columns = [
 		key: "authorizedEmail",
 	},
 	{ title: "Role", dataIndex: "role", key: "role" },
-	{ title: "Season ID", dataIndex: "seasonId", key: "seasonId" },
 	{ title: "Token", dataIndex: "token", key: "token" },
 	{
 		title: "Expiration Date",
 		dataIndex: "expiration",
 		key: "expiration",
 		render: (date, { email }) =>
-			!email ? <DisplayDate date={date} /> : <span>-</span>,
+			!email ? <FormatDate format="MM/DD/YYYY" date={date} /> : <span>-</span>,
 	},
 ];
 
 export const ViewAuthorizations = ({
 	deleteToken,
 	fetchTokens,
-	isLoading,
 	push,
 	tokens,
 }) => (
@@ -68,7 +66,6 @@ export const ViewAuthorizations = ({
 				data={tokens}
 				deleteAction={deleteToken}
 				fetchData={fetchTokens}
-				isLoading={isLoading}
 				push={push}
 				editLocation="members/authorizations"
 			/>
@@ -79,7 +76,6 @@ export const ViewAuthorizations = ({
 ViewAuthorizations.propTypes = {
 	deleteToken: PropTypes.func,
 	fetchTokens: PropTypes.func.isRequired,
-	isLoading: PropTypes.bool.isRequired,
 	push: PropTypes.func,
 	tokens: PropTypes.arrayOf(
 		PropTypes.shape({
@@ -87,14 +83,12 @@ ViewAuthorizations.propTypes = {
 			authorizedEmail: PropTypes.string,
 			email: PropTypes.string,
 			role: PropTypes.string,
-			seasonId: PropTypes.string,
 			token: PropTypes.string,
 		}),
 	),
 };
 
 const mapStateToProps = state => ({
-	isLoading: state.members.isLoading,
 	tokens: state.members.tokens,
 });
 

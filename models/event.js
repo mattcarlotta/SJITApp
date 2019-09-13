@@ -1,27 +1,40 @@
 import { Schema, model } from "mongoose";
+import { createSchedule } from "shared/helpers";
 
 const eventSchema = new Schema({
-  league: { type: String, default: "NHL", required: true },
   eventType: { type: String, default: "Game", required: true },
   eventDate: { type: Date, required: true },
   location: { type: String, default: "SAP Center at San Jose" },
   employeeResponses: [
     {
-      id: { type: Schema.Types.ObjectId, ref: "User" },
+      _id: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+        required: true,
+      },
       response: { type: String, required: true },
       notes: String,
     },
   ],
-  scheduledEmployees: [
+  schedule: [
     {
-      id: { type: Schema.Types.ObjectId, ref: "User" },
+      _id: { type: String, required: true },
+      title: String,
+      employeeIds: [{ type: Schema.Types.ObjectId, ref: "User" }],
     },
   ],
+  scheduledIds: [{ type: Schema.Types.ObjectId, ref: "User" }],
   seasonId: { type: String, required: true },
-  team: String,
+  team: { type: String, required: true },
+  opponent: String,
   callTimes: { type: Array, of: Date, required: true },
   uniform: { type: String, default: "Teal Jersey" },
   notes: String,
+});
+
+eventSchema.pre("save", function(next) {
+  this.schedule = createSchedule(this.callTimes);
+  next();
 });
 
 export default model("Event", eventSchema);

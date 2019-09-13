@@ -60,6 +60,18 @@ export const fetchMembers = () => ({
 });
 
 /**
+ * Fetches a single member's events based upon a date.
+ *
+ * @function fetchMemberEvents
+ * @param {object} params - memberid and selectedDate
+ * @returns {object}
+ */
+export const fetchMemberEvents = params => ({
+	type: types.MEMBERS_FETCH_EVENTS,
+	params,
+});
+
+/**
  * Fetches a single token for editing.
  *
  * @function fetchToken
@@ -90,6 +102,18 @@ export const fetchTokens = () => ({
  */
 export const setMembers = data => ({
 	type: types.MEMBERS_SET,
+	payload: !isEmpty(data) ? data : [],
+});
+
+/**
+ * Sets a members events responses from API to redux state
+ *
+ * @function setMemberEventsByDate
+ * @param {object} data - contains member event response data ([id, team, opponent, eventDate, response, notes]).
+ * @returns {object}
+ */
+export const setMemberEventsByDate = data => ({
+	type: types.MEMBERS_SET_EVENTS,
 	payload: !isEmpty(data) ? data : [],
 });
 

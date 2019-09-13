@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import { Card } from "antd";
 import { FaCalendarPlus } from "react-icons/fa";
-import { Button, DisplayDate, FlexEnd, Table } from "components/Body";
+import { Button, FormatDate, FlexEnd, Table } from "components/Body";
 import { deleteSeason, fetchSeasons } from "actions/Seasons";
 
 const title = "View Seasons";
@@ -16,24 +16,17 @@ const columns = [
 		title: "Start Date",
 		dataIndex: "startDate",
 		key: "startDate",
-		render: date => <DisplayDate date={date} />,
+		render: date => <FormatDate format="MM/DD/YYYY" date={date} />,
 	},
 	{
 		title: "End Date",
 		dataIndex: "endDate",
 		key: "endDate",
-		render: date => <DisplayDate date={date} />,
+		render: date => <FormatDate format="MM/DD/YYYY" date={date} />,
 	},
-	{ title: "Members", dataIndex: "members", key: "members" },
 ];
 
-export const ViewSeasons = ({
-	data,
-	deleteSeason,
-	fetchSeasons,
-	isLoading,
-	push,
-}) => (
+export const ViewSeasons = ({ data, deleteSeason, fetchSeasons, push }) => (
 	<Fragment>
 		<Helmet title={title} />
 		<Card title={title}>
@@ -56,7 +49,6 @@ export const ViewSeasons = ({
 				deleteAction={deleteSeason}
 				editLocation="seasons"
 				fetchData={fetchSeasons}
-				isLoading={isLoading}
 				push={push}
 			/>
 		</Card>
@@ -67,7 +59,6 @@ ViewSeasons.propTypes = {
 	data: PropTypes.arrayOf(
 		PropTypes.shape({
 			_id: PropTypes.any,
-			members: PropTypes.number,
 			seasonId: PropTypes.string,
 			startDate: PropTypes.string,
 			endDate: PropTypes.string,
@@ -75,12 +66,10 @@ ViewSeasons.propTypes = {
 	),
 	deleteSeason: PropTypes.func,
 	fetchSeasons: PropTypes.func.isRequired,
-	isLoading: PropTypes.bool.isRequired,
 	push: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
-	isLoading: state.seasons.isLoading,
 	data: state.seasons.data,
 });
 

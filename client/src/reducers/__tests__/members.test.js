@@ -26,7 +26,7 @@ describe("Member Reducer", () => {
 		);
 	});
 
-	it("sets members data and sets isLoading to false", () => {
+	it("sets members data", () => {
 		const state = memberReducer(undefined, {
 			type: types.MEMBERS_SET,
 			payload: membersData,
@@ -35,9 +35,24 @@ describe("Member Reducer", () => {
 		expect(state).toEqual({
 			data: mocks.membersData,
 			tokens: [],
+			eventResponses: [],
 			editToken: {},
 			viewMember: {},
-			isLoading: false,
+		});
+	});
+
+	it("sets members event response data", () => {
+		const state = memberReducer(undefined, {
+			type: types.MEMBERS_SET_EVENTS,
+			payload: { eventResponses: mocks.eventResponseData },
+		});
+
+		expect(state).toEqual({
+			data: [],
+			tokens: [],
+			eventResponses: mocks.eventResponseData,
+			editToken: {},
+			viewMember: {},
 		});
 	});
 
@@ -93,7 +108,7 @@ describe("Member Reducer", () => {
 		expect(state).toEqual(initialState);
 	});
 
-	it("sets member tokens for viewing and sets isLoading to false", () => {
+	it("sets member tokens for viewing", () => {
 		const state = memberReducer(undefined, {
 			type: types.MEMBERS_SET_TOKENS,
 			payload: tokensData,
@@ -102,13 +117,13 @@ describe("Member Reducer", () => {
 		expect(state).toEqual({
 			data: [],
 			tokens: mocks.tokensData,
+			eventResponses: [],
 			editToken: {},
 			viewMember: {},
-			isLoading: false,
 		});
 	});
 
-	it("sets a single member token for editing and sets isLoading to false", () => {
+	it("sets a single member token for editing", () => {
 		const state = memberReducer(undefined, {
 			type: types.MEMBERS_SET_TOKEN,
 			payload: tokenData,
@@ -117,13 +132,13 @@ describe("Member Reducer", () => {
 		expect(state).toEqual({
 			data: [],
 			tokens: [],
+			eventResponses: [],
 			editToken: { ...mocks.tokensData, seasonIds: mocks.seasonIdsData },
 			viewMember: {},
-			isLoading: false,
 		});
 	});
 
-	it("sets a single member's data for viewing and sets isLoading to false", () => {
+	it("sets a single member's data for viewing", () => {
 		const state = memberReducer(undefined, {
 			type: types.MEMBERS_SET_REVIEW,
 			payload: memberData,
@@ -134,7 +149,6 @@ describe("Member Reducer", () => {
 			tokens: [],
 			editToken: {},
 			viewMember: mocks.membersData,
-			isLoading: false,
 		});
 	});
 });

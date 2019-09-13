@@ -7,10 +7,10 @@ import { Card } from "antd";
 import { FaUserPlus } from "react-icons/fa";
 import {
 	Button,
-	DisplayFullDate,
-	DisplayLeague,
 	DisplayTime,
+	DisplayTeam,
 	FlexEnd,
+	FormatDate,
 	Table,
 } from "components/Body";
 import { deleteEvent, fetchEvents } from "actions/Events";
@@ -20,10 +20,16 @@ const title = "View Events";
 const columns = [
 	{ title: "Season Id", dataIndex: "seasonId", key: "seasonId" },
 	{
-		title: "League",
-		dataIndex: "league",
-		key: "league",
-		render: league => <DisplayLeague league={league} />,
+		title: "Team",
+		dataIndex: "team",
+		key: "team",
+		render: team => <DisplayTeam folder="lowres" team={team} />,
+	},
+	{
+		title: "Opponent",
+		dataIndex: "opponent",
+		key: "opponent",
+		render: team => (team ? <DisplayTeam folder="lowres" team={team} /> : "-"),
 	},
 	{ title: "Event Type", dataIndex: "eventType", key: "eventType" },
 	{ title: "Location", dataIndex: "location", key: "location" },
@@ -33,7 +39,13 @@ const columns = [
 		dataIndex: "eventDate",
 		key: "eventDate",
 		width: 200,
-		render: date => <DisplayFullDate date={date} />,
+		render: date => (
+			<FormatDate
+				style={{ wordWrap: "break-word", wordBreak: "break-word" }}
+				format="MMM Do @ h:mm a"
+				date={date}
+			/>
+		),
 	},
 	{
 		title: "Call Times",
@@ -46,23 +58,15 @@ const columns = [
 		title: "Employee Responses",
 		dataIndex: "employeeResponses",
 		key: "employeeResponses",
-		width: 100,
 	},
 	{
 		title: "Scheduled Employees",
-		dataIndex: "scheduledEmployees",
-		key: "scheduledEmployees",
-		width: 100,
+		dataIndex: "schedule",
+		key: "schedule",
 	},
 ];
 
-export const ViewEvents = ({
-	data,
-	deleteEvent,
-	fetchEvents,
-	isLoading,
-	push,
-}) => (
+export const ViewEvents = ({ data, deleteEvent, fetchEvents, push }) => (
 	<Fragment>
 		<Helmet title={title} />
 		<Card title={title}>
@@ -84,9 +88,9 @@ export const ViewEvents = ({
 				data={data}
 				deleteAction={deleteEvent}
 				fetchData={fetchEvents}
-				isLoading={isLoading}
 				push={push}
 				editLocation="events"
+				assignLocation="events"
 			/>
 		</Card>
 	</Fragment>
@@ -95,27 +99,25 @@ export const ViewEvents = ({
 ViewEvents.propTypes = {
 	deleteEvent: PropTypes.func,
 	fetchEvents: PropTypes.func.isRequired,
-	isLoading: PropTypes.bool.isRequired,
 	push: PropTypes.func,
 	data: PropTypes.arrayOf(
 		PropTypes.shape({
 			_id: PropTypes.string,
-			league: PropTypes.string,
+			team: PropTypes.string,
+			opponent: PropTypes.string,
 			eventType: PropTypes.string,
 			location: PropTypes.string,
 			callTimes: PropTypes.arrayOf(PropTypes.string),
-			uniform: PropTypes.string,
 			seasonId: PropTypes.string,
 			eventDate: PropTypes.string,
 			employeeResponses: PropTypes.number,
-			scheduledEmployees: PropTypes.number,
+			schedule: PropTypes.number,
 		}),
 	),
 };
 
 const mapStateToProps = state => ({
 	data: state.events.data,
-	isLoading: state.events.isLoading,
 });
 
 const mapDispatchToProps = {

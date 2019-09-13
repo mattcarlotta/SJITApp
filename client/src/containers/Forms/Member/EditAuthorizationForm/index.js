@@ -4,14 +4,8 @@ import isEmpty from "lodash/isEmpty";
 import { Card } from "antd";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
-import {
-	BackButton,
-	FormContainer,
-	Spinner,
-	SubmitButton,
-} from "components/Body";
-import { FieldGenerator, FormTitle } from "components/Forms";
-import { hideServerMessage } from "actions/Messages";
+import { BackButton, FormContainer, SubmitButton } from "components/Body";
+import { FieldGenerator, FormTitle, LoadingForm } from "components/Forms";
 import { fetchToken, updateMemberToken } from "actions/Members";
 import { fieldValidator, fieldUpdater, parseFields } from "utils";
 import fields from "./Fields";
@@ -58,8 +52,6 @@ export class EditAuthorizationForm extends Component {
 		this.setState({ fields: validatedFields, isSubmitting: !errors }, () => {
 			const { fields: formFields } = this.state;
 			const {
-				hideServerMessage,
-				serverMessage,
 				editToken: { _id },
 				updateMemberToken,
 			} = this.props;
@@ -67,8 +59,7 @@ export class EditAuthorizationForm extends Component {
 			if (!errors) {
 				const parsedFields = parseFields(formFields);
 
-				if (serverMessage) hideServerMessage();
-				setTimeout(() => updateMemberToken({ _id, ...parsedFields }), 350);
+				updateMemberToken({ _id, ...parsedFields });
 			}
 		});
 	};
@@ -91,7 +82,7 @@ export class EditAuthorizationForm extends Component {
 				/>
 				<form onSubmit={this.handleSubmit}>
 					{this.state.isLoading ? (
-						<Spinner />
+						<LoadingForm rows={2} />
 					) : (
 						<Fragment>
 							<FieldGenerator
@@ -99,7 +90,6 @@ export class EditAuthorizationForm extends Component {
 								onChange={this.handleChange}
 							/>
 							<SubmitButton
-								disabled={isEmpty(this.props.seasonIds)}
 								title="Update Authorization"
 								isSubmitting={this.state.isSubmitting}
 							/>
@@ -116,17 +106,14 @@ EditAuthorizationForm.propTypes = {
 		_id: PropTypes.string,
 		authorizedEmail: PropTypes.string,
 		role: PropTypes.string,
-		seasonId: PropTypes.string,
 	}),
 	fetchToken: PropTypes.func.isRequired,
-	hideServerMessage: PropTypes.func.isRequired,
 	match: PropTypes.shape({
 		params: PropTypes.shape({
 			id: PropTypes.string,
 		}),
 	}).isRequired,
 	push: PropTypes.func.isRequired,
-	seasonIds: PropTypes.arrayOf(PropTypes.string),
 	serverMessage: PropTypes.string,
 	updateMemberToken: PropTypes.func.isRequired,
 };
@@ -134,12 +121,10 @@ EditAuthorizationForm.propTypes = {
 const mapStateToProps = state => ({
 	editToken: state.members.editToken,
 	serverMessage: state.server.message,
-	seasonIds: state.seasons.ids,
 });
 
 const mapDispatchToProps = {
 	fetchToken,
-	hideServerMessage,
 	push,
 	updateMemberToken,
 };

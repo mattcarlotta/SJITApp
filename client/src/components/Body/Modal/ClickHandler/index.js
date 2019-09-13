@@ -11,8 +11,10 @@ class ClickHandler extends PureComponent {
 	}
 
 	handleClickOutside = ({ target }) => {
-		if (this.wrapperRef && !this.wrapperRef.contains(target)) {
-			this.props.closeModal();
+		const { closeModal } = this.props;
+
+		if (this.wrapperRef && !this.wrapperRef.contains(target) && closeModal) {
+			closeModal();
 		}
 	};
 
@@ -23,7 +25,7 @@ class ClickHandler extends PureComponent {
 
 ClickHandler.propTypes = {
 	children: PropTypes.node.isRequired,
-	closeModal: PropTypes.func.isRequired,
+	closeModal: PropTypes.func,
 };
 
 export default ClickHandler;

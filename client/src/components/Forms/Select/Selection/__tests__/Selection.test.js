@@ -1,21 +1,33 @@
 import Selection from "../index";
 
 const handleSelectClick = jest.fn();
+const handleSearchClear = jest.fn();
+const handleInputChange = jest.fn();
 
 const initProps = {
+	disabled: false,
 	errors: "",
+	handleInputChange,
+	handleSearchClear,
 	handleSelectClick,
 	icon: "",
 	isVisible: false,
-	placeholder: "Select an option...",
+	isSearchable: false,
+	name: "test",
+	searchText: "",
 	value: "",
-	width: "",
+	placeholder: "Select an option...",
+	width: "100%",
 };
 
 describe("Select - Selection", () => {
 	let wrapper;
 	beforeEach(() => {
 		wrapper = mount(<Selection {...initProps} />);
+	});
+
+	afterEach(() => {
+		handleSelectClick.mockClear();
 	});
 
 	it("renders without errors", () => {
@@ -67,6 +79,15 @@ describe("Select - Selection", () => {
 		expect(handleSelectClick).toHaveBeenCalledTimes(1);
 	});
 
+	it("if disabled doesn't call handleSelectClick", () => {
+		wrapper.setProps({ disabled: true });
+		wrapper
+			.find("SelectText")
+			.at(1)
+			.simulate("click");
+		expect(handleSelectClick).toHaveBeenCalledTimes(0);
+	});
+
 	it("renders an Icon based upon an 'icon' prop", () => {
 		expect(wrapper.find("Icon").exists()).toBeFalsy();
 
@@ -88,7 +109,7 @@ describe("Select - Selection", () => {
 
 		it("changes padding when an icon is present", () => {
 			wrapper.setProps({ icon: "id" });
-			expect(displayOptionBtn()).toHaveStyleRule("padding", "14px 0 14px 48px");
+			expect(displayOptionBtn()).toHaveStyleRule("padding", "11px 0 11px 48px");
 		});
 
 		it("initially displays a placeholder", () => {
@@ -120,6 +141,40 @@ describe("Select - Selection", () => {
 			wrapper.setProps({ isVisible: true });
 			expect(chevronIcon()).toHaveStyleRule("transform", "rotate(90deg)", {
 				modifier: "svg",
+			});
+		});
+	});
+
+	describe("Icon Swapping", () => {
+		it("it initally renders a Chevron icon", () => {
+			expect(wrapper.find("Chevron").exists()).toBeTruthy();
+		});
+
+		it("renders a FaSearch icon if 'isSearchable' is true and no value nor searchText is present", () => {
+			wrapper.setProps({ isSearchable: true });
+
+			expect(wrapper.find("FaSearch").exists()).toBeTruthy();
+		});
+
+		it("renders a FaTimesCircle icon if 'isSearchable' is true and a value or searchText is present", () => {
+			wrapper.setProps({ isSearchable: true, searchText: "Test" });
+
+			expect(wrapper.find("FaTimesCircle").exists()).toBeTruthy();
+		});
+
+		it("clicking on the FaTimesCircle calls handleSearchClear", () => {
+			wrapper.setProps({ isSearchable: true, searchText: "Test" });
+
+			wrapper
+				.find("Icon")
+				.at(1)
+				.simulate("click");
+
+			expect(handleSearchClear).toHaveBeenCalledWith({
+				target: {
+					name: "test",
+					value: "",
+				},
 			});
 		});
 	});

@@ -93,7 +93,7 @@ describe("Profile", () => {
 				.find("LightText")
 				.at(2)
 				.text(),
-		).toContain(`${moment(viewMember.registered).format("l")}`);
+		).toContain(`${moment(viewMember.registered).format("MMMM Do, YYYY")}`);
 	});
 
 	it("displays the EditMemberForm", () => {

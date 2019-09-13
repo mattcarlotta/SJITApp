@@ -1,6 +1,5 @@
 import { EditMemberForm } from "../index";
 
-const hideServerMessage = jest.fn();
 const updateMember = jest.fn();
 
 const viewMember = {
@@ -16,7 +15,6 @@ const viewMember = {
 };
 
 const initProps = {
-	hideServerMessage,
 	serverMessage: "",
 	updateMember,
 	viewMember: {},
@@ -30,15 +28,14 @@ describe("Edit Member Form", () => {
 
 	afterEach(() => {
 		updateMember.mockClear();
-		hideServerMessage.mockClear();
 	});
 
 	it("renders without errors", () => {
 		expect(wrapper.find("form").exists()).toBeTruthy();
 	});
 
-	it("shows a Spinner when fetching seasonIds and the token to edit", () => {
-		expect(wrapper.find("Spinner").exists()).toBeTruthy();
+	it("shows a LoadingForm when fetching seasonIds and the token to edit", () => {
+		expect(wrapper.find("LoadingForm").exists()).toBeTruthy();
 	});
 
 	describe("Form Initialized", () => {
@@ -105,7 +102,7 @@ describe("Edit Member Form", () => {
 				jest.runOnlyPendingTimers();
 			});
 
-			it("successful validation calls updateMember with fields", done => {
+			it("successful validation calls updateMember with fields", () => {
 				expect(wrapper.state("isSubmitting")).toBeTruthy();
 				expect(updateMember).toHaveBeenCalledWith({
 					_id: viewMember._id,
@@ -114,23 +111,13 @@ describe("Edit Member Form", () => {
 					lastName: viewMember.lastName,
 					role: viewMember.role,
 				});
-				done();
 			});
 
-			it("on submission error, enables the form submit button", done => {
+			it("on submission error, enables the form submit button", () => {
 				wrapper.setProps({ serverMessage: "Example error message." });
 
 				expect(wrapper.state("isSubmitting")).toBeFalsy();
 				expect(wrapper.find("button[type='submit']").exists()).toBeTruthy();
-				done();
-			});
-
-			it("on form resubmission, if the serverMessage is still visible, it will hide the message", done => {
-				wrapper.setProps({ serverMessage: "Example error message." });
-
-				wrapper.find("form").simulate("submit");
-				expect(hideServerMessage).toHaveBeenCalledTimes(1);
-				done();
 			});
 		});
 	});

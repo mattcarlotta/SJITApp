@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { Layout, Menu, Icon } from "antd";
-import SharksLogo from "images/sharksLogo.svg";
+import SharksLogo from "images/misc/sharksLogo.png";
 import { Center, Legal, Tab, Title } from "components/Body";
 import { Link } from "components/Navigation";
 import Tabs from "./Tabs";
@@ -23,7 +23,7 @@ const SideMenu = ({
 			<Link to="/" style={{ padding: 0, margin: 0 }}>
 				{isCollapsed ? (
 					<img
-						alt="SharksLogo.png"
+						alt="sharksLogo.png"
 						src={SharksLogo}
 						width="50px"
 						style={{ paddingTop: 10 }}
@@ -64,8 +64,8 @@ const SideMenu = ({
 							</Fragment>
 						}
 					>
-						{submenu.map(({ component, tab, key }) => (
-							<MenuItem key={key}>
+						{submenu.map(({ component, disabled, tab, key }) => (
+							<MenuItem disabled={disabled} key={key}>
 								<Icon component={component} />
 								<Tab>{tab}</Tab>
 							</MenuItem>

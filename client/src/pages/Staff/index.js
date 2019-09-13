@@ -5,10 +5,12 @@ export { default as Dashboard } from "./Dashboard";
 
 // events
 export { default as EditEvent } from "./Events/EditEvent";
+export { default as EventSchedule } from "./Events/EventSchedule";
 export { default as NewEvent } from "./Events/NewEvent";
 export { default as ViewEvents } from "./Events/ViewEvents";
 
 // forms
+export { default as EditForm } from "./Forms/EditForm";
 export { default as NewForm } from "./Forms/NewForm";
 export { default as ViewForms } from "./Forms/ViewForms";
 
@@ -20,7 +22,7 @@ export { default as ViewMemberProfile } from "./Members/ViewMemberProfile";
 export { default as ViewMembers } from "./Members/ViewMembers";
 
 // schedule
-export { default as Schedule } from "./Schedule";
+export { default as Schedules } from "./Schedules";
 
 // seasons
 export { default as EditSeason } from "./Seasons/EditSeason";

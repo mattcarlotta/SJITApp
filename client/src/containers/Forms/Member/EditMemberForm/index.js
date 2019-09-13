@@ -2,9 +2,8 @@ import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
 import { connect } from "react-redux";
-import { Spinner, SubmitButton } from "components/Body";
-import { FieldGenerator } from "components/Forms";
-import { hideServerMessage } from "actions/Messages";
+import { SubmitButton } from "components/Body";
+import { FieldGenerator, LoadingForm } from "components/Forms";
 import { updateMember } from "actions/Members";
 import { fieldValidator, fieldUpdater, parseFields } from "utils";
 import fields from "./Fields";
@@ -52,8 +51,6 @@ export class EditMemberForm extends Component {
 		this.setState({ fields: validatedFields, isSubmitting: !errors }, () => {
 			const { fields: formFields } = this.state;
 			const {
-				hideServerMessage,
-				serverMessage,
 				updateMember,
 				viewMember: { _id },
 			} = this.props;
@@ -61,7 +58,6 @@ export class EditMemberForm extends Component {
 			if (!errors) {
 				const parsedFields = parseFields(formFields);
 
-				if (serverMessage) hideServerMessage();
 				setTimeout(() => updateMember({ ...parsedFields, _id }), 350);
 			}
 		});
@@ -70,7 +66,7 @@ export class EditMemberForm extends Component {
 	render = () => (
 		<form style={formStyles} onSubmit={this.handleSubmit}>
 			{this.state.isLoading ? (
-				<Spinner />
+				<LoadingForm rows={4} />
 			) : (
 				<Fragment>
 					<FieldGenerator
@@ -88,7 +84,6 @@ export class EditMemberForm extends Component {
 }
 
 EditMemberForm.propTypes = {
-	hideServerMessage: PropTypes.func.isRequired,
 	serverMessage: PropTypes.string,
 	updateMember: PropTypes.func.isRequired,
 	viewMember: PropTypes.shape({
@@ -112,7 +107,6 @@ const mapStateToProps = state => ({
 
 /* istanbul ignore next */
 const mapDispatchToProps = {
-	hideServerMessage,
 	updateMember,
 };
 

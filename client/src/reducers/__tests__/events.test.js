@@ -13,7 +13,7 @@ describe("Event Reducer", () => {
 		);
 	});
 
-	it("sets events data and sets isLoading to false", () => {
+	it("sets events data", () => {
 		const state = eventReducer(undefined, {
 			type: types.EVENTS_SET,
 			payload: eventsData,
@@ -22,7 +22,9 @@ describe("Event Reducer", () => {
 		expect(state).toEqual({
 			data: mocks.eventsData,
 			editEvent: {},
-			isLoading: false,
+			newEvent: {},
+			schedule: {},
+			scheduleEvents: [],
 		});
 	});
 
@@ -52,7 +54,7 @@ describe("Event Reducer", () => {
 		expect(state).toEqual(initialState);
 	});
 
-	it("sets event for editing and sets isLoading to false", () => {
+	it("sets event for editing", () => {
 		const state = eventReducer(undefined, {
 			type: types.EVENTS_SET_EDIT,
 			payload: { ...mocks.eventsData },
@@ -61,7 +63,39 @@ describe("Event Reducer", () => {
 		expect(state).toEqual({
 			data: [],
 			editEvent: { ...mocks.eventsData },
-			isLoading: false,
+			newEvent: {},
+			schedule: {},
+			scheduleEvents: [],
+		});
+	});
+
+	it("sets a scheduled event for viewing and assigning", () => {
+		const state = eventReducer(undefined, {
+			type: types.EVENTS_SET_SCHEDULE,
+			payload: { schedule: mocks.eventForSchedulingData },
+		});
+
+		expect(state).toEqual({
+			data: [],
+			editEvent: {},
+			newEvent: {},
+			schedule: mocks.eventForSchedulingData,
+			scheduleEvents: [],
+		});
+	});
+
+	it("sets scheduled events for viewing", () => {
+		const state = eventReducer(undefined, {
+			type: types.EVENTS_SET_SCHEDULE_EVENTS,
+			payload: { events: mocks.scheduleEventsData },
+		});
+
+		expect(state).toEqual({
+			data: [],
+			editEvent: {},
+			newEvent: {},
+			schedule: {},
+			scheduleEvents: mocks.scheduleEventsData,
 		});
 	});
 });

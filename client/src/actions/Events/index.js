@@ -38,6 +38,18 @@ export const fetchEvent = eventId => ({
 });
 
 /**
+ * Fetches a single event for scheduling.
+ *
+ * @function fetchEventForSchedudling
+ * @param {string} eventId
+ * @returns {object}
+ */
+export const fetchEventForScheduling = eventId => ({
+	type: types.EVENTS_FETCH_SCHEDULE,
+	eventId,
+});
+
+/**
  * Fetches all events.
  *
  * @function fetchEvents
@@ -45,6 +57,28 @@ export const fetchEvent = eventId => ({
  */
 export const fetchEvents = () => ({
 	type: types.EVENTS_FETCH,
+});
+
+/**
+ * Fetches all scheduled events.
+ *
+ * @function fetchScheduleEvents
+ * @param {params} - selectedDate and all games or user scheduled games
+ * @returns {object}
+ */
+export const fetchScheduleEvents = params => ({
+	type: types.EVENTS_FETCH_SCHEDULE_EVENTS,
+	params,
+});
+
+/**
+ * Fetches season ids and team names.
+ *
+ * @function initializeNewEvent
+ * @returns {object}
+ */
+export const initializeNewEvent = () => ({
+	type: types.EVENTS_INIT_NEW_EVENT,
 });
 
 /**
@@ -60,6 +94,18 @@ export const setEvents = data => ({
 });
 
 /**
+ * Fetches a single event for scheduling.
+ *
+ * @function setEventForScheduling
+ * @param {object} data - [{event}, {users}, {columns}]
+ * @returns {object}
+ */
+export const setEventForScheduling = data => ({
+	type: types.EVENTS_SET_SCHEDULE,
+	payload: !isEmpty(data) ? data : {},
+});
+
+/**
  * Sets a single season to redux state for editing.
  *
  * @function setEventToEdit
@@ -72,6 +118,30 @@ export const setEventToEdit = data => ({
 });
 
 /**
+ * Initialize a new event form with seasonIds and teams.
+ *
+ * @function setNewEvent
+ * @param {object} data - contains newEvent data ({seasonIds, teams}).
+ * @returns {object}
+ */
+export const setNewEvent = data => ({
+	type: types.EVENTS_SET_NEW_EVENT,
+	payload: !isEmpty(data) ? data : {},
+});
+
+/**
+ * Sets scheduled events.
+ *
+ * @function setScheduledEvents
+ * @param {object} data - contains newEvent data ({eventType, eventDate, team, opponent, uniform, location, notes, scheduledEmployees}).
+ * @returns {object}
+ */
+export const setScheduleEvents = data => ({
+	type: types.EVENTS_SET_SCHEDULE_EVENTS,
+	payload: !isEmpty(data) ? data : [],
+});
+
+/**
  * Updates a single event.
  *
  * @function updateEvent
@@ -80,5 +150,17 @@ export const setEventToEdit = data => ({
  */
 export const updateEvent = props => ({
 	type: types.EVENTS_UPDATE,
+	props,
+});
+
+/**
+ * Updates a single event's schedule.
+ *
+ * @function updateEventSchedule
+ * @param {object} data - contains event schedule data ([{ callTime, userIds }]).
+ * @returns {object}
+ */
+export const updateEventSchedule = props => ({
+	type: types.EVENTS_UPDATE_SCHEDULE,
 	props,
 });

@@ -1,17 +1,28 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Form, DatePicker, TimePicker, Input as AntInput } from "antd";
+import isEmpty from "lodash/isEmpty";
+import { Form, DatePicker, TimePicker, Radio, Input as AntInput } from "antd";
 import { FaCalendarPlus, FaClock } from "react-icons/fa";
-import { Icon, Label } from "components/Body";
+import { Icon, Label, Notes } from "components/Body";
 import { Errors, Input, Select } from "components/Forms";
 
 const RangePicker = DatePicker.RangePicker;
 const TextArea = AntInput.TextArea;
+const RadioGroup = Radio.Group;
 
 const removeIconStyle = {
 	cursor: "pointer",
 	top: "10%",
 	right: "15px",
+};
+
+const radioStyle = {
+	display: "block",
+	width: "100%",
+	height: "30px",
+	lineHeight: "30px",
+	fontSize: "20px",
+	margin: "10px 0",
 };
 
 const FieldGenerator = ({ fields, onChange }) =>
@@ -44,6 +55,24 @@ const FieldGenerator = ({ fields, onChange }) =>
 						{props.errors && <Errors>{props.errors}</Errors>}
 					</Form.Item>
 				);
+			case "radiogroup":
+				return (
+					<Form.Item key={props.name}>
+						<Label style={{ marginBottom: 25 }} {...props} />
+						{props.notes && <Notes {...props} />}
+						<RadioGroup {...props} onChange={onChange}>
+							{!isEmpty(props.selectOptions) &&
+								props.selectOptions.map(value => (
+									<Radio style={radioStyle} key={value} value={value}>
+										{value}
+									</Radio>
+								))}
+						</RadioGroup>
+						{props.errors && (
+							<Errors style={{ textAlign: "center" }}>{props.errors}</Errors>
+						)}
+					</Form.Item>
+				);
 			case "range":
 				return (
 					<Form.Item key={props.name} style={{ height: 105 }}>
@@ -69,10 +98,15 @@ const FieldGenerator = ({ fields, onChange }) =>
 				return (
 					<Form.Item
 						key={props.name}
-						style={{ minHeight: 105, marginBottom: 20 }}
+						style={{ minHeight: 105, marginBottom: props.label ? 20 : 40 }}
 					>
-						<Label {...props} />
-						<TextArea {...props} onChange={onChange} rows={4} />
+						{props.label && <Label {...props} />}
+						<TextArea
+							{...props}
+							style={{ width: props.width || "100%" }}
+							onChange={onChange}
+							rows={props.rows || 4}
+						/>
 						{props.errors && <Errors>{props.errors}</Errors>}
 					</Form.Item>
 				);
@@ -88,6 +122,7 @@ const FieldGenerator = ({ fields, onChange }) =>
 								className="remove-time-slot"
 								style={removeIconStyle}
 								color="rgba(255, 0, 0, 0.65)"
+								onHoverColor="rgba(204, 0, 0, 0.65)"
 								onClick={() => props.onFieldRemove(props.name)}
 								type="remove"
 							/>
@@ -120,7 +155,7 @@ FieldGenerator.propTypes = {
 		PropTypes.shape({
 			name: PropTypes.string.isRequired,
 			type: PropTypes.string.isRequired,
-			label: PropTypes.string,
+			label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
 			placeholder: PropTypes.string,
 			props: PropTypes.any,
 			icon: PropTypes.string,

@@ -7,12 +7,14 @@ jest.mock("controllers/template", () => ({
   updateTemplate: jest.fn((req, res, done) => done()),
 }));
 
-jest.mock("services/strategies/requireStaffRole", () => jest.fn((req, res, done) => done()));
+jest.mock("services/strategies/requireStaffRole", () =>
+  jest.fn((req, res, done) => done()),
+);
 
 describe("Update A Template Route", () => {
   it("routes requests to the updateTemplate controller", async () => {
     await app()
-      .put("/api/template/update/:id")
+      .put("/api/template/update")
       .then(() => {
         expect(requireStaffRole).toHaveBeenCalledTimes(1);
         expect(updateTemplate).toHaveBeenCalledTimes(1);

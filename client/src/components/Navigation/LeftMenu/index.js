@@ -6,8 +6,8 @@ import { Float, MenuButton } from "components/Body";
 const LeftMenu = ({ toggleSideMenu }) => (
 	<Float direction="left">
 		<MenuButton
-			style={{ marginRight: "38px" }}
 			hoverable
+			style={{ padding: "0 20px" }}
 			onClick={toggleSideMenu}
 		>
 			<FaBars />

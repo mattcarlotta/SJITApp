@@ -4,6 +4,7 @@ import { app } from "utils";
 import { hideServerMessage, setServerMessage } from "actions/Messages";
 import {
 	fetchMember,
+	setMemberEventsByDate,
 	setMemberToReview,
 	setMembers,
 	setToken,
@@ -27,6 +28,8 @@ import * as types from "types";
 
 export function* createMember({ props }) {
 	try {
+		yield put(hideServerMessage());
+
 		const res = yield call(app.post, "token/create", { ...props });
 		const message = yield call(parseMessage, res);
 
@@ -116,17 +119,48 @@ export function* deleteToken({ tokenId }) {
  * @function fetchProfile
  * @param {object} tokenId
  * @yields {object} - A response from a call to the API.
- * @function parseData - Returns a parsed res.data.
+ * @function parseData - Returns a parsed res.data (basic member info).
+ * @yields {object} - A response from a call to the API.
+ * @function parseData - Returns a parsed res.data (member event response).
  * @yields {action} - A redux action to set member data to redux state.
  * @throws {action} - A redux action to display a server message by type.
  */
 
 export function* fetchProfile({ memberId }) {
 	try {
-		const res = yield call(app.get, `member/review/${memberId}`);
+		let res = yield call(app.get, `member/review/${memberId}`);
+		const basicMemberInfo = yield call(parseData, res);
+
+		res = yield call(app.get, "member/events", { params: { id: memberId } });
+		const memberEventResponses = yield call(parseData, res);
+
+		yield put(
+			setMemberToReview({ ...basicMemberInfo, ...memberEventResponses }),
+		);
+	} catch (e) {
+		yield put(push("/employee/members/viewall"));
+		yield put(setServerMessage({ type: "error", message: e.toString() }));
+	}
+}
+
+/**
+ * Attempts to get a single member profile for review/editing.
+ *
+ * @generator
+ * @function fetchMemberEvents
+ * @param {object} params
+ * @yields {object} - A response from a call to the API.
+ * @function parseData - Returns a parsed res.data.
+ * @yields {action} - A redux action to set member data to redux state.
+ * @throws {action} - A redux action to display a server message by type.
+ */
+
+export function* fetchMemberEvents({ params }) {
+	try {
+		const res = yield call(app.get, "member/events", { params });
 		const data = yield call(parseData, res);
 
-		yield put(setMemberToReview(data));
+		yield put(setMemberEventsByDate(data));
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
@@ -218,6 +252,8 @@ export function* fetchTokens() {
 
 export function* updateMember({ props }) {
 	try {
+		yield put(hideServerMessage());
+
 		const res = yield call(app.put, "member/update", { ...props });
 		const message = yield call(parseMessage, res);
 
@@ -268,7 +304,7 @@ export function* updateMemberStatus({ props }) {
 }
 
 /**
- * Attempts to update an existing member.
+ * Attempts to update an existing member token.
  *
  * @generator
  * @function updateMemberToken
@@ -282,6 +318,8 @@ export function* updateMemberStatus({ props }) {
 
 export function* updateMemberToken({ props }) {
 	try {
+		yield put(hideServerMessage());
+
 		const res = yield call(app.put, "token/update", { ...props });
 		const message = yield call(parseMessage, res);
 
@@ -312,6 +350,7 @@ export default function* membersSagas() {
 		takeLatest(types.MEMBERS_DELETE_TOKEN, deleteToken),
 		takeLatest(types.MEMBERS_REVIEW, fetchProfile),
 		takeLatest(types.MEMBERS_FETCH, fetchMembers),
+		takeLatest(types.MEMBERS_FETCH_EVENTS, fetchMemberEvents),
 		takeLatest(types.MEMBERS_FETCH_TOKEN, fetchToken),
 		takeLatest(types.MEMBERS_FETCH_TOKENS, fetchTokens),
 		takeLatest(types.MEMBERS_UPDATE, updateMember),

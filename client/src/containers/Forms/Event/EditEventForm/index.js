@@ -4,14 +4,13 @@ import isEmpty from "lodash/isEmpty";
 import { Card } from "antd";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
+import { BackButton, FormContainer, SubmitButton } from "components/Body";
 import {
-	BackButton,
-	FormContainer,
-	Spinner,
-	SubmitButton,
-} from "components/Body";
-import { AddField, FieldGenerator, FormTitle } from "components/Forms";
-import { hideServerMessage } from "actions/Messages";
+	AddField,
+	FieldGenerator,
+	FormTitle,
+	LoadingForm,
+} from "components/Forms";
 import { fetchEvent, updateEvent } from "actions/Events";
 import { fieldValidator, fieldUpdater, parseFields } from "utils";
 import fields from "./Fields";
@@ -26,11 +25,8 @@ export class EditEventForm extends Component {
 		isSubmitting: false,
 	};
 
-	static getDerivedStateFromProps = ({ serverMessage }) => {
-		if (serverMessage) return { isSubmitting: false };
-
-		return null;
-	};
+	static getDerivedStateFromProps = ({ serverMessage }) =>
+		serverMessage ? { isSubmitting: false } : null;
 
 	componentDidMount = () => {
 		const { id } = this.props.match.params;
@@ -97,17 +93,13 @@ export class EditEventForm extends Component {
 		this.setState({ fields: validatedFields, isSubmitting: !errors }, () => {
 			const { fields: formFields } = this.state;
 			const {
-				hideServerMessage,
-				serverMessage,
 				editEvent: { _id },
 				updateEvent,
 			} = this.props;
 
 			if (!errors) {
 				const parsedFields = parseFields(formFields);
-
-				if (serverMessage) hideServerMessage();
-				setTimeout(() => updateEvent({ _id, ...parsedFields }), 350);
+				updateEvent({ _id, ...parsedFields });
 			}
 		});
 	};
@@ -130,7 +122,7 @@ export class EditEventForm extends Component {
 				/>
 				<form onSubmit={this.handleSubmit}>
 					{this.state.isLoading ? (
-						<Spinner />
+						<LoadingForm rows={9} />
 					) : (
 						<Fragment>
 							<FieldGenerator
@@ -157,7 +149,8 @@ export class EditEventForm extends Component {
 EditEventForm.propTypes = {
 	editEvent: PropTypes.shape({
 		_id: PropTypes.string,
-		league: PropTypes.string,
+		team: PropTypes.string,
+		opponent: PropTypes.string,
 		eventType: PropTypes.string,
 		location: PropTypes.string,
 		callTimes: PropTypes.arrayOf(PropTypes.string),
@@ -167,7 +160,6 @@ EditEventForm.propTypes = {
 		notes: PropTypes.string,
 	}).isRequired,
 	fetchEvent: PropTypes.func.isRequired,
-	hideServerMessage: PropTypes.func.isRequired,
 	match: PropTypes.shape({
 		params: PropTypes.shape({
 			id: PropTypes.string,
@@ -185,7 +177,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
 	fetchEvent,
-	hideServerMessage,
 	push,
 	updateEvent,
 };

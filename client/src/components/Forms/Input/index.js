@@ -9,11 +9,10 @@ export default styled(Input)`
 
 	input {
 		position: relative;
-		padding: ${({ icon }) => `14px 0 14px ${icon ? 48 : 17}px`};
+		padding: ${({ icon }) => `10px 0 10px ${icon ? 48 : 17}px`};
 		width: 100%;
-		font-size: 18px;
+		font-size: 20px;
 		background: #fff;
-		color: #282c34;
 		border: 1px solid #e5e5e5;
 		border-radius: 4px;
 		transition: border 0.2s ease-in-out;

@@ -21,13 +21,12 @@ describe("Get All Members Controller", () => {
       members: expect.arrayContaining([
         expect.objectContaining({
           _id: expect.any(ObjectId),
-          role: expect.any(String),
-          status: expect.any(String),
-          registered: expect.any(Date),
           email: expect.any(String),
           firstName: expect.any(String),
           lastName: expect.any(String),
-          events: expect.any(Number),
+          registered: expect.any(Date),
+          role: expect.any(String),
+          status: expect.any(String),
         }),
       ]),
     });

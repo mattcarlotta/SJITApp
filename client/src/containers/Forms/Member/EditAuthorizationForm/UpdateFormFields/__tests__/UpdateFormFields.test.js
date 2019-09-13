@@ -8,34 +8,9 @@ const editToken = {
 	seasonId: "20002001",
 	token: "Iy7bjX0jMAfmfrRFtXWC79urQ2mJeLrC",
 	expiration: "2019-11-01T06:59:59.999Z",
-	seasonIds: ["20002001", "20012002", "20022003"],
 };
 
 describe("UpdateFormFields", () => {
-	it("updates seasonIds field value, initialize selectOptions with seasonIds, and enables the field", () => {
-		const seasonIdField = {
-			name: "seasonId",
-			type: "select",
-			label: "Season ID",
-			placeholder: "Select a season id...",
-			icon: "id",
-			value: "",
-			errors: "",
-			required: true,
-			disabled: true,
-			selectOptions: [],
-		};
-
-		const updatedField = updateFormFields(seasonIdField, editToken);
-
-		expect(updatedField).toEqual({
-			...seasonIdField,
-			selectOptions: editToken.seasonIds,
-			value: editToken.seasonId,
-			disabled: !!editToken.email,
-		});
-	});
-
 	it("updates role field value and enables the field", () => {
 		const roleField = {
 			name: "role",

@@ -7,7 +7,6 @@ import { FieldGenerator, FormTitle } from "components/Forms";
 import { Link } from "components/Navigation";
 import { fieldValidator, fieldUpdater, parseFields } from "utils";
 import { signinUser } from "actions/Auth";
-import { hideServerMessage } from "actions/Messages";
 
 export class LoginForm extends Component {
 	state = {
@@ -50,13 +49,12 @@ export class LoginForm extends Component {
 
 		this.setState({ fields: validatedFields, isSubmitting: !errors }, () => {
 			const { fields: formFields } = this.state;
-			const { hideServerMessage, serverMessage, signinUser } = this.props;
+			const { signinUser } = this.props;
 
 			if (!errors) {
 				const signinFields = parseFields(formFields);
 
-				if (serverMessage) hideServerMessage();
-				setTimeout(() => signinUser(signinFields), 350);
+				signinUser(signinFields);
 			}
 		});
 	};
@@ -94,7 +92,6 @@ export class LoginForm extends Component {
 }
 
 LoginForm.propTypes = {
-	hideServerMessage: PropTypes.func.isRequired,
 	serverMessage: PropTypes.string,
 	signinUser: PropTypes.func,
 };
@@ -106,7 +103,6 @@ const mapStateTopProps = state => ({
 
 /* istanbul ignore next */
 const mapDispatchToProps = {
-	hideServerMessage,
 	signinUser,
 };
 

@@ -9,7 +9,6 @@ const editSeason = {
 	endDate: new Date(2001, 7, 6),
 };
 const fetchSeason = jest.fn();
-const hideServerMessage = jest.fn();
 const push = jest.fn();
 const updateSeason = jest.fn();
 
@@ -21,7 +20,6 @@ const initProps = {
 	},
 	editSeason: {},
 	fetchSeason,
-	hideServerMessage,
 	isLoading: true,
 	push,
 	serverMessage: "",
@@ -55,24 +53,12 @@ describe("Edit Season Form", () => {
 		expect(wrapper.find("form").exists()).toBeTruthy();
 	});
 
-	it("initially calls fetchSeason when isLoading is true", () => {
-		expect(fetchSeason).toHaveBeenCalledWith(seasonId);
+	it("shows a LoadingForm when fetching seasonIds and the token to edit", () => {
+		expect(wrapper.find("LoadingForm").exists()).toBeTruthy();
 	});
 
-	it("initially disables the inputs and submit button when loading", () => {
-		expect(
-			wrapper
-				.find("input.ant-calendar-range-picker-input")
-				.first()
-				.props().disabled,
-		).toBeTruthy();
-
-		expect(
-			wrapper
-				.find("button")
-				.at(1)
-				.props().disabled,
-		).toBeTruthy();
+	it("initially calls fetchSeason when isLoading is true", () => {
+		expect(fetchSeason).toHaveBeenCalledWith(seasonId);
 	});
 
 	describe("Form has been loaded", () => {
@@ -145,33 +131,22 @@ describe("Edit Season Form", () => {
 
 			afterEach(() => {
 				updateSeason.mockClear();
-				hideServerMessage.mockClear();
 			});
 
-			it("successful validation calls updateSeason with fields", done => {
+			it("successful validation calls updateSeason with fields", () => {
 				expect(wrapper.state("isSubmitting")).toBeTruthy();
 				expect(updateSeason).toHaveBeenCalledWith({
 					_id: "123456789",
 					seasonId: newSeasonId,
 					seasonDuration: [newStartYear.format(), newEndYear.format()],
 				});
-				done();
 			});
 
-			it("on submission error, enables the form submit button", done => {
+			it("on submission error, enables the form submit button", () => {
 				wrapper.setProps({ serverMessage: "Example error message." });
 
 				expect(wrapper.state("isSubmitting")).toBeFalsy();
 				expect(wrapper.find("button[type='submit']").exists()).toBeTruthy();
-				done();
-			});
-
-			it("on form resubmission, if the serverMessage is still visible, it will hide the message", done => {
-				wrapper.setProps({ serverMessage: "Example error message." });
-
-				submitForm();
-				expect(hideServerMessage).toHaveBeenCalledTimes(1);
-				done();
 			});
 		});
 	});

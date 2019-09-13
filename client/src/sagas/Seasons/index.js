@@ -21,6 +21,8 @@ import * as types from "types";
 
 export function* createSeason({ props }) {
 	try {
+		yield put(hideServerMessage());
+
 		const res = yield call(app.post, "season/create", { ...props });
 		const message = yield call(parseMessage, res);
 
@@ -83,6 +85,8 @@ export function* deleteSeason({ seasonId }) {
 
 export function* fetchSeason({ seasonId }) {
 	try {
+		yield put(hideServerMessage());
+
 		const res = yield call(app.get, `season/edit/${seasonId}`);
 		const data = yield call(parseData, res);
 
@@ -153,6 +157,8 @@ export function* fetchSeasonsIds() {
 
 export function* updateSeason({ props }) {
 	try {
+		yield put(hideServerMessage());
+
 		const res = yield call(app.put, "season/update", { ...props });
 		const message = yield call(parseMessage, res);
 

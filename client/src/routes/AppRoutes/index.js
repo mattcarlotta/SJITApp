@@ -7,13 +7,15 @@ import {
 	Dashboard,
 	EditAuthorization,
 	EditEvent,
+	EditForm,
 	EditSeason,
+	EventSchedule,
 	NewEvent,
 	NewForm,
 	NewMember,
 	NewSeason,
 	NewTemplate,
-	Schedule,
+	// Schedules,
 	ViewAuthorizations,
 	ViewEvents,
 	ViewForms,
@@ -22,6 +24,8 @@ import {
 	ViewSeasons,
 	ViewTemplates,
 } from "pages/Staff";
+
+import { ViewApForm, ViewSchedule } from "pages/Shared";
 
 import {
 	MemberDashboard,
@@ -38,9 +42,16 @@ const AppRoutes = ({ match: { url }, role }) =>
 			<Redirect from={`${url}/login`} to={`${url}/dashboard`} />
 			<Route exact path={`${url}/dashboard`} component={Dashboard} />
 			<Route exact path={`${url}/events/create`} component={NewEvent} />
+			<Route
+				exact
+				path={`${url}/events/assign/:id`}
+				component={EventSchedule}
+			/>
 			<Route exact path={`${url}/events/edit/:id`} component={EditEvent} />
 			<Route exact path={`${url}/events/viewall`} component={ViewEvents} />
 			<Route exact path={`${url}/forms/create`} component={NewForm} />
+			<Route exact path={`${url}/forms/edit/:id`} component={EditForm} />
+			<Route exact path={`${url}/forms/view/:id`} component={ViewApForm} />
 			<Route exact path={`${url}/forms/viewall`} component={ViewForms} />
 			<Route exact path={`${url}/members/create`} component={NewMember} />
 			<Route
@@ -59,7 +70,7 @@ const AppRoutes = ({ match: { url }, role }) =>
 				component={EditAuthorization}
 			/>
 			<Route exact path={`${url}/members/viewall`} component={ViewMembers} />
-			<Route exact path={`${url}/schedule`} component={Schedule} />
+			<Route exact path={`${url}/schedule`} component={ViewSchedule} />
 			<Route exact path={`${url}/seasons/create`} component={NewSeason} />
 			<Route exact path={`${url}/seasons/edit/:id`} component={EditSeason} />
 			<Route exact path={`${url}/seasons/viewall`} component={ViewSeasons} />

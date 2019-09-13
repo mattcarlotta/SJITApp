@@ -4,17 +4,16 @@ import isEmpty from "lodash/isEmpty";
 import { Card } from "antd";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
+import { BackButton, FormContainer, SubmitButton } from "components/Body";
 import {
-	BackButton,
-	FormContainer,
-	Spinner,
-	SubmitButton,
-} from "components/Body";
-import { AddField, FieldGenerator, FormTitle } from "components/Forms";
-import { hideServerMessage } from "actions/Messages";
-import { fetchSeasonsIds } from "actions/Seasons";
-import { createEvent } from "actions/Events";
+	AddField,
+	FieldGenerator,
+	FormTitle,
+	LoadingForm,
+} from "components/Forms";
+import { createEvent, initializeNewEvent } from "actions/Events";
 import { fieldValidator, fieldUpdater, parseFields } from "utils";
+import updateFormFields from "./UpdateFormFields";
 import fields from "./Fields";
 
 const title = "New Event Form";
@@ -26,14 +25,10 @@ export class NewEventForm extends Component {
 		isSubmitting: false,
 	};
 
-	static getDerivedStateFromProps = ({ seasonIds, serverMessage }, state) => {
-		if (state.isLoading && !isEmpty(seasonIds)) {
+	static getDerivedStateFromProps = ({ newEvent, serverMessage }, state) => {
+		if (state.isLoading && !isEmpty(newEvent)) {
 			return {
-				fields: state.fields.map(field =>
-					field.name === "seasonId"
-						? { ...field, selectOptions: seasonIds, disabled: false }
-						: { ...field, disabled: false },
-				),
+				fields: state.fields.map(field => updateFormFields(field, newEvent)),
 				isLoading: false,
 			};
 		}
@@ -44,7 +39,7 @@ export class NewEventForm extends Component {
 	};
 
 	componentDidMount = () => {
-		this.props.fetchSeasonsIds();
+		this.props.initializeNewEvent();
 	};
 
 	handleAddField = () => {
@@ -87,13 +82,11 @@ export class NewEventForm extends Component {
 
 		this.setState({ fields: validatedFields, isSubmitting: !errors }, () => {
 			const { fields: formFields } = this.state;
-			const { createEvent, hideServerMessage, serverMessage } = this.props;
 
 			if (!errors) {
 				const parsedFields = parseFields(formFields);
 
-				if (serverMessage) hideServerMessage();
-				setTimeout(() => createEvent(parsedFields), 350);
+				this.props.createEvent(parsedFields);
 			}
 		});
 	};
@@ -116,7 +109,7 @@ export class NewEventForm extends Component {
 				/>
 				<form onSubmit={this.handleSubmit}>
 					{this.state.isLoading ? (
-						<Spinner />
+						<LoadingForm rows={9} />
 					) : (
 						<Fragment>
 							<FieldGenerator
@@ -128,7 +121,7 @@ export class NewEventForm extends Component {
 								text="Add Call Time Slot"
 							/>
 							<SubmitButton
-								disabled={isEmpty(this.props.seasonIds)}
+								disabled={isEmpty(this.props.newEvent)}
 								title="Create Event"
 								isSubmitting={this.state.isSubmitting}
 							/>
@@ -142,23 +135,24 @@ export class NewEventForm extends Component {
 
 NewEventForm.propTypes = {
 	createEvent: PropTypes.func.isRequired,
-	fetchSeasonsIds: PropTypes.func.isRequired,
-	hideServerMessage: PropTypes.func.isRequired,
+	newEvent: PropTypes.shape({
+		seasonIds: PropTypes.arrayOf(PropTypes.string),
+		teams: PropTypes.arrayOf(PropTypes.string),
+	}),
+	initializeNewEvent: PropTypes.func.isRequired,
 	push: PropTypes.func.isRequired,
-	seasonIds: PropTypes.arrayOf(PropTypes.string),
 	serverMessage: PropTypes.string,
 };
 
 const mapStateToProps = state => ({
 	serverMessage: state.server.message,
-	seasonIds: state.seasons.ids,
+	newEvent: state.events.newEvent,
 });
 
 const mapDispatchToProps = {
 	createEvent,
-	fetchSeasonsIds,
+	initializeNewEvent,
 	push,
-	hideServerMessage,
 };
 
 export default connect(

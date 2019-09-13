@@ -12,7 +12,8 @@ describe("Get All Events Controller", () => {
       events: expect.arrayContaining([
         expect.objectContaining({
           _id: expect.any(ObjectId),
-          league: expect.any(String),
+          team: expect.any(String),
+          opponent: expect.any(String),
           eventType: expect.any(String),
           location: expect.any(String),
           callTimes: expect.any(Array),

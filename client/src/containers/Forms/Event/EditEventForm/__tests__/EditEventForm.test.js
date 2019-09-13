@@ -1,16 +1,15 @@
-import moment from "moment";
 import { EditEventForm } from "../index";
 
 const id = "5d4e00bcf2d83c45a863e2bc";
 const fetchEvent = jest.fn();
-const hideServerMessage = jest.fn();
 const push = jest.fn();
 const updateEvent = jest.fn();
 
 const editEvent = {
 	_id: "5d4e00bcf2d83c45a863e2bc",
 	seasonIds: ["20002001", "20012002", "20022003"],
-	league: "NHL",
+	team: "San Jose Sharks",
+	opponent: "Anaheim Ducks",
 	eventType: "Game",
 	location: "SAP Center at San Jose",
 	callTimes: [
@@ -28,7 +27,6 @@ const editEvent = {
 const initProps = {
 	editEvent: {},
 	fetchEvent,
-	hideServerMessage,
 	match: {
 		params: {
 			id,
@@ -47,7 +45,6 @@ describe("New Event Form", () => {
 
 	afterEach(() => {
 		fetchEvent.mockClear();
-		hideServerMessage.mockClear();
 		updateEvent.mockClear();
 	});
 
@@ -55,15 +52,15 @@ describe("New Event Form", () => {
 		expect(wrapper.find("Card").exists()).toBeTruthy();
 	});
 
-	it("shows a Spinner when fetching seasonIds", () => {
-		expect(wrapper.find("Spinner").exists()).toBeTruthy();
+	it("shows a LoadingForm when fetching seasonIds", () => {
+		expect(wrapper.find("LoadingForm").exists()).toBeTruthy();
 	});
 
 	it("calls fetchEvent on mount", () => {
 		expect(fetchEvent).toHaveBeenCalledWith(id);
 	});
 
-	describe("Form Initializied", () => {
+	describe("Form Initialized", () => {
 		beforeEach(() => {
 			wrapper.setProps({ editEvent });
 			wrapper.update();
@@ -117,20 +114,19 @@ describe("New Event Form", () => {
 
 		describe("Form Submission", () => {
 			beforeEach(() => {
-				jest.useFakeTimers();
 				wrapper.find("form").simulate("submit");
-				jest.runOnlyPendingTimers();
 			});
 
-			it("successful validation calls updateEvent with fields", done => {
+			it("successful validation calls updateEvent with fields", () => {
 				expect(wrapper.state("isSubmitting")).toBeTruthy();
 				expect(updateEvent).toHaveBeenCalledWith({
 					_id: id,
 					seasonId: "20192020",
-					league: "NHL",
+					team: "San Jose Sharks",
+					opponent: "Anaheim Ducks",
 					eventType: "Game",
 					location: "SAP Center at San Jose",
-					eventDate: expect.any(moment),
+					eventDate: "2019-08-09T19:30:31-07:00",
 					uniform: "Sharks Teal Jersey",
 					notes: "",
 					callTimes: [
@@ -140,23 +136,13 @@ describe("New Event Form", () => {
 						"2019-08-11T19:00:33-07:00",
 					],
 				});
-				done();
 			});
 
-			it("on submission error, enables the form submit button", done => {
+			it("on submission error, enables the form submit button", () => {
 				wrapper.setProps({ serverMessage: "Example error message." });
 
 				expect(wrapper.state("isSubmitting")).toBeFalsy();
 				expect(wrapper.find("button[type='submit']").exists()).toBeTruthy();
-				done();
-			});
-
-			it("on form resubmission, if the serverMessage is still visible, it will hide the message", done => {
-				wrapper.setProps({ serverMessage: "Example error message." });
-
-				wrapper.find("form").simulate("submit");
-				expect(hideServerMessage).toHaveBeenCalledTimes(1);
-				done();
 			});
 		});
 	});

@@ -1,17 +1,17 @@
 import mailer from "@sendgrid/mail";
 import { sendError, createSignupToken, expirationDate } from "shared/helpers";
 import {
+  emailAlreadyTaken,
   emailAssociatedWithKey,
   invalidAuthTokenRequest,
   invalidDeleteTokenRequest,
-  invalidSeasonId,
   missingTokenId,
   missingUpdateTokenParams,
   unableToLocateToken,
   unableToUpdateToken,
 } from "shared/authErrors";
 import { newAuthorizationKeyTemplate } from "services/templates";
-import { Token, Season } from "models";
+import { Token, Season, User } from "models";
 
 const { CLIENT } = process.env;
 
@@ -29,11 +29,8 @@ const createMessage = (authorizedEmail, token, expiration) => {
 
 const createToken = async (req, res) => {
   try {
-    const { authorizedEmail, role, seasonId } = req.body;
-    if (!authorizedEmail || !role || !seasonId) throw invalidAuthTokenRequest;
-
-    const seasonExists = await Season.findOne({ seasonId });
-    if (!seasonExists) throw invalidSeasonId;
+    const { authorizedEmail, role } = req.body;
+    if (!authorizedEmail || !role) throw invalidAuthTokenRequest;
 
     const emailExists = await Token.findOne({ authorizedEmail });
     if (emailExists) throw emailAssociatedWithKey;
@@ -46,7 +43,6 @@ const createToken = async (req, res) => {
       expiration: expiration.toDate(),
       token,
       role,
-      seasonId,
     });
 
     const msg = createMessage(authorizedEmail, token, expiration);
@@ -73,7 +69,7 @@ const deleteToken = async (req, res) => {
     await Token.deleteOne({ _id });
 
     res
-      .status(201)
+      .status(200)
       .json({ message: "Successfully deleted the authorization key." });
   } catch (err) {
     return sendError(err, res);
@@ -108,14 +104,15 @@ const getToken = async (req, res) => {
 
 const updateToken = async (req, res) => {
   try {
-    const {
-      _id, authorizedEmail, role, seasonId,
-    } = req.body;
-    if (!_id || !authorizedEmail || !role || !seasonId) throw missingUpdateTokenParams;
+    const { _id, authorizedEmail, role } = req.body;
+    if (!_id || !authorizedEmail || !role) throw missingUpdateTokenParams;
 
     const existingToken = await Token.findOne({ _id });
     if (!existingToken) throw unableToLocateToken;
     if (existingToken.email) throw unableToUpdateToken;
+
+    const emailInUse = await User.findOne({ email: authorizedEmail });
+    if (emailInUse) throw emailAlreadyTaken;
 
     const token = createSignupToken();
     const expiration = expirationDate();
@@ -124,7 +121,6 @@ const updateToken = async (req, res) => {
       authorizedEmail,
       expiration,
       role,
-      seasonId,
       token,
     });
 
@@ -140,6 +136,4 @@ const updateToken = async (req, res) => {
   }
 };
 
-export {
-  createToken, deleteToken, getAllTokens, getToken, updateToken,
-};
+export { createToken, deleteToken, getAllTokens, getToken, updateToken };

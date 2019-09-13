@@ -1,10 +1,8 @@
 import { ResetPasswordForm } from "../index";
 
-const hideServerMessage = jest.fn();
 const resetPassword = jest.fn();
 
 const initProps = {
-	hideServerMessage,
 	history: {},
 	serverMessage: "",
 	resetPassword,
@@ -24,25 +22,20 @@ describe("Reset Password Form", () => {
 
 	it("if there are errors, it doesn't submit the form", () => {
 		submitForm();
-
-		expect(hideServerMessage).toHaveBeenCalledTimes(0);
 		expect(resetPassword).toHaveBeenCalledTimes(0);
 	});
 
 	describe("Form Submission", () => {
 		beforeEach(() => {
-			jest.useFakeTimers();
 			wrapper.find("input").simulate("change", {
 				target: { name: "email", value: "example@test.com" },
 			});
 
 			submitForm();
-			jest.runOnlyPendingTimers();
 		});
 
 		afterEach(() => {
 			resetPassword.mockClear();
-			hideServerMessage.mockClear();
 		});
 
 		it("submits the form after a successful validation", () => {
@@ -59,13 +52,6 @@ describe("Reset Password Form", () => {
 				wrapper.find("ResetPasswordForm").state("isSubmitting"),
 			).toBeFalsy();
 			expect(wrapper.find("button[type='submit']").exists()).toBeTruthy();
-		});
-
-		it("on form resubmission, if the serverMessage is still visible, it will hide the message", () => {
-			wrapper.setProps({ serverMessage: "Example error message." });
-
-			submitForm();
-			expect(hideServerMessage).toHaveBeenCalledTimes(1);
 		});
 	});
 });

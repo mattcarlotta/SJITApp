@@ -108,29 +108,4 @@ describe("Local Login Middleware", () => {
     expect(next).toHaveBeenCalledTimes(1);
     done();
   });
-
-  it("handles already loggedin sessions", async done => {
-    const validLogin = {
-      email: "member@example.com",
-      password: "password",
-    };
-
-    const session = {
-      user: {
-        id: "88",
-        email: "member@example.com",
-        firstName: "Member",
-        lastName: "Member",
-        role: "employee",
-      },
-    };
-
-    const req = mockRequest(null, session, validLogin);
-
-    await localLogin(req, res, next);
-
-    expect(res.status).toHaveBeenCalledWith(400);
-    expect(res.json).toHaveBeenCalledWith({ err: alreadyLoggedIn });
-    done();
-  });
 });

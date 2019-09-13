@@ -5,8 +5,8 @@ import {
   unableToCreateNewSeason,
 } from "shared/authErrors";
 
-const startDate = "2005-09-26T07:00:00.000+00:00";
-const endDate = "2006-06-12T07:00:00.000+00:00";
+const startDate = "2088-09-26T07:00:00.000+00:00";
+const endDate = "2089-06-12T07:00:00.000+00:00";
 
 describe("Create Season Controller", () => {
   let res;
@@ -55,7 +55,7 @@ describe("Create Season Controller", () => {
   });
 
   it("handles valid create season requests", async () => {
-    const seasonId = "20192020";
+    const seasonId = "20882089";
     const newSeason = {
       seasonId,
       seasonDuration: [startDate, endDate],
@@ -70,7 +70,6 @@ describe("Create Season Controller", () => {
       expect.objectContaining({
         __v: expect.any(Number),
         _id: expect.any(ObjectId),
-        members: expect.any(Array),
         seasonId,
         startDate: expect.any(Date),
         endDate: expect.any(Date),

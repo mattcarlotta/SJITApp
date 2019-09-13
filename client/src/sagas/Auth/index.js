@@ -2,7 +2,7 @@ import { push } from "connected-react-router";
 import { all, put, call, takeLatest } from "redux-saga/effects";
 import { app } from "utils";
 import { signin, signout } from "actions/Auth";
-import { setServerMessage } from "actions/Messages";
+import { hideServerMessage, setServerMessage } from "actions/Messages";
 import { parseData, parseMessage } from "utils/parseResponse";
 import * as types from "types";
 
@@ -41,6 +41,8 @@ export function* authenticateUser() {
  */
 export function* resetPassword({ props }) {
 	try {
+		yield put(hideServerMessage());
+
 		const res = yield call(app.put, "reset-password", { ...props });
 		const message = yield call(parseMessage, res);
 
@@ -70,6 +72,8 @@ export function* resetPassword({ props }) {
  */
 export function* signinUser({ props }) {
 	try {
+		yield put(hideServerMessage());
+
 		const res = yield call(app.post, "signin", { ...props });
 		const data = yield call(parseData, res);
 
@@ -114,6 +118,8 @@ export function* signoutUser() {
  */
 export function* signupUser({ props }) {
 	try {
+		yield put(hideServerMessage());
+
 		const res = yield call(app.post, "signup", { ...props });
 		const message = yield call(parseMessage, res);
 
@@ -144,6 +150,8 @@ export function* signupUser({ props }) {
  */
 export function* updateUserPassword({ props }) {
 	try {
+		yield put(hideServerMessage());
+
 		const res = yield call(app.put, "new-password", { ...props });
 		const message = yield call(parseMessage, res);
 

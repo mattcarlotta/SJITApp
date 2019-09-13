@@ -1,11 +1,18 @@
 import { ViewMemberProfile } from "../index";
 
 const fetchMember = jest.fn();
+const fetchMemberEvents = jest.fn();
+const hideServerMessage = jest.fn();
+const fetchScheduleEvents = jest.fn();
 const push = jest.fn();
 const updateMemberStatus = jest.fn();
 
 const initProps = {
+	eventResponses: [],
 	fetchMember,
+	fetchMemberEvents,
+	fetchScheduleEvents,
+	hideServerMessage,
 	match: {
 		params: {
 			id: "0123456789",
@@ -14,13 +21,13 @@ const initProps = {
 	push,
 	viewMember: {},
 	updateMemberStatus,
-	serverMessage: "",
+	serverMessage: "This is a server message.",
+	scheduleEvents: [],
 };
 
 const viewMember = {
 	_id: "0123456789",
 	email: "member@example.com",
-	events: [],
 	firstName: "Member",
 	lastName: "Member",
 	registered: "2019-07-26T16:56:40.518+00:00",
@@ -36,6 +43,7 @@ describe("View Member Profile", () => {
 	});
 
 	afterEach(() => {
+		hideServerMessage.mockClear();
 		push.mockClear();
 		fetchMember.mockClear();
 	});
@@ -48,26 +56,22 @@ describe("View Member Profile", () => {
 		expect(fetchMember).toHaveBeenCalledTimes(1);
 	});
 
+	it("initially calls hideServerMessage on mount if 'serverMessage' is present", () => {
+		expect(hideServerMessage).toHaveBeenCalledTimes(1);
+	});
+
+	it("doesn't call hideServerMessage on mount if 'serverMessage' is absent", () => {
+		hideServerMessage.mockClear();
+		wrapper.setProps({ serverMessage: "" });
+
+		wrapper.instance().componentDidMount();
+
+		expect(hideServerMessage).toHaveBeenCalledTimes(0);
+	});
+
 	it("renders 4 tabs when a member has been loaded", () => {
 		wrapper.setProps({ viewMember });
 
 		expect(wrapper.find("TabPane")).toHaveLength(4);
-	});
-
-	it("pushes back to the members table if viewMember is empty and a server message is visible", () => {
-		wrapper.setProps({
-			serverMessage: "Unable to locate that member.",
-		});
-
-		expect(push).toHaveBeenCalledWith("/employee/members/viewall");
-	});
-
-	it("doesn't push back to the members table if viewMember is present, but a server message is visible", () => {
-		wrapper.setProps({
-			viewMember,
-			serverMessage: "Unable to submit the form.",
-		});
-
-		expect(push).toHaveBeenCalledTimes(0);
 	});
 });

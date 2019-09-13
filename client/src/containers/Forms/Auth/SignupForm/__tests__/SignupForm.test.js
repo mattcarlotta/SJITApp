@@ -1,6 +1,5 @@
 import { SignupForm } from "../index";
 
-const hideServerMessage = jest.fn();
 const signupUser = jest.fn();
 const token =
 	"GHPtUGSNGwkA1VC4P2O$f05eBQT/HLDR6sdKz2.v8.KzmWn36KsEVCROrLaQzVH5";
@@ -52,7 +51,6 @@ const fields = [
 ];
 
 const initProps = {
-	hideServerMessage,
 	history: {
 		location: {
 			search: "",
@@ -92,14 +90,11 @@ describe("Signup Form", () => {
 	it("if there are errors, it doesn't submit the form", () => {
 		submitForm();
 
-		expect(hideServerMessage).toHaveBeenCalledTimes(0);
 		expect(signupUser).toHaveBeenCalledTimes(0);
 	});
 
 	describe("Form Submission", () => {
 		beforeEach(() => {
-			jest.useFakeTimers();
-
 			const values = [token, "test@example.com", "Bob", "Smith", "password123"];
 			fields.forEach(({ name }, idx) => {
 				wrapper
@@ -109,12 +104,10 @@ describe("Signup Form", () => {
 			});
 
 			submitForm();
-			jest.runOnlyPendingTimers();
 		});
 
 		afterEach(() => {
 			signupUser.mockClear();
-			hideServerMessage.mockClear();
 		});
 
 		it("submits the form after a successful validation", () => {
@@ -127,13 +120,6 @@ describe("Signup Form", () => {
 
 			expect(wrapper.find("SignupForm").state("isSubmitting")).toBeFalsy();
 			expect(wrapper.find("button[type='submit']").exists()).toBeTruthy();
-		});
-
-		it("on form resubmission, if the serverMessage is still visible, it will hide the message", () => {
-			wrapper.setProps({ serverMessage: "Example error message." });
-
-			submitForm();
-			expect(hideServerMessage).toHaveBeenCalledTimes(1);
 		});
 	});
 });

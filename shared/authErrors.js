@@ -10,11 +10,15 @@ const emailAssociatedWithKey = "That email is already associated with another au
 
 const emptyPassword = "You must supply a new password in order to reset the old. Please try again.";
 
+const expiredForm = expirationDate => `The window to view and update this form was closed after ${expirationDate}.`;
+
 const expiredToken = "The authorization key that was provided has expired. Please contact the staff supervisor to issue a new key.";
 
 const invalidAuthTokenRequest = "You must supply an email, a role, and a season before you can create an authorization key.";
 
-const invalidCreateEventRequest = "You must inclide all fields to create a new event.";
+const invalidCreateEventRequest = "You must include all required fields to create a new event.";
+
+const invalidEventDate = (seasonId, seasonStartDate, seasonEndDate) => `The event date selected below falls outside of the ${seasonId} season. Please select a date within ${seasonStartDate} - ${seasonEndDate} or update the season's start and end date range.`;
 
 const invalidDeleteTokenRequest = "Unable to delete the authorization key. The supplied authorization key does not exist.";
 
@@ -36,7 +40,9 @@ const invalidUpdateEventRequest = "You must inclide all fields to update an exis
 
 const missingEmailCreds = "That email is not associated with an active account. Please make sure the email address is spelled correctly.";
 
-const missingEventId = "You must provide am event id.";
+const missingEventId = "You must provide an event id.";
+
+const missingFormId = "You must provide a form id.";
 
 const missingMemberId = "You must provide a member id.";
 
@@ -56,33 +62,51 @@ const missingUpdateMemberStatusParams = "You must provide a member id and status
 
 const missingUpdateTokenParams = "You must supply a token id, an authorized email, a role, and a season id before you can update an existing authorization key.";
 
-const needToCreateSeasonFirst = "You must create a season first before you can start adding members.";
+const needToCreateSeasonFirst = "You must create a season before you can start adding events and forms.";
 
 const notUniquePassword = "Your new password must not match your current password. Please try again.";
 
-const seasonAlreadyExists = "That season already exists. Please edit the current season or choose different start and end dates.";
+const seasonAlreadyExists = "That season already exists. Please edit the current season or choose a different start and end dates.";
+
+const teamAlreadyExists = "That team already exists. Please edit the current team or use a different team name.";
 
 const tokenAlreadyUsed = "The supplied authorization key has already been used and is associated with an active account. Please contact the webmaster if this error continues: carlotta.matt@gmail.com.";
 
-const unableToCreateNewSeason = "Unable to create a new season. You must provide seasonId, startDate, and endDate fields.";
+const unableToCreateNewForm = "Unable to create a new form. You must provide the seasonId, startMonth, endMonth, and expirationDate fields.";
 
-const unableToDeleteEvent = "Unable to delete that event. It doesn't exist.";
+const unableToCreateNewSeason = "Unable to create a new season. You must provide the seasonId, startDate, and endDate fields.";
 
-const unableToDeleteSeason = "Unable to delete that season. It doesn't exist.";
+const unableToCreateTeam = "Unable to create a new team. You must provide the league and team name fields.";
 
-const unableToDeleteMember = "Unable to delete that member. It doesn't exist.";
+const unableToDeleteEvent = "Unable to delete that event. That event doesn't exist.";
 
-const unableToLocateEvent = "Unable to locate that event. It doesn't exist.";
+const unableToDeleteForm = "Unable to delete that form. That form doesn't exist.";
 
-const unableToLocateMember = "Unable to locate that member. It doesn't exist.";
+const unableToDeleteSeason = "Unable to delete that season. That season doesn't exist.";
 
-const unableToLocateSeason = "Unable to locate that season. It doesn't exist.";
+const unableToDeleteMember = "Unable to delete that member. That member doesn't exist.";
 
-const unableToLocateToken = "Unable to locate that token. It doesn't exist.";
+const unableToLocateEvent = "Unable to locate that event. That event doesn't exist.";
 
-const unableToUpdateSeason = "Unable to update the existing season. You must provide a model id, seasonId, startDate, and endDate.";
+const unableToLocateEvents = (startMonth, endMonth) => `Unable to locate any events. Make sure to create events between ${startMonth}-${endMonth} before trying again.`;
 
-const unableToUpdateToken = "Unable to update this authorization key. The key has already been used and is already associated with an active account.";
+const unableToLocateForm = "Unable to locate that form. That form doesn't exist.";
+
+const unableToLocateMember = "Unable to locate that member. That member doesn't exist.";
+
+const unableToLocateMembers = "Unable to locate any members. You need to create members before you can schedule any games.";
+
+const unableToLocateSeason = "Unable to locate that season. That season doesn't exist.";
+
+const unableToLocateToken = "Unable to locate that token. That authorization key doesn't exist.";
+
+const unableToUpdateApForm = "Unable to update the A/P form. You must provide a model id and all responses.";
+
+const unableToUpdateForm = "Unable to update the existing form. You must provide a model id, season id, start of month date, end of month date, and expiration date.";
+
+const unableToUpdateSeason = "Unable to update the existing season. You must provide a model id, season id, start date, and end date.";
+
+const unableToUpdateToken = "Unable to update this authorization key. The key has already been used and is associated with an active account.";
 
 export {
   alreadyLoggedIn,
@@ -91,11 +115,13 @@ export {
   emailAlreadyTaken,
   emailAssociatedWithKey,
   emptyPassword,
+  expiredForm,
   expiredToken,
   invalidAuthTokenRequest,
   invalidCreateEventRequest,
   invalidDeleteTokenRequest,
   invalidEmail,
+  invalidEventDate,
   invalidPassword,
   invalidSeason,
   invalidSeasonId,
@@ -105,6 +131,7 @@ export {
   invalidUpdateEventRequest,
   missingEmailCreds,
   missingEventId,
+  missingFormId,
   missingMemberId,
   missingPasswords,
   missingSeasonId,
@@ -117,15 +144,24 @@ export {
   needToCreateSeasonFirst,
   notUniquePassword,
   seasonAlreadyExists,
+  teamAlreadyExists,
   tokenAlreadyUsed,
+  unableToCreateNewForm,
   unableToCreateNewSeason,
+  unableToCreateTeam,
   unableToDeleteEvent,
+  unableToDeleteForm,
   unableToDeleteMember,
+  unableToLocateMembers,
   unableToDeleteSeason,
   unableToLocateEvent,
+  unableToLocateEvents,
+  unableToLocateForm,
   unableToLocateMember,
   unableToLocateSeason,
   unableToLocateToken,
+  unableToUpdateApForm,
+  unableToUpdateForm,
   unableToUpdateSeason,
   unableToUpdateToken,
 };

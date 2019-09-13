@@ -35,6 +35,8 @@ describe("Member Sagas", () => {
 
 			testSaga(sagas.createMember, { props })
 				.next()
+				.put(hideServerMessage())
+				.next()
 				.call(app.post, "token/create", { ...props })
 				.next(res)
 				.call(parseMessage, res)
@@ -180,12 +182,16 @@ describe("Member Sagas", () => {
 
 	describe("Fetch Profile", () => {
 		let data;
+		let data2;
 		beforeEach(() => {
 			data = { member: mocks.membersData };
+			data2 = { eventResponses: mocks.eventResponseData };
 		});
 
 		it("logical flow matches pattern for fetch member requests", () => {
 			const res = { data };
+			const res2 = { data2 };
+			const params = { params: { id: memberId } };
 
 			testSaga(sagas.fetchProfile, { memberId })
 				.next()
@@ -193,13 +199,18 @@ describe("Member Sagas", () => {
 				.next(res)
 				.call(parseData, res)
 				.next(res.data)
-				.put(actions.setMemberToReview(res.data))
+				.call(app.get, "member/events", params)
+				.next(res2)
+				.call(parseData, res2)
+				.next(res2.data2)
+				.put(actions.setMemberToReview({ ...res.data, ...res2.data2 }))
 				.next()
 				.isDone();
 		});
 
 		it("successfully fetches an existing member", async () => {
 			mockApp.onGet(`member/review/${memberId}`).reply(200, data);
+			mockApp.onGet("member/events").reply(200, data2);
 
 			return expectSaga(sagas.fetchProfile, { memberId })
 				.dispatch(actions.fetchMember)
@@ -208,8 +219,8 @@ describe("Member Sagas", () => {
 					data: [],
 					tokens: [],
 					editToken: {},
-					isLoading: false,
 					viewMember: mocks.membersData,
+					eventResponses: mocks.eventResponseData,
 				})
 				.run();
 		});
@@ -220,6 +231,63 @@ describe("Member Sagas", () => {
 
 			return expectSaga(sagas.fetchProfile, { memberId })
 				.dispatch(actions.fetchMember)
+				.withReducer(messageReducer)
+				.hasFinalState({
+					message: err,
+					show: true,
+					type: "error",
+				})
+				.run();
+		});
+	});
+
+	describe("Fetch Members Events", () => {
+		let data;
+		let params;
+		beforeEach(() => {
+			data = { eventResponses: mocks.eventResponseData };
+			params = {
+				memberid: "0123456789",
+				selectedDate: "2019-12-17T01:00:00-08:00",
+			};
+		});
+
+		it("logical flow matches pattern for fetch member events requests", () => {
+			const res = { data };
+
+			testSaga(sagas.fetchMemberEvents, { params })
+				.next()
+				.call(app.get, "member/events", { params })
+				.next(res)
+				.call(parseData, res)
+				.next(res.data)
+				.put(actions.setMemberEventsByDate(res.data))
+				.next()
+				.isDone();
+		});
+
+		it("successfully fetches member events for viewing", async () => {
+			mockApp.onGet("member/events").reply(200, data);
+
+			return expectSaga(sagas.fetchMemberEvents, { params })
+				.dispatch(actions.fetchMemberEvents)
+				.withReducer(memberReducer)
+				.hasFinalState({
+					data: [],
+					tokens: [],
+					editToken: {},
+					viewMember: {},
+					eventResponses: mocks.eventResponseData,
+				})
+				.run();
+		});
+
+		it("if API call fails, it displays a message", async () => {
+			const err = "Unable to fetch member events.";
+			mockApp.onGet("member/events").reply(404, { err });
+
+			return expectSaga(sagas.fetchMemberEvents, { params })
+				.dispatch(actions.fetchMemberEvents)
 				.withReducer(messageReducer)
 				.hasFinalState({
 					message: err,
@@ -261,7 +329,7 @@ describe("Member Sagas", () => {
 					tokens: [],
 					editToken: {},
 					viewMember: {},
-					isLoading: false,
+					eventResponses: [],
 				})
 				.run();
 		});
@@ -330,7 +398,7 @@ describe("Member Sagas", () => {
 					tokens: [],
 					editToken: { ...mocks.tokensData, seasonIds: mocks.seasonIds },
 					viewMember: {},
-					isLoading: false,
+					eventResponses: [],
 				})
 				.run();
 		});
@@ -382,7 +450,7 @@ describe("Member Sagas", () => {
 					tokens: mocks.tokensData,
 					editToken: {},
 					viewMember: {},
-					isLoading: false,
+					eventResponses: [],
 				})
 				.run();
 		});
@@ -415,6 +483,8 @@ describe("Member Sagas", () => {
 			const res = { data: { message } };
 
 			testSaga(sagas.updateMember, { props })
+				.next()
+				.put(hideServerMessage())
 				.next()
 				.call(app.put, "member/update", { ...props })
 				.next(res)
@@ -525,6 +595,8 @@ describe("Member Sagas", () => {
 			const res = { data: { message } };
 
 			testSaga(sagas.updateMemberToken, { props })
+				.next()
+				.put(hideServerMessage())
 				.next()
 				.call(app.put, "token/update", { ...props })
 				.next(res)

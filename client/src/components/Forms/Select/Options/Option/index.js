@@ -11,7 +11,7 @@ export default styled(Option)`
 	display: block;
 	word-break: break-all;
 	font-size: 18px;
-	padding: 8px 12px;
+	padding: 8px 22px;
 	width: 100%;
 	font-weight: normal;
 	-webkit-user-select: none;

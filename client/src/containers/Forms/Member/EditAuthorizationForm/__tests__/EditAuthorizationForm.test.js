@@ -1,13 +1,11 @@
 import { EditAuthorizationForm } from "../index";
 
 const fetchToken = jest.fn();
-const hideServerMessage = jest.fn();
 const push = jest.fn();
 const updateMemberToken = jest.fn();
 
 const initProps = {
 	fetchToken,
-	hideServerMessage,
 	match: {
 		params: {
 			id: "5d44a76ad49a24023e0af7dc",
@@ -23,8 +21,6 @@ const editToken = {
 	_id: "5d44a76ad49a24023e0af7dc",
 	authorizedEmail: "test@test.com",
 	role: "employee",
-	seasonId: "20002001",
-	seasonIds: ["20002001", "20012002", "20022003"],
 };
 
 describe("Edit Authorization Form", () => {
@@ -42,15 +38,15 @@ describe("Edit Authorization Form", () => {
 		expect(wrapper.find("Card").exists()).toBeTruthy();
 	});
 
-	it("shows a Spinner when fetching the token to edit", () => {
-		expect(wrapper.find("Spinner").exists()).toBeTruthy();
+	it("shows a LoadingForm when fetching the token to edit", () => {
+		expect(wrapper.find("LoadingForm").exists()).toBeTruthy();
 	});
 
 	it("calls fetchToken on mount", () => {
 		expect(fetchToken).toHaveBeenCalledTimes(1);
 	});
 
-	describe("Form Initializied", () => {
+	describe("Form Initialized", () => {
 		beforeEach(() => {
 			wrapper.setProps({ editToken });
 		});
@@ -60,20 +56,6 @@ describe("Edit Authorization Form", () => {
 				wrapper
 					.find("DisplayOption")
 					.first()
-					.props().value,
-			).toEqual(editToken.seasonId);
-
-			expect(
-				wrapper
-					.find("Select")
-					.first()
-					.props().selectOptions,
-			).toEqual(editToken.seasonIds);
-
-			expect(
-				wrapper
-					.find("DisplayOption")
-					.at(1)
 					.props().value,
 			).toEqual(editToken.role);
 			expect(wrapper.find("input").props().value).toEqual(
@@ -104,12 +86,10 @@ describe("Edit Authorization Form", () => {
 
 		describe("Form Submission", () => {
 			beforeEach(() => {
-				jest.useFakeTimers();
 				wrapper.find("form").simulate("submit");
-				jest.runOnlyPendingTimers();
 			});
 
-			it("successful validation calls updateMember with fields", done => {
+			it("successful validation calls updateMember with fields", () => {
 				expect(wrapper.state("isSubmitting")).toBeTruthy();
 				expect(updateMemberToken).toHaveBeenCalledWith({
 					_id: editToken._id,
@@ -117,23 +97,13 @@ describe("Edit Authorization Form", () => {
 					role: editToken.role,
 					seasonId: editToken.seasonId,
 				});
-				done();
 			});
 
-			it("on submission error, enables the form submit button", done => {
+			it("on submission error, enables the form submit button", () => {
 				wrapper.setProps({ serverMessage: "Example error message." });
 
 				expect(wrapper.state("isSubmitting")).toBeFalsy();
 				expect(wrapper.find("button[type='submit']").exists()).toBeTruthy();
-				done();
-			});
-
-			it("on form resubmission, if the serverMessage is still visible, it will hide the message", done => {
-				wrapper.setProps({ serverMessage: "Example error message." });
-
-				wrapper.find("form").simulate("submit");
-				expect(hideServerMessage).toHaveBeenCalledTimes(1);
-				done();
 			});
 		});
 	});

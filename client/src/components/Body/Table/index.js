@@ -1,15 +1,43 @@
 /* eslint-disable react/forbid-prop-types, react/jsx-boolean-value */
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
+import isEmpty from "lodash/isEmpty";
 import { Divider, Icon, Input, Popconfirm, Table, Tooltip } from "antd";
-import { FaEdit, FaSearch, FaTrash, FaSearchPlus } from "react-icons/fa";
+import {
+	FaEdit,
+	FaSearch,
+	FaTrash,
+	FaSearchPlus,
+	FaClipboardCheck,
+} from "react-icons/fa";
 import { GoStop } from "react-icons/go";
 import { Button, FlexCenter, LoadingTable } from "components/Body";
 
 class CustomTable extends Component {
+	state = {
+		isLoading: true,
+	};
+
+	static getDerivedStateFromProps = ({ data }, state) =>
+		state.isLoading && !isEmpty(data) ? { isLoading: false } : null;
+
 	componentDidMount = () => {
 		this.props.fetchData();
+		this.setTimer();
 	};
+
+	shouldComponentUpdate = (nextProps, nextState) =>
+		nextProps.data !== this.props.data ||
+		nextState.isLoading !== this.state.isLoading;
+
+	/* istanbul ignore next */
+	componentWillUnmount = () => clearTimeout(this.timeout);
+
+	clearTimer = () => {
+		this.setState({ isLoading: false }, () => clearTimeout(this.timeout));
+	};
+
+	setTimer = () => (this.timeout = setTimeout(this.clearTimer, 3000));
 
 	handleSearch = (_, confirm) => {
 		confirm();
@@ -84,6 +112,7 @@ class CustomTable extends Component {
 
 	createTableColumns = () => {
 		const {
+			assignLocation,
 			columns,
 			deleteAction,
 			editLocation,
@@ -101,6 +130,25 @@ class CustomTable extends Component {
 			key: "action",
 			render: (_, record) => (
 				<FlexCenter>
+					{assignLocation && (
+						<Fragment>
+							<Tooltip placement="top" title={<span>View & Assign</span>}>
+								<Button
+									primary
+									display="inline-block"
+									width="50px"
+									padding="3px 0 0 0"
+									marginRight="0px"
+									onClick={() =>
+										push(`/employee/${assignLocation}/assign/${record._id}`)
+									}
+								>
+									<FaClipboardCheck style={{ fontSize: 17 }} />
+								</Button>
+							</Tooltip>
+							<Divider type="vertical" />
+						</Fragment>
+					)}
 					{viewLocation && (
 						<Fragment>
 							<Tooltip placement="top" title={<span>View</span>}>
@@ -139,25 +187,27 @@ class CustomTable extends Component {
 							<Divider type="vertical" />
 						</Fragment>
 					)}
-					<Tooltip placement="top" title={<span>Delete</span>}>
-						<Popconfirm
-							placement="top"
-							title="Are you sure? This action is irreversible."
-							icon={<Icon component={GoStop} style={{ color: "red" }} />}
-							onConfirm={() => deleteAction(record._id)}
-						>
-							<Button
-								danger
-								display="inline-block"
-								width="50px"
-								padding="5px 0 1px 0"
-								marginRight="0px"
-								style={{ fontSize: "16px" }}
+					{deleteAction && (
+						<Tooltip placement="top" title={<span>Delete</span>}>
+							<Popconfirm
+								placement="top"
+								title="Are you sure? This action is irreversible."
+								icon={<Icon component={GoStop} style={{ color: "red" }} />}
+								onConfirm={() => deleteAction(record._id)}
 							>
-								<FaTrash />
-							</Button>
-						</Popconfirm>
-					</Tooltip>
+								<Button
+									danger
+									display="inline-block"
+									width="50px"
+									padding="5px 0 1px 0"
+									marginRight="0px"
+									style={{ fontSize: "16px" }}
+								>
+									<FaTrash />
+								</Button>
+							</Popconfirm>
+						</Tooltip>
+					)}
 				</FlexCenter>
 			),
 		});
@@ -166,7 +216,7 @@ class CustomTable extends Component {
 	};
 
 	render = () =>
-		this.props.isLoading ? (
+		this.state.isLoading ? (
 			<LoadingTable />
 		) : (
 			<Table
@@ -180,6 +230,7 @@ class CustomTable extends Component {
 }
 
 CustomTable.propTypes = {
+	assignLocation: PropTypes.string,
 	columns: PropTypes.arrayOf(
 		PropTypes.shape({
 			title: PropTypes.string.isRequired,
@@ -192,7 +243,6 @@ CustomTable.propTypes = {
 	deleteAction: PropTypes.func,
 	editLocation: PropTypes.string,
 	fetchData: PropTypes.func.isRequired,
-	isLoading: PropTypes.bool.isRequired,
 	push: PropTypes.func.isRequired,
 	viewLocation: PropTypes.string,
 };

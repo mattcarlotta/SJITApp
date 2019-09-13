@@ -1,5 +1,88 @@
 import moment from "moment";
 import random from "lodash/random";
+import { Types } from "mongoose";
+
+const { ObjectId } = Types;
+
+/**
+ * Helper function to generate a schedule based upon calltimes.
+ *
+ * @function createColumnSchedule
+ * @param event - an object containing event details
+ * @param members - an array of members
+ * @returns {array}
+ */
+const createColumnSchedule = ({ event, members }) => [
+  {
+    _id: "employees",
+    title: "Employees",
+    employeeIds: members.reduce((result, member) => {
+      const isScheduled = event.scheduledIds.some(id => member._id.equals(id));
+
+      return !isScheduled ? [...result, member._id] : result;
+    }, []),
+  },
+  ...event.schedule.map(({ _id, employeeIds }) => ({
+    _id,
+    title: moment(_id).format("hh:mm a"),
+    employeeIds,
+  })),
+];
+
+/**
+ * Helper function to generate a schedule based upon calltimes.
+ *
+ * @function createSchedule
+ * @param callTimes - an array of dates
+ * @returns {object}
+ */
+const createSchedule = callTimes => callTimes.map(time => ({
+  _id: time,
+  employeeIds: [],
+}));
+
+/**
+ * Helper function to generate a schedule based upon calltimes.
+ *
+ * @function createUserSchedule
+ * @param event - an object containing event details
+ * @param members - an array of members
+ * @returns {array}
+ */
+const createUserSchedule = ({ event, members }) => [
+  ...members.map(member => {
+    const eventResponse = event.employeeResponses.find(response => response._id.equals(member._id));
+
+    return {
+      ...member,
+      response: eventResponse ? eventResponse.response : "No response.",
+      notes: eventResponse ? eventResponse.notes : "",
+    };
+  }),
+];
+
+/**
+ * Helper function to convert stringified ids to objectids.
+ *
+ * @function updateScheduleIds
+ * @param schedule - an array of ids
+ * @returns {array}
+ */
+const updateScheduleIds = schedule => schedule.reduce(
+  (result, { employeeIds }) => [
+    ...result,
+    ...employeeIds.map(id => ObjectId(id)),
+  ],
+  [],
+);
+
+/**
+ * Helper function to generate a mongo ObjectId.
+ *
+ * @function convertId
+ * @returns {ObjectId}
+ */
+const convertId = id => ObjectId(id);
 
 /**
  * Helper function to generate a unique token.
@@ -27,6 +110,17 @@ const tokenGenerator = (str, tlen) => {
 const beginofMonth = () => moment().startOf("month");
 
 /**
+ * Helper function to clear the user session.
+ *
+ * @function
+ * @returns {response}
+ */
+const clearSession = res => res
+  .status(200)
+  .clearCookie("SJSITApp", { path: "/" })
+  .json({ role: "guest" });
+
+/**
  * Helper function to convert a Date to an ISO Date.
  *
  * @function
@@ -45,9 +139,9 @@ const createRandomToken = () => tokenGenerator(
  * Helper function to strip and convert template names to snaked lowercase name.
  *
  * @function
- * @returns {template}
+ * @returns {String}
  */
-const createUniqueTemplateName = name => name
+const createUniqueName = name => name
   .trim()
   .toLowerCase()
   .replace(/[^\w\s]/gi, "")
@@ -96,12 +190,18 @@ const sendError = (err, res) => res.status(400).json({ err: err.toString() });
 
 export {
   beginofMonth,
+  clearSession,
   convertDateToISO,
+  convertId,
   createRandomToken,
+  createColumnSchedule,
+  createSchedule,
+  createUserSchedule,
   createSignupToken,
-  createUniqueTemplateName,
+  createUniqueName,
   currentDate,
   endofMonth,
   expirationDate,
   sendError,
+  updateScheduleIds,
 };

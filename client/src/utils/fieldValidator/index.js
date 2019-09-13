@@ -30,6 +30,9 @@ export default fields => {
 
 				if (type === "range" && value.length < 2)
 					errors = "You must select a start and an end date.";
+
+				if (type === "radiogroup" && !value)
+					errors = "Please select an option above.";
 			}
 
 			if (errors) errorCount += 1;

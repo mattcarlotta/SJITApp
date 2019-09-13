@@ -6,23 +6,34 @@ import {
 } from "containers/Forms";
 import { ProtectedRoutes } from "../index";
 
+const signin = jest.fn();
+
+const authError =
+	"There was a problem with your login credentials. Please make sure your username and password are correct.";
+
 const initProps = {
 	firstName: "",
 	lastName: "",
 	location: {
 		pathname: "",
 	},
-	push: jest.fn(),
 	match: {
 		url: "/employee",
 	},
+	push: jest.fn(),
 	role: "",
+	serverMessage: "",
+	signin,
 };
 
 describe("Protected Routes Middleware", () => {
 	let wrapper;
 	beforeEach(() => {
 		wrapper = shallow(<ProtectedRoutes {...initProps} />);
+	});
+
+	afterEach(() => {
+		signin.mockClear();
 	});
 
 	it("renders the App if authenticated", () => {
@@ -33,6 +44,24 @@ describe("Protected Routes Middleware", () => {
 	describe("Unauthenticated Routing", () => {
 		it("initially renders 4 routes", () => {
 			expect(wrapper.find("Route")).toHaveLength(4);
+		});
+
+		it("logs the user out if an authError was returned from the API", () => {
+			wrapper.setProps({ serverMessage: authError });
+			expect(signin).toHaveBeenCalledTimes(1);
+		});
+
+		it("doesn't log the user out of the session if a different API message was set", () => {
+			wrapper.setProps({ serverMessage: "Successfully updated the form!" });
+			expect(signin).toHaveBeenCalledTimes(0);
+		});
+
+		it("doesn't log the user out of the session if the user role is a guest", () => {
+			wrapper.setProps({
+				serverMessage: "Successfully updated the form!",
+				role: "guest",
+			});
+			expect(signin).toHaveBeenCalledTimes(0);
 		});
 
 		it("routes to NewPasswordForm", () => {
@@ -64,41 +93,3 @@ describe("Protected Routes Middleware", () => {
 		});
 	});
 });
-
-// describe("Protected Routes", () => {
-// 	let wrapper;
-// 	beforeEach(() => {
-// 		wrapper = HOCWrap(ProtectedRoutes, initProps, null, ["/employee/login"]);
-// 	});
-
-// 	it("renders the App if authenticated", () => {
-// 		wrapper.setProps({
-// 			role: "member",
-// 			location: {
-// 				pathname: "/dashboard",
-// 			},
-// 		});
-// 		expect(wrapper.find("Layout")).toBeTruthy();
-// 	});
-
-// 	describe("Unauthenticated", () => {
-// 		it("initially renders the employee login", () => {
-// 			expect(wrapper.find("AppLoader").exists()).toBeTruthy();
-// 		});
-
-// 		it("allows a user to navigate to other routes: 'newpassword', 'resetpassword' and 'signup'", () => {
-// 			wrapper = HOCWrap(ProtectedRoutes, initProps, null, [
-// 				{ pathname: "/employee/newpassword/:id", search: "?token=123456" },
-// 			]);
-// 			expect(wrapper.find("NewPasswordForm").exists()).toBeTruthy();
-
-// 			wrapper = HOCWrap(ProtectedRoutes, initProps, null, [
-// 				"/employee/resetpassword",
-// 			]);
-// 			expect(wrapper.find("ResetPasswordForm").exists()).toBeTruthy();
-
-// 			wrapper = HOCWrap(ProtectedRoutes, initProps, null, ["/employee/signup"]);
-// 			expect(wrapper.find("SignupForm").exists()).toBeTruthy();
-// 		});
-// 	});
-// });

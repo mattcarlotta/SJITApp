@@ -1,6 +1,7 @@
+/* istanbul ignore file */
 import styled from "styled-components";
 
-const FlexCenter = styled.div`
+export default styled.div`
 	display: -webkit-box;
 	display: -moz-box;
 	display: -webkit-flex;
@@ -13,5 +14,3 @@ const FlexCenter = styled.div`
 	align-items: center;
 	width: 100%;
 `;
-
-export default FlexCenter;

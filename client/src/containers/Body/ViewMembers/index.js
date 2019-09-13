@@ -7,9 +7,9 @@ import { Card } from "antd";
 import { FaUserPlus } from "react-icons/fa";
 import {
 	Button,
-	DisplayDate,
 	DisplayStatus,
 	FlexEnd,
+	FormatDate,
 	Table,
 } from "components/Body";
 import { deleteMember, fetchMembers } from "actions/Members";
@@ -31,18 +31,11 @@ const columns = [
 		title: "Registered",
 		dataIndex: "registered",
 		key: "registered",
-		render: date => <DisplayDate date={date} />,
+		render: date => <FormatDate format="MM/DD/YYYY" date={date} />,
 	},
-	{ title: "Events (total)", dataIndex: "events", key: "events" },
 ];
 
-export const ViewMembers = ({
-	data,
-	deleteMember,
-	fetchMembers,
-	isLoading,
-	push,
-}) => (
+export const ViewMembers = ({ data, deleteMember, fetchMembers, push }) => (
 	<Fragment>
 		<Helmet title={title} />
 		<Card title={title}>
@@ -64,7 +57,6 @@ export const ViewMembers = ({
 				data={data}
 				deleteAction={deleteMember}
 				fetchData={fetchMembers}
-				isLoading={isLoading}
 				push={push}
 				viewLocation="members"
 			/>
@@ -82,17 +74,14 @@ ViewMembers.propTypes = {
 			email: PropTypes.string,
 			firstName: PropTypes.string,
 			lastName: PropTypes.string,
-			events: PropTypes.number,
 		}),
 	),
 	deleteMember: PropTypes.func,
 	fetchMembers: PropTypes.func.isRequired,
-	isLoading: PropTypes.bool.isRequired,
 	push: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
-	isLoading: state.members.isLoading,
 	data: state.members.data,
 });
 

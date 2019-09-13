@@ -1,5 +1,5 @@
 import isEmpty from "lodash/isEmpty";
-import { Season } from "models";
+import { Event, Form, Season } from "models";
 import { sendError } from "shared/helpers";
 import {
   missingSeasonId,
@@ -37,8 +37,10 @@ const deleteSeason = async (req, res) => {
     if (!existingSeason) throw unableToDeleteSeason;
 
     await existingSeason.deleteOne({ _id });
+    await Event.deleteMany({ seasonId: existingSeason.seasonId });
+    await Form.deleteMany({ seasonId: existingSeason.seasonId });
 
-    res.status(201).json({ message: "Successfully deleted the season." });
+    res.status(200).json({ message: "Successfully deleted the season." });
   } catch (err) {
     return sendError(err, res);
   }
@@ -48,7 +50,6 @@ const getAllSeasons = async (_, res) => {
   const seasons = await Season.aggregate([
     {
       $project: {
-        members: { $size: "$members" },
         seasonId: 1,
         startDate: 1,
         endDate: 1,
@@ -105,6 +106,8 @@ const updateSeason = async (req, res) => {
 
     const [startDate, endDate] = seasonDuration;
     await existingSeason.updateOne({ seasonId, startDate, endDate });
+    await Event.updateMany({ seasonId: existingSeason.seasonId }, { seasonId });
+    await Form.updateMany({ seasonId: existingSeason.seasonId }, { seasonId });
 
     res.status(201).json({ message: "Successfully updated the season." });
   } catch (err) {

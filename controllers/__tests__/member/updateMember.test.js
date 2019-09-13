@@ -61,7 +61,7 @@ describe("Update Member Controller", () => {
   });
 
   it("handles invalid email update member requests", async () => {
-    const existingMember = await findExistingMember("member6@example.com");
+    const existingMember = await findExistingMember("member9@example.com");
 
     const invalidMember = {
       _id: existingMember._id,
@@ -71,13 +71,27 @@ describe("Update Member Controller", () => {
       role: "employee",
     };
 
-    const req = mockRequest(null, null, invalidMember);
+    let req = mockRequest(null, null, invalidMember);
 
     await updateMember(req, res);
 
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith({
       err: emailAlreadyTaken,
+    });
+
+    const validMember = {
+      ...invalidMember,
+      email: "member33@gmail.com",
+    };
+
+    req = mockRequest(null, null, validMember);
+
+    await updateMember(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(201);
+    expect(res.json).toHaveBeenCalledWith({
+      message: "Successfully updated the member profile.",
     });
   });
 
@@ -86,7 +100,7 @@ describe("Update Member Controller", () => {
 
     const changedMember = {
       _id: existingMember._id,
-      email: "member88@example.com",
+      email: "member6@example.com",
       firstName: "Updated",
       lastName: "Member",
       role: "staff",
@@ -96,22 +110,19 @@ describe("Update Member Controller", () => {
 
     await updateMember(req, res);
 
-    const updatedMember = await User.findOne({ email: changedMember.email });
+    const updatedMember = await User.findOne(
+      { email: changedMember.email },
+      {
+        _id: 0, email: 1, firstName: 1, lastName: 1, role: 1,
+      },
+    ).lean();
 
-    expect(updatedMember).toEqual(
-      expect.objectContaining({
-        __v: expect.any(Number),
-        _id: expect.any(ObjectId),
-        email: updatedMember.email,
-        events: expect.any(Array),
-        firstName: updatedMember.firstName,
-        lastName: updatedMember.lastName,
-        registered: expect.any(Date),
-        role: updatedMember.role,
-        schedule: expect.any(Array),
-        status: expect.any(String),
-      }),
-    );
+    expect(updatedMember).toEqual({
+      email: updatedMember.email,
+      firstName: updatedMember.firstName,
+      lastName: updatedMember.lastName,
+      role: updatedMember.role,
+    });
 
     expect(res.status).toHaveBeenCalledWith(201);
     expect(res.json).toHaveBeenCalledWith({

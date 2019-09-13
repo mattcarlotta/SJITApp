@@ -38,13 +38,11 @@ describe("Employee App", () => {
 	});
 
 	it("handles sub menu opening during application load", () => {
-		expect(wrapper.find("App").state("openKeys")).toEqual([""]);
-		expect(wrapper.find("App").state("storedKeys")).toEqual([""]);
+		expect(wrapper.find("App").state("openKeys")).toEqual([]);
 		wrapper.unmount();
 
 		wrapper = HOCWrap(App, nextProps, null, ["/employee/forms/create"]);
 		expect(wrapper.find("App").state("openKeys")).toEqual(["forms"]);
-		expect(wrapper.find("App").state("storedKeys")).toEqual(["forms"]);
 	});
 
 	it("renders the SideMenu", () => {
@@ -60,7 +58,29 @@ describe("Employee App", () => {
 		expect(wrapper.find("AppRoutes").exists()).toBeTruthy();
 	});
 
-	it("handles submenu clicks", done => {
+	it("opens a submenu", () => {
+		wrapper
+			.find("App")
+			.instance()
+			.handleOpenMenuChange(["events"]);
+
+		jest.advanceTimersByTime(3000);
+		wrapper.update();
+
+		expect(wrapper.find("App").state("openKeys")).toEqual(["events"]);
+
+		wrapper
+			.find("App")
+			.instance()
+			.handleOpenMenuChange(["events", "forms"]);
+
+		jest.advanceTimersByTime(3000);
+		wrapper.update();
+
+		expect(wrapper.find("App").state("openKeys")).toEqual(["forms"]);
+	});
+
+	it("handles submenu clicks", () => {
 		wrapper
 			.find("App")
 			.instance()
@@ -69,7 +89,7 @@ describe("Employee App", () => {
 		jest.advanceTimersByTime(3000);
 		wrapper.update();
 
-		expect(wrapper.find("App").state("openKeys")).toEqual(["forms"]);
+		expect(wrapper.find("App").state("openKeys")).toEqual(["", "forms"]);
 		expect(wrapper.find("li.ant-menu-submenu-open").text()).toContain("forms");
 
 		wrapper
@@ -81,8 +101,7 @@ describe("Employee App", () => {
 		wrapper.update();
 
 		expect(wrapper.find("li.ant-menu-submenu-open").exists()).toBeFalsy();
-		expect(wrapper.find("App").state("openKeys")).toEqual([""]);
-		done();
+		expect(wrapper.find("App").state("openKeys")).toEqual([]);
 	});
 
 	it("handles tab clicks and closes any unneccessary sub menus", () => {
@@ -101,10 +120,10 @@ describe("Employee App", () => {
 			.instance()
 			.handleTabClick({ key: "schedule" });
 
-		expect(wrapper.find("App").state("openKeys")).toEqual([""]);
+		expect(wrapper.find("App").state("openKeys")).toEqual([]);
 	});
 
-	it("toggles sidebar menu", done => {
+	it("toggles sidebar menu", () => {
 		expect(
 			wrapper.find("aside.ant-layout-sider-collapsed").exists(),
 		).toBeFalsy();
@@ -118,15 +137,13 @@ describe("Employee App", () => {
 
 		wrapper.update();
 		expect(wrapper.find("App").state("isCollapsed")).toBeTruthy();
-		expect(wrapper.find("App").state("openKeys")).toEqual([""]);
+		expect(wrapper.find("App").state("openKeys")).toEqual([]);
 		expect(
 			wrapper.find("aside.ant-layout-sider-collapsed").exists(),
 		).toBeTruthy();
-
-		done();
 	});
 
-	it("stores the openTab when sidebar is collapsed and opened", done => {
+	it("stores the openTab when sidebar is collapsed and opened", () => {
 		wrapper
 			.find("App")
 			.instance()
@@ -135,8 +152,7 @@ describe("Employee App", () => {
 		jest.advanceTimersByTime(3000);
 
 		wrapper.update();
-		expect(wrapper.find("App").state("openKeys")).toEqual(["forms"]);
-		expect(wrapper.find("App").state("storedKeys")).toEqual(["forms"]);
+		expect(wrapper.find("App").state("openKeys")).toEqual(["", "forms"]);
 
 		wrapper
 			.find("App")
@@ -146,8 +162,7 @@ describe("Employee App", () => {
 		jest.advanceTimersByTime(3000);
 
 		wrapper.update();
-		expect(wrapper.find("App").state("openKeys")).toEqual([""]);
-		expect(wrapper.find("App").state("storedKeys")).toEqual(["forms"]);
+		expect(wrapper.find("App").state("openKeys")).toEqual([]);
 
 		wrapper
 			.find("App")
@@ -157,20 +172,17 @@ describe("Employee App", () => {
 		jest.advanceTimersByTime(3000);
 
 		wrapper.update();
-		expect(wrapper.find("App").state("openKeys")).toEqual(["forms"]);
-		expect(wrapper.find("App").state("storedKeys")).toEqual(["forms"]);
-
-		done();
+		expect(wrapper.find("App").state("openKeys")).toEqual([]);
 	});
 
-	it("updates the active tab", done => {
+	it("updates the active tab", () => {
 		expect(wrapper.find("li.ant-menu-item-selected").text()).toEqual(
 			"dashboard",
 		);
 
 		wrapper.setProps({
 			location: {
-				pathname: "/employee/schedule",
+				pathname: "/employee/forms/viewall",
 			},
 		});
 
@@ -178,10 +190,30 @@ describe("Employee App", () => {
 
 		wrapper.update();
 
-		expect(wrapper.find("App").state("selectedKey")).toContain("schedule");
+		expect(wrapper.find("App").state("openKeys")).toEqual(["forms"]);
+		expect(wrapper.find("App").state("selectedKey")).toContain("forms/viewall");
 		expect(wrapper.find("li.ant-menu-item-selected").text()).toEqual(
-			"schedule",
+			"View Forms",
 		);
-		done();
+
+		wrapper
+			.find("App")
+			.instance()
+			.toggleSideMenu();
+
+		wrapper.setProps({
+			location: {
+				pathname: "/employee/events/viewall",
+			},
+		});
+
+		jest.advanceTimersByTime(3000);
+
+		wrapper.update();
+
+		expect(wrapper.find("App").state("openKeys")).toEqual([]);
+		expect(wrapper.find("App").state("selectedKey")).toContain(
+			"events/viewall",
+		);
 	});
 });
