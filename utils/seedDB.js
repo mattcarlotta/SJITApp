@@ -1,6 +1,8 @@
 /* eslint-disable no-console */
 import { connectDatabase } from "database";
-import { Event, Form, User, Season, Team, Token } from "models";
+import {
+  Event, Form, User, Season, Team, Token,
+} from "models";
 import {
   createSchedule,
   createSignupToken,
@@ -424,6 +426,36 @@ const seedDB = async () => {
       schedule: createSchedule(newEventCallTimes6),
     };
 
+    const newEventCallTimes7 = ["2019-09-07T16:00:00-07:00"];
+
+    const newEvent7 = {
+      eventType: "Game",
+      location: "SAP Center at San Jose",
+      callTimes: newEventCallTimes7,
+      uniform: "Barracuda Jacket",
+      eventDate: "2019-09-07T16:30:36.000Z",
+      notes: "Star Wars night!",
+      opponent: "San Diego Gulls",
+      seasonId: "20192020",
+      team: "San Jose Barracuda",
+      schedule: createSchedule(newEventCallTimes7),
+    };
+
+    const newEventCallTimes8 = ["2019-09-08T16:00:00-07:00"];
+
+    const newEvent8 = {
+      eventType: "Game",
+      location: "SAP Center at San Jose",
+      callTimes: newEventCallTimes8,
+      uniform: "Barracuda Jacket",
+      eventDate: "2019-09-08T16:30:36.000Z",
+      notes: "Bring a dog!",
+      opponent: "San Diego Gulls",
+      seasonId: "20192020",
+      team: "San Jose Barracuda",
+      schedule: createSchedule(newEventCallTimes8),
+    };
+
     await Event.insertMany([
       newEvent,
       newEvent2,
@@ -431,6 +463,8 @@ const seedDB = async () => {
       newEvent4,
       newEvent5,
       newEvent6,
+      newEvent7,
+      newEvent8,
     ]);
 
     await Team.insertMany(teams);

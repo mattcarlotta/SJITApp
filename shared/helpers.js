@@ -7,15 +7,74 @@ const { ObjectId } = Types;
 /**
  * Helper function to generate a schedule based upon calltimes.
  *
+ * @function createColumnSchedule
+ * @param event - an object containing event details
+ * @param members - an array of members
+ * @returns {array}
+ */
+const createColumnSchedule = ({ event, members }) => [
+  {
+    _id: "employees",
+    title: "Employees",
+    employeeIds: members.reduce((result, member) => {
+      const isScheduled = event.scheduledIds.some(id => member._id.equals(id));
+
+      return !isScheduled ? [...result, member._id] : result;
+    }, []),
+  },
+  ...event.schedule.map(({ _id, employeeIds }) => ({
+    _id,
+    title: moment(_id).format("hh:mm a"),
+    employeeIds,
+  })),
+];
+
+/**
+ * Helper function to generate a schedule based upon calltimes.
+ *
  * @function createSchedule
+ * @param callTimes - an array of dates
  * @returns {object}
  */
-const createSchedule = callTimes => {
-  return callTimes.map(time => ({
-    _id: time,
-    employeeIds: [],
-  }));
-};
+const createSchedule = callTimes => callTimes.map(time => ({
+  _id: time,
+  employeeIds: [],
+}));
+
+/**
+ * Helper function to generate a schedule based upon calltimes.
+ *
+ * @function createUserSchedule
+ * @param event - an object containing event details
+ * @param members - an array of members
+ * @returns {array}
+ */
+const createUserSchedule = ({ event, members }) => [
+  ...members.map(member => {
+    const eventResponse = event.employeeResponses.find(response => response._id.equals(member._id));
+
+    return {
+      ...member,
+      response: eventResponse ? eventResponse.response : "No response.",
+      notes: eventResponse ? eventResponse.notes : "",
+    };
+  }),
+];
+
+/**
+ * Helper function to convert stringified ids to objectids.
+ *
+ * @function updateScheduleIds
+ * @param schedule - an array of ids
+ * @returns {array}
+ */
+const updateScheduleIds = schedule => schedule.reduce(
+  (result, { employeeIds }) => [
+    ...result,
+    ...employeeIds.map(id => ObjectId(id)),
+  ],
+  [],
+);
 
 /**
  * Helper function to generate a mongo ObjectId.
@@ -56,11 +115,10 @@ const beginofMonth = () => moment().startOf("month");
  * @function
  * @returns {response}
  */
-const clearSession = res =>
-  res
-    .status(200)
-    .clearCookie("SJSITApp", { path: "/" })
-    .json({ role: "guest" });
+const clearSession = res => res
+  .status(200)
+  .clearCookie("SJSITApp", { path: "/" })
+  .json({ role: "guest" });
 
 /**
  * Helper function to convert a Date to an ISO Date.
@@ -68,16 +126,14 @@ const clearSession = res =>
  * @function
  * @returns {Date}
  */
-const convertDateToISO = date =>
-  moment(date)
-    .utcOffset(-7)
-    .toISOString(true);
+const convertDateToISO = date => moment(date)
+  .utcOffset(-7)
+  .toISOString(true);
 
-const createRandomToken = () =>
-  tokenGenerator(
-    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$/.",
-    64,
-  );
+const createRandomToken = () => tokenGenerator(
+  "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$/.",
+  64,
+);
 
 /**
  * Helper function to strip and convert template names to snaked lowercase name.
@@ -85,12 +141,11 @@ const createRandomToken = () =>
  * @function
  * @returns {String}
  */
-const createUniqueName = name =>
-  name
-    .trim()
-    .toLowerCase()
-    .replace(/[^\w\s]/gi, "")
-    .replace(/ /g, "-");
+const createUniqueName = name => name
+  .trim()
+  .toLowerCase()
+  .replace(/[^\w\s]/gi, "")
+  .replace(/ /g, "-");
 
 /**
  * Helper function to get a current ISO Date.
@@ -98,16 +153,14 @@ const createUniqueName = name =>
  * @function
  * @returns {Date}
  */
-const currentDate = () =>
-  moment()
-    .utcOffset(-7)
-    .toISOString(true);
+const currentDate = () => moment()
+  .utcOffset(-7)
+  .toISOString(true);
 
-const createSignupToken = () =>
-  tokenGenerator(
-    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
-    32,
-  );
+const createSignupToken = () => tokenGenerator(
+  "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+  32,
+);
 
 /**
  * Helper function to get a end of current month date.
@@ -123,10 +176,9 @@ const endofMonth = () => moment().endOf("month");
  * @function
  * @returns {month}
  */
-const expirationDate = () =>
-  moment(Date.now())
-    .add(90, "days")
-    .endOf("day");
+const expirationDate = () => moment(Date.now())
+  .add(90, "days")
+  .endOf("day");
 
 /**
  * Helper function to send an error to the client.
@@ -142,11 +194,14 @@ export {
   convertDateToISO,
   convertId,
   createRandomToken,
+  createColumnSchedule,
   createSchedule,
+  createUserSchedule,
   createSignupToken,
   createUniqueName,
   currentDate,
   endofMonth,
   expirationDate,
   sendError,
+  updateScheduleIds,
 };

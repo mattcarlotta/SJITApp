@@ -1,4 +1,8 @@
-import { expiredForm, unableToLocateEvents } from "shared/authErrors";
+import {
+  expiredForm,
+  invalidEventDate,
+  unableToLocateEvents,
+} from "shared/authErrors";
 
 describe("Auth Errors", () => {
   it("displays an expired form message", () => {
@@ -6,6 +10,17 @@ describe("Auth Errors", () => {
     const message = expiredForm(expirationDate);
     expect(message).toEqual(
       `The window to view and update this form was closed after ${expirationDate}.`,
+    );
+  });
+
+  it("displays an invalid event date message", () => {
+    const seasonId = "201920200";
+    const seasonStartDate = "08/01/2019";
+    const seasonEndDate = "06/29/2020";
+    const message = invalidEventDate(seasonId, seasonStartDate, seasonEndDate);
+
+    expect(message).toEqual(
+      `The event date selected below falls outside of the ${seasonId} season. Please select a date within ${seasonStartDate} - ${seasonEndDate} or update the season's start and end date range.`,
     );
   });
 

@@ -1,15 +1,25 @@
 import moment from "moment";
 import isEmpty from "lodash/isEmpty";
-import { Event, User } from "models";
-import { sendError } from "shared/helpers";
+import { Event, Season, User } from "models";
+import {
+  sendError,
+  createColumnSchedule,
+  createUserSchedule,
+  convertId,
+  createSchedule,
+  updateScheduleIds,
+} from "shared/helpers";
 import {
   invalidCreateEventRequest,
+  invalidEventDate,
   invalidUpdateEventRequest,
   missingEventId,
   unableToDeleteEvent,
   unableToLocateEvent,
+  unableToLocateMembers,
+  unableToLocateSeason,
 } from "shared/authErrors";
-import { convertId, createSchedule } from "shared/helpers";
+
 
 const createEvent = async (req, res) => {
   try {
@@ -25,15 +35,29 @@ const createEvent = async (req, res) => {
       uniform,
     } = req.body;
     if (
-      !callTimes ||
-      !eventDate ||
-      !eventType ||
-      !location ||
-      !seasonId ||
-      !team ||
-      !uniform
-    )
-      throw invalidCreateEventRequest;
+      !callTimes
+      || !eventDate
+      || !eventType
+      || !location
+      || !seasonId
+      || !team
+      || !uniform
+    ) throw invalidCreateEventRequest;
+
+    const existingSeason = await Season.findOne({ seasonId });
+    if (!existingSeason) throw unableToLocateSeason;
+
+    const eventDateStartTime = moment(eventDate);
+    const seasonStart = moment(existingSeason.startDate);
+    const seasonEnd = moment(existingSeason.endDate);
+
+    if (eventDateStartTime < seasonStart || eventDateStartTime > seasonEnd) {
+      throw invalidEventDate(
+        seasonId,
+        seasonStart.format("L"),
+        seasonEnd.format("L"),
+      );
+    }
 
     await Event.create({
       callTimes,
@@ -128,45 +152,18 @@ const getEventForScheduling = async (req, res) => {
     const event = await Event.findOne({ _id }, { __v: 0 }).lean();
     if (!event) throw unableToLocateEvent;
 
+    /* istanbul ignore next */
     const members = await User.find(
       { role: { $nin: ["admin", "staff"] }, status: "active" },
       { _id: 1, firstName: 1, lastName: 1 },
     ).lean();
-    if (isEmpty(members)) throw "Unable to locate any members";
+    /* istanbul ignore next */
+    if (isEmpty(members)) throw unableToLocateMembers;
 
     const schedule = {
+      columns: createColumnSchedule({ event, members }),
       event,
-      users: [
-        ...members.map(member => {
-          const eventResponse = event.employeeResponses.find(response =>
-            response._id.equals(member._id),
-          );
-
-          return {
-            ...member,
-            response: eventResponse ? eventResponse.response : "No response.",
-            notes: eventResponse ? eventResponse.notes : "",
-          };
-        }),
-      ],
-      columns: [
-        {
-          _id: "employees",
-          title: "Employees",
-          employeeIds: members.reduce((result, member) => {
-            const isScheduled = event.scheduledIds.some(id =>
-              member._id.equals(id),
-            );
-
-            return !isScheduled ? [...result, member._id] : result;
-          }, []),
-        },
-        ...event.schedule.map(({ _id, employeeIds }) => ({
-          _id,
-          title: moment(_id).format("hh:mm a"),
-          employeeIds,
-        })),
-      ],
+      users: createUserSchedule({ event, members }),
     };
 
     res.status(200).json({ schedule });
@@ -178,6 +175,8 @@ const getEventForScheduling = async (req, res) => {
 const getScheduledEvents = async (req, res) => {
   try {
     const { id, selectedDate, selectedGames } = req.query;
+
+    const selected = !selectedGames ? "All Games" : selectedGames;
 
     /* istanbul ignore next */
     const currentDate = selectedDate || Date.now();
@@ -191,29 +190,30 @@ const getScheduledEvents = async (req, res) => {
       .endOf("month")
       .toDate();
 
-    const filters =
-      !selectedGames || selectedGames === "All Games"
-        ? {
-            eventDate: {
-              $gte: startMonth,
-              $lte: endMonth,
-            },
-          }
-        : {
-            eventDate: {
-              $gte: startMonth,
-              $lte: endMonth,
-            },
-            scheduledIds: {
-              $in: [convertId(selectedId)],
-            },
-          };
+    const filters = selected === "All Games"
+      ? {
+        eventDate: {
+          $gte: startMonth,
+          $lte: endMonth,
+        },
+      }
+      : {
+        eventDate: {
+          $gte: startMonth,
+          $lte: endMonth,
+        },
+        scheduledIds: {
+          $in: [convertId(selectedId)],
+        },
+      };
 
     const events = await Event.find(
       {
         ...filters,
       },
-      { seasonId: 0, callTimes: 0, employeeResponses: 0, __v: 0 },
+      {
+        seasonId: 0, callTimes: 0, employeeResponses: 0, __v: 0,
+      },
       { sort: { eventDate: 1 } },
     ).populate({
       path: "schedule.employeeIds",
@@ -222,6 +222,7 @@ const getScheduledEvents = async (req, res) => {
 
     res.status(200).json({ events });
   } catch (err) {
+    /* istanbul ignore next */
     return sendError(err, res);
   }
 };
@@ -241,16 +242,15 @@ const updateEvent = async (req, res) => {
       uniform,
     } = req.body;
     if (
-      !_id ||
-      !callTimes ||
-      !eventDate ||
-      !eventType ||
-      !location ||
-      !seasonId ||
-      !team ||
-      !uniform
-    )
-      throw invalidUpdateEventRequest;
+      !_id
+      || !callTimes
+      || !eventDate
+      || !eventType
+      || !location
+      || !seasonId
+      || !team
+      || !uniform
+    ) throw invalidUpdateEventRequest;
 
     const existingEvent = await Event.findOne({ _id });
     if (!existingEvent) throw unableToLocateEvent;
@@ -280,18 +280,12 @@ const updateEvent = async (req, res) => {
 const updateEventSchedule = async (req, res) => {
   try {
     const { _id, schedule } = req.body;
-    if (!_id || !schedule) throw invalidUpdateEventRequest;
+    if (!_id || isEmpty(schedule)) throw invalidUpdateEventRequest;
 
     const existingEvent = await Event.findOne({ _id });
     if (!existingEvent) throw unableToLocateEvent;
 
-    const scheduledIds = schedule.reduce(
-      (result, { employeeIds }) => [
-        ...result,
-        ...employeeIds.map(id => convertId(id)),
-      ],
-      [],
-    );
+    const scheduledIds = updateScheduleIds(schedule);
 
     await existingEvent.updateOne({
       $set: { schedule, scheduledIds },
