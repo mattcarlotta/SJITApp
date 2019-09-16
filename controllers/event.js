@@ -2,11 +2,14 @@ import moment from "moment";
 import isEmpty from "lodash/isEmpty";
 import { Event, Season, User } from "models";
 import {
-  sendError,
+  convertId,
   createColumnSchedule,
   createUserSchedule,
-  convertId,
   createSchedule,
+  currentDate,
+  endMonth,
+  sendError,
+  startMonth,
   updateScheduleIds,
 } from "shared/helpers";
 import {
@@ -19,7 +22,6 @@ import {
   unableToLocateMembers,
   unableToLocateSeason,
 } from "shared/authErrors";
-
 
 const createEvent = async (req, res) => {
   try {
@@ -178,29 +180,23 @@ const getScheduledEvents = async (req, res) => {
 
     const selected = !selectedGames ? "All Games" : selectedGames;
 
-    /* istanbul ignore next */
-    const currentDate = selectedDate || Date.now();
-
     const selectedId = id || req.session.user.id;
 
-    const startMonth = moment(currentDate)
-      .startOf("month")
-      .toDate();
-    const endMonth = moment(currentDate)
-      .endOf("month")
-      .toDate();
+    const date = currentDate(selectedDate);
+    const startOfMonth = startMonth(date);
+    const endOfMonth = endMonth(date);
 
     const filters = selected === "All Games"
       ? {
         eventDate: {
-          $gte: startMonth,
-          $lte: endMonth,
+          $gte: startOfMonth,
+          $lte: endOfMonth,
         },
       }
       : {
         eventDate: {
-          $gte: startMonth,
-          $lte: endMonth,
+          $gte: startOfMonth,
+          $lte: endOfMonth,
         },
         scheduledIds: {
           $in: [convertId(selectedId)],
@@ -212,7 +208,10 @@ const getScheduledEvents = async (req, res) => {
         ...filters,
       },
       {
-        seasonId: 0, callTimes: 0, employeeResponses: 0, __v: 0,
+        seasonId: 0,
+        callTimes: 0,
+        employeeResponses: 0,
+        __v: 0,
       },
       { sort: { eventDate: 1 } },
     ).populate({

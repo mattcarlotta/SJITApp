@@ -1,6 +1,12 @@
-import moment from "moment";
+import isEmpty from "lodash/isEmpty";
 import { Event, User } from "models";
-import { sendError } from "shared/helpers";
+import {
+  currentDate,
+  createMemberEventCount,
+  endMonth,
+  sendError,
+  startMonth,
+} from "shared/helpers";
 import {
   emailAlreadyTaken,
   missingMemberId,
@@ -8,6 +14,7 @@ import {
   missingUpdateMemberStatusParams,
   unableToDeleteMember,
   unableToLocateMember,
+  unableToLocateMembers,
 } from "shared/authErrors";
 
 const deleteMember = async (req, res) => {
@@ -62,6 +69,86 @@ const getMember = async (req, res) => {
   }
 };
 
+const getMemberEventCount = async (req, res) => {
+  try {
+    const { id: _id, selectedDate } = req.query;
+    if (!_id) throw missingMemberId;
+
+    const existingMember = await User.findOne({ _id }, { _id: 1 });
+    if (!existingMember) throw unableToLocateMember;
+
+    const date = currentDate(selectedDate);
+    const startOfMonth = startMonth(date);
+    const endOfMonth = endMonth(date);
+
+    const eventCount = await Event.countDocuments({
+      eventDate: {
+        $gte: startOfMonth,
+        $lte: endOfMonth,
+      },
+      scheduledIds: {
+        $in: [existingMember._id],
+      },
+    });
+
+    res.status(200).json({ eventCount });
+  } catch (err) {
+    return sendError(err, res);
+  }
+};
+
+const getMemberEventCounts = async (req, res) => {
+  try {
+    const { selectedDate } = req.query;
+
+    /* istanbul ignore next */
+    const members = await User.find(
+      { role: { $nin: ["admin", "staff"] }, status: "active" },
+      { _id: 1, firstName: 1, lastName: 1 },
+    )
+      .sort({ lastName: 1 })
+      .lean();
+    /* istanbul ignore next */
+    if (isEmpty(members)) throw unableToLocateMembers;
+
+    const date = currentDate(selectedDate);
+    const startOfMonth = startMonth(date);
+    const endOfMonth = endMonth(date);
+
+    const memberEventCounts = await Event.aggregate([
+      {
+        $match: {
+          eventDate: {
+            $gte: startOfMonth,
+            $lte: endOfMonth,
+          },
+        },
+      },
+      {
+        $unwind: {
+          path: "$scheduledIds",
+          preserveNullAndEmptyArrays: false,
+        },
+      },
+      {
+        $group: {
+          _id: "$scheduledIds",
+          eventCount: { $sum: 1 },
+        },
+      },
+    ]);
+
+    const populatedMemberCounts = createMemberEventCount({
+      members,
+      memberEventCounts,
+    });
+
+    res.status(200).json({ members: populatedMemberCounts });
+  } catch (err) {
+    return sendError(err, res);
+  }
+};
+
 const getMemberEvents = async (req, res) => {
   try {
     const { id: _id, selectedDate } = req.query;
@@ -73,22 +160,16 @@ const getMemberEvents = async (req, res) => {
     );
     if (!existingMember) throw unableToLocateMember;
 
-    /* istanbul ignore next */
-    const currentDate = selectedDate || Date.now();
-
-    const startMonth = moment(currentDate)
-      .startOf("month")
-      .toDate();
-    const endMonth = moment(currentDate)
-      .endOf("month")
-      .toDate();
+    const date = currentDate(selectedDate);
+    const startOfMonth = startMonth(date);
+    const endOfMonth = endMonth(date);
 
     const events = await Event.aggregate([
       {
         $match: {
           eventDate: {
-            $gte: startMonth,
-            $lte: endMonth,
+            $gte: startOfMonth,
+            $lte: endOfMonth,
           },
         },
       },
@@ -124,9 +205,10 @@ const getMemberEvents = async (req, res) => {
 
 const updateMember = async (req, res) => {
   try {
-    const { _id, email, firstName, lastName, role } = req.body;
-    if (!_id || !email || !firstName || !lastName || !role)
-      throw missingUpdateMemberParams;
+    const {
+      _id, email, firstName, lastName, role,
+    } = req.body;
+    if (!_id || !email || !firstName || !lastName || !role) throw missingUpdateMemberParams;
 
     const existingMember = await User.findOne({ _id });
     if (!existingMember) throw unableToLocateMember;
@@ -175,6 +257,8 @@ export {
   deleteMember,
   getAllMembers,
   getMember,
+  getMemberEventCount,
+  getMemberEventCounts,
   getMemberEvents,
   updateMember,
   updateMemberStatus,

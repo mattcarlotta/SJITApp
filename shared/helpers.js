@@ -1,8 +1,40 @@
+import isEmpty from "lodash/isEmpty";
 import moment from "moment";
 import random from "lodash/random";
 import { Types } from "mongoose";
 
 const { ObjectId } = Types;
+
+/**
+ * Helper function to generate a start of month based upon date.
+ *
+ * @function startMonth
+ * @param date
+ * @returns {Date}
+ */
+const startMonth = date => moment(date)
+  .startOf("month")
+  .toDate();
+
+/**
+ * Helper function to generate a end of month based upon date.
+ *
+ * @function endMonth
+ * @param date
+ * @returns {Date}
+ */
+const endMonth = date => moment(date)
+  .endOf("month")
+  .toDate();
+
+/**
+ * Helper function to generate a current date.
+ *
+ * @function currentDate
+ * @param date
+ * @returns {Date}
+ */
+const currentDate = date => date || Date.now();
 
 /**
  * Helper function to generate a schedule based upon calltimes.
@@ -60,6 +92,24 @@ const createUserSchedule = ({ event, members }) => [
     };
   }),
 ];
+
+/**
+ * Helper function to generate a user event count based upon their scheduled events.
+ *
+ * @function createMemberEventCount
+ * @param members - an array of members
+ * @param memberEventCounts - an array of members and their eventCount
+ * @returns {array}
+ */
+const createMemberEventCount = ({ members, memberEventCounts }) => members.map(member => {
+  const hasEventCount = !isEmpty(memberEventCounts)
+      && memberEventCounts.find(doc => doc._id.equals(member._id));
+
+  return {
+    ...member,
+    eventCount: hasEventCount ? hasEventCount.eventCount : 0,
+  };
+});
 
 /**
  * Helper function to convert stringified ids to objectids.
@@ -147,16 +197,6 @@ const createUniqueName = name => name
   .replace(/[^\w\s]/gi, "")
   .replace(/ /g, "-");
 
-/**
- * Helper function to get a current ISO Date.
- *
- * @function
- * @returns {Date}
- */
-const currentDate = () => moment()
-  .utcOffset(-7)
-  .toISOString(true);
-
 const createSignupToken = () => tokenGenerator(
   "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
   32,
@@ -193,15 +233,18 @@ export {
   clearSession,
   convertDateToISO,
   convertId,
-  createRandomToken,
   createColumnSchedule,
+  createMemberEventCount,
+  createRandomToken,
   createSchedule,
   createUserSchedule,
   createSignupToken,
   createUniqueName,
   currentDate,
+  endMonth,
   endofMonth,
   expirationDate,
   sendError,
+  startMonth,
   updateScheduleIds,
 };
