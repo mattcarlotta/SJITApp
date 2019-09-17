@@ -8,22 +8,22 @@ const { ObjectId } = Types;
 /**
  * Helper function to generate a start of month based upon date.
  *
- * @function startMonth
+ * @function startofMonth
  * @param date
  * @returns {Date}
  */
-const startMonth = date => moment(date)
+const startofMonth = date => moment(date)
   .startOf("month")
   .toDate();
 
 /**
  * Helper function to generate a end of month based upon date.
  *
- * @function endMonth
+ * @function endofMonth
  * @param date
  * @returns {Date}
  */
-const endMonth = date => moment(date)
+const endofMonth = date => moment(date)
   .endOf("month")
   .toDate();
 
@@ -110,6 +110,30 @@ const createMemberEventCount = ({ members, memberEventCounts }) => members.map(m
     eventCount: hasEventCount ? hasEventCount.eventCount : 0,
   };
 });
+
+/**
+ * Helper function to generate a user event count based upon their scheduled events.
+ *
+ * @function createMemberResponseCounts
+ * @param employeeEventResponses - an array of responses
+ * @param eventCount - number events in month
+ * @returns {array}
+ */
+const responseTypes = [
+  "I want to work.",
+  "Available to work.",
+  "Prefer not to work.",
+  "Not available to work.",
+  "No response.",
+];
+
+const createMemberResponseCounts = employeeEventResponses => employeeEventResponses.map(({ responses }) => (!responses
+  ? null
+  : responseTypes.reduce((acc, rspType) => {
+    const count = responses.filter(rsp => rsp === rspType).length;
+
+    return [...acc, { id: rspType, count }];
+  }, [])));
 
 /**
  * Helper function to convert stringified ids to objectids.
@@ -203,14 +227,6 @@ const createSignupToken = () => tokenGenerator(
 );
 
 /**
- * Helper function to get a end of current month date.
- *
- * @function
- * @returns {month}
- */
-const endofMonth = () => moment().endOf("month");
-
-/**
  * Helper function to get 90 days date from current date.
  *
  * @function
@@ -219,6 +235,21 @@ const endofMonth = () => moment().endOf("month");
 const expirationDate = () => moment(Date.now())
   .add(90, "days")
   .endOf("day");
+
+/**
+ * Helper function to generate a date range.
+ *
+ * @function getMonthDateRange
+ * @param date
+ * @returns {object}
+ */
+const getMonthDateRange = date => {
+  const newDate = currentDate(date);
+  const startOfMonth = startofMonth(newDate);
+  const endOfMonth = endofMonth(newDate);
+
+  return { startOfMonth, endOfMonth };
+};
 
 /**
  * Helper function to send an error to the client.
@@ -235,16 +266,14 @@ export {
   convertId,
   createColumnSchedule,
   createMemberEventCount,
+  createMemberResponseCounts,
   createRandomToken,
   createSchedule,
   createUserSchedule,
   createSignupToken,
   createUniqueName,
-  currentDate,
-  endMonth,
-  endofMonth,
   expirationDate,
+  getMonthDateRange,
   sendError,
-  startMonth,
   updateScheduleIds,
 };

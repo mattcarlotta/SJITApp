@@ -6,10 +6,8 @@ import {
   createColumnSchedule,
   createUserSchedule,
   createSchedule,
-  currentDate,
-  endMonth,
+  getMonthDateRange,
   sendError,
-  startMonth,
   updateScheduleIds,
 } from "shared/helpers";
 import {
@@ -162,13 +160,13 @@ const getEventForScheduling = async (req, res) => {
     /* istanbul ignore next */
     if (isEmpty(members)) throw unableToLocateMembers;
 
-    const schedule = {
-      columns: createColumnSchedule({ event, members }),
-      event,
-      users: createUserSchedule({ event, members }),
-    };
-
-    res.status(200).json({ schedule });
+    res.status(200).json({
+      schedule: {
+        columns: createColumnSchedule({ event, members }),
+        event,
+        users: createUserSchedule({ event, members }),
+      },
+    });
   } catch (err) {
     return sendError(err, res);
   }
@@ -182,9 +180,7 @@ const getScheduledEvents = async (req, res) => {
 
     const selectedId = id || req.session.user.id;
 
-    const date = currentDate(selectedDate);
-    const startOfMonth = startMonth(date);
-    const endOfMonth = endMonth(date);
+    const { startOfMonth, endOfMonth } = getMonthDateRange(selectedDate);
 
     const filters = selected === "All Games"
       ? {

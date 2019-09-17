@@ -4,6 +4,7 @@ import {
   getMember,
   getMemberEventCount,
   getMemberEventCounts,
+  getMemberEventResponseCounts,
   getMemberEvents,
   updateMember,
   updateMemberStatus,
@@ -16,6 +17,11 @@ export default app => {
   app.get("/api/member/review/:id", requireStaffRole, getMember);
   app.get("/api/member/eventcount", requireStaffRole, getMemberEventCount);
   app.get("/api/members/eventcounts", requireStaffRole, getMemberEventCounts);
+  app.get(
+    "/api/members/eventresponses",
+    requireStaffRole,
+    getMemberEventResponseCounts,
+  );
   app.get("/api/member/events", requireStaffRole, getMemberEvents);
   app.put("/api/member/update", requireStaffRole, updateMember);
   app.put("/api/member/updatestatus", requireStaffRole, updateMemberStatus);
