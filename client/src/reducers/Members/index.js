@@ -39,6 +39,7 @@ const memberReducer = (state = initialState, { payload, type }) => {
 				...state,
 				viewMember: payload.member,
 				eventResponses: payload.eventResponses,
+				memberAvailiability: payload.memberAvailiability,
 			};
 		}
 		default: {

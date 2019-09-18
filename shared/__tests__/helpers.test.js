@@ -1,7 +1,6 @@
 import moment from "moment";
 import { User } from "models";
 import {
-  beginofMonth,
   clearSession,
   convertDateToISO,
   createColumnSchedule,
@@ -10,7 +9,6 @@ import {
   createUniqueName,
   createUserSchedule,
   currentDate,
-  endofMonth,
   sendError,
 } from "shared/helpers";
 
@@ -22,10 +20,6 @@ describe("Helpers", () => {
 
   afterAll(async () => {
     await db.close();
-  });
-
-  it("returns a beginning of month Date object", () => {
-    expect(beginofMonth("july")).toEqual(expect.any(Object));
   });
 
   it("clears the session", () => {
@@ -156,10 +150,6 @@ describe("Helpers", () => {
 
   it("creates a current Date string", () => {
     expect(currentDate()).toEqual(expect.any(String));
-  });
-
-  it("returns a end of month Date object", () => {
-    expect(endofMonth("july")).toEqual(expect.any(Object));
   });
 
   it("sends an error to the client", () => {

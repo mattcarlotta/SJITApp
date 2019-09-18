@@ -5,36 +5,42 @@ import { Types } from "mongoose";
 
 const { ObjectId } = Types;
 
-/**
- * Helper function to generate a start of month based upon date.
- *
- * @function startofMonth
- * @param date
- * @returns {Date}
- */
-const startofMonth = date => moment(date)
-  .startOf("month")
-  .toDate();
+const responseTypes = [
+  "I want to work.",
+  "Available to work.",
+  "Prefer not to work.",
+  "Not available to work.",
+  "No response.",
+];
 
 /**
- * Helper function to generate a end of month based upon date.
+ * Helper function to generate a unique token.
  *
- * @function endofMonth
- * @param date
- * @returns {Date}
+ * @function
+ * @returns {token}
  */
-const endofMonth = date => moment(date)
-  .endOf("month")
-  .toDate();
+const tokenGenerator = (str, tlen) => {
+  const arr = [...str];
+  const max = arr.length - 1;
+  let token = "";
+  for (let i = 0; i < tlen; i += 1) {
+    const int = random(max);
+    token += arr[int];
+  }
+  return token;
+};
 
 /**
- * Helper function to generate a current date.
+ * Helper function to clear the user session.
  *
- * @function currentDate
- * @param date
- * @returns {Date}
+ * @function
+ * @returns {response}
  */
-const currentDate = date => date || Date.now();
+const clearSession = res =>
+  res
+    .status(200)
+    .clearCookie("SJSITApp", { path: "/" })
+    .json({ role: "guest" });
 
 /**
  * Helper function to generate a schedule based upon calltimes.
@@ -62,16 +68,88 @@ const createColumnSchedule = ({ event, members }) => [
 ];
 
 /**
+ * Helper function to generate an average member availability.
+ *
+ * @function createMemberAvailability
+ * @param employeeEventResponses - an array of responses
+ * @returns {Number}
+ */
+const createMemberAvailability = employeeEventResponses => {
+  const availableResponseTypes = Array.from(responseTypes).splice(0, 2);
+  return employeeEventResponses.reduce((acc, { responses }) => {
+    if (responses) {
+      availableResponseTypes.forEach(rspType => {
+        acc += responses.filter(rsp => rsp === rspType).length;
+      });
+    }
+    return acc;
+  }, 0);
+};
+
+/**
+ * Helper function to generate a user event count based upon their scheduled events.
+ *
+ * @function createMemberEventCount
+ * @param members - an array of members
+ * @param memberEventCounts - an array of members and their eventCount
+ * @returns {array}
+ */
+const createMemberEventCount = ({ members, memberEventCounts }) =>
+  members.map(member => {
+    const hasEventCount =
+      !isEmpty(memberEventCounts) &&
+      memberEventCounts.find(doc => doc._id.equals(member._id));
+
+    return {
+      ...member,
+      eventCount: hasEventCount ? hasEventCount.eventCount : 0,
+    };
+  });
+
+/**
+ * Helper function to generate a user event count based upon their scheduled events.
+ *
+ * @function createMemberResponseCount
+ * @param employeeEventResponses - an array of responses
+ * @returns {array}
+ */
+const createMemberResponseCount = employeeEventResponses =>
+  employeeEventResponses.reduce((acc, { responses }) => {
+    if (responses) {
+      responseTypes.forEach(rspType => {
+        acc.push({
+          name: rspType,
+          value: responses.filter(rsp => rsp === rspType).length,
+        });
+      });
+    }
+    return acc;
+  }, []);
+
+/**
+ * Helper function to create a 64 length random string.
+ *
+ * @function createRandomToken
+ * @returns {String}
+ */
+const createRandomToken = () =>
+  tokenGenerator(
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$/.",
+    64,
+  );
+
+/**
  * Helper function to generate a schedule based upon calltimes.
  *
  * @function createSchedule
  * @param callTimes - an array of dates
  * @returns {object}
  */
-const createSchedule = callTimes => callTimes.map(time => ({
-  _id: time,
-  employeeIds: [],
-}));
+const createSchedule = callTimes =>
+  callTimes.map(time => ({
+    _id: time,
+    employeeIds: [],
+  }));
 
 /**
  * Helper function to generate a schedule based upon calltimes.
@@ -83,7 +161,9 @@ const createSchedule = callTimes => callTimes.map(time => ({
  */
 const createUserSchedule = ({ event, members }) => [
   ...members.map(member => {
-    const eventResponse = event.employeeResponses.find(response => response._id.equals(member._id));
+    const eventResponse = event.employeeResponses.find(response =>
+      response._id.equals(member._id),
+    );
 
     return {
       ...member,
@@ -94,61 +174,15 @@ const createUserSchedule = ({ event, members }) => [
 ];
 
 /**
- * Helper function to generate a user event count based upon their scheduled events.
+ * Helper function to convert a Date to an ISO Date.
  *
- * @function createMemberEventCount
- * @param members - an array of members
- * @param memberEventCounts - an array of members and their eventCount
- * @returns {array}
+ * @function
+ * @returns {Date}
  */
-const createMemberEventCount = ({ members, memberEventCounts }) => members.map(member => {
-  const hasEventCount = !isEmpty(memberEventCounts)
-      && memberEventCounts.find(doc => doc._id.equals(member._id));
-
-  return {
-    ...member,
-    eventCount: hasEventCount ? hasEventCount.eventCount : 0,
-  };
-});
-
-/**
- * Helper function to generate a user event count based upon their scheduled events.
- *
- * @function createMemberResponseCounts
- * @param employeeEventResponses - an array of responses
- * @param eventCount - number events in month
- * @returns {array}
- */
-const responseTypes = [
-  "I want to work.",
-  "Available to work.",
-  "Prefer not to work.",
-  "Not available to work.",
-  "No response.",
-];
-
-const createMemberResponseCounts = employeeEventResponses => employeeEventResponses.map(({ responses }) => (!responses
-  ? null
-  : responseTypes.reduce((acc, rspType) => {
-    const count = responses.filter(rsp => rsp === rspType).length;
-
-    return [...acc, { id: rspType, count }];
-  }, [])));
-
-/**
- * Helper function to convert stringified ids to objectids.
- *
- * @function updateScheduleIds
- * @param schedule - an array of ids
- * @returns {array}
- */
-const updateScheduleIds = schedule => schedule.reduce(
-  (result, { employeeIds }) => [
-    ...result,
-    ...employeeIds.map(id => ObjectId(id)),
-  ],
-  [],
-);
+const convertDateToISO = date =>
+  moment(date)
+    .utcOffset(-7)
+    .toISOString(true);
 
 /**
  * Helper function to generate a mongo ObjectId.
@@ -159,72 +193,29 @@ const updateScheduleIds = schedule => schedule.reduce(
 const convertId = id => ObjectId(id);
 
 /**
- * Helper function to generate a unique token.
- *
- * @function
- * @returns {token}
- */
-const tokenGenerator = (str, tlen) => {
-  const arr = [...str];
-  const max = arr.length - 1;
-  let token = "";
-  for (let i = 0; i < tlen; i += 1) {
-    const int = random(max);
-    token += arr[int];
-  }
-  return token;
-};
-
-/**
- * Helper function to get a beginning current month date.
- *
- * @function
- * @returns {month}
- */
-const beginofMonth = () => moment().startOf("month");
-
-/**
- * Helper function to clear the user session.
- *
- * @function
- * @returns {response}
- */
-const clearSession = res => res
-  .status(200)
-  .clearCookie("SJSITApp", { path: "/" })
-  .json({ role: "guest" });
-
-/**
- * Helper function to convert a Date to an ISO Date.
- *
- * @function
- * @returns {Date}
- */
-const convertDateToISO = date => moment(date)
-  .utcOffset(-7)
-  .toISOString(true);
-
-const createRandomToken = () => tokenGenerator(
-  "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$/.",
-  64,
-);
-
-/**
  * Helper function to strip and convert template names to snaked lowercase name.
  *
  * @function
  * @returns {String}
  */
-const createUniqueName = name => name
-  .trim()
-  .toLowerCase()
-  .replace(/[^\w\s]/gi, "")
-  .replace(/ /g, "-");
+const createUniqueName = name =>
+  name
+    .trim()
+    .toLowerCase()
+    .replace(/[^\w\s]/gi, "")
+    .replace(/ /g, "-");
 
-const createSignupToken = () => tokenGenerator(
-  "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
-  32,
-);
+/**
+ * Helper function to create a 32 length random string.
+ *
+ * @function createSignupToken
+ * @returns {String}
+ */
+const createSignupToken = () =>
+  tokenGenerator(
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+    32,
+  );
 
 /**
  * Helper function to get 90 days date from current date.
@@ -232,9 +223,10 @@ const createSignupToken = () => tokenGenerator(
  * @function
  * @returns {month}
  */
-const expirationDate = () => moment(Date.now())
-  .add(90, "days")
-  .endOf("day");
+const expirationDate = () =>
+  moment(Date.now())
+    .add(90, "days")
+    .endOf("day");
 
 /**
  * Helper function to generate a date range.
@@ -244,9 +236,13 @@ const expirationDate = () => moment(Date.now())
  * @returns {object}
  */
 const getMonthDateRange = date => {
-  const newDate = currentDate(date);
-  const startOfMonth = startofMonth(newDate);
-  const endOfMonth = endofMonth(newDate);
+  const newDate = date || Date.now();
+  const startOfMonth = moment(newDate)
+    .startOf("month")
+    .toDate();
+  const endOfMonth = moment(newDate)
+    .endOf("month")
+    .toDate();
 
   return { startOfMonth, endOfMonth };
 };
@@ -259,14 +255,30 @@ const getMonthDateRange = date => {
  */
 const sendError = (err, res) => res.status(400).json({ err: err.toString() });
 
+/**
+ * Helper function to convert stringified ids to objectids.
+ *
+ * @function updateScheduleIds
+ * @param schedule - an array of ids
+ * @returns {array}
+ */
+const updateScheduleIds = schedule =>
+  schedule.reduce(
+    (result, { employeeIds }) => [
+      ...result,
+      ...employeeIds.map(id => ObjectId(id)),
+    ],
+    [],
+  );
+
 export {
-  beginofMonth,
   clearSession,
   convertDateToISO,
   convertId,
   createColumnSchedule,
+  createMemberAvailability,
   createMemberEventCount,
-  createMemberResponseCounts,
+  createMemberResponseCount,
   createRandomToken,
   createSchedule,
   createUserSchedule,

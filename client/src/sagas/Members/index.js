@@ -134,8 +134,15 @@ export function* fetchProfile({ memberId }) {
 		res = yield call(app.get, "member/events", { params: { id: memberId } });
 		const memberEventResponses = yield call(parseData, res);
 
+		res = yield call(app.get, "member/availability");
+		const memberAvailiability = yield call(parseData, res);
+
 		yield put(
-			setMemberToReview({ ...basicMemberInfo, ...memberEventResponses }),
+			setMemberToReview({
+				...basicMemberInfo,
+				...memberEventResponses,
+				memberAvailiability,
+			}),
 		);
 	} catch (e) {
 		yield put(push("/employee/members/viewall"));

@@ -33,6 +33,7 @@ export { default as Line } from "./Line";
 export { default as List } from "./List";
 export { default as ListItem } from "./ListItem";
 export { default as LoadingTable } from "./LoadingTable";
+export { default as MemberAvailability } from "./MemberAvailability";
 export { default as MenuButton } from "./MenuButton";
 export { default as MenuItemContainer } from "./MenuItemContainer";
 export { default as MenuItemTitle } from "./MenuItemTitle";

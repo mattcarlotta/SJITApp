@@ -1,8 +1,9 @@
 import isEmpty from "lodash/isEmpty";
 import { Event, User } from "models";
 import {
+  createMemberAvailability,
   createMemberEventCount,
-  createMemberResponseCounts,
+  createMemberResponseCount,
   getMonthDateRange,
   sendError,
 } from "shared/helpers";
@@ -68,32 +69,6 @@ const getMember = async (req, res) => {
   }
 };
 
-const getMemberEventCount = async (req, res) => {
-  try {
-    const { id: _id, selectedDate } = req.query;
-    if (!_id) throw missingMemberId;
-
-    const existingMember = await User.findOne({ _id }, { _id: 1 });
-    if (!existingMember) throw unableToLocateMember;
-
-    const { startOfMonth, endOfMonth } = getMonthDateRange(selectedDate);
-
-    const eventCount = await Event.countDocuments({
-      eventDate: {
-        $gte: startOfMonth,
-        $lte: endOfMonth,
-      },
-      scheduledIds: {
-        $in: [existingMember._id],
-      },
-    });
-
-    res.status(200).json({ eventCount });
-  } catch (err) {
-    return sendError(err, res);
-  }
-};
-
 const getMemberEventCounts = async (req, res) => {
   try {
     const { selectedDate } = req.query;
@@ -144,15 +119,31 @@ const getMemberEventCounts = async (req, res) => {
   }
 };
 
-const getMemberEventResponseCounts = async (req, res) => {
+const getMemberAvailability = async (req, res) => {
   try {
     const { id: _id, selectedDate } = req.query;
-    if (!_id) throw missingMemberId;
+    const testDate = "2019-08-01T00:00:00-07:00";
 
-    const existingMember = await User.findOne({ _id }, { _id: 1 });
+    const existingMember = await User.findOne(
+      { _id: _id || req.session.user.id },
+      { _id: 1 },
+    );
     if (!existingMember) throw unableToLocateMember;
 
-    const { startOfMonth, endOfMonth } = getMonthDateRange(selectedDate);
+    const { startOfMonth, endOfMonth } = getMonthDateRange(testDate);
+
+    const events = await Event.countDocuments({
+      eventDate: {
+        $gte: startOfMonth,
+        $lte: endOfMonth,
+      },
+    });
+    if (events === 0)
+      return res.status(200).json({
+        events,
+        memberResponseCount: [],
+        memberAvailability: 0,
+      });
 
     const employeeEventResponses = await Event.aggregate([
       {
@@ -187,9 +178,9 @@ const getMemberEventResponseCounts = async (req, res) => {
     ]);
 
     res.status(200).json({
-      employeeResponseCounts: createMemberResponseCounts(
-        employeeEventResponses,
-      ),
+      events,
+      memberResponseCount: createMemberResponseCount(employeeEventResponses),
+      memberAvailability: createMemberAvailability(employeeEventResponses),
     });
   } catch (err) {
     return sendError(err, res);
@@ -250,10 +241,9 @@ const getMemberEvents = async (req, res) => {
 
 const updateMember = async (req, res) => {
   try {
-    const {
-      _id, email, firstName, lastName, role,
-    } = req.body;
-    if (!_id || !email || !firstName || !lastName || !role) throw missingUpdateMemberParams;
+    const { _id, email, firstName, lastName, role } = req.body;
+    if (!_id || !email || !firstName || !lastName || !role)
+      throw missingUpdateMemberParams;
 
     const existingMember = await User.findOne({ _id });
     if (!existingMember) throw unableToLocateMember;
@@ -302,9 +292,8 @@ export {
   deleteMember,
   getAllMembers,
   getMember,
-  getMemberEventCount,
+  getMemberAvailability,
   getMemberEventCounts,
-  getMemberEventResponseCounts,
   getMemberEvents,
   updateMember,
   updateMemberStatus,

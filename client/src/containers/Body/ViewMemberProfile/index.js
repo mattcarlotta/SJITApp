@@ -17,6 +17,7 @@ import {
 	BackButton,
 	Calendar,
 	Line,
+	MemberAvailability,
 	PaneBody,
 	Spinner,
 	Title,
@@ -68,7 +69,7 @@ export class ViewMemberProfile extends PureComponent {
 	render = () => {
 		const { eventResponses, fetchMemberEvents, push, viewMember } = this.props;
 
-		const { _id, status, firstName, lastName } = viewMember;
+		const { _id, firstName, lastName } = viewMember;
 
 		return (
 			<Fragment>
@@ -89,7 +90,11 @@ export class ViewMemberProfile extends PureComponent {
 							</Pane>
 							<Pane tab={analytics} key="analytics">
 								<PaneBody>
-									<p>Analytics: {status}</p>
+									<Title centered>
+										{firstName} {lastName}&#39;s Availability
+									</Title>
+									<Line centered width="400px" />
+									<MemberAvailability {...this.props} fetchAction={null} />
 								</PaneBody>
 							</Pane>
 							<Pane tab={responses} key="responses">
@@ -150,6 +155,16 @@ ViewMemberProfile.propTypes = {
 			id: PropTypes.string,
 		}),
 	}),
+	memberAvailability: PropTypes.shape({
+		events: PropTypes.number,
+		memberResponseCount: PropTypes.arrayOf(
+			PropTypes.shape({
+				name: PropTypes.string,
+				value: PropTypes.number,
+			}),
+		),
+		availability: PropTypes.number,
+	}),
 	push: PropTypes.func.isRequired,
 	viewMember: PropTypes.shape({
 		_id: PropTypes.string,
@@ -192,6 +207,7 @@ ViewMemberProfile.propTypes = {
 
 const mapStateToProps = state => ({
 	eventResponses: state.members.eventResponses,
+	memberAvailability: state.members.memberAvailiability,
 	viewMember: state.members.viewMember,
 	scheduleEvents: state.events.scheduleEvents,
 	serverMessage: state.server.message,
