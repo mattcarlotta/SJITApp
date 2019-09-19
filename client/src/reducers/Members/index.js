@@ -6,6 +6,7 @@ export const initialState = {
 	editToken: {},
 	viewMember: {},
 	eventResponses: [],
+	memberAvailiability: {},
 };
 
 /**
@@ -24,6 +25,12 @@ const memberReducer = (state = initialState, { payload, type }) => {
 		}
 		case types.MEMBERS_SET: {
 			return { ...state, data: payload.members };
+		}
+		case types.MEMBERS_SET_AVAILABILITY: {
+			return {
+				...state,
+				memberAvailiability: payload,
+			};
 		}
 		case types.MEMBERS_SET_EVENTS: {
 			return { ...state, eventResponses: payload.eventResponses };

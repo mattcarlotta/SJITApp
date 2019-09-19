@@ -60,6 +60,18 @@ export const fetchMembers = () => ({
 });
 
 /**
+ * Fetches all members.
+ *
+ * @function fetchMemberAvailability
+ * @param id
+ * @returns {object}
+ */
+export const fetchMemberAvailability = params => ({
+	type: types.MEMBERS_FETCH_AVAILABILITY,
+	params,
+});
+
+/**
  * Fetches a single member's events based upon a date.
  *
  * @function fetchMemberEvents
@@ -103,6 +115,18 @@ export const fetchTokens = () => ({
 export const setMembers = data => ({
 	type: types.MEMBERS_SET,
 	payload: !isEmpty(data) ? data : [],
+});
+
+/**
+ * Sets a members availability stats to redux state
+ *
+ * @function setMemberAvailability
+ * @param {object} data - contains memberAvailiability ([memberScheduleEvents, memberResponseCount, percentAvailable]).
+ * @returns {object}
+ */
+export const setMemberAvailability = data => ({
+	type: types.MEMBERS_SET_AVAILABILITY,
+	payload: !isEmpty(data) ? data : {},
 });
 
 /**

@@ -1,7 +1,6 @@
 import isEmpty from "lodash/isEmpty";
 import { Event, User } from "models";
 import {
-  createMemberAvailability,
   createMemberEventCount,
   createMemberResponseCount,
   getMonthDateRange,
@@ -122,7 +121,7 @@ const getMemberEventCounts = async (req, res) => {
 const getMemberAvailability = async (req, res) => {
   try {
     const { id: _id, selectedDate } = req.query;
-    const testDate = "2019-08-01T00:00:00-07:00";
+    // const testDate = "2019-08-01T00:00:00-07:00";
 
     const existingMember = await User.findOne(
       { _id: _id || req.session.user.id },
@@ -130,7 +129,7 @@ const getMemberAvailability = async (req, res) => {
     );
     if (!existingMember) throw unableToLocateMember;
 
-    const { startOfMonth, endOfMonth } = getMonthDateRange(testDate);
+    const { startOfMonth, endOfMonth } = getMonthDateRange(selectedDate);
 
     const eventCount = await Event.countDocuments({
       eventDate: {
@@ -140,7 +139,6 @@ const getMemberAvailability = async (req, res) => {
     });
     if (eventCount === 0)
       return res.status(200).json({
-        memberAvailability: 0,
         memberResponseCount: [],
         memberScheduleEvents: [],
       });
@@ -188,13 +186,12 @@ const getMemberAvailability = async (req, res) => {
     });
 
     res.status(200).json({
-      memberAvailability: createMemberAvailability(employeeEventResponses),
       memberResponseCount: createMemberResponseCount(employeeEventResponses),
       memberScheduleEvents: [
         {
           name: "Events",
-          scheduled: scheduledCount,
-          available: eventCount,
+          Scheduled: scheduledCount,
+          Available: eventCount,
         },
       ],
     });

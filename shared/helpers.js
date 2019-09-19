@@ -74,9 +74,9 @@ const createColumnSchedule = ({ event, members }) => [
  * @param employeeEventResponses - an array of responses
  * @returns {Number}
  */
-const createMemberAvailability = employeeEventResponses => {
+const createMemberAvailability = ({ employeeEventResponses, eventCount }) => {
   const availableResponseTypes = Array.from(responseTypes).splice(0, 2);
-  return employeeEventResponses.reduce((acc, { responses }) => {
+  const availability = employeeEventResponses.reduce((acc, { responses }) => {
     if (responses) {
       availableResponseTypes.forEach(rspType => {
         acc += responses.filter(rsp => rsp === rspType).length;
@@ -84,6 +84,8 @@ const createMemberAvailability = employeeEventResponses => {
     }
     return acc;
   }, 0);
+
+  return availability > 0 ? ((availability / eventCount) * 100).toFixed(2) : 0;
 };
 
 /**

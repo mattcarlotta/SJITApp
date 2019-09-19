@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
+import isEmpty from "lodash/isEmpty";
 import moment from "moment";
+import { Empty } from "antd";
 import {
 	Bar,
 	BarChart,
@@ -40,11 +42,13 @@ class MemberAvailability extends Component {
 
 	handleSelection = ({ name, value }) => {
 		this.setState({ [name]: value }, () => {
-			// TODO -- AJAX call to retrieve next availability
-			// this.props.fetchMemberAvailiabilty(moment(
-			// `${this.state.selectedMonth} ${this.state.selectedYear}`,
-			// "MMM YYYY",
-			// ).format(),)
+			this.props.fetchAction({
+				id: this.props.id,
+				selectedDate: moment(
+					`${this.state.selectedMonth} ${this.state.selectedYear}`,
+					"MMM YYYY",
+				).format(),
+			});
 		});
 	};
 
@@ -105,69 +109,80 @@ class MemberAvailability extends Component {
 					onChange={null}
 					handleSelection={this.handleSelection}
 				/>
-				<div
-					css={`
-						display: flex;
-						align-items: center;
-					`}
-				>
+
+				{!isEmpty(memberAvailability.memberResponseCount) ? (
 					<div
 						css={`
-							width: 200px;
+							display: flex;
+							align-items: center;
+							justify-content: center;
+							margin-top: 30px;
 						`}
 					>
-						{memberAvailability.memberResponseCount.map(({ name }) => (
-							<Badge key={name} response={name} style={{ fontSize: 17 }}>
-								{name}
-							</Badge>
-						))}
-					</div>
-					<PieChart width={300} height={300}>
-						<Pie
-							data={memberAvailability.memberResponseCount}
-							cx="50%"
-							cy="50%"
+						<div
+							css={`
+								width: 200px;
+							`}
+						>
+							{memberAvailability.memberResponseCount.map(({ name }) => (
+								<Badge key={name} response={name} style={{ fontSize: 17 }}>
+									{name}
+								</Badge>
+							))}
+						</div>
+						<PieChart width={300} height={300}>
+							<Pie
+								data={memberAvailability.memberResponseCount}
+								cx="50%"
+								cy="50%"
+								dataKey="value"
+								nameKey="name"
+								labelLine={false}
+								label={this.renderCustomizedLabel}
+								innerRadius={65}
+								startAngle={180}
+								endAngle={-180}
+							>
+								{memberAvailability.memberResponseCount.map(
+									({ name }, index) => (
+										<Cell key={name} fill={COLORS[index]} />
+									),
+								)}
+							</Pie>
+						</PieChart>
+						<BarChart
+							width={500}
+							height={300}
 							dataKey="value"
 							nameKey="name"
-							labelLine={false}
-							label={this.renderCustomizedLabel}
-							innerRadius={60}
-							startAngle={180}
-							endAngle={-180}
+							data={memberAvailability.memberScheduleEvents}
+							margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
 						>
-							{memberAvailability.memberResponseCount.map(({ name }, index) => (
-								<Cell key={name} fill={COLORS[index]} />
-							))}
-						</Pie>
-					</PieChart>
-					<BarChart
-						width={500}
-						height={300}
-						dataKey="value"
-						nameKey="name"
-						data={memberAvailability.memberScheduleEvents}
-						margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-					>
-						<CartesianGrid strokeDasharray="3 3" />
-						<XAxis dataKey="name" height={60} tick={this.renderCustomXAxis} />
-						<YAxis allowDecimals={false} />
-						<Legend />
-						<Bar dataKey="scheduled" fill="#8884d8" />
-						<Bar dataKey="available" fill="#82ca9d" />
-					</BarChart>
-				</div>
+							<CartesianGrid strokeDasharray="3 3" />
+							<XAxis dataKey="name" height={60} tick={this.renderCustomXAxis} />
+							<YAxis allowDecimals={false} />
+							<Legend layout="vertical" verticalAlign="middle" align="left" />
+							<Bar dataKey="Scheduled" fill="#247BA0" />
+							<Bar dataKey="Available" fill="#2A9D8F" />
+						</BarChart>
+					</div>
+				) : (
+					<Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+				)}
 			</Fragment>
 		);
 	};
 }
 
 MemberAvailability.propTypes = {
+	id: PropTypes.string,
+	fetchAction: PropTypes.func.isRequired,
 	memberAvailability: PropTypes.shape({
 		memberScheduleEvents: PropTypes.arrayOf(
 			PropTypes.shape({
 				name: PropTypes.string,
-				scheduled: PropTypes.number,
-				available: PropTypes.number,
+				Scheduled: PropTypes.number,
+				Available: PropTypes.number,
 			}),
 		),
 		memberResponseCount: PropTypes.arrayOf(
@@ -176,7 +191,6 @@ MemberAvailability.propTypes = {
 				value: PropTypes.number,
 			}),
 		),
-		availability: PropTypes.number,
 	}),
 };
 
