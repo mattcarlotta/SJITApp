@@ -10,6 +10,7 @@ import {
 	Pie,
 	PieChart,
 	XAxis,
+	YAxis,
 } from "recharts";
 import { Badge, ScheduleHeader } from "components/Body";
 
@@ -140,7 +141,7 @@ class MemberAvailability extends Component {
 						</Pie>
 					</PieChart>
 					<BarChart
-						width={600}
+						width={500}
 						height={300}
 						dataKey="value"
 						nameKey="name"
@@ -149,6 +150,7 @@ class MemberAvailability extends Component {
 					>
 						<CartesianGrid strokeDasharray="3 3" />
 						<XAxis dataKey="name" height={60} tick={this.renderCustomXAxis} />
+						<YAxis allowDecimals={false} />
 						<Legend />
 						<Bar dataKey="scheduled" fill="#8884d8" />
 						<Bar dataKey="available" fill="#82ca9d" />
