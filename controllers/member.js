@@ -132,17 +132,17 @@ const getMemberAvailability = async (req, res) => {
 
     const { startOfMonth, endOfMonth } = getMonthDateRange(testDate);
 
-    const events = await Event.countDocuments({
+    const eventCount = await Event.countDocuments({
       eventDate: {
         $gte: startOfMonth,
         $lte: endOfMonth,
       },
     });
-    if (events === 0)
+    if (eventCount === 0)
       return res.status(200).json({
-        events,
-        memberResponseCount: [],
         memberAvailability: 0,
+        memberResponseCount: [],
+        memberScheduleEvents: [],
       });
 
     const employeeEventResponses = await Event.aggregate([
@@ -177,10 +177,26 @@ const getMemberAvailability = async (req, res) => {
       { $project: { _id: 0, responses: 1 } },
     ]);
 
+    const scheduledCount = await Event.countDocuments({
+      eventDate: {
+        $gte: startOfMonth,
+        $lte: endOfMonth,
+      },
+      scheduledIds: {
+        $in: [existingMember.id],
+      },
+    });
+
     res.status(200).json({
-      events,
-      memberResponseCount: createMemberResponseCount(employeeEventResponses),
       memberAvailability: createMemberAvailability(employeeEventResponses),
+      memberResponseCount: createMemberResponseCount(employeeEventResponses),
+      memberScheduleEvents: [
+        {
+          name: "Events",
+          scheduled: scheduledCount,
+          available: eventCount,
+        },
+      ],
     });
   } catch (err) {
     return sendError(err, res);

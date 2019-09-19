@@ -1,7 +1,16 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import moment from "moment";
-import { Cell, Legend, Pie, PieChart } from "recharts";
+import {
+	Bar,
+	BarChart,
+	CartesianGrid,
+	Cell,
+	Legend,
+	Pie,
+	PieChart,
+	XAxis,
+} from "recharts";
 import { Badge, ScheduleHeader } from "components/Body";
 
 const COLORS = ["#247BA0", "#2A9D8F", "#F4A261", "#FF8060", "#BFBFBF"];
@@ -61,20 +70,28 @@ class MemberAvailability extends Component {
 		const x = cx + radius * Math.cos(-midAngle * RADIAN);
 		const y = cy + radius * Math.sin(-midAngle * RADIAN);
 		const { memberAvailability } = this.props;
-		const needLabel = memberAvailability.memberResponseCount[index].value > 0;
+		const needsLabel = memberAvailability.memberResponseCount[index].value > 0;
 
-		return needLabel ? (
+		return needsLabel ? (
 			<text
 				x={x}
 				y={y}
 				fill="white"
-				textAnchor={x > cx ? "start" : "end"}
+				textAnchor="middle"
 				dominantBaseline="central"
 			>
 				{`${(percent * 100).toFixed(0)}%`}
 			</text>
 		) : null;
 	};
+
+	renderCustomXAxis = ({ x, y, payload }) => (
+		<g transform={`translate(${x},${y})`}>
+			<text x={0} y={0} dy={16} textAnchor="middle" fill="#666">
+				{payload.value}
+			</text>
+		</g>
+	);
 
 	render = () => {
 		const { memberAvailability } = this.props;
@@ -87,23 +104,56 @@ class MemberAvailability extends Component {
 					onChange={null}
 					handleSelection={this.handleSelection}
 				/>
-				<PieChart width={450} height={400}>
-					<Legend verticalAlign="middle" content={this.renderLegend} />
-					<Pie
-						data={memberAvailability.memberResponseCount}
-						cx={300}
-						cy={200}
+				<div
+					css={`
+						display: flex;
+						align-items: center;
+					`}
+				>
+					<div
+						css={`
+							width: 200px;
+						`}
+					>
+						{memberAvailability.memberResponseCount.map(({ name }) => (
+							<Badge key={name} response={name} style={{ fontSize: 17 }}>
+								{name}
+							</Badge>
+						))}
+					</div>
+					<PieChart width={300} height={300}>
+						<Pie
+							data={memberAvailability.memberResponseCount}
+							cx="50%"
+							cy="50%"
+							dataKey="value"
+							nameKey="name"
+							labelLine={false}
+							label={this.renderCustomizedLabel}
+							innerRadius={60}
+							startAngle={180}
+							endAngle={-180}
+						>
+							{memberAvailability.memberResponseCount.map(({ name }, index) => (
+								<Cell key={name} fill={COLORS[index]} />
+							))}
+						</Pie>
+					</PieChart>
+					<BarChart
+						width={600}
+						height={300}
 						dataKey="value"
 						nameKey="name"
-						labelLine={false}
-						label={this.renderCustomizedLabel}
-						outerRadius={100}
+						data={memberAvailability.memberScheduleEvents}
+						margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
 					>
-						{memberAvailability.memberResponseCount.map(({ name }, index) => (
-							<Cell key={name} fill={COLORS[index % COLORS.length]} />
-						))}
-					</Pie>
-				</PieChart>
+						<CartesianGrid strokeDasharray="3 3" />
+						<XAxis dataKey="name" height={60} tick={this.renderCustomXAxis} />
+						<Legend />
+						<Bar dataKey="scheduled" fill="#8884d8" />
+						<Bar dataKey="available" fill="#82ca9d" />
+					</BarChart>
+				</div>
 			</Fragment>
 		);
 	};
@@ -111,7 +161,13 @@ class MemberAvailability extends Component {
 
 MemberAvailability.propTypes = {
 	memberAvailability: PropTypes.shape({
-		events: PropTypes.number,
+		memberScheduleEvents: PropTypes.arrayOf(
+			PropTypes.shape({
+				name: PropTypes.string,
+				scheduled: PropTypes.number,
+				available: PropTypes.number,
+			}),
+		),
 		memberResponseCount: PropTypes.arrayOf(
 			PropTypes.shape({
 				name: PropTypes.string,

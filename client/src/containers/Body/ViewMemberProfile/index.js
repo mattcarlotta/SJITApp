@@ -35,10 +35,10 @@ const profile = (
 	</span>
 );
 
-const analytics = (
+const availability = (
 	<span>
 		<Icon component={FaChartBar} />
-		Analytics
+		Availability
 	</span>
 );
 
@@ -88,7 +88,7 @@ export class ViewMemberProfile extends PureComponent {
 							<Pane tab={profile} key="profile">
 								<Profile {...this.props} />
 							</Pane>
-							<Pane tab={analytics} key="analytics">
+							<Pane tab={availability} key="availability">
 								<PaneBody>
 									<Title centered>
 										{firstName} {lastName}&#39;s Availability
@@ -156,7 +156,13 @@ ViewMemberProfile.propTypes = {
 		}),
 	}),
 	memberAvailability: PropTypes.shape({
-		events: PropTypes.number,
+		memberScheduleEvents: PropTypes.arrayOf(
+			PropTypes.shape({
+				name: PropTypes.string,
+				scheduled: PropTypes.number,
+				available: PropTypes.number,
+			}),
+		),
 		memberResponseCount: PropTypes.arrayOf(
 			PropTypes.shape({
 				name: PropTypes.string,
