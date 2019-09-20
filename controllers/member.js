@@ -12,6 +12,7 @@ import {
   missingUpdateMemberParams,
   missingUpdateMemberStatusParams,
   unableToDeleteMember,
+  unableToLocateEvent,
   unableToLocateMember,
   unableToLocateMembers,
 } from "shared/authErrors";
@@ -70,7 +71,7 @@ const getMember = async (req, res) => {
 
 const getMemberEventCounts = async (req, res) => {
   try {
-    const { selectedDate } = req.query;
+    const { eventId } = req.query;
 
     /* istanbul ignore next */
     const members = await User.find(
@@ -82,7 +83,12 @@ const getMemberEventCounts = async (req, res) => {
     /* istanbul ignore next */
     if (isEmpty(members)) throw unableToLocateMembers;
 
-    const { startOfMonth, endOfMonth } = getMonthDateRange(selectedDate);
+    const eventExists = await Event.findOne({ _id: eventId }, { eventDate: 1 });
+    if (!eventExists) throw unableToLocateEvent;
+
+    const { startOfMonth, endOfMonth } = getMonthDateRange(
+      eventExists.eventDate,
+    );
 
     const memberEventCounts = await Event.aggregate([
       {
@@ -189,9 +195,12 @@ const getMemberAvailability = async (req, res) => {
       memberResponseCount: createMemberResponseCount(employeeEventResponses),
       memberScheduleEvents: [
         {
-          name: "Events",
-          Scheduled: scheduledCount,
-          Available: eventCount,
+          id: "scheduled",
+          events: scheduledCount,
+        },
+        {
+          id: "available",
+          events: eventCount,
         },
       ],
     });

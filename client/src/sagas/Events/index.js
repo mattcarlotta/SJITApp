@@ -131,10 +131,13 @@ export function* fetchEventForScheduling({ eventId }) {
 	try {
 		yield put(hideServerMessage());
 
-		const res = yield call(app.get, `event/review/${eventId}`);
-		const data = yield call(parseData, res);
+		let res = yield call(app.get, `event/review/${eventId}`);
+		const scheduleData = yield call(parseData, res);
 
-		yield put(setEventForScheduling(data));
+		res = yield call(app.get, `members/eventcounts`, { params: { eventId } });
+		const memberCountData = yield call(parseData, res);
+
+		yield put(setEventForScheduling({ ...scheduleData, ...memberCountData }));
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}

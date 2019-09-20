@@ -13,6 +13,8 @@ const responseTypes = [
   "No response.",
 ];
 
+const COLORS = ["#247BA0", "#2A9D8F", "#F4A261", "#FF8060", "#BFBFBF"];
+
 /**
  * Helper function to generate a unique token.
  *
@@ -103,8 +105,8 @@ const createMemberEventCount = ({ members, memberEventCounts }) =>
       memberEventCounts.find(doc => doc._id.equals(member._id));
 
     return {
-      ...member,
-      eventCount: hasEventCount ? hasEventCount.eventCount : 0,
+      name: `${member.firstName} ${member.lastName}`,
+      "Event Count": hasEventCount ? hasEventCount.eventCount : 0,
     };
   });
 
@@ -118,9 +120,11 @@ const createMemberEventCount = ({ members, memberEventCounts }) =>
 const createMemberResponseCount = employeeEventResponses =>
   employeeEventResponses.reduce((acc, { responses }) => {
     if (responses) {
-      responseTypes.forEach(rspType => {
+      responseTypes.forEach((rspType, index) => {
         acc.push({
-          name: rspType,
+          id: rspType,
+          label: rspType,
+          color: COLORS[index],
           value: responses.filter(rsp => rsp === rspType).length,
         });
       });

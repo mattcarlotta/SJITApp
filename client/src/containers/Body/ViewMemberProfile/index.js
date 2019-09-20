@@ -170,14 +170,15 @@ ViewMemberProfile.propTypes = {
 	memberAvailability: PropTypes.shape({
 		memberScheduleEvents: PropTypes.arrayOf(
 			PropTypes.shape({
-				name: PropTypes.string,
-				Scheduled: PropTypes.number,
-				Available: PropTypes.number,
+				id: PropTypes.string,
+				events: PropTypes.number,
 			}),
 		),
 		memberResponseCount: PropTypes.arrayOf(
 			PropTypes.shape({
-				name: PropTypes.string,
+				id: PropTypes.string,
+				color: PropTypes.string,
+				label: PropTypes.string,
 				value: PropTypes.number,
 			}),
 		),
