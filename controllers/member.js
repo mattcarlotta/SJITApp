@@ -143,7 +143,7 @@ const getMemberAvailability = async (req, res) => {
         $lte: endOfMonth,
       },
     });
-    if (eventCount === 0) return res.status(200).send({});
+    if (eventCount === 0) return res.status(200).send(null);
 
     const employeeEventResponses = await Event.aggregate([
       {
