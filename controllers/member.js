@@ -127,7 +127,6 @@ const getMemberEventCounts = async (req, res) => {
 const getMemberAvailability = async (req, res) => {
   try {
     const { id: _id, selectedDate } = req.query;
-    // const testDate = "2019-08-01T00:00:00-07:00";
 
     const existingMember = await User.findOne(
       { _id: _id || req.session.user.id },
