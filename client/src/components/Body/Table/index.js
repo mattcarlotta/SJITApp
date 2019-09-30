@@ -1,7 +1,7 @@
 /* eslint-disable react/forbid-prop-types, react/jsx-boolean-value */
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
-import isEmpty from "lodash/isEmpty";
+// import isEmpty from "lodash/isEmpty";
 import { Divider, Icon, Input, Popconfirm, Table, Tooltip } from "antd";
 import {
 	FaEdit,
@@ -19,9 +19,6 @@ class CustomTable extends Component {
 		isLoading: true,
 	};
 
-	static getDerivedStateFromProps = ({ data }, state) =>
-		state.isLoading && !isEmpty(data) ? { isLoading: false } : null;
-
 	componentDidMount = () => {
 		this.props.fetchData();
 		this.setTimer();
@@ -31,8 +28,17 @@ class CustomTable extends Component {
 		nextProps.data !== this.props.data ||
 		nextState.isLoading !== this.state.isLoading;
 
+	componentDidUpdate = prevProps => {
+		if (this.props.data !== prevProps.data && this.state.isLoading)
+			this.clearTimer();
+	};
+
 	/* istanbul ignore next */
 	componentWillUnmount = () => clearTimeout(this.timeout);
+
+	handleClickAction = (action, record) => {
+		this.setState({ isLoading: true }, () => action(record._id));
+	};
 
 	clearTimer = () => {
 		this.setState({ isLoading: false }, () => clearTimeout(this.timeout));
@@ -198,7 +204,7 @@ class CustomTable extends Component {
 									width="50px"
 									padding="3px 0 0 0"
 									marginRight="0px"
-									onClick={() => resendMail(record._id)}
+									onClick={() => this.handleClickAction(resendMail, record)}
 								>
 									<FaRedo style={{ fontSize: 16 }} />
 								</Button>
@@ -212,7 +218,7 @@ class CustomTable extends Component {
 								placement="top"
 								title="Are you sure? This action is irreversible."
 								icon={<Icon component={GoStop} style={{ color: "red" }} />}
-								onConfirm={() => deleteAction(record._id)}
+								onConfirm={() => this.handleClickAction(deleteAction, record)}
 							>
 								<Button
 									danger

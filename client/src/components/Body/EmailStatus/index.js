@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Tooltip } from "antd";
-import { FaClock, FaShareSquare, FaTimes } from "react-icons/fa";
+import { FaStopwatch, FaShareSquare, FaTimes } from "react-icons/fa";
 
 const iconStyle = {
 	fontSize: 22,
@@ -15,7 +15,7 @@ const displayEmailStatus = status => {
 			return <FaShareSquare style={{ ...iconStyle, color: "#008000" }} />;
 		}
 		case "unsent": {
-			return <FaClock style={{ ...iconStyle, color: "#ffa000" }} />;
+			return <FaStopwatch style={{ ...iconStyle, color: "#ffa000" }} />;
 		}
 		default: {
 			return <FaTimes style={{ ...iconStyle, color: "red" }} />;

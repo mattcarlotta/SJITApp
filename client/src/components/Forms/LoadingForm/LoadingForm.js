@@ -1,15 +1,18 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { FadeIn } from "components/Body";
 
 const LoadingForm = ({ className, rows }) => {
 	const inputs = [...Array(rows).keys()];
 
 	return (
-		<div className={className}>
-			{inputs.map(value => (
-				<div key={value} className="input" />
-			))}
-		</div>
+		<FadeIn>
+			<div className={className}>
+				{inputs.map(value => (
+					<div key={value} className="input" />
+				))}
+			</div>
+		</FadeIn>
 	);
 };
 
