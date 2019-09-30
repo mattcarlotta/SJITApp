@@ -14,15 +14,14 @@ import {
 	NewForm,
 	NewMember,
 	NewSeason,
-	NewTemplate,
-	// Schedules,
+	SendMail,
 	ViewAuthorizations,
 	ViewEvents,
 	ViewForms,
+	ViewMail,
 	ViewMemberProfile,
 	ViewMembers,
 	ViewSeasons,
-	ViewTemplates,
 } from "pages/Staff";
 
 import { ViewApForm, ViewSchedule } from "pages/Shared";
@@ -74,12 +73,8 @@ const AppRoutes = ({ match: { url }, role }) =>
 			<Route exact path={`${url}/seasons/create`} component={NewSeason} />
 			<Route exact path={`${url}/seasons/edit/:id`} component={EditSeason} />
 			<Route exact path={`${url}/seasons/viewall`} component={ViewSeasons} />
-			<Route exact path={`${url}/templates/create`} component={NewTemplate} />
-			<Route
-				exact
-				path={`${url}/templates/viewall`}
-				component={ViewTemplates}
-			/>
+			<Route exact path={`${url}/mail/create`} component={SendMail} />
+			<Route exact path={`${url}/mail/viewall`} component={ViewMail} />
 			<Route exact path={`${url}/settings`} component={Settings} />
 			<Route exact path={`${url}/help`} component={Help} />
 			<Route exact path={`${url}/contact`} component={Contact} />

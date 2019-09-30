@@ -30,5 +30,5 @@ export { default as NewSeason } from "./Seasons/NewSeason";
 export { default as ViewSeasons } from "./Seasons/ViewSeasons";
 
 // templates
-export { default as NewTemplate } from "./Templates/NewTemplate";
-export { default as ViewTemplates } from "./Templates/ViewTemplates";
+export { default as ViewMail } from "./Mail/ViewMail";
+export { default as SendMail } from "./Mail/SendMail";

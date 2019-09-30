@@ -52,14 +52,24 @@ export const MEMBERS_SET_TOKENS = "MEMBERS/SET_TOKENS";
 
 // seasons
 export const SEASONS_DELETE = "SEASONS/DELETE";
-export const SEASONS_EDIT = "SEASON/EDIT";
-export const SEASONS_SET_EDIT = "SEASON/SET_EDIT";
-export const SEASONS_UPDATE_EDIT = "SEASON/UPDATE_EDIT";
+export const SEASONS_EDIT = "SEASONS/EDIT";
+export const SEASONS_SET_EDIT = "SEASONS/SET_EDIT";
+export const SEASONS_UPDATE_EDIT = "SEASONS/UPDATE_EDIT";
 export const SEASONS_CREATE = "SEASONS/CREATE";
 export const SEASONS_FETCH = "SEASONS/FETCH";
 export const SEASONS_FETCH_IDS = "SEASONS/FETCH_IDS";
 export const SEASONS_SET = "SEASONS/SET";
 export const SEASONS_SET_IDS = "SEASONS/SET_IDS";
+
+// mail
+export const MAIL_CREATE = "MAIL/CREATE";
+export const MAIL_DELETE = "MAIL/DELETE";
+export const MAIL_EDIT = "MAIL/EDIT";
+export const MAIL_FETCH = "MAIL/FETCH";
+export const MAIL_RESEND = "MAIL/RESEND";
+export const MAIL_SET = "MAIL/SET";
+export const MAIL_SET_EDIT = "MAIL/SET_EDIT";
+export const MAIL_UPDATE_EDIT = "MAIL/UPDATE_EDIT";
 
 // server messages
 export const MESSAGE_HIDE = "MESSAGE/HIDE";

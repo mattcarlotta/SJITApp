@@ -1,14 +1,16 @@
 import { Schema, model } from "mongoose";
 
-// mail
+// email
 const mailSchema = new Schema({
-  to: { type: String, required: true },
-  from: {
+  message: { type: String, required: true },
+  sendTo: [{ type: String, required: true }],
+  sendFrom: {
     type: String,
     default: "San Jose Sharks Ice Team <noreply@sjsiceteam.com>",
   },
+  sendDate: { type: Date, default: Date.now() },
+  status: { type: String, default: "unsent" },
   subject: { type: String, required: true },
-  message: { type: String, required: true },
 });
 
 export default model("Mail", mailSchema);

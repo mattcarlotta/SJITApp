@@ -39,6 +39,19 @@ export default [
 		],
 	},
 	{
+		component: FaEnvelope,
+		key: "mail",
+		tab: "mail",
+		submenu: [
+			{ key: "mail/create", component: MdNoteAdd, tab: "Send Mail" },
+			{
+				key: "mail/viewall",
+				component: FaMailBulk,
+				tab: "View Mail",
+			},
+		],
+	},
+	{
 		component: FaUserFriends,
 		key: "members",
 		tab: "members",
@@ -68,19 +81,6 @@ export default [
 				tab: "Create Season",
 			},
 			{ key: "seasons/viewall", component: FaFolderOpen, tab: "View Seasons" },
-		],
-	},
-	{
-		component: FaEnvelope,
-		key: "templates",
-		tab: "templates",
-		submenu: [
-			{ key: "templates/create", component: MdNoteAdd, tab: "Create Template" },
-			{
-				key: "templates/viewall",
-				component: FaMailBulk,
-				tab: "View Templates",
-			},
 		],
 	},
 	{ divider: true, key: "accounting" },

@@ -10,14 +10,15 @@ import {
 	NewForm,
 	NewMember,
 	NewSeason,
-	NewTemplate,
+	SendMail,
 	ViewAuthorizations,
 	ViewEvents,
 	ViewForms,
+	ViewMail,
 	ViewMemberProfile,
 	ViewMembers,
 	ViewSeasons,
-	ViewTemplates,
+	ViewMail,
 } from "pages/Staff";
 
 import { ViewSchedule } from "pages/Shared";
@@ -190,20 +191,20 @@ describe("Application routes", () => {
 			).toBe(ViewSeasons);
 		});
 
-		it("routes to NewTemplate", () => {
+		it("routes to SendMail", () => {
 			expect(
 				wrapper
-					.find("Route[exact=true][path='/employee/templates/create']")
+					.find("Route[exact=true][path='/employee/mail/create']")
 					.prop("component"),
-			).toBe(NewTemplate);
+			).toBe(SendMail);
 		});
 
-		it("routes to ViewTemplates", () => {
+		it("routes to ViewMail", () => {
 			expect(
 				wrapper
-					.find("Route[exact=true][path='/employee/templates/viewall']")
+					.find("Route[exact=true][path='/employee/mail/viewall']")
 					.prop("component"),
-			).toBe(ViewTemplates);
+			).toBe(ViewMail);
 		});
 
 		it("routes to Settings", () => {

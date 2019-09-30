@@ -5,13 +5,14 @@ import isEmpty from "lodash/isEmpty";
 import { Divider, Icon, Input, Popconfirm, Table, Tooltip } from "antd";
 import {
 	FaEdit,
+	FaRedo,
 	FaSearch,
 	FaTrash,
 	FaSearchPlus,
 	FaClipboardCheck,
 } from "react-icons/fa";
 import { GoStop } from "react-icons/go";
-import { Button, FlexCenter, LoadingTable } from "components/Body";
+import { Button, FadeIn, FlexCenter, LoadingTable } from "components/Body";
 
 class CustomTable extends Component {
 	state = {
@@ -117,6 +118,7 @@ class CustomTable extends Component {
 			deleteAction,
 			editLocation,
 			push,
+			resendMail,
 			viewLocation,
 		} = this.props;
 
@@ -187,6 +189,23 @@ class CustomTable extends Component {
 							<Divider type="vertical" />
 						</Fragment>
 					)}
+					{resendMail && (
+						<Fragment>
+							<Tooltip placement="top" title={<span>Resend Mail</span>}>
+								<Button
+									primary
+									display="inline-block"
+									width="50px"
+									padding="3px 0 0 0"
+									marginRight="0px"
+									onClick={() => resendMail(record._id)}
+								>
+									<FaRedo style={{ fontSize: 16 }} />
+								</Button>
+							</Tooltip>
+							<Divider type="vertical" />
+						</Fragment>
+					)}
 					{deleteAction && (
 						<Tooltip placement="top" title={<span>Delete</span>}>
 							<Popconfirm
@@ -219,13 +238,15 @@ class CustomTable extends Component {
 		this.state.isLoading ? (
 			<LoadingTable />
 		) : (
-			<Table
-				columns={this.createTableColumns()}
-				dataSource={this.props.data}
-				pagination={false}
-				bordered={true}
-				rowKey="_id"
-			/>
+			<FadeIn>
+				<Table
+					columns={this.createTableColumns()}
+					dataSource={this.props.data}
+					pagination={false}
+					bordered={true}
+					rowKey="_id"
+				/>
+			</FadeIn>
 		);
 }
 
@@ -244,6 +265,7 @@ CustomTable.propTypes = {
 	editLocation: PropTypes.string,
 	fetchData: PropTypes.func.isRequired,
 	push: PropTypes.func.isRequired,
+	resendMail: PropTypes.func,
 	viewLocation: PropTypes.string,
 };
 

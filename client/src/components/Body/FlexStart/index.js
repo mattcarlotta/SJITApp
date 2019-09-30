@@ -6,9 +6,9 @@ export default styled.div`
 	display: -webkit-flex;
 	display: -ms-flexbox;
 	display: flex;
-	-webkit-box-align: flex-end;
-	-moz-box-align: flex-end;
-	-ms-flex-align: flex-end;
-	justify-content: flex-end;
+	-webkit-box-align: flex-start;
+	-moz-box-align: flex-start;
+	-ms-flex-align: flex-start;
+	justify-content: flex-start;
 	width: 100%;
 `;

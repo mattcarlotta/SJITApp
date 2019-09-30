@@ -5,6 +5,15 @@ import { Types } from "mongoose";
 
 const { ObjectId } = Types;
 
+/*
+const objectHasProperties = (object, props) => !props.some(prop => {
+          if (!object[prop] || object[prop].length === 0) {
+              return true;
+          }
+      });
+
+*/
+
 const responseTypes = [
   "I want to work.",
   "Available to work.",
@@ -68,6 +77,14 @@ const createColumnSchedule = ({ event, members }) => [
     employeeIds,
   })),
 ];
+
+/**
+ * Helper function to create a current date.
+ *
+ * @function
+ * @returns {Date}
+ */
+const createDate = date => moment(date || Date.now());
 
 /**
  * Helper function to generate an average member availability.
@@ -282,6 +299,7 @@ export {
   convertDateToISO,
   convertId,
   createColumnSchedule,
+  createDate,
   createMemberAvailability,
   createMemberEventCount,
   createMemberResponseCount,
