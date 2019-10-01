@@ -115,6 +115,19 @@
 	src: url("../assets/fonts/Karla-BoldItalic.ttf") format("truetype");
 }
 
+.fr-toolbar.fr-top,
+.fr-box.fr-basic {
+	-moz-border-radius: 3px 3px 0 0;
+	-webkit-border-radius: 3px 3px 0 0;
+	border-radius: 3px 3px 0 0;
+}
+
+.second-toolbar {
+	-moz-border-radius: 0 0 3px 3px;
+	-webkit-border-radius: 0 0 3px 3px;
+	border-radius: 0 0 3px 3px;
+}
+
 .fr-box.fr-basic {
 	& .fr-element,
 	& .show-placeholder {

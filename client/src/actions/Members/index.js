@@ -84,6 +84,16 @@ export const fetchMemberEvents = params => ({
 });
 
 /**
+ * Fetches all member's names.
+ *
+ * @function fetchMemberNames
+ * @returns {object}
+ */
+export const fetchMemberNames = () => ({
+	type: types.MEMBERS_FETCH_NAMES,
+});
+
+/**
  * Fetches a single token for editing.
  *
  * @function fetchToken
@@ -138,6 +148,18 @@ export const setMemberAvailability = data => ({
  */
 export const setMemberEventsByDate = data => ({
 	type: types.MEMBERS_SET_EVENTS,
+	payload: !isEmpty(data) ? data : [],
+});
+
+/**
+ * Sets a member's names to redux state
+ *
+ * @function setMemberNames
+ * @param {object} data - contains member event response data ([id, names, email]).
+ * @returns {object}
+ */
+export const setMemberNames = data => ({
+	type: types.MEMBERS_SET_NAMES,
 	payload: !isEmpty(data) ? data : [],
 });
 

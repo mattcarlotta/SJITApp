@@ -2,7 +2,7 @@
 export default [
 	{
 		name: "sendFrom",
-		type: "input",
+		type: "email",
 		label: "Send From",
 		placeholder: "*Optional* An email address to send from...",
 		tooltip:
@@ -11,7 +11,7 @@ export default [
 		value: "",
 		errors: "",
 		required: false,
-		disabled: false,
+		disabled: true,
 	},
 	{
 		type: "date",
@@ -23,7 +23,7 @@ export default [
 		value: null,
 		errors: "",
 		required: false,
-		disabled: false,
+		disabled: true,
 		format: "MM/DD/YYYY h:mm a",
 		showTime: { format: "h:mm a", use12Hours: true, minuteStep: 15 },
 		style: { width: "100%" },
@@ -37,6 +37,6 @@ export default [
 		errors: "",
 		placeholder: "The subject of the email...",
 		required: true,
-		disabled: false,
+		disabled: true,
 	},
 ];

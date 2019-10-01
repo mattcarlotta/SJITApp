@@ -147,7 +147,7 @@ const unableToLocateMember =
   "Unable to locate that member. That member doesn't exist.";
 
 const unableToLocateMembers =
-  "Unable to locate any members. You need to create members before you can schedule any games.";
+  "Unable to locate any members. You need to create members before you can do that.";
 
 const unableToLocateSeason =
   "Unable to locate that season. That season doesn't exist.";

@@ -52,6 +52,29 @@ const getAllMembers = async (_, res) => {
   res.status(200).json({ members });
 };
 
+const getAllMemberNames = async (_, res) => {
+  try {
+    const members = await User.aggregate([
+      { $match: { role: { $ne: "admin" } } },
+      { $sort: { lastName: 1 } },
+      {
+        $project: {
+          id: 1,
+          name: { $concat: ["$firstName", " ", "$lastName"] },
+          email: 1,
+        },
+      },
+    ]);
+    /* istanbul ignore next */
+    if (isEmpty(members)) throw unableToLocateMembers;
+
+    res.status(200).json({ members });
+  } catch (err) {
+    /* istanbul ignore next */
+    return sendError(err, res);
+  }
+};
+
 const getMember = async (req, res) => {
   try {
     const { id: _id } = req.params;
@@ -308,6 +331,7 @@ const updateMemberStatus = async (req, res) => {
 export {
   deleteMember,
   getAllMembers,
+  getAllMemberNames,
   getMember,
   getMemberAvailability,
   getMemberEventCounts,
