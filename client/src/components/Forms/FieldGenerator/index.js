@@ -30,6 +30,7 @@ const FieldGenerator = ({ fields, onChange }) =>
 		switch (props.type) {
 			case "text":
 			case "email":
+			case "input":
 			case "password":
 				return <Input {...props} key={props.name} onChange={onChange} />;
 			case "select":
@@ -44,7 +45,7 @@ const FieldGenerator = ({ fields, onChange }) =>
 							suffixIcon={
 								<FaCalendarPlus
 									style={{
-										color: props.errors ? "#d14023" : "rgba(0, 0, 0, 0.25)",
+										color: props.errors ? "#d14023" : "#d3dce6",
 									}}
 								/>
 							}

@@ -53,16 +53,17 @@ export default styled(Input)`
 	.disabled {
 		& .icon > svg {
 			cursor: not-allowed;
-			color: #7182ac;
+			color: rgba(0, 0, 0, 0.25);
 		}
 
 		input {
 			cursor: not-allowed;
-			color: #7182ac;
-			background: #ebebeb;
+			color: rgba(0, 0, 0, 0.25);
+			background: #f5f5f5;
+			border: 1px solid #e6d8d8;
 
 			&:hover {
-				border: 1px solid transparent;
+				border: 1px solid #e6d8d8;
 			}
 		}
 	}

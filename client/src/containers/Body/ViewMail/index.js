@@ -19,6 +19,8 @@ import { deleteMail, fetchMails, resendMail } from "actions/Mail";
 
 const title = "View Mail";
 
+const iconStyle = { position: "relative", top: 2 };
+
 const columns = [
 	{
 		title: "Status",
@@ -70,7 +72,7 @@ export const ViewMail = ({
 						style={{ marginBottom: 20 }}
 						onClick={() => fetchMails()}
 					>
-						<FaSync style={{ position: "relative", top: 2 }} />
+						<FaSync style={iconStyle} />
 						&nbsp; Refresh
 					</Button>
 				</FlexStart>
@@ -83,7 +85,7 @@ export const ViewMail = ({
 						style={{ marginBottom: 20 }}
 						onClick={() => push("/employee/mail/create")}
 					>
-						<FaPaperPlane style={{ position: "relative", top: 2 }} />
+						<FaPaperPlane style={iconStyle} />
 						&nbsp; Send Mail
 					</Button>
 				</FlexEnd>

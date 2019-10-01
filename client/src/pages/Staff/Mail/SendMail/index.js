@@ -1,5 +1,6 @@
 import React from "react";
+import { SendMailForm } from "containers/Forms";
 
-const SendMailPage = () => <h1>Create Template</h1>;
+const SendMailPage = () => <SendMailForm />;
 
 export default SendMailPage;

@@ -34,14 +34,18 @@ class CustomTable extends Component {
 	};
 
 	/* istanbul ignore next */
-	componentWillUnmount = () => clearTimeout(this.timeout);
+	componentWillUnmount = () => {
+		this.cancelClearTimer = true;
+		clearTimeout(this.timeout);
+	};
 
 	handleClickAction = (action, record) => {
 		this.setState({ isLoading: true }, () => action(record._id));
 	};
 
 	clearTimer = () => {
-		this.setState({ isLoading: false }, () => clearTimeout(this.timeout));
+		if (!this.cancelClearTimer)
+			this.setState({ isLoading: false }, () => clearTimeout(this.timeout));
 	};
 
 	setTimer = () => (this.timeout = setTimeout(this.clearTimer, 3000));
