@@ -13,22 +13,11 @@ export default fields => {
 		if (isEmpty(fields)) throw new Error("You must supply an array of fields!");
 
 		const parsedFields = fields.reduce(
-			(acc, { name, type, value, notes, dataSource, updateEvent }) => {
+			(acc, { name, type, value, notes, updateEvent }) => {
 				switch (type) {
 					case "time": {
 						acc["callTimes"] = acc["callTimes"] || [];
 						if (value) acc["callTimes"].push(value.format());
-						break;
-					}
-					case "transfer": {
-						acc[name] = !isEmpty(value)
-							? value.reduce((acc, id) => {
-									const isSelected = dataSource.find(
-										member => member._id === id,
-									);
-									return isSelected ? [...acc, isSelected.email] : acc;
-							  }, [])
-							: [];
 						break;
 					}
 					case "date": {

@@ -13,6 +13,7 @@ export default styled.div`
 	outline: 0;
 	-webkit-animation: fadeIn 0.2s 0s ease-in-out forwards;
 	animation: fadeIn 0.2s 0s ease-in-out forwards;
+	z-index: 100;
 
 	&::before {
 		display: inline-block;

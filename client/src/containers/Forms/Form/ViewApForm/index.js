@@ -64,11 +64,10 @@ export class ViewApForm extends Component {
 		const { validatedFields, errors } = fieldValidator(this.state.fields);
 
 		this.setState({ fields: validatedFields, isSubmitting: !errors }, () => {
-			const { fields: formFields } = this.state;
 			const { viewForm } = this.props;
 
 			if (!errors) {
-				const condensedFields = condenseFormFields(formFields);
+				const condensedFields = condenseFormFields(validatedFields);
 				const parsedFields = parseFields(condensedFields);
 
 				this.props.updateFormAp({

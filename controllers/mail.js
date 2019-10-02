@@ -12,7 +12,8 @@ const createMail = async (req, res) => {
   try {
     const { message, sendDate, sendFrom, sendTo, subject } = req.body;
 
-    if (!message || !sendTo || !subject) throw unableToCreateNewMail;
+    if (!message || !sendTo || !sendFrom || !subject)
+      throw unableToCreateNewMail;
 
     const sendEmailDate = createDate(sendDate);
     const sentDateMessage = sendDate

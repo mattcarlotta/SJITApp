@@ -38,12 +38,7 @@ export class ResetPasswordForm extends Component {
 		const { validatedFields, errors } = fieldValidator(this.state.fields);
 
 		this.setState({ fields: validatedFields, isSubmitting: !errors }, () => {
-			const { fields: formFields } = this.state;
-
-			if (!errors) {
-				const parsedFields = parseFields(formFields);
-				this.props.resetPassword(parsedFields);
-			}
+			if (!errors) this.props.resetPassword(parseFields(validatedFields));
 		});
 	};
 

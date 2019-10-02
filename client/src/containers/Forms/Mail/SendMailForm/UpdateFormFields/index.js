@@ -1,9 +1,9 @@
-export default (field, members) => {
+export default (field, dataSource) => {
 	switch (field.name) {
 		case "sendTo":
 			return {
 				...field,
-				dataSource: members,
+				dataSource,
 				disabled: false,
 			};
 		default: {

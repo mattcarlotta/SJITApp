@@ -7,7 +7,7 @@ export default styled(Icon)`
 	position: absolute;
 	padding-left: 16px;
 	transition: all 0.3s ease-in-out;
-	z-index: 2;
+	z-index: 1;
 
 	svg {
 		color: ${({ color }) => color || "#d3dce6"};

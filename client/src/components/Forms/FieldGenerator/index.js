@@ -228,13 +228,10 @@ const FieldGenerator = ({ fields, onChange }) =>
 					<Form.Item key={props.name} style={{ height: 350 }}>
 						{props.label && <Label {...props} />}
 						<Transfer
+							{...props}
 							className={
 								props.errors && isEmpty(props.value) ? "has-error" : ""
 							}
-							disabled={props.disabled}
-							listStyle={props.listStyle}
-							rowKey={record => record._id}
-							dataSource={props.dataSource}
 							filterOption={(inputValue, option) =>
 								option.name.toLowerCase().includes(inputValue.toLowerCase())
 							}
@@ -243,7 +240,6 @@ const FieldGenerator = ({ fields, onChange }) =>
 								onChange({ target: { name: props.name, value } })
 							}
 							render={item => item.name}
-							showSearch
 						/>
 						{props.errors && <Errors>{props.errors}</Errors>}
 					</Form.Item>

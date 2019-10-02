@@ -50,14 +50,13 @@ export class EditAuthorizationForm extends Component {
 		const { validatedFields, errors } = fieldValidator(this.state.fields);
 
 		this.setState({ fields: validatedFields, isSubmitting: !errors }, () => {
-			const { fields: formFields } = this.state;
 			const {
 				editToken: { _id },
 				updateMemberToken,
 			} = this.props;
 
 			if (!errors) {
-				const parsedFields = parseFields(formFields);
+				const parsedFields = parseFields(validatedFields);
 
 				updateMemberToken({ _id, ...parsedFields });
 			}

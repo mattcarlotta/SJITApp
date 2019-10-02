@@ -11,10 +11,12 @@ export default [
 		required: true,
 		disabled: true,
 		dataSource: [],
+		showSearch: true,
 		listStyle: {
-			width: "46%",
+			width: 277,
 			height: 300,
 		},
+		rowKey: record => record.email,
 	},
 	{
 		name: "sendFrom",
@@ -61,7 +63,7 @@ export default [
 		label: "Message",
 		value: "",
 		errors: "",
-		placeholder: "The subject of the email...",
+		placeholder: "Type a message...",
 		required: true,
 		disabled: true,
 	},

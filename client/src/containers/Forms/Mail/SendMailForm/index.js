@@ -4,7 +4,13 @@ import isEmpty from "lodash/isEmpty";
 import { Card } from "antd";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
-import { BackButton, FormContainer, SubmitButton } from "components/Body";
+import {
+	Button,
+	BackButton,
+	EmailPreview,
+	FormContainer,
+	SubmitButton,
+} from "components/Body";
 import { FieldGenerator, FormTitle, LoadingForm } from "components/Forms";
 import { fieldUpdater, fieldValidator, parseFields } from "utils";
 import { fetchMemberNames } from "actions/Members";
@@ -46,6 +52,9 @@ export class SendMailForm extends Component {
 		}));
 	};
 
+	handlePreview = () =>
+		this.setState(prevState => ({ showPreview: !prevState.showPreview }));
+
 	handleSubmit = e => {
 		e.preventDefault();
 		const { validatedFields, errors } = fieldValidator(this.state.fields);
@@ -77,10 +86,17 @@ export class SendMailForm extends Component {
 								fields={this.state.fields}
 								onChange={this.handleChange}
 							/>
+							<Button onClick={this.handlePreview}>Show Preview</Button>
 							<SubmitButton
 								title="Send"
 								isSubmitting={this.state.isSubmitting}
 							/>
+							{this.state.showPreview && (
+								<EmailPreview
+									fields={parseFields(this.state.fields)}
+									handleCloseModal={this.handlePreview}
+								/>
+							)}
 						</Fragment>
 					)}
 				</form>
@@ -88,124 +104,6 @@ export class SendMailForm extends Component {
 		</Card>
 	);
 }
-
-/*
-<Form.Item style={{ height: 350 }}>
-  <Label label="Send To:" />
-  <Transfer
-    listStyle={{
-      width: "46%",
-      height: 300,
-    }}
-    rowKey={record => record._id}
-    dataSource={this.state.members}
-    filterOption={this.filterOption}
-    targetKeys={this.state.targetKeys}
-    onChange={this.handleTransferChange}
-    render={item => item.name}
-    showSearch
-  />
-  {this.state.errors && <Errors>{this.state.errors}</Errors>}
-</Form.Item>
-<Form.Item style={{ height: 400 }}>
-  <Label label="Message:" />
-  <FroalaEditor
-    tag="textarea"
-    model={this.state.message}
-    config={{
-      placeholderText: "Type a message...",
-      toolbarButtons: {
-        moreText: {
-          buttons: [
-            "bold",
-            "italic",
-            "underline",
-            "strikeThrough",
-            "subscript",
-            "superscript",
-            "fontFamily",
-            "fontSize",
-            "textColor",
-            "backgroundColor",
-            "insertLink",
-            "quote",
-          ],
-          buttonsVisible: 3,
-        },
-        moreParagraph: {
-          buttons: [
-            "alignLeft",
-            "alignCenter",
-            "alignRight",
-            "alignJustify",
-            "formatOLSimple",
-            "formatOL",
-            "formatUL",
-            "paragraphFormat",
-            "paragraphStyle",
-            "lineHeight",
-            "outdent",
-            "indent",
-            "insertHR",
-          ],
-          buttonsVisible: 3,
-        },
-        moreMisc: {
-          buttons: ["undo", "redo", "selectAll", "clearFormatting"],
-          align: "right",
-          buttonsVisible: 2,
-        },
-      },
-    }}
-    onModelChange={this.handleEditorChange}
-  />
-</Form.Item>
-<ReactQuill
-  theme="snow"
-  value={this.state.message}
-  modules={{
-    toolbar: [
-      [{ header: [1, 2, false] }],
-      ["bold", "italic", "underline", "strike", "blockquote"],
-      ["color", "background"],
-      [
-        { list: "ordered" },
-        { list: "bullet" },
-        { indent: "-1" },
-        { indent: "+1" },
-      ],
-    ],
-  }}
-  formats={[
-    "header",
-    "font",
-    "size",
-    "bold",
-    "italic",
-    "underline",
-    "strike",
-    "blockquote",
-    "list",
-    "bullet",
-    "indent",
-    "color",
-  ]}
-  onChange={this.handleEditorChange}
-/>
-*/
-/*
-{this.state.isLoading ? (
-  <LoadingForm rows={4} />
-) : (
-  <Fragment>
-    <FieldGenerator
-      fields={this.state.fields}
-      onChange={this.handleChange}
-    />
-
-  </Fragment>
-)}
-*/
 
 SendMailForm.propTypes = {
 	createMail: PropTypes.func.isRequired,

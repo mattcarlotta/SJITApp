@@ -16,6 +16,7 @@ export { default as DisplayStatus } from "./DisplayStatus";
 export { default as DisplayTime } from "./DisplayTime";
 export { default as DisplayTeam } from "./DisplayTeam";
 export { default as DropContainer } from "./DropContainer";
+export { default as EmailPreview } from "./EmailPreview";
 export { default as EmailStatus } from "./EmailStatus";
 export { default as EventLabel } from "./EventLabel";
 export { default as FadeIn } from "./FadeIn";
