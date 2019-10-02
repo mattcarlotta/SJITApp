@@ -2,16 +2,16 @@ import isEmpty from "lodash/isEmpty";
 import * as types from "types";
 
 /**
- * Creates a new mail.
+ * Sends a single mail
  *
  * @function createMail
- * @param {object} props - props just contain an mailId and mail duration fields.
+ * @param {object} props - contains mail data ([id, sendTo, sendFrom, sendDate, message, subject]).
  * @returns {object}
  */
-// export const createMail = props => ({
-// 	type: types.MAIL_CREATE,
-// 	props,
-// });
+export const createMail = props => ({
+	type: types.MAIL_CREATE,
+	props,
+});
 
 /**
  * Deletes a new mail.

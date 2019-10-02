@@ -16,6 +16,7 @@ const DisplaySendToList = ({ emails }) => (
 	<Tooltip
 		arrowPointAtCenter
 		title={() => showFullList(emails)}
+		overlayStyle={{ maxWidth: 400 }}
 		placement="top"
 	>
 		{displayList(emails)}

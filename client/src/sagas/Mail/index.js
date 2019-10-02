@@ -1,4 +1,4 @@
-// import { push } from "connected-react-router";
+import { push } from "connected-react-router";
 import { all, put, call, takeLatest } from "redux-saga/effects";
 import { app } from "utils";
 import { hideServerMessage, setServerMessage } from "actions/Messages";
@@ -11,7 +11,7 @@ import * as types from "types";
  *
  * @generator
  * @function createMail
- * @param {object} props - props contain mailID and mail fields.
+ * @param {object} props -contains mail data ([id, sendTo, sendFrom, sendDate, message, subject]).
  * @yields {object} - A response from a call to the API.
  * @function parseMessage - Returns a parsed res.data.message.
  * @yields {action} - A redux action to display a server message by type.
@@ -19,25 +19,25 @@ import * as types from "types";
  * @throws {action} - A redux action to display a server message by type.
  */
 
-// export function* createMail({ props }) {
-// 	try {
-// 		yield put(hideServerMessage());
-//
-// 		const res = yield call(app.post, "mail/create", { ...props });
-// 		const message = yield call(parseMessage, res);
-//
-// 		yield put(
-// 			setServerMessage({
-// 				type: "success",
-// 				message,
-// 			}),
-// 		);
-//
-// 		yield put(push("/employee/mails/viewall"));
-// 	} catch (e) {
-// 		yield put(setServerMessage({ type: "error", message: e.toString() }));
-// 	}
-// }
+export function* createMail({ props }) {
+	try {
+		yield put(hideServerMessage());
+
+		const res = yield call(app.post, "mail/create", { ...props });
+		const message = yield call(parseMessage, res);
+
+		yield put(
+			setServerMessage({
+				type: "success",
+				message,
+			}),
+		);
+
+		yield put(push("/employee/mail/viewall"));
+	} catch (e) {
+		yield put(setServerMessage({ type: "error", message: e.toString() }));
+	}
+}
 
 /**
  * Attempts to delete an email.
@@ -194,7 +194,7 @@ export function* resendMail({ mailId }) {
 export default function* mailsSagas() {
 	yield all([
 		// takeLatest(types.MAIL_EDIT, fetchMail),
-		// takeLatest(types.MAIL_CREATE, createMail),
+		takeLatest(types.MAIL_CREATE, createMail),
 		takeLatest(types.MAIL_DELETE, deleteMail),
 		takeLatest(types.MAIL_FETCH, fetchMails),
 		takeLatest(types.MAIL_RESEND, resendMail),

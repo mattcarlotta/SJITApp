@@ -1,16 +1,32 @@
 /* istanbul ignore file */
 export default [
 	{
-		name: "sendFrom",
-		type: "email",
-		label: "Send From",
-		placeholder: "*Optional* An email address to send from...",
+		name: "sendTo",
+		type: "transfer",
+		label: "Send To",
 		tooltip:
-			"Include an email if you wish to override the default noreply@sjsiceteam.com.",
-		icon: "id",
-		value: "",
+			"Select and transfer one or multiple members from the left box to the right box to include them on the mailing list.",
+		value: [],
 		errors: "",
-		required: false,
+		required: true,
+		disabled: true,
+		dataSource: [],
+		listStyle: {
+			width: "46%",
+			height: 300,
+		},
+	},
+	{
+		name: "sendFrom",
+		type: "text",
+		label: "Send From",
+		placeholder: "An email address to send from...",
+		tooltip:
+			"Include your own email if you wish to override the default below.",
+		icon: "id",
+		value: "San Jose Sharks Ice Team <noreply@sjsiceteam.com>",
+		errors: "",
+		required: true,
 		disabled: true,
 	},
 	{
@@ -33,6 +49,16 @@ export default [
 		type: "input",
 		label: "Subject",
 		icon: "mail",
+		value: "",
+		errors: "",
+		placeholder: "The subject of the email...",
+		required: true,
+		disabled: true,
+	},
+	{
+		name: "message",
+		type: "editor",
+		label: "Message",
 		value: "",
 		errors: "",
 		placeholder: "The subject of the email...",

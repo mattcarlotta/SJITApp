@@ -4,10 +4,7 @@ import { Schema, model } from "mongoose";
 const mailSchema = new Schema({
   message: { type: String, required: true },
   sendTo: [{ type: String, required: true }],
-  sendFrom: {
-    type: String,
-    default: "San Jose Sharks Ice Team <noreply@sjsiceteam.com>",
-  },
+  sendFrom: { type: String, required: true },
   sendDate: { type: Date, default: Date.now() },
   status: { type: String, default: "unsent" },
   subject: { type: String, required: true },

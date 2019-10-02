@@ -152,6 +152,8 @@ export function* fetchAvailability({ params }) {
 
 export function* fetchMemberNames() {
 	try {
+		yield put(hideServerMessage());
+
 		const res = yield call(app.get, "members/names");
 		const data = yield call(parseData, res);
 

@@ -1,7 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
-import { Form, DatePicker, TimePicker, Radio, Input as AntInput } from "antd";
+import FroalaEditor from "react-froala-wysiwyg";
+import {
+	Form,
+	DatePicker,
+	TimePicker,
+	Transfer,
+	Radio,
+	Input as AntInput,
+} from "antd";
 import { FaCalendarPlus, FaClock } from "react-icons/fa";
 import { Icon, Label, Notes } from "components/Body";
 import { Errors, Input, Select } from "components/Forms";
@@ -31,11 +39,13 @@ const FieldGenerator = ({ fields, onChange }) =>
 			case "text":
 			case "email":
 			case "input":
-			case "password":
+			case "password": {
 				return <Input {...props} key={props.name} onChange={onChange} />;
-			case "select":
+			}
+			case "select": {
 				return <Select {...props} key={props.name} onChange={onChange} />;
-			case "date":
+			}
+			case "date": {
 				return (
 					<Form.Item key={props.name} style={{ height: 105 }}>
 						<Label {...props} />
@@ -56,7 +66,68 @@ const FieldGenerator = ({ fields, onChange }) =>
 						{props.errors && <Errors>{props.errors}</Errors>}
 					</Form.Item>
 				);
-			case "radiogroup":
+			}
+			case "editor": {
+				return (
+					<Form.Item key={props.name} style={{ height: 400 }}>
+						{props.label && <Label {...props} />}
+						<FroalaEditor
+							tag="textarea"
+							model={props.value}
+							config={{
+								placeholderText: props.placeholder,
+								toolbarButtons: {
+									moreText: {
+										buttons: [
+											"bold",
+											"italic",
+											"underline",
+											"strikeThrough",
+											"subscript",
+											"superscript",
+											"fontFamily",
+											"fontSize",
+											"textColor",
+											"backgroundColor",
+											"insertLink",
+											"quote",
+										],
+										buttonsVisible: 3,
+									},
+									moreParagraph: {
+										buttons: [
+											"alignLeft",
+											"alignCenter",
+											"alignRight",
+											"alignJustify",
+											"formatOLSimple",
+											"formatOL",
+											"formatUL",
+											"paragraphFormat",
+											"paragraphStyle",
+											"lineHeight",
+											"outdent",
+											"indent",
+											"insertHR",
+										],
+										buttonsVisible: 3,
+									},
+									moreMisc: {
+										buttons: ["undo", "redo", "selectAll", "clearFormatting"],
+										align: "right",
+										buttonsVisible: 2,
+									},
+								},
+							}}
+							onModelChange={value =>
+								onChange({ target: { name: props.name, value } })
+							}
+						/>
+						{props.errors && <Errors>{props.errors}</Errors>}
+					</Form.Item>
+				);
+			}
+			case "radiogroup": {
 				return (
 					<Form.Item key={props.name}>
 						<Label style={{ marginBottom: 25 }} {...props} />
@@ -74,7 +145,8 @@ const FieldGenerator = ({ fields, onChange }) =>
 						)}
 					</Form.Item>
 				);
-			case "range":
+			}
+			case "range": {
 				return (
 					<Form.Item key={props.name} style={{ height: 105 }}>
 						<Label {...props} />
@@ -95,7 +167,8 @@ const FieldGenerator = ({ fields, onChange }) =>
 						{props.errors && <Errors>{props.errors}</Errors>}
 					</Form.Item>
 				);
-			case "textarea":
+			}
+			case "textarea": {
 				return (
 					<Form.Item
 						key={props.name}
@@ -111,7 +184,8 @@ const FieldGenerator = ({ fields, onChange }) =>
 						{props.errors && <Errors>{props.errors}</Errors>}
 					</Form.Item>
 				);
-			case "time":
+			}
+			case "time": {
 				return (
 					<Form.Item
 						key={props.name}
@@ -148,6 +222,33 @@ const FieldGenerator = ({ fields, onChange }) =>
 						{props.errors && <Errors>{props.errors}</Errors>}
 					</Form.Item>
 				);
+			}
+			case "transfer": {
+				return (
+					<Form.Item key={props.name} style={{ height: 350 }}>
+						{props.label && <Label {...props} />}
+						<Transfer
+							className={
+								props.errors && isEmpty(props.value) ? "has-error" : ""
+							}
+							disabled={props.disabled}
+							listStyle={props.listStyle}
+							rowKey={record => record._id}
+							dataSource={props.dataSource}
+							filterOption={(inputValue, option) =>
+								option.name.toLowerCase().includes(inputValue.toLowerCase())
+							}
+							targetKeys={props.value}
+							onChange={value =>
+								onChange({ target: { name: props.name, value } })
+							}
+							render={item => item.name}
+							showSearch
+						/>
+						{props.errors && <Errors>{props.errors}</Errors>}
+					</Form.Item>
+				);
+			}
 		}
 	});
 
