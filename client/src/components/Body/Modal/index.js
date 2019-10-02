@@ -9,12 +9,18 @@ import ModalContent from "./ModalContent";
 import ModalContainer from "./ModalContainer";
 import WindowContainer from "./WindowContainer";
 
-export const Modal = ({ children, history, maxWidth, onClick }) => (
+export const Modal = ({
+	children,
+	disableClickHandler,
+	history,
+	maxWidth,
+	onClick,
+}) => (
 	<Fragment>
 		<BackgroundOverlay />
 		<WindowContainer>
 			<ModalContainer>
-				<ClickHandler closeModal={onClick}>
+				<ClickHandler closeModal={!disableClickHandler ? onClick : null}>
 					<ModalContent maxWidth={maxWidth}>
 						<CloseModalButton
 							id="close-modal"
@@ -32,6 +38,7 @@ export const Modal = ({ children, history, maxWidth, onClick }) => (
 
 Modal.propTypes = {
 	children: PropTypes.node.isRequired,
+	disableClickHandler: PropTypes.bool,
 	history: PropTypes.shape({
 		push: PropTypes.func,
 	}),

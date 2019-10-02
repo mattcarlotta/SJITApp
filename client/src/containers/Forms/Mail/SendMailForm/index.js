@@ -86,7 +86,7 @@ export class SendMailForm extends Component {
 								fields={this.state.fields}
 								onChange={this.handleChange}
 							/>
-							<Button onClick={this.handlePreview}>Show Preview</Button>
+							<Button onClick={this.handlePreview}>Preview Email</Button>
 							<SubmitButton
 								title="Send"
 								isSubmitting={this.state.isSubmitting}
