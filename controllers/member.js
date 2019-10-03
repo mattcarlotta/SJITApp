@@ -60,8 +60,9 @@ const getAllMemberNames = async (_, res) => {
       {
         $project: {
           id: 1,
-          name: { $concat: ["$firstName", " ", "$lastName"] },
-          email: 1,
+          email: {
+            $concat: ["$firstName", " ", "$lastName", " ", "<", "$email", ">"],
+          },
         },
       },
     ]);

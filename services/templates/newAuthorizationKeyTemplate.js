@@ -8,7 +8,7 @@ export default (CLIENT, token, expiration) => `
               <p style="color: #2E323B;">
                 <img style="margin-right:15px;" src="https://i.imgur.com/pcu86US.png" height="30px" alt="saplogo.png"></img>
                 <img style="margin-right:15px;" src="https://i.imgur.com/Clo9cbt.png" height="40px" alt="sharkslogo.png"></img>
-                <img src="https://i.imgur.com/HTcARsE.png" height="35px" alt="barracudaLogo.png"></img>
+                <img src="https://i.imgur.com/HTcARsE.png" height="33px" alt="barracudaLogo.png"></img>
               </p>
             </div>
             <div style="background-color: #FFFFFF; border: 1px solid #f0f0f0;">

@@ -239,7 +239,6 @@ const FieldGenerator = ({ fields, onChange }) =>
 							onChange={value =>
 								onChange({ target: { name: props.name, value } })
 							}
-							render={item => item.name}
 						/>
 						{props.errors && <Errors>{props.errors}</Errors>}
 					</Form.Item>

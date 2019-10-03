@@ -17,6 +17,7 @@ export default [
 			height: 300,
 		},
 		rowKey: record => record.email,
+		render: item => item.email.replace(/ <.*?>/g, ""),
 	},
 	{
 		name: "sendFrom",
@@ -24,7 +25,7 @@ export default [
 		label: "Send From",
 		placeholder: "An email address to send from...",
 		tooltip:
-			"Include your own email if you wish to override the default below.",
+			"Include your own email if you wish to override the default below. You can also include a custom email title by following this same pattern: First Last <email@example.com>",
 		icon: "id",
 		value: "San Jose Sharks Ice Team <noreply@sjsiceteam.com>",
 		errors: "",
@@ -64,6 +65,8 @@ export default [
 		value: "",
 		errors: "",
 		placeholder: "Type a message...",
+		tooltip:
+			"The message created below will make up the body of a pre-defined email template. That said, you can still copy/paste, and/or create stylized and formatted text and links within this box.",
 		required: true,
 		disabled: true,
 	},

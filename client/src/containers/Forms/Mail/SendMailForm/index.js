@@ -9,7 +9,6 @@ import {
 	BackButton,
 	EmailPreview,
 	FormContainer,
-	SubmitButton,
 } from "components/Body";
 import { FieldGenerator, FormTitle, LoadingForm } from "components/Forms";
 import { fieldUpdater, fieldValidator, parseFields } from "utils";
@@ -36,7 +35,7 @@ export class SendMailForm extends Component {
 			};
 		}
 
-		if (serverMessage) return { isSubmitting: false };
+		if (serverMessage) return { isSubmitting: false, showPreview: false };
 
 		return null;
 	};
@@ -59,9 +58,12 @@ export class SendMailForm extends Component {
 		e.preventDefault();
 		const { validatedFields, errors } = fieldValidator(this.state.fields);
 
-		this.setState({ fields: validatedFields, isSubmitting: !errors }, () => {
-			if (!errors) this.props.createMail(parseFields(validatedFields));
-		});
+		this.setState(
+			{ fields: validatedFields, isSubmitting: !errors, showPreview: !errors },
+			() => {
+				if (!errors) this.props.createMail(parseFields(validatedFields));
+			},
+		);
 	};
 
 	render = () => (
@@ -86,14 +88,13 @@ export class SendMailForm extends Component {
 								fields={this.state.fields}
 								onChange={this.handleChange}
 							/>
-							<Button onClick={this.handlePreview}>Preview Email</Button>
-							<SubmitButton
-								title="Send"
-								isSubmitting={this.state.isSubmitting}
-							/>
+							<Button primary onClick={this.handlePreview}>
+								Preview
+							</Button>
 							{this.state.showPreview && (
 								<EmailPreview
 									fields={parseFields(this.state.fields)}
+									isSubmitting={this.state.isSubmitting}
 									handleCloseModal={this.handlePreview}
 								/>
 							)}
@@ -112,7 +113,6 @@ SendMailForm.propTypes = {
 	memberNames: PropTypes.arrayOf(
 		PropTypes.shape({
 			_id: PropTypes.string,
-			name: PropTypes.string,
 			email: PropTypes.string,
 		}),
 	),
