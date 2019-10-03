@@ -4,6 +4,7 @@ import {
 	EditAuthorization,
 	EditEvent,
 	EditForm,
+	EditMail,
 	EditSeason,
 	EventSchedule,
 	NewEvent,
@@ -47,8 +48,8 @@ describe("Application routes", () => {
 	});
 
 	describe("Staff and Admin routes", () => {
-		it("initially renders 24 routes", () => {
-			expect(wrapper.find("Route")).toHaveLength(24);
+		it("initially renders 25 routes", () => {
+			expect(wrapper.find("Route")).toHaveLength(25);
 		});
 
 		it("routes to Dashboard", () => {
@@ -113,6 +114,30 @@ describe("Application routes", () => {
 					.find("Route[exact=true][path='/employee/forms/viewall']")
 					.prop("component"),
 			).toBe(ViewForms);
+		});
+
+		it("routes to SendMail", () => {
+			expect(
+				wrapper
+					.find("Route[exact=true][path='/employee/mail/create']")
+					.prop("component"),
+			).toBe(SendMail);
+		});
+
+		it("routes to EditMail", () => {
+			expect(
+				wrapper
+					.find("Route[exact=true][path='/employee/mail/edit/:id']")
+					.prop("component"),
+			).toBe(EditMail);
+		});
+
+		it("routes to ViewMail", () => {
+			expect(
+				wrapper
+					.find("Route[exact=true][path='/employee/mail/viewall']")
+					.prop("component"),
+			).toBe(ViewMail);
 		});
 
 		it("routes to NewMember", () => {
@@ -191,22 +216,6 @@ describe("Application routes", () => {
 			).toBe(ViewSeasons);
 		});
 
-		it("routes to SendMail", () => {
-			expect(
-				wrapper
-					.find("Route[exact=true][path='/employee/mail/create']")
-					.prop("component"),
-			).toBe(SendMail);
-		});
-
-		it("routes to ViewMail", () => {
-			expect(
-				wrapper
-					.find("Route[exact=true][path='/employee/mail/viewall']")
-					.prop("component"),
-			).toBe(ViewMail);
-		});
-
 		it("routes to Settings", () => {
 			expect(
 				wrapper
@@ -235,7 +244,7 @@ describe("Application routes", () => {
 			expect(
 				wrapper
 					.find("Route")
-					.at(23)
+					.at(24)
 					.prop("component"),
 			).toBe(AppPageNotFound);
 		});

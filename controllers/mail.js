@@ -66,7 +66,7 @@ const getMail = async (req, res) => {
     const existingEmail = await Mail.findOne({ _id }, { __v: 0 });
     if (!existingEmail) throw unableToLocateMail;
 
-    res.status(200).json({ form: existingEmail });
+    res.status(200).json({ email: existingEmail });
   } catch (err) {
     return sendError(err, res);
   }
@@ -112,8 +112,7 @@ const updateMail = async (req, res) => {
       sendFrom,
       sendTo,
       subject,
-      sent: false,
-      sendError: "",
+      status: "unsent",
     });
 
     res.status(201).json({

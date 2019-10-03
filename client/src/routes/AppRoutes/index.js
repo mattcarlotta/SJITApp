@@ -8,6 +8,7 @@ import {
 	EditAuthorization,
 	EditEvent,
 	EditForm,
+	EditMail,
 	EditSeason,
 	EventSchedule,
 	NewEvent,
@@ -52,6 +53,9 @@ const AppRoutes = ({ match: { url }, role }) =>
 			<Route exact path={`${url}/forms/edit/:id`} component={EditForm} />
 			<Route exact path={`${url}/forms/view/:id`} component={ViewApForm} />
 			<Route exact path={`${url}/forms/viewall`} component={ViewForms} />
+			<Route exact path={`${url}/mail/create`} component={SendMail} />
+			<Route exact path={`${url}/mail/edit/:id`} component={EditMail} />
+			<Route exact path={`${url}/mail/viewall`} component={ViewMail} />
 			<Route exact path={`${url}/members/create`} component={NewMember} />
 			<Route
 				exact
@@ -73,8 +77,6 @@ const AppRoutes = ({ match: { url }, role }) =>
 			<Route exact path={`${url}/seasons/create`} component={NewSeason} />
 			<Route exact path={`${url}/seasons/edit/:id`} component={EditSeason} />
 			<Route exact path={`${url}/seasons/viewall`} component={ViewSeasons} />
-			<Route exact path={`${url}/mail/create`} component={SendMail} />
-			<Route exact path={`${url}/mail/viewall`} component={ViewMail} />
 			<Route exact path={`${url}/settings`} component={Settings} />
 			<Route exact path={`${url}/help`} component={Help} />
 			<Route exact path={`${url}/contact`} component={Contact} />

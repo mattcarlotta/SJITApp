@@ -12,25 +12,31 @@ import {
 } from "components/Body";
 import { FieldGenerator, FormTitle, LoadingForm } from "components/Forms";
 import { fieldUpdater, fieldValidator, parseFields } from "utils";
-import { fetchMemberNames } from "actions/Members";
-import { createMail } from "actions/Mail";
+import { fetchMail, updateMail } from "actions/Mail";
 import updateFormFields from "./UpdateFormFields";
 import fields from "./Fields";
 
-const title = "Send Mail";
+const title = "Edit Mail";
 
-export class SendMailForm extends Component {
-	state = {
-		fields,
-		errors: "",
-		isLoading: true,
-		isSubmitting: false,
-	};
+export class EditMailForm extends Component {
+	constructor(props) {
+		super(props);
 
-	static getDerivedStateFromProps = ({ memberNames, serverMessage }, state) => {
-		if (state.isLoading && !isEmpty(memberNames)) {
+		const { id } = this.props.match.params;
+
+		this.state = {
+			id,
+			fields,
+			errors: "",
+			isLoading: true,
+			isSubmitting: false,
+		};
+	}
+
+	static getDerivedStateFromProps = ({ editMail, serverMessage }, state) => {
+		if (state.isLoading && !isEmpty(editMail)) {
 			return {
-				fields: state.fields.map(field => updateFormFields(field, memberNames)),
+				fields: state.fields.map(field => updateFormFields(field, editMail)),
 				isLoading: false,
 			};
 		}
@@ -41,7 +47,7 @@ export class SendMailForm extends Component {
 	};
 
 	componentDidMount = () => {
-		this.props.fetchMemberNames();
+		this.props.fetchMail(this.state.id);
 	};
 
 	handleChange = ({ target: { name, value } }) => {
@@ -61,7 +67,11 @@ export class SendMailForm extends Component {
 		this.setState(
 			{ fields: validatedFields, isSubmitting: !errors, showPreview: !errors },
 			() => {
-				if (!errors) this.props.createMail(parseFields(validatedFields));
+				if (!errors)
+					this.props.updateMail({
+						...parseFields(validatedFields),
+						_id: this.state.id,
+					});
 			},
 		);
 	};
@@ -77,7 +87,7 @@ export class SendMailForm extends Component {
 				<FormTitle
 					header={title}
 					title={title}
-					description="Please fill out all of the form fields below."
+					description="Edit and update the email below."
 				/>
 				<form onSubmit={this.handleSubmit}>
 					{this.state.isLoading ? (
@@ -96,7 +106,7 @@ export class SendMailForm extends Component {
 									fields={parseFields(this.state.fields)}
 									isSubmitting={this.state.isSubmitting}
 									handleCloseModal={this.handlePreview}
-									submitTitle="Send"
+									submitTitle="Update"
 								/>
 							)}
 						</Fragment>
@@ -107,31 +117,41 @@ export class SendMailForm extends Component {
 	);
 }
 
-SendMailForm.propTypes = {
-	createMail: PropTypes.func.isRequired,
-	fetchMemberNames: PropTypes.func.isRequired,
-	push: PropTypes.func.isRequired,
-	memberNames: PropTypes.arrayOf(
-		PropTypes.shape({
-			_id: PropTypes.string,
-			email: PropTypes.string,
+EditMailForm.propTypes = {
+	fetchMail: PropTypes.func.isRequired,
+	editMail: PropTypes.shape({
+		dataSource: PropTypes.arrayOf(
+			PropTypes.shape({
+				_id: PropTypes.string,
+				email: PropTypes.string,
+			}),
+		),
+		sendFrom: PropTypes.string,
+		message: PropTypes.string,
+		sendTo: PropTypes.arrayOf(PropTypes.string),
+	}),
+	match: PropTypes.shape({
+		params: PropTypes.shape({
+			id: PropTypes.string,
 		}),
-	),
+	}).isRequired,
+	push: PropTypes.func.isRequired,
 	serverMessage: PropTypes.string,
+	updateMail: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
-	memberNames: state.members.names,
+	editMail: state.mail.editMail,
 	serverMessage: state.server.message,
 });
 
 const mapDispatchToProps = {
-	createMail,
-	fetchMemberNames,
+	fetchMail,
 	push,
+	updateMail,
 };
 
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps,
-)(SendMailForm);
+)(EditMailForm);

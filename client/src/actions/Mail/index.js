@@ -32,10 +32,10 @@ export const deleteMail = mailId => ({
  * @param {string} mailId
  * @returns {object}
  */
-// export const fetchMail = mailId => ({
-// 	type: types.MAIL_EDIT,
-// 	mailId,
-// });
+export const fetchMail = mailId => ({
+	type: types.MAIL_EDIT,
+	mailId,
+});
 
 /**
  * Fetches all mails.
@@ -78,10 +78,10 @@ export const setMails = data => ({
  * @param {object} data - contains mail data ([id, sendTo, sendFrom, sendDate, sent, message, subject]).
  * @returns {object}
  */
-// export const setMailToEdit = data => ({
-// 	type: types.MAIL_SET_EDIT,
-// 	payload: !isEmpty(data) ? data : {},
-// });
+export const setMailToEdit = data => ({
+	type: types.MAIL_SET_EDIT,
+	payload: !isEmpty(data) ? data : {},
+});
 
 /**
  * Updates a single mail.
@@ -90,7 +90,7 @@ export const setMails = data => ({
  * @param {object} data - contains mail data ([id, sendTo, sendFrom, sendDate, sent, message, subject]).
  * @returns {object}
  */
-// export const updateMail = props => ({
-// 	type: types.MAIL_UPDATE_EDIT,
-// 	props,
-// });
+export const updateMail = props => ({
+	type: types.MAIL_UPDATE_EDIT,
+	props,
+});

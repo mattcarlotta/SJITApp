@@ -72,7 +72,6 @@ const FieldGenerator = ({ fields, onChange }) =>
 					<Form.Item key={props.name} style={{ height: 400 }}>
 						{props.label && <Label {...props} />}
 						<FroalaEditor
-							tag="textarea"
 							model={props.value}
 							config={{
 								placeholderText: props.placeholder,

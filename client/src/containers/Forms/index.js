@@ -17,6 +17,7 @@ export { default as NewForm } from "./Form/NewForm";
 export { default as ViewApForm } from "./Form/ViewApForm";
 
 // mail
+export { default as EditMailForm } from "./Mail/EditMailForm";
 export { default as SendMailForm } from "./Mail/SendMailForm";
 
 // member

@@ -21,7 +21,7 @@ const mailReducer = (state = initialState, { payload, type }) => {
 			return { ...state, data: payload.mail };
 		}
 		case types.MAIL_SET_EDIT: {
-			return { ...state, editMail: payload.mail };
+			return { ...state, editMail: payload };
 		}
 		default: {
 			return state;

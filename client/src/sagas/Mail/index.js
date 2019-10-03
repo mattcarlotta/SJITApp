@@ -2,7 +2,7 @@ import { push } from "connected-react-router";
 import { all, put, call, takeLatest } from "redux-saga/effects";
 import { app } from "utils";
 import { hideServerMessage, setServerMessage } from "actions/Messages";
-import { setMails } from "actions/Mail";
+import { setMails, setMailToEdit } from "actions/Mail";
 import { parseData, parseMessage } from "utils/parseResponse";
 import * as types from "types";
 
@@ -83,18 +83,23 @@ export function* deleteMail({ mailId }) {
  * @throws {action} - A redux action to display a server message by type.
  */
 
-// export function* fetchMail({ mailId }) {
-// 	try {
-// 		yield put(hideServerMessage());
-//
-// 		const res = yield call(app.get, `mail/edit/${mailId}`);
-// 		const data = yield call(parseData, res);
-//
-// 		yield put(setMailToEdit(data));
-// 	} catch (e) {
-// 		yield put(setServerMessage({ type: "error", message: e.toString() }));
-// 	}
-// }
+export function* fetchMail({ mailId }) {
+	try {
+		yield put(hideServerMessage());
+
+		let res = yield call(app.get, "members/names");
+		const membersData = yield call(parseData, res);
+
+		res = yield call(app.get, `mail/edit/${mailId}`);
+		const emailData = yield call(parseData, res);
+
+		yield put(
+			setMailToEdit({ ...emailData.email, dataSource: membersData.members }),
+		);
+	} catch (e) {
+		yield put(setServerMessage({ type: "error", message: e.toString() }));
+	}
+}
 
 /**
  * Attempts to get all mails.
@@ -164,25 +169,25 @@ export function* resendMail({ mailId }) {
  * @throws {action} - A redux action to display a server message by type.
  */
 
-// export function* updateMail({ props }) {
-// 	try {
-// 		yield put(hideServerMessage());
-//
-// 		const res = yield call(app.put, "mail/update", { ...props });
-// 		const message = yield call(parseMessage, res);
-//
-// 		yield put(
-// 			setServerMessage({
-// 				type: "success",
-// 				message,
-// 			}),
-// 		);
-//
-// 		yield put(push("/employee/mails/viewall"));
-// 	} catch (e) {
-// 		yield put(setServerMessage({ type: "error", message: e.toString() }));
-// 	}
-// }
+export function* updateMail({ props }) {
+	try {
+		yield put(hideServerMessage());
+
+		const res = yield call(app.put, "mail/update", { ...props });
+		const message = yield call(parseMessage, res);
+
+		yield put(
+			setServerMessage({
+				type: "success",
+				message,
+			}),
+		);
+
+		yield put(push("/employee/mail/viewall"));
+	} catch (e) {
+		yield put(setServerMessage({ type: "error", message: e.toString() }));
+	}
+}
 
 /**
  * Creates watchers for all generators.
@@ -193,11 +198,11 @@ export function* resendMail({ mailId }) {
  */
 export default function* mailsSagas() {
 	yield all([
-		// takeLatest(types.MAIL_EDIT, fetchMail),
+		takeLatest(types.MAIL_EDIT, fetchMail),
 		takeLatest(types.MAIL_CREATE, createMail),
 		takeLatest(types.MAIL_DELETE, deleteMail),
 		takeLatest(types.MAIL_FETCH, fetchMails),
 		takeLatest(types.MAIL_RESEND, resendMail),
-		// takeLatest(types.MAIL_UPDATE_EDIT, updateMail),
+		takeLatest(types.MAIL_UPDATE_EDIT, updateMail),
 	]);
 }
