@@ -1,6 +1,9 @@
 /* eslint-disable react/no-danger */
 import React from "react";
 import PropTypes from "prop-types";
+import sapLogo from "images/misc/sapLogoEmail.png";
+import sharksLogo from "images/misc/sharksLogoEmail.png";
+import barracudaLogo from "images/misc/barracudaLogoEmail.png";
 
 const RenderMessage = ({ message }) => (
 	<tr>
@@ -9,23 +12,17 @@ const RenderMessage = ({ message }) => (
 				<div css="font-size: 16px; padding: 30px; vertical-align: top; display: block; width: 675px; max-width: 675px; margin: 10px auto;">
 					<div css="margin-bottom: 30px; margin-top: 15px;">
 						<p css="color: #2E323B;">
+							<img css="margin-right:20px;" src={sapLogo} alt="sapLogo.png" />
 							<img
-								css="margin-right:15px;"
-								src="https://i.imgur.com/pcu86US.png"
-								height="30px"
-								alt="saplogo.png"
-							></img>
+								css="margin-right:20px;position: relative;top: -3px;"
+								src={sharksLogo}
+								alt="sharksLogo.png"
+							/>
 							<img
-								css="margin-right:15px;"
-								src="https://i.imgur.com/Clo9cbt.png"
-								height="40px"
-								alt="sharkslogo.png"
-							></img>
-							<img
-								src="https://i.imgur.com/HTcARsE.png"
-								height="33px"
+								css="position: relative;top: -1px;"
+								src={barracudaLogo}
 								alt="barracudaLogo.png"
-							></img>
+							/>
 						</p>
 					</div>
 					<div css="background-color: #FFFFFF; border: 1px solid #f0f0f0;">
