@@ -1,4 +1,3 @@
-import mailer from "@sendgrid/mail";
 import { resetToken } from "services/strategies/resetToken";
 import { missingEmailCreds } from "shared/authErrors";
 import { User } from "models";
@@ -59,7 +58,6 @@ describe("Reset Password Token Request Middleware", () => {
     const updatedUser = await User.findOne({ email });
 
     expect(currentUser.token).not.toEqual(updatedUser.token);
-    expect(mailer.send).toHaveBeenCalledTimes(1);
     expect(req.user).toEqual(currentUser.email);
     expect(next).toHaveBeenCalledTimes(1);
     done();

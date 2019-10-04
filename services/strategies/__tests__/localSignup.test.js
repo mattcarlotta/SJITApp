@@ -1,4 +1,3 @@
-import mailer from "@sendgrid/mail";
 import moment from "moment";
 import { localSignup } from "services/strategies/localSignup";
 import {
@@ -173,7 +172,6 @@ describe("Local Signup Middleware", () => {
 
     await localSignup(req, res, next);
 
-    expect(mailer.send).toHaveBeenCalledTimes(1);
     expect(req.user).toEqual(
       expect.objectContaining({
         email: expect.any(String),

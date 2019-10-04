@@ -108,7 +108,7 @@ const unableToCreateNewForm =
   "Unable to create a new form. You must provide the seasonId, startMonth, endMonth, and expirationDate fields.";
 
 const unableToCreateNewMail =
-  "Unable to create a new email. You must provide a message, send to email address(es) and a subject.";
+  "Unable to create a new email. You must provide a message, send to email address(es), send from address, and a subject.";
 
 const unableToCreateNewSeason =
   "Unable to create a new season. You must provide the seasonId, startDate, and endDate fields.";

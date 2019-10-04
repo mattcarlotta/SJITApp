@@ -1,5 +1,5 @@
 import isEmpty from "lodash/isEmpty";
-import { Event, User } from "models";
+import { Event, Token, User } from "models";
 import {
   createMemberEventCount,
   createMemberResponseCount,
@@ -26,6 +26,7 @@ const deleteMember = async (req, res) => {
     if (!existingUser) throw unableToDeleteMember;
 
     await existingUser.delete();
+    await Token.deleteOne({ email: existingUser.email });
 
     res.status(200).json({ message: "Successfully deleted the member." });
   } catch (err) {

@@ -112,7 +112,8 @@ const updateMail = async (req, res) => {
       sendFrom,
       sendTo,
       subject,
-      status: "unsent",
+      sent: false,
+      sendError: "",
     });
 
     res.status(201).json({

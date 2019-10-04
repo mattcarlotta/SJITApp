@@ -1,4 +1,3 @@
-import mailer from "@sendgrid/mail";
 import { sendError, createSignupToken, expirationDate } from "shared/helpers";
 import {
   emailAlreadyTaken,
@@ -11,21 +10,17 @@ import {
   unableToUpdateToken,
 } from "shared/authErrors";
 import { newAuthorizationKeyTemplate } from "services/templates";
-import { Token, Season, User } from "models";
+import { Mail, Token, Season, User } from "models";
 
 const { CLIENT } = process.env;
 
-const createMessage = (authorizedEmail, token, expiration) => {
-  const msg = {
-    to: `${authorizedEmail}`,
-    from: "San Jose Sharks Ice Team <noreply@sjsiceteam.com>",
-    subject:
-      "Congratulations, you have been selected to join the San Jose Sharks Ice Team!",
-    html: newAuthorizationKeyTemplate(CLIENT, token, expiration.calendar()),
-  };
-
-  return msg;
-};
+const createMail = (authorizedEmail, token, expiration) => ({
+  sendTo: `${authorizedEmail}`,
+  sendFrom: "San Jose Sharks Ice Team <noreply@sjsiceteam.com>",
+  subject:
+    "Congratulations, you have been selected to join the San Jose Sharks Ice Team!",
+  message: newAuthorizationKeyTemplate(CLIENT, token, expiration.calendar()),
+});
 
 const createToken = async (req, res) => {
   try {
@@ -45,9 +40,11 @@ const createToken = async (req, res) => {
       role,
     });
 
-    const msg = createMessage(authorizedEmail, token, expiration);
+    await Mail.create(createMail(authorizedEmail, token, expiration));
 
-    await mailer.send(msg);
+    // const msg = createMail(authorizedEmail, token, expiration);
+    //
+    // await mailer.send(msg);
 
     res.status(201).json({
       message: `Succesfully created and sent an authorization key to ${authorizedEmail}.`,
@@ -124,9 +121,7 @@ const updateToken = async (req, res) => {
       token,
     });
 
-    const msg = createMessage(authorizedEmail, token, expiration);
-
-    await mailer.send(msg);
+    await Mail.create(createMail(authorizedEmail, token, expiration));
 
     res.status(201).json({
       message: `Succesfully updated and sent a new authorization key to ${authorizedEmail}.`,

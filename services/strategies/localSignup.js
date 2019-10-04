@@ -1,6 +1,6 @@
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
-import mailer from "@sendgrid/mail";
+// import mailer from "@sendgrid/mail";
 import moment from "moment";
 import {
   expiredToken,
@@ -11,7 +11,7 @@ import {
 } from "shared/authErrors";
 import { createRandomToken, sendError } from "shared/helpers";
 import { newUserTemplate } from "services/templates";
-import { User, Token } from "models";
+import { User, Mail, Token } from "models";
 
 const { CLIENT } = process.env;
 
@@ -54,15 +54,12 @@ passport.use(
         await Token.updateOne({ token }, { email: newUser.email });
 
         // send an email template for a new user signup
-        const msg = {
-          to: `${newUser.email}`,
-          from: "San Jose Sharks Ice Team <noreply@sjsiceteam.com>",
+        await Mail.create({
+          sendTo: `${newUser.firstName} ${newUser.lastName} <${newUser.email}>`,
+          sendFrom: "San Jose Sharks Ice Team <noreply@sjsiceteam.com>",
           subject: "Welcome to the San Jose Sharks Ice Team!",
-          html: newUserTemplate(CLIENT, newUser.firstName, newUser.lastName),
-        };
-
-        // attempts to send a verification email to newly created user
-        await mailer.send(msg);
+          message: newUserTemplate(CLIENT, newUser.firstName, newUser.lastName),
+        });
 
         return done(null, newUser);
       } catch (err) {

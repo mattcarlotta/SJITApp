@@ -5,7 +5,6 @@ import passport from "passport";
 import session from "express-session";
 import connectRedis from "connect-redis";
 import redis from "redis";
-import mailer from "@sendgrid/mail";
 import config from "env";
 import "database";
 
@@ -19,7 +18,6 @@ const client = redis.createClient({
   port: 6379,
 });
 
-mailer.setApiKey(config[NODE_ENV].sendgridAPIKey);
 //= ===========================================================//
 /* APP MIDDLEWARE */
 //= ===========================================================//

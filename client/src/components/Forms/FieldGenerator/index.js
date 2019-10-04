@@ -204,7 +204,7 @@ const FieldGenerator = ({ fields, onChange }) =>
 						<TimePicker
 							{...props}
 							use12Hours
-							minuteStep={15}
+							minuteStep={5}
 							format="h:mm a"
 							className={props.errors ? "has-error" : ""}
 							suffixIcon={
