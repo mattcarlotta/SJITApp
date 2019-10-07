@@ -1,7 +1,7 @@
 import moment from "moment";
 import isEmpty from "lodash/isEmpty";
 import { Event, Form, Season } from "models";
-import { convertId, sendError } from "shared/helpers";
+import { convertId, createDate, sendError } from "shared/helpers";
 import {
   expiredForm,
   missingFormId,
@@ -16,7 +16,13 @@ import {
 
 const createForm = async (req, res) => {
   try {
-    const { expirationDate, enrollMonth, notes, seasonId } = req.body;
+    const {
+      expirationDate,
+      enrollMonth,
+      notes,
+      sendEmailNotificationsDate,
+      seasonId,
+    } = req.body;
 
     if (!seasonId || !expirationDate || !enrollMonth)
       throw unableToCreateNewForm;
@@ -25,12 +31,14 @@ const createForm = async (req, res) => {
     if (!seasonExists) throw unableToLocateSeason;
 
     const [startMonth, endMonth] = enrollMonth;
+    const sendEmailsDate = createDate(sendEmailNotificationsDate);
     await Form.create({
       seasonId,
       startMonth,
       endMonth,
       expirationDate,
       notes,
+      sendEmailNotificationsDate: sendEmailsDate,
     });
 
     res.status(201).json({ message: "Successfully created a new form!" });
@@ -57,6 +65,7 @@ const deleteForm = async (req, res) => {
 
 const getAllForms = async (_, res) => {
   const forms = await Form.aggregate([
+    { $sort: { startMonth: -1 } },
     {
       $project: {
         seasonId: 1,
@@ -64,6 +73,8 @@ const getAllForms = async (_, res) => {
         endMonth: 1,
         expirationDate: 1,
         notes: 1,
+        sendEmailNotificationsDate: 1,
+        sentEmails: 1,
       },
     },
   ]);
@@ -149,7 +160,14 @@ const viewApForm = async (req, res) => {
 
 const updateForm = async (req, res) => {
   try {
-    const { _id, expirationDate, enrollMonth, notes, seasonId } = req.body;
+    const {
+      _id,
+      expirationDate,
+      enrollMonth,
+      notes,
+      seasonId,
+      sendEmailNotificationsDate,
+    } = req.body;
 
     if (!_id || !seasonId || !expirationDate || !enrollMonth)
       throw unableToUpdateForm;
@@ -161,12 +179,15 @@ const updateForm = async (req, res) => {
     if (!formExists) throw unableToLocateForm;
 
     const [startMonth, endMonth] = enrollMonth;
+    const sendEmailsDate = createDate(sendEmailNotificationsDate);
     await formExists.updateOne({
       seasonId,
       startMonth,
       endMonth,
       expirationDate,
       notes,
+      sendEmailNotificationsDate: sendEmailsDate,
+      sentEmailReminders: false,
     });
 
     res.status(201).json({ message: "Successfully updated the form!" });

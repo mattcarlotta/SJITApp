@@ -7,6 +7,7 @@ import { Card } from "antd";
 import { FaUserPlus } from "react-icons/fa";
 import {
 	Button,
+	DisplayEmailReminder,
 	DisplayTime,
 	DisplayTeam,
 	FlexEnd,
@@ -51,7 +52,6 @@ const columns = [
 		title: "Call Times",
 		dataIndex: "callTimes",
 		key: "callTimes",
-		width: 120,
 		render: times => <DisplayTime times={times} />,
 	},
 	{
@@ -63,6 +63,12 @@ const columns = [
 		title: "Scheduled Employees",
 		dataIndex: "schedule",
 		key: "schedule",
+	},
+	{
+		title: "Sent Email Reminders",
+		dataIndex: "sentEmailReminders",
+		key: "sentEmailReminders",
+		render: reminder => <DisplayEmailReminder reminder={reminder} />,
 	},
 ];
 
@@ -112,6 +118,7 @@ ViewEvents.propTypes = {
 			eventDate: PropTypes.string,
 			employeeResponses: PropTypes.number,
 			schedule: PropTypes.number,
+			sentEmailReminders: PropTypes.bool,
 		}),
 	),
 };

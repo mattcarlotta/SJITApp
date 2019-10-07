@@ -239,6 +239,8 @@ class CustomTable extends Component {
 					)}
 				</FlexCenter>
 			),
+			fixed: "right",
+			width: 100,
 		});
 
 		return tableColumns;
@@ -255,6 +257,7 @@ class CustomTable extends Component {
 					pagination={false}
 					bordered={true}
 					rowKey="_id"
+					scroll={{ x: 1300 }}
 				/>
 			</FadeIn>
 		);

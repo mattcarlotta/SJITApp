@@ -103,6 +103,7 @@ EditForm.propTypes = {
 		startMonth: PropTypes.string,
 		endMonth: PropTypes.string,
 		expirationDate: PropTypes.string,
+		sendEmailNotificationsDate: PropTypes.string,
 		notes: PropTypes.string,
 	}),
 	fetchForm: PropTypes.func.isRequired,

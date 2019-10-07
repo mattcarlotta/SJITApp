@@ -29,7 +29,7 @@ describe("View All Forms", () => {
 		expect(wrapper.find("Card").exists()).toBeTruthy();
 	});
 
-	it("clicking on the 'Add Form' button, moves the user to the New Form page", () => {
+	it("clicking on the 'Create AP Form' button, moves the user to the New Form page", () => {
 		wrapper
 			.find("Button")
 			.at(0)

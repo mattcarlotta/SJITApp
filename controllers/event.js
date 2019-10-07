@@ -108,6 +108,7 @@ const getAllEvents = async (_, res) => {
         location: 1,
         callTimes: 1,
         uniform: 1,
+        sentEmailReminders: 1,
         employeeResponses: { $size: "$employeeResponses" },
         schedule: {
           $sum: {

@@ -5,7 +5,13 @@ import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import { Card } from "antd";
 import { MdNoteAdd } from "react-icons/md";
-import { Button, FormatDate, FlexEnd, Table } from "components/Body";
+import {
+	Button,
+	DisplayEmailReminder,
+	FormatDate,
+	FlexEnd,
+	Table,
+} from "components/Body";
 import { deleteForm, fetchForms } from "actions/Forms";
 
 const title = "View Forms";
@@ -35,6 +41,18 @@ const columns = [
 		dataIndex: "_id",
 		key: "_id",
 	},
+	{
+		title: "Send Email Notifications",
+		dataIndex: "sendEmailNotificationsDate",
+		key: "sendEmailNotificationsDate",
+		render: date => <FormatDate format="MM/DD/YY" date={date} />,
+	},
+	{
+		title: "Sent Emails",
+		dataIndex: "sentEmails",
+		key: "sentEmails",
+		render: reminder => <DisplayEmailReminder reminder={reminder} />,
+	},
 ];
 
 export const ViewForms = ({ data, deleteForm, fetchForms, push }) => (
@@ -44,14 +62,14 @@ export const ViewForms = ({ data, deleteForm, fetchForms, push }) => (
 			<FlexEnd>
 				<Button
 					primary
-					width="180px"
+					width="200px"
 					marginRight="0px"
 					padding="5px 10px"
 					style={{ marginBottom: 20 }}
 					onClick={() => push("/employee/forms/create")}
 				>
 					<MdNoteAdd style={{ position: "relative", top: 4, fontSize: 20 }} />
-					&nbsp; Add Form
+					&nbsp; Create AP Form
 				</Button>
 			</FlexEnd>
 			<Table
@@ -78,7 +96,8 @@ ViewForms.propTypes = {
 			startMonth: PropTypes.string,
 			endMonth: PropTypes.string,
 			expirationDate: PropTypes.string,
-			notes: PropTypes.string,
+			sendEmailNotificationsDate: PropTypes.string,
+			sentEmails: PropTypes.bool,
 		}),
 	),
 };

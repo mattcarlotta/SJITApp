@@ -84,7 +84,7 @@ const createColumnSchedule = ({ event, members }) => [
  * @function
  * @returns {Date}
  */
-const createDate = date => moment(date || Date.now());
+const createDate = date => moment(date || Date.now()).format();
 
 /**
  * Helper function to generate an average member availability.
