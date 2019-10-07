@@ -12,7 +12,7 @@ import {
 	FlexEnd,
 	Table,
 } from "components/Body";
-import { deleteForm, fetchForms } from "actions/Forms";
+import { deleteForm, fetchForms, resendMail } from "actions/Forms";
 
 const title = "View Forms";
 
@@ -45,7 +45,7 @@ const columns = [
 		title: "Send Email Notifications",
 		dataIndex: "sendEmailNotificationsDate",
 		key: "sendEmailNotificationsDate",
-		render: date => <FormatDate format="MM/DD/YY" date={date} />,
+		render: date => <FormatDate format="MMMM Do, YYYY" date={date} />,
 	},
 	{
 		title: "Sent Emails",
@@ -55,7 +55,13 @@ const columns = [
 	},
 ];
 
-export const ViewForms = ({ data, deleteForm, fetchForms, push }) => (
+export const ViewForms = ({
+	data,
+	deleteForm,
+	fetchForms,
+	push,
+	resendMail,
+}) => (
 	<Fragment>
 		<Helmet title={title} />
 		<Card title={title}>
@@ -80,6 +86,7 @@ export const ViewForms = ({ data, deleteForm, fetchForms, push }) => (
 				push={push}
 				editLocation="forms"
 				viewLocation="forms"
+				sendMail={resendMail}
 			/>
 		</Card>
 	</Fragment>
@@ -100,6 +107,7 @@ ViewForms.propTypes = {
 			sentEmails: PropTypes.bool,
 		}),
 	),
+	resendMail: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -110,6 +118,7 @@ const mapDispatchToProps = {
 	deleteForm,
 	fetchForms,
 	push,
+	resendMail,
 };
 
 export default connect(

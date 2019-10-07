@@ -102,6 +102,7 @@ const getMemberEventCounts = async (req, res) => {
     const members = await User.find(
       { role: { $nin: ["admin", "staff"] }, status: "active" },
       { _id: 1, firstName: 1, lastName: 1 },
+      { sort: { lastName: 1 } },
     )
       .sort({ lastName: 1 })
       .lean();

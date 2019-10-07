@@ -124,7 +124,7 @@ export function* fetchMails() {
 }
 
 /**
- * Attempts to delete an email.
+ * Attempts to resend form emails.
  *
  * @generator
  * @function resendMail
@@ -145,7 +145,7 @@ export function* resendMail({ mailId }) {
 
 		yield put(
 			setServerMessage({
-				type: "success",
+				type: "info",
 				message,
 			}),
 		);

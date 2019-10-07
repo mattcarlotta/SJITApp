@@ -158,6 +158,7 @@ const getEventForScheduling = async (req, res) => {
     const members = await User.find(
       { role: { $nin: ["admin", "staff"] }, status: "active" },
       { _id: 1, firstName: 1, lastName: 1 },
+      { sort: { lastName: 1 } },
     ).lean();
     /* istanbul ignore next */
     if (isEmpty(members)) throw unableToLocateMembers;
@@ -221,6 +222,27 @@ const getScheduledEvents = async (req, res) => {
     res.status(200).json({ events });
   } catch (err) {
     /* istanbul ignore next */
+    return sendError(err, res);
+  }
+};
+
+const resendEventEmail = async (req, res) => {
+  try {
+    const { id: _id } = req.params;
+    if (!_id) throw missingEventId;
+
+    const existingEvent = await Event.findOne({ _id }, { __v: 0 });
+    if (!existingEvent) throw unableToLocateEvent;
+
+    await existingEvent.updateOne({
+      sentEmailReminders: false,
+    });
+
+    res.status(200).json({
+      message:
+        "Email notifications for that event will be resent within 24 hours of the event date.",
+    });
+  } catch (err) {
     return sendError(err, res);
   }
 };
@@ -306,6 +328,7 @@ export {
   getEvent,
   getEventForScheduling,
   getScheduledEvents,
+  resendEventEmail,
   updateEvent,
   updateEventSchedule,
 };

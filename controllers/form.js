@@ -1,7 +1,12 @@
 import moment from "moment";
 import isEmpty from "lodash/isEmpty";
 import { Event, Form, Season } from "models";
-import { convertId, createDate, sendError } from "shared/helpers";
+import {
+  convertId,
+  createDate,
+  getStartOfDay,
+  sendError,
+} from "shared/helpers";
 import {
   expiredForm,
   missingFormId,
@@ -32,6 +37,13 @@ const createForm = async (req, res) => {
 
     const [startMonth, endMonth] = enrollMonth;
     const sendEmailsDate = createDate(sendEmailNotificationsDate);
+    const currentDay = getStartOfDay();
+
+    if (expirationDate < currentDay)
+      throw "The selected 'Expiration Date' has already past. Please select a later date.";
+    if (sendEmailsDate < currentDay)
+      throw "The selected 'Send Email Notifications Date' has already past. Please select a later date.";
+
     await Form.create({
       seasonId,
       startMonth,
@@ -91,6 +103,123 @@ const getForm = async (req, res) => {
     if (!existingForm) throw unableToLocateForm;
 
     res.status(200).json({ form: existingForm });
+  } catch (err) {
+    return sendError(err, res);
+  }
+};
+
+const resendFormEmail = async (req, res) => {
+  try {
+    const { id: _id } = req.params;
+    if (!_id) throw missingFormId;
+
+    const existingForm = await Form.findOne({ _id }, { __v: 0 });
+    if (!existingForm) throw unableToLocateForm;
+
+    const sendEmailNotificationsDate = createDate();
+
+    await existingForm.updateOne({
+      sendEmailNotificationsDate,
+      sentEmails: false,
+    });
+
+    res.status(200).json({
+      message: "Email notifications for that form will be resent shortly.",
+    });
+  } catch (err) {
+    return sendError(err, res);
+  }
+};
+
+const updateForm = async (req, res) => {
+  try {
+    const {
+      _id,
+      expirationDate,
+      enrollMonth,
+      notes,
+      seasonId,
+      sendEmailNotificationsDate,
+    } = req.body;
+
+    if (!_id || !seasonId || !expirationDate || !enrollMonth)
+      throw unableToUpdateForm;
+
+    const seasonExists = await Season.findOne({ seasonId });
+    if (!seasonExists) throw unableToLocateSeason;
+
+    const formExists = await Form.findOne({ _id });
+    if (!formExists) throw unableToLocateForm;
+
+    const [startMonth, endMonth] = enrollMonth;
+    const sendEmailsDate = createDate(sendEmailNotificationsDate);
+    await formExists.updateOne({
+      seasonId,
+      startMonth,
+      endMonth,
+      expirationDate,
+      notes,
+      sendEmailNotificationsDate: sendEmailsDate,
+      sentEmails: false,
+    });
+
+    res.status(201).json({ message: "Successfully updated the form!" });
+  } catch (err) {
+    return sendError(err, res);
+  }
+};
+
+const updateApForm = async (req, res) => {
+  try {
+    const { _id, responses } = req.body;
+    if (!_id || !responses) throw unableToUpdateApForm;
+
+    const formExists = await Form.findOne({ _id });
+    if (!formExists) throw unableToLocateForm;
+
+    await Event.bulkWrite(
+      responses.map(response => {
+        const { id: eventId, value, notes, updateEvent } = response;
+        const { id: userId } = req.session.user;
+
+        const filter = updateEvent
+          ? {
+              _id: eventId,
+              "employeeResponses._id": userId,
+            }
+          : {
+              _id: eventId,
+            };
+
+        const update = updateEvent
+          ? {
+              $set: {
+                "employeeResponses.$.response": value,
+                "employeeResponses.$.notes": notes,
+              },
+            }
+          : {
+              $push: {
+                employeeResponses: {
+                  _id: userId,
+                  response: value,
+                  notes,
+                },
+              },
+            };
+
+        return {
+          updateOne: {
+            filter,
+            update,
+          },
+        };
+      }),
+    );
+
+    res
+      .status(201)
+      .json({ message: "Successfully added your responses to the A/P form!" });
   } catch (err) {
     return sendError(err, res);
   }
@@ -158,105 +287,12 @@ const viewApForm = async (req, res) => {
   }
 };
 
-const updateForm = async (req, res) => {
-  try {
-    const {
-      _id,
-      expirationDate,
-      enrollMonth,
-      notes,
-      seasonId,
-      sendEmailNotificationsDate,
-    } = req.body;
-
-    if (!_id || !seasonId || !expirationDate || !enrollMonth)
-      throw unableToUpdateForm;
-
-    const seasonExists = await Season.findOne({ seasonId });
-    if (!seasonExists) throw unableToLocateSeason;
-
-    const formExists = await Form.findOne({ _id });
-    if (!formExists) throw unableToLocateForm;
-
-    const [startMonth, endMonth] = enrollMonth;
-    const sendEmailsDate = createDate(sendEmailNotificationsDate);
-    await formExists.updateOne({
-      seasonId,
-      startMonth,
-      endMonth,
-      expirationDate,
-      notes,
-      sendEmailNotificationsDate: sendEmailsDate,
-      sentEmailReminders: false,
-    });
-
-    res.status(201).json({ message: "Successfully updated the form!" });
-  } catch (err) {
-    return sendError(err, res);
-  }
-};
-
-const updateApForm = async (req, res) => {
-  try {
-    const { _id, responses } = req.body;
-    if (!_id || !responses) throw unableToUpdateApForm;
-
-    const formExists = await Form.findOne({ _id });
-    if (!formExists) throw unableToLocateForm;
-
-    await Event.bulkWrite(
-      responses.map(response => {
-        const { id: eventId, value, notes, updateEvent } = response;
-        const { id: userId } = req.session.user;
-
-        const filter = updateEvent
-          ? {
-              _id: eventId,
-              "employeeResponses._id": userId,
-            }
-          : {
-              _id: eventId,
-            };
-
-        const update = updateEvent
-          ? {
-              $set: {
-                "employeeResponses.$.response": value,
-                "employeeResponses.$.notes": notes,
-              },
-            }
-          : {
-              $push: {
-                employeeResponses: {
-                  _id: userId,
-                  response: value,
-                  notes,
-                },
-              },
-            };
-
-        return {
-          updateOne: {
-            filter,
-            update,
-          },
-        };
-      }),
-    );
-
-    res
-      .status(201)
-      .json({ message: "Successfully added your responses to the A/P form!" });
-  } catch (err) {
-    return sendError(err, res);
-  }
-};
-
 export {
   createForm,
   deleteForm,
   getAllForms,
   getForm,
+  resendFormEmail,
   viewApForm,
   updateForm,
   updateApForm,

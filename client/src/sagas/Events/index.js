@@ -224,6 +224,35 @@ export function* initializeNewEvent() {
 }
 
 /**
+ * Attempts to resend form emails.
+ *
+ * @generator
+ * @function resendEventEmails
+ * @yields {object} - A response from a call to the API.
+ * @function parseData - Returns a parsed res.data.
+ * @yields {action} - A redux action to set forms data to redux state.
+ * @throws {action} - A redux action to display a server message by type.
+ */
+
+export function* resendEventEmails({ formId }) {
+	try {
+		const res = yield call(app.put, `event/resend-email/${formId}`);
+		const message = yield call(parseMessage, res);
+
+		yield put(
+			setServerMessage({
+				type: "info",
+				message,
+			}),
+		);
+
+		yield put({ type: types.EVENTS_FETCH });
+	} catch (e) {
+		yield put(setServerMessage({ type: "error", message: e.toString() }));
+	}
+}
+
+/**
  * Attempts to update an existing event.
  *
  * @generator
@@ -305,6 +334,7 @@ export default function* eventsSagas() {
 		takeLatest(types.EVENTS_FETCH_SCHEDULE, fetchEventForScheduling),
 		takeLatest(types.EVENTS_FETCH_SCHEDULE_EVENTS, fetchScheduleEvents),
 		takeLatest(types.EVENTS_INIT_NEW_EVENT, initializeNewEvent),
+		takeLatest(types.EVENTS_RESEND_MAIL, resendEventEmails),
 		takeLatest(types.EVENTS_UPDATE, updateEvent),
 		takeLatest(types.EVENTS_UPDATE_SCHEDULE, updateEventSchedule),
 	]);

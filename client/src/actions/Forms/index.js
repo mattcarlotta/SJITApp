@@ -60,6 +60,18 @@ export const fetchForms = () => ({
 });
 
 /**
+ * Resend forms emails.
+ *
+ * @function resendMail
+ * @params {formId}
+ * @returns {object}
+ */
+export const resendMail = formId => ({
+	type: types.FORMS_RESEND_MAIL,
+	formId,
+});
+
+/**
  * Sets any members from API to redux state
  *
  * @function setApForm

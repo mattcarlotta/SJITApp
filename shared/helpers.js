@@ -271,6 +271,18 @@ const getMonthDateRange = date => {
 };
 
 /**
+ * Helper function to generate a date range.
+ *
+ * @function getStartOfDay
+ * @param date
+ * @returns {object}
+ */
+const getStartOfDay = () =>
+  moment(Date.now())
+    .startOf("day")
+    .format();
+
+/**
  * Helper function to send an error to the client.
  *
  * @function
@@ -310,6 +322,7 @@ export {
   createUniqueName,
   expirationDate,
   getMonthDateRange,
+  getStartOfDay,
   sendError,
   updateScheduleIds,
 };

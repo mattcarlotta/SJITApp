@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { Divider, Icon, Input, Popconfirm, Table, Tooltip } from "antd";
 import {
 	FaEdit,
-	FaRedo,
+	FaShareSquare,
 	FaSearch,
 	FaTrash,
 	FaSearchPlus,
@@ -128,7 +128,7 @@ class CustomTable extends Component {
 			deleteAction,
 			editLocation,
 			push,
-			resendMail,
+			sendMail,
 			viewLocation,
 		} = this.props;
 
@@ -199,18 +199,18 @@ class CustomTable extends Component {
 							<Divider type="vertical" />
 						</Fragment>
 					)}
-					{resendMail && (
+					{sendMail && (
 						<Fragment>
-							<Tooltip placement="top" title={<span>Resend Mail</span>}>
+							<Tooltip placement="top" title={<span>Send/Resend Mail</span>}>
 								<Button
 									primary
 									display="inline-block"
 									width="50px"
 									padding="3px 0 0 0"
 									marginRight="0px"
-									onClick={() => this.handleClickAction(resendMail, record)}
+									onClick={() => this.handleClickAction(sendMail, record)}
 								>
-									<FaRedo style={{ fontSize: 16 }} />
+									<FaShareSquare style={{ fontSize: 18 }} />
 								</Button>
 							</Tooltip>
 							<Divider type="vertical" />
@@ -278,7 +278,7 @@ CustomTable.propTypes = {
 	editLocation: PropTypes.string,
 	fetchData: PropTypes.func.isRequired,
 	push: PropTypes.func.isRequired,
-	resendMail: PropTypes.func,
+	sendMail: PropTypes.func,
 	viewLocation: PropTypes.string,
 };
 

@@ -97,7 +97,7 @@ export const ViewMail = ({
 				editLocation="mail"
 				fetchData={fetchMails}
 				push={push}
-				resendMail={resendMail}
+				sendMail={resendMail}
 			/>
 		</Card>
 	</Fragment>

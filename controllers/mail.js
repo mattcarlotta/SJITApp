@@ -85,7 +85,7 @@ const resendMail = async (req, res) => {
       status: "unsent",
     });
 
-    res.status(200).json({ message: "The email will be resent shortly." });
+    res.status(200).json({ message: "That email will be resent shortly." });
   } catch (err) {
     return sendError(err, res);
   }
