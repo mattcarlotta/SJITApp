@@ -36,7 +36,7 @@ export default [
 		type: "date",
 		name: "sendDate",
 		label: "Send Date",
-		placeholder: "*Optional* Select a send date and time...",
+		placeholder: "*Optional* Select a send date and time to send this email...",
 		tooltip:
 			"Select a date and time below if you wish to send this email at a later date.",
 		value: null,

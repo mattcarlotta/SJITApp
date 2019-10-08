@@ -99,9 +99,13 @@ export class ViewApForm extends Component {
 						) : (
 							<Fragment>
 								<Title style={{ color: "#025f6d" }}>
-									{moment(viewForm.startMonth).format("MMMM YYYY")}
+									{moment(viewForm.startMonth).format("MMMM Do YYYY")}
+									&nbsp;-&nbsp;
+									{moment(viewForm.endMonth).format("MMMM Do YYYY")}
 								</Title>
-								<Title style={{ color: "#025f6d", fontSize: 16 }}>
+								<Title
+									style={{ color: "#025f6d", fontSize: 16, marginBottom: 40 }}
+								>
 									This form will expire after:{" "}
 									<span style={{ color: "#f56342" }}>
 										{moment(viewForm.expirationDate).format(

@@ -172,6 +172,8 @@ export function* fetchForms() {
 
 export function* resendFormEmails({ formId }) {
 	try {
+		yield put(hideServerMessage());
+
 		const res = yield call(app.put, `form/resend-email/${formId}`);
 		const message = yield call(parseMessage, res);
 

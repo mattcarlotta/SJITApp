@@ -37,6 +37,15 @@ const invalidDeleteTokenRequest =
 const invalidEmail =
   "That email is not associated with an active account. Please make sure to supply a valid registered email in order to resend a verification!";
 
+const invalidExpirationDate =
+  "The selected 'Expiration Date' has already past. Please select a later date.";
+
+const invalidSendDate =
+  "The selected 'Send Date' has already past. Please select a later date.";
+
+const invalidSendEmailNoteDate =
+  "The selected 'Send Email Notifications Date' has already past. Please select a later date.";
+
 const invalidSignupEmail =
   "There was a problem authenticating your request. The authorized key that was supplied does not match the staff approved email.";
 
@@ -184,9 +193,12 @@ export {
   invalidDeleteTokenRequest,
   invalidEmail,
   invalidEventDate,
+  invalidExpirationDate,
   invalidPassword,
   invalidSeason,
   invalidSeasonId,
+  invalidSendDate,
+  invalidSendEmailNoteDate,
   invalidSignupEmail,
   invalidStatus,
   invalidToken,

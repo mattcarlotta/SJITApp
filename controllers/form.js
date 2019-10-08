@@ -9,6 +9,9 @@ import {
 } from "shared/helpers";
 import {
   expiredForm,
+  invalidExpirationDate,
+  invalidSendDate,
+  invalidSendEmailNoteDate,
   missingFormId,
   unableToCreateNewForm,
   unableToLocateEvents,
@@ -36,13 +39,11 @@ const createForm = async (req, res) => {
     if (!seasonExists) throw unableToLocateSeason;
 
     const [startMonth, endMonth] = enrollMonth;
-    const sendEmailsDate = createDate(sendEmailNotificationsDate);
+    const sendEmailsDate = createDate(sendEmailNotificationsDate).format();
     const currentDay = getStartOfDay();
 
-    if (expirationDate < currentDay)
-      throw "The selected 'Expiration Date' has already past. Please select a later date.";
-    if (sendEmailsDate < currentDay)
-      throw "The selected 'Send Email Notifications Date' has already past. Please select a later date.";
+    if (expirationDate < currentDay) throw invalidExpirationDate;
+    if (sendEmailsDate < currentDay) throw invalidSendEmailNoteDate;
 
     await Form.create({
       seasonId,
@@ -116,10 +117,8 @@ const resendFormEmail = async (req, res) => {
     const existingForm = await Form.findOne({ _id }, { __v: 0 });
     if (!existingForm) throw unableToLocateForm;
 
-    const sendEmailNotificationsDate = createDate();
-
     await existingForm.updateOne({
-      sendEmailNotificationsDate,
+      sendEmailNotificationsDate: createDate().format(),
       sentEmails: false,
     });
 
@@ -152,7 +151,14 @@ const updateForm = async (req, res) => {
     if (!formExists) throw unableToLocateForm;
 
     const [startMonth, endMonth] = enrollMonth;
-    const sendEmailsDate = createDate(sendEmailNotificationsDate);
+
+    const currentDay = getStartOfDay();
+    const sendEmailsDate = createDate(sendEmailNotificationsDate).format();
+    const expiration = createDate(expirationDate).format();
+
+    if (expiration < currentDay) throw invalidExpirationDate;
+    if (sendEmailsDate < currentDay) throw invalidSendDate;
+
     await formExists.updateOne({
       seasonId,
       startMonth,

@@ -29,7 +29,7 @@ export default [
 	{
 		type: "date",
 		name: "expirationDate",
-		label: "Enrollment Expiration Date",
+		label: "Expiration Date",
 		placeholder: "Select a start date and time...",
 		tooltip:
 			"After the date specified below, employee responses will no longer be accepted nor editable.",

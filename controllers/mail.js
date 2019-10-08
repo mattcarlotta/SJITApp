@@ -1,6 +1,7 @@
 import { Mail } from "models";
-import { createDate, sendError } from "shared/helpers";
+import { createDate, getStartOfDay, sendError } from "shared/helpers";
 import {
+  invalidSendDate,
   missingMailId,
   unableToCreateNewMail,
   unableToDeleteMail,
@@ -15,7 +16,10 @@ const createMail = async (req, res) => {
     if (!message || !sendTo || !sendFrom || !subject)
       throw unableToCreateNewMail;
 
+    const currentDay = getStartOfDay();
     const sendEmailDate = createDate(sendDate);
+    if (sendEmailDate.format() < currentDay) throw invalidSendDate;
+
     const sentDateMessage = sendDate
       ? sendEmailDate.format("MMMM Do YYYY @ hh:mm a")
       : "shortly";
@@ -81,7 +85,7 @@ const resendMail = async (req, res) => {
     if (!existingEmail) throw unableToLocateMail;
 
     await existingEmail.updateOne({
-      sendDate: createDate(),
+      sendDate: createDate().format(),
       status: "unsent",
     });
 
@@ -101,7 +105,10 @@ const updateMail = async (req, res) => {
     const emailExists = await Mail.findOne({ _id });
     if (!emailExists) throw unableToLocateMail;
 
+    const currentDay = getStartOfDay();
     const sendEmailDate = createDate(sendDate);
+    if (sendEmailDate.format() < currentDay) throw invalidSendDate;
+
     const sentDateMessage = sendDate
       ? sendEmailDate.format("MMMM Do YYYY @ hh:mm a")
       : "shortly";

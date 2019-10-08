@@ -236,6 +236,8 @@ export function* initializeNewEvent() {
 
 export function* resendEventEmails({ formId }) {
 	try {
+		yield put(hideServerMessage());
+
 		const res = yield call(app.put, `event/resend-email/${formId}`);
 		const message = yield call(parseMessage, res);
 
