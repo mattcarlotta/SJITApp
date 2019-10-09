@@ -6,7 +6,7 @@ import moment from "moment";
 import { Empty } from "antd";
 import { ResponsivePie } from "@nivo/pie";
 import { ResponsiveBar } from "@nivo/bar";
-import { ScheduleHeader } from "components/Body"; // Badge
+import { Center, ScheduleHeader } from "components/Body"; // Badge
 
 const COLORS = ["#247BA0", "#2A9D8F", "#F4A261", "#FF8060", "#BFBFBF"];
 
@@ -55,31 +55,8 @@ class MemberAvailability extends Component {
 				/>
 
 				{!isEmpty(memberAvailability) ? (
-					<div
-						css={`
-							display: flex;
-							align-items: center;
-							justify-content: center;
-							margin-top: 30px;
-						`}
-					>
-						{/* <div
-							css={`
-								width: 200px;
-							`}
-						>
-							{memberAvailability.memberResponseCount.map(({ name }) => (
-								<Badge key={name} response={name} style={{ fontSize: 17 }}>
-									{name}
-								</Badge>
-							))}
-						</div> */}
-						<div
-							css={`
-								height: 300px;
-								width: 100%;
-							`}
-						>
+					<Fragment>
+						<div css="height: 400px;width: 100%; max-width: 700px; margin-left: auto; margin-right: auto; margin-bottom: 30px;">
 							<ResponsivePie
 								indexBy="id"
 								cornerRadius={3}
@@ -103,11 +80,11 @@ class MemberAvailability extends Component {
 								motionDamping={15}
 								legends={[
 									{
-										anchor: "left",
-										direction: "column",
-										translateY: 25,
-										translateX: -50,
-										itemWidth: 130,
+										anchor: "bottom",
+										direction: "row",
+										translateY: 75,
+										translateX: 0,
+										itemWidth: 150,
 										itemHeight: 28,
 										itemTextColor: "#999",
 										symbolSize: 18,
@@ -123,13 +100,18 @@ class MemberAvailability extends Component {
 									},
 								]}
 							/>
+							<Center
+								style={{
+									color: "rgb(187, 187, 187)",
+									fontSize: 16,
+									marginTop: 15,
+									fontFamily: "sans-serif",
+								}}
+							>
+								Responses
+							</Center>
 						</div>
-						<div
-							css={`
-								height: 400px;
-								width: 100%;
-							`}
-						>
+						<div css="height: 400px;width: 100%; max-width: 700px; margin: 0 auto;">
 							<ResponsiveBar
 								borderColor={{ from: "color", modifiers: [["darker", 0.2]] }}
 								colors={["#247BA0", "#2A9D8F"]}
@@ -169,7 +151,7 @@ class MemberAvailability extends Component {
 								}}
 							/>
 						</div>
-					</div>
+					</Fragment>
 				) : (
 					<Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
 				)}

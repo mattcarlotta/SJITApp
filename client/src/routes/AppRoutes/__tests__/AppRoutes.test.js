@@ -24,13 +24,7 @@ import {
 
 import { ViewSchedule } from "pages/Shared";
 
-import {
-	MemberDashboard,
-	MemberEvents,
-	MemberForms,
-	MemberProfile,
-	MemberSchedule,
-} from "pages/Employee";
+import { MemberDashboard, MemberForms } from "pages/Employee";
 
 import AppRoutes from "../index";
 
@@ -184,7 +178,7 @@ describe("Application routes", () => {
 			).toBe(ViewMembers);
 		});
 
-		it("routes to Schedule", () => {
+		it("routes to ViewSchedule", () => {
 			expect(
 				wrapper
 					.find("Route[exact=true][path='/employee/schedule']")
@@ -255,8 +249,8 @@ describe("Application routes", () => {
 			wrapper.setProps({ role: "member" });
 		});
 
-		it("initially renders 9 routes", () => {
-			expect(wrapper.find("Route")).toHaveLength(9);
+		it("initially renders 8 routes", () => {
+			expect(wrapper.find("Route")).toHaveLength(8);
 		});
 
 		it("routes to MemberDashboard", () => {
@@ -267,14 +261,6 @@ describe("Application routes", () => {
 			).toBe(MemberDashboard);
 		});
 
-		it("routes to MemberEvents", () => {
-			expect(
-				wrapper
-					.find("Route[exact=true][path='/employee/events/viewall']")
-					.prop("component"),
-			).toBe(MemberEvents);
-		});
-
 		it("routes to MemberForms", () => {
 			expect(
 				wrapper
@@ -283,20 +269,20 @@ describe("Application routes", () => {
 			).toBe(MemberForms);
 		});
 
-		it("routes to MemberProfile", () => {
+		it("routes to ViewApForm", () => {
 			expect(
 				wrapper
-					.find("Route[exact=true][path='/employee/profile']")
+					.find("Route[exact=true][path='/employee/form/view/:id']")
 					.prop("component"),
-			).toBe(MemberProfile);
+			).toBe(ViewApForm);
 		});
 
-		it("routes to MemberSchedule", () => {
+		it("routes to ViewSchedule", () => {
 			expect(
 				wrapper
 					.find("Route[exact=true][path='/employee/schedule']")
 					.prop("component"),
-			).toBe(MemberSchedule);
+			).toBe(ViewSchedule);
 		});
 
 		it("routes to Settings", () => {
@@ -327,7 +313,7 @@ describe("Application routes", () => {
 			expect(
 				wrapper
 					.find("Route")
-					.at(8)
+					.at(7)
 					.prop("component"),
 			).toBe(AppPageNotFound);
 		});

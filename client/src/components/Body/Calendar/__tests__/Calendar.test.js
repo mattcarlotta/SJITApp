@@ -55,6 +55,7 @@ const initState = {
 const initProps = {
 	id: "",
 	fetchAction,
+	loggedinUserId: "88",
 	match: {
 		params: {
 			id: "",

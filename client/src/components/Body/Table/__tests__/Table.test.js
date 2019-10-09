@@ -63,6 +63,7 @@ const initProps = {
 	editLocation: "seasons",
 	fetchData,
 	push,
+	role: "",
 	viewLocation: "seasons",
 };
 
@@ -74,6 +75,7 @@ const nextProps = {
 	editLocation: "seasons",
 	fetchData,
 	push,
+	role: "",
 	viewLocation: "seasons",
 };
 

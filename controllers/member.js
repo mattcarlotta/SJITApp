@@ -3,6 +3,7 @@ import { Event, Token, User } from "models";
 import {
   createMemberEventCount,
   createMemberResponseCount,
+  extractEmployeeResponses,
   getMonthDateRange,
   sendError,
 } from "shared/helpers";
@@ -170,7 +171,7 @@ const getMemberAvailability = async (req, res) => {
     });
     if (eventCount === 0) return res.status(200).send(null);
 
-    const employeeEventResponses = await Event.aggregate([
+    const eventResponses = await Event.aggregate([
       {
         $match: {
           eventDate: {
@@ -179,28 +180,12 @@ const getMemberAvailability = async (req, res) => {
           },
         },
       },
-      {
-        $unwind: {
-          path: "$employeeResponses",
-          preserveNullAndEmptyArrays: true,
-        },
-      },
-      {
-        $group: {
-          _id: null,
-          responses: {
-            $push: {
-              $cond: [
-                { $eq: ["$employeeResponses._id", existingMember._id] },
-                "$employeeResponses.response",
-                "No response.",
-              ],
-            },
-          },
-        },
-      },
-      { $project: { _id: 0, responses: 1 } },
     ]);
+
+    const employeeEventResponses = extractEmployeeResponses({
+      eventResponses,
+      existingMember,
+    });
 
     const scheduledCount = await Event.countDocuments({
       eventDate: {

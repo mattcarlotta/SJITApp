@@ -18,7 +18,7 @@ import {
 } from "react-icons/fa";
 import { MdEvent, MdNoteAdd, MdEventNote, MdDashboard } from "react-icons/md";
 
-export default [
+export const StaffRoutes = [
 	{ component: MdDashboard, key: "dashboard", tab: "dashboard" },
 	{
 		component: MdEvent,
@@ -82,6 +82,24 @@ export default [
 			},
 			{ key: "seasons/viewall", component: FaFolderOpen, tab: "View Seasons" },
 		],
+	},
+	{ divider: true, key: "accounting" },
+	{ component: FaCogs, key: "settings", tab: "settings" },
+	{ component: FaQuestionCircle, key: "help", tab: "help" },
+	{ component: FaConciergeBell, key: "contact", tab: "contact us" },
+];
+
+export const EmployeeRoutes = [
+	{ component: MdDashboard, key: "dashboard", tab: "dashboard" },
+	{
+		component: FaFileSignature,
+		key: "forms/viewall",
+		tab: "forms",
+	},
+	{
+		component: FaClock,
+		key: "schedule",
+		tab: "schedule",
 	},
 	{ divider: true, key: "accounting" },
 	{ component: FaCogs, key: "settings", tab: "settings" },

@@ -2,6 +2,7 @@ import { ViewSchedule } from "../index";
 
 const initProps = {
 	fetchScheduleEvents: jest.fn(),
+	loggedinUserId: "88",
 	match: {
 		params: {
 			id: "",

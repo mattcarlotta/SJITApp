@@ -134,20 +134,28 @@ const createMemberEventCount = ({ members, memberEventCounts }) =>
  * @param employeeEventResponses - an array of responses
  * @returns {array}
  */
+// const createMemberResponseCount = employeeEventResponses =>
+//   employeeEventResponses.reduce((acc, { responses }) => {
+//     console.log("responses", responses);
+//     if (responses) {
+//       responseTypes.forEach((rspType, index) => {
+//         acc.push({
+//           id: rspType,
+//           label: rspType,
+//           color: COLORS[index],
+//           value: responses.filter(rsp => rsp === rspType).length,
+//         });
+//       });
+//     }
+//     return acc;
+//   }, []);
 const createMemberResponseCount = employeeEventResponses =>
-  employeeEventResponses.reduce((acc, { responses }) => {
-    if (responses) {
-      responseTypes.forEach((rspType, index) => {
-        acc.push({
-          id: rspType,
-          label: rspType,
-          color: COLORS[index],
-          value: responses.filter(rsp => rsp === rspType).length,
-        });
-      });
-    }
-    return acc;
-  }, []);
+  responseTypes.map((rspType, index) => ({
+    id: rspType,
+    label: rspType,
+    color: COLORS[index],
+    value: employeeEventResponses.filter(rsp => rsp === rspType).length,
+  }));
 
 /**
  * Helper function to create a 64 length random string.
@@ -241,6 +249,25 @@ const createSignupToken = () =>
   );
 
 /**
+ * Helper function to generate a user event responses array.
+ *
+ * @function extractEmployeeResponses
+ * @param eventResponses - an array of responses
+ * @param existingMember - selected member
+ * @returns {array}
+ */
+const extractEmployeeResponses = ({ eventResponses, existingMember }) => {
+  if (!isEmpty(eventResponses))
+    eventResponses = eventResponses.reduce((acc, { employeeResponses }) => {
+      const foundResponse = employeeResponses.find(response =>
+        response._id.equals(existingMember._id),
+      );
+      return [...acc, foundResponse ? foundResponse.response : "No response."];
+    }, []);
+  return eventResponses;
+};
+
+/**
  * Helper function to get 90 days date from current date.
  *
  * @function
@@ -321,6 +348,7 @@ export {
   createSignupToken,
   createUniqueName,
   expirationDate,
+  extractEmployeeResponses,
   getMonthDateRange,
   getStartOfDay,
   sendError,

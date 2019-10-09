@@ -103,6 +103,7 @@ class App extends Component {
 			<Layout>
 				<SideMenu
 					{...this.state}
+					role={this.props.role}
 					onHandleTabClick={this.handleTabClick}
 					onHandleOpenMenuChange={this.handleOpenMenuChange}
 				/>

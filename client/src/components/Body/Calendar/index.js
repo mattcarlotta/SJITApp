@@ -122,7 +122,11 @@ class CustomCalendar extends Component {
 				headerRender={this.handleRenderHeader}
 				dateCellRender={this.handleDateCellRender}
 			/>
-			<ScheduleModal {...this.state} handleCloseModal={this.handleCloseModal} />
+			<ScheduleModal
+				{...this.state}
+				loggedinUserId={this.props.loggedinUserId}
+				handleCloseModal={this.handleCloseModal}
+			/>
 		</Fragment>
 	);
 }
@@ -130,6 +134,7 @@ class CustomCalendar extends Component {
 CustomCalendar.propTypes = {
 	id: PropTypes.string,
 	fetchAction: PropTypes.func.isRequired,
+	loggedinUserId: PropTypes.string,
 	match: PropTypes.shape({
 		params: PropTypes.shape({
 			id: PropTypes.string,

@@ -27,13 +27,7 @@ import {
 
 import { ViewApForm, ViewSchedule } from "pages/Shared";
 
-import {
-	MemberDashboard,
-	MemberEvents,
-	MemberForms,
-	MemberProfile,
-	MemberSchedule,
-} from "pages/Employee";
+import { MemberDashboard, MemberForms } from "pages/Employee";
 
 const AppRoutes = ({ match: { url }, role }) =>
 	role === "staff" || role === "admin" ? (
@@ -87,10 +81,9 @@ const AppRoutes = ({ match: { url }, role }) =>
 			<Redirect exact from={`${url}`} to={`${url}/dashboard`} />
 			<Redirect from={`${url}/login`} to={`${url}/dashboard`} />
 			<Route exact path={`${url}/dashboard`} component={MemberDashboard} />
-			<Route exact path={`${url}/events/viewall`} component={MemberEvents} />
 			<Route exact path={`${url}/forms/viewall`} component={MemberForms} />
-			<Route exact path={`${url}/profile`} component={MemberProfile} />
-			<Route exact path={`${url}/schedule`} component={MemberSchedule} />
+			<Route exact path={`${url}/forms/view/:id`} component={ViewApForm} />
+			<Route exact path={`${url}/schedule`} component={ViewSchedule} />
 			<Route exact path={`${url}/settings`} component={Settings} />
 			<Route exact path={`${url}/help`} component={Help} />
 			<Route exact path={`${url}/contact`} component={Contact} />

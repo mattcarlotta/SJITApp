@@ -128,9 +128,12 @@ class CustomTable extends Component {
 			deleteAction,
 			editLocation,
 			push,
+			role,
 			sendMail,
 			viewLocation,
 		} = this.props;
+
+		const notEmployee = role !== "employee";
 
 		const tableColumns = columns.map(props => ({
 			...props,
@@ -142,7 +145,7 @@ class CustomTable extends Component {
 			key: "action",
 			render: (_, record) => (
 				<FlexCenter>
-					{assignLocation && (
+					{assignLocation && notEmployee && (
 						<Fragment>
 							<Tooltip placement="top" title={<span>View & Assign</span>}>
 								<Button
@@ -177,10 +180,10 @@ class CustomTable extends Component {
 									<FaSearchPlus style={{ fontSize: 16 }} />
 								</Button>
 							</Tooltip>
-							<Divider type="vertical" />
+							{notEmployee && <Divider type="vertical" />}
 						</Fragment>
 					)}
-					{editLocation && (
+					{editLocation && notEmployee && (
 						<Fragment>
 							<Tooltip placement="top" title={<span>Edit</span>}>
 								<Button
@@ -199,7 +202,7 @@ class CustomTable extends Component {
 							<Divider type="vertical" />
 						</Fragment>
 					)}
-					{sendMail && (
+					{sendMail && notEmployee && (
 						<Fragment>
 							<Tooltip placement="top" title={<span>Send/Resend Mail</span>}>
 								<Button
@@ -216,7 +219,7 @@ class CustomTable extends Component {
 							<Divider type="vertical" />
 						</Fragment>
 					)}
-					{deleteAction && (
+					{deleteAction && notEmployee && (
 						<Tooltip placement="top" title={<span>Delete</span>}>
 							<Popconfirm
 								placement="top"
@@ -278,6 +281,7 @@ CustomTable.propTypes = {
 	editLocation: PropTypes.string,
 	fetchData: PropTypes.func.isRequired,
 	push: PropTypes.func.isRequired,
+	role: PropTypes.string,
 	sendMail: PropTypes.func,
 	viewLocation: PropTypes.string,
 };

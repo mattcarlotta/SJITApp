@@ -1,5 +1,6 @@
 import React from "react";
+import { ViewForms } from "containers/Body";
 
-const MemberViewFormsPage = () => <h1>View Forms</h1>;
+const MemberViewFormsPage = () => <ViewForms />;
 
 export default MemberViewFormsPage;
