@@ -1,5 +1,5 @@
 import moment from "moment";
-import { NewForm } from "../index";
+import { NewAPForm } from "../index";
 
 const createForm = jest.fn();
 const fetchSeasonsIds = jest.fn();
@@ -15,10 +15,10 @@ const initProps = {
 
 const seasonIds = ["20002001", "20012002", "20022003"];
 
-describe("Edit Authorization Form", () => {
+describe("New AP Form", () => {
 	let wrapper;
 	beforeEach(() => {
-		wrapper = mount(<NewForm {...initProps} />);
+		wrapper = mount(<NewAPForm {...initProps} />);
 	});
 
 	afterEach(() => {
@@ -100,6 +100,7 @@ describe("Edit Authorization Form", () => {
 					],
 					expirationDate: "2019-08-07T23:59:00-07:00",
 					notes: "",
+					sendEmailNotificationsDate: "",
 				});
 			});
 

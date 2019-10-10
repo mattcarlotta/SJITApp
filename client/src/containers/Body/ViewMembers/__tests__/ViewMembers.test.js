@@ -50,7 +50,7 @@ describe("View All Members", () => {
 		expect(push).toHaveBeenCalledWith("/employee/members/create");
 	});
 
-	it("renders a Table", () => {
-		expect(wrapper.find("Table").exists()).toBeTruthy();
+	it("renders a LoadingTable", () => {
+		expect(wrapper.find("LoadingTable").exists()).toBeTruthy();
 	});
 });

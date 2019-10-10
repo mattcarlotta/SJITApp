@@ -13,6 +13,7 @@ const data = [
 
 const deleteForm = jest.fn();
 const fetchForms = jest.fn();
+const resendMail = jest.fn();
 const push = jest.fn();
 
 const initProps = {
@@ -21,6 +22,8 @@ const initProps = {
 	fetchForms,
 	isLoading: false,
 	push,
+	resendMail,
+	role: "staff",
 };
 
 const wrapper = mount(<ViewForms {...initProps} />);
@@ -38,7 +41,7 @@ describe("View All Forms", () => {
 		expect(push).toHaveBeenCalledWith("/employee/forms/create");
 	});
 
-	it("renders a Table", () => {
-		expect(wrapper.find("Table").exists()).toBeTruthy();
+	it("renders a LoadingTable", () => {
+		expect(wrapper.find("LoadingTable").exists()).toBeTruthy();
 	});
 });

@@ -4,12 +4,14 @@ const fetchMember = jest.fn();
 const fetchMemberEvents = jest.fn();
 const hideServerMessage = jest.fn();
 const fetchScheduleEvents = jest.fn();
+const fetchMemberAvailability = jest.fn();
 const push = jest.fn();
 const updateMemberStatus = jest.fn();
 
 const initProps = {
 	eventResponses: [],
 	fetchMember,
+	fetchMemberAvailability,
 	fetchMemberEvents,
 	fetchScheduleEvents,
 	hideServerMessage,

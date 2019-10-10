@@ -1,6 +1,6 @@
 import ViewMail from "../index";
 
-const wrapper = mount(<ViewMail />);
+const wrapper = HOCWrap(ViewMail);
 
 describe("ViewMail Page", () => {
 	it("renders without errors", () => {

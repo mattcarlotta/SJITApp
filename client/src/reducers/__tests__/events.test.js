@@ -22,6 +22,7 @@ describe("Event Reducer", () => {
 		expect(state).toEqual({
 			data: mocks.eventsData,
 			editEvent: {},
+			members: [],
 			newEvent: {},
 			schedule: {},
 			scheduleEvents: [],
@@ -63,6 +64,7 @@ describe("Event Reducer", () => {
 		expect(state).toEqual({
 			data: [],
 			editEvent: { ...mocks.eventsData },
+			members: [],
 			newEvent: {},
 			schedule: {},
 			scheduleEvents: [],
@@ -93,6 +95,7 @@ describe("Event Reducer", () => {
 		expect(state).toEqual({
 			data: [],
 			editEvent: {},
+			members: [],
 			newEvent: {},
 			schedule: {},
 			scheduleEvents: mocks.scheduleEventsData,

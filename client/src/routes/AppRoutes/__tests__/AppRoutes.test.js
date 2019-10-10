@@ -19,10 +19,9 @@ import {
 	ViewMemberProfile,
 	ViewMembers,
 	ViewSeasons,
-	ViewMail,
 } from "pages/Staff";
 
-import { ViewSchedule } from "pages/Shared";
+import { ViewApForm, ViewSchedule } from "pages/Shared";
 
 import { MemberDashboard, MemberForms } from "pages/Employee";
 
@@ -272,7 +271,7 @@ describe("Application routes", () => {
 		it("routes to ViewApForm", () => {
 			expect(
 				wrapper
-					.find("Route[exact=true][path='/employee/form/view/:id']")
+					.find("Route[exact=true][path='/employee/forms/view/:id']")
 					.prop("component"),
 			).toBe(ViewApForm);
 		});

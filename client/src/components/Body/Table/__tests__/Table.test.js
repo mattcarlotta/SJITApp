@@ -54,6 +54,7 @@ const data = [
 const deleteAction = jest.fn();
 const fetchData = jest.fn();
 const push = jest.fn();
+const sendMail = jest.fn();
 
 const initProps = {
 	assignLocation: "seasons",
@@ -63,6 +64,7 @@ const initProps = {
 	editLocation: "seasons",
 	fetchData,
 	push,
+	sendMail,
 	role: "",
 	viewLocation: "seasons",
 };
@@ -112,6 +114,7 @@ describe("Custom Table", () => {
 	describe("Ant Table With Data", () => {
 		beforeEach(() => {
 			wrapper.setProps({ ...nextProps });
+			wrapper.update();
 		});
 
 		afterEach(() => {
@@ -125,8 +128,8 @@ describe("Custom Table", () => {
 
 		it("displays a 5 column Table component with data", () => {
 			expect(wrapper.find("Table").exists()).toBeTruthy();
-			expect(wrapper.find("th")).toHaveLength(6);
-			expect(wrapper.find("td")).toHaveLength(12);
+			expect(wrapper.find("th")).toHaveLength(7);
+			expect(wrapper.find("td")).toHaveLength(14);
 			expect(
 				wrapper
 					.find("td")
@@ -268,12 +271,23 @@ describe("Custom Table", () => {
 			);
 		});
 
-		it("deletes the selected record", () => {
+		it("sends an email according to the selected record", () => {
 			wrapper
 				.find("td")
 				.at(5)
 				.find("button")
 				.at(3)
+				.simulate("click");
+
+			expect(sendMail).toHaveBeenCalledWith("5d323ee2b02dee15483e5d9f");
+		});
+
+		it("deletes the selected record", () => {
+			wrapper
+				.find("td")
+				.at(5)
+				.find("button")
+				.at(4)
 				.simulate("click");
 
 			wrapper

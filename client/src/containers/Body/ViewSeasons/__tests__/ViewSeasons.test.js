@@ -37,7 +37,7 @@ describe("View All Seasons", () => {
 		expect(push).toHaveBeenCalledWith("/employee/seasons/create");
 	});
 
-	it("renders a Table", () => {
-		expect(wrapper.find("CustomTable")).toBeTruthy();
+	it("renders a LoadingTable", () => {
+		expect(wrapper.find("LoadingTable").exists()).toBeTruthy();
 	});
 });

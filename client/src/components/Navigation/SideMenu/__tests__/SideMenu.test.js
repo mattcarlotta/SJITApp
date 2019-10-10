@@ -8,6 +8,7 @@ const initProps = {
 	onHandleTabClick,
 	onHandleOpenMenuChange,
 	selectedKey: ["/dashboard"],
+	role: "staff",
 };
 
 describe("SideMenu", () => {

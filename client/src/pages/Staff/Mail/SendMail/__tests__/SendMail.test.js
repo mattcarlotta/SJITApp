@@ -1,6 +1,6 @@
 import SendMail from "../index";
 
-const wrapper = mount(<SendMail />);
+const wrapper = HOCWrap(SendMail);
 
 describe("SendMail Page", () => {
 	it("renders without errors", () => {

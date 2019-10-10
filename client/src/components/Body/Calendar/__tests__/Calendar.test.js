@@ -138,30 +138,4 @@ describe("Calendar", () => {
 			selectedGames: "All Games",
 		});
 	});
-
-	describe("With Events", () => {
-		beforeEach(() => {
-			wrapper.setProps({ scheduleEvents });
-		});
-
-		it("renders an event by rendering a Button", () => {
-			expect(wrapper.find("Button").exists()).toBeTruthy();
-		});
-
-		it("opens and closes a Modal with scheduled event information when a Button is clicked", () => {
-			wrapper.find("Button").simulate("click");
-
-			expect(wrapper.find("CustomCalendar").state("isVisible")).toBeTruthy();
-			expect(wrapper.find("CustomCalendar").state("modalChildren")).toEqual(
-				scheduleEvents,
-			);
-			expect(wrapper.find("Modal").exists()).toBeTruthy();
-
-			wrapper.find("button#close-modal").simulate("click");
-
-			expect(wrapper.find("CustomCalendar").state("isVisible")).toBeFalsy();
-			expect(wrapper.find("CustomCalendar").state("modalChildren")).toBeNull();
-			expect(wrapper.find("Modal").exists()).toBeFalsy();
-		});
-	});
 });

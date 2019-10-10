@@ -1,3 +1,4 @@
+import moment from "moment";
 import FormatDate from "../index";
 
 const initProps = {
@@ -12,8 +13,9 @@ describe("Display Date", () => {
 		expect(wrapper.find("span").text()).toEqual("Oct 6th @ 12:00 am");
 	});
 
-	it("renders an invalid date if missing a 'date' prop", () => {
+	it("renders a current date if missing a 'date' prop", () => {
 		wrapper.setProps({ date: "" });
-		expect(wrapper.find("span").text()).toEqual("Invalid date");
+		const currentDate = moment(Date.now()).format("MMM Do @ hh:mm a");
+		expect(wrapper.find("span").text()).toEqual(currentDate);
 	});
 });
