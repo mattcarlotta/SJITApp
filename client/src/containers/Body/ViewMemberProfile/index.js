@@ -225,7 +225,7 @@ ViewMemberProfile.propTypes = {
 
 const mapStateToProps = state => ({
 	eventResponses: state.members.eventResponses,
-	memberAvailability: state.members.memberAvailiability,
+	memberAvailability: state.members.memberAvailability,
 	viewMember: state.members.viewMember,
 	scheduleEvents: state.events.scheduleEvents,
 	serverMessage: state.server.message,

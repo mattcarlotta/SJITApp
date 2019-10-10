@@ -68,11 +68,21 @@
 		"react/destructuring-assignment": 0,
 		"react/require-default-props": 0,
 		"jsx-a11y/href-no-hash": "off",
-		"jsx-a11y/anchor-is-valid": ["warn", { "aspects": ["invalidHref"] }],
+		"jsx-a11y/anchor-is-valid": [
+			"warn",
+			{
+				"aspects": ["invalidHref"]
+			}
+		],
 		"react/jsx-boolean-value": ["warn", "never"],
 		"react/jsx-closing-bracket-location": 0,
 		"react/jsx-curly-spacing": ["warn", "never"],
-		"react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+		"react/jsx-filename-extension": [
+			1,
+			{
+				"extensions": [".js", ".jsx"]
+			}
+		],
 		"react/jsx-first-prop-new-line": ["warn", "multiline"],
 		"jsx-a11y/interactive-supports-focus": 0,
 		"jsx-a11y/click-events-have-key-events": 0,
@@ -92,7 +102,12 @@
 		"react/jsx-key": "error",
 		"react/jsx-wrap-multilines": 0,
 		"react/jsx-indent-props": 0,
-		"no-trailing-spaces": [2, { "skipBlankLines": true }],
+		"no-trailing-spaces": [
+			2,
+			{
+				"skipBlankLines": true
+			}
+		],
 		"prefer-template": 0,
 		"prefer-promise-reject-errors": 0,
 		"import/prefer-default-export": 0,

@@ -6,7 +6,6 @@ import {
 	Bold,
 	ColumnTitle,
 	DropContainer,
-	Flex,
 	FormatDate,
 	Legend,
 	List,
@@ -14,6 +13,8 @@ import {
 	Row,
 	ScheduleContainer,
 } from "components/Body";
+import Container from "./Container";
+import GameDetailsContainer from "./GameDetailsContainer";
 
 const responses = [
 	"I want to work.",
@@ -26,7 +27,7 @@ const responses = [
 const Schedule = ({ handleDrag, event, columns, users }) => (
 	<ScheduleContainer>
 		<DragDropContext onDragEnd={handleDrag}>
-			<Flex>
+			<Container>
 				<Legend>
 					<ColumnTitle style={{ marginBottom: 5 }}>Legend</ColumnTitle>
 					{responses.map(response => (
@@ -35,26 +36,8 @@ const Schedule = ({ handleDrag, event, columns, users }) => (
 						</Badge>
 					))}
 				</Legend>
-				<div
-					css={`
-						flex: 1 0 auto;
-						background-color: #ebecf0;
-						margin: 0px 20px 10px 20px;
-						padding: 10px;
-						border-radius: 3px;
-					`}
-				>
-					<div
-						css={`
-							text-align: center;
-							color: #fff;
-							background: #025f6d;
-							border-radius: 3px;
-							padding: 10px 5px;
-							text-transform: uppercase;
-							font-size: 17px;
-						`}
-					>
+				<GameDetailsContainer>
+					<div css="text-align: center;color: #fff;background: #025f6d;border-radius: 3px;padding: 10px 5px;text-transform: uppercase;font-size: 17px;">
 						{event.team}{" "}
 						{event.opponent && (
 							<Fragment>
@@ -85,8 +68,8 @@ const Schedule = ({ handleDrag, event, columns, users }) => (
 							<Bold>Notes: </Bold> {event.notes || "(none)"}
 						</ListItem>
 					</List>
-				</div>
-			</Flex>
+				</GameDetailsContainer>
+			</Container>
 			<Row>
 				{columns.map(({ _id, title, employeeIds }) => (
 					<DropContainer

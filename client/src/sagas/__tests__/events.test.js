@@ -191,6 +191,7 @@ describe("Event Sagas", () => {
 						seasonIds: mocks.seasonIdsData,
 						teams: mocks.teamNamesData,
 					},
+					members: [],
 					newEvent: {},
 					schedule: {},
 					scheduleEvents: [],
@@ -215,13 +216,18 @@ describe("Event Sagas", () => {
 	});
 
 	describe("Fetch Event For Scheduling", () => {
-		let data;
+		let scheduleData;
+		let memberCountData;
 		beforeEach(() => {
-			data = { schedule: mocks.eventForSchedulingData };
+			scheduleData = { schedule: mocks.eventForSchedulingData };
+			memberCountData = { members: mocks.memberCountData };
 		});
 
 		it("logical flow matches pattern for fetch event for scheduling requests", () => {
-			const res = { data };
+			const res = { scheduleData };
+			const res2 = { memberCountData };
+
+			const params = { params: { eventId } };
 
 			testSaga(sagas.fetchEventForScheduling, { eventId })
 				.next()
@@ -230,14 +236,24 @@ describe("Event Sagas", () => {
 				.call(app.get, `event/review/${eventId}`)
 				.next(res)
 				.call(parseData, res)
-				.next(res.data)
-				.put(actions.setEventForScheduling(res.data))
+				.next(res.scheduleData)
+				.call(app.get, `members/eventcounts`, params)
+				.next(res2)
+				.call(parseData, res2)
+				.next(res2.memberCountData)
+				.put(
+					actions.setEventForScheduling({
+						...res.scheduleData,
+						...res2.memberCountData,
+					}),
+				)
 				.next()
 				.isDone();
 		});
 
 		it("successfully fetches a fetch event for scheduling", async () => {
-			mockApp.onGet(`event/review/${eventId}`).reply(200, data);
+			mockApp.onGet(`event/review/${eventId}`).reply(200, scheduleData);
+			mockApp.onGet(`members/eventcounts`).reply(200, memberCountData);
 
 			return expectSaga(sagas.fetchEventForScheduling, { eventId })
 				.dispatch(actions.fetchEventForScheduling)
@@ -245,6 +261,7 @@ describe("Event Sagas", () => {
 				.hasFinalState({
 					data: [],
 					editEvent: {},
+					members: mocks.memberCountData,
 					newEvent: {},
 					schedule: mocks.eventForSchedulingData,
 					scheduleEvents: [],
@@ -297,6 +314,7 @@ describe("Event Sagas", () => {
 				.hasFinalState({
 					data: mocks.eventsData,
 					editEvent: {},
+					members: [],
 					newEvent: {},
 					schedule: {},
 					scheduleEvents: [],
@@ -354,6 +372,7 @@ describe("Event Sagas", () => {
 				.hasFinalState({
 					data: [],
 					editEvent: {},
+					members: [],
 					newEvent: {},
 					schedule: {},
 					scheduleEvents: mocks.scheduleEventsData,
@@ -426,6 +445,7 @@ describe("Event Sagas", () => {
 				.hasFinalState({
 					data: [],
 					editEvent: {},
+					members: [],
 					newEvent: {
 						seasonIds: mocks.seasonIdsData,
 						teams: mocks.teamNamesData,

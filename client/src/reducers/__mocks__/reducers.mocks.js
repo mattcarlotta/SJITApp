@@ -48,7 +48,7 @@ export const memberEventResponses = [
 	},
 ];
 
-export const memberAvailiability = {
+export const memberAvailability = {
 	memberResponseCount: [
 		{
 			id: "I want to work.",

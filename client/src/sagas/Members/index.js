@@ -188,13 +188,13 @@ export function* fetchProfile({ memberId }) {
 		res = yield call(app.get, "member/availability", {
 			params: { id: memberId },
 		});
-		const memberAvailiability = yield call(parseData, res);
+		const memberAvailability = yield call(parseData, res);
 
 		yield put(
 			setMemberToReview({
 				...basicMemberInfo,
 				...memberEventResponses,
-				memberAvailiability,
+				memberAvailability,
 			}),
 		);
 	} catch (e) {
@@ -263,13 +263,15 @@ export function* fetchToken({ tokenId }) {
 	try {
 		yield put(hideServerMessage());
 
-		const res = yield call(app.get, `token/edit/${tokenId}`);
-		const data = yield call(parseData, res);
+		let res = yield call(app.get, `token/edit/${tokenId}`);
+		const tokenData = yield call(parseData, res);
 
-		const res2 = yield call(app.get, "seasons/all/ids");
-		const data2 = yield call(parseData, res2);
+		res = yield call(app.get, "seasons/all/ids");
+		const seasonData = yield call(parseData, res);
 
-		yield put(setToken({ ...data.token, seasonIds: data2.seasonIds }));
+		yield put(
+			setToken({ ...tokenData.token, seasonIds: seasonData.seasonIds }),
+		);
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}

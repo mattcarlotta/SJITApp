@@ -9,7 +9,7 @@ const membersData = {
 const memberData = {
 	member: mocks.membersData,
 	eventResponses: mocks.memberEventResponses,
-	memberAvailiability: mocks.memberAvailiability,
+	memberAvailability: mocks.memberAvailability,
 };
 
 const tokensData = {
@@ -37,7 +37,7 @@ describe("Member Reducer", () => {
 		expect(state).toEqual({
 			data: mocks.membersData,
 			eventResponses: [],
-			memberAvailiability: {},
+			memberAvailability: {},
 			editToken: {},
 			viewMember: {},
 			tokens: [],
@@ -54,7 +54,7 @@ describe("Member Reducer", () => {
 			data: [],
 			editToken: {},
 			eventResponses: mocks.eventResponseData,
-			memberAvailiability: {},
+			memberAvailability: {},
 			viewMember: {},
 			tokens: [],
 		});
@@ -122,7 +122,7 @@ describe("Member Reducer", () => {
 			data: [],
 			editToken: {},
 			eventResponses: [],
-			memberAvailiability: {},
+			memberAvailability: {},
 			viewMember: {},
 			tokens: mocks.tokensData,
 		});
@@ -138,7 +138,7 @@ describe("Member Reducer", () => {
 			data: [],
 			editToken: { ...mocks.tokensData, seasonIds: mocks.seasonIdsData },
 			eventResponses: [],
-			memberAvailiability: {},
+			memberAvailability: {},
 			viewMember: {},
 			tokens: [],
 		});
@@ -154,7 +154,7 @@ describe("Member Reducer", () => {
 			data: [],
 			editToken: {},
 			eventResponses: mocks.memberEventResponses,
-			memberAvailiability: mocks.memberAvailiability,
+			memberAvailability: mocks.memberAvailability,
 			viewMember: mocks.membersData,
 			tokens: [],
 		});

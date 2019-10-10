@@ -15,7 +15,7 @@ describe("Display Date", () => {
 
 	it("renders a current date if missing a 'date' prop", () => {
 		wrapper.setProps({ date: "" });
-		const currentDate = moment(Date.now()).format("MMM Do @ hh:mm a");
+		const currentDate = moment(Date.now()).format("MMM Do @ h:mm a");
 		expect(wrapper.find("span").text()).toEqual(currentDate);
 	});
 });

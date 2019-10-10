@@ -1,77 +1,58 @@
 /* eslint-disable react/jsx-boolean-value */
 import React from "react";
 import PropTypes from "prop-types";
-import isEmpty from "lodash/isEmpty";
 import { ResponsiveBar } from "@nivo/bar";
-import { Empty } from "antd";
 
-const MemberEventCountChart = ({ members }) =>
-	!isEmpty(members) ? (
-		<div
-			css={`
-				height: 650px;
-				width: 100%;
-				padding-left: 18px;
-				padding-right: 35px;
-			`}
-		>
-			<div
-				css={`
-					height: 100%;
-					width: 100%;
-					background-color: #ebecf0;
-					border-radius: 3px;
-				`}
-			>
-				<ResponsiveBar
-					data={members}
-					margin={{ top: 60, right: 40, bottom: 200, left: 80 }}
-					indexBy="name"
-					keys={["Event Count"]}
-					axisLeft={{
-						legend: "Event Count",
-						legendPosition: "middle",
-						legendOffset: -50,
-						tickValues: 2,
-					}}
-					axisBottom={{
-						tickRotation: -90,
-						legend: "Employee",
-						legendPosition: "middle",
-						legendOffset: 170,
-					}}
-					labelTextColor="#fefefe"
-					colors={["#025f6d"]}
-					colorBy="index"
-					theme={{
-						axis: {
-							legend: {
-								text: {
-									fill: "#bbb",
-									fontSize: 16,
-								},
-							},
-							ticks: {
-								text: {
-									fill: "#888",
-									fontSize: 16,
-								},
+const MemberEventCountChart = ({ members }) => (
+	<div css="height: 650px;width: 100%;padding-left: 18px;padding-right: 35px;">
+		<div css="height: 100%;width: 100%;background-color: #ebecf0;border-radius: 3px;">
+			<ResponsiveBar
+				data={members}
+				margin={{ top: 60, right: 40, bottom: 200, left: 80 }}
+				indexBy="name"
+				keys={["Event Count"]}
+				axisLeft={{
+					legend: "Event Count",
+					legendPosition: "middle",
+					legendOffset: -50,
+					tickValues: 2,
+				}}
+				axisBottom={{
+					tickRotation: -90,
+					legend: "Employee",
+					legendPosition: "middle",
+					legendOffset: 170,
+				}}
+				labelTextColor="#fefefe"
+				colors={["#025f6d"]}
+				colorBy="index"
+				theme={{
+					axis: {
+						legend: {
+							text: {
+								fill: "#bbb",
+								fontSize: 16,
 							},
 						},
-						grid: {
-							line: {
-								stroke: "#d1d1d1",
-								strokeWidth: 2,
-								strokeDasharray: "4 4",
+						ticks: {
+							text: {
+								fill: "#888",
+								fontSize: 16,
 							},
 						},
-					}}
-				/>
-			</div>
+					},
+					grid: {
+						line: {
+							stroke: "#d1d1d1",
+							strokeWidth: 2,
+							strokeDasharray: "4 4",
+						},
+					},
+				}}
+			/>
 		</div>
-	) : (
-		<Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
-	);
+	</div>
+);
 
 MemberEventCountChart.propTypes = {
 	members: PropTypes.arrayOf(

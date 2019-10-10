@@ -6,7 +6,7 @@ export const initialState = {
 	editToken: {},
 	viewMember: {},
 	eventResponses: [],
-	memberAvailiability: {},
+	memberAvailability: {},
 };
 
 /**
@@ -30,7 +30,7 @@ const memberReducer = (state = initialState, { payload, type }) => {
 		case types.MEMBERS_SET_AVAILABILITY: {
 			return {
 				...state,
-				memberAvailiability: payload,
+				memberAvailability: payload,
 			};
 		}
 		case types.MEMBERS_SET_EVENTS: {
@@ -50,7 +50,7 @@ const memberReducer = (state = initialState, { payload, type }) => {
 				...state,
 				viewMember: payload.member,
 				eventResponses: payload.eventResponses,
-				memberAvailiability: payload.memberAvailiability,
+				memberAvailability: payload.memberAvailability,
 			};
 		}
 		default: {
