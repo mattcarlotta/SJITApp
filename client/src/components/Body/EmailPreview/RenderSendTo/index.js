@@ -15,7 +15,7 @@ const RenderSendTo = ({ fields }) => {
 					<span>
 						{!isEmpty(sendTo) && sendTo.length > 1 ? (
 							sendTo.map((email, key) => (
-								<span key={email}>
+								<span id="multipleemailaddresses" key={email}>
 									{email.replace(
 										/ <.*?>/g,
 										key < sendTo.length - 1 ? ", " : ".",
@@ -23,9 +23,13 @@ const RenderSendTo = ({ fields }) => {
 								</span>
 							))
 						) : sendTo[0] ? (
-							sendTo[0].replace(/ <.*?>/g, ".")
+							<span id="singleemailaddress">
+								{sendTo[0].replace(/ <.*?>/g, ".")}
+							</span>
 						) : (
-							<span css="color:red;">Invalid Recipient Address.</span>
+							<span id="invalidsendtoaddress" css="color:red;">
+								Invalid Recipient Address.
+							</span>
 						)}
 					</span>
 				</div>

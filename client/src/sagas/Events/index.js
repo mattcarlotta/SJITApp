@@ -234,11 +234,11 @@ export function* initializeNewEvent() {
  * @throws {action} - A redux action to display a server message by type.
  */
 
-export function* resendEventEmails({ formId }) {
+export function* resendEventEmails({ eventId }) {
 	try {
 		yield put(hideServerMessage());
 
-		const res = yield call(app.put, `event/resend-email/${formId}`);
+		const res = yield call(app.put, `event/resend-email/${eventId}`);
 		const message = yield call(parseMessage, res);
 
 		yield put(

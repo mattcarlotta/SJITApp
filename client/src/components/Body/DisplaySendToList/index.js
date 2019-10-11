@@ -2,13 +2,14 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Tooltip } from "antd";
 
-const showFullList = emails =>
+export const showFullList = emails =>
 	emails.map(user => (
 		<p key={user} style={{ margin: 0, padding: 0 }}>
 			&#183; {user}
 		</p>
 	));
 
+/* istanbul ignore next */
 const DisplaySendToList = ({ emails }) => (
 	<Tooltip
 		arrowPointAtCenter
@@ -16,7 +17,7 @@ const DisplaySendToList = ({ emails }) => (
 		overlayStyle={{ maxWidth: 400 }}
 		placement="top"
 	>
-		{emails.length > 1 ? "multiple email addresses" : emails[0]}
+		<span>{emails.length > 1 ? "multiple email addresses" : emails[0]}</span>
 	</Tooltip>
 );
 

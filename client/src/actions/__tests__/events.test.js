@@ -84,6 +84,23 @@ describe("Events Actions", () => {
 		});
 	});
 
+	it("returns EVENTS_INIT_NEW_EVENT", () => {
+		const value = actions.initializeNewEvent();
+
+		expect(value).toEqual({
+			type: types.EVENTS_INIT_NEW_EVENT,
+		});
+	});
+
+	it("returns EVENTS_RESEND_MAIL", () => {
+		const value = actions.resendMail(eventId);
+
+		expect(value).toEqual({
+			type: types.EVENTS_RESEND_MAIL,
+			eventId,
+		});
+	});
+
 	it("returns EVENTS_SET with data", () => {
 		const value = actions.setEvents(data);
 
@@ -147,7 +164,7 @@ describe("Events Actions", () => {
 		});
 	});
 
-	it("returns EVENTS_SET_SCHEDULE_EVENTS with an empty array if data is empty", () => {
+	it("returns EVENTS_SET_SCHEDULE_EVENTS with an empty object if data is empty", () => {
 		const value = actions.setScheduleEvents({});
 
 		expect(value).toEqual({

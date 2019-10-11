@@ -49,6 +49,7 @@ const initState = {
 	selectedMonth: "Sep",
 	selectedYear: 2019,
 	validRange: setValidRange("2019-09-01T00:00:00-07:00"),
+	value: moment("2019-09-01T00:00:00-07:00"),
 	years: [2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024],
 };
 
@@ -113,6 +114,21 @@ describe("Calendar", () => {
 		});
 	});
 
+	it("initially doesn't display any events", () => {
+		expect(wrapper.find("Button").exists()).toBeFalsy();
+	});
+
+	it("updates the calendar date when the panel is changed", () => {
+		const newValue = moment("2019-10-01T00:00:00-07:00");
+
+		wrapper
+			.find("CustomCalendar")
+			.instance()
+			.handlePanelChange(newValue);
+
+		expect(wrapper.find("CustomCalendar").state("value")).toEqual(newValue);
+	});
+
 	it("selecting a year filter calls fetchAction", () => {
 		const name = "selectedYear";
 		const value = 2020;
@@ -136,6 +152,32 @@ describe("Calendar", () => {
 				"MMM YYYY",
 			).format(),
 			selectedGames: "All Games",
+		});
+	});
+
+	describe("With Events", () => {
+		beforeEach(() => {
+			wrapper.setProps({ scheduleEvents });
+		});
+
+		it("displays an event", () => {
+			expect(wrapper.find("Button").exists()).toBeTruthy();
+		});
+
+		it("displays and hides a modal when an event is clicked", () => {
+			wrapper.find("Button").simulate("click");
+
+			expect(wrapper.find("Modal").exists()).toBeTruthy();
+			expect(wrapper.find("CustomCalendar").state("isVisible")).toBeTruthy();
+			expect(wrapper.find("CustomCalendar").state("modalChildren")).toEqual([
+				scheduleEvents[0],
+			]);
+
+			wrapper.find("CloseModalButton").simulate("click");
+
+			expect(wrapper.find("Modal").exists()).toBeFalsy();
+			expect(wrapper.find("CustomCalendar").state("isVisible")).toBeFalsy();
+			expect(wrapper.find("CustomCalendar").state("modalChildren")).toBeNull();
 		});
 	});
 });

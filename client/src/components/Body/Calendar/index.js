@@ -35,6 +35,7 @@ class CustomCalendar extends Component {
 					),
 			],
 			validRange: setValidRange(Date.now()),
+			value: moment(Date.now()),
 			selectedGames: id ? "My Games" : "All Games",
 			selectedMonth: moment().format("MMM"),
 			selectedYear: parseInt(moment().format("YYYY"), 10),
@@ -99,6 +100,8 @@ class CustomCalendar extends Component {
 		/>
 	);
 
+	handlePanelChange = value => this.setState({ value });
+
 	handleDateCellRender = value => {
 		const { scheduleEvents } = this.props;
 
@@ -119,6 +122,8 @@ class CustomCalendar extends Component {
 			<Calendar
 				mode="month"
 				validRange={this.state.validRange}
+				onPanelChange={this.handlePanelChange}
+				value={this.state.value}
 				headerRender={this.handleRenderHeader}
 				dateCellRender={this.handleDateCellRender}
 			/>

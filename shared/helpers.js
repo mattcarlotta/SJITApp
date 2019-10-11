@@ -5,15 +5,6 @@ import { Types } from "mongoose";
 
 const { ObjectId } = Types;
 
-/*
-const objectHasProperties = (object, props) => !props.some(prop => {
-          if (!object[prop] || object[prop].length === 0) {
-              return true;
-          }
-      });
-
-*/
-
 const responseTypes = [
   "I want to work.",
   "Available to work.",
@@ -136,25 +127,17 @@ const createMemberEventCount = ({ members, memberEventCounts }) =>
  */
 const createMemberResponseCount = employeeEventResponses =>
   employeeEventResponses.reduce((acc, { responses }) => {
-    if (responses) {
-      responseTypes.forEach((rspType, index) => {
-        acc.push({
-          id: rspType,
-          label: rspType,
-          color: COLORS[index],
-          value: responses.filter(rsp => rsp === rspType).length,
-        });
+    responseTypes.forEach((rspType, index) => {
+      acc.push({
+        id: rspType,
+        label: rspType,
+        color: COLORS[index],
+        value: responses.filter(rsp => rsp === rspType).length,
       });
-    }
+    });
+
     return acc;
   }, []);
-// const createMemberResponseCount = employeeEventResponses =>
-//   responseTypes.map((rspType, index) => ({
-//     id: rspType,
-//     label: rspType,
-//     color: COLORS[index],
-//     value: employeeEventResponses.filter(rsp => rsp === rspType).length,
-//   }));
 
 /**
  * Helper function to create a 64 length random string.

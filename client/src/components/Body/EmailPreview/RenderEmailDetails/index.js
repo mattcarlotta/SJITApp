@@ -4,7 +4,10 @@ import PropTypes from "prop-types";
 import { FormatDate, Flex, Text } from "components/Body";
 
 const RenderEmailDetails = ({ sendDate, sendFrom, sendTo, subject }) => (
-	<div css="background: #fdfdfd; box-shadow: 0 2px 4px rgba(0,0,0,0.2); border: 1px solid rgba(0,0,0,0.2); padding: 10px; max-height: 400px; overflow-y: auto;">
+	<div
+		className="renderdetails"
+		css="background: #fdfdfd; box-shadow: 0 2px 4px rgba(0,0,0,0.2); border: 1px solid rgba(0,0,0,0.2); padding: 10px; max-height: 400px; overflow-y: auto;"
+	>
 		<Flex>
 			<Text
 				style={{
@@ -17,7 +20,11 @@ const RenderEmailDetails = ({ sendDate, sendFrom, sendTo, subject }) => (
 				from:&nbsp;
 			</Text>
 			<Text>
-				{sendFrom || <span css="color: red;">Invalid Sending Address</span>}
+				{sendFrom || (
+					<span className="invalidsendfromaddresse" css="color: red;">
+						Invalid Sending Address
+					</span>
+				)}
 			</Text>
 		</Flex>
 		<Flex>
@@ -34,12 +41,18 @@ const RenderEmailDetails = ({ sendDate, sendFrom, sendTo, subject }) => (
 			<Text>
 				{!isEmpty(sendTo) && sendTo.length > 1
 					? sendTo.map((email, key) => (
-							<p css="margin:0; padding: 0;" key={email}>
+							<p
+								id="multiplerecipients"
+								css="margin:0; padding: 0;"
+								key={email}
+							>
 								{key < sendTo.length - 1 ? `${email}, ` : `${email}`}
 							</p>
 					  ))
 					: sendTo[0] || (
-							<span css="color:red;">Invalid Recipient Address</span>
+							<span className="invalidrecipient" css="color:red;">
+								Invalid Recipient Address
+							</span>
 					  )}
 			</Text>
 		</Flex>
@@ -70,7 +83,11 @@ const RenderEmailDetails = ({ sendDate, sendFrom, sendTo, subject }) => (
 				subject:&nbsp;
 			</Text>
 			<Text style={{ width: "85%" }}>
-				{subject || <span css="color: red;">(empty subject)</span>}
+				{subject || (
+					<span className="emptysubject" css="color: red;">
+						(empty subject)
+					</span>
+				)}
 			</Text>
 		</Flex>
 	</div>

@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 /* eslint-disable react/no-danger */
 import React from "react";
 import PropTypes from "prop-types";
@@ -31,7 +32,7 @@ const RenderMessage = ({ message }) => (
 								dangerouslySetInnerHTML={{
 									__html:
 										message ||
-										`<p style="color:red;text-align: center">(empty message)</p>`,
+										`<p id="emptymessage" style="color:red;text-align: center">(empty message)</p>`,
 								}}
 							/>
 						</div>

@@ -1,8 +1,6 @@
 import { connectDatabase } from "database";
 import { Types } from "mongoose";
 
-jest.mock("@sendgrid/mail");
-
 const mockRequest = (user, session, body, query, params) => ({
   user,
   session,

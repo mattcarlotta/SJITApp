@@ -82,15 +82,15 @@ export const initializeNewEvent = () => ({
 });
 
 /**
- * Resend forms emails.
+ * Resend events emails.
  *
  * @function resendMail
- * @params {formId}
+ * @params {eventId}
  * @returns {object}
  */
-export const resendMail = formId => ({
+export const resendMail = eventId => ({
 	type: types.EVENTS_RESEND_MAIL,
-	formId,
+	eventId,
 });
 
 /**

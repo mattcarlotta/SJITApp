@@ -80,6 +80,19 @@ describe("Member Actions", () => {
 		});
 	});
 
+	it("returns MEMBERS_FETCH_AVAILABILITY", () => {
+		const params = {
+			id: "0123456789",
+		};
+
+		const value = actions.fetchMemberAvailability(params);
+
+		expect(value).toEqual({
+			type: types.MEMBERS_FETCH_AVAILABILITY,
+			params,
+		});
+	});
+
 	it("returns MEMBERS_FETCH_EVENTS", () => {
 		const params = {
 			memberid: "0123456789",
@@ -128,6 +141,24 @@ describe("Member Actions", () => {
 		});
 	});
 
+	it("returns MEMBERS_SET_AVAILABILITY with an empty array if data is empty", () => {
+		const value = actions.setMemberAvailability({});
+
+		expect(value).toEqual({
+			type: types.MEMBERS_SET_AVAILABILITY,
+			payload: {},
+		});
+	});
+
+	it("returns MEMBERS_SET_AVAILABILITY with data", () => {
+		const value = actions.setMemberAvailability(membersData);
+
+		expect(value).toEqual({
+			type: types.MEMBERS_SET_AVAILABILITY,
+			payload: membersData,
+		});
+	});
+
 	it("returns MEMBERS_SET_EVENTS with an empty array if data is empty", () => {
 		const value = actions.setMemberEventsByDate([]);
 
@@ -142,6 +173,24 @@ describe("Member Actions", () => {
 
 		expect(value).toEqual({
 			type: types.MEMBERS_SET_EVENTS,
+			payload: membersData,
+		});
+	});
+
+	it("returns MEMBERS_SET_NAMES with an empty array if data is empty", () => {
+		const value = actions.setMemberNames([]);
+
+		expect(value).toEqual({
+			type: types.MEMBERS_SET_NAMES,
+			payload: [],
+		});
+	});
+
+	it("returns MEMBERS_SET_NAMES with data", () => {
+		const value = actions.setMemberNames(membersData);
+
+		expect(value).toEqual({
+			type: types.MEMBERS_SET_NAMES,
 			payload: membersData,
 		});
 	});

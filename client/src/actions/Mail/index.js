@@ -5,7 +5,7 @@ import * as types from "types";
  * Sends a single mail
  *
  * @function createMail
- * @param {object} props - contains mail data ([id, sendTo, sendFrom, sendDate, message, subject]).
+ * @param {object} props - contains mail data ([sendTo, sendFrom, sendDate, message, subject]).
  * @returns {object}
  */
 export const createMail = props => ({
