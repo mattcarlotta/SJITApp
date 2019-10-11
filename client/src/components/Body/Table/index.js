@@ -43,6 +43,7 @@ class CustomTable extends Component {
 		this.setState({ isLoading: true }, () => action(record._id));
 	};
 
+	/* istanbul ignore next */
 	clearTimer = () => {
 		if (!this.cancelClearTimer)
 			this.setState({ isLoading: false }, () => clearTimeout(this.timeout));

@@ -28,6 +28,51 @@ describe("SideMenu", () => {
 		expect(wrapper.find("Legal").exists()).toBeTruthy();
 	});
 
+	it("renders staff routes", () => {
+		expect(
+			wrapper
+				.find("Tab")
+				.first()
+				.text(),
+		).toEqual("dashboard");
+		expect(
+			wrapper
+				.find("Tab")
+				.at(1)
+				.text(),
+		).toEqual("events");
+		expect(
+			wrapper
+				.find("Tab")
+				.at(2)
+				.text(),
+		).toEqual("forms");
+		expect(
+			wrapper
+				.find("Tab")
+				.at(3)
+				.text(),
+		).toEqual("mail");
+		expect(
+			wrapper
+				.find("Tab")
+				.at(4)
+				.text(),
+		).toEqual("members");
+		expect(
+			wrapper
+				.find("Tab")
+				.at(5)
+				.text(),
+		).toEqual("schedule");
+		expect(
+			wrapper
+				.find("Tab")
+				.at(6)
+				.text(),
+		).toEqual("seasons");
+	});
+
 	it("collapsing the menu, displays an title image and hides the legal info", () => {
 		wrapper.setProps({ isCollapsed: true });
 
@@ -62,5 +107,28 @@ describe("SideMenu", () => {
 		wrapper.update();
 
 		expect(onHandleOpenMenuChange).toHaveBeenCalledTimes(1);
+	});
+
+	it("renders employee routes", () => {
+		wrapper.setProps({ role: "employee" });
+
+		expect(
+			wrapper
+				.find("Tab")
+				.first()
+				.text(),
+		).toEqual("dashboard");
+		expect(
+			wrapper
+				.find("Tab")
+				.at(1)
+				.text(),
+		).toEqual("forms");
+		expect(
+			wrapper
+				.find("Tab")
+				.at(2)
+				.text(),
+		).toEqual("schedule");
 	});
 });

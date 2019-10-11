@@ -19,11 +19,13 @@ const RenderSendFrom = ({ sendDate, sendFrom }) => (
 								{sendFrom ? (
 									sendFrom.replace(/ <.*?>/g, "")
 								) : (
-									<span css="color: red;">Invalid Sending Address&nbsp;</span>
+									<span id="invalidsendingaddress" css="color: red;">
+										Invalid Sending Address&nbsp;
+									</span>
 								)}
 							</Bold>
 							{sendFrom.includes("<") && (
-								<span css="font-size: 16px;">
+								<span id="sendfromaddress" css="font-size: 16px;">
 									{sendFrom.substring(sendFrom.indexOf("<"))}
 									&nbsp;
 								</span>
