@@ -288,11 +288,6 @@ describe("Field Generator", () => {
 		expect(wrapper.find("ListItem")).toHaveLength(1);
 
 		wrapper
-			.find("ListItem")
-			.first()
-			.simulate("click");
-
-		wrapper
 			.find(Transfer)
 			.instance()
 			.moveTo("right");
