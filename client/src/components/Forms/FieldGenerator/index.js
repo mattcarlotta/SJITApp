@@ -232,7 +232,7 @@ const FieldGenerator = ({ fields, onChange }) =>
 								props.errors && isEmpty(props.value) ? "has-error" : ""
 							}
 							filterOption={(inputValue, option) =>
-								option.name.toLowerCase().includes(inputValue.toLowerCase())
+								option.email.toLowerCase().includes(inputValue.toLowerCase())
 							}
 							targetKeys={props.value}
 							onChange={value =>

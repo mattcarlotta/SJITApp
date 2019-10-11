@@ -1,5 +1,5 @@
 import moment from "moment";
-import { DatePicker, TimePicker } from "antd";
+import { DatePicker, TimePicker, Transfer } from "antd";
 import FroalaEditor from "react-froala-wysiwyg";
 import FieldGenerator from "../index";
 
@@ -66,7 +66,7 @@ const editor = {
 	name: "message",
 	label: "Message",
 	value: "",
-	errors: "",
+	errors: "Required.",
 	placeholder: "Type a message...",
 	tooltip:
 		"The message created below will make up the body of a pre-defined email template. That said, you can still copy/paste, and/or create stylized and formatted text and links within the body.",
@@ -205,7 +205,7 @@ describe("Field Generator", () => {
 		});
 	});
 
-	it("renders a FroalaEditor when type is 'editor'", () => {
+	it("renders a FroalaEditor when type is 'editor'", async () => {
 		wrapper.setProps({ fields: [editor] });
 
 		expect(wrapper.find(FroalaEditor).exists()).toBeTruthy();
@@ -273,5 +273,35 @@ describe("Field Generator", () => {
 		wrapper.setProps({ fields: [transfer] });
 
 		expect(wrapper.find("Transfer").exists()).toBeTruthy();
+		expect(wrapper.find("Transfer").props().className).toEqual("");
+
+		wrapper.setProps({ fields: [{ ...transfer, errors: "Required. " }] });
+		expect(wrapper.find("Transfer").props().className).toEqual("has-error");
+		expect(wrapper.find("Errors").exists()).toBeTruthy();
+
+		const value = "bobby";
+		wrapper
+			.find("input.ant-transfer-list-search")
+			.first()
+			.simulate("change", { target: { value } });
+
+		expect(wrapper.find("ListItem")).toHaveLength(1);
+
+		wrapper
+			.find("ListItem")
+			.first()
+			.simulate("click");
+
+		wrapper
+			.find(Transfer)
+			.instance()
+			.moveTo("right");
+
+		expect(onChange).toHaveBeenCalledWith({
+			target: {
+				name: "sendTo",
+				value: [],
+			},
+		});
 	});
 });
