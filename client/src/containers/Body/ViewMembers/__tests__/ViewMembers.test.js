@@ -9,7 +9,6 @@ const data = [
 		email: "member@example.com",
 		firstName: "Beta",
 		lastName: "Tester",
-		events: 0,
 	},
 	{
 		_id: "5d323ee2b02dee15483e5d9e",
@@ -19,7 +18,6 @@ const data = [
 		email: "member@example.com",
 		firstName: "Beta",
 		lastName: "Tester",
-		events: 0,
 	},
 ];
 
@@ -28,7 +26,7 @@ const fetchMembers = jest.fn();
 const push = jest.fn();
 
 const initProps = {
-	data,
+	data: [],
 	deleteMember,
 	fetchMembers,
 	isLoading: false,
@@ -52,5 +50,13 @@ describe("View All Members", () => {
 
 	it("renders a LoadingTable", () => {
 		expect(wrapper.find("LoadingTable").exists()).toBeTruthy();
+	});
+
+	it("renders DisplayStatus and FormatDate", () => {
+		wrapper.setProps({ data });
+		wrapper.update();
+
+		expect(wrapper.find("DisplayStatus").exists()).toBeTruthy();
+		expect(wrapper.find("FormatDate").exists()).toBeTruthy();
 	});
 });

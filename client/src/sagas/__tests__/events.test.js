@@ -472,6 +472,57 @@ describe("Event Sagas", () => {
 		});
 	});
 
+	describe("Resend Event Mail", () => {
+		it("logical flow matches pattern for resend event requests", () => {
+			const message = "Successfully resent mail.";
+			const res = { data: { message } };
+
+			testSaga(sagas.resendEventEmails, { eventId })
+				.next()
+				.put(hideServerMessage())
+				.next()
+				.call(app.put, `event/resend-email/${eventId}`)
+				.next(res)
+				.call(parseMessage, res)
+				.next(res.data.message)
+				.put(setServerMessage({ type: "info", message: res.data.message }))
+				.next()
+				.put({ type: types.EVENTS_FETCH })
+				.next()
+				.isDone();
+		});
+
+		it("successfully resend an event mail", async () => {
+			const message = "Successfully resent the event mail.";
+			mockApp.onPut(`event/resend-email/${eventId}`).reply(200, { message });
+
+			return expectSaga(sagas.resendEventEmails, { eventId })
+				.dispatch(actions.resendEventEmails)
+				.withReducer(messageReducer)
+				.hasFinalState({
+					message,
+					show: true,
+					type: "info",
+				})
+				.run();
+		});
+
+		it("if API call fails, it displays a message", async () => {
+			const err = "Unable to resend the event mail.";
+			mockApp.onPut(`event/resend-email/${eventId}`).reply(404, { err });
+
+			return expectSaga(sagas.resendEventEmails, { eventId })
+				.dispatch(actions.resendEventEmails)
+				.withReducer(messageReducer)
+				.hasFinalState({
+					message: err,
+					show: true,
+					type: "error",
+				})
+				.run();
+		});
+	});
+
 	describe("Update Event", () => {
 		let message;
 		let props;

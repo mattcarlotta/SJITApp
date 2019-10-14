@@ -9,7 +9,7 @@ const editForm = {
 	endMonth: "2019-09-01T06:59:59.000Z",
 	expirationDate: "2019-08-08T06:59:00.000Z",
 	notes: "Hello",
-	__v: 0,
+	sendEmailNotificationsDate: "2019-08-08T06:59:00.000Z",
 };
 
 describe("UpdateFormFields", () => {
@@ -82,6 +82,42 @@ describe("UpdateFormFields", () => {
 		expect(updatedField).toEqual({
 			...field,
 			value: moment(editForm.expirationDate),
+			disabled: false,
+		});
+	});
+
+	it("updates sendEmailNotificationsDate field value and enables the field", () => {
+		const field = {
+			type: "date",
+			name: "sendEmailNotificationsDate",
+			label: "Send Email Notifications Date",
+			placeholder: "Select a start date and time...",
+			tooltip:
+				"Specify a date to send out email notifications. If left empty, emails will be sent out immediately.",
+			value: null,
+			errors: "",
+			required: false,
+			disabled: true,
+			format: "MM/DD/YYYY",
+			showTime: { use12Hours: true },
+			style: { width: "100%" },
+		};
+
+		let updatedField = updateFormFields(field, editForm);
+
+		expect(updatedField).toEqual({
+			...field,
+			value: moment(editForm.sendEmailNotificationsDate),
+			disabled: false,
+		});
+
+		updatedField = updateFormFields(field, {
+			...editForm,
+			sendEmailNotificationsDate: "",
+		});
+
+		expect(updatedField).toEqual({
+			...field,
 			disabled: false,
 		});
 	});

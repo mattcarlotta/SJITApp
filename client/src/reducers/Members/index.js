@@ -7,6 +7,7 @@ export const initialState = {
 	viewMember: {},
 	eventResponses: [],
 	memberAvailability: {},
+	names: [],
 };
 
 /**

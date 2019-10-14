@@ -22,6 +22,19 @@ export const seasonsData = [
 	},
 ];
 
+export const mailData = [
+	{
+		_id: "5d54769658ae8d57e19a1ecc",
+		seasonId: "20192020",
+		seasonIds: ["20192020", "20202021", "20212022"],
+		startMonth: "2019-08-01T07:00:00.000Z",
+		endMonth: "2019-09-01T06:59:59.000Z",
+		expirationDate: "2019-08-08T06:59:00.000Z",
+		notes: "Hello",
+		sendEmailNotificationsDate: "2019-08-08T06:59:00.000Z",
+	},
+];
+
 export const membersData = [
 	{
 		_id: "1234567890",
@@ -170,6 +183,13 @@ export const scheduleEventsData = [
 		],
 		team: "San Jose Barracuda",
 		uniform: "Barracuda Jacket",
+	},
+];
+
+export const memberNamesData = [
+	{
+		_id: "5d83d5b32bff0853d6539cb6",
+		email: "Bobby Axelrod <member10@example.com>",
 	},
 ];
 

@@ -21,6 +21,10 @@ const tokenData = {
 	seasonIds: mocks.seasonIdsData,
 };
 
+const memberNamesData = {
+	members: mocks.memberNamesData,
+};
+
 describe("Member Reducer", () => {
 	it("initially matches the initialState pattern", () => {
 		expect(memberReducer(undefined, { payload: {}, type: "" })).toEqual(
@@ -38,7 +42,25 @@ describe("Member Reducer", () => {
 			data: mocks.membersData,
 			eventResponses: [],
 			memberAvailability: {},
+			names: [],
 			editToken: {},
+			viewMember: {},
+			tokens: [],
+		});
+	});
+
+	it("sets members availabilty", () => {
+		const state = memberReducer(undefined, {
+			type: types.MEMBERS_SET_AVAILABILITY,
+			payload: mocks.memberAvailability,
+		});
+
+		expect(state).toEqual({
+			data: [],
+			eventResponses: [],
+			editToken: {},
+			memberAvailability: mocks.memberAvailability,
+			names: [],
 			viewMember: {},
 			tokens: [],
 		});
@@ -54,7 +76,25 @@ describe("Member Reducer", () => {
 			data: [],
 			editToken: {},
 			eventResponses: mocks.eventResponseData,
+			names: [],
 			memberAvailability: {},
+			viewMember: {},
+			tokens: [],
+		});
+	});
+
+	it("sets members names data", () => {
+		const state = memberReducer(undefined, {
+			type: types.MEMBERS_SET_NAMES,
+			payload: memberNamesData,
+		});
+
+		expect(state).toEqual({
+			data: [],
+			editToken: {},
+			eventResponses: [],
+			memberAvailability: {},
+			names: mocks.memberNamesData,
 			viewMember: {},
 			tokens: [],
 		});
@@ -123,6 +163,7 @@ describe("Member Reducer", () => {
 			editToken: {},
 			eventResponses: [],
 			memberAvailability: {},
+			names: [],
 			viewMember: {},
 			tokens: mocks.tokensData,
 		});
@@ -139,6 +180,7 @@ describe("Member Reducer", () => {
 			editToken: { ...mocks.tokensData, seasonIds: mocks.seasonIdsData },
 			eventResponses: [],
 			memberAvailability: {},
+			names: [],
 			viewMember: {},
 			tokens: [],
 		});
@@ -155,6 +197,7 @@ describe("Member Reducer", () => {
 			editToken: {},
 			eventResponses: mocks.memberEventResponses,
 			memberAvailability: mocks.memberAvailability,
+			names: [],
 			viewMember: mocks.membersData,
 			tokens: [],
 		});

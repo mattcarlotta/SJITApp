@@ -11,9 +11,10 @@ const initProps = {
 	scheduleEvents: [],
 };
 
+const wrapper = shallow(<ViewSchedule {...initProps} />);
+
 describe("View Schedule", () => {
 	it("renders without errors", () => {
-		const wrapper = shallow(<ViewSchedule {...initProps} />);
 		expect(wrapper.find("Card").exists()).toBeTruthy();
 	});
 });

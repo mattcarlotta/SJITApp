@@ -180,6 +180,120 @@ describe("Member Sagas", () => {
 		});
 	});
 
+	describe("Fetch Members Availability", () => {
+		let data;
+		let params;
+		beforeEach(() => {
+			data = { memberAvailability: mocks.memberAvailability };
+			params = {
+				id: "0123456789",
+			};
+		});
+
+		it("logical flow matches pattern for fetch member availability requests", () => {
+			const res = { data };
+
+			testSaga(sagas.fetchAvailability, { params })
+				.next()
+				.call(app.get, "member/availability", { params })
+				.next(res)
+				.call(parseData, res)
+				.next(res.data)
+				.put(actions.setMemberAvailability(res.data))
+				.next()
+				.isDone();
+		});
+
+		it("successfully fetches member availability for viewing", async () => {
+			mockApp.onGet("member/availability").reply(200, data);
+
+			return expectSaga(sagas.fetchAvailability, { params })
+				.dispatch(actions.fetchAvailability)
+				.withReducer(memberReducer)
+				.hasFinalState({
+					data: [],
+					tokens: [],
+					editToken: {},
+					names: [],
+					viewMember: {},
+					eventResponses: [],
+					memberAvailability: { memberAvailability: mocks.memberAvailability },
+				})
+				.run();
+		});
+
+		it("if API call fails, it displays a message", async () => {
+			const err = "Unable to fetch member availability.";
+			mockApp.onGet("member/availability").reply(404, { err });
+
+			return expectSaga(sagas.fetchAvailability, { params })
+				.dispatch(actions.fetchAvailability)
+				.withReducer(messageReducer)
+				.hasFinalState({
+					message: err,
+					show: true,
+					type: "error",
+				})
+				.run();
+		});
+	});
+
+	describe("Fetch Members Names", () => {
+		let data;
+		beforeEach(() => {
+			data = { names: mocks.memberNames };
+		});
+
+		it("logical flow matches pattern for fetch member names requests", () => {
+			const res = { data };
+
+			testSaga(sagas.fetchMemberNames)
+				.next()
+				.put(hideServerMessage())
+				.next()
+				.call(app.get, "members/names")
+				.next(res)
+				.call(parseData, res)
+				.next(res.data)
+				.put(actions.setMemberNames(res.data))
+				.next()
+				.isDone();
+		});
+
+		it("successfully fetches member names for viewing", async () => {
+			mockApp.onGet("members/names").reply(200, data);
+
+			return expectSaga(sagas.fetchMemberNames)
+				.dispatch(actions.fetchMemberNames)
+				.withReducer(memberReducer)
+				.hasFinalState({
+					data: [],
+					tokens: [],
+					editToken: {},
+					names: mocks.memberNames,
+					viewMember: {},
+					eventResponses: [],
+					memberAvailability: {},
+				})
+				.run();
+		});
+
+		it("if API call fails, it displays a message", async () => {
+			const err = "Unable to fetch member names.";
+			mockApp.onGet("members/names").reply(404, { err });
+
+			return expectSaga(sagas.fetchMemberNames)
+				.dispatch(actions.fetchMemberNames)
+				.withReducer(messageReducer)
+				.hasFinalState({
+					message: err,
+					show: true,
+					type: "error",
+				})
+				.run();
+		});
+	});
+
 	describe("Fetch Profile", () => {
 		let basicMemberInfo;
 		let memberEventResponses;
@@ -233,6 +347,7 @@ describe("Member Sagas", () => {
 					data: [],
 					tokens: [],
 					editToken: {},
+					names: [],
 					viewMember: mocks.membersData,
 					eventResponses: mocks.memberEventResponses,
 					memberAvailability,
@@ -291,6 +406,7 @@ describe("Member Sagas", () => {
 					data: [],
 					tokens: [],
 					editToken: {},
+					names: [],
 					viewMember: {},
 					eventResponses: mocks.eventResponseData,
 					memberAvailability: {},
@@ -344,6 +460,7 @@ describe("Member Sagas", () => {
 					data: mocks.membersData,
 					tokens: [],
 					editToken: {},
+					names: [],
 					viewMember: {},
 					eventResponses: [],
 					memberAvailability: {},
@@ -414,6 +531,7 @@ describe("Member Sagas", () => {
 					data: [],
 					tokens: [],
 					editToken: { ...mocks.tokensData, seasonIds: mocks.seasonIds },
+					names: [],
 					viewMember: {},
 					eventResponses: [],
 					memberAvailability: {},
@@ -467,6 +585,7 @@ describe("Member Sagas", () => {
 					data: [],
 					tokens: mocks.tokensData,
 					editToken: {},
+					names: [],
 					viewMember: {},
 					eventResponses: [],
 					memberAvailability: {},

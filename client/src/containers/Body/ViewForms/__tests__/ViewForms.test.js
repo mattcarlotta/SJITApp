@@ -8,6 +8,8 @@ const data = [
 		endMonth: "2019-09-01T06:59:59.000Z",
 		expirationDate: "2019-08-08T06:59:00.000Z",
 		notes: "",
+		sendEmailNotificationsDate: "2019-08-08T06:59:00.000Z",
+		sentEmails: false,
 	},
 ];
 
@@ -17,7 +19,7 @@ const resendMail = jest.fn();
 const push = jest.fn();
 
 const initProps = {
-	data,
+	data: [],
 	deleteForm,
 	fetchForms,
 	isLoading: false,
@@ -26,8 +28,12 @@ const initProps = {
 	role: "staff",
 };
 
-const wrapper = mount(<ViewForms {...initProps} />);
 describe("View All Forms", () => {
+	let wrapper;
+	beforeEach(() => {
+		wrapper = mount(<ViewForms {...initProps} />);
+	});
+
 	it("renders without errors", () => {
 		expect(wrapper.find("Card").exists()).toBeTruthy();
 	});
@@ -43,5 +49,13 @@ describe("View All Forms", () => {
 
 	it("renders a LoadingTable", () => {
 		expect(wrapper.find("LoadingTable").exists()).toBeTruthy();
+	});
+
+	it("renders FormatDate and DisplayEmailReminder", () => {
+		wrapper.setProps({ data });
+		wrapper.update();
+
+		expect(wrapper.find("FormatDate").exists()).toBeTruthy();
+		expect(wrapper.find("FaStopwatch").exists()).toBeTruthy();
 	});
 });

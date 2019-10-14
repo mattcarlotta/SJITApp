@@ -50,6 +50,13 @@ export const seasonsData = [
 	},
 ];
 
+export const memberNamesData = [
+	{
+		_id: "5d83d5b32bff0853d6539cb6",
+		email: "Bobby Axelrod <member10@example.com>",
+	},
+];
+
 export const memberCountData = [
 	{
 		name: "Bobby Axelrod",

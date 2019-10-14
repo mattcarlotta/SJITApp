@@ -311,6 +311,57 @@ describe("Form Sagas", () => {
 		});
 	});
 
+	describe("Resend Form Mail", () => {
+		it("logical flow matches pattern for resend form requests", () => {
+			const message = "Successfully resent mail.";
+			const res = { data: { message } };
+
+			testSaga(sagas.resendFormEmails, { formId })
+				.next()
+				.put(hideServerMessage())
+				.next()
+				.call(app.put, `form/resend-email/${formId}`)
+				.next(res)
+				.call(parseMessage, res)
+				.next(res.data.message)
+				.put(setServerMessage({ type: "info", message: res.data.message }))
+				.next()
+				.put({ type: types.FORMS_FETCH })
+				.next()
+				.isDone();
+		});
+
+		it("successfully resend an form mail", async () => {
+			const message = "Successfully resent the form mail.";
+			mockApp.onPut(`form/resend-email/${formId}`).reply(200, { message });
+
+			return expectSaga(sagas.resendFormEmails, { formId })
+				.dispatch(actions.resendFormEmails)
+				.withReducer(messageReducer)
+				.hasFinalState({
+					message,
+					show: true,
+					type: "info",
+				})
+				.run();
+		});
+
+		it("if API call fails, it displays a message", async () => {
+			const err = "Unable to resend the form mail.";
+			mockApp.onPut(`form/resend-email/${formId}`).reply(404, { err });
+
+			return expectSaga(sagas.resendFormEmails, { formId })
+				.dispatch(actions.resendFormEmails)
+				.withReducer(messageReducer)
+				.hasFinalState({
+					message: err,
+					show: true,
+					type: "error",
+				})
+				.run();
+		});
+	});
+
 	describe("Update Form", () => {
 		let message;
 		let props;

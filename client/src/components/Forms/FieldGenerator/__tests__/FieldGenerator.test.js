@@ -279,11 +279,10 @@ describe("Field Generator", () => {
 		expect(wrapper.find("Transfer").props().className).toEqual("has-error");
 		expect(wrapper.find("Errors").exists()).toBeTruthy();
 
-		const value = "bobby";
 		wrapper
 			.find("input.ant-transfer-list-search")
 			.first()
-			.simulate("change", { target: { value } });
+			.simulate("change", { target: { value: "bobby" } });
 
 		expect(wrapper.find("ListItem")).toHaveLength(1);
 
