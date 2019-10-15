@@ -99,13 +99,21 @@ const getMemberEventCounts = async (req, res) => {
     const { eventId } = req.query;
 
     /* istanbul ignore next */
-    const members = await User.find(
-      { role: { $nin: ["admin", "staff"] }, status: "active" },
-      { _id: 1, firstName: 1, lastName: 1 },
-      { sort: { lastName: 1 } },
-    )
-      .sort({ lastName: 1 })
-      .lean();
+    const members = await User.aggregate([
+      {
+        $match: {
+          role: { $nin: ["admin", "staff"] },
+          status: "active",
+        },
+      },
+      { $sort: { lastName: 1 } },
+      {
+        $project: {
+          _id: 1,
+          name: { $concat: ["$firstName", " ", "$lastName"] },
+        },
+      },
+    ]);
     /* istanbul ignore next */
     if (isEmpty(members)) throw unableToLocateMembers;
 
@@ -221,6 +229,8 @@ const getMemberAvailability = async (req, res) => {
       },
     });
 
+    console.log("eventResponses", eventResponses);
+
     res.status(200).json({
       memberResponseCount: createMemberResponseCount(eventResponses),
       memberScheduleEvents: [
@@ -293,9 +303,10 @@ const getMemberEvents = async (req, res) => {
 
 const updateMember = async (req, res) => {
   try {
-    const { _id, email, firstName, lastName, role } = req.body;
-    if (!_id || !email || !firstName || !lastName || !role)
-      throw missingUpdateMemberParams;
+    const {
+      _id, email, firstName, lastName, role,
+    } = req.body;
+    if (!_id || !email || !firstName || !lastName || !role) throw missingUpdateMemberParams;
 
     const existingMember = await User.findOne({ _id });
     if (!existingMember) throw unableToLocateMember;

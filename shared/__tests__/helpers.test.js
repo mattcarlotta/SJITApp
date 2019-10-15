@@ -5,10 +5,13 @@ import {
   convertDateToISO,
   createDate,
   createColumnSchedule,
+  createMemberEventCount,
+  createMemberResponseCount,
   createRandomToken,
   createSignupToken,
   createUniqueName,
   createUserSchedule,
+  convertId,
   sendError,
 } from "shared/helpers";
 
@@ -129,6 +132,88 @@ describe("Helpers", () => {
     const date = new Date(2019, 3, 21);
     const isoDate = convertDateToISO(date);
     expect(isoDate).toEqual("2019-04-21T00:00:00.000-07:00");
+  });
+
+  it("returns an member's scheduled event count", () => {
+    const members = [
+      {
+        _id: convertId("5d978d372f263f41cc624727"),
+        name: "Test Test",
+      },
+      {
+        _id: convertId("5d978d372f263f41cc624728"),
+        name: "Test Test",
+      },
+    ];
+
+    const memberEventCounts = [
+      { _id: convertId("5d978d372f263f41cc624727"), eventCount: 2 },
+    ];
+
+    const memberEventCount = createMemberEventCount({
+      members,
+      memberEventCounts,
+    });
+
+    expect(memberEventCount).toEqual([
+      {
+        name: members[0].name,
+        "Event Count": 2,
+      },
+      {
+        name: members[1].name,
+        "Event Count": 0,
+      },
+    ]);
+  });
+
+  it("returns a members event response count", () => {
+    const eventResponses = [
+      {
+        _id: null,
+        responses: [
+          "No response.",
+          "No response.",
+          "No response.",
+          "No response.",
+          "No response.",
+        ],
+      },
+    ];
+
+    const eventResponseCount = createMemberResponseCount(eventResponses);
+    expect(eventResponseCount).toEqual([
+      {
+        id: "I want to work.",
+        label: "I want to work.",
+        color: "#247BA0",
+        value: 0,
+      },
+      {
+        id: "Available to work.",
+        label: "Available to work.",
+        color: "#2A9D8F",
+        value: 0,
+      },
+      {
+        id: "Prefer not to work.",
+        label: "Prefer not to work.",
+        color: "#F4A261",
+        value: 0,
+      },
+      {
+        id: "Not available to work.",
+        label: "Not available to work.",
+        color: "#FF8060",
+        value: 0,
+      },
+      {
+        id: "No response.",
+        label: "No response.",
+        color: "#BFBFBF",
+        value: 5,
+      },
+    ]);
   });
 
   it("creates a random 64 character string", () => {

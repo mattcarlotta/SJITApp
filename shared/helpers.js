@@ -96,27 +96,6 @@ const createColumnSchedule = ({ event, members }) => [
 const createDate = date => moment(date || Date.now());
 
 /**
- * Helper function to generate an average member availability.
- *
- * @function createMemberAvailability
- * @param employeeEventResponses - an array of responses
- * @returns {Number}
- */
-const createMemberAvailability = ({ employeeEventResponses, eventCount }) => {
-  const availableResponseTypes = Array.from(responseTypes).splice(0, 2);
-  const availability = employeeEventResponses.reduce((acc, { responses }) => {
-    if (responses) {
-      availableResponseTypes.forEach(rspType => {
-        acc += responses.filter(rsp => rsp === rspType).length;
-      });
-    }
-    return acc;
-  }, 0);
-
-  return availability > 0 ? ((availability / eventCount) * 100).toFixed(2) : 0;
-};
-
-/**
  * Helper function to generate a user event count based upon their scheduled events.
  *
  * @function createMemberEventCount
@@ -129,7 +108,7 @@ const createMemberEventCount = ({ members, memberEventCounts }) => members.map(m
       && memberEventCounts.find(doc => doc._id.equals(member._id));
 
   return {
-    name: `${member.firstName} ${member.lastName}`,
+    name: member.name,
     "Event Count": hasEventCount ? hasEventCount.eventCount : 0,
   };
 });
@@ -138,10 +117,10 @@ const createMemberEventCount = ({ members, memberEventCounts }) => members.map(m
  * Helper function to generate a user event count based upon their scheduled events.
  *
  * @function createMemberResponseCount
- * @param employeeEventResponses - an array of responses
+ * @param eventResponses - an array of responses
  * @returns {array}
  */
-const createMemberResponseCount = employeeEventResponses => employeeEventResponses.reduce((acc, { responses }) => {
+const createMemberResponseCount = eventResponses => eventResponses.reduce((acc, { responses }) => {
   responseTypes.forEach((rspType, index) => {
     acc.push({
       id: rspType,
@@ -308,7 +287,6 @@ export {
   createAuthMail,
   createColumnSchedule,
   createDate,
-  createMemberAvailability,
   createMemberEventCount,
   createMemberResponseCount,
   createRandomToken,
