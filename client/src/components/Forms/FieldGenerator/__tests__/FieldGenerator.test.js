@@ -65,7 +65,7 @@ const editor = {
 	type: "editor",
 	name: "message",
 	label: "Message",
-	value: "",
+	value: "<span>Test</span>",
 	errors: "Required.",
 	placeholder: "Type a message...",
 	tooltip:
@@ -205,7 +205,7 @@ describe("Field Generator", () => {
 		});
 	});
 
-	it("renders a FroalaEditor when type is 'editor'", async () => {
+	it("renders a FroalaEditor when type is 'editor'", () => {
 		wrapper.setProps({ fields: [editor] });
 
 		expect(wrapper.find(FroalaEditor).exists()).toBeTruthy();

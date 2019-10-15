@@ -88,13 +88,16 @@ export function* fetchMail({ mailId }) {
 		yield put(hideServerMessage());
 
 		let res = yield call(app.get, "members/names");
-		const membersData = yield call(parseData, res);
+		const membersNamesData = yield call(parseData, res);
 
 		res = yield call(app.get, `mail/edit/${mailId}`);
 		const emailData = yield call(parseData, res);
 
 		yield put(
-			setMailToEdit({ ...emailData.email, dataSource: membersData.members }),
+			setMailToEdit({
+				...emailData.email,
+				dataSource: membersNamesData.members,
+			}),
 		);
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));

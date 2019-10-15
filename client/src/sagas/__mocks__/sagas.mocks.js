@@ -12,6 +12,14 @@ export const userSession = {
 	role: "staff",
 };
 
+export const mailData = {
+	sendTo: ["test@test.com"],
+	sendFrom: "test@test.com",
+	sendDate: "2000-10-06T07:00:00.000+00:00",
+	message: "<span>Test</span>",
+	subject: "Test",
+};
+
 export const newMember = {
 	seasonId: "20002001",
 	role: "staff",

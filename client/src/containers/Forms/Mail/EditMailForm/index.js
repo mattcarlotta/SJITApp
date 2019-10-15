@@ -98,7 +98,7 @@ export class EditMailForm extends Component {
 								fields={this.state.fields}
 								onChange={this.handleChange}
 							/>
-							<Button primary onClick={this.handlePreview}>
+							<Button className="preview" primary onClick={this.handlePreview}>
 								Preview
 							</Button>
 							{this.state.showPreview && (

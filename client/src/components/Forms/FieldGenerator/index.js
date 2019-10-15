@@ -68,6 +68,7 @@ const FieldGenerator = ({ fields, onChange }) =>
 				);
 			}
 			case "editor": {
+				/* istanbul ignore next */
 				return (
 					<Form.Item key={props.name} style={{ height: 400 }}>
 						{props.label && <Label {...props} />}

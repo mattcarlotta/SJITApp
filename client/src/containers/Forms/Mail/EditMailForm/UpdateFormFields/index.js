@@ -1,5 +1,14 @@
+import moment from "moment";
+
 export default (field, editEmail) => {
-	const { dataSource, message, sendFrom, sendTo, subject } = editEmail;
+	const {
+		dataSource,
+		message,
+		sendDate,
+		sendFrom,
+		sendTo,
+		subject,
+	} = editEmail;
 
 	switch (field.name) {
 		case "sendTo":
@@ -16,6 +25,13 @@ export default (field, editEmail) => {
 				disabled: false,
 			};
 		}
+		case "sendDate": {
+			return {
+				...field,
+				value: moment(sendDate),
+				disabled: false,
+			};
+		}
 		case "subject": {
 			return {
 				...field,
@@ -23,16 +39,10 @@ export default (field, editEmail) => {
 				disabled: false,
 			};
 		}
-		case "message": {
-			return {
-				...field,
-				value: message,
-				disabled: false,
-			};
-		}
 		default: {
 			return {
 				...field,
+				value: message,
 				disabled: false,
 			};
 		}

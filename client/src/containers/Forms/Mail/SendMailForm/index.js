@@ -88,7 +88,7 @@ export class SendMailForm extends Component {
 								fields={this.state.fields}
 								onChange={this.handleChange}
 							/>
-							<Button primary onClick={this.handlePreview}>
+							<Button className="preview" primary onClick={this.handlePreview}>
 								Preview
 							</Button>
 							{this.state.showPreview && (
@@ -110,13 +110,13 @@ export class SendMailForm extends Component {
 SendMailForm.propTypes = {
 	createMail: PropTypes.func.isRequired,
 	fetchMemberNames: PropTypes.func.isRequired,
-	push: PropTypes.func.isRequired,
 	memberNames: PropTypes.arrayOf(
 		PropTypes.shape({
 			_id: PropTypes.string,
 			email: PropTypes.string,
 		}),
 	),
+	push: PropTypes.func.isRequired,
 	serverMessage: PropTypes.string,
 };
 

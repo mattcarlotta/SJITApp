@@ -9,6 +9,7 @@ const SubmitButton = ({ disabled, isSubmitting, title, style }) => (
 		) : (
 			<Button
 				{...style}
+				className="submit"
 				disabled={disabled}
 				primary
 				fontSize="22px"
