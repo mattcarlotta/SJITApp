@@ -1,7 +1,7 @@
 import {
   deleteMember,
-  getAllMembers,
   getAllMemberNames,
+  getAllMembers,
   getMember,
   getMemberAvailability,
   getMemberEventCounts,
@@ -13,8 +13,8 @@ import { requireAuth, requireStaffRole } from "services/strategies";
 
 export default app => {
   app.delete("/api/member/delete/:id", requireStaffRole, deleteMember);
-  app.get("/api/members/all", requireStaffRole, getAllMembers);
   app.get("/api/members/names", requireStaffRole, getAllMemberNames);
+  app.get("/api/members/all", requireStaffRole, getAllMembers);
   app.get("/api/member/review/:id", requireStaffRole, getMember);
   app.get("/api/member/availability", requireAuth, getMemberAvailability);
   app.get("/api/members/eventcounts", requireStaffRole, getMemberEventCounts);

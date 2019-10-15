@@ -1,3 +1,4 @@
+import moment from "moment";
 import { Form } from "models";
 import { updateForm } from "controllers/form";
 import {
@@ -5,6 +6,8 @@ import {
   unableToLocateSeason,
   unableToUpdateForm,
 } from "shared/authErrors";
+
+const currentDate = moment().format();
 
 describe("Update Form Controller", () => {
   let res;
@@ -28,6 +31,7 @@ describe("Update Form Controller", () => {
       enrollMonth: "",
       notes: "",
       seasonId: "",
+      sendEmailNotificationsDate: "",
     };
     const req = mockRequest(null, null, emptyBody);
 
@@ -46,6 +50,7 @@ describe("Update Form Controller", () => {
       enrollMonth: ["0123456789", "0123456789"],
       notes: "",
       seasonId: "0123456789",
+      sendEmailNotificationsDate: currentDate,
     };
     const req = mockRequest(null, null, invalidSeason);
 
@@ -67,6 +72,7 @@ describe("Update Form Controller", () => {
       ],
       notes: "",
       seasonId: "20002001",
+      sendEmailNotificationsDate: currentDate,
     };
     const req = mockRequest(null, null, invalidFormId);
 
@@ -85,18 +91,20 @@ describe("Update Form Controller", () => {
       endMonth: new Date("2011-08-31T07:00:00.000Z"),
       notes: "Form 88",
       seasonId: "20112012",
+      sendEmailNotificationsDate: new Date("2011-08-31T07:00:00.000Z"),
     };
     const existingForm = await Form.create(form);
 
     const updatedFormDetails = {
       _id: existingForm._id,
-      expirationDate: "2019-08-10T02:30:31.834+00:00",
+      expirationDate: currentDate,
       enrollMonth: [
         "2000-08-01T07:00:00.000+00:00",
         "2000-08-31T07:00:00.000+00:00",
       ],
       notes: "",
       seasonId: "20002001",
+      sendEmailNotificationsDate: currentDate,
     };
 
     const req = mockRequest(null, null, updatedFormDetails);

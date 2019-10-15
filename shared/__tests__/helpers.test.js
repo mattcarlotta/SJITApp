@@ -3,12 +3,12 @@ import { User } from "models";
 import {
   clearSession,
   convertDateToISO,
+  createDate,
   createColumnSchedule,
   createRandomToken,
   createSignupToken,
   createUniqueName,
   createUserSchedule,
-  currentDate,
   sendError,
 } from "shared/helpers";
 
@@ -148,8 +148,10 @@ describe("Helpers", () => {
     expect(template).toEqual("employee-newsletter");
   });
 
-  it("creates a current Date string", () => {
-    expect(currentDate()).toEqual(expect.any(String));
+  it("creates a current Date object", () => {
+    const date = "2000-08-09T17:45:26-07:00";
+    expect(createDate()).toEqual(expect.any(moment));
+    expect(createDate(date)).toEqual(expect.any(moment));
   });
 
   it("sends an error to the client", () => {

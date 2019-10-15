@@ -321,6 +321,7 @@ const seedDB = async () => {
       seasonId: "20192020",
       eventDate: "2019-08-10T02:30:31.834Z",
       schedule: createSchedule(newEventCallTimes),
+      sentEmailReminders: false,
     };
 
     const newEventCallTimes2 = ["2019-08-09T19:00:38-07:00"];
@@ -335,6 +336,7 @@ const seedDB = async () => {
       seasonId: "20192020",
       eventDate: "2019-08-11T02:30:30.036Z",
       schedule: createSchedule(newEventCallTimes2),
+      sentEmailReminders: false,
     };
 
     const newEventCallTimes3 = [
@@ -362,6 +364,7 @@ const seedDB = async () => {
         },
       ],
       schedule: createSchedule(newEventCallTimes3),
+      sentEmailReminders: false,
     };
 
     const newEventCallTimes4 = [
@@ -389,6 +392,7 @@ const seedDB = async () => {
         },
       ],
       schedule: createSchedule(newEventCallTimes4),
+      sentEmailReminders: false,
     };
 
     const newEventCallTimes5 = [
@@ -409,6 +413,7 @@ const seedDB = async () => {
       seasonId: "20192020",
       team: "San Jose Sharks",
       schedule: createSchedule(newEventCallTimes5),
+      sentEmailReminders: false,
     };
 
     const newEventCallTimes6 = ["2019-09-06T16:00:00-07:00"];
@@ -424,6 +429,7 @@ const seedDB = async () => {
       seasonId: "20192020",
       team: "San Jose Barracuda",
       schedule: createSchedule(newEventCallTimes6),
+      sentEmailReminders: false,
     };
 
     const newEventCallTimes7 = ["2019-09-07T16:00:00-07:00"];
@@ -439,6 +445,7 @@ const seedDB = async () => {
       seasonId: "20192020",
       team: "San Jose Barracuda",
       schedule: createSchedule(newEventCallTimes7),
+      sentEmailReminders: false,
     };
 
     const newEventCallTimes8 = ["2019-09-08T16:00:00-07:00"];
@@ -454,6 +461,7 @@ const seedDB = async () => {
       seasonId: "20192020",
       team: "San Jose Barracuda",
       schedule: createSchedule(newEventCallTimes8),
+      sentEmailReminders: false,
     };
 
     await Event.insertMany([
@@ -475,6 +483,8 @@ const seedDB = async () => {
       endMonth: new Date("2000-08-31T07:00:00.000Z"),
       notes: "Form 1",
       seasonId: "20002001",
+      sendEmailNotificationsDate: new Date("2000-08-31T07:00:00.000Z"),
+      sendEmails: false,
     };
 
     const form2 = {
@@ -483,6 +493,8 @@ const seedDB = async () => {
       endMonth: new Date("2005-08-31T07:00:00.000Z"),
       notes: "Form 2",
       seasonId: "20052006",
+      sendEmailNotificationsDate: new Date("2005-08-31T07:00:00.000Z"),
+      sendEmails: false,
     };
 
     const form3 = {
@@ -491,6 +503,8 @@ const seedDB = async () => {
       endMonth: new Date("2011-08-31T07:00:00.000Z"),
       notes: "Form 3",
       seasonId: "20112012",
+      sendEmailNotificationsDate: new Date("2011-08-31T07:00:00.000Z"),
+      sendEmails: false,
     };
 
     const form4 = {
@@ -499,6 +513,8 @@ const seedDB = async () => {
       endMonth: new Date("2019-08-31T07:00:00.000Z"),
       notes: "Form 4",
       seasonId: "20192020",
+      sendEmailNotificationsDate: new Date("2019-08-31T07:00:00.000Z"),
+      sendEmails: false,
     };
 
     const form5 = {
@@ -507,6 +523,8 @@ const seedDB = async () => {
       endMonth: new Date("2019-09-30T07:00:00.000Z"),
       notes: "Form 5",
       seasonId: "20192020",
+      sendEmailNotificationsDate: new Date("2019-09-31T07:00:00.000Z"),
+      sendEmails: false,
     };
 
     const form6 = {
@@ -515,6 +533,8 @@ const seedDB = async () => {
       endMonth: new Date("2019-10-31T07:00:00.000Z"),
       notes: "Form 6",
       seasonId: "20192020",
+      sendEmailNotificationsDate: new Date("2019-10-31T07:00:00.000Z"),
+      sendEmails: false,
     };
 
     await Form.insertMany([form1, form2, form3, form4, form5, form6]);

@@ -1,4 +1,9 @@
-import { sendError, createSignupToken, expirationDate } from "shared/helpers";
+import {
+  createAuthMail,
+  createSignupToken,
+  expirationDate,
+  sendError,
+} from "shared/helpers";
 import {
   emailAlreadyTaken,
   emailAssociatedWithKey,
@@ -9,18 +14,7 @@ import {
   unableToLocateToken,
   unableToUpdateToken,
 } from "shared/authErrors";
-import { newAuthorizationKeyTemplate } from "services/templates";
-import { Mail, Token, Season, User } from "models";
-
-const { CLIENT } = process.env;
-
-const createMail = (authorizedEmail, token, expiration) => ({
-  sendTo: `${authorizedEmail}`,
-  sendFrom: "San Jose Sharks Ice Team <noreply@sjsiceteam.com>",
-  subject:
-    "Congratulations, you have been selected to join the San Jose Sharks Ice Team!",
-  message: newAuthorizationKeyTemplate(CLIENT, token, expiration.calendar()),
-});
+import { Mail, Token, User } from "models";
 
 const createToken = async (req, res) => {
   try {
@@ -40,11 +34,7 @@ const createToken = async (req, res) => {
       role,
     });
 
-    await Mail.create(createMail(authorizedEmail, token, expiration));
-
-    // const msg = createMail(authorizedEmail, token, expiration);
-    //
-    // await mailer.send(msg);
+    await Mail.create(createAuthMail(authorizedEmail, token, expiration));
 
     res.status(201).json({
       message: `Succesfully created and sent an authorization key to ${authorizedEmail}.`,
@@ -121,7 +111,7 @@ const updateToken = async (req, res) => {
       token,
     });
 
-    await Mail.create(createMail(authorizedEmail, token, expiration));
+    await Mail.create(createAuthMail(authorizedEmail, token, expiration));
 
     res.status(201).json({
       message: `Succesfully updated and sent a new authorization key to ${authorizedEmail}.`,
@@ -131,4 +121,6 @@ const updateToken = async (req, res) => {
   }
 };
 
-export { createToken, deleteToken, getAllTokens, getToken, updateToken };
+export {
+  createToken, deleteToken, getAllTokens, getToken, updateToken,
+};
