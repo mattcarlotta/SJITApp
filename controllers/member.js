@@ -229,8 +229,6 @@ const getMemberAvailability = async (req, res) => {
       },
     });
 
-    console.log("eventResponses", eventResponses);
-
     res.status(200).json({
       memberResponseCount: createMemberResponseCount(eventResponses),
       memberScheduleEvents: [
