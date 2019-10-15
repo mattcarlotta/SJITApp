@@ -1,7 +1,6 @@
-import { Event, User } from "models";
+import { Event } from "models";
 import { getEventForScheduling } from "controllers/event";
 import { missingEventId, unableToLocateEvent } from "shared/authErrors";
-import { createColumnSchedule, createUserSchedule } from "shared/helpers";
 
 describe("Get Event For Scheduling Controller", () => {
   let res;
@@ -45,10 +44,6 @@ describe("Get Event For Scheduling Controller", () => {
   it("handles valid get event requests", async () => {
     const notes = "Star Wars night!";
     const event = await Event.findOne({ notes }, { __v: 0 }).lean();
-    const members = await User.find(
-      { role: { $nin: ["admin", "staff"] }, status: "active" },
-      { _id: 1, firstName: 1, lastName: 1 },
-    ).lean();
 
     const req = mockRequest(null, null, null, null, { id: event._id });
 
@@ -57,9 +52,23 @@ describe("Get Event For Scheduling Controller", () => {
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.json).toHaveBeenCalledWith({
       schedule: {
-        columns: createColumnSchedule({ event, members }),
+        columns: expect.arrayContaining([
+          expect.objectContaining({
+            _id: expect.any(String),
+            title: expect.any(String),
+            employeeIds: expect.anything(),
+          }),
+        ]),
         event,
-        users: createUserSchedule({ event, members }),
+        users: expect.arrayContaining([
+          expect.objectContaining({
+            _id: expect.any(ObjectId),
+            firstName: expect.any(String),
+            lastName: expect.any(String),
+            notes: expect.anything(),
+            response: expect.any(String),
+          }),
+        ]),
       },
     });
   });
