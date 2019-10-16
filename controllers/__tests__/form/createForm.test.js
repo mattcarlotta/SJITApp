@@ -1,6 +1,11 @@
 import { Form } from "models";
 import { createForm } from "controllers/form";
-import { unableToCreateNewForm, unableToLocateSeason } from "shared/authErrors";
+import {
+  invalidExpirationDate,
+  invalidSendEmailNoteDate,
+  unableToCreateNewForm,
+  unableToLocateSeason,
+} from "shared/authErrors";
 
 describe("Create Form Controller", () => {
   let res;
@@ -52,6 +57,49 @@ describe("Create Form Controller", () => {
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith({
       err: unableToLocateSeason,
+    });
+  });
+
+  it("handles invalid expiration dates", async () => {
+    const newForm = {
+      expirationDate: "2000-04-10T02:30:31.834+00:00",
+      enrollMonth: [
+        "2000-04-01T07:00:00.000+00:00",
+        "2000-04-31T07:00:00.000+00:00",
+      ],
+      notes: "",
+      seasonId: "20002001",
+    };
+
+    const req = mockRequest(null, null, newForm);
+
+    await createForm(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.json).toHaveBeenCalledWith({
+      err: invalidExpirationDate,
+    });
+  });
+
+  it("handles invalid send email notification dates", async () => {
+    const newForm = {
+      expirationDate: "2099-04-10T02:30:31.834+00:00",
+      enrollMonth: [
+        "2000-04-01T07:00:00.000+00:00",
+        "2000-04-31T07:00:00.000+00:00",
+      ],
+      notes: "",
+      seasonId: "20002001",
+      sendEmailNotificationsDate: "2000-04-10T02:30:31.834+00:00",
+    };
+
+    const req = mockRequest(null, null, newForm);
+
+    await createForm(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.json).toHaveBeenCalledWith({
+      err: invalidSendEmailNoteDate,
     });
   });
 

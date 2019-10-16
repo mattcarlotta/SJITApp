@@ -11,9 +11,9 @@ import { createForm } from "actions/Forms";
 import { fieldValidator, fieldUpdater, parseFields } from "utils";
 import fields from "./Fields";
 
-const title = "New Form";
+const title = "New AP Form";
 
-export class NewForm extends Component {
+export class NewAPForm extends Component {
 	state = {
 		fields,
 		isLoading: true,
@@ -53,12 +53,7 @@ export class NewForm extends Component {
 		const { validatedFields, errors } = fieldValidator(this.state.fields);
 
 		this.setState({ fields: validatedFields, isSubmitting: !errors }, () => {
-			const { fields: formFields } = this.state;
-			if (!errors) {
-				const parsedFields = parseFields(formFields);
-
-				this.props.createForm(parsedFields);
-			}
+			if (!errors) this.props.createForm(parseFields(validatedFields));
 		});
 	};
 
@@ -73,7 +68,7 @@ export class NewForm extends Component {
 				<FormTitle
 					header={title}
 					title={title}
-					description="Please fill out all of the form fields below."
+					description="Please fill the fields below to create a new AP form."
 				/>
 				<form onSubmit={this.handleSubmit}>
 					{this.state.isLoading ? (
@@ -97,7 +92,7 @@ export class NewForm extends Component {
 	);
 }
 
-NewForm.propTypes = {
+NewAPForm.propTypes = {
 	createForm: PropTypes.func.isRequired,
 	fetchSeasonsIds: PropTypes.func.isRequired,
 	push: PropTypes.func.isRequired,
@@ -119,4 +114,4 @@ const mapDispatchToProps = {
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps,
-)(NewForm);
+)(NewAPForm);

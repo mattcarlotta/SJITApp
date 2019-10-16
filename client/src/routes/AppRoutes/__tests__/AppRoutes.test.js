@@ -4,31 +4,26 @@ import {
 	EditAuthorization,
 	EditEvent,
 	EditForm,
+	EditMail,
 	EditSeason,
 	EventSchedule,
 	NewEvent,
 	NewForm,
 	NewMember,
 	NewSeason,
-	NewTemplate,
+	SendMail,
 	ViewAuthorizations,
 	ViewEvents,
 	ViewForms,
+	ViewMail,
 	ViewMemberProfile,
 	ViewMembers,
 	ViewSeasons,
-	ViewTemplates,
 } from "pages/Staff";
 
-import { ViewSchedule } from "pages/Shared";
+import { ViewApForm, ViewSchedule } from "pages/Shared";
 
-import {
-	MemberDashboard,
-	MemberEvents,
-	MemberForms,
-	MemberProfile,
-	MemberSchedule,
-} from "pages/Employee";
+import { MemberDashboard, MemberForms } from "pages/Employee";
 
 import AppRoutes from "../index";
 
@@ -46,8 +41,8 @@ describe("Application routes", () => {
 	});
 
 	describe("Staff and Admin routes", () => {
-		it("initially renders 24 routes", () => {
-			expect(wrapper.find("Route")).toHaveLength(24);
+		it("initially renders 25 routes", () => {
+			expect(wrapper.find("Route")).toHaveLength(25);
 		});
 
 		it("routes to Dashboard", () => {
@@ -114,6 +109,30 @@ describe("Application routes", () => {
 			).toBe(ViewForms);
 		});
 
+		it("routes to SendMail", () => {
+			expect(
+				wrapper
+					.find("Route[exact=true][path='/employee/mail/create']")
+					.prop("component"),
+			).toBe(SendMail);
+		});
+
+		it("routes to EditMail", () => {
+			expect(
+				wrapper
+					.find("Route[exact=true][path='/employee/mail/edit/:id']")
+					.prop("component"),
+			).toBe(EditMail);
+		});
+
+		it("routes to ViewMail", () => {
+			expect(
+				wrapper
+					.find("Route[exact=true][path='/employee/mail/viewall']")
+					.prop("component"),
+			).toBe(ViewMail);
+		});
+
 		it("routes to NewMember", () => {
 			expect(
 				wrapper
@@ -158,7 +177,7 @@ describe("Application routes", () => {
 			).toBe(ViewMembers);
 		});
 
-		it("routes to Schedule", () => {
+		it("routes to ViewSchedule", () => {
 			expect(
 				wrapper
 					.find("Route[exact=true][path='/employee/schedule']")
@@ -190,22 +209,6 @@ describe("Application routes", () => {
 			).toBe(ViewSeasons);
 		});
 
-		it("routes to NewTemplate", () => {
-			expect(
-				wrapper
-					.find("Route[exact=true][path='/employee/templates/create']")
-					.prop("component"),
-			).toBe(NewTemplate);
-		});
-
-		it("routes to ViewTemplates", () => {
-			expect(
-				wrapper
-					.find("Route[exact=true][path='/employee/templates/viewall']")
-					.prop("component"),
-			).toBe(ViewTemplates);
-		});
-
 		it("routes to Settings", () => {
 			expect(
 				wrapper
@@ -234,7 +237,7 @@ describe("Application routes", () => {
 			expect(
 				wrapper
 					.find("Route")
-					.at(23)
+					.at(24)
 					.prop("component"),
 			).toBe(AppPageNotFound);
 		});
@@ -245,8 +248,8 @@ describe("Application routes", () => {
 			wrapper.setProps({ role: "member" });
 		});
 
-		it("initially renders 9 routes", () => {
-			expect(wrapper.find("Route")).toHaveLength(9);
+		it("initially renders 8 routes", () => {
+			expect(wrapper.find("Route")).toHaveLength(8);
 		});
 
 		it("routes to MemberDashboard", () => {
@@ -257,14 +260,6 @@ describe("Application routes", () => {
 			).toBe(MemberDashboard);
 		});
 
-		it("routes to MemberEvents", () => {
-			expect(
-				wrapper
-					.find("Route[exact=true][path='/employee/events/viewall']")
-					.prop("component"),
-			).toBe(MemberEvents);
-		});
-
 		it("routes to MemberForms", () => {
 			expect(
 				wrapper
@@ -273,20 +268,20 @@ describe("Application routes", () => {
 			).toBe(MemberForms);
 		});
 
-		it("routes to MemberProfile", () => {
+		it("routes to ViewApForm", () => {
 			expect(
 				wrapper
-					.find("Route[exact=true][path='/employee/profile']")
+					.find("Route[exact=true][path='/employee/forms/view/:id']")
 					.prop("component"),
-			).toBe(MemberProfile);
+			).toBe(ViewApForm);
 		});
 
-		it("routes to MemberSchedule", () => {
+		it("routes to ViewSchedule", () => {
 			expect(
 				wrapper
 					.find("Route[exact=true][path='/employee/schedule']")
 					.prop("component"),
-			).toBe(MemberSchedule);
+			).toBe(ViewSchedule);
 		});
 
 		it("routes to Settings", () => {
@@ -317,7 +312,7 @@ describe("Application routes", () => {
 			expect(
 				wrapper
 					.find("Route")
-					.at(8)
+					.at(7)
 					.prop("component"),
 			).toBe(AppPageNotFound);
 		});

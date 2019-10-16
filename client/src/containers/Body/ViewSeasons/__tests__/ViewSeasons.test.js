@@ -3,7 +3,6 @@ import { ViewSeasons } from "../index";
 const data = [
 	{
 		_id: "5d323ee2b02dee15483e5d9f",
-		members: 3,
 		seasonId: "20002001",
 		startDate: "2000-10-06T07:00:00.000+00:00",
 		endDate: "2001-08-06T07:00:00.000+00:00",
@@ -15,15 +14,19 @@ const fetchSeasons = jest.fn();
 const push = jest.fn();
 
 const initProps = {
-	data,
+	data: [],
 	deleteSeason,
 	fetchSeasons,
 	isLoading: false,
 	push,
 };
 
-const wrapper = mount(<ViewSeasons {...initProps} />);
 describe("View All Seasons", () => {
+	let wrapper;
+	beforeEach(() => {
+		wrapper = mount(<ViewSeasons {...initProps} />);
+	});
+
 	it("renders without errors", () => {
 		expect(wrapper.find("Card").exists()).toBeTruthy();
 	});
@@ -37,7 +40,14 @@ describe("View All Seasons", () => {
 		expect(push).toHaveBeenCalledWith("/employee/seasons/create");
 	});
 
-	it("renders a Table", () => {
-		expect(wrapper.find("CustomTable")).toBeTruthy();
+	it("renders a LoadingTable", () => {
+		expect(wrapper.find("LoadingTable").exists()).toBeTruthy();
+	});
+
+	it("renders FormatDate", () => {
+		wrapper.setProps({ data });
+		wrapper.update();
+
+		expect(wrapper.find("FormatDate").exists()).toBeTruthy();
 	});
 });

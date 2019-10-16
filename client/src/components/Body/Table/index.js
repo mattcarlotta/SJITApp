@@ -1,25 +1,23 @@
 /* eslint-disable react/forbid-prop-types, react/jsx-boolean-value */
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
-import isEmpty from "lodash/isEmpty";
+// import isEmpty from "lodash/isEmpty";
 import { Divider, Icon, Input, Popconfirm, Table, Tooltip } from "antd";
 import {
 	FaEdit,
+	FaShareSquare,
 	FaSearch,
 	FaTrash,
 	FaSearchPlus,
 	FaClipboardCheck,
 } from "react-icons/fa";
 import { GoStop } from "react-icons/go";
-import { Button, FlexCenter, LoadingTable } from "components/Body";
+import { Button, FadeIn, FlexCenter, LoadingTable } from "components/Body";
 
 class CustomTable extends Component {
 	state = {
 		isLoading: true,
 	};
-
-	static getDerivedStateFromProps = ({ data }, state) =>
-		state.isLoading && !isEmpty(data) ? { isLoading: false } : null;
 
 	componentDidMount = () => {
 		this.props.fetchData();
@@ -30,11 +28,25 @@ class CustomTable extends Component {
 		nextProps.data !== this.props.data ||
 		nextState.isLoading !== this.state.isLoading;
 
-	/* istanbul ignore next */
-	componentWillUnmount = () => clearTimeout(this.timeout);
+	componentDidUpdate = prevProps => {
+		if (this.props.data !== prevProps.data && this.state.isLoading)
+			this.clearTimer();
+	};
 
+	/* istanbul ignore next */
+	componentWillUnmount = () => {
+		this.cancelClearTimer = true;
+		clearTimeout(this.timeout);
+	};
+
+	handleClickAction = (action, record) => {
+		this.setState({ isLoading: true }, () => action(record._id));
+	};
+
+	/* istanbul ignore next */
 	clearTimer = () => {
-		this.setState({ isLoading: false }, () => clearTimeout(this.timeout));
+		if (!this.cancelClearTimer)
+			this.setState({ isLoading: false }, () => clearTimeout(this.timeout));
 	};
 
 	setTimer = () => (this.timeout = setTimeout(this.clearTimer, 3000));
@@ -117,8 +129,12 @@ class CustomTable extends Component {
 			deleteAction,
 			editLocation,
 			push,
+			role,
+			sendMail,
 			viewLocation,
 		} = this.props;
+
+		const notEmployee = role !== "employee";
 
 		const tableColumns = columns.map(props => ({
 			...props,
@@ -130,7 +146,7 @@ class CustomTable extends Component {
 			key: "action",
 			render: (_, record) => (
 				<FlexCenter>
-					{assignLocation && (
+					{assignLocation && notEmployee && (
 						<Fragment>
 							<Tooltip placement="top" title={<span>View & Assign</span>}>
 								<Button
@@ -165,10 +181,10 @@ class CustomTable extends Component {
 									<FaSearchPlus style={{ fontSize: 16 }} />
 								</Button>
 							</Tooltip>
-							<Divider type="vertical" />
+							{notEmployee && <Divider type="vertical" />}
 						</Fragment>
 					)}
-					{editLocation && (
+					{editLocation && notEmployee && (
 						<Fragment>
 							<Tooltip placement="top" title={<span>Edit</span>}>
 								<Button
@@ -187,13 +203,30 @@ class CustomTable extends Component {
 							<Divider type="vertical" />
 						</Fragment>
 					)}
-					{deleteAction && (
+					{sendMail && notEmployee && (
+						<Fragment>
+							<Tooltip placement="top" title={<span>Send/Resend Mail</span>}>
+								<Button
+									primary
+									display="inline-block"
+									width="50px"
+									padding="3px 0 0 0"
+									marginRight="0px"
+									onClick={() => this.handleClickAction(sendMail, record)}
+								>
+									<FaShareSquare style={{ fontSize: 18 }} />
+								</Button>
+							</Tooltip>
+							<Divider type="vertical" />
+						</Fragment>
+					)}
+					{deleteAction && notEmployee && (
 						<Tooltip placement="top" title={<span>Delete</span>}>
 							<Popconfirm
 								placement="top"
 								title="Are you sure? This action is irreversible."
 								icon={<Icon component={GoStop} style={{ color: "red" }} />}
-								onConfirm={() => deleteAction(record._id)}
+								onConfirm={() => this.handleClickAction(deleteAction, record)}
 							>
 								<Button
 									danger
@@ -210,6 +243,8 @@ class CustomTable extends Component {
 					)}
 				</FlexCenter>
 			),
+			fixed: "right",
+			width: 100,
 		});
 
 		return tableColumns;
@@ -219,13 +254,16 @@ class CustomTable extends Component {
 		this.state.isLoading ? (
 			<LoadingTable />
 		) : (
-			<Table
-				columns={this.createTableColumns()}
-				dataSource={this.props.data}
-				pagination={false}
-				bordered={true}
-				rowKey="_id"
-			/>
+			<FadeIn>
+				<Table
+					columns={this.createTableColumns()}
+					dataSource={this.props.data}
+					pagination={false}
+					bordered={true}
+					rowKey="_id"
+					scroll={{ x: 1300 }}
+				/>
+			</FadeIn>
 		);
 }
 
@@ -244,6 +282,8 @@ CustomTable.propTypes = {
 	editLocation: PropTypes.string,
 	fetchData: PropTypes.func.isRequired,
 	push: PropTypes.func.isRequired,
+	role: PropTypes.string,
+	sendMail: PropTypes.func,
 	viewLocation: PropTypes.string,
 };
 

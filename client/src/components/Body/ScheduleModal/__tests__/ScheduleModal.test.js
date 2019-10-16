@@ -4,6 +4,7 @@ const handleCloseModal = jest.fn();
 
 const initProps = {
 	id: "",
+	loggedinUserId: "87",
 	handleCloseModal,
 	isVisible: false,
 	modalChildren: [],
@@ -27,7 +28,7 @@ const gameSchedule = [
 				_id: "2019-08-09T17:45:26-07:00",
 				employeeIds: [
 					{
-						_id: "123456789",
+						_id: "88",
 						firstName: "John",
 						lastName: "Smith",
 					},
@@ -113,16 +114,37 @@ describe("Schedule Modal", () => {
 		expect(wrapper.find("ListItem")).toHaveLength(6);
 	});
 
-	it("highlights a members id if an 'id' prop is present", () => {
+	it("highlights a member's name if an 'id' prop is present", () => {
 		wrapper.setProps({
-			id: "123456789",
+			id: "88",
 			isVisible: true,
 			modalChildren: gameSchedule,
 		});
 
 		expect(wrapper.find(".employee").prop("style")).toHaveProperty(
 			"backgroundColor",
-			"yellow",
+			"#006d75",
+		);
+		expect(wrapper.find(".employee").prop("style")).toHaveProperty(
+			"color",
+			"#fff",
+		);
+	});
+
+	it("highlights a member's name if the loggedinUser matches the 'id'", () => {
+		wrapper.setProps({
+			isVisible: true,
+			loggedinUserId: "88",
+			modalChildren: gameSchedule,
+		});
+
+		expect(wrapper.find(".employee").prop("style")).toHaveProperty(
+			"backgroundColor",
+			"#006d75",
+		);
+		expect(wrapper.find(".employee").prop("style")).toHaveProperty(
+			"color",
+			"#fff",
 		);
 	});
 });

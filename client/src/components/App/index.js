@@ -20,14 +20,14 @@ const TABS = [
 	"schedule",
 	"seasons/create",
 	"seasons/viewall",
-	"templates/create",
-	"templates/viewall",
+	"mail/create",
+	"mail/viewall",
 	"settings",
 	"help",
 	"contact",
 ];
 
-const ROOTTABS = ["events", "forms", "members", "seasons", "templates"];
+const ROOTTABS = ["events", "forms", "mail", "members", "seasons"];
 
 const selectedTab = path => TABS.filter(tab => path.indexOf(tab) >= 1);
 
@@ -103,6 +103,7 @@ class App extends Component {
 			<Layout>
 				<SideMenu
 					{...this.state}
+					role={this.props.role}
 					onHandleTabClick={this.handleTabClick}
 					onHandleOpenMenuChange={this.handleOpenMenuChange}
 				/>

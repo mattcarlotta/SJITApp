@@ -60,6 +60,18 @@ export const fetchMembers = () => ({
 });
 
 /**
+ * Fetches all members.
+ *
+ * @function fetchMemberAvailability
+ * @param id
+ * @returns {object}
+ */
+export const fetchMemberAvailability = params => ({
+	type: types.MEMBERS_FETCH_AVAILABILITY,
+	params,
+});
+
+/**
  * Fetches a single member's events based upon a date.
  *
  * @function fetchMemberEvents
@@ -69,6 +81,16 @@ export const fetchMembers = () => ({
 export const fetchMemberEvents = params => ({
 	type: types.MEMBERS_FETCH_EVENTS,
 	params,
+});
+
+/**
+ * Fetches all member's names.
+ *
+ * @function fetchMemberNames
+ * @returns {object}
+ */
+export const fetchMemberNames = () => ({
+	type: types.MEMBERS_FETCH_NAMES,
 });
 
 /**
@@ -106,6 +128,18 @@ export const setMembers = data => ({
 });
 
 /**
+ * Sets a members availability stats to redux state
+ *
+ * @function setMemberAvailability
+ * @param {object} data - contains memberAvailiability ([memberScheduleEvents, memberResponseCount, percentAvailable]).
+ * @returns {object}
+ */
+export const setMemberAvailability = data => ({
+	type: types.MEMBERS_SET_AVAILABILITY,
+	payload: !isEmpty(data) ? data : {},
+});
+
+/**
  * Sets a members events responses from API to redux state
  *
  * @function setMemberEventsByDate
@@ -114,6 +148,18 @@ export const setMembers = data => ({
  */
 export const setMemberEventsByDate = data => ({
 	type: types.MEMBERS_SET_EVENTS,
+	payload: !isEmpty(data) ? data : [],
+});
+
+/**
+ * Sets a member's names to redux state
+ *
+ * @function setMemberNames
+ * @param {object} data - contains member event response data ([id, names, email]).
+ * @returns {object}
+ */
+export const setMemberNames = data => ({
+	type: types.MEMBERS_SET_NAMES,
 	payload: !isEmpty(data) ? data : [],
 });
 

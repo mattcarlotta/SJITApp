@@ -49,14 +49,13 @@ export class EditMemberForm extends Component {
 		const { validatedFields, errors } = fieldValidator(this.state.fields);
 
 		this.setState({ fields: validatedFields, isSubmitting: !errors }, () => {
-			const { fields: formFields } = this.state;
 			const {
 				updateMember,
 				viewMember: { _id },
 			} = this.props;
 
 			if (!errors) {
-				const parsedFields = parseFields(formFields);
+				const parsedFields = parseFields(validatedFields);
 
 				setTimeout(() => updateMember({ ...parsedFields, _id }), 350);
 			}

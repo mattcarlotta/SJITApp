@@ -31,7 +31,14 @@
     files.
 */
 
+// @import "~react-quill/dist/quill.snow.css";
+@import "~froala-editor/css/froala_style.min.css";
+@import "~froala-editor/css/froala_editor.pkgd.min.css";
 @import "./antd.css";
+
+.ant-dropdown-trigger {
+	cursor: pointer;
+}
 
 .date-picker {
 	input {
@@ -111,3 +118,67 @@
 	font-weight: normal;
 	src: url("../assets/fonts/Karla-BoldItalic.ttf") format("truetype");
 }
+
+.fr-toolbar.fr-top,
+.fr-box.fr-basic {
+	-moz-border-radius: 3px 3px 0 0;
+	-webkit-border-radius: 3px 3px 0 0;
+	border-radius: 3px 3px 0 0;
+}
+
+.second-toolbar {
+	-moz-border-radius: 0 0 3px 3px;
+	-webkit-border-radius: 0 0 3px 3px;
+	border-radius: 0 0 3px 3px;
+}
+
+.fr-box.fr-basic {
+	& .fr-element,
+	& .show-placeholder {
+		height: 200px;
+		min-height: 200px;
+		font-size: 18px;
+		font-family: "Karla Regular", -apple-system, BlinkMacSystemFont, "Segoe UI",
+			Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans",
+			"Helvetica Neue", sans-serif;
+	}
+
+	& .fr-element {
+		padding: 10px 20px;
+	}
+}
+
+.fr-toolbar {
+	& .fr-more-toolbar {
+		z-index: 1;
+	}
+}
+
+// .ql-snow {
+// 	& .ql-picker {
+// 		&.ql-header {
+// 			height: auto;
+// 			width: 145px;
+// 		}
+// 	}
+// }
+//
+// .ql-editor {
+// 	font-size: 18px;
+// 	font-family: "Karla Regular", -apple-system, BlinkMacSystemFont, "Segoe UI",
+// 		Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans",
+// 		"Helvetica Neue", sans-serif;
+// }
+//
+// .ql-toolbar.ql-snow {
+// 	background-color: #eaecec;
+// 	border-top-left-radius: 3px;
+// 	border-top-right-radius: 3px;
+// 	padding: 4px;
+// }
+//
+// .ql-container {
+// 	height: 225px;
+// 	border-bottom-left-radius: 3px;
+// 	border-bottom-right-radius: 3px;
+// }

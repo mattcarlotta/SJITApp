@@ -1,6 +1,20 @@
 import moment from "moment";
 import { ViewEvents } from "../index";
 
+const deleteEvent = jest.fn();
+const fetchEvents = jest.fn();
+const resendMail = jest.fn();
+const push = jest.fn();
+
+const initProps = {
+	data: [],
+	deleteEvent,
+	fetchEvents,
+	isLoading: false,
+	push,
+	resendMail,
+};
+
 const data = [
 	{
 		_id: "5d4cb97fdfbf3c0416f6148b",
@@ -17,6 +31,7 @@ const data = [
 		eventDate: moment("2019-08-09T02:00:12.074Z").format(),
 		employeeResponses: 0,
 		scheduledEmployees: 0,
+		sentEmailReminders: false,
 	},
 	{
 		_id: "5d4cb97fdfbf3c0416f6148c",
@@ -33,23 +48,16 @@ const data = [
 		eventDate: moment("2019-08-09T02:00:12.074Z").format(),
 		employeeResponses: 0,
 		scheduledEmployees: 0,
+		sentEmailReminders: true,
 	},
 ];
 
-const deleteEvent = jest.fn();
-const fetchEvents = jest.fn();
-const push = jest.fn();
-
-const initProps = {
-	data,
-	deleteEvent,
-	fetchEvents,
-	isLoading: false,
-	push,
-};
-
-const wrapper = mount(<ViewEvents {...initProps} />);
 describe("View All Events", () => {
+	let wrapper;
+	beforeEach(() => {
+		wrapper = mount(<ViewEvents {...initProps} />);
+	});
+
 	it("renders without errors", () => {
 		expect(wrapper.find("Card").exists()).toBeTruthy();
 	});
@@ -63,23 +71,18 @@ describe("View All Events", () => {
 		expect(push).toHaveBeenCalledWith("/employee/events/create");
 	});
 
-	it("renders a Table", () => {
-		expect(wrapper.find("Table").exists()).toBeTruthy();
+	it("renders a LoadingTable", () => {
+		expect(wrapper.find("LoadingTable").exists()).toBeTruthy();
 	});
 
-	it("renders a image or a dash if an opponent is supplied/empty", () => {
-		expect(
-			wrapper
-				.find(".ant-table-column-has-actions")
-				.at(12)
-				.find("img")
-				.exists(),
-		).toBeTruthy();
-		expect(
-			wrapper
-				.find(".ant-table-column-has-actions")
-				.at(22)
-				.text(),
-		).toEqual("-");
+	it("renders DisplayTeam, FormatDate, DisplayTime and DisplayEmailReminder", () => {
+		wrapper.setProps({ data });
+		wrapper.update();
+
+		expect(wrapper.find("DisplayTeam").exists()).toBeTruthy();
+		expect(wrapper.find("FormatDate").exists()).toBeTruthy();
+		expect(wrapper.find("DisplayTime").exists()).toBeTruthy();
+		expect(wrapper.find("FaShareSquare").exists()).toBeTruthy();
+		expect(wrapper.find("FaStopwatch").exists()).toBeTruthy();
 	});
 });

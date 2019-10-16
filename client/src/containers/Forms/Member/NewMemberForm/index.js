@@ -4,7 +4,7 @@ import { Card } from "antd";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import { BackButton, FormContainer, SubmitButton } from "components/Body";
-import { FieldGenerator } from "components/Forms";
+import { FieldGenerator, FormTitle } from "components/Forms";
 import { createMember } from "actions/Members";
 import { fieldValidator, fieldUpdater, parseFields } from "utils";
 import fields from "./Fields";
@@ -32,13 +32,7 @@ export class NewMemberForm extends Component {
 		const { validatedFields, errors } = fieldValidator(this.state.fields);
 
 		this.setState({ fields: validatedFields, isSubmitting: !errors }, () => {
-			const { fields: formFields } = this.state;
-
-			if (!errors) {
-				const parsedFields = parseFields(formFields);
-
-				this.props.createMember(parsedFields);
-			}
+			if (!errors) this.props.createMember(parseFields(validatedFields));
 		});
 	};
 
@@ -53,6 +47,11 @@ export class NewMemberForm extends Component {
 			title={title}
 		>
 			<FormContainer>
+				<FormTitle
+					header={title}
+					title={title}
+					description="Please fill out all of the form fields below."
+				/>
 				<form onSubmit={this.handleSubmit}>
 					<FieldGenerator
 						fields={this.state.fields}

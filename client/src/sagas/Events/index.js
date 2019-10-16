@@ -131,10 +131,13 @@ export function* fetchEventForScheduling({ eventId }) {
 	try {
 		yield put(hideServerMessage());
 
-		const res = yield call(app.get, `event/review/${eventId}`);
-		const data = yield call(parseData, res);
+		let res = yield call(app.get, `event/review/${eventId}`);
+		const scheduleData = yield call(parseData, res);
 
-		yield put(setEventForScheduling(data));
+		res = yield call(app.get, `members/eventcounts`, { params: { eventId } });
+		const memberCountData = yield call(parseData, res);
+
+		yield put(setEventForScheduling({ ...scheduleData, ...memberCountData }));
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
@@ -215,6 +218,37 @@ export function* initializeNewEvent() {
 				teams: teams.names,
 			}),
 		);
+	} catch (e) {
+		yield put(setServerMessage({ type: "error", message: e.toString() }));
+	}
+}
+
+/**
+ * Attempts to resend form emails.
+ *
+ * @generator
+ * @function resendEventEmails
+ * @yields {object} - A response from a call to the API.
+ * @function parseData - Returns a parsed res.data.
+ * @yields {action} - A redux action to set forms data to redux state.
+ * @throws {action} - A redux action to display a server message by type.
+ */
+
+export function* resendEventEmails({ eventId }) {
+	try {
+		yield put(hideServerMessage());
+
+		const res = yield call(app.put, `event/resend-email/${eventId}`);
+		const message = yield call(parseMessage, res);
+
+		yield put(
+			setServerMessage({
+				type: "info",
+				message,
+			}),
+		);
+
+		yield put({ type: types.EVENTS_FETCH });
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
@@ -302,6 +336,7 @@ export default function* eventsSagas() {
 		takeLatest(types.EVENTS_FETCH_SCHEDULE, fetchEventForScheduling),
 		takeLatest(types.EVENTS_FETCH_SCHEDULE_EVENTS, fetchScheduleEvents),
 		takeLatest(types.EVENTS_INIT_NEW_EVENT, initializeNewEvent),
+		takeLatest(types.EVENTS_RESEND_MAIL, resendEventEmails),
 		takeLatest(types.EVENTS_UPDATE, updateEvent),
 		takeLatest(types.EVENTS_UPDATE_SCHEDULE, updateEventSchedule),
 	]);

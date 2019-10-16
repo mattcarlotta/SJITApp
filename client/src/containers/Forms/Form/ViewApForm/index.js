@@ -64,11 +64,10 @@ export class ViewApForm extends Component {
 		const { validatedFields, errors } = fieldValidator(this.state.fields);
 
 		this.setState({ fields: validatedFields, isSubmitting: !errors }, () => {
-			const { fields: formFields } = this.state;
 			const { viewForm } = this.props;
 
 			if (!errors) {
-				const condensedFields = condenseFormFields(formFields);
+				const condensedFields = condenseFormFields(validatedFields);
 				const parsedFields = parseFields(condensedFields);
 
 				this.props.updateFormAp({
@@ -100,9 +99,13 @@ export class ViewApForm extends Component {
 						) : (
 							<Fragment>
 								<Title style={{ color: "#025f6d" }}>
-									{moment(viewForm.startMonth).format("MMMM YYYY")}
+									{moment(viewForm.startMonth).format("MMMM Do YYYY")}
+									&nbsp;-&nbsp;
+									{moment(viewForm.endMonth).format("MMMM Do YYYY")}
 								</Title>
-								<Title style={{ color: "#025f6d", fontSize: 16 }}>
+								<Title
+									style={{ color: "#025f6d", fontSize: 16, marginBottom: 40 }}
+								>
 									This form will expire after:{" "}
 									<span style={{ color: "#f56342" }}>
 										{moment(viewForm.expirationDate).format(

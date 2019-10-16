@@ -23,6 +23,15 @@ export default (field, editForm) => {
 				disabled: false,
 			};
 		}
+		case "sendEmailNotificationsDate": {
+			return {
+				...field,
+				value: editForm.sendEmailNotificationsDate
+					? moment(editForm.sendEmailNotificationsDate)
+					: null,
+				disabled: false,
+			};
+		}
 		default: {
 			return {
 				...field,

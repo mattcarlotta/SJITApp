@@ -1,5 +1,4 @@
-import mailer from "@sendgrid/mail";
-import { Token } from "models";
+import { Mail, Token } from "models";
 import { updateToken } from "controllers/token";
 import { createSignupToken, expirationDate } from "shared/helpers";
 import {
@@ -112,6 +111,8 @@ describe("Update Token Controller", () => {
   });
 
   it("handles update token requets", async () => {
+    const mailSpy = jest.spyOn(Mail, "create");
+
     const token = createSignupToken();
     const newHire = {
       authorizedEmail: "mywaterbottle@example.com",
@@ -147,7 +148,7 @@ describe("Update Token Controller", () => {
       }),
     );
 
-    expect(mailer.send).toHaveBeenCalledTimes(1);
+    expect(mailSpy).toHaveBeenCalledTimes(1);
     expect(res.status).toHaveBeenCalledWith(201);
     expect(res.json).toHaveBeenCalledWith({
       message: `Succesfully updated and sent a new authorization key to ${authorizedEmail}.`,

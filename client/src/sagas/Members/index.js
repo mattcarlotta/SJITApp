@@ -4,7 +4,9 @@ import { app } from "utils";
 import { hideServerMessage, setServerMessage } from "actions/Messages";
 import {
 	fetchMember,
+	setMemberAvailability,
 	setMemberEventsByDate,
+	setMemberNames,
 	setMemberToReview,
 	setMembers,
 	setToken,
@@ -113,6 +115,55 @@ export function* deleteToken({ tokenId }) {
 }
 
 /**
+ * Attempts to get a single member's availability profile.
+ *
+ * @generator
+ * @function fetchAvailability
+ * @param {object} params
+ * @yields {object} - A response from a call to the API.
+ * @function parseData - Returns a parsed res.data (member availability info).
+ * @yields {action} - A redux action to set member data to redux state.
+ * @throws {action} - A redux action to display a server message by type.
+ */
+
+export function* fetchAvailability({ params }) {
+	try {
+		const res = yield call(app.get, "member/availability", {
+			params,
+		});
+		const data = yield call(parseData, res);
+
+		yield put(setMemberAvailability(data));
+	} catch (e) {
+		yield put(setServerMessage({ type: "error", message: e.toString() }));
+	}
+}
+
+/**
+ * Attempts to get all member's names.
+ *
+ * @generator
+ * @function fetchMemberNames
+ * @yields {object} - A response from a call to the API.
+ * @function parseData - Returns a parsed res.data (members names info).
+ * @yields {action} - A redux action to set member data to redux state.
+ * @throws {action} - A redux action to display a server message by type.
+ */
+
+export function* fetchMemberNames() {
+	try {
+		yield put(hideServerMessage());
+
+		const res = yield call(app.get, "members/names");
+		const data = yield call(parseData, res);
+
+		yield put(setMemberNames(data));
+	} catch (e) {
+		yield put(setServerMessage({ type: "error", message: e.toString() }));
+	}
+}
+
+/**
  * Attempts to get a single member profile for review/editing.
  *
  * @generator
@@ -134,8 +185,17 @@ export function* fetchProfile({ memberId }) {
 		res = yield call(app.get, "member/events", { params: { id: memberId } });
 		const memberEventResponses = yield call(parseData, res);
 
+		res = yield call(app.get, "member/availability", {
+			params: { id: memberId },
+		});
+		const memberAvailability = yield call(parseData, res);
+
 		yield put(
-			setMemberToReview({ ...basicMemberInfo, ...memberEventResponses }),
+			setMemberToReview({
+				...basicMemberInfo,
+				...memberEventResponses,
+				memberAvailability,
+			}),
 		);
 	} catch (e) {
 		yield put(push("/employee/members/viewall"));
@@ -203,13 +263,15 @@ export function* fetchToken({ tokenId }) {
 	try {
 		yield put(hideServerMessage());
 
-		const res = yield call(app.get, `token/edit/${tokenId}`);
-		const data = yield call(parseData, res);
+		let res = yield call(app.get, `token/edit/${tokenId}`);
+		const tokenData = yield call(parseData, res);
 
-		const res2 = yield call(app.get, "seasons/all/ids");
-		const data2 = yield call(parseData, res2);
+		res = yield call(app.get, "seasons/all/ids");
+		const seasonData = yield call(parseData, res);
 
-		yield put(setToken({ ...data.token, seasonIds: data2.seasonIds }));
+		yield put(
+			setToken({ ...tokenData.token, seasonIds: seasonData.seasonIds }),
+		);
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
@@ -348,6 +410,8 @@ export default function* membersSagas() {
 		takeLatest(types.MEMBERS_CREATE, createMember),
 		takeLatest(types.MEMBERS_DELETE, deleteMember),
 		takeLatest(types.MEMBERS_DELETE_TOKEN, deleteToken),
+		takeLatest(types.MEMBERS_FETCH_AVAILABILITY, fetchAvailability),
+		takeLatest(types.MEMBERS_FETCH_NAMES, fetchMemberNames),
 		takeLatest(types.MEMBERS_REVIEW, fetchProfile),
 		takeLatest(types.MEMBERS_FETCH, fetchMembers),
 		takeLatest(types.MEMBERS_FETCH_EVENTS, fetchMemberEvents),

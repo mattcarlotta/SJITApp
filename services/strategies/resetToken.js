@@ -1,10 +1,9 @@
 import { Strategy as LocalStrategy } from "passport-local";
 import passport from "passport";
-import mailer from "@sendgrid/mail";
 import { missingEmailCreds } from "shared/authErrors";
 import { createRandomToken, sendError } from "shared/helpers";
 import { newPasswordTemplate } from "services/templates";
-import { User } from "models";
+import { Mail, User } from "models";
 
 const { CLIENT } = process.env;
 
@@ -27,20 +26,17 @@ passport.use(
         await User.updateOne({ email }, { token });
 
         // creates an email template for a password reset
-        const msg = {
-          to: `${existingUser.email}`,
-          from: "San Jose Sharks Ice Team <noreply@sjsiceteam.com>",
+        await Mail.create({
+          sendTo: `${existingUser.firstName} ${existingUser.lastName} <${existingUser.email}>`,
+          sendFrom: "San Jose Sharks Ice Team <noreply@sjsiceteam.com>",
           subject: "Password Reset Confirmation",
-          html: newPasswordTemplate(
+          message: newPasswordTemplate(
             CLIENT,
             existingUser.firstName,
             existingUser.lastName,
             token,
           ),
-        };
-
-        // attempts to send a verification email to newly created user
-        await mailer.send(msg);
+        });
 
         return done(null, existingUser.email);
       } catch (err) {

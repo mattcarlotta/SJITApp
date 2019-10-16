@@ -30,6 +30,7 @@ const eventSchema = new Schema({
   callTimes: { type: Array, of: Date, required: true },
   uniform: { type: String, default: "Teal Jersey" },
   notes: String,
+  sentEmailReminders: { type: Boolean, default: false }
 });
 
 eventSchema.pre("save", function(next) {

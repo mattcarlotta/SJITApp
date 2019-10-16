@@ -97,6 +97,7 @@ describe("Edit Form", () => {
 					],
 					expirationDate: "2019-08-07T23:59:00-07:00",
 					notes: "Hello",
+					sendEmailNotificationsDate: "",
 				});
 			});
 

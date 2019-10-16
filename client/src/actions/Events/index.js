@@ -82,6 +82,18 @@ export const initializeNewEvent = () => ({
 });
 
 /**
+ * Resend events emails.
+ *
+ * @function resendMail
+ * @params {eventId}
+ * @returns {object}
+ */
+export const resendMail = eventId => ({
+	type: types.EVENTS_RESEND_MAIL,
+	eventId,
+});
+
+/**
  * Sets any members from API to redux state
  *
  * @function setEvents

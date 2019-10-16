@@ -91,14 +91,13 @@ export class EditEventForm extends Component {
 		const { validatedFields, errors } = fieldValidator(this.state.fields);
 
 		this.setState({ fields: validatedFields, isSubmitting: !errors }, () => {
-			const { fields: formFields } = this.state;
 			const {
 				editEvent: { _id },
 				updateEvent,
 			} = this.props;
 
 			if (!errors) {
-				const parsedFields = parseFields(formFields);
+				const parsedFields = parseFields(validatedFields);
 				updateEvent({ _id, ...parsedFields });
 			}
 		});

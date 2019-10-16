@@ -45,13 +45,11 @@ export class NewPasswordForm extends Component {
 		const { validatedFields, errors } = fieldValidator(this.state.fields);
 
 		this.setState({ fields: validatedFields, isSubmitting: !errors }, () => {
-			const { fields: formFields, token } = this.state;
-			const { updateUserPassword } = this.props;
-
 			if (!errors) {
-				const parsedFields = parseFields(formFields);
+				const { token } = this.state;
+				const parsedFields = parseFields(validatedFields);
 
-				updateUserPassword({ ...parsedFields, token });
+				this.props.updateUserPassword({ ...parsedFields, token });
 			}
 		});
 	};

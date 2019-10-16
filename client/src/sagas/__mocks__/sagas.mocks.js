@@ -12,6 +12,14 @@ export const userSession = {
 	role: "staff",
 };
 
+export const mailData = {
+	sendTo: ["test@test.com"],
+	sendFrom: "test@test.com",
+	sendDate: "2000-10-06T07:00:00.000+00:00",
+	message: "<span>Test</span>",
+	subject: "Test",
+};
+
 export const newMember = {
 	seasonId: "20002001",
 	role: "staff",
@@ -48,6 +56,21 @@ export const seasonsData = [
 		startDate: "2000-10-06T07:00:00.000+00:00",
 		endDate: "2001-08-06T07:00:00.000+00:00",
 	},
+];
+
+export const memberNamesData = [
+	{
+		_id: "5d83d5b32bff0853d6539cb6",
+		email: "Bobby Axelrod <member10@example.com>",
+	},
+];
+
+export const memberCountData = [
+	{
+		name: "Bobby Axelrod",
+		"Event Count": 0,
+	},
+	{ name: "Iris Bolis", "Event Count": 0 },
 ];
 
 export const membersData = [
@@ -117,6 +140,65 @@ export const eventResponseData = [
 		opponent: "Vegas Golden Knights",
 		response: "Prefer not to work.",
 		team: "San Jose Sharks",
+	},
+];
+
+export const memberAvailability = {
+	memberResponseCount: [
+		{
+			id: "I want to work.",
+			label: "I want to work.",
+			color: "#247BA0",
+			value: 0,
+		},
+		{
+			id: "Available to work.",
+			label: "Available to work.",
+			color: "#2A9D8F",
+			value: 1,
+		},
+		{
+			id: "Prefer not to work.",
+			label: "Prefer not to work.",
+			color: "#F4A261",
+			value: 1,
+		},
+		{
+			id: "Not available to work.",
+			label: "Not available to work.",
+			color: "#FF8060",
+			value: 2,
+		},
+		{
+			id: "No response.",
+			label: "No response.",
+			color: "#BFBFBF",
+			value: 0,
+		},
+	],
+	memberScheduleEvents: [
+		{
+			id: "scheduled",
+			events: 2,
+		},
+		{
+			id: "available",
+			events: 4,
+		},
+	],
+};
+
+export const memberEventResponses = [
+	{
+		_id: "5d978f2a27ee7b45b3319a7a",
+		team: "San Jose Sharks",
+		opponent: "Vegas Golden Knights",
+		eventDate: "2019-10-08T02:30:21.000Z",
+		eventType: "Game",
+		eventNotes: "Traffic will be heavy due to a downtown event. Leave early!",
+		location: "SAP Center at San Jose",
+		employeeResponse: "Not available to work.",
+		employeeNotes: "Working another job.",
 	},
 ];
 

@@ -18,7 +18,7 @@ import {
 } from "react-icons/fa";
 import { MdEvent, MdNoteAdd, MdEventNote, MdDashboard } from "react-icons/md";
 
-export default [
+export const StaffRoutes = [
 	{ component: MdDashboard, key: "dashboard", tab: "dashboard" },
 	{
 		component: MdEvent,
@@ -36,6 +36,19 @@ export default [
 		submenu: [
 			{ key: "forms/create", component: MdNoteAdd, tab: "Create Form" },
 			{ key: "forms/viewall", component: FaListAlt, tab: "View Forms" },
+		],
+	},
+	{
+		component: FaEnvelope,
+		key: "mail",
+		tab: "mail",
+		submenu: [
+			{ key: "mail/create", component: MdNoteAdd, tab: "Send Mail" },
+			{
+				key: "mail/viewall",
+				component: FaMailBulk,
+				tab: "View Mail",
+			},
 		],
 	},
 	{
@@ -70,18 +83,23 @@ export default [
 			{ key: "seasons/viewall", component: FaFolderOpen, tab: "View Seasons" },
 		],
 	},
+	{ divider: true, key: "accounting" },
+	{ component: FaCogs, key: "settings", tab: "settings" },
+	{ component: FaQuestionCircle, key: "help", tab: "help" },
+	{ component: FaConciergeBell, key: "contact", tab: "contact us" },
+];
+
+export const EmployeeRoutes = [
+	{ component: MdDashboard, key: "dashboard", tab: "dashboard" },
 	{
-		component: FaEnvelope,
-		key: "templates",
-		tab: "templates",
-		submenu: [
-			{ key: "templates/create", component: MdNoteAdd, tab: "Create Template" },
-			{
-				key: "templates/viewall",
-				component: FaMailBulk,
-				tab: "View Templates",
-			},
-		],
+		component: FaFileSignature,
+		key: "forms/viewall",
+		tab: "forms",
+	},
+	{
+		component: FaClock,
+		key: "schedule",
+		tab: "schedule",
 	},
 	{ divider: true, key: "accounting" },
 	{ component: FaCogs, key: "settings", tab: "settings" },

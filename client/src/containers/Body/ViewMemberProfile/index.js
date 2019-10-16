@@ -9,6 +9,7 @@ import { FaUserCircle, FaChartBar, FaReply, FaClock } from "react-icons/fa";
 import { hideServerMessage } from "actions/Messages";
 import {
 	fetchMember,
+	fetchMemberAvailability,
 	fetchMemberEvents,
 	updateMemberStatus,
 } from "actions/Members";
@@ -17,6 +18,7 @@ import {
 	BackButton,
 	Calendar,
 	Line,
+	MemberAvailability,
 	PaneBody,
 	Spinner,
 	Title,
@@ -34,10 +36,10 @@ const profile = (
 	</span>
 );
 
-const analytics = (
+const availability = (
 	<span>
 		<Icon component={FaChartBar} />
-		Analytics
+		Availability
 	</span>
 );
 
@@ -66,9 +68,15 @@ export class ViewMemberProfile extends PureComponent {
 	};
 
 	render = () => {
-		const { eventResponses, fetchMemberEvents, push, viewMember } = this.props;
+		const {
+			eventResponses,
+			fetchMemberAvailability,
+			fetchMemberEvents,
+			push,
+			viewMember,
+		} = this.props;
 
-		const { _id, status, firstName, lastName } = viewMember;
+		const { _id, firstName, lastName } = viewMember;
 
 		return (
 			<Fragment>
@@ -87,9 +95,17 @@ export class ViewMemberProfile extends PureComponent {
 							<Pane tab={profile} key="profile">
 								<Profile {...this.props} />
 							</Pane>
-							<Pane tab={analytics} key="analytics">
+							<Pane tab={availability} key="availability">
 								<PaneBody>
-									<p>Analytics: {status}</p>
+									<Title centered>
+										{firstName} {lastName}&#39;s Availability
+									</Title>
+									<Line centered width="400px" />
+									<MemberAvailability
+										{...this.props}
+										id={_id}
+										fetchAction={fetchMemberAvailability}
+									/>
 								</PaneBody>
 							</Pane>
 							<Pane tab={responses} key="responses">
@@ -142,6 +158,7 @@ ViewMemberProfile.propTypes = {
 		}),
 	),
 	fetchMember: PropTypes.func.isRequired,
+	fetchMemberAvailability: PropTypes.func.isRequired,
 	fetchMemberEvents: PropTypes.func.isRequired,
 	fetchScheduleEvents: PropTypes.func.isRequired,
 	hideServerMessage: PropTypes.func.isRequired,
@@ -149,6 +166,22 @@ ViewMemberProfile.propTypes = {
 		params: PropTypes.shape({
 			id: PropTypes.string,
 		}),
+	}),
+	memberAvailability: PropTypes.shape({
+		memberScheduleEvents: PropTypes.arrayOf(
+			PropTypes.shape({
+				id: PropTypes.string,
+				events: PropTypes.number,
+			}),
+		),
+		memberResponseCount: PropTypes.arrayOf(
+			PropTypes.shape({
+				id: PropTypes.string,
+				color: PropTypes.string,
+				label: PropTypes.string,
+				value: PropTypes.number,
+			}),
+		),
 	}),
 	push: PropTypes.func.isRequired,
 	viewMember: PropTypes.shape({
@@ -192,6 +225,7 @@ ViewMemberProfile.propTypes = {
 
 const mapStateToProps = state => ({
 	eventResponses: state.members.eventResponses,
+	memberAvailability: state.members.memberAvailability,
 	viewMember: state.members.viewMember,
 	scheduleEvents: state.events.scheduleEvents,
 	serverMessage: state.server.message,
@@ -199,6 +233,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
 	fetchMember,
+	fetchMemberAvailability,
 	fetchMemberEvents,
 	fetchScheduleEvents,
 	hideServerMessage,

@@ -1,5 +1,6 @@
 import moment from "moment";
-import { DatePicker, TimePicker } from "antd";
+import { DatePicker, TimePicker, Transfer } from "antd";
+import FroalaEditor from "react-froala-wysiwyg";
 import FieldGenerator from "../index";
 
 const onChange = jest.fn();
@@ -60,6 +61,19 @@ const date = {
 	showTime: { format: "h:mm a", use12Hours: true, minuteStep: 15 },
 };
 
+const editor = {
+	type: "editor",
+	name: "message",
+	label: "Message",
+	value: "<span>Test</span>",
+	errors: "Required.",
+	placeholder: "Type a message...",
+	tooltip:
+		"The message created below will make up the body of a pre-defined email template. That said, you can still copy/paste, and/or create stylized and formatted text and links within the body.",
+	required: true,
+	disabled: true,
+};
+
 const time = {
 	type: "time",
 	name: "callTime",
@@ -94,6 +108,37 @@ const radiogroup = {
 		"Prefer not to work.",
 		"Not available to work.",
 	],
+};
+
+const transfer = {
+	name: "sendTo",
+	type: "transfer",
+	label: "Send To",
+	tooltip:
+		"Select and transfer one or multiple members from the left box to the right box to include them on the mailing list.",
+	value: [],
+	errors: "",
+	required: true,
+	disabled: true,
+	dataSource: [
+		{
+			_id: "5d83d5b32bff0853d6539cb6",
+			email: "Bobby Axelrod <member10@example.com>",
+			key: "Bobby Axelrod <member10@example.com>",
+		},
+		{
+			_id: "5d83d5b32bff0853d6539cb7",
+			email: "Matt Polls <member11@example.com>",
+			key: "Matt Polls <member11@example.com>",
+		},
+	],
+	showSearch: true,
+	listStyle: {
+		width: 277,
+		height: 300,
+	},
+	rowKey: record => record.email,
+	render: item => item.email.replace(/ <.*?>/g, ""),
 };
 
 describe("Field Generator", () => {
@@ -160,6 +205,12 @@ describe("Field Generator", () => {
 		});
 	});
 
+	it("renders a FroalaEditor when type is 'editor'", () => {
+		wrapper.setProps({ fields: [editor] });
+
+		expect(wrapper.find(FroalaEditor).exists()).toBeTruthy();
+	});
+
 	it("returns a RangePicker when type is 'range'", () => {
 		wrapper.setProps({ fields: [range] });
 
@@ -216,5 +267,35 @@ describe("Field Generator", () => {
 		expect(wrapper.find("Label").exists()).toBeFalsy();
 		expect(wrapper.find("FaMinusCircle").exists()).toBeTruthy();
 		expect(wrapper.find("TimePicker").exists()).toBeTruthy();
+	});
+
+	it("returns a Transfer field when type is 'trasnfer'", () => {
+		wrapper.setProps({ fields: [transfer] });
+
+		expect(wrapper.find("Transfer").exists()).toBeTruthy();
+		expect(wrapper.find("Transfer").props().className).toEqual("");
+
+		wrapper.setProps({ fields: [{ ...transfer, errors: "Required. " }] });
+		expect(wrapper.find("Transfer").props().className).toEqual("has-error");
+		expect(wrapper.find("Errors").exists()).toBeTruthy();
+
+		wrapper
+			.find("input.ant-transfer-list-search")
+			.first()
+			.simulate("change", { target: { value: "bobby" } });
+
+		expect(wrapper.find("ListItem")).toHaveLength(1);
+
+		wrapper
+			.find(Transfer)
+			.instance()
+			.moveTo("right");
+
+		expect(onChange).toHaveBeenCalledWith({
+			target: {
+				name: "sendTo",
+				value: [],
+			},
+		});
 	});
 });

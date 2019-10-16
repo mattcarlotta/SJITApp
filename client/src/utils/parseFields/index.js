@@ -21,7 +21,7 @@ export default fields => {
 						break;
 					}
 					case "date": {
-						acc[name] = value.format();
+						acc[name] = value ? value.format() : "";
 						break;
 					}
 					case "range": {

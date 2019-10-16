@@ -2,6 +2,7 @@
 /* eslint-disable no-console */
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import LoadingImage from "./LoadingImage";
 
 class DisplayTeam extends Component {
 	state = {
@@ -26,9 +27,12 @@ class DisplayTeam extends Component {
 		}
 	};
 
-	render = () => (
-		<img src={this.state.loadedFile} alt={`${this.props.team}.png`} />
-	);
+	render = () =>
+		this.state.loadedFile ? (
+			<img src={this.state.loadedFile} alt={`${this.props.team}.png`} />
+		) : (
+			<LoadingImage />
+		);
 }
 
 DisplayTeam.propTypes = {

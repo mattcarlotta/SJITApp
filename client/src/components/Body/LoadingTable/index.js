@@ -7,8 +7,6 @@ export default styled(LoadingTable)`
 	width: 100%;
 	border: 1px solid #e8e8e8;
 	margin-bottom: 40px;
-	-webkit-animation: fadeIn 1s 0s ease-in-out forwards;
-	animation: fadeIn 1s 0s ease-in-out forwards;
 
 	& .thead {
 		height: 60px;

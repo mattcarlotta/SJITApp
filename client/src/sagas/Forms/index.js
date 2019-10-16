@@ -132,6 +132,7 @@ export function* fetchFormAp({ formId }) {
 			}),
 		);
 	} catch (e) {
+		yield put(push("/employee/forms/viewall"));
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
 }
@@ -153,6 +154,37 @@ export function* fetchForms() {
 		const data = yield call(parseData, res);
 
 		yield put(setForms(data));
+	} catch (e) {
+		yield put(setServerMessage({ type: "error", message: e.toString() }));
+	}
+}
+
+/**
+ * Attempts to resend form emails.
+ *
+ * @generator
+ * @function resendFormEmails
+ * @yields {object} - A response from a call to the API.
+ * @function parseData - Returns a parsed res.data.
+ * @yields {action} - A redux action to set forms data to redux state.
+ * @throws {action} - A redux action to display a server message by type.
+ */
+
+export function* resendFormEmails({ formId }) {
+	try {
+		yield put(hideServerMessage());
+
+		const res = yield call(app.put, `form/resend-email/${formId}`);
+		const message = yield call(parseMessage, res);
+
+		yield put(
+			setServerMessage({
+				type: "info",
+				message,
+			}),
+		);
+
+		yield put({ type: types.FORMS_FETCH });
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
@@ -238,6 +270,7 @@ export default function* formsSagas() {
 		takeLatest(types.FORMS_EDIT, fetchForm),
 		takeLatest(types.FORMS_FETCH_AP, fetchFormAp),
 		takeLatest(types.FORMS_FETCH, fetchForms),
+		takeLatest(types.FORMS_RESEND_MAIL, resendFormEmails),
 		takeLatest(types.FORMS_UPDATE, updateForm),
 		takeLatest(types.FORMS_UPDATE_AP, updateFormAp),
 	]);

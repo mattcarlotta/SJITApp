@@ -3,12 +3,13 @@ import PropTypes from "prop-types";
 import { Button, ButtonContainer, Submitting } from "components/Body";
 
 const SubmitButton = ({ disabled, isSubmitting, title, style }) => (
-	<ButtonContainer style={{ ...style, marginTop: 5, minHeight: 63 }} primary>
+	<ButtonContainer style={{ marginTop: 5, minHeight: 63, ...style }} primary>
 		{isSubmitting ? (
 			<Submitting />
 		) : (
 			<Button
 				{...style}
+				className="submit"
 				disabled={disabled}
 				primary
 				fontSize="22px"

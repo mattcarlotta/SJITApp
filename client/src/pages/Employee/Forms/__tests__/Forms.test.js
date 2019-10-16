@@ -1,6 +1,6 @@
 import Forms from "../index";
 
-const wrapper = mount(<Forms />);
+const wrapper = HOCWrap(Forms);
 
 describe("Forms Page", () => {
 	it("renders without errors", () => {

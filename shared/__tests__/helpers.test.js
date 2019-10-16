@@ -1,16 +1,17 @@
 import moment from "moment";
 import { User } from "models";
 import {
-  beginofMonth,
   clearSession,
-  convertDateToISO,
+  createDate,
   createColumnSchedule,
+  createMemberEventCount,
+  createMemberResponseCount,
   createRandomToken,
   createSignupToken,
   createUniqueName,
   createUserSchedule,
-  currentDate,
-  endofMonth,
+  convertId,
+  getUsers,
   sendError,
 } from "shared/helpers";
 
@@ -22,10 +23,6 @@ describe("Helpers", () => {
 
   afterAll(async () => {
     await db.close();
-  });
-
-  it("returns a beginning of month Date object", () => {
-    expect(beginofMonth("july")).toEqual(expect.any(Object));
   });
 
   it("clears the session", () => {
@@ -131,10 +128,86 @@ describe("Helpers", () => {
     ]);
   });
 
-  it("returns a Date with a PST time zone", () => {
-    const date = new Date(2019, 3, 21);
-    const isoDate = convertDateToISO(date);
-    expect(isoDate).toEqual("2019-04-21T00:00:00.000-07:00");
+  it("returns an member's scheduled event count", () => {
+    const members = [
+      {
+        _id: convertId("5d978d372f263f41cc624727"),
+        name: "Test Test",
+      },
+      {
+        _id: convertId("5d978d372f263f41cc624728"),
+        name: "Test Test",
+      },
+    ];
+
+    const memberEventCounts = [
+      { _id: convertId("5d978d372f263f41cc624727"), eventCount: 2 },
+    ];
+
+    const memberEventCount = createMemberEventCount({
+      members,
+      memberEventCounts,
+    });
+
+    expect(memberEventCount).toEqual([
+      {
+        name: members[0].name,
+        "Event Count": 2,
+      },
+      {
+        name: members[1].name,
+        "Event Count": 0,
+      },
+    ]);
+  });
+
+  it("returns a members event response count", () => {
+    const eventResponses = [
+      {
+        _id: null,
+        responses: [
+          "No response.",
+          "No response.",
+          "No response.",
+          "No response.",
+          "No response.",
+        ],
+      },
+    ];
+
+    const eventResponseCount = createMemberResponseCount(eventResponses);
+    expect(eventResponseCount).toEqual([
+      {
+        id: "I want to work.",
+        label: "I want to work.",
+        color: "#247BA0",
+        value: 0,
+      },
+      {
+        id: "Available to work.",
+        label: "Available to work.",
+        color: "#2A9D8F",
+        value: 0,
+      },
+      {
+        id: "Prefer not to work.",
+        label: "Prefer not to work.",
+        color: "#F4A261",
+        value: 0,
+      },
+      {
+        id: "Not available to work.",
+        label: "Not available to work.",
+        color: "#FF8060",
+        value: 0,
+      },
+      {
+        id: "No response.",
+        label: "No response.",
+        color: "#BFBFBF",
+        value: 5,
+      },
+    ]);
   });
 
   it("creates a random 64 character string", () => {
@@ -154,12 +227,30 @@ describe("Helpers", () => {
     expect(template).toEqual("employee-newsletter");
   });
 
-  it("creates a current Date string", () => {
-    expect(currentDate()).toEqual(expect.any(String));
+  it("creates a current Date object", () => {
+    const date = "2000-08-09T17:45:26-07:00";
+    expect(createDate()).toEqual(expect.any(moment));
+    expect(createDate(date)).toEqual(expect.any(moment));
   });
 
-  it("returns a end of month Date object", () => {
-    expect(endofMonth("july")).toEqual(expect.any(Object));
+  it("grabs all members from the database and projects accordingly", async () => {
+    const members = await getUsers({
+      role: { $ne: "admin" },
+      project: {
+        email: {
+          $concat: ["$firstName", " ", "$lastName", " ", "<", "$email", ">"],
+        },
+      },
+    });
+
+    expect(members).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          _id: expect.any(ObjectId),
+          email: expect.any(String),
+        }),
+      ]),
+    );
   });
 
   it("sends an error to the client", () => {

@@ -70,7 +70,7 @@ export default [
 		errors: "",
 		required: true,
 		format: "MM/DD/YYYY h:mm a",
-		showTime: { format: "h:mm a", use12Hours: true, minuteStep: 15 },
+		showTime: { format: "h:mm a", use12Hours: true, minuteStep: 5 },
 		style: { width: "100%" },
 	},
 	{

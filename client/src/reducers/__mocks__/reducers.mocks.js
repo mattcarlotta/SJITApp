@@ -22,6 +22,19 @@ export const seasonsData = [
 	},
 ];
 
+export const mailData = [
+	{
+		_id: "5d54769658ae8d57e19a1ecc",
+		seasonId: "20192020",
+		seasonIds: ["20192020", "20202021", "20212022"],
+		startMonth: "2019-08-01T07:00:00.000Z",
+		endMonth: "2019-09-01T06:59:59.000Z",
+		expirationDate: "2019-08-08T06:59:00.000Z",
+		notes: "Hello",
+		sendEmailNotificationsDate: "2019-08-08T06:59:00.000Z",
+	},
+];
+
 export const membersData = [
 	{
 		_id: "1234567890",
@@ -33,6 +46,65 @@ export const membersData = [
 		events: 0,
 	},
 ];
+
+export const memberEventResponses = [
+	{
+		_id: "5d978f2a27ee7b45b3319a7a",
+		team: "San Jose Sharks",
+		opponent: "Vegas Golden Knights",
+		eventDate: "2019-10-08T02:30:21.000Z",
+		eventType: "Game",
+		eventNotes: "Traffic will be heavy due to a downtown event. Leave early!",
+		location: "SAP Center at San Jose",
+		employeeResponse: "Not available to work.",
+		employeeNotes: "Working another job.",
+	},
+];
+
+export const memberAvailability = {
+	memberResponseCount: [
+		{
+			id: "I want to work.",
+			label: "I want to work.",
+			color: "#247BA0",
+			value: 0,
+		},
+		{
+			id: "Available to work.",
+			label: "Available to work.",
+			color: "#2A9D8F",
+			value: 1,
+		},
+		{
+			id: "Prefer not to work.",
+			label: "Prefer not to work.",
+			color: "#F4A261",
+			value: 1,
+		},
+		{
+			id: "Not available to work.",
+			label: "Not available to work.",
+			color: "#FF8060",
+			value: 2,
+		},
+		{
+			id: "No response.",
+			label: "No response.",
+			color: "#BFBFBF",
+			value: 0,
+		},
+	],
+	memberScheduleEvents: [
+		{
+			id: "scheduled",
+			events: 2,
+		},
+		{
+			id: "available",
+			events: 4,
+		},
+	],
+};
 
 export const tokensData = [
 	{
@@ -111,6 +183,13 @@ export const scheduleEventsData = [
 		],
 		team: "San Jose Barracuda",
 		uniform: "Barracuda Jacket",
+	},
+];
+
+export const memberNamesData = [
+	{
+		_id: "5d83d5b32bff0853d6539cb6",
+		email: "Bobby Axelrod <member10@example.com>",
 	},
 ];
 

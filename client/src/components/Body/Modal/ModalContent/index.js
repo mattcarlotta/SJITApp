@@ -2,9 +2,10 @@ import styled from "styled-components";
 
 export default styled.div`
 	max-width: ${({ maxWidth }) => maxWidth || "500px"};
-	flex: 0 1 auto;
+	width: 100%;
 	max-height: calc(100% - 96px);
-	padding: 25px;
+	margin: 0 auto;
+	padding: 35px;
 	display: flex;
 	position: relative;
 	overflow-y: auto;
@@ -14,4 +15,5 @@ export default styled.div`
 	border-radius: 10px;
 	background-color: #fff;
 	text-align: left;
+	z-index: 200;
 `;

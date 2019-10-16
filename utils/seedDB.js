@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import { connectDatabase } from "database";
 import {
-  Event, Form, User, Season, Team, Token,
+  Event, Form, Mail, User, Season, Team, Token,
 } from "models";
 import {
   createSchedule,
@@ -321,6 +321,7 @@ const seedDB = async () => {
       seasonId: "20192020",
       eventDate: "2019-08-10T02:30:31.834Z",
       schedule: createSchedule(newEventCallTimes),
+      sentEmailReminders: false,
     };
 
     const newEventCallTimes2 = ["2019-08-09T19:00:38-07:00"];
@@ -335,6 +336,7 @@ const seedDB = async () => {
       seasonId: "20192020",
       eventDate: "2019-08-11T02:30:30.036Z",
       schedule: createSchedule(newEventCallTimes2),
+      sentEmailReminders: false,
     };
 
     const newEventCallTimes3 = [
@@ -362,6 +364,7 @@ const seedDB = async () => {
         },
       ],
       schedule: createSchedule(newEventCallTimes3),
+      sentEmailReminders: false,
     };
 
     const newEventCallTimes4 = [
@@ -389,6 +392,7 @@ const seedDB = async () => {
         },
       ],
       schedule: createSchedule(newEventCallTimes4),
+      sentEmailReminders: false,
     };
 
     const newEventCallTimes5 = [
@@ -409,6 +413,7 @@ const seedDB = async () => {
       seasonId: "20192020",
       team: "San Jose Sharks",
       schedule: createSchedule(newEventCallTimes5),
+      sentEmailReminders: false,
     };
 
     const newEventCallTimes6 = ["2019-09-06T16:00:00-07:00"];
@@ -424,6 +429,7 @@ const seedDB = async () => {
       seasonId: "20192020",
       team: "San Jose Barracuda",
       schedule: createSchedule(newEventCallTimes6),
+      sentEmailReminders: false,
     };
 
     const newEventCallTimes7 = ["2019-09-07T16:00:00-07:00"];
@@ -439,6 +445,7 @@ const seedDB = async () => {
       seasonId: "20192020",
       team: "San Jose Barracuda",
       schedule: createSchedule(newEventCallTimes7),
+      sentEmailReminders: false,
     };
 
     const newEventCallTimes8 = ["2019-09-08T16:00:00-07:00"];
@@ -454,6 +461,23 @@ const seedDB = async () => {
       seasonId: "20192020",
       team: "San Jose Barracuda",
       schedule: createSchedule(newEventCallTimes8),
+      sentEmailReminders: false,
+    };
+
+    const newEventCallTimes9 = ["2019-10-08T16:00:00-07:00"];
+
+    const newEvent9 = {
+      eventType: "Game",
+      location: "SAP Center at San Jose",
+      callTimes: newEventCallTimes9,
+      uniform: "Barracuda Jacket",
+      eventDate: "2019-10-08T16:30:36.000Z",
+      notes: "Star Wars Night!",
+      opponent: "Charlotte Checkers",
+      seasonId: "20192020",
+      team: "San Jose Barracuda",
+      schedule: createSchedule(newEventCallTimes9),
+      sentEmailReminders: true,
     };
 
     await Event.insertMany([
@@ -465,6 +489,7 @@ const seedDB = async () => {
       newEvent6,
       newEvent7,
       newEvent8,
+      newEvent9,
     ]);
 
     await Team.insertMany(teams);
@@ -475,6 +500,8 @@ const seedDB = async () => {
       endMonth: new Date("2000-08-31T07:00:00.000Z"),
       notes: "Form 1",
       seasonId: "20002001",
+      sendEmailNotificationsDate: new Date("2000-08-31T07:00:00.000Z"),
+      sendEmails: false,
     };
 
     const form2 = {
@@ -483,6 +510,8 @@ const seedDB = async () => {
       endMonth: new Date("2005-08-31T07:00:00.000Z"),
       notes: "Form 2",
       seasonId: "20052006",
+      sendEmailNotificationsDate: new Date("2005-08-31T07:00:00.000Z"),
+      sendEmails: false,
     };
 
     const form3 = {
@@ -491,6 +520,8 @@ const seedDB = async () => {
       endMonth: new Date("2011-08-31T07:00:00.000Z"),
       notes: "Form 3",
       seasonId: "20112012",
+      sendEmailNotificationsDate: new Date("2011-08-31T07:00:00.000Z"),
+      sendEmails: false,
     };
 
     const form4 = {
@@ -499,6 +530,8 @@ const seedDB = async () => {
       endMonth: new Date("2019-08-31T07:00:00.000Z"),
       notes: "Form 4",
       seasonId: "20192020",
+      sendEmailNotificationsDate: new Date("2019-08-31T07:00:00.000Z"),
+      sendEmails: false,
     };
 
     const form5 = {
@@ -507,6 +540,8 @@ const seedDB = async () => {
       endMonth: new Date("2019-09-30T07:00:00.000Z"),
       notes: "Form 5",
       seasonId: "20192020",
+      sendEmailNotificationsDate: new Date("2019-09-31T07:00:00.000Z"),
+      sendEmails: false,
     };
 
     const form6 = {
@@ -515,9 +550,59 @@ const seedDB = async () => {
       endMonth: new Date("2019-10-31T07:00:00.000Z"),
       notes: "Form 6",
       seasonId: "20192020",
+      sendEmailNotificationsDate: new Date("2019-10-31T07:00:00.000Z"),
+      sendEmails: false,
     };
 
-    await Form.insertMany([form1, form2, form3, form4, form5, form6]);
+    const form7 = {
+      expirationDate: new Date("2099-08-10T07:00:00.000Z"),
+      startMonth: new Date("2019-11-01T07:00:00.000Z"),
+      endMonth: new Date("2019-11-31T07:00:00.000Z"),
+      notes: "Form 7",
+      seasonId: "20192020",
+      sendEmailNotificationsDate: new Date("2019-11-31T07:00:00.000Z"),
+      sendEmails: true,
+    };
+
+    await Form.insertMany([form1, form2, form3, form4, form5, form6, form7]);
+
+    const newMail = {
+      sendTo: ["test@test.com"],
+      sendFrom: "test@test.com",
+      sendDate: "2000-10-06T07:00:00.000+00:00",
+      message: "<span>Test</span>",
+      status: "unsent",
+      subject: "Test",
+    };
+
+    const newMail2 = {
+      sendTo: ["test@test.com"],
+      sendFrom: "test@test.com",
+      sendDate: "2000-10-06T07:00:00.000+00:00",
+      message: "<span>Test 2</span>",
+      status: "sent",
+      subject: "Test 2",
+    };
+
+    const newMail3 = {
+      sendTo: ["test@test.com"],
+      sendFrom: "test@test.com",
+      sendDate: "2000-10-06T07:00:00.000+00:00",
+      message: "<span>Test 3</span>",
+      status: "unsent",
+      subject: "Test 3",
+    };
+
+    const newMail4 = {
+      sendTo: ["test@test.com"],
+      sendFrom: "test@test.com",
+      sendDate: "2099-10-06T07:00:00.000+00:00",
+      message: "<span>Test 88</span>",
+      status: "unsent",
+      subject: "Test 88",
+    };
+
+    await Mail.insertMany([newMail, newMail2, newMail3, newMail4]);
 
     await db.close();
 

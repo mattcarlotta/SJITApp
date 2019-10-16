@@ -114,13 +114,13 @@ const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
   }
 
-  ::-webkit-scrollbar {
-    width: 0;
-  }
+  // ::-webkit-scrollbar {
+  //   width: 0;
+  // }
 
-  ::-moz-focus-inner {
-    border: 0;
-  }
+  // ::-moz-focus-inner {
+  //   border: 0;
+  // }
 `;
 
 export default GlobalStyle;

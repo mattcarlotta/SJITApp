@@ -1,6 +1,7 @@
+/* istanbul ignore file */
 import styled from "styled-components";
 
-const FlexEnd = styled.div`
+export default styled.div`
 	display: -webkit-box;
 	display: -moz-box;
 	display: -webkit-flex;
@@ -12,5 +13,3 @@ const FlexEnd = styled.div`
 	justify-content: flex-end;
 	width: 100%;
 `;
-
-export default FlexEnd;

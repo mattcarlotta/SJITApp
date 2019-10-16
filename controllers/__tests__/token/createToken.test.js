@@ -1,5 +1,4 @@
-import mailer from "@sendgrid/mail";
-import { Token, Season } from "models";
+import { Mail, Token, Season } from "models";
 import { createToken } from "controllers/token";
 import {
   emailAssociatedWithKey,
@@ -70,6 +69,8 @@ describe("Create Token Controller", () => {
   });
 
   it("handles valid create token (new hire) requests", async () => {
+    const mailSpy = jest.spyOn(Mail, "create");
+
     const newSeason = {
       seasonId: "20202021",
       startDate: new Date(2020, 9, 6),
@@ -101,7 +102,7 @@ describe("Create Token Controller", () => {
       }),
     );
 
-    expect(mailer.send).toHaveBeenCalledTimes(1);
+    expect(mailSpy).toHaveBeenCalledTimes(1);
     expect(res.status).toHaveBeenCalledWith(201);
     expect(res.json).toHaveBeenCalledWith({
       message: `Succesfully created and sent an authorization key to ${newHire.authorizedEmail}.`,

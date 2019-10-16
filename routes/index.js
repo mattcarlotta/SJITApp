@@ -1,6 +1,7 @@
 import authRoutes from "./auth";
 import eventRoutes from "./event";
 import formRoutes from "./form";
+import mailRoutes from "./mail";
 import memberRoutes from "./member";
 import seasonRoutes from "./season";
 import teamRoutes from "./team";
@@ -11,6 +12,7 @@ export default app => {
   authRoutes(app);
   eventRoutes(app);
   formRoutes(app);
+  mailRoutes(app);
   memberRoutes(app);
   seasonRoutes(app);
   teamRoutes(app);

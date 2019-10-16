@@ -7,13 +7,14 @@ import { Card } from "antd";
 import { FaUserPlus } from "react-icons/fa";
 import {
 	Button,
+	DisplayEmailReminder,
 	DisplayTime,
 	DisplayTeam,
 	FlexEnd,
 	FormatDate,
 	Table,
 } from "components/Body";
-import { deleteEvent, fetchEvents } from "actions/Events";
+import { deleteEvent, fetchEvents, resendMail } from "actions/Events";
 
 const title = "View Events";
 
@@ -51,7 +52,6 @@ const columns = [
 		title: "Call Times",
 		dataIndex: "callTimes",
 		key: "callTimes",
-		width: 120,
 		render: times => <DisplayTime times={times} />,
 	},
 	{
@@ -64,9 +64,21 @@ const columns = [
 		dataIndex: "schedule",
 		key: "schedule",
 	},
+	{
+		title: "Sent Email Reminders",
+		dataIndex: "sentEmailReminders",
+		key: "sentEmailReminders",
+		render: reminder => <DisplayEmailReminder reminder={reminder} />,
+	},
 ];
 
-export const ViewEvents = ({ data, deleteEvent, fetchEvents, push }) => (
+export const ViewEvents = ({
+	data,
+	deleteEvent,
+	fetchEvents,
+	push,
+	resendMail,
+}) => (
 	<Fragment>
 		<Helmet title={title} />
 		<Card title={title}>
@@ -91,6 +103,7 @@ export const ViewEvents = ({ data, deleteEvent, fetchEvents, push }) => (
 				push={push}
 				editLocation="events"
 				assignLocation="events"
+				sendMail={resendMail}
 			/>
 		</Card>
 	</Fragment>
@@ -112,8 +125,10 @@ ViewEvents.propTypes = {
 			eventDate: PropTypes.string,
 			employeeResponses: PropTypes.number,
 			schedule: PropTypes.number,
+			sentEmailReminders: PropTypes.bool,
 		}),
 	),
+	resendMail: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -124,6 +139,7 @@ const mapDispatchToProps = {
 	deleteEvent,
 	fetchEvents,
 	push,
+	resendMail,
 };
 
 export default connect(

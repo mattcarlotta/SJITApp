@@ -180,17 +180,134 @@ describe("Member Sagas", () => {
 		});
 	});
 
-	describe("Fetch Profile", () => {
+	describe("Fetch Members Availability", () => {
 		let data;
-		let data2;
+		let params;
 		beforeEach(() => {
-			data = { member: mocks.membersData };
-			data2 = { eventResponses: mocks.eventResponseData };
+			data = { memberAvailability: mocks.memberAvailability };
+			params = {
+				id: "0123456789",
+			};
+		});
+
+		it("logical flow matches pattern for fetch member availability requests", () => {
+			const res = { data };
+
+			testSaga(sagas.fetchAvailability, { params })
+				.next()
+				.call(app.get, "member/availability", { params })
+				.next(res)
+				.call(parseData, res)
+				.next(res.data)
+				.put(actions.setMemberAvailability(res.data))
+				.next()
+				.isDone();
+		});
+
+		it("successfully fetches member availability for viewing", async () => {
+			mockApp.onGet("member/availability").reply(200, data);
+
+			return expectSaga(sagas.fetchAvailability, { params })
+				.dispatch(actions.fetchAvailability)
+				.withReducer(memberReducer)
+				.hasFinalState({
+					data: [],
+					tokens: [],
+					editToken: {},
+					names: [],
+					viewMember: {},
+					eventResponses: [],
+					memberAvailability: { memberAvailability: mocks.memberAvailability },
+				})
+				.run();
+		});
+
+		it("if API call fails, it displays a message", async () => {
+			const err = "Unable to fetch member availability.";
+			mockApp.onGet("member/availability").reply(404, { err });
+
+			return expectSaga(sagas.fetchAvailability, { params })
+				.dispatch(actions.fetchAvailability)
+				.withReducer(messageReducer)
+				.hasFinalState({
+					message: err,
+					show: true,
+					type: "error",
+				})
+				.run();
+		});
+	});
+
+	describe("Fetch Members Names", () => {
+		let data;
+		beforeEach(() => {
+			data = { names: mocks.memberNames };
+		});
+
+		it("logical flow matches pattern for fetch member names requests", () => {
+			const res = { data };
+
+			testSaga(sagas.fetchMemberNames)
+				.next()
+				.put(hideServerMessage())
+				.next()
+				.call(app.get, "members/names")
+				.next(res)
+				.call(parseData, res)
+				.next(res.data)
+				.put(actions.setMemberNames(res.data))
+				.next()
+				.isDone();
+		});
+
+		it("successfully fetches member names for viewing", async () => {
+			mockApp.onGet("members/names").reply(200, data);
+
+			return expectSaga(sagas.fetchMemberNames)
+				.dispatch(actions.fetchMemberNames)
+				.withReducer(memberReducer)
+				.hasFinalState({
+					data: [],
+					tokens: [],
+					editToken: {},
+					names: mocks.memberNames,
+					viewMember: {},
+					eventResponses: [],
+					memberAvailability: {},
+				})
+				.run();
+		});
+
+		it("if API call fails, it displays a message", async () => {
+			const err = "Unable to fetch member names.";
+			mockApp.onGet("members/names").reply(404, { err });
+
+			return expectSaga(sagas.fetchMemberNames)
+				.dispatch(actions.fetchMemberNames)
+				.withReducer(messageReducer)
+				.hasFinalState({
+					message: err,
+					show: true,
+					type: "error",
+				})
+				.run();
+		});
+	});
+
+	describe("Fetch Profile", () => {
+		let basicMemberInfo;
+		let memberEventResponses;
+		let memberAvailability;
+		beforeEach(() => {
+			basicMemberInfo = { member: mocks.membersData };
+			memberEventResponses = { eventResponses: mocks.memberEventResponses };
+			memberAvailability = { memberAvailability: mocks.memberAvailability };
 		});
 
 		it("logical flow matches pattern for fetch member requests", () => {
-			const res = { data };
-			const res2 = { data2 };
+			const res = { basicMemberInfo };
+			const res2 = { memberEventResponses };
+			const res3 = { memberAvailability };
 			const params = { params: { id: memberId } };
 
 			testSaga(sagas.fetchProfile, { memberId })
@@ -198,19 +315,30 @@ describe("Member Sagas", () => {
 				.call(app.get, `member/review/${memberId}`)
 				.next(res)
 				.call(parseData, res)
-				.next(res.data)
+				.next(res.basicMemberInfo)
 				.call(app.get, "member/events", params)
 				.next(res2)
 				.call(parseData, res2)
-				.next(res2.data2)
-				.put(actions.setMemberToReview({ ...res.data, ...res2.data2 }))
+				.next(res2.memberEventResponses)
+				.call(app.get, "member/availability", params)
+				.next(res3)
+				.call(parseData, res3)
+				.next(res3.memberAvailability)
+				.put(
+					actions.setMemberToReview({
+						...res.basicMemberInfo,
+						...res2.memberEventResponses,
+						memberAvailability,
+					}),
+				)
 				.next()
 				.isDone();
 		});
 
 		it("successfully fetches an existing member", async () => {
-			mockApp.onGet(`member/review/${memberId}`).reply(200, data);
-			mockApp.onGet("member/events").reply(200, data2);
+			mockApp.onGet(`member/review/${memberId}`).reply(200, basicMemberInfo);
+			mockApp.onGet("member/events").reply(200, memberEventResponses);
+			mockApp.onGet("member/availability").reply(200, memberAvailability);
 
 			return expectSaga(sagas.fetchProfile, { memberId })
 				.dispatch(actions.fetchMember)
@@ -219,8 +347,10 @@ describe("Member Sagas", () => {
 					data: [],
 					tokens: [],
 					editToken: {},
+					names: [],
 					viewMember: mocks.membersData,
-					eventResponses: mocks.eventResponseData,
+					eventResponses: mocks.memberEventResponses,
+					memberAvailability,
 				})
 				.run();
 		});
@@ -276,8 +406,10 @@ describe("Member Sagas", () => {
 					data: [],
 					tokens: [],
 					editToken: {},
+					names: [],
 					viewMember: {},
 					eventResponses: mocks.eventResponseData,
+					memberAvailability: {},
 				})
 				.run();
 		});
@@ -328,8 +460,10 @@ describe("Member Sagas", () => {
 					data: mocks.membersData,
 					tokens: [],
 					editToken: {},
+					names: [],
 					viewMember: {},
 					eventResponses: [],
+					memberAvailability: {},
 				})
 				.run();
 		});
@@ -351,16 +485,16 @@ describe("Member Sagas", () => {
 	});
 
 	describe("Fetch Token", () => {
-		let data;
-		let data2;
+		let tokenData;
+		let seasonData;
 		beforeEach(() => {
-			data = { token: mocks.tokensData };
-			data2 = { seasonIds: mocks.seasonIdsData };
+			tokenData = { token: mocks.tokensData };
+			seasonData = { seasonIds: mocks.seasonIdsData };
 		});
 
 		it("logical flow matches pattern for fetch member token requests", () => {
-			const res = { data };
-			const res2 = { data2 };
+			const res = { tokenData };
+			const res2 = { seasonData };
 
 			testSaga(sagas.fetchToken, { tokenId })
 				.next()
@@ -369,15 +503,15 @@ describe("Member Sagas", () => {
 				.call(app.get, `token/edit/${tokenId}`)
 				.next(res)
 				.call(parseData, res)
-				.next(res.data)
+				.next(res.tokenData)
 				.call(app.get, "seasons/all/ids")
 				.next(res2)
 				.call(parseData, res2)
-				.next(res2.data2)
+				.next(res2.seasonData)
 				.put(
 					actions.setToken({
-						...res.data.token,
-						seasonIds: res2.data2.seasonIds,
+						...res.tokenData.token,
+						seasonIds: res2.seasonData.seasonIds,
 					}),
 				)
 				.next()
@@ -385,7 +519,7 @@ describe("Member Sagas", () => {
 		});
 
 		it("successfully fetches a member token for editing", async () => {
-			mockApp.onGet(`token/edit/${tokenId}`).reply(200, data);
+			mockApp.onGet(`token/edit/${tokenId}`).reply(200, tokenData);
 			mockApp
 				.onGet("seasons/all/ids")
 				.reply(200, { data: { seasonIds: mocks.seasonIdsData } });
@@ -397,8 +531,10 @@ describe("Member Sagas", () => {
 					data: [],
 					tokens: [],
 					editToken: { ...mocks.tokensData, seasonIds: mocks.seasonIds },
+					names: [],
 					viewMember: {},
 					eventResponses: [],
+					memberAvailability: {},
 				})
 				.run();
 		});
@@ -449,8 +585,10 @@ describe("Member Sagas", () => {
 					data: [],
 					tokens: mocks.tokensData,
 					editToken: {},
+					names: [],
 					viewMember: {},
 					eventResponses: [],
+					memberAvailability: {},
 				})
 				.run();
 		});

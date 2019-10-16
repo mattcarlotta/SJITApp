@@ -1,10 +1,15 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
 import { Card } from "antd";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
-import { BackButton, Center, SubmitButton } from "components/Body";
+import {
+	BackButton,
+	Center,
+	MemberEventCountChart,
+	SubmitButton,
+} from "components/Body";
 import { FormTitle, LoadingScheduleForm } from "components/Forms";
 import { fetchEventForScheduling, updateEventSchedule } from "actions/Events";
 import Schedule from "./Schedule";
@@ -143,7 +148,10 @@ export class EventScheduleForm extends Component {
 				{this.state.isLoading ? (
 					<LoadingScheduleForm />
 				) : (
-					<Schedule {...this.state} handleDrag={this.onDragEnd} />
+					<Fragment>
+						<MemberEventCountChart {...this.props} />
+						<Schedule {...this.state} handleDrag={this.onDragEnd} />
+					</Fragment>
 				)}
 				<SubmitButton
 					disabled={this.state.isLoading}
@@ -157,6 +165,12 @@ export class EventScheduleForm extends Component {
 }
 
 EventScheduleForm.propTypes = {
+	members: PropTypes.arrayOf(
+		PropTypes.shape({
+			name: PropTypes.string,
+			"Event Count": PropTypes.number,
+		}),
+	),
 	schedule: PropTypes.shape({
 		event: PropTypes.shape({
 			_id: PropTypes.string,
@@ -206,6 +220,7 @@ EventScheduleForm.propTypes = {
 };
 
 const mapStateToProps = state => ({
+	members: state.events.members,
 	schedule: state.events.schedule,
 	serverMessage: state.server.message,
 });

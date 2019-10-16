@@ -8,6 +8,8 @@ const membersData = {
 
 const memberData = {
 	member: mocks.membersData,
+	eventResponses: mocks.memberEventResponses,
+	memberAvailability: mocks.memberAvailability,
 };
 
 const tokensData = {
@@ -17,6 +19,10 @@ const tokensData = {
 const tokenData = {
 	...mocks.tokensData,
 	seasonIds: mocks.seasonIdsData,
+};
+
+const memberNamesData = {
+	members: mocks.memberNamesData,
 };
 
 describe("Member Reducer", () => {
@@ -34,10 +40,29 @@ describe("Member Reducer", () => {
 
 		expect(state).toEqual({
 			data: mocks.membersData,
-			tokens: [],
 			eventResponses: [],
+			memberAvailability: {},
+			names: [],
 			editToken: {},
 			viewMember: {},
+			tokens: [],
+		});
+	});
+
+	it("sets members availabilty", () => {
+		const state = memberReducer(undefined, {
+			type: types.MEMBERS_SET_AVAILABILITY,
+			payload: mocks.memberAvailability,
+		});
+
+		expect(state).toEqual({
+			data: [],
+			eventResponses: [],
+			editToken: {},
+			memberAvailability: mocks.memberAvailability,
+			names: [],
+			viewMember: {},
+			tokens: [],
 		});
 	});
 
@@ -49,10 +74,29 @@ describe("Member Reducer", () => {
 
 		expect(state).toEqual({
 			data: [],
-			tokens: [],
-			eventResponses: mocks.eventResponseData,
 			editToken: {},
+			eventResponses: mocks.eventResponseData,
+			names: [],
+			memberAvailability: {},
 			viewMember: {},
+			tokens: [],
+		});
+	});
+
+	it("sets members names data", () => {
+		const state = memberReducer(undefined, {
+			type: types.MEMBERS_SET_NAMES,
+			payload: memberNamesData,
+		});
+
+		expect(state).toEqual({
+			data: [],
+			editToken: {},
+			eventResponses: [],
+			memberAvailability: {},
+			names: mocks.memberNamesData,
+			viewMember: {},
+			tokens: [],
 		});
 	});
 
@@ -116,10 +160,12 @@ describe("Member Reducer", () => {
 
 		expect(state).toEqual({
 			data: [],
-			tokens: mocks.tokensData,
-			eventResponses: [],
 			editToken: {},
+			eventResponses: [],
+			memberAvailability: {},
+			names: [],
 			viewMember: {},
+			tokens: mocks.tokensData,
 		});
 	});
 
@@ -131,10 +177,12 @@ describe("Member Reducer", () => {
 
 		expect(state).toEqual({
 			data: [],
-			tokens: [],
-			eventResponses: [],
 			editToken: { ...mocks.tokensData, seasonIds: mocks.seasonIdsData },
+			eventResponses: [],
+			memberAvailability: {},
+			names: [],
 			viewMember: {},
+			tokens: [],
 		});
 	});
 
@@ -146,9 +194,12 @@ describe("Member Reducer", () => {
 
 		expect(state).toEqual({
 			data: [],
-			tokens: [],
 			editToken: {},
+			eventResponses: mocks.memberEventResponses,
+			memberAvailability: mocks.memberAvailability,
+			names: [],
 			viewMember: mocks.membersData,
+			tokens: [],
 		});
 	});
 });

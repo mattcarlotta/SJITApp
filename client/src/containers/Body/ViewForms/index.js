@@ -5,8 +5,14 @@ import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import { Card } from "antd";
 import { MdNoteAdd } from "react-icons/md";
-import { Button, FormatDate, FlexEnd, Table } from "components/Body";
-import { deleteForm, fetchForms } from "actions/Forms";
+import {
+	Button,
+	DisplayEmailReminder,
+	FormatDate,
+	FlexEnd,
+	Table,
+} from "components/Body";
+import { deleteForm, fetchForms, resendMail } from "actions/Forms";
 
 const title = "View Forms";
 
@@ -35,25 +41,46 @@ const columns = [
 		dataIndex: "_id",
 		key: "_id",
 	},
+	{
+		title: "Send Email Notifications",
+		dataIndex: "sendEmailNotificationsDate",
+		key: "sendEmailNotificationsDate",
+		render: date => <FormatDate format="MMMM Do, YYYY" date={date} />,
+	},
+	{
+		title: "Sent Emails",
+		dataIndex: "sentEmails",
+		key: "sentEmails",
+		render: reminder => <DisplayEmailReminder reminder={reminder} />,
+	},
 ];
 
-export const ViewForms = ({ data, deleteForm, fetchForms, push }) => (
+export const ViewForms = ({
+	data,
+	deleteForm,
+	fetchForms,
+	push,
+	resendMail,
+	role,
+}) => (
 	<Fragment>
 		<Helmet title={title} />
 		<Card title={title}>
-			<FlexEnd>
-				<Button
-					primary
-					width="180px"
-					marginRight="0px"
-					padding="5px 10px"
-					style={{ marginBottom: 20 }}
-					onClick={() => push("/employee/forms/create")}
-				>
-					<MdNoteAdd style={{ position: "relative", top: 4, fontSize: 20 }} />
-					&nbsp; Add Form
-				</Button>
-			</FlexEnd>
+			{role !== "employee" && (
+				<FlexEnd>
+					<Button
+						primary
+						width="200px"
+						marginRight="0px"
+						padding="5px 10px"
+						style={{ marginBottom: 20 }}
+						onClick={() => push("/employee/forms/create")}
+					>
+						<MdNoteAdd style={{ position: "relative", top: 4, fontSize: 20 }} />
+						&nbsp; Create AP Form
+					</Button>
+				</FlexEnd>
+			)}
 			<Table
 				columns={columns}
 				data={data}
@@ -62,6 +89,8 @@ export const ViewForms = ({ data, deleteForm, fetchForms, push }) => (
 				push={push}
 				editLocation="forms"
 				viewLocation="forms"
+				sendMail={resendMail}
+				role={role}
 			/>
 		</Card>
 	</Fragment>
@@ -78,19 +107,24 @@ ViewForms.propTypes = {
 			startMonth: PropTypes.string,
 			endMonth: PropTypes.string,
 			expirationDate: PropTypes.string,
-			notes: PropTypes.string,
+			sendEmailNotificationsDate: PropTypes.string,
+			sentEmails: PropTypes.bool,
 		}),
 	),
+	resendMail: PropTypes.func.isRequired,
+	role: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => ({
 	data: state.forms.data,
+	role: state.auth.role,
 });
 
 const mapDispatchToProps = {
 	deleteForm,
 	fetchForms,
 	push,
+	resendMail,
 };
 
 export default connect(

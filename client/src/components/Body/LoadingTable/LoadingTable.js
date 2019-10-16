@@ -1,11 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { FadeIn } from "components/Body";
 
 const LoadingTable = ({ className }) => (
-	<div className={className}>
-		<div className="thead" />
-		<div className="tbody" />
-	</div>
+	<FadeIn>
+		<div className={className}>
+			<div className="thead" />
+			<div className="tbody" />
+		</div>
+	</FadeIn>
 );
 
 LoadingTable.propTypes = {
