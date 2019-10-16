@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import { connectDatabase } from "database";
 import {
-  Event, Form, User, Season, Team, Token,
+  Event, Form, Mail, User, Season, Team, Token,
 } from "models";
 import {
   createSchedule,
@@ -464,6 +464,22 @@ const seedDB = async () => {
       sentEmailReminders: false,
     };
 
+    const newEventCallTimes9 = ["2019-10-08T16:00:00-07:00"];
+
+    const newEvent9 = {
+      eventType: "Game",
+      location: "SAP Center at San Jose",
+      callTimes: newEventCallTimes9,
+      uniform: "Barracuda Jacket",
+      eventDate: "2019-10-08T16:30:36.000Z",
+      notes: "Star Wars Night!",
+      opponent: "Charlotte Checkers",
+      seasonId: "20192020",
+      team: "San Jose Barracuda",
+      schedule: createSchedule(newEventCallTimes9),
+      sentEmailReminders: true,
+    };
+
     await Event.insertMany([
       newEvent,
       newEvent2,
@@ -473,6 +489,7 @@ const seedDB = async () => {
       newEvent6,
       newEvent7,
       newEvent8,
+      newEvent9,
     ]);
 
     await Team.insertMany(teams);
@@ -537,7 +554,55 @@ const seedDB = async () => {
       sendEmails: false,
     };
 
-    await Form.insertMany([form1, form2, form3, form4, form5, form6]);
+    const form7 = {
+      expirationDate: new Date("2099-08-10T07:00:00.000Z"),
+      startMonth: new Date("2019-11-01T07:00:00.000Z"),
+      endMonth: new Date("2019-11-31T07:00:00.000Z"),
+      notes: "Form 7",
+      seasonId: "20192020",
+      sendEmailNotificationsDate: new Date("2019-11-31T07:00:00.000Z"),
+      sendEmails: true,
+    };
+
+    await Form.insertMany([form1, form2, form3, form4, form5, form6, form7]);
+
+    const newMail = {
+      sendTo: ["test@test.com"],
+      sendFrom: "test@test.com",
+      sendDate: "2000-10-06T07:00:00.000+00:00",
+      message: "<span>Test</span>",
+      status: "unsent",
+      subject: "Test",
+    };
+
+    const newMail2 = {
+      sendTo: ["test@test.com"],
+      sendFrom: "test@test.com",
+      sendDate: "2000-10-06T07:00:00.000+00:00",
+      message: "<span>Test 2</span>",
+      status: "sent",
+      subject: "Test 2",
+    };
+
+    const newMail3 = {
+      sendTo: ["test@test.com"],
+      sendFrom: "test@test.com",
+      sendDate: "2000-10-06T07:00:00.000+00:00",
+      message: "<span>Test 3</span>",
+      status: "unsent",
+      subject: "Test 3",
+    };
+
+    const newMail4 = {
+      sendTo: ["test@test.com"],
+      sendFrom: "test@test.com",
+      sendDate: "2099-10-06T07:00:00.000+00:00",
+      message: "<span>Test 88</span>",
+      status: "unsent",
+      subject: "Test 88",
+    };
+
+    await Mail.insertMany([newMail, newMail2, newMail3, newMail4]);
 
     await db.close();
 

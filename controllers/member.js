@@ -1,20 +1,20 @@
-import isEmpty from "lodash/isEmpty";
 import { Event, Token, User } from "models";
 import {
   createMemberEventCount,
   createMemberResponseCount,
   getMonthDateRange,
+  getUsers,
   sendError,
 } from "shared/helpers";
 import {
   emailAlreadyTaken,
+  missingEventId,
   missingMemberId,
   missingUpdateMemberParams,
   missingUpdateMemberStatusParams,
   unableToDeleteMember,
   unableToLocateEvent,
   unableToLocateMember,
-  unableToLocateMembers,
 } from "shared/authErrors";
 
 const deleteMember = async (req, res) => {
@@ -35,40 +35,33 @@ const deleteMember = async (req, res) => {
 };
 
 const getAllMembers = async (_, res) => {
-  const members = await User.aggregate([
-    { $match: { role: { $ne: "admin" } } },
-    { $sort: { lastName: 1 } },
-    {
-      $project: {
-        role: 1,
-        status: 1,
-        registered: 1,
-        email: 1,
-        firstName: 1,
-        lastName: 1,
-      },
+  const members = await getUsers({
+    role: { $ne: "admin" },
+    project: {
+      role: 1,
+      status: 1,
+      registered: 1,
+      email: 1,
+      firstName: 1,
+      lastName: 1,
     },
-  ]);
+  });
 
   res.status(200).json({ members });
 };
 
 const getAllMemberNames = async (_, res) => {
   try {
-    const members = await User.aggregate([
-      { $match: { role: { $ne: "admin" } } },
-      { $sort: { lastName: 1 } },
-      {
-        $project: {
-          id: 1,
-          email: {
-            $concat: ["$firstName", " ", "$lastName", " ", "<", "$email", ">"],
-          },
+    /* istanbul ignore next */
+    const members = await getUsers({
+      role: { $ne: "admin" },
+      project: {
+        id: 1,
+        email: {
+          $concat: ["$firstName", " ", "$lastName", " ", "<", "$email", ">"],
         },
       },
-    ]);
-    /* istanbul ignore next */
-    if (isEmpty(members)) throw unableToLocateMembers;
+    });
 
     res.status(200).json({ members });
   } catch (err) {
@@ -97,25 +90,16 @@ const getMember = async (req, res) => {
 const getMemberEventCounts = async (req, res) => {
   try {
     const { eventId } = req.query;
+    if (!eventId) throw missingEventId;
 
     /* istanbul ignore next */
-    const members = await User.aggregate([
-      {
-        $match: {
-          role: { $nin: ["admin", "staff"] },
-          status: "active",
-        },
+    const members = await getUsers({
+      role: { $nin: ["admin", "staff"] },
+      project: {
+        _id: 1,
+        name: { $concat: ["$firstName", " ", "$lastName"] },
       },
-      { $sort: { lastName: 1 } },
-      {
-        $project: {
-          _id: 1,
-          name: { $concat: ["$firstName", " ", "$lastName"] },
-        },
-      },
-    ]);
-    /* istanbul ignore next */
-    if (isEmpty(members)) throw unableToLocateMembers;
+    });
 
     const eventExists = await Event.findOne({ _id: eventId }, { eventDate: 1 });
     if (!eventExists) throw unableToLocateEvent;

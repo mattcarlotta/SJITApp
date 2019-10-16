@@ -1,12 +1,13 @@
 import moment from "moment";
 import isEmpty from "lodash/isEmpty";
-import { Event, Season, User } from "models";
+import { Event, Season } from "models";
 import {
   convertId,
   createColumnSchedule,
   createUserSchedule,
   createSchedule,
   getMonthDateRange,
+  getUsers,
   sendError,
   updateScheduleIds,
 } from "shared/helpers";
@@ -17,7 +18,6 @@ import {
   missingEventId,
   unableToDeleteEvent,
   unableToLocateEvent,
-  unableToLocateMembers,
   unableToLocateSeason,
 } from "shared/authErrors";
 
@@ -35,15 +35,14 @@ const createEvent = async (req, res) => {
       uniform,
     } = req.body;
     if (
-      !callTimes ||
-      !eventDate ||
-      !eventType ||
-      !location ||
-      !seasonId ||
-      !team ||
-      !uniform
-    )
-      throw invalidCreateEventRequest;
+      !callTimes
+      || !eventDate
+      || !eventType
+      || !location
+      || !seasonId
+      || !team
+      || !uniform
+    ) throw invalidCreateEventRequest;
 
     const existingSeason = await Season.findOne({ seasonId });
     if (!existingSeason) throw unableToLocateSeason;
@@ -155,13 +154,10 @@ const getEventForScheduling = async (req, res) => {
     if (!event) throw unableToLocateEvent;
 
     /* istanbul ignore next */
-    const members = await User.find(
-      { role: { $nin: ["admin", "staff"] }, status: "active" },
-      { _id: 1, firstName: 1, lastName: 1 },
-      { sort: { lastName: 1 } },
-    ).lean();
-    /* istanbul ignore next */
-    if (isEmpty(members)) throw unableToLocateMembers;
+    const members = await getUsers({
+      role: { $nin: ["admin", "staff"] },
+      project: { firstName: 1, lastName: 1 },
+    });
 
     res.status(200).json({
       schedule: {
@@ -185,23 +181,22 @@ const getScheduledEvents = async (req, res) => {
 
     const { startOfMonth, endOfMonth } = getMonthDateRange(selectedDate);
 
-    const filters =
-      selected === "All Games"
-        ? {
-            eventDate: {
-              $gte: startOfMonth,
-              $lte: endOfMonth,
-            },
-          }
-        : {
-            eventDate: {
-              $gte: startOfMonth,
-              $lte: endOfMonth,
-            },
-            scheduledIds: {
-              $in: [convertId(selectedId)],
-            },
-          };
+    const filters = selected === "All Games"
+      ? {
+        eventDate: {
+          $gte: startOfMonth,
+          $lte: endOfMonth,
+        },
+      }
+      : {
+        eventDate: {
+          $gte: startOfMonth,
+          $lte: endOfMonth,
+        },
+        scheduledIds: {
+          $in: [convertId(selectedId)],
+        },
+      };
 
     const events = await Event.find(
       {
@@ -262,16 +257,15 @@ const updateEvent = async (req, res) => {
       uniform,
     } = req.body;
     if (
-      !_id ||
-      !callTimes ||
-      !eventDate ||
-      !eventType ||
-      !location ||
-      !seasonId ||
-      !team ||
-      !uniform
-    )
-      throw invalidUpdateEventRequest;
+      !_id
+      || !callTimes
+      || !eventDate
+      || !eventType
+      || !location
+      || !seasonId
+      || !team
+      || !uniform
+    ) throw invalidUpdateEventRequest;
 
     const existingEvent = await Event.findOne({ _id });
     if (!existingEvent) throw unableToLocateEvent;

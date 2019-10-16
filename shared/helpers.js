@@ -2,7 +2,9 @@ import isEmpty from "lodash/isEmpty";
 import moment from "moment";
 import random from "lodash/random";
 import { Types } from "mongoose";
+import { User } from "models";
 import { newAuthorizationKeyTemplate } from "services/templates";
+import { unableToLocateMembers } from "shared/authErrors";
 
 const { ObjectId } = Types;
 const { CLIENT } = process.env;
@@ -177,16 +179,6 @@ const createUserSchedule = ({ event, members }) => [
 ];
 
 /**
- * Helper function to convert a Date to an ISO Date.
- *
- * @function
- * @returns {Date}
- */
-const convertDateToISO = date => moment(date)
-  .utcOffset(-7)
-  .toISOString(true);
-
-/**
  * Helper function to generate a mongo ObjectId.
  *
  * @function convertId
@@ -258,6 +250,34 @@ const getStartOfDay = () => moment(Date.now())
   .format();
 
 /**
+ * Helper function to generate a date range.
+ *
+ * @function getUsers
+ * @param role - user role
+ * @param project - projected data structure
+ * @returns {array}
+ */
+const getUsers = async ({ role, project }) => {
+  const members = await User.aggregate([
+    {
+      $match: {
+        role,
+        status: "active",
+      },
+    },
+    { $sort: { lastName: 1 } },
+    {
+      $project: project,
+    },
+  ]);
+
+  /* istanbul ignore next */
+  if (isEmpty(members)) throw unableToLocateMembers;
+
+  return members;
+};
+
+/**
  * Helper function to send an error to the client.
  *
  * @function
@@ -282,7 +302,6 @@ const updateScheduleIds = schedule => schedule.reduce(
 
 export {
   clearSession,
-  convertDateToISO,
   convertId,
   createAuthMail,
   createColumnSchedule,
@@ -297,6 +316,7 @@ export {
   expirationDate,
   getMonthDateRange,
   getStartOfDay,
+  getUsers,
   sendError,
   updateScheduleIds,
 };

@@ -81,7 +81,7 @@ const getSeason = async (req, res) => {
     const { id: _id } = req.params;
     if (!_id) throw missingSeasonId;
 
-    const existingSeason = await Season.findOne({ _id }, { members: 0 });
+    const existingSeason = await Season.findOne({ _id });
     if (!existingSeason) throw unableToLocateSeason;
 
     res.status(200).json({ season: existingSeason });

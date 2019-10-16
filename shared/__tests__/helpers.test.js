@@ -2,7 +2,6 @@ import moment from "moment";
 import { User } from "models";
 import {
   clearSession,
-  convertDateToISO,
   createDate,
   createColumnSchedule,
   createMemberEventCount,
@@ -12,6 +11,7 @@ import {
   createUniqueName,
   createUserSchedule,
   convertId,
+  getUsers,
   sendError,
 } from "shared/helpers";
 
@@ -128,12 +128,6 @@ describe("Helpers", () => {
     ]);
   });
 
-  it("returns a Date with a PST time zone", () => {
-    const date = new Date(2019, 3, 21);
-    const isoDate = convertDateToISO(date);
-    expect(isoDate).toEqual("2019-04-21T00:00:00.000-07:00");
-  });
-
   it("returns an member's scheduled event count", () => {
     const members = [
       {
@@ -237,6 +231,26 @@ describe("Helpers", () => {
     const date = "2000-08-09T17:45:26-07:00";
     expect(createDate()).toEqual(expect.any(moment));
     expect(createDate(date)).toEqual(expect.any(moment));
+  });
+
+  it("grabs all members from the database and projects accordingly", async () => {
+    const members = await getUsers({
+      role: { $ne: "admin" },
+      project: {
+        email: {
+          $concat: ["$firstName", " ", "$lastName", " ", "<", "$email", ">"],
+        },
+      },
+    });
+
+    expect(members).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          _id: expect.any(ObjectId),
+          email: expect.any(String),
+        }),
+      ]),
+    );
   });
 
   it("sends an error to the client", () => {
