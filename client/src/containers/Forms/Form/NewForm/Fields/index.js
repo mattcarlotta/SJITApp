@@ -38,7 +38,7 @@ export default [
 		required: true,
 		disabled: true,
 		format: "MM/DD/YYYY h:mm a",
-		showTime: { format: "h:mm a", use12Hours: true, minuteStep: 15 },
+		showTime: { format: "h:mm a", use12Hours: true },
 		style: { width: "100%" },
 	},
 	{

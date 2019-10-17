@@ -28,12 +28,12 @@ const eventSchema = new Schema({
   team: { type: String, required: true },
   opponent: String,
   callTimes: { type: Array, of: Date, required: true },
-  uniform: { type: String, default: "Teal Jersey" },
+  uniform: { type: String, default: "Sharks Teal Jersey" },
   notes: String,
-  sentEmailReminders: { type: Boolean, default: false }
+  sentEmailReminders: { type: Boolean, default: false },
 });
 
-eventSchema.pre("save", function(next) {
+eventSchema.pre("save", function (next) {
   this.schedule = createSchedule(this.callTimes);
   next();
 });
