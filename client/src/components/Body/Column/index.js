@@ -2,6 +2,9 @@
 import styled from "styled-components";
 
 export default styled.div`
+	@media (max-width: 1425px) {
+		width: 100%;
+	}
 	width: ${({ width }) => width || "100%"};
 	min-width: 225px;
 	background-color: #ebecf0;

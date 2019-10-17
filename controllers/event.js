@@ -155,7 +155,7 @@ const getEventForScheduling = async (req, res) => {
 
     /* istanbul ignore next */
     const members = await getUsers({
-      role: { $nin: ["admin", "staff"] },
+      match: { role: { $nin: ["admin", "staff"] } },
       project: { firstName: 1, lastName: 1 },
     });
 

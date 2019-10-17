@@ -257,13 +257,10 @@ const getStartOfDay = () => moment(Date.now())
  * @param project - projected data structure
  * @returns {array}
  */
-const getUsers = async ({ role, project }) => {
+const getUsers = async ({ match, project }) => {
   const members = await User.aggregate([
     {
-      $match: {
-        role,
-        status: "active",
-      },
+      $match: match,
     },
     { $sort: { lastName: 1 } },
     {

@@ -36,7 +36,9 @@ const deleteMember = async (req, res) => {
 
 const getAllMembers = async (_, res) => {
   const members = await getUsers({
-    role: { $ne: "admin" },
+    match: {
+      role: { $ne: "admin" },
+    },
     project: {
       role: 1,
       status: 1,
@@ -54,7 +56,10 @@ const getAllMemberNames = async (_, res) => {
   try {
     /* istanbul ignore next */
     const members = await getUsers({
-      role: { $ne: "admin" },
+      match: {
+        role: { $ne: "admin" },
+        status: "active",
+      },
       project: {
         id: 1,
         email: {
@@ -94,7 +99,9 @@ const getMemberEventCounts = async (req, res) => {
 
     /* istanbul ignore next */
     const members = await getUsers({
-      role: { $nin: ["admin", "staff"] },
+      match: {
+        role: { $nin: ["admin", "staff"] },
+      },
       project: {
         _id: 1,
         name: { $concat: ["$firstName", " ", "$lastName"] },

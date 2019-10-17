@@ -235,7 +235,10 @@ describe("Helpers", () => {
 
   it("grabs all members from the database and projects accordingly", async () => {
     const members = await getUsers({
-      role: { $ne: "admin" },
+      match: {
+        role: { $ne: "admin" },
+        status: "active",
+      },
       project: {
         email: {
           $concat: ["$firstName", " ", "$lastName", " ", "<", "$email", ">"],
