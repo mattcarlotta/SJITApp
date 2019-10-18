@@ -96,7 +96,11 @@ const ScheduleModal = ({
 														top: 1,
 													}}
 												/>
-												<FormatDate format="hh:mm a" date={_id} />
+												<FormatDate
+													style={{ display: "inline" }}
+													format="hh:mm a"
+													date={_id}
+												/>
 											</Bold>
 											{!isEmpty(employeeIds) ? (
 												employeeIds.map(({ _id, firstName, lastName }) => (

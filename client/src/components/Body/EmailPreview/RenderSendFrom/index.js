@@ -49,7 +49,7 @@ const RenderSendFrom = ({ sendDate, sendFrom }) => (
 			<FormatDate
 				date={sendDate}
 				format="MMM DD, YYYY, hh:mm a"
-				style={{ fontSize: 16 }}
+				style={{ fontSize: 16, display: "inline" }}
 			/>
 			<FaStar style={iconStyle} />
 			<FaReply style={iconStyle} />

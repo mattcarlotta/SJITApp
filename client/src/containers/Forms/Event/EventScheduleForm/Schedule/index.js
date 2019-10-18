@@ -56,7 +56,11 @@ const Schedule = ({ handleDrag, event, columns, users }) => (
 					<List style={{ padding: "0 5px", fontSize: 17 }}>
 						<ListItem>
 							<Bold>Event Date: </Bold>{" "}
-							<FormatDate date={event.eventDate} format="MMMM Do @ h:mm a" />
+							<FormatDate
+								style={{ display: "inline" }}
+								date={event.eventDate}
+								format="MMMM Do @ h:mm a"
+							/>
 						</ListItem>
 						<ListItem>
 							<Bold>Location: </Bold> {event.location}
