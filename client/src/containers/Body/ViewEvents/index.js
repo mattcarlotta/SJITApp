@@ -39,10 +39,9 @@ const columns = [
 		title: "Event Date",
 		dataIndex: "eventDate",
 		key: "eventDate",
-		width: 200,
 		render: date => (
 			<FormatDate
-				style={{ wordWrap: "break-word", wordBreak: "break-word" }}
+				style={{ wordWrap: "break-word", wordBreak: "break-word", width: 175 }}
 				format="MMM Do @ h:mm a"
 				date={date}
 			/>

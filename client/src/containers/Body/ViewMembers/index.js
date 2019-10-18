@@ -31,7 +31,7 @@ const columns = [
 		title: "Registered",
 		dataIndex: "registered",
 		key: "registered",
-		render: date => <FormatDate format="MM/DD/YYYY" date={date} />,
+		render: date => <FormatDate format="MM/DD/YYYY @ hh:mm a" date={date} />,
 	},
 ];
 
