@@ -70,7 +70,7 @@ describe("Get Member Availability Controller", () => {
     await getMemberAvailability(req, res);
 
     expect(res.status).toHaveBeenCalledWith(200);
-    expect(res.send).toHaveBeenCalledWith(null);
+    expect(res.send).toHaveBeenCalledWith({});
   });
 
   it("handles valid get member events counts requests", async () => {
