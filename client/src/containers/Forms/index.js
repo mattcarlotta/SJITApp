@@ -26,6 +26,7 @@ export {
 } from "./Member/EditAuthorizationForm";
 export { default as EditMemberForm } from "./Member/EditMemberForm";
 export { default as NewMemberForm } from "./Member/NewMemberForm";
+export { default as UpdateSettingsForm } from "./Member/UpdateSettingsForm";
 
 // season
 export { default as EditSeasonForm } from "./Season/EditSeasonForm";

@@ -94,6 +94,40 @@ export const fetchMemberNames = () => ({
 });
 
 /**
+ * Fetches member's settings.
+ *
+ * @function fetchMemberSettings
+ * @returns {object}
+ */
+export const fetchMemberSettings = () => ({
+	type: types.MEMBERS_FETCH_SETTINGS,
+});
+
+/**
+ * Fetches a member's availability.
+ *
+ * @function fetchMemberSettingsAvailability
+ * @param {object} params - selectedDate
+ * @returns {object}
+ */
+export const fetchMemberSettingsAvailability = params => ({
+	type: types.MEMBERS_FETCH_SETTINGS_AVAILABILITY,
+	params,
+});
+
+/**
+ * Fetches a single member's events based upon a date.
+ *
+ * @function fetchMemberSettingsEvents
+ * @param {object} params - selectedDate
+ * @returns {object}
+ */
+export const fetchMemberSettingsEvents = params => ({
+	type: types.MEMBERS_FETCH_SETTINGS_EVENTS,
+	params,
+});
+
+/**
  * Fetches a single token for editing.
  *
  * @function fetchToken
@@ -232,5 +266,17 @@ export const updateMemberStatus = props => ({
  */
 export const updateMemberToken = props => ({
 	type: types.MEMBERS_UPDATE_TOKEN,
+	props,
+});
+
+/**
+ * Updates a single member's settings.
+ *
+ * @function updateSettings
+ * @param {object} data - email, firstName, lastName
+ * @returns {object}
+ */
+export const updateSettings = props => ({
+	type: types.MEMBERS_UPDATE_SETTINGS,
 	props,
 });

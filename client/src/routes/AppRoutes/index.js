@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Redirect, Route, Switch } from "react-router-dom";
-import { AppPageNotFound, Contact, Help, Settings } from "pages";
+import { AppPageNotFound, Contact, Help } from "pages";
 
 import {
 	Dashboard,
@@ -25,7 +25,7 @@ import {
 	ViewSeasons,
 } from "pages/Staff";
 
-import { ViewApForm, ViewSchedule } from "pages/Shared";
+import { ViewApForm, ViewSchedule, ViewSettings } from "pages/Shared";
 
 import { MemberDashboard, MemberForms } from "pages/Employee";
 
@@ -71,7 +71,7 @@ const AppRoutes = ({ match: { url }, role }) =>
 			<Route exact path={`${url}/seasons/create`} component={NewSeason} />
 			<Route exact path={`${url}/seasons/edit/:id`} component={EditSeason} />
 			<Route exact path={`${url}/seasons/viewall`} component={ViewSeasons} />
-			<Route exact path={`${url}/settings`} component={Settings} />
+			<Route exact path={`${url}/settings`} component={ViewSettings} />
 			<Route exact path={`${url}/help`} component={Help} />
 			<Route exact path={`${url}/contact`} component={Contact} />
 			<Route component={AppPageNotFound} />
@@ -84,7 +84,7 @@ const AppRoutes = ({ match: { url }, role }) =>
 			<Route exact path={`${url}/forms/viewall`} component={MemberForms} />
 			<Route exact path={`${url}/forms/view/:id`} component={ViewApForm} />
 			<Route exact path={`${url}/schedule`} component={ViewSchedule} />
-			<Route exact path={`${url}/settings`} component={Settings} />
+			<Route exact path={`${url}/settings`} component={ViewSettings} />
 			<Route exact path={`${url}/help`} component={Help} />
 			<Route exact path={`${url}/contact`} component={Contact} />
 			<Route component={AppPageNotFound} />

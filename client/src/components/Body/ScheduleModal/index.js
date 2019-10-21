@@ -117,6 +117,10 @@ const ScheduleModal = ({
 																_id === id || _id === loggedinUserId
 																	? "#fff"
 																	: "rgba(0,0,0,0.65)",
+															fontWeight:
+																_id === id || _id === loggedinUserId
+																	? "bold"
+																	: "normal",
 														}}
 														key={_id}
 													>

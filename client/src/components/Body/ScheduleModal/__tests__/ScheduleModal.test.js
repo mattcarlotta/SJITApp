@@ -129,6 +129,10 @@ describe("Schedule Modal", () => {
 			"color",
 			"#fff",
 		);
+		expect(wrapper.find(".employee").prop("style")).toHaveProperty(
+			"fontWeight",
+			"bold",
+		);
 	});
 
 	it("highlights a member's name if the loggedinUser matches the 'id'", () => {
@@ -145,6 +149,10 @@ describe("Schedule Modal", () => {
 		expect(wrapper.find(".employee").prop("style")).toHaveProperty(
 			"color",
 			"#fff",
+		);
+		expect(wrapper.find(".employee").prop("style")).toHaveProperty(
+			"fontWeight",
+			"normal",
 		);
 	});
 });

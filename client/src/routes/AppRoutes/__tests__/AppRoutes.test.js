@@ -1,4 +1,4 @@
-import { AppPageNotFound, Contact, Help, Settings } from "pages";
+import { AppPageNotFound, Contact, Help } from "pages";
 import {
 	Dashboard,
 	EditAuthorization,
@@ -21,7 +21,7 @@ import {
 	ViewSeasons,
 } from "pages/Staff";
 
-import { ViewApForm, ViewSchedule } from "pages/Shared";
+import { ViewApForm, ViewSchedule, ViewSettings } from "pages/Shared";
 
 import { MemberDashboard, MemberForms } from "pages/Employee";
 
@@ -209,12 +209,12 @@ describe("Application routes", () => {
 			).toBe(ViewSeasons);
 		});
 
-		it("routes to Settings", () => {
+		it("routes to ViewSettings", () => {
 			expect(
 				wrapper
 					.find("Route[exact=true][path='/employee/settings']")
 					.prop("component"),
-			).toBe(Settings);
+			).toBe(ViewSettings);
 		});
 
 		it("routes to Help", () => {
@@ -284,12 +284,12 @@ describe("Application routes", () => {
 			).toBe(ViewSchedule);
 		});
 
-		it("routes to Settings", () => {
+		it("routes to ViewSettings", () => {
 			expect(
 				wrapper
 					.find("Route[exact=true][path='/employee/settings']")
 					.prop("component"),
-			).toBe(Settings);
+			).toBe(ViewSettings);
 		});
 
 		it("routes to Help", () => {

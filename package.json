@@ -36,7 +36,7 @@
   },
   "betterScripts": {
     "db:drop": {
-      "command": "node ./utils/globalTeardown.js",
+      "command": "babel-node ./utils/teardownDB.js",
       "env": {
         "CLIENT": "http://localhost:5000",
         "DATABASE": "sjsitapp-dev-db",
@@ -45,7 +45,7 @@
       }
     },
     "db:droptestdb": {
-      "command": "node ./utils/globalTeardown.js",
+      "command": "babel-node ./utils/teardownDB.js",
       "env": {
         "CLIENT": "http://localhost:5000",
         "DATABASE": "sjsitapp-test-db",
@@ -54,7 +54,7 @@
       }
     },
     "db:seed": {
-      "command": "node ./utils/globalSetup.js",
+      "command": "babel-node ./utils/seedDB.js",
       "env": {
         "CLIENT": "http://localhost:5000",
         "DATABASE": "sjsitapp-dev-db",
@@ -73,7 +73,7 @@
       }
     },
     "start": {
-      "command": "node app.js",
+      "command": "babel-node app.js",
       "env": {
         "HOST": "http://localhost:",
         "CLIENT": "http://example.com",
@@ -83,7 +83,7 @@
       }
     },
     "server": {
-      "command": "nodemon ./app.js",
+      "command": "nodemon --exec babel-node ./app.js",
       "env": {
         "HOST": "http://localhost:",
         "CLIENT": "http://localhost:3000",
@@ -135,8 +135,8 @@
   },
   "dependencies": {
     "@babel/core": "^7.6.4",
+    "@babel/node": "^7.6.3",
     "@babel/preset-env": "^7.6.3",
-    "@babel/register": "^7.6.2",
     "babel-plugin-module-resolver": "^3.2.0",
     "bcryptjs": "^2.4.3",
     "better-npm-run": "^0.1.1",

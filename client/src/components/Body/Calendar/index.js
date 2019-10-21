@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
+import get from "lodash/get";
 import moment from "moment";
 import { Calendar } from "antd";
 import { ScheduleList, ScheduleHeader, ScheduleModal } from "components/Body";
@@ -14,7 +15,7 @@ class CustomCalendar extends Component {
 	constructor(props) {
 		super(props);
 
-		const { id } = props.match.params;
+		const id = get(props, ["match", "params", "id"]);
 
 		this.state = {
 			id: props.id || id,
@@ -144,7 +145,7 @@ CustomCalendar.propTypes = {
 		params: PropTypes.shape({
 			id: PropTypes.string,
 		}),
-	}).isRequired,
+	}),
 	scheduleEvents: PropTypes.arrayOf(
 		PropTypes.shape({
 			_id: PropTypes.string,

@@ -38,9 +38,8 @@ class CustomTable extends Component {
 		clearTimeout(this.timeout);
 	};
 
-	handleClickAction = (action, record) => {
+	handleClickAction = (action, record) =>
 		this.setState({ isLoading: true }, () => action(record._id));
-	};
 
 	/* istanbul ignore next */
 	clearTimer = () => {
@@ -50,17 +49,12 @@ class CustomTable extends Component {
 
 	setTimer = () => (this.timeout = setTimeout(this.clearTimer, 3000));
 
-	handleSearch = (_, confirm) => {
-		confirm();
-	};
+	handleSearch = (_, confirm) => confirm();
 
-	handleReset = clearFilters => {
-		clearFilters();
-	};
+	handleReset = clearFilters => clearFilters();
 
-	handleSelectKeys = (value, setSelectedKeys) => {
+	handleSelectKeys = (value, setSelectedKeys) =>
 		setSelectedKeys(value ? [value] : []);
-	};
 
 	/* istanbul ignore next */
 	getColumnSearchProps = dataIndex => ({

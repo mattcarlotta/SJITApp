@@ -1,5 +1,6 @@
 import { combineReducers } from "redux";
 import { connectRouter } from "connected-react-router";
+import * as types from "types";
 import authReducer from "./Auth";
 import eventReducer from "./Events";
 import formReducer from "./Forms";
@@ -18,5 +19,13 @@ const reducers = {
 	server: serverMessageReducer,
 };
 
-export default history =>
+const appReducer = history =>
 	combineReducers({ router: connectRouter(history), ...reducers });
+
+export default history => (state, action) =>
+	appReducer(history)(
+		action.type === types.USER_SIGNOUT
+			? { router: state.router, server: state.server }
+			: state,
+		action,
+	);
