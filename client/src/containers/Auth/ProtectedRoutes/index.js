@@ -28,25 +28,26 @@ export class ProtectedRoutes extends PureComponent {
 		}
 	};
 
-	render = () =>
-		!this.props.role || this.props.role === "guest" ? (
-			<Switch>
-				<Route
-					exact
-					path={`${this.props.match.url}/newpassword/:id`}
-					component={NewPasswordForm}
-				/>
-				<Route
-					exact
-					path={`${this.props.match.url}/resetpassword`}
-					component={ResetPasswordForm}
-				/>
-				<Route path={`${this.props.match.url}/signup`} component={SignupForm} />
+	render = () => (
+		<Switch>
+			<Route
+				exact
+				path={`${this.props.match.url}/newpassword/:id`}
+				component={NewPasswordForm}
+			/>
+			<Route
+				exact
+				path={`${this.props.match.url}/resetpassword`}
+				component={ResetPasswordForm}
+			/>
+			<Route path={`${this.props.match.url}/signup`} component={SignupForm} />
+			{!this.props.role || this.props.role === "guest" ? (
 				<Route path={`${this.props.match.url}`} component={AppLoader} />
-			</Switch>
-		) : (
-			<App {...this.props} />
-		);
+			) : (
+				<Route render={() => <App {...this.props} />} />
+			)}
+		</Switch>
+	);
 }
 
 ProtectedRoutes.propTypes = {

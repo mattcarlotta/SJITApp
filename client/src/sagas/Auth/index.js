@@ -92,7 +92,7 @@ export function* signinUser({ props }) {
  * @yields {action} - A redux action to push to a URL.
  * @throws {action} - A redux action to display a server message by type.
  */
-export function* signoutUser() {
+export function* signoutUserSession() {
 	try {
 		yield call(app.get, "signout");
 
@@ -162,7 +162,7 @@ export function* updateUserPassword({ props }) {
 			}),
 		);
 
-		yield put(push("/employee/login"));
+		yield call(signoutUserSession);
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
@@ -180,7 +180,7 @@ export default function* authSagas() {
 		takeLatest(types.USER_SIGNIN_SESSION, authenticateUser),
 		takeLatest(types.USER_PASSWORD_RESET, resetPassword),
 		takeLatest(types.USER_SIGNIN_ATTEMPT, signinUser),
-		takeLatest(types.USER_SIGNOUT_SESSION, signoutUser),
+		takeLatest(types.USER_SIGNOUT_SESSION, signoutUserSession),
 		takeLatest(types.USER_SIGNUP, signupUser),
 		takeLatest(types.USER_PASSWORD_UPDATE, updateUserPassword),
 	]);

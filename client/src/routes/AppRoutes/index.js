@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Redirect, Route, Switch } from "react-router-dom";
-import { AppPageNotFound, Contact, Help } from "pages";
 
 import {
 	Dashboard,
@@ -18,16 +17,23 @@ import {
 	SendMail,
 	ViewAuthorizations,
 	ViewEvents,
-	ViewForms,
 	ViewMail,
 	ViewMemberProfile,
 	ViewMembers,
 	ViewSeasons,
 } from "pages/Staff";
 
-import { ViewApForm, ViewSchedule, ViewSettings } from "pages/Shared";
+import {
+	AppPageNotFound,
+	ViewApForm,
+	ViewContact,
+	ViewForms,
+	ViewHelp,
+	ViewSchedule,
+	ViewSettings,
+} from "pages/Shared";
 
-import { MemberDashboard, MemberForms } from "pages/Employee";
+import { MemberDashboard } from "pages/Employee";
 
 const AppRoutes = ({ match: { url }, role }) =>
 	role === "staff" || role === "admin" ? (
@@ -72,8 +78,8 @@ const AppRoutes = ({ match: { url }, role }) =>
 			<Route exact path={`${url}/seasons/edit/:id`} component={EditSeason} />
 			<Route exact path={`${url}/seasons/viewall`} component={ViewSeasons} />
 			<Route exact path={`${url}/settings`} component={ViewSettings} />
-			<Route exact path={`${url}/help`} component={Help} />
-			<Route exact path={`${url}/contact`} component={Contact} />
+			<Route exact path={`${url}/help`} component={ViewHelp} />
+			<Route exact path={`${url}/contact`} component={ViewContact} />
 			<Route component={AppPageNotFound} />
 		</Switch>
 	) : (
@@ -81,12 +87,12 @@ const AppRoutes = ({ match: { url }, role }) =>
 			<Redirect exact from={`${url}`} to={`${url}/dashboard`} />
 			<Redirect from={`${url}/login`} to={`${url}/dashboard`} />
 			<Route exact path={`${url}/dashboard`} component={MemberDashboard} />
-			<Route exact path={`${url}/forms/viewall`} component={MemberForms} />
+			<Route exact path={`${url}/forms/viewall`} component={ViewForms} />
 			<Route exact path={`${url}/forms/view/:id`} component={ViewApForm} />
 			<Route exact path={`${url}/schedule`} component={ViewSchedule} />
 			<Route exact path={`${url}/settings`} component={ViewSettings} />
-			<Route exact path={`${url}/help`} component={Help} />
-			<Route exact path={`${url}/contact`} component={Contact} />
+			<Route exact path={`${url}/help`} component={ViewHelp} />
+			<Route exact path={`${url}/contact`} component={ViewContact} />
 			<Route component={AppPageNotFound} />
 		</Switch>
 	);

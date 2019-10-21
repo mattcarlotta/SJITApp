@@ -1,4 +1,3 @@
-import { AppPageNotFound, Contact, Help } from "pages";
 import {
 	Dashboard,
 	EditAuthorization,
@@ -14,16 +13,23 @@ import {
 	SendMail,
 	ViewAuthorizations,
 	ViewEvents,
-	ViewForms,
 	ViewMail,
 	ViewMemberProfile,
 	ViewMembers,
 	ViewSeasons,
 } from "pages/Staff";
 
-import { ViewApForm, ViewSchedule, ViewSettings } from "pages/Shared";
+import {
+	AppPageNotFound,
+	ViewApForm,
+	ViewContact,
+	ViewForms,
+	ViewHelp,
+	ViewSchedule,
+	ViewSettings,
+} from "pages/Shared";
 
-import { MemberDashboard, MemberForms } from "pages/Employee";
+import { MemberDashboard } from "pages/Employee";
 
 import AppRoutes from "../index";
 
@@ -217,20 +223,20 @@ describe("Application routes", () => {
 			).toBe(ViewSettings);
 		});
 
-		it("routes to Help", () => {
+		it("routes to ViewHelp", () => {
 			expect(
 				wrapper
 					.find("Route[exact=true][path='/employee/help']")
 					.prop("component"),
-			).toBe(Help);
+			).toBe(ViewHelp);
 		});
 
-		it("routes to Contact", () => {
+		it("routes to ViewContact", () => {
 			expect(
 				wrapper
 					.find("Route[exact=true][path='/employee/contact']")
 					.prop("component"),
-			).toBe(Contact);
+			).toBe(ViewContact);
 		});
 
 		it("routes to AppPageNotFound", () => {
@@ -260,12 +266,12 @@ describe("Application routes", () => {
 			).toBe(MemberDashboard);
 		});
 
-		it("routes to MemberForms", () => {
+		it("routes to ViewForms", () => {
 			expect(
 				wrapper
 					.find("Route[exact=true][path='/employee/forms/viewall']")
 					.prop("component"),
-			).toBe(MemberForms);
+			).toBe(ViewForms);
 		});
 
 		it("routes to ViewApForm", () => {
@@ -292,20 +298,20 @@ describe("Application routes", () => {
 			).toBe(ViewSettings);
 		});
 
-		it("routes to Help", () => {
+		it("routes to ViewHelp", () => {
 			expect(
 				wrapper
 					.find("Route[exact=true][path='/employee/help']")
 					.prop("component"),
-			).toBe(Help);
+			).toBe(ViewHelp);
 		});
 
-		it("routes to Contact", () => {
+		it("routes to ViewContact", () => {
 			expect(
 				wrapper
 					.find("Route[exact=true][path='/employee/contact']")
 					.prop("component"),
-			).toBe(Contact);
+			).toBe(ViewContact);
 		});
 
 		it("routes to AppPageNotFound", () => {

@@ -30,6 +30,7 @@ export { default as Footer } from "./Footer";
 export { default as FormatDate } from "./FormatDate";
 export { default as FormContainer } from "./FormContainer";
 export { default as Icon } from "./Icon";
+export { default as InfoText } from "./InfoText";
 export { default as ImageContainer } from "./ImageContainer";
 export { default as Label } from "./Label";
 export { default as Legal } from "./Legal";
