@@ -1,7 +1,8 @@
 /* istanbul ignore file */
 import styled from "styled-components";
+import Legend from "./Legend";
 
-export default styled.div`
+export default styled(Legend)`
 	@media (max-width: 1280px) {
 		width: 98.5%;
 	}

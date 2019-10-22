@@ -15,7 +15,7 @@ const ChangingName = () => (
 	<TextContainer>
 		<InfoText>To change your first and/or last name, go to the</InfoText>
 		&nbsp;
-		<Link blue style={linkStyle} to="/employee/settings">
+		<Link blue style={linkStyle} to="/employee/settings" target="_blank">
 			Settings
 		</Link>
 		&nbsp;

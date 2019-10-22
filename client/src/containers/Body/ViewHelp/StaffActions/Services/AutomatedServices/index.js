@@ -27,7 +27,10 @@ const AutomatedServices = () => (
 		</InfoText>
 		<br />
 		<br />
-		<InfoText>Here&#39;s a breakdown of the automated services:</InfoText>
+		<InfoText>
+			Here&#39;s an example breakdown of how the automated services will
+			function for the month of October/November:
+		</InfoText>
 		<List>
 			<ListItem style={listItemStyle}>
 				- On October <strong>20th</strong>, Sharks home games for the month of

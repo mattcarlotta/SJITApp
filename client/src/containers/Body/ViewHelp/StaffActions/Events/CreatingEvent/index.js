@@ -15,7 +15,7 @@ const CreatingEvent = () => (
 	<TextContainer>
 		<InfoText>
 			To create an event (games, promotionals, or misc.), go to the{" "}
-			<Link blue style={linkStyle} to="/employee/events/create">
+			<Link blue style={linkStyle} to="/employee/events/create" target="_blank">
 				Create Event
 			</Link>{" "}
 			page and fill out the <strong>New Event Form</strong> by: Selecting the{" "}

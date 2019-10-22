@@ -2,9 +2,7 @@ import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { DragDropContext } from "react-beautiful-dnd";
 import {
-	Badge,
 	Bold,
-	ColumnTitle,
 	DropContainer,
 	FormatDate,
 	Legend,
@@ -16,26 +14,11 @@ import {
 import Container from "./Container";
 import GameDetailsContainer from "./GameDetailsContainer";
 
-const responses = [
-	"I want to work.",
-	"Available to work.",
-	"Prefer not to work.",
-	"Not available to work.",
-	"No response.",
-];
-
 const Schedule = ({ handleDrag, event, columns, users }) => (
 	<ScheduleContainer>
 		<DragDropContext onDragEnd={handleDrag}>
 			<Container>
-				<Legend>
-					<ColumnTitle style={{ marginBottom: 5 }}>Legend</ColumnTitle>
-					{responses.map(response => (
-						<Badge key={response} response={response} style={{ fontSize: 17 }}>
-							{response}
-						</Badge>
-					))}
-				</Legend>
+				<Legend />
 				<GameDetailsContainer>
 					<div css="text-align: center;color: #fff;background: #025f6d;border-radius: 3px;padding: 10px 5px;text-transform: uppercase;font-size: 17px;">
 						{event.team}{" "}

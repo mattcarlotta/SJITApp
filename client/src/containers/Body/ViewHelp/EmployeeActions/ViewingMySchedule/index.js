@@ -17,7 +17,7 @@ const ViewingMySchedule = () => (
 	<TextContainer>
 		<InfoText>To view your month to month schedule, go to the</InfoText>
 		&nbsp;
-		<Link blue style={linkStyle} to="/employee/schedule">
+		<Link blue style={linkStyle} to="/employee/schedule" target="_blank">
 			Schedule
 		</Link>
 		&nbsp;

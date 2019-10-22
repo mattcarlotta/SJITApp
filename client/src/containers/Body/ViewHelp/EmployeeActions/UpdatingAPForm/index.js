@@ -21,7 +21,7 @@ const UpdatingAPForm = () => (
 	<TextContainer>
 		<InfoText>To update your availabilty to an A/P form, go to the</InfoText>
 		&nbsp;
-		<Link blue style={linkStyle} to="/employee/forms/viewall">
+		<Link blue style={linkStyle} to="/employee/forms/viewall" target="_blank">
 			Forms
 		</Link>
 		&nbsp;

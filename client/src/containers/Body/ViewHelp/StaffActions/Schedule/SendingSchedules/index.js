@@ -4,8 +4,8 @@ import { InfoText, TextContainer, WarningText } from "components/Body";
 const SendingSchedules = () => (
 	<TextContainer>
 		<InfoText>
-			If there are scheduled events for the next month, then monthly schedules
-			will automatically be generated and sent out on the{" "}
+			If there are scheduled events for a particular month, then monthly
+			schedules will automatically be generated and sent out on the{" "}
 			<strong>25th of each prior month</strong>. For example, events that have
 			been scheduled for the month of December, will be sent out on November
 			25th. Any events that do not have at least one member assigned to them,

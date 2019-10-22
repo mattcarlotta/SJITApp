@@ -15,7 +15,7 @@ const ChangingEmail = () => (
 	<TextContainer>
 		<InfoText>To change your email, go to the</InfoText>
 		&nbsp;
-		<Link blue style={linkStyle} to="/employee/settings">
+		<Link blue style={linkStyle} to="/employee/settings" target="_blank">
 			Settings
 		</Link>
 		&nbsp;
@@ -38,8 +38,8 @@ const ChangingEmail = () => (
 		<InfoText>button to save and update your email.</InfoText>
 		&nbsp;
 		<WarningText>
-			Be advised that updating your email will automatically log you out of the
-			current session.
+			Be advised that updating your email will log you out of the current
+			session.
 		</WarningText>
 		<InfoText>
 			To proceed, please log in with your new email address and your account

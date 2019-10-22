@@ -38,7 +38,12 @@ const GettingStarted = () => (
 				<ListItem style={listItemStyle}>
 					<InfoText>
 						<strong>1.)</strong> Go to the{" "}
-						<Link blue style={linkStyle} to="/employee/seasons/create">
+						<Link
+							blue
+							style={linkStyle}
+							to="/employee/seasons/create"
+							target="_blank"
+						>
 							Create Seasons
 						</Link>{" "}
 						page and fill out the <strong>Season Duration</strong> fields and
@@ -66,7 +71,12 @@ const GettingStarted = () => (
 					<InfoText>
 						<strong>2.)</strong> Add members (staff or employees) by going to
 						the{" "}
-						<Link blue style={linkStyle} to="/employee/members/create">
+						<Link
+							blue
+							style={linkStyle}
+							to="/employee/members/create"
+							target="_blank"
+						>
 							Create Member
 						</Link>{" "}
 						page and filling out the <strong>Role</strong> and{" "}
@@ -90,7 +100,12 @@ const GettingStarted = () => (
 					<InfoText>
 						<strong>3.)</strong> Create events (games, promotionals, or misc.)
 						by going to the{" "}
-						<Link blue style={linkStyle} to="/employee/events/create">
+						<Link
+							blue
+							style={linkStyle}
+							to="/employee/events/create"
+							target="_blank"
+						>
 							Create Event
 						</Link>{" "}
 						page and: Selecting the <strong>Season ID</strong> you&#39;ve
@@ -118,7 +133,12 @@ const GettingStarted = () => (
 				<ListItem style={listItemStyle}>
 					<InfoText>
 						<strong>4.)</strong> Create forms (A/P forms) by going to the{" "}
-						<Link blue style={linkStyle} to="/employee/forms/create">
+						<Link
+							blue
+							style={linkStyle}
+							to="/employee/forms/create"
+							target="_blank"
+						>
 							Create Form
 						</Link>{" "}
 						page and: Selecting the <strong>Season ID</strong> you&#39;ve
@@ -152,7 +172,12 @@ const GettingStarted = () => (
 				<ListItem style={listItemStyle}>
 					<InfoText>
 						<strong>5.)</strong> Schedule events by going to the{" "}
-						<Link blue style={linkStyle} to="/employee/events/viewall">
+						<Link
+							blue
+							style={linkStyle}
+							to="/employee/events/viewall"
+							target="_blank"
+						>
 							View Events
 						</Link>{" "}
 						page and clicking on one of the

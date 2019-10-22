@@ -21,7 +21,12 @@ const ResendingEventEmails = () => (
 	<TextContainer>
 		<InfoText>
 			To resend event (games, promotionals, or misc.) reminders, go to the{" "}
-			<Link blue style={linkStyle} to="/employee/events/viewall">
+			<Link
+				blue
+				style={linkStyle}
+				to="/employee/events/viewall"
+				target="_blank"
+			>
 				View Events
 			</Link>{" "}
 			page and click on one of the

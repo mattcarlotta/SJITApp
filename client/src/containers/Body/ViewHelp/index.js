@@ -123,18 +123,6 @@ const Help = ({ role }) => (
 									>
 										<AutomatedServices />
 									</Panel>
-									<Panel
-										header="How do I create monthly A/P forms?"
-										key="SendingForms"
-									>
-										<SendingForms />
-									</Panel>
-									<Panel
-										header="How do I create monthly schedules?"
-										key="SendingSchedules"
-									>
-										<SendingSchedules />
-									</Panel>
 								</Collapse>
 							</Panel>
 							<Panel header="Events" key="Events">
@@ -147,6 +135,12 @@ const Help = ({ role }) => (
 									</Panel>
 									<Panel header="How do I delete an event?" key="DeletingEvent">
 										<DeletingEvent />
+									</Panel>
+									<Panel
+										header="How do I view all events?"
+										key="ViewingAllEvents"
+									>
+										<p>Viewing All Events</p>
 									</Panel>
 									<Panel
 										header="How do I resend an event's email reminders?"
@@ -165,7 +159,13 @@ const Help = ({ role }) => (
 							<Panel header="Forms" key="Forms">
 								<Collapse expandIconPosition="right">
 									<Panel
-										header="How do I create an A/P form?"
+										header="How do I create monthly A/P forms?"
+										key="SendingForms"
+									>
+										<SendingForms />
+									</Panel>
+									<Panel
+										header="How do I manually create an A/P form?"
 										key="CreatingForms"
 									>
 										<p>Creating Forms</p>
@@ -184,6 +184,127 @@ const Help = ({ role }) => (
 										key="ResendingFormEmails"
 									>
 										<p>Resending Form Emails</p>
+									</Panel>
+									<Panel
+										header="How do I view all A/P forms?"
+										key="ViewingAllForms"
+									>
+										<p>Viewing All A/P Forms</p>
+									</Panel>
+								</Collapse>
+							</Panel>
+							<Panel header="Mail" key="Mail">
+								<Collapse expandIconPosition="right">
+									<Panel header="How do I create an email?" key="CreatingMail">
+										<p>Creating Mail</p>
+									</Panel>
+									<Panel header="How do I edit an email?" key="EditingMail">
+										<p>Editing Mail</p>
+									</Panel>
+									<Panel header="How do I delete an email?" key="DeletingMail">
+										<p>Deleting Mail</p>
+									</Panel>
+									<Panel
+										header="How do I resend an email?"
+										key="ResendingEmails"
+									>
+										<p>Resending Mail</p>
+									</Panel>
+									<Panel
+										header="How do I view all emails?"
+										key="ViewingAllEmails"
+									>
+										<p>Viewing All Emails</p>
+									</Panel>
+								</Collapse>
+							</Panel>
+							<Panel header="Members" key="Members">
+								<Collapse expandIconPosition="right">
+									<Panel
+										header="How do I create a member?"
+										key="CreatingMembers"
+									>
+										<p>Creating Members</p>
+									</Panel>
+									<Panel
+										header="How do I view member authorizations?"
+										key="ViewMemberAuthorizations"
+									>
+										<p>View Member Authorizations</p>
+									</Panel>
+									<Panel
+										header="How do I edit member authorizations?"
+										key="EditMemberAuthorizations"
+									>
+										<p>Edit Member Authorizations</p>
+									</Panel>
+									<Panel
+										header="How do I view a member's profile?"
+										key="ViewMemberProfile"
+									>
+										<p>Member Profile</p>
+									</Panel>
+									<Panel header="How do I edit a member?" key="EditingMembers">
+										<p>Editing Members</p>
+									</Panel>
+									<Panel
+										header="How do I delete a member?"
+										key="DeletingMembers"
+									>
+										<p>Deleting Members</p>
+									</Panel>
+									<Panel
+										header="How do I view all members?"
+										key="ViewingAllMembers"
+									>
+										<p>Viewing All Members</p>
+									</Panel>
+								</Collapse>
+							</Panel>
+							<Panel header="Schedule" key="Schedule">
+								<Collapse expandIconPosition="right">
+									<Panel
+										header="How do I create monthly schedules?"
+										key="SendingSchedules"
+									>
+										<SendingSchedules />
+									</Panel>
+									<Panel
+										header="How do I view a monthly schedule?"
+										key="ViewMonthlySchedule"
+									>
+										<p>View Monthly Schedule</p>
+									</Panel>
+									<Panel
+										header="How do I view a member's monthly schedule?"
+										key="ViewMemberMonthlySchedule"
+									>
+										<p>View Member Monthly Schedule</p>
+									</Panel>
+								</Collapse>
+							</Panel>
+							<Panel header="Seasons" key="Seasons">
+								<Collapse expandIconPosition="right">
+									<Panel
+										header="How do I create a season?"
+										key="CreatingSeason"
+									>
+										<p>Creating A Season</p>
+									</Panel>
+									<Panel header="How do I edit a season?" key="EditingSeason">
+										<p>Editing A Season</p>
+									</Panel>
+									<Panel
+										header="How do I delete a seasons?"
+										key="DeletingSeason"
+									>
+										<p>Deleting Mail</p>
+									</Panel>
+									<Panel
+										header="How do I view all seasons?"
+										key="ViewAllSeasons"
+									>
+										<p>View All Seasons</p>
 									</Panel>
 								</Collapse>
 							</Panel>

@@ -40,13 +40,7 @@ const DropContainer = ({ id, title, users, width }) => (
 												{firstName} {lastName}
 											</Badge>
 											{notes && (
-												<p
-													css={`
-														margin: 0;
-														padding-left: 25px;
-														font-style: italic;
-													`}
-												>
+												<p css="margin: 0; padding-left: 25px;font-style: italic;">
 													({notes})
 												</p>
 											)}

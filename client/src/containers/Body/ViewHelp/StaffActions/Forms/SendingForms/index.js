@@ -55,7 +55,7 @@ const SendingForms = () => (
 		<br />
 		<InfoText>
 			If you need to include any additional events, you can go to the{" "}
-			<Link blue style={linkStyle} to="/employee/events/create">
+			<Link blue style={linkStyle} to="/employee/events/create" target="_blank">
 				Create Event
 			</Link>{" "}
 			page, create a new event, and that event will automatically be added to

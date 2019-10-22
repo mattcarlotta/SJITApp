@@ -11,7 +11,7 @@ const ViewingAvailability = () => (
 	<TextContainer>
 		<InfoText>To view your month to month availability, go to the</InfoText>
 		&nbsp;
-		<Link blue style={linkStyle} to="/employee/settings">
+		<Link blue style={linkStyle} to="/employee/settings" target="_blank">
 			Settings
 		</Link>
 		&nbsp;

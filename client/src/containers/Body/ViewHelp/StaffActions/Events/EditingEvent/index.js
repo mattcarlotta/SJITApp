@@ -21,7 +21,12 @@ const EditingEvent = () => (
 	<TextContainer>
 		<InfoText>
 			To edit events (games, promotionals, or misc.), go to the{" "}
-			<Link blue style={linkStyle} to="/employee/events/viewall">
+			<Link
+				blue
+				style={linkStyle}
+				to="/employee/events/viewall"
+				target="_blank"
+			>
 				View Events
 			</Link>{" "}
 			page and click on one of the

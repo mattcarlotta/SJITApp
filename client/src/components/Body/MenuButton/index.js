@@ -11,6 +11,7 @@ export default styled.button`
 	padding: 12px;
 	font-size: 21px;
 	letter-spacing: 1px;
+	width: 100%;
 
 	&:hover {
 		color: #025f6d;
