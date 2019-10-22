@@ -4,7 +4,7 @@ import Helmet from "react-helmet";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import { Card } from "antd";
-import { FaUserPlus } from "react-icons/fa";
+import { MdEventNote } from "react-icons/md";
 import {
 	Button,
 	DisplayEmailReminder,
@@ -90,7 +90,7 @@ export const ViewEvents = ({
 					style={{ marginBottom: 20 }}
 					onClick={() => push("/employee/events/create")}
 				>
-					<FaUserPlus style={{ position: "relative", top: 2 }} />
+					<MdEventNote style={{ position: "relative", top: 4 }} />
 					&nbsp; Add Event
 				</Button>
 			</FlexEnd>

@@ -1,7 +1,8 @@
 /* istanbul ignore file */
 import styled from "styled-components";
+import WarningText from "./WarningText";
 
-export default styled.span`
+export default styled(WarningText)`
 	margin: 20px 0;
 	padding: 10px;
 	display: block;

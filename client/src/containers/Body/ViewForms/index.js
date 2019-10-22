@@ -4,7 +4,7 @@ import Helmet from "react-helmet";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import { Card } from "antd";
-import { MdNoteAdd } from "react-icons/md";
+import { FaListAlt } from "react-icons/fa";
 import {
 	Button,
 	DisplayEmailReminder,
@@ -76,7 +76,7 @@ export const ViewForms = ({
 						style={{ marginBottom: 20 }}
 						onClick={() => push("/employee/forms/create")}
 					>
-						<MdNoteAdd style={{ position: "relative", top: 4, fontSize: 20 }} />
+						<FaListAlt style={{ position: "relative", top: 3 }} />
 						&nbsp; Create AP Form
 					</Button>
 				</FlexEnd>
