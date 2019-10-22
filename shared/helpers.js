@@ -59,10 +59,11 @@ const tokenGenerator = (str, tlen) => {
  * @function
  * @returns {response}
  */
-const clearSession = res => res
-  .status(200)
-  .clearCookie("SJSITApp", { path: "/" })
-  .json({ role: "guest" });
+const clearSession = res =>
+  res
+    .status(200)
+    .clearCookie("SJSITApp", { path: "/" })
+    .json({ role: "guest" });
 
 /**
  * Helper function to generate a schedule based upon calltimes.
@@ -105,15 +106,17 @@ const createDate = date => moment(date || Date.now());
  * @param memberEventCounts - an array of members and their eventCount
  * @returns {array}
  */
-const createMemberEventCount = ({ members, memberEventCounts }) => members.map(member => {
-  const hasEventCount = !isEmpty(memberEventCounts)
-      && memberEventCounts.find(doc => doc._id.equals(member._id));
+const createMemberEventCount = ({ members, memberEventCounts }) =>
+  members.map(member => {
+    const hasEventCount =
+      !isEmpty(memberEventCounts) &&
+      memberEventCounts.find(doc => doc._id.equals(member._id));
 
-  return {
-    name: member.name,
-    "Event Count": hasEventCount ? hasEventCount.eventCount : 0,
-  };
-});
+    return {
+      name: member.name,
+      "Event Count": hasEventCount ? hasEventCount.eventCount : 0,
+    };
+  });
 
 /**
  * Helper function to generate a user event count based upon their scheduled events.
@@ -122,18 +125,19 @@ const createMemberEventCount = ({ members, memberEventCounts }) => members.map(m
  * @param eventResponses - an array of responses
  * @returns {array}
  */
-const createMemberResponseCount = eventResponses => eventResponses.reduce((acc, { responses }) => {
-  responseTypes.forEach((rspType, index) => {
-    acc.push({
-      id: rspType,
-      label: rspType,
-      color: COLORS[index],
-      value: responses.filter(rsp => rsp === rspType).length,
+const createMemberResponseCount = eventResponses =>
+  eventResponses.reduce((acc, { responses }) => {
+    responseTypes.forEach((rspType, index) => {
+      acc.push({
+        id: rspType,
+        label: rspType,
+        color: COLORS[index],
+        value: responses.filter(rsp => rsp === rspType).length,
+      });
     });
-  });
 
-  return acc;
-}, []);
+    return acc;
+  }, []);
 
 /**
  * Helper function to create a 64 length random string.
@@ -141,10 +145,11 @@ const createMemberResponseCount = eventResponses => eventResponses.reduce((acc, 
  * @function createRandomToken
  * @returns {String}
  */
-const createRandomToken = () => tokenGenerator(
-  "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$/.",
-  64,
-);
+const createRandomToken = () =>
+  tokenGenerator(
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$/.",
+    64,
+  );
 
 /**
  * Helper function to generate a schedule based upon calltimes.
@@ -153,10 +158,11 @@ const createRandomToken = () => tokenGenerator(
  * @param callTimes - an array of dates
  * @returns {object}
  */
-const createSchedule = callTimes => callTimes.map(time => ({
-  _id: time,
-  employeeIds: [],
-}));
+const createSchedule = callTimes =>
+  callTimes.map(time => ({
+    _id: time,
+    employeeIds: [],
+  }));
 
 /**
  * Helper function to generate a schedule based upon calltimes.
@@ -168,7 +174,9 @@ const createSchedule = callTimes => callTimes.map(time => ({
  */
 const createUserSchedule = ({ event, members }) => [
   ...members.map(member => {
-    const eventResponse = event.employeeResponses.find(response => response._id.equals(member._id));
+    const eventResponse = event.employeeResponses.find(response =>
+      response._id.equals(member._id),
+    );
 
     return {
       ...member,
@@ -192,11 +200,12 @@ const convertId = id => ObjectId(id);
  * @function
  * @returns {String}
  */
-const createUniqueName = name => name
-  .trim()
-  .toLowerCase()
-  .replace(/[^\w\s]/gi, "")
-  .replace(/ /g, "-");
+const createUniqueName = name =>
+  name
+    .trim()
+    .toLowerCase()
+    .replace(/[^\w\s]/gi, "")
+    .replace(/ /g, "-");
 
 /**
  * Helper function to create a 32 length random string.
@@ -204,10 +213,11 @@ const createUniqueName = name => name
  * @function createSignupToken
  * @returns {String}
  */
-const createSignupToken = () => tokenGenerator(
-  "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
-  32,
-);
+const createSignupToken = () =>
+  tokenGenerator(
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+    32,
+  );
 
 /**
  * Helper function to get 90 days date from current date.
@@ -215,9 +225,10 @@ const createSignupToken = () => tokenGenerator(
  * @function
  * @returns {month}
  */
-const expirationDate = () => moment(Date.now())
-  .add(90, "days")
-  .endOf("day");
+const expirationDate = () =>
+  moment(Date.now())
+    .add(90, "days")
+    .endOf("day");
 
 /**
  * Helper function to generate a date range.
@@ -245,9 +256,10 @@ const getMonthDateRange = date => {
  * @param date
  * @returns {object}
  */
-const getStartOfDay = () => moment(Date.now())
-  .startOf("day")
-  .format();
+const getStartOfDay = () =>
+  moment(Date.now())
+    .startOf("day")
+    .format();
 
 /**
  * Helper function to generate a date range.
@@ -289,13 +301,14 @@ const sendError = (err, res) => res.status(400).json({ err: err.toString() });
  * @param schedule - an array of ids
  * @returns {array}
  */
-const updateScheduleIds = schedule => schedule.reduce(
-  (result, { employeeIds }) => [
-    ...result,
-    ...employeeIds.map(id => ObjectId(id)),
-  ],
-  [],
-);
+const updateScheduleIds = schedule =>
+  schedule.reduce(
+    (result, { employeeIds }) => [
+      ...result,
+      ...employeeIds.map(id => ObjectId(id)),
+    ],
+    [],
+  );
 
 export {
   clearSession,

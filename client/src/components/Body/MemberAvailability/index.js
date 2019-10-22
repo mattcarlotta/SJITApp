@@ -73,6 +73,7 @@ class MemberAvailability extends Component {
 								radialLabelsLinkColor={{ from: "color" }}
 								slicesLabelsSkipAngle={10}
 								slicesLabelsTextColor="#fff"
+								startAngle={-90}
 								animate={true}
 								margin={{ top: 40, right: 0, bottom: 80, left: 50 }}
 								motionStiffness={90}
