@@ -4,6 +4,6 @@ const wrapper = mount(<Help />);
 
 describe("Help Page", () => {
 	it("renders without errors", () => {
-		expect(wrapper.find("Help").exists).toBeTruthy();
+		expect(wrapper.find("Card").exists).toBeTruthy();
 	});
 });
