@@ -9,6 +9,7 @@ import {
 } from "shared/helpers";
 import {
   expiredForm,
+  formAlreadyExists,
   invalidExpirationDate,
   invalidSendDate,
   invalidSendEmailNoteDate,
@@ -39,6 +40,12 @@ const createForm = async (req, res) => {
     if (!seasonExists) throw unableToLocateSeason;
 
     const [startMonth, endMonth] = enrollMonth;
+    const existingForms = await Form.find({
+      startMonth: { $gte: startMonth },
+      endMonth: { $lte: endMonth },
+    });
+    if (!isEmpty(existingForms)) throw formAlreadyExists;
+
     const sendEmailsDate = createDate(sendEmailNotificationsDate).format();
     const currentDay = getStartOfDay();
 
@@ -151,6 +158,11 @@ const updateForm = async (req, res) => {
     if (!formExists) throw unableToLocateForm;
 
     const [startMonth, endMonth] = enrollMonth;
+    const existingForms = await Form.find({
+      startMonth: { $gte: startMonth },
+      endMonth: { $lte: endMonth },
+    });
+    if (!isEmpty(existingForms)) throw formAlreadyExists;
 
     const currentDay = getStartOfDay();
     const sendEmailsDate = createDate(sendEmailNotificationsDate).format();

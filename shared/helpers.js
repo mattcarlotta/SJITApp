@@ -295,6 +295,14 @@ const getUsers = async ({ match, project }) => {
 const sendError = (err, res) => res.status(400).json({ err: err.toString() });
 
 /**
+ * Helper function to check if an array contains duplicate values.
+ *
+ * @function
+ * @returns {bool}
+ */
+const uniqueArray = arr => arr.length === new Set(arr).size;
+
+/**
  * Helper function to convert stringified ids to objectids.
  *
  * @function updateScheduleIds
@@ -328,5 +336,6 @@ export {
   getStartOfDay,
   getUsers,
   sendError,
+  uniqueArray,
   updateScheduleIds,
 };

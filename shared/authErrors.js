@@ -22,6 +22,9 @@ const expiredForm = expirationDate =>
 const expiredToken =
   "The authorization key that was provided has expired. Please contact the staff supervisor to issue a new key.";
 
+const formAlreadyExists =
+  "The selected Enrollment Month dates have already been assigned to another A/P form. Please choose different dates.";
+
 const invalidAuthTokenRequest =
   "You must supply an email, a role, and a season before you can create an authorization key.";
 
@@ -97,6 +100,9 @@ const missingUpdateMemberStatusParams =
 
 const missingUpdateTokenParams =
   "You must supply a token id, an authorized email, a role, and a season id before you can update an existing authorization key.";
+
+const mustContainUniqueCallTimes =
+  "One or more of the 'Scheduling Call Times' is a duplicate. Please remove the duplicate(s) before submitting the form again.";
 
 const needToCreateSeasonFirst =
   "You must create a season before you can start adding events and forms.";
@@ -188,6 +194,7 @@ export {
   emptyPassword,
   expiredForm,
   expiredToken,
+  formAlreadyExists,
   invalidAuthTokenRequest,
   invalidCreateEventRequest,
   invalidDeleteTokenRequest,
@@ -216,6 +223,7 @@ export {
   missingUpdateMemberParams,
   missingUpdateMemberStatusParams,
   missingUpdateTokenParams,
+  mustContainUniqueCallTimes,
   needToCreateSeasonFirst,
   notUniquePassword,
   seasonAlreadyExists,

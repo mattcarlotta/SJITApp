@@ -10,12 +10,14 @@ import {
   getUsers,
   sendError,
   updateScheduleIds,
+  uniqueArray,
 } from "shared/helpers";
 import {
   invalidCreateEventRequest,
   invalidEventDate,
   invalidUpdateEventRequest,
   missingEventId,
+  mustContainUniqueCallTimes,
   unableToDeleteEvent,
   unableToLocateEvent,
   unableToLocateSeason,
@@ -35,7 +37,7 @@ const createEvent = async (req, res) => {
       uniform,
     } = req.body;
     if (
-      !callTimes ||
+      isEmpty(callTimes) ||
       !eventDate ||
       !eventType ||
       !location ||
@@ -44,6 +46,9 @@ const createEvent = async (req, res) => {
       !uniform
     )
       throw invalidCreateEventRequest;
+
+    const uniqueCallTimes = uniqueArray(callTimes);
+    if (!uniqueCallTimes) throw mustContainUniqueCallTimes;
 
     const existingSeason = await Season.findOne({ seasonId });
     if (!existingSeason) throw unableToLocateSeason;
@@ -260,7 +265,7 @@ const updateEvent = async (req, res) => {
     } = req.body;
     if (
       !_id ||
-      !callTimes ||
+      isEmpty(callTimes) ||
       !eventDate ||
       !eventType ||
       !location ||
@@ -269,6 +274,9 @@ const updateEvent = async (req, res) => {
       !uniform
     )
       throw invalidUpdateEventRequest;
+
+    const uniqueCallTimes = uniqueArray(callTimes);
+    if (!uniqueCallTimes) throw mustContainUniqueCallTimes;
 
     const existingEvent = await Event.findOne({ _id });
     if (!existingEvent) throw unableToLocateEvent;
