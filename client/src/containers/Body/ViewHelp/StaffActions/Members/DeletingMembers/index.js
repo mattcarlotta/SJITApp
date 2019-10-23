@@ -1,6 +1,6 @@
 import React from "react";
 import { FaTrash } from "react-icons/fa";
-import { Button, InfoText, TextContainer } from "components/Body";
+import { Button, InfoText, TextContainer, WarningText } from "components/Body";
 import { Link } from "components/Navigation";
 
 const iconStyle = {
@@ -48,6 +48,12 @@ const DeletingMembers = () => (
 			A pop up will confirm your selection and will remove the member upon
 			confirmation.
 		</InfoText>
+		<WarningText>
+			Be advised that deleting a member will remove them from all their
+			scheduled events and will remove their recorded A/P form responses. If you
+			wish to retain their recorded A/P form responses, then suspend the member
+			instead of deleting them.
+		</WarningText>
 	</TextContainer>
 );
 

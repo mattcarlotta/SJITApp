@@ -53,7 +53,10 @@ const EditingMembers = () => (
 		</InfoText>
 		<WarningText>
 			Be advised that suspending a member&#39;s account will not allow them to
-			sign in and use the application.
+			sign in and use the application. In addition, if the member was already
+			assigned to any events, they will be unassigned from ALL of their call
+			time slots -- reactivating the account will NOT restore their previously
+			scheduled call times.
 		</WarningText>
 	</TextContainer>
 );
