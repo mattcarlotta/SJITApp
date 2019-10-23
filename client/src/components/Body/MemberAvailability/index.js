@@ -111,7 +111,7 @@ class MemberAvailability extends Component {
 								Responses
 							</Center>
 						</div>
-						<div css="height: 400px;width: 100%; max-width: 700px; margin: 0 auto;">
+						<div css="height: 400px;width: 100%; max-width: 500px; margin: 0 auto;">
 							<ResponsiveBar
 								borderColor={{ from: "color", modifiers: [["darker", 0.2]] }}
 								colors={["#247BA0", "#2A9D8F"]}

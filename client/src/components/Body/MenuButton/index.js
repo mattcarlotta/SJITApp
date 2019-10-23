@@ -9,9 +9,8 @@ export default styled.button`
 	border-radius: 0px;
 	border: 2px solid transparent;
 	padding: 12px;
-	font-size: 21px;
+	font-size: 20px;
 	letter-spacing: 1px;
-	width: 100%;
 
 	&:hover {
 		color: #025f6d;

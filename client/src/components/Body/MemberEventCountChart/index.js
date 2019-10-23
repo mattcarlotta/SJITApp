@@ -12,14 +12,14 @@ const MemberEventCountChart = ({ members }) => (
 				indexBy="name"
 				keys={["Event Count"]}
 				axisLeft={{
-					legend: "Event Count",
+					legend: "Events",
 					legendPosition: "middle",
 					legendOffset: -50,
 					tickValues: 2,
 				}}
 				axisBottom={{
 					tickRotation: -90,
-					legend: "Employee",
+					legend: "Employee Name",
 					legendPosition: "middle",
 					legendOffset: 170,
 				}}

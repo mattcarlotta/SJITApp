@@ -35,14 +35,15 @@ const createEvent = async (req, res) => {
       uniform,
     } = req.body;
     if (
-      !callTimes
-      || !eventDate
-      || !eventType
-      || !location
-      || !seasonId
-      || !team
-      || !uniform
-    ) throw invalidCreateEventRequest;
+      !callTimes ||
+      !eventDate ||
+      !eventType ||
+      !location ||
+      !seasonId ||
+      !team ||
+      !uniform
+    )
+      throw invalidCreateEventRequest;
 
     const existingSeason = await Season.findOne({ seasonId });
     if (!existingSeason) throw unableToLocateSeason;
@@ -155,7 +156,7 @@ const getEventForScheduling = async (req, res) => {
 
     /* istanbul ignore next */
     const members = await getUsers({
-      match: { role: { $nin: ["admin", "staff"] } },
+      match: { role: { $nin: ["admin", "staff"] }, status: "active" },
       project: { firstName: 1, lastName: 1 },
     });
 
@@ -181,22 +182,23 @@ const getScheduledEvents = async (req, res) => {
 
     const { startOfMonth, endOfMonth } = getMonthDateRange(selectedDate);
 
-    const filters = selected === "All Games"
-      ? {
-        eventDate: {
-          $gte: startOfMonth,
-          $lte: endOfMonth,
-        },
-      }
-      : {
-        eventDate: {
-          $gte: startOfMonth,
-          $lte: endOfMonth,
-        },
-        scheduledIds: {
-          $in: [convertId(selectedId)],
-        },
-      };
+    const filters =
+      selected === "All Games"
+        ? {
+            eventDate: {
+              $gte: startOfMonth,
+              $lte: endOfMonth,
+            },
+          }
+        : {
+            eventDate: {
+              $gte: startOfMonth,
+              $lte: endOfMonth,
+            },
+            scheduledIds: {
+              $in: [convertId(selectedId)],
+            },
+          };
 
     const events = await Event.find(
       {
@@ -257,15 +259,16 @@ const updateEvent = async (req, res) => {
       uniform,
     } = req.body;
     if (
-      !_id
-      || !callTimes
-      || !eventDate
-      || !eventType
-      || !location
-      || !seasonId
-      || !team
-      || !uniform
-    ) throw invalidUpdateEventRequest;
+      !_id ||
+      !callTimes ||
+      !eventDate ||
+      !eventType ||
+      !location ||
+      !seasonId ||
+      !team ||
+      !uniform
+    )
+      throw invalidUpdateEventRequest;
 
     const existingEvent = await Event.findOne({ _id });
     if (!existingEvent) throw unableToLocateEvent;

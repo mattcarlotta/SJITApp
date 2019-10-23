@@ -149,8 +149,19 @@ const deleteMember = async (req, res) => {
     const existingUser = await User.findOne({ _id });
     if (!existingUser) throw unableToDeleteMember;
 
-    await existingUser.delete();
-    await Token.deleteOne({ email: existingUser.email });
+    // await existingUser.delete();
+    // await Token.deleteOne({ email: existingUser.email });
+    await Event.updateMany(
+      {},
+      {
+        $pull: {
+          scheduledIds: existingUser._id,
+          schedule: { employeeIds: existingUser._id },
+          employeeResponses: { _id: existingUser._id },
+        },
+      },
+      { multi: true },
+    );
 
     res.status(200).json({ message: "Successfully deleted the member." });
   } catch (err) {
@@ -396,15 +407,30 @@ const updateMemberStatus = async (req, res) => {
     const { _id, status } = req.body;
     if (!_id || !status) throw missingUpdateMemberStatusParams;
 
+    const wasSuspended = status === "active";
+
     const existingMember = await findMember(_id);
 
-    const updatedStatus = status === "active" ? "suspended" : "active";
+    await existingMember.updateOne({
+      status: wasSuspended ? "suspended" : "active",
+    });
 
-    await existingMember.updateOne({ status: updatedStatus });
+    if (wasSuspended) {
+      await Event.updateMany(
+        {},
+        {
+          $pull: {
+            scheduledIds: existingMember._id,
+            schedule: { employeeIds: existingMember._id },
+          },
+        },
+        { multi: true },
+      );
+    }
 
-    const newStatus = status === "active" ? "suspended" : "reactivated";
-
-    res.status(201).json({ message: `Member has been ${newStatus}.` });
+    res.status(201).json({
+      message: `Member has been ${wasSuspended ? "suspended" : "reactivated"}.`,
+    });
   } catch (err) {
     return sendError(err, res);
   }
