@@ -1,5 +1,6 @@
 import { combineReducers } from "redux";
 import { connectRouter } from "connected-react-router";
+import { withReduxStateSync } from "redux-state-sync";
 import * as types from "types";
 import authReducer from "./Auth";
 import eventReducer from "./Events";
@@ -20,7 +21,9 @@ const reducers = {
 };
 
 const appReducer = history =>
-	combineReducers({ router: connectRouter(history), ...reducers });
+	withReduxStateSync(
+		combineReducers({ router: connectRouter(history), ...reducers }),
+	);
 
 export default history => (state, action) =>
 	appReducer(history)(

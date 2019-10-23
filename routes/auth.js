@@ -20,6 +20,6 @@ export default app => {
   app.put("/api/reset-password", resetToken, emailResetToken);
   app.post("/api/signin", localLogin, signin);
   app.get("/api/signedin", requireRelogin, signedin);
-  app.get("/api/signout", requireAuth, signout);
+  app.get("/api/signout", requireRelogin, signout);
   app.put("/api/new-password", newPassword, updatePassword);
 };

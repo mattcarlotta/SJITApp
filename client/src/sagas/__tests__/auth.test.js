@@ -109,7 +109,7 @@ describe("Auth Sagas", () => {
 				.next(res.data.message)
 				.put(setServerMessage({ type: "info", message: res.data.message }))
 				.next(res.data.message)
-				.put(push("/employee/login"))
+				.call(sagas.signoutUserSession)
 				.next()
 				.isDone();
 		});
@@ -315,7 +315,7 @@ describe("Auth Sagas", () => {
 				.next(res.data.message)
 				.put(setServerMessage({ type: "success", message: res.data.message }))
 				.next()
-				.put(push("/employee/login"))
+				.call(sagas.signoutUserSession)
 				.next()
 				.isDone();
 		});
