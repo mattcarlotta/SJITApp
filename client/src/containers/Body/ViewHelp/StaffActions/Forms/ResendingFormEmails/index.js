@@ -17,17 +17,12 @@ const btnStyle = {
 	display: "inline-block",
 };
 
-const ResendingEventEmails = () => (
+const ResendingFormEmails = () => (
 	<TextContainer>
 		<InfoText>
-			To resend event (games, promotionals, or misc.) email reminders, go to the{" "}
-			<Link
-				blue
-				style={linkStyle}
-				to="/employee/events/viewall"
-				target="_blank"
-			>
-				View Events
+			To resend a form (A/P form) email notifications, go to the{" "}
+			<Link blue style={linkStyle} to="/employee/forms/viewall" target="_blank">
+				View Forms
 			</Link>{" "}
 			page and click on one of the
 		</InfoText>
@@ -45,10 +40,11 @@ const ResendingEventEmails = () => (
 		&nbsp;
 		<InfoText>
 			(Send/Resend Mail) buttons located under the{" "}
-			<strong>Table Actions</strong> column. If the event is within 48 hours,
-			the email reminders will be sent out immediately.
+			<strong>Table Actions</strong> column. Please note that clicking this
+			button will resend emails notifications immediately by overriding the A/P
+			form&#39;s <strong>Send Email Notifications Date</strong>.
 		</InfoText>
 	</TextContainer>
 );
 
-export default ResendingEventEmails;
+export default ResendingFormEmails;

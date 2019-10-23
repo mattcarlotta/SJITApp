@@ -57,9 +57,9 @@ const SchedulingEvents = () => (
 		&nbsp;
 		<InfoText>
 			(View & Assign) buttons located under the <strong>Table Actions</strong>{" "}
-			column. Scroll down the page until you see an <strong>Employees</strong>{" "}
+			column. Scroll down the page until you see an <strong>EMPLOYEES</strong>{" "}
 			column -- each employee will have a colored badge that relates to one of
-			the legend&#39;s response color -- followed by one or many call time
+			the legend&#39;s response colors -- followed by one or many call time
 			columns:
 		</InfoText>
 		<Legend />
@@ -126,11 +126,14 @@ const SchedulingEvents = () => (
 			Submit Schedule
 		</Button>
 		&nbsp;
+		<InfoText>button to save the schedule.</InfoText>
+		<br />
+		<br />
 		<InfoText>
-			button to save the event. According to the <strong>Event Date</strong>,
-			email reminders will automatically be sent to all scheduled members, 2
-			days before the event date, notifying them that they&#39;re scheduled to
-			work that particular event at their assigned call time slot.
+			According to the <strong>Event Date</strong>, email reminders will be
+			automatically sent to all scheduled members, 48 hours before the event
+			date, notifying them that they&#39;re scheduled to work that particular
+			event at their assigned call time slot.
 		</InfoText>
 	</TextContainer>
 );

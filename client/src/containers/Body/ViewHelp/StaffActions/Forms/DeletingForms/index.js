@@ -1,5 +1,5 @@
 import React from "react";
-import { FaShareSquare } from "react-icons/fa";
+import { FaTrash } from "react-icons/fa";
 import { Button, InfoText, TextContainer } from "components/Body";
 import { Link } from "components/Navigation";
 
@@ -17,17 +17,12 @@ const btnStyle = {
 	display: "inline-block",
 };
 
-const ResendingEventEmails = () => (
+const DeletingForms = () => (
 	<TextContainer>
 		<InfoText>
-			To resend event (games, promotionals, or misc.) email reminders, go to the{" "}
-			<Link
-				blue
-				style={linkStyle}
-				to="/employee/events/viewall"
-				target="_blank"
-			>
-				View Events
+			To delete a form (A/P form), go to the{" "}
+			<Link blue style={linkStyle} to="/employee/forms/viewall" target="_blank">
+				View Forms
 			</Link>{" "}
 			page and click on one of the
 		</InfoText>
@@ -40,15 +35,17 @@ const ResendingEventEmails = () => (
 			style={btnStyle}
 			onClick={null}
 		>
-			<FaShareSquare style={iconStyle} />
+			<FaTrash style={iconStyle} />
 		</Button>
 		&nbsp;
 		<InfoText>
-			(Send/Resend Mail) buttons located under the{" "}
-			<strong>Table Actions</strong> column. If the event is within 48 hours,
-			the email reminders will be sent out immediately.
+			(delete) buttons located under the <strong>Table Actions</strong> column.
+			A pop up will confirm your selection and will remove the form upon
+			confirmation. Please note that deleting A/P forms{" "}
+			<strong>will not</strong> delete any events found within the enrollment
+			month field.
 		</InfoText>
 	</TextContainer>
 );
 
-export default ResendingEventEmails;
+export default DeletingForms;

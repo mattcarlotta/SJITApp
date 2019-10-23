@@ -16,13 +16,25 @@ const columns = [
 		title: "Start Date",
 		dataIndex: "startDate",
 		key: "startDate",
-		render: date => <FormatDate format="MM/DD/YYYY" date={date} />,
+		render: date => (
+			<FormatDate
+				format="MM/DD/YYYY"
+				style={{ padding: 0, margin: 0 }}
+				date={date}
+			/>
+		),
 	},
 	{
 		title: "End Date",
 		dataIndex: "endDate",
 		key: "endDate",
-		render: date => <FormatDate format="MM/DD/YYYY" date={date} />,
+		render: date => (
+			<FormatDate
+				format="MM/DD/YYYY"
+				style={{ padding: 0, margin: 0 }}
+				date={date}
+			/>
+		),
 	},
 ];
 

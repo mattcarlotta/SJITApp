@@ -161,10 +161,10 @@ const GettingStarted = () => (
 					&nbsp;
 					<InfoText>
 						button to add an A/P form. According to the{" "}
-						<strong>Send Email Notifications Date</strong>, emails will
-						automatically be sent to all active members notifying them that a
-						new A/P form has been created and will need to be filled out before
-						the <strong>Expiration Date</strong>. Leaving the{" "}
+						<strong>Send Email Notifications Date</strong>, email notifications
+						will automatically be sent to all active members notifying them that
+						a new A/P form has been created and will need to be filled out
+						before the <strong>Expiration Date</strong>. Leaving the{" "}
 						<strong>Send Email Notifications Date</strong> field blank, will
 						send the email notifications immediately.
 					</InfoText>

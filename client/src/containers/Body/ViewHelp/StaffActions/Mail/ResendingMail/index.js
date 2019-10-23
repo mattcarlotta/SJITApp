@@ -1,5 +1,5 @@
 import React from "react";
-import { FaTrash } from "react-icons/fa";
+import { FaShareSquare } from "react-icons/fa";
 import { Button, InfoText, TextContainer } from "components/Body";
 import { Link } from "components/Navigation";
 
@@ -17,17 +17,12 @@ const btnStyle = {
 	display: "inline-block",
 };
 
-const DeletingEvent = () => (
+const ResendingMail = () => (
 	<TextContainer>
 		<InfoText>
-			To delete an event (games, promotionals, or misc.), go to the{" "}
-			<Link
-				blue
-				style={linkStyle}
-				to="/employee/events/viewall"
-				target="_blank"
-			>
-				View Events
+			To resend mail, go to the{" "}
+			<Link blue style={linkStyle} to="/employee/mail/viewall" target="_blank">
+				View Mail
 			</Link>{" "}
 			page and click on one of the
 		</InfoText>
@@ -40,15 +35,16 @@ const DeletingEvent = () => (
 			style={btnStyle}
 			onClick={null}
 		>
-			<FaTrash style={iconStyle} />
+			<FaShareSquare style={iconStyle} />
 		</Button>
 		&nbsp;
 		<InfoText>
-			(Delete) buttons located under the <strong>Table Actions</strong> column.
-			A pop up will confirm your selection and will remove the event upon
-			confirmation.
+			(Send/Resend Mail) buttons located under the{" "}
+			<strong>Table Actions</strong> column. Please note that clicking this
+			button will resend emails immediately by overriding the{" "}
+			<strong>Send Date</strong>.
 		</InfoText>
 	</TextContainer>
 );
 
-export default DeletingEvent;
+export default ResendingMail;

@@ -17,17 +17,17 @@ const btnStyle = {
 	display: "inline-block",
 };
 
-const EditingEvent = () => (
+const EditingSeasons = () => (
 	<TextContainer>
 		<InfoText>
-			To edit events (games, promotionals, or misc.), go to the{" "}
+			To edit a season, go to the{" "}
 			<Link
 				blue
 				style={linkStyle}
-				to="/employee/events/viewall"
+				to="/employee/seasons/viewall"
 				target="_blank"
 			>
-				View Events
+				View Seasons
 			</Link>{" "}
 			page and click on one of the
 		</InfoText>
@@ -45,7 +45,7 @@ const EditingEvent = () => (
 		&nbsp;
 		<InfoText>
 			(edit) buttons located under the <strong>Table Actions</strong> column.
-			Edit any of the fields and click the
+			Edit the <strong>Season Duration</strong> field and click the
 		</InfoText>
 		&nbsp;
 		<Button
@@ -56,17 +56,15 @@ const EditingEvent = () => (
 			style={btnStyle}
 			onClick={null}
 		>
-			Update Event
+			Update Season
 		</Button>
 		&nbsp;
 		<InfoText>button to save your changes.</InfoText>
 		<WarningText>
-			Be advised that editing and updating an event overwrites any scheduled
-			employees. Therefore, if an event was edited after it was scheduled, the
-			event will need to be re-scheduled. In addition, editing an event resets
-			the Sent Email Reminders back to unsent.
+			Be advised that editing a season will update any events and forms that
+			share its Season ID.
 		</WarningText>
 	</TextContainer>
 );
 
-export default EditingEvent;
+export default EditingSeasons;

@@ -60,6 +60,8 @@ export default [
 		name: "notes",
 		type: "textarea",
 		label: "Notes",
+		tooltip:
+			"Any notes provided below will be added to the A/P form email notifications.",
 		placeholder: "(Optional) Include any special notes to add to the form...",
 		value: "",
 		errors: "",

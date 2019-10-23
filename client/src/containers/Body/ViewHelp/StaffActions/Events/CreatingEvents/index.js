@@ -11,7 +11,7 @@ const btnStyle = {
 	display: "inline-block",
 };
 
-const CreatingEvent = () => (
+const CreatingEvents = () => (
 	<TextContainer>
 		<InfoText>
 			To create an event (games, promotionals, or misc.), go to the{" "}
@@ -41,4 +41,4 @@ const CreatingEvent = () => (
 	</TextContainer>
 );
 
-export default CreatingEvent;
+export default CreatingEvents;
