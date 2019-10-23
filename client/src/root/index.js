@@ -29,12 +29,8 @@ const config = {
 		types.MESSAGE_HIDE,
 		types.MESSAGE_RESET,
 		types.MESSAGE_SET,
-		types.USER_SIGNIN,
 		types.USER_SIGNIN_ATTEMPT,
-		types.USER_SIGNIN_SESSION,
 		types.USER_SIGNOUT,
-		types.USER_SIGNOUT_SESSION,
-		types.USER_SIGNIN_SESSION,
 	],
 };
 
