@@ -25,6 +25,8 @@ const TABS = [
 	"settings",
 	"help",
 	"contact",
+	"privacy",
+	"licensing",
 ];
 
 const ROOTTABS = ["events", "forms", "mail", "members", "seasons"];

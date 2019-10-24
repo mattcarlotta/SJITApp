@@ -29,6 +29,8 @@ import {
 	ViewContact,
 	ViewForms,
 	ViewHelp,
+	ViewLicense,
+	ViewPrivacy,
 	ViewSchedule,
 	ViewSettings,
 } from "pages/Shared";
@@ -80,6 +82,8 @@ const AppRoutes = ({ match: { url }, role }) =>
 			<Route exact path={`${url}/settings`} component={ViewSettings} />
 			<Route exact path={`${url}/help`} component={ViewHelp} />
 			<Route exact path={`${url}/contact`} component={ViewContact} />
+			<Route exact path={`${url}/licensing`} component={ViewLicense} />
+			<Route exact path={`${url}/privacy`} component={ViewPrivacy} />
 			<Route component={AppPageNotFound} />
 		</Switch>
 	) : (
@@ -93,6 +97,8 @@ const AppRoutes = ({ match: { url }, role }) =>
 			<Route exact path={`${url}/settings`} component={ViewSettings} />
 			<Route exact path={`${url}/help`} component={ViewHelp} />
 			<Route exact path={`${url}/contact`} component={ViewContact} />
+			<Route exact path={`${url}/licensing`} component={ViewLicense} />
+			<Route exact path={`${url}/privacy`} component={ViewPrivacy} />
 			<Route component={AppPageNotFound} />
 		</Switch>
 	);

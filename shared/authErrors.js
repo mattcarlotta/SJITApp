@@ -28,6 +28,9 @@ const formAlreadyExists =
 const invalidAuthTokenRequest =
   "You must supply an email, a role, and a season before you can create an authorization key.";
 
+const invalidContactUsRequest =
+  "Unable to send your message. You must supply a message, subject, and a sendTo address in order to contact us.";
+
 const invalidCreateEventRequest =
   "You must include all required fields to create a new event.";
 
@@ -146,6 +149,9 @@ const unableToDeleteSeason =
 const unableToDeleteMember =
   "Unable to delete that member. That member doesn't exist.";
 
+const unableToLocateContacts =
+  "Unable to locate staff or admin contacts. Please try again later.";
+
 const unableToLocateEvent =
   "Unable to locate that event. That event doesn't exist.";
 
@@ -196,6 +202,7 @@ export {
   expiredToken,
   formAlreadyExists,
   invalidAuthTokenRequest,
+  invalidContactUsRequest,
   invalidCreateEventRequest,
   invalidDeleteTokenRequest,
   invalidEmail,
@@ -239,6 +246,7 @@ export {
   unableToDeleteMember,
   unableToLocateMembers,
   unableToDeleteSeason,
+  unableToLocateContacts,
   unableToLocateEvent,
   unableToLocateEvents,
   unableToLocateForm,

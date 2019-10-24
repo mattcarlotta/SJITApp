@@ -1,13 +1,53 @@
-import { Mail } from "models";
-import { createDate, getStartOfDay, sendError } from "shared/helpers";
+import { Mail, User } from "models";
+import { createDate, getStartOfDay, getUsers, sendError } from "shared/helpers";
 import {
+  invalidContactUsRequest,
   invalidSendDate,
   missingMailId,
   unableToCreateNewMail,
   unableToDeleteMail,
+  unableToLocateContacts,
   unableToLocateMail,
   unableToUpdateMail,
 } from "shared/authErrors";
+
+const contactUs = async (req, res) => {
+  try {
+    const { message, sendTo, subject } = req.body;
+    if (!message || !sendTo || !subject) throw invalidContactUsRequest;
+
+    const role = sendTo.toLowerCase();
+
+    const members = await getUsers({
+      match: {
+        role: { $eq: role },
+      },
+      project: {
+        id: 1,
+        email: {
+          $concat: ["$firstName", " ", "$lastName", " ", "<", "$email", ">"],
+        },
+      },
+    });
+
+    const mailingAddresses = members.map(({ email }) => email);
+    const { firstName, lastName, email } = req.session.user;
+
+    await Mail.create({
+      sendTo: mailingAddresses,
+      sendFrom: `${firstName} ${lastName} <${email}>`,
+      sendDate: createDate().format(),
+      subject,
+      message: `<span>${message}</span>`,
+    });
+
+    res.status(201).json({
+      message: `Thank you for contacting us. The ${role} has received your message. Expect a response within 24 hours.`,
+    });
+  } catch (err) {
+    return sendError(err, res);
+  }
+};
 
 const createMail = async (req, res) => {
   try {
@@ -24,7 +64,7 @@ const createMail = async (req, res) => {
       ? sendEmailDate.format("MMMM Do YYYY @ hh:mm a")
       : "shortly";
 
-    const newMail = await Mail.create({
+    await Mail.create({
       message,
       sendDate: sendEmailDate.format(),
       sendFrom,
@@ -131,4 +171,12 @@ const updateMail = async (req, res) => {
   }
 };
 
-export { createMail, deleteMail, getAllMail, getMail, resendMail, updateMail };
+export {
+  contactUs,
+  createMail,
+  deleteMail,
+  getAllMail,
+  getMail,
+  resendMail,
+  updateMail,
+};

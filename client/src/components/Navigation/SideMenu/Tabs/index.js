@@ -1,6 +1,8 @@
 /* istanbul ignore file */
 import {
+	FaBalanceScale,
 	FaClock,
+	FaCopyright,
 	FaFileSignature,
 	FaCogs,
 	FaUsers,
@@ -87,6 +89,8 @@ export const StaffRoutes = [
 	{ component: FaCogs, key: "settings", tab: "settings" },
 	{ component: FaQuestionCircle, key: "help", tab: "help" },
 	{ component: FaConciergeBell, key: "contact", tab: "contact us" },
+	{ component: FaBalanceScale, key: "privacy", tab: "privacy policy" },
+	{ component: FaCopyright, key: "licensing", tab: "licensing" },
 ];
 
 export const EmployeeRoutes = [
@@ -105,4 +109,6 @@ export const EmployeeRoutes = [
 	{ component: FaCogs, key: "settings", tab: "settings" },
 	{ component: FaQuestionCircle, key: "help", tab: "help" },
 	{ component: FaConciergeBell, key: "contact", tab: "contact us" },
+	{ component: FaBalanceScale, key: "privacy", tab: "privacy policy" },
+	{ component: FaCopyright, key: "licensing", tab: "licensing" },
 ];

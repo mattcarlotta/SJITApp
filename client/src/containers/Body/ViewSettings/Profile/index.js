@@ -17,7 +17,7 @@ const Profile = ({ firstName, lastName, registered, role, status }) => (
 			{firstName} {lastName}
 		</Title>
 		<LightText style={{ marginTop: 10 }}>
-			Status:{" "}
+			Account Status:{" "}
 			<Small>
 				<DisplayStatus status={status} /> <span>({status})</span>
 			</Small>

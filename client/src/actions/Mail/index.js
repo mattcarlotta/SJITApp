@@ -2,6 +2,18 @@ import isEmpty from "lodash/isEmpty";
 import * as types from "types";
 
 /**
+ * Sends a single mail to staff or admin
+ *
+ * @function contactUs
+ * @param {object} props - contains mail data ([sendTo, message, subject]).
+ * @returns {object}
+ */
+export const contactUs = props => ({
+	type: types.MAIL_CONTACT_US,
+	props,
+});
+
+/**
  * Sends a single mail
  *
  * @function createMail

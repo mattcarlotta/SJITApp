@@ -25,6 +25,8 @@ import {
 	ViewContact,
 	ViewForms,
 	ViewHelp,
+	ViewLicense,
+	ViewPrivacy,
 	ViewSchedule,
 	ViewSettings,
 } from "pages/Shared";
@@ -47,8 +49,8 @@ describe("Application routes", () => {
 	});
 
 	describe("Staff and Admin routes", () => {
-		it("initially renders 25 routes", () => {
-			expect(wrapper.find("Route")).toHaveLength(25);
+		it("initially renders 27 routes", () => {
+			expect(wrapper.find("Route")).toHaveLength(27);
 		});
 
 		it("routes to Dashboard", () => {
@@ -239,11 +241,27 @@ describe("Application routes", () => {
 			).toBe(ViewContact);
 		});
 
+		it("routes to ViewLicense", () => {
+			expect(
+				wrapper
+					.find("Route[exact=true][path='/employee/licensing']")
+					.prop("component"),
+			).toBe(ViewLicense);
+		});
+
+		it("routes to ViewPrivacy", () => {
+			expect(
+				wrapper
+					.find("Route[exact=true][path='/employee/privacy']")
+					.prop("component"),
+			).toBe(ViewPrivacy);
+		});
+
 		it("routes to AppPageNotFound", () => {
 			expect(
 				wrapper
 					.find("Route")
-					.at(24)
+					.at(26)
 					.prop("component"),
 			).toBe(AppPageNotFound);
 		});
@@ -254,8 +272,8 @@ describe("Application routes", () => {
 			wrapper.setProps({ role: "member" });
 		});
 
-		it("initially renders 8 routes", () => {
-			expect(wrapper.find("Route")).toHaveLength(8);
+		it("initially renders 10 routes", () => {
+			expect(wrapper.find("Route")).toHaveLength(10);
 		});
 
 		it("routes to MemberDashboard", () => {
@@ -314,11 +332,27 @@ describe("Application routes", () => {
 			).toBe(ViewContact);
 		});
 
+		it("routes to ViewLicense", () => {
+			expect(
+				wrapper
+					.find("Route[exact=true][path='/employee/licensing']")
+					.prop("component"),
+			).toBe(ViewLicense);
+		});
+
+		it("routes to ViewPrivacy", () => {
+			expect(
+				wrapper
+					.find("Route[exact=true][path='/employee/privacy']")
+					.prop("component"),
+			).toBe(ViewPrivacy);
+		});
+
 		it("routes to AppPageNotFound", () => {
 			expect(
 				wrapper
 					.find("Route")
-					.at(7)
+					.at(9)
 					.prop("component"),
 			).toBe(AppPageNotFound);
 		});

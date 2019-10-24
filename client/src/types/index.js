@@ -30,6 +30,17 @@ export const FORMS_UPDATE = "FORMS/UPDATE";
 export const FORMS_SET_AP = "FORMS/SET_AP";
 export const FORMS_UPDATE_AP = "FORMS/UPDATE_AP";
 
+// mail
+export const MAIL_CONTACT_US = "MAIL/CONTACT_US";
+export const MAIL_CREATE = "MAIL/CREATE";
+export const MAIL_DELETE = "MAIL/DELETE";
+export const MAIL_EDIT = "MAIL/EDIT";
+export const MAIL_FETCH = "MAIL/FETCH";
+export const MAIL_RESEND = "MAIL/RESEND";
+export const MAIL_SET = "MAIL/SET";
+export const MAIL_SET_EDIT = "MAIL/SET_EDIT";
+export const MAIL_UPDATE_EDIT = "MAIL/UPDATE_EDIT";
+
 // members
 export const MEMBERS_CREATE = "MEMBERS/CREATE";
 export const MEMBERS_DELETE = "MEMBERS/DELETE";
@@ -59,6 +70,11 @@ export const MEMBERS_UPDATE_TOKEN = "MEMBERS_UPDATE_TOKEN";
 export const MEMBERS_FETCH_TOKENS = "MEMBERS/FETCH_TOKENS";
 export const MEMBERS_SET_TOKENS = "MEMBERS/SET_TOKENS";
 
+// server messages
+export const MESSAGE_HIDE = "MESSAGE/HIDE";
+export const MESSAGE_RESET = "MESSAGE/RESET";
+export const MESSAGE_SET = "MESSAGE/SET";
+
 // seasons
 export const SEASONS_DELETE = "SEASONS/DELETE";
 export const SEASONS_EDIT = "SEASONS/EDIT";
@@ -69,21 +85,6 @@ export const SEASONS_FETCH = "SEASONS/FETCH";
 export const SEASONS_FETCH_IDS = "SEASONS/FETCH_IDS";
 export const SEASONS_SET = "SEASONS/SET";
 export const SEASONS_SET_IDS = "SEASONS/SET_IDS";
-
-// mail
-export const MAIL_CREATE = "MAIL/CREATE";
-export const MAIL_DELETE = "MAIL/DELETE";
-export const MAIL_EDIT = "MAIL/EDIT";
-export const MAIL_FETCH = "MAIL/FETCH";
-export const MAIL_RESEND = "MAIL/RESEND";
-export const MAIL_SET = "MAIL/SET";
-export const MAIL_SET_EDIT = "MAIL/SET_EDIT";
-export const MAIL_UPDATE_EDIT = "MAIL/UPDATE_EDIT";
-
-// server messages
-export const MESSAGE_HIDE = "MESSAGE/HIDE";
-export const MESSAGE_RESET = "MESSAGE/RESET";
-export const MESSAGE_SET = "MESSAGE/SET";
 
 // user authethenication
 export const USER_PASSWORD_UPDATE = "USER/PASSWORD_UPDATE";

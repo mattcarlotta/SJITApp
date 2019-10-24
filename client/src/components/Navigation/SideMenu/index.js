@@ -77,7 +77,7 @@ const SideMenu = ({
 					),
 				)}
 			</Menu>
-			{!isCollapsed && <Legal>© 2019 Carlotta Corp, LLC.</Legal>}
+			{!isCollapsed && <Legal>© 2019 Matt Carlotta</Legal>}
 		</Sider>
 	);
 };

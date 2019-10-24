@@ -4,6 +4,9 @@ import moment from "moment";
 import {
 	Button,
 	DisplayStatus,
+	Flex,
+	FlexEnd,
+	FlexStart,
 	LightText,
 	Line,
 	PaneBody,
@@ -19,9 +22,10 @@ const iconStyle = {
 };
 
 const btnStyle = {
-	padding: "5px 10px",
+	marginTop: 4,
 	marginLeft: 25,
 	display: "inline-block",
+	height: 40,
 };
 
 const Profile = ({ viewMember, updateMemberStatus }) => {
@@ -31,34 +35,42 @@ const Profile = ({ viewMember, updateMemberStatus }) => {
 
 	return (
 		<PaneBody>
-			<Title style={{ fontSize: 36, margin: 0 }}>
-				{firstName} {lastName}
-			</Title>
+			<Flex>
+				<FlexStart>
+					<Title style={{ fontSize: 36, margin: 0 }}>
+						{firstName} {lastName}
+					</Title>
+				</FlexStart>
+				<FlexEnd>
+					<Button
+						primary={!isActive}
+						danger={isActive}
+						width="130px"
+						padding="0px"
+						style={btnStyle}
+						onClick={() => updateMemberStatus({ _id, status })}
+					>
+						{isActive ? (
+							<Fragment>
+								<FaBan style={iconStyle} /> Suspend
+							</Fragment>
+						) : (
+							<Fragment>
+								<FaUserPlus style={iconStyle} /> Activate
+							</Fragment>
+						)}
+					</Button>
+				</FlexEnd>
+			</Flex>
 			<LightText>
 				Unique id: <Small>{_id}</Small>
 			</LightText>
 			<LightText>
-				Status:{" "}
+				Account Status:{" "}
 				<Small>
 					<DisplayStatus status={status} />
+					<span css="margin-left: 5px;">({status})</span>
 				</Small>
-				<Button
-					primary={!isActive}
-					danger={isActive}
-					width="130px"
-					style={btnStyle}
-					onClick={() => updateMemberStatus({ _id, status })}
-				>
-					{isActive ? (
-						<Fragment>
-							<FaBan style={iconStyle} /> Suspend
-						</Fragment>
-					) : (
-						<Fragment>
-							<FaUserPlus style={iconStyle} /> Activate
-						</Fragment>
-					)}
-				</Button>
 			</LightText>
 			<LightText>
 				Registered: <Small>{moment(registered).format("MMMM Do, YYYY")}</Small>

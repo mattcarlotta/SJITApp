@@ -1,4 +1,5 @@
 import {
+  contactUs,
   createMail,
   deleteMail,
   getAllMail,
@@ -6,9 +7,10 @@ import {
   resendMail,
   updateMail,
 } from "controllers/mail";
-import { requireStaffRole } from "services/strategies";
+import { requireAuth, requireStaffRole } from "services/strategies";
 
 export default app => {
+  app.post("/api/mail/contact", requireAuth, contactUs);
   app.post("/api/mail/create", requireStaffRole, createMail);
   app.delete("/api/mail/delete/:id", requireStaffRole, deleteMail);
   app.get("/api/mail/all", requireStaffRole, getAllMail);

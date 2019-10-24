@@ -1,5 +1,6 @@
 import React from "react";
+import { ContactForm } from "containers/Forms";
 
-const ContactUs = () => <h1>Contact</h1>;
+const ContactUsPage = () => <ContactForm />;
 
-export default ContactUs;
+export default ContactUsPage;
