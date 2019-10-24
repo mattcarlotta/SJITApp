@@ -8,7 +8,7 @@ import { contactUs } from "actions/Mail";
 import { fieldValidator, fieldUpdater, parseFields } from "utils";
 import fields from "./Fields";
 
-const title = "Contact Us Form";
+const title = "Contact Us";
 
 export class ContactForm extends Component {
 	state = {
@@ -43,7 +43,7 @@ export class ContactForm extends Component {
 				<FormTitle
 					header={title}
 					title={title}
-					description="Please fill the fields below to send us a message."
+					description="Please fill out the fields below to send us a message."
 				/>
 				<form onSubmit={this.handleSubmit}>
 					<FieldGenerator

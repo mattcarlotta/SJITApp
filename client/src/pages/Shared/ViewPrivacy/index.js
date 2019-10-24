@@ -1,16 +1,29 @@
 import React, { Fragment } from "react";
 import { Card } from "antd";
 import Helmet from "react-helmet";
+import { FaBalanceScale } from "react-icons/fa";
 import { Paragraph, Title } from "components/Body";
 
 const title = "Privacy Policy";
 
 const style = { fontSize: 18 };
+const iconStyle = {
+	verticalAlign: "middle",
+	marginRight: 10,
+	fontSize: 20,
+};
 
 const ViewPrivacyPage = () => (
 	<Fragment>
 		<Helmet title={title} />
-		<Card title={title}>
+		<Card
+			title={
+				<Fragment>
+					<FaBalanceScale style={iconStyle} />
+					<span css="vertical-align: middle;">{title}</span>
+				</Fragment>
+			}
+		>
 			<div css="padding: 0 30px 30px 30px;">
 				<Title>PRIVACY POLICY</Title>
 				<Paragraph>

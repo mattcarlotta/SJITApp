@@ -2,6 +2,7 @@
 
 // shared app pages
 export { default as AppPageNotFound } from "./AppPageNotFound";
+export { default as ViewDashboard } from "./ViewDashboard";
 export { default as ViewApForm } from "./ViewApForm";
 export { default as ViewContact } from "./ViewContact";
 export { default as ViewHelp } from "./ViewHelp";

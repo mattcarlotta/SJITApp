@@ -24,7 +24,7 @@ const TABS = [
 	"mail/viewall",
 	"settings",
 	"help",
-	"contact",
+	"contact-us",
 	"privacy",
 	"licensing",
 ];

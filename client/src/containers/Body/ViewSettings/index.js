@@ -4,7 +4,7 @@ import isEmpty from "lodash/isEmpty";
 import Helmet from "react-helmet";
 import { connect } from "react-redux";
 import { Card, Icon, Tabs } from "antd";
-import { FaUserCircle, FaChartBar, FaReply } from "react-icons/fa";
+import { FaCogs, FaUserCircle, FaChartBar, FaReply } from "react-icons/fa";
 import {
 	fetchMemberSettings,
 	fetchMemberSettingsAvailability,
@@ -24,6 +24,11 @@ import Profile from "./Profile";
 const Pane = Tabs.TabPane;
 
 const title = "Settings";
+const iconStyle = {
+	verticalAlign: "middle",
+	marginRight: 10,
+	fontSize: 20,
+};
 
 const profile = (
 	<span>
@@ -62,7 +67,15 @@ export class Settings extends PureComponent {
 		return (
 			<Fragment>
 				<Helmet title={title} />
-				<Card style={{ minHeight: 800 }} title={title}>
+				<Card
+					style={{ minHeight: 800 }}
+					title={
+						<Fragment>
+							<FaCogs style={iconStyle} />
+							<span css="vertical-align: middle;">{title}</span>
+						</Fragment>
+					}
+				>
 					{isEmpty(viewMember) ? (
 						<Spinner />
 					) : (

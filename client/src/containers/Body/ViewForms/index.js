@@ -4,7 +4,7 @@ import Helmet from "react-helmet";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import { Card } from "antd";
-import { FaListAlt } from "react-icons/fa";
+import { FaFileSignature, FaListAlt } from "react-icons/fa";
 import {
 	Button,
 	DisplayEmailReminder,
@@ -14,7 +14,12 @@ import {
 } from "components/Body";
 import { deleteForm, fetchForms, resendMail } from "actions/Forms";
 
-const title = "View Forms";
+const title = "Forms";
+const iconStyle = {
+	verticalAlign: "middle",
+	marginRight: 10,
+	fontSize: 22,
+};
 
 const columns = [
 	{ title: "Season Id", dataIndex: "seasonId", key: "seasonId" },
@@ -65,7 +70,14 @@ export const ViewForms = ({
 }) => (
 	<Fragment>
 		<Helmet title={title} />
-		<Card title={title}>
+		<Card
+			title={
+				<Fragment>
+					<FaFileSignature style={iconStyle} />
+					<span css="vertical-align: middle;">{title}</span>
+				</Fragment>
+			}
+		>
 			{role !== "employee" && (
 				<FlexEnd>
 					<Button

@@ -1,5 +1,4 @@
 import {
-	Dashboard,
 	EditAuthorization,
 	EditEvent,
 	EditForm,
@@ -23,6 +22,7 @@ import {
 	AppPageNotFound,
 	ViewApForm,
 	ViewContact,
+	ViewDashboard,
 	ViewForms,
 	ViewHelp,
 	ViewLicense,
@@ -30,8 +30,6 @@ import {
 	ViewSchedule,
 	ViewSettings,
 } from "pages/Shared";
-
-import { MemberDashboard } from "pages/Employee";
 
 import AppRoutes from "../index";
 
@@ -53,12 +51,12 @@ describe("Application routes", () => {
 			expect(wrapper.find("Route")).toHaveLength(27);
 		});
 
-		it("routes to Dashboard", () => {
+		it("routes to ViewDashboard", () => {
 			expect(
 				wrapper
 					.find("Route[exact=true][path='/employee/dashboard']")
 					.prop("component"),
-			).toBe(Dashboard);
+			).toBe(ViewDashboard);
 		});
 
 		it("routes to EventSchedule", () => {
@@ -236,7 +234,7 @@ describe("Application routes", () => {
 		it("routes to ViewContact", () => {
 			expect(
 				wrapper
-					.find("Route[exact=true][path='/employee/contact']")
+					.find("Route[exact=true][path='/employee/contact-us']")
 					.prop("component"),
 			).toBe(ViewContact);
 		});
@@ -276,12 +274,12 @@ describe("Application routes", () => {
 			expect(wrapper.find("Route")).toHaveLength(10);
 		});
 
-		it("routes to MemberDashboard", () => {
+		it("routes to ViewDashboard", () => {
 			expect(
 				wrapper
 					.find("Route[exact=true][path='/employee/dashboard']")
 					.prop("component"),
-			).toBe(MemberDashboard);
+			).toBe(ViewDashboard);
 		});
 
 		it("routes to ViewForms", () => {
@@ -327,7 +325,7 @@ describe("Application routes", () => {
 		it("routes to ViewContact", () => {
 			expect(
 				wrapper
-					.find("Route[exact=true][path='/employee/contact']")
+					.find("Route[exact=true][path='/employee/contact-us']")
 					.prop("component"),
 			).toBe(ViewContact);
 		});

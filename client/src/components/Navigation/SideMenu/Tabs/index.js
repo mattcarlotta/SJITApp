@@ -1,7 +1,7 @@
 /* istanbul ignore file */
 import {
 	FaBalanceScale,
-	FaClock,
+	FaCalendar,
 	FaCopyright,
 	FaFileSignature,
 	FaCogs,
@@ -68,7 +68,7 @@ export const StaffRoutes = [
 		],
 	},
 	{
-		component: FaClock,
+		component: FaCalendar,
 		key: "schedule",
 		tab: "schedule",
 	},
@@ -88,7 +88,7 @@ export const StaffRoutes = [
 	{ divider: true, key: "accounting" },
 	{ component: FaCogs, key: "settings", tab: "settings" },
 	{ component: FaQuestionCircle, key: "help", tab: "help" },
-	{ component: FaConciergeBell, key: "contact", tab: "contact us" },
+	{ component: FaConciergeBell, key: "contact-us", tab: "contact us" },
 	{ component: FaBalanceScale, key: "privacy", tab: "privacy policy" },
 	{ component: FaCopyright, key: "licensing", tab: "licensing" },
 ];
@@ -101,14 +101,14 @@ export const EmployeeRoutes = [
 		tab: "forms",
 	},
 	{
-		component: FaClock,
+		component: FaCalendar,
 		key: "schedule",
 		tab: "schedule",
 	},
 	{ divider: true, key: "accounting" },
 	{ component: FaCogs, key: "settings", tab: "settings" },
 	{ component: FaQuestionCircle, key: "help", tab: "help" },
-	{ component: FaConciergeBell, key: "contact", tab: "contact us" },
+	{ component: FaConciergeBell, key: "contact-us", tab: "contact us" },
 	{ component: FaBalanceScale, key: "privacy", tab: "privacy policy" },
 	{ component: FaCopyright, key: "licensing", tab: "licensing" },
 ];

@@ -1,14 +1,27 @@
 import React, { Fragment } from "react";
 import { Card } from "antd";
 import Helmet from "react-helmet";
+import { FaCopyright } from "react-icons/fa";
 import { Paragraph, Title } from "components/Body";
 
 const title = "Licensing";
+const iconStyle = {
+	verticalAlign: "middle",
+	marginRight: 10,
+	fontSize: 20,
+};
 
 const ViewLicensePage = () => (
 	<Fragment>
 		<Helmet title={title} />
-		<Card title={title}>
+		<Card
+			title={
+				<Fragment>
+					<FaCopyright style={iconStyle} />
+					<span css="vertical-align: middle;">{title}</span>
+				</Fragment>
+			}
+		>
 			<div css="padding: 0 30px 30px 30px;">
 				<Title>Licensing</Title>
 				<Paragraph>MIT License</Paragraph>

@@ -1,6 +1,7 @@
 /* istanbul ignore file */
 
 export { default as ViewAuthorizations } from "./ViewAuthorizations";
+export { default as ViewDashboard } from "./ViewDashboard";
 export { default as ViewEvents } from "./ViewEvents";
 export { default as ViewForms } from "./ViewForms";
 export { default as ViewHelp } from "./ViewHelp";
