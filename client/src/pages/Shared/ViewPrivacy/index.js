@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import { Card } from "antd";
 import Helmet from "react-helmet";
 import { FaBalanceScale } from "react-icons/fa";
-import { Line, Paragraph, Title } from "components/Body";
+import { Line, InfoText, Title } from "components/Body";
 
 const title = "Privacy Policy";
 
@@ -27,7 +27,7 @@ const ViewPrivacyPage = () => (
 			<div css="padding: 0 30px 30px 30px;">
 				<Title>PRIVACY POLICY</Title>
 				<Line style={{ marginBottom: 10 }} />
-				<Paragraph>
+				<InfoText>
 					This Privacy Policy explains how SJS Ice Team (collectively, the
 					&#34;Sharks Ice Team,&#34; the &#34;Ice Team&#34;, &#34;we,&#34;
 					&#34;our,&#34; &#34;us&#34;) and its affiliates use information in
@@ -39,11 +39,11 @@ const ViewPrivacyPage = () => (
 					Services, you consent to the practices described in this Privacy
 					Policy. If you have any questions about this Privacy Policy, please
 					contact us using our Contact Us form.
-				</Paragraph>
+				</InfoText>
 				<Title style={style}>
 					Information We Collect or Receive When You Use Our Services.
 				</Title>
-				<Paragraph>
+				<InfoText>
 					The information we collect and receive is: Information You Provide
 					Directly. We receive the information you choose to provide when using
 					our Services. For example, when you register for our Services, you may
@@ -54,8 +54,8 @@ const ViewPrivacyPage = () => (
 					also do not use the names or email addresses submitted in these
 					circumstances for any purpose other than sending an email on your
 					behalf, unless we obtain your consent or the recipient&#39;s consent.
-				</Paragraph>
-				<Paragraph>
+				</InfoText>
+				<InfoText>
 					We also may collect or receive information when you use our Services.
 					We may receive: Log information. This is information we automatically
 					collect and store when you use our Services. It may include, for
@@ -71,11 +71,11 @@ const ViewPrivacyPage = () => (
 					are using (e.g., your particular brand of phone or tablet); Certain
 					device identifiers which may be unique to your device; and Your
 					Internet service provider. Location information.
-				</Paragraph>
+				</InfoText>
 				<Title style={style}>
 					How We Use the Information We Collect or Receive.
 				</Title>
-				<Paragraph>
+				<InfoText>
 					The information we collect and receive is used for the following
 					purposes: To provide our Services. We use the information we collect
 					or receive to provide you with the Services you use or request. For
@@ -87,38 +87,9 @@ const ViewPrivacyPage = () => (
 					Services; and Enhance our ability to detect and prevent fraud and
 					potentially illegal activities in connection with our Services and
 					otherwise enforce our Terms of Service.
-				</Paragraph>
-				<Title style={style}>Security.</Title>
-				<Paragraph>
-					We have adopted physical, technical, and administrative safeguards to
-					help protect against theft, loss, misuse, and unauthorized access to
-					or disclosure of the information we collect and receive. However,
-					please note that no data transmission or storage can be guaranteed to
-					be 100% secure. As a result, while we strive to protect your
-					information and privacy, we cannot and do not guarantee or warrant the
-					security of any information you disclose or transmit to our Services
-					and cannot be responsible for the theft, destruction, or inadvertent
-					disclosure of your information, or any other disclosures out of our
-					control. Your online access to some of your information may be
-					protected with a password that you select. We strongly recommend that
-					you do not disclose your password to anyone. We will never ask you for
-					your password in any unsolicited communication (such as letters, phone
-					calls, or email messages).
-				</Paragraph>
-				<Title style={style}>Changes To This Privacy Policy.</Title>
-				<Paragraph>
-					We may update this Privacy Policy from time to time to reflect changes
-					in our privacy practices, so we encourage you to review this Privacy
-					Policy periodically. If we make significant changes to this Privacy
-					Policy, we will provide appropriate notice to you.
-				</Paragraph>
-				<Title style={style}>Contact Us.</Title>
-				<Paragraph>
-					If you have any questions about this Privacy Policy or our privacy
-					practices, please contact us at using the Contact Us form.
-				</Paragraph>
+				</InfoText>
 				<Title style={style}>Cookies.</Title>
-				<Paragraph>
+				<InfoText>
 					Our Services use online technologies called &#34;cookies,&#34; as well
 					as other local storage technologies. This section explains what these
 					technologies are and how they may be used. Cookies and Other Local
@@ -141,7 +112,36 @@ const ViewPrivacyPage = () => (
 					personalize your experience on our Services (or elsewhere online),
 					including: to help authenticate you when you use our Services and to
 					remember your preferences.
-				</Paragraph>
+				</InfoText>
+				<Title style={style}>Security.</Title>
+				<InfoText>
+					We have adopted physical, technical, and administrative safeguards to
+					help protect against theft, loss, misuse, and unauthorized access to
+					or disclosure of the information we collect and receive. However,
+					please note that no data transmission or storage can be guaranteed to
+					be 100% secure. As a result, while we strive to protect your
+					information and privacy, we cannot and do not guarantee or warrant the
+					security of any information you disclose or transmit to our Services
+					and cannot be responsible for the theft, destruction, or inadvertent
+					disclosure of your information, or any other disclosures out of our
+					control. Your online access to some of your information may be
+					protected with a password that you select. We strongly recommend that
+					you do not disclose your password to anyone. We will never ask you for
+					your password in any unsolicited communication (such as letters, phone
+					calls, or email messages).
+				</InfoText>
+				<Title style={style}>Changes To This Privacy Policy.</Title>
+				<InfoText>
+					We may update this Privacy Policy from time to time to reflect changes
+					in our privacy practices, so we encourage you to review this Privacy
+					Policy periodically. If we make significant changes to this Privacy
+					Policy, we will provide appropriate notice to you.
+				</InfoText>
+				<Title style={style}>Contact Us.</Title>
+				<InfoText>
+					If you have any questions about this Privacy Policy or our privacy
+					practices, please contact us at using the Contact Us form.
+				</InfoText>
 			</div>
 		</Card>
 	</Fragment>
