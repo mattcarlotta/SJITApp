@@ -12,7 +12,10 @@ export const AccountButton = ({ firstName, lastName, push, signoutUser }) => {
 	const options = (
 		<Menu style={{ padding: 0 }}>
 			<MenuItem>
-				<MenuButton onClick={() => push("/employee/settings")}>
+				<MenuButton
+					style={{ width: "100%" }}
+					onClick={() => push("/employee/settings")}
+				>
 					<MenuItemContainer>
 						<FaCogs />
 						<MenuItemTitle>Settings</MenuItemTitle>
@@ -20,7 +23,7 @@ export const AccountButton = ({ firstName, lastName, push, signoutUser }) => {
 				</MenuButton>
 			</MenuItem>
 			<MenuItem>
-				<MenuButton onClick={signoutUser}>
+				<MenuButton style={{ width: "100%" }} onClick={signoutUser}>
 					<MenuItemContainer>
 						<FaSignOutAlt />
 						<MenuItemTitle>Logout</MenuItemTitle>

@@ -46,6 +46,7 @@ export default (result, field, events) => {
 			required: false,
 			disabled: false,
 			width: "350px",
+			className: "ap-form-notes",
 			rows: 3,
 		};
 
