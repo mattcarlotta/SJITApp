@@ -1,8 +1,9 @@
-import React, { Fragment, PureComponent } from "react";
+import React, { Component, Fragment } from "react";
 // import PropTypes from 'prop-types';
 import { connect } from "react-redux";
 import { Card, Col } from "antd";
 import { FaUserClock } from "react-icons/fa";
+import { LoadingPanel } from "components/Body";
 import columns from "../Columns";
 
 const iconStyle = {
@@ -11,7 +12,9 @@ const iconStyle = {
 	fontSize: 22,
 };
 
-class Availability extends PureComponent {
+class Availability extends Component {
+	state = { isLoading: true };
+
 	componentDidMount = () => {
 		// TODO: API call to gather today's event
 	};
@@ -27,7 +30,7 @@ class Availability extends PureComponent {
 					</Fragment>
 				}
 			>
-				Availability
+				{this.state.isLoading ? <LoadingPanel /> : <div>Availability</div>}
 			</Card>
 		</Col>
 	);

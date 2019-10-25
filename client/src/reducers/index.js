@@ -3,6 +3,7 @@ import { connectRouter } from "connected-react-router";
 import { withReduxStateSync } from "redux-state-sync";
 import * as types from "types";
 import authReducer from "./Auth";
+import dashboardReducer from "./Dashboard";
 import eventReducer from "./Events";
 import formReducer from "./Forms";
 import mailReducer from "./Mail";
@@ -12,6 +13,7 @@ import serverMessageReducer from "./Messages";
 
 const reducers = {
 	auth: authReducer,
+	dashboard: dashboardReducer,
 	events: eventReducer,
 	forms: formReducer,
 	mail: mailReducer,

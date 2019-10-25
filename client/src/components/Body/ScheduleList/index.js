@@ -1,9 +1,26 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
+import { FaCalendarCheck } from "react-icons/fa";
 import { Button, DisplayTeam, List, ListItem } from "components/Body";
 
-const ScheduleList = ({ content, handleShowModal }) => (
+const iconStyle = {
+	position: "relative",
+	top: 0,
+	right: "-20px",
+	color: "#fff",
+	fontSize: 12,
+};
+
+const ScheduleList = ({
+	content,
+	folder,
+	handleShowModal,
+	listStyle,
+	loggedinUserId,
+	scheduleIconStyle,
+	spacing,
+}) => (
 	<List>
 		{!isEmpty(content) &&
 			content.map(item => (
@@ -15,20 +32,33 @@ const ScheduleList = ({ content, handleShowModal }) => (
 					style={{ margin: "2px 0" }}
 					onClick={() => handleShowModal(item)}
 				>
-					<ListItem style={{ margin: 0 }}>
-						<DisplayTeam folder="calendar" team={item.team} />
+					<ListItem style={{ margin: 0, ...listStyle }}>
+						<DisplayTeam folder={folder || "calendar"} team={item.team} />
 						{item.opponent && (
 							<Fragment>
 								<span
 									css={`
-										margin: 0 5px;
+										margin: 0 ${spacing || 5}px;
 									`}
 								>
 									vs.
 								</span>
-								<DisplayTeam folder="calendar" team={item.opponent} />
+								<DisplayTeam
+									folder={folder || "calendar"}
+									team={item.opponent}
+								/>
 							</Fragment>
 						)}
+						{!isEmpty(item.schedule) &&
+							item.schedule.map(({ employeeIds }) =>
+								!isEmpty(employeeIds) &&
+								employeeIds.some(({ _id }) => _id === loggedinUserId) ? (
+									<FaCalendarCheck
+										key={loggedinUserId}
+										style={{ ...iconStyle, ...scheduleIconStyle }}
+									/>
+								) : null,
+							)}
 					</ListItem>
 				</Button>
 			))}
@@ -61,7 +91,16 @@ ScheduleList.propTypes = {
 			),
 		}),
 	),
+	folder: PropTypes.string,
 	handleShowModal: PropTypes.func.isRequired,
+	listStyle: PropTypes.objectOf(
+		PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+	),
+	loggedinUserId: PropTypes.string,
+	spacing: PropTypes.number,
+	scheduleIconStyle: PropTypes.objectOf(
+		PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+	),
 };
 
 export default ScheduleList;

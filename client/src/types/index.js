@@ -1,3 +1,7 @@
+// dashboard
+export const DASHBOARD_FETCH_EVENTS = "DASHBOARD/FETCH_EVENT";
+export const DASHBOARD_SET_EVENTS = "DASHBOARD/SET_EVENT";
+
 // events
 export const EVENTS_CREATE = "EVENTS/CREATE";
 export const EVENTS_DELETE = "EVENTS/DELETE";

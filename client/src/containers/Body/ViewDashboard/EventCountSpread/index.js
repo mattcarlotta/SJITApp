@@ -2,9 +2,14 @@ import React, { Component, Fragment } from "react";
 // import PropTypes from 'prop-types';
 import { connect } from "react-redux";
 import { Card, Col } from "antd";
-import { FaFileSignature } from "react-icons/fa";
-import { LoadingPanel } from "components/Body";
+import { FaChartBar } from "react-icons/fa";
 import columns from "../Columns";
+
+const newcolumns = {
+	...columns,
+	xl: 24,
+	xxl: 24,
+};
 
 const iconStyle = {
 	verticalAlign: "middle",
@@ -12,28 +17,26 @@ const iconStyle = {
 	fontSize: 22,
 };
 
-class Forms extends Component {
-	state = { isLoading: true };
-
+class EventCountSpreadsheet extends Component {
 	componentDidMount = () => {
 		// TODO: API call to gather today's event
 	};
 
 	render = () => (
-		<Col {...columns}>
+		<Col {...newcolumns}>
 			<Card
-				bodyStyle={{ minHeight: "300px" }}
+				bodyStyle={{ minHeight: "500px" }}
 				title={
 					<Fragment>
-						<FaFileSignature style={iconStyle} />
-						<span css="vertical-align: middle;">Forms</span>
+						<FaChartBar style={iconStyle} />
+						<span css="vertical-align: middle;">Event Count Spreadsheet</span>
 					</Fragment>
 				}
 			>
-				{this.state.isLoading ? <LoadingPanel /> : <div>Forms</div>}
+				Event Count Spreadsheet
 			</Card>
 		</Col>
 	);
 }
 
-export default connect(null)(Forms);
+export default connect(null)(EventCountSpreadsheet);

@@ -39,6 +39,7 @@ export { default as LightText } from "./LightText";
 export { default as Line } from "./Line";
 export { default as List } from "./List";
 export { default as ListItem } from "./ListItem";
+export { default as LoadingPanel } from "./LoadingPanel";
 export { default as LoadingTable } from "./LoadingTable";
 export { default as MemberAvailability } from "./MemberAvailability";
 export { default as MemberEventCountChart } from "./MemberEventCountChart";

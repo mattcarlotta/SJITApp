@@ -114,7 +114,11 @@ class CustomCalendar extends Component {
 			: [];
 
 		return (
-			<ScheduleList content={content} handleShowModal={this.handleShowModal} />
+			<ScheduleList
+				loggedinUserId={this.props.loggedinUserId}
+				content={content}
+				handleShowModal={this.handleShowModal}
+			/>
 		);
 	};
 

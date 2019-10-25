@@ -231,6 +231,18 @@ const expirationDate = () =>
     .endOf("day");
 
 /**
+ * Helper function to generate a date.
+ *
+ * @function getEndOfDay
+ * @param date
+ * @returns {object}
+ */
+const getEndOfDay = () =>
+  moment(Date.now())
+    .endOf("day")
+    .format();
+
+/**
  * Helper function to generate a date range.
  *
  * @function getMonthDateRange
@@ -250,7 +262,7 @@ const getMonthDateRange = date => {
 };
 
 /**
- * Helper function to generate a date range.
+ * Helper function to generate a date.
  *
  * @function getStartOfDay
  * @param date
@@ -332,6 +344,7 @@ export {
   createSignupToken,
   createUniqueName,
   expirationDate,
+  getEndOfDay,
   getMonthDateRange,
   getStartOfDay,
   getUsers,
