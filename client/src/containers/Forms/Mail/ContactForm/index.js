@@ -69,10 +69,10 @@ export class ContactForm extends Component {
 					/>
 					<p css="font-size: 15px;">
 						By clicking the &#34;Send Message&#34; button, you agree to allow us
-						to use your email address as a &#34;Sent From&#34; addresse. An
+						to use your email address as a &#34;Sent From&#34; addresser. An
 						email, using your account&#39;s email address, will be automatically
-						generated and sent to one or many of the &#34;Send To&#34; addresses
-						associated with the SJS Ice Team.
+						generated and sent to one or many of the &#34;Send To&#34;
+						addressees associated with the SJS Ice Team.
 					</p>
 				</form>
 			</FormContainer>

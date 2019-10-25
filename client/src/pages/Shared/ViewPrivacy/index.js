@@ -28,7 +28,7 @@ const ViewPrivacyPage = () => (
 				<Title>PRIVACY POLICY</Title>
 				<Line style={{ marginBottom: 10 }} />
 				<InfoText>
-					This Privacy Policy explains how SJS Ice Team (collectively, the
+					This Privacy Policy explains how the SJS Ice Team (collectively, the
 					&#34;Sharks Ice Team,&#34; the &#34;Ice Team&#34;, &#34;we,&#34;
 					&#34;our,&#34; &#34;us&#34;) and its affiliates use information in
 					operating this website and any other online service that displays or
@@ -130,6 +130,38 @@ const ViewPrivacyPage = () => (
 					your password in any unsolicited communication (such as letters, phone
 					calls, or email messages).
 				</InfoText>
+				<Title style={style}>Disclaimer of Warranties.</Title>
+				<InfoText>
+					YOUR USE OF THE SERVICES IS ENTIRELY AT YOUR OWN RISK. WE MAKE NO
+					REPRESENTATIONS OR WARRANTIES ABOUT THE SERVICES, INCLUDING, WITHOUT
+					LIMITATION, THE OPERATION OF THE SERVICES OR THE INFORMATION,
+					MATERIALS, GOODS, OR SERVICES APPEARING OR OFFERED ON THE SERVICES OR
+					WITH RESPECT TO ANY WEBSITES OR SERVICES LINKED FROM THE SERVICES. THE
+					SERVICES ARE PROVIDED "AS IS", "WITH ALL FAULTS," AND "AS AVAILABLE."
+					WITHOUT LIMITING THE GENERALITY OF THE FOREGOING, WE DISCLAIM ALL
+					WARRANTIES AND CONDITIONS, EXPRESS, STATUTORY, OR IMPLIED, INCLUDING
+					BUT NOT LIMITED TO (I) THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR
+					A PARTICULAR PURPOSE, WORKMANLIKE EFFORT, TITLE, QUIET ENJOYMENT, NO
+					LIENS, AND NO ENCUMBRANCES; (II) THE WARRANTIES AGAINST INFRINGEMENT,
+					MISAPPROPRIATION, OR VIOLATION OF ANY INTELLECTUAL PROPERTY OR
+					PROPRIETARY RIGHTS OF ANY PERSON; AND (III) THE WARRANTIES RELATING TO
+					THE ACCURACY, RELIABILITY, CORRECTNESS, OR COMPLETENESS OF DATA OR
+					CONTENT MADE AVAILABLE ON THE SERVICES OR OTHERWISE BY THE SJS ICE
+					TEAM. FURTHER, THERE IS NO WARRANTY THAT THE SERVICES WILL MEET YOUR
+					NEEDS OR REQUIREMENTS OR THE NEEDS OR REQUIREMENTS OF ANY OTHER PERSON
+					OR THE NEEDS OR REQUIREMENTS SET FORTH IN ANY DOCUMENTATION. WE MAKE
+					NO WARRANTIES, EXPRESS, STATUTORY, OR IMPLIED, THAT THE SERVICES,
+					INCLUDING, WITHOUT LIMITATION, THE SJS ICE TEAM CONTENT, FUNCTIONS, OR
+					MATERIALS CONTAINED THEREIN, WILL BE TIMELY, SECURE, ACCURATE,
+					ERROR-FREE, COMPLETE, UP-TO-DATE, FREE OF VIRUSES, OR UNINTERRUPTED.
+					THE SJS ICE TEAM MAKES NO REPRESENTATION THAT THE SERVICES ARE
+					APPROPRIATE OR AVAILABLE FOR USE OUTSIDE OF THE UNITED STATES. NO ORAL
+					OR WRITTEN INFORMATION MADE AVAILABLE BY OR ON BEHALF OF THE SJS ICE
+					TEAM SHALL CREATE ANY WARRANTY. IF APPLICABLE LAW DOES NOT ALLOW THE
+					EXCLUSION OF SOME OR ALL OF THE ABOVE IMPLIED OR STATUTORY WARRANTIES
+					TO APPLY TO YOU, THE ABOVE EXCLUSIONS WILL APPLY TO YOU TO THE FULLEST
+					EXTENT PERMITTED BY APPLICABLE LAW.
+				</InfoText>
 				<Title style={style}>Changes To This Privacy Policy.</Title>
 				<InfoText>
 					We may update this Privacy Policy from time to time to reflect changes
@@ -140,7 +172,7 @@ const ViewPrivacyPage = () => (
 				<Title style={style}>Contact Us.</Title>
 				<InfoText>
 					If you have any questions about this Privacy Policy or our privacy
-					practices, please contact us at using the Contact Us form.
+					practices, please contact us by using the Contact Us form.
 				</InfoText>
 			</div>
 		</Card>

@@ -26,7 +26,7 @@ export default [
 		name: "message",
 		type: "textarea",
 		label: "Message",
-		placeholder: "The reason why your contacting us...",
+		placeholder: "The reason why you're contacting us...",
 		value: "",
 		errors: "",
 		required: true,
