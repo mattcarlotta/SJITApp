@@ -4,7 +4,7 @@ import Helmet from "react-helmet";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import { Card } from "antd";
-import { FaUserPlus } from "react-icons/fa";
+import { FaKey, FaUserPlus } from "react-icons/fa";
 import {
 	Button,
 	FormatDate,
@@ -14,7 +14,12 @@ import {
 } from "components/Body";
 import { deleteToken, fetchTokens } from "actions/Members";
 
-const title = "View Authorizations";
+const title = "Authorizations";
+const iconStyle = {
+	verticalAlign: "middle",
+	marginRight: 10,
+	fontSize: 20,
+};
 
 const columns = [
 	{
@@ -47,7 +52,14 @@ export const ViewAuthorizations = ({
 }) => (
 	<Fragment>
 		<Helmet title={title} />
-		<Card title={title}>
+		<Card
+			title={
+				<Fragment>
+					<FaKey style={iconStyle} />
+					<span css="vertical-align: middle;">{title}</span>
+				</Fragment>
+			}
+		>
 			<FlexEnd>
 				<Button
 					primary

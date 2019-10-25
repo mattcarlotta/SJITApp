@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import { Card } from "antd";
 import Helmet from "react-helmet";
 import { FaCopyright } from "react-icons/fa";
-import { Paragraph, Title } from "components/Body";
+import { Line, Paragraph, Title } from "components/Body";
 
 const title = "Licensing";
 const iconStyle = {
@@ -24,6 +24,7 @@ const ViewLicensePage = () => (
 		>
 			<div css="padding: 0 30px 30px 30px;">
 				<Title>Licensing</Title>
+				<Line style={{ marginBottom: 10 }} />
 				<Paragraph>MIT License</Paragraph>
 				<Paragraph>Copyright (c) 2019 Matt Carlotta</Paragraph>
 				<Paragraph>

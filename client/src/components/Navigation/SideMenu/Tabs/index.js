@@ -2,12 +2,14 @@
 import {
 	FaBalanceScale,
 	FaCalendar,
+	FaCalendarPlus,
 	FaCopyright,
 	FaFileSignature,
 	FaCogs,
 	FaUsers,
 	FaEnvelope,
 	FaMailBulk,
+	FaPaperPlane,
 	FaQuestionCircle,
 	FaConciergeBell,
 	FaUserPlus,
@@ -27,7 +29,7 @@ export const StaffRoutes = [
 		key: "events",
 		tab: "events",
 		submenu: [
-			{ key: "events/create", component: MdNoteAdd, tab: "Create Event" },
+			{ key: "events/create", component: FaCalendarPlus, tab: "Create Event" },
 			{ key: "events/viewall", component: MdEventNote, tab: "View Events" },
 		],
 	},
@@ -45,7 +47,7 @@ export const StaffRoutes = [
 		key: "mail",
 		tab: "mail",
 		submenu: [
-			{ key: "mail/create", component: MdNoteAdd, tab: "Send Mail" },
+			{ key: "mail/create", component: FaPaperPlane, tab: "Send Mail" },
 			{
 				key: "mail/viewall",
 				component: FaMailBulk,

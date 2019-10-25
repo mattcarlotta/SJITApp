@@ -50,7 +50,7 @@ const EditingMemberAuthorizations = () => (
 		<br />
 		<InfoText>
 			If you wish to just resend an authorization, simply leave the{" "}
-			<strong>Edit Authorization Form</strong> fields as is and click the
+			<strong>Edit Authorization</strong> form fields as is and click the
 		</InfoText>
 		&nbsp;
 		<Button

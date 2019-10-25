@@ -5,7 +5,13 @@ import Helmet from "react-helmet";
 import { push } from "connected-react-router";
 import { connect } from "react-redux";
 import { Card, Icon, Tabs } from "antd";
-import { FaUserCircle, FaChartBar, FaReply, FaClock } from "react-icons/fa";
+import {
+	FaUserCircle,
+	FaChartBar,
+	FaReply,
+	FaClock,
+	FaUserEdit,
+} from "react-icons/fa";
 import { hideServerMessage } from "actions/Messages";
 import {
 	fetchMember,
@@ -28,6 +34,11 @@ import Profile from "./Profile";
 const Pane = Tabs.TabPane;
 
 const title = "Member Profile";
+const iconStyle = {
+	verticalAlign: "middle",
+	marginRight: 10,
+	fontSize: 20,
+};
 
 const profile = (
 	<span>
@@ -86,7 +97,12 @@ export class ViewMemberProfile extends PureComponent {
 					extra={
 						<BackButton push={push} location="/employee/members/viewall" />
 					}
-					title={title}
+					title={
+						<Fragment>
+							<FaUserEdit style={iconStyle} />
+							<span css="vertical-align: middle;">{title}</span>
+						</Fragment>
+					}
 				>
 					{isEmpty(viewMember) ? (
 						<Spinner />

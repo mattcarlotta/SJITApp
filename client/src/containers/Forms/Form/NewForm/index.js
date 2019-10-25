@@ -4,6 +4,7 @@ import isEmpty from "lodash/isEmpty";
 import { Card } from "antd";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
+import { MdNoteAdd } from "react-icons/md";
 import { BackButton, FormContainer, SubmitButton } from "components/Body";
 import { FieldGenerator, FormTitle, LoadingForm } from "components/Forms";
 import { fetchSeasonsIds } from "actions/Seasons";
@@ -12,6 +13,11 @@ import { fieldValidator, fieldUpdater, parseFields } from "utils";
 import fields from "./Fields";
 
 const title = "New AP Form";
+const iconStyle = {
+	verticalAlign: "middle",
+	marginRight: 10,
+	fontSize: 22,
+};
 
 export class NewAPForm extends Component {
 	state = {
@@ -62,7 +68,12 @@ export class NewAPForm extends Component {
 			extra={
 				<BackButton push={this.props.push} location="/employee/forms/viewall" />
 			}
-			title={title}
+			title={
+				<Fragment>
+					<MdNoteAdd style={iconStyle} />
+					<span css="vertical-align: middle;">{title}</span>
+				</Fragment>
+			}
 		>
 			<FormContainer>
 				<FormTitle

@@ -4,7 +4,7 @@ import Helmet from "react-helmet";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import { Card } from "antd";
-import { FaPaperPlane, FaSync } from "react-icons/fa";
+import { FaMailBulk, FaPaperPlane, FaSync } from "react-icons/fa";
 import {
 	Button,
 	DisplaySendToList,
@@ -17,7 +17,12 @@ import {
 } from "components/Body";
 import { deleteMail, fetchMails, resendMail } from "actions/Mail";
 
-const title = "View Mail";
+const title = "Mail";
+const titleIconStyle = {
+	verticalAlign: "middle",
+	marginRight: 10,
+	fontSize: 20,
+};
 
 const iconStyle = { position: "relative", top: 2 };
 
@@ -61,7 +66,14 @@ export const ViewMail = ({
 }) => (
 	<Fragment>
 		<Helmet title={title} />
-		<Card title={title}>
+		<Card
+			title={
+				<Fragment>
+					<FaMailBulk style={titleIconStyle} />
+					<span css="vertical-align: middle;">{title}</span>
+				</Fragment>
+			}
+		>
 			<Flex>
 				<FlexStart>
 					<Button

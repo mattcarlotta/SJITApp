@@ -4,11 +4,16 @@ import Helmet from "react-helmet";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import { Card } from "antd";
-import { FaCalendarPlus } from "react-icons/fa";
+import { FaFolderPlus, FaFolderOpen } from "react-icons/fa";
 import { Button, FormatDate, FlexEnd, Table } from "components/Body";
 import { deleteSeason, fetchSeasons } from "actions/Seasons";
 
-const title = "View Seasons";
+const title = "Seasons";
+const iconStyle = {
+	verticalAlign: "middle",
+	marginRight: 10,
+	fontSize: 20,
+};
 
 const columns = [
 	{ title: "Season Id", dataIndex: "seasonId", key: "seasonId" },
@@ -41,7 +46,14 @@ const columns = [
 export const ViewSeasons = ({ data, deleteSeason, fetchSeasons, push }) => (
 	<Fragment>
 		<Helmet title={title} />
-		<Card title={title}>
+		<Card
+			title={
+				<Fragment>
+					<FaFolderOpen style={iconStyle} />
+					<span css="vertical-align: middle;">{title}</span>
+				</Fragment>
+			}
+		>
 			<FlexEnd>
 				<Button
 					primary
@@ -51,7 +63,7 @@ export const ViewSeasons = ({ data, deleteSeason, fetchSeasons, push }) => (
 					style={{ marginBottom: 20 }}
 					onClick={() => push("/employee/seasons/create")}
 				>
-					<FaCalendarPlus style={{ position: "relative", top: 2 }} />
+					<FaFolderPlus style={{ position: "relative", top: 2 }} />
 					&nbsp; New Season
 				</Button>
 			</FlexEnd>

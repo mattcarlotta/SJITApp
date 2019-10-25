@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import { Card } from "antd";
 import { MdEventNote } from "react-icons/md";
+import { FaCalendarPlus } from "react-icons/fa";
 import {
 	Button,
 	DisplayEmailReminder,
@@ -16,7 +17,12 @@ import {
 } from "components/Body";
 import { deleteEvent, fetchEvents, resendMail } from "actions/Events";
 
-const title = "View Events";
+const title = "Events";
+const iconStyle = {
+	verticalAlign: "middle",
+	marginRight: 10,
+	fontSize: 22,
+};
 
 const columns = [
 	{ title: "Season Id", dataIndex: "seasonId", key: "seasonId" },
@@ -80,7 +86,14 @@ export const ViewEvents = ({
 }) => (
 	<Fragment>
 		<Helmet title={title} />
-		<Card title={title}>
+		<Card
+			title={
+				<Fragment>
+					<MdEventNote style={iconStyle} />
+					<span css="vertical-align: middle;">{title}</span>
+				</Fragment>
+			}
+		>
 			<FlexEnd>
 				<Button
 					primary
@@ -90,7 +103,9 @@ export const ViewEvents = ({
 					style={{ marginBottom: 20 }}
 					onClick={() => push("/employee/events/create")}
 				>
-					<MdEventNote style={{ position: "relative", top: 4 }} />
+					<FaCalendarPlus
+						style={{ position: "relative", top: 1, fontSize: 16 }}
+					/>
 					&nbsp; Add Event
 				</Button>
 			</FlexEnd>

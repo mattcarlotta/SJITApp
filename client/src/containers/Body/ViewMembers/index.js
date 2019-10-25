@@ -4,7 +4,7 @@ import Helmet from "react-helmet";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import { Card } from "antd";
-import { FaUserPlus } from "react-icons/fa";
+import { FaUserPlus, FaUsers } from "react-icons/fa";
 import {
 	Button,
 	DisplayStatus,
@@ -14,7 +14,12 @@ import {
 } from "components/Body";
 import { deleteMember, fetchMembers } from "actions/Members";
 
-const title = "View Members";
+const title = "Members";
+const iconStyle = {
+	verticalAlign: "middle",
+	marginRight: 10,
+	fontSize: 20,
+};
 
 const columns = [
 	{
@@ -38,7 +43,14 @@ const columns = [
 export const ViewMembers = ({ data, deleteMember, fetchMembers, push }) => (
 	<Fragment>
 		<Helmet title={title} />
-		<Card title={title}>
+		<Card
+			title={
+				<Fragment>
+					<FaUsers style={iconStyle} />
+					<span css="vertical-align: middle;">{title}</span>
+				</Fragment>
+			}
+		>
 			<FlexEnd>
 				<Button
 					primary

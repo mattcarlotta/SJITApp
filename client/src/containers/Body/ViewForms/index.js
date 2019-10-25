@@ -4,7 +4,8 @@ import Helmet from "react-helmet";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import { Card } from "antd";
-import { FaFileSignature, FaListAlt } from "react-icons/fa";
+import { FaListAlt } from "react-icons/fa";
+import { MdNoteAdd } from "react-icons/md";
 import {
 	Button,
 	DisplayEmailReminder,
@@ -18,7 +19,7 @@ const title = "Forms";
 const iconStyle = {
 	verticalAlign: "middle",
 	marginRight: 10,
-	fontSize: 22,
+	fontSize: 20,
 };
 
 const columns = [
@@ -73,7 +74,7 @@ export const ViewForms = ({
 		<Card
 			title={
 				<Fragment>
-					<FaFileSignature style={iconStyle} />
+					<FaListAlt style={iconStyle} />
 					<span css="vertical-align: middle;">{title}</span>
 				</Fragment>
 			}
@@ -88,7 +89,7 @@ export const ViewForms = ({
 						style={{ marginBottom: 20 }}
 						onClick={() => push("/employee/forms/create")}
 					>
-						<FaListAlt style={{ position: "relative", top: 3 }} />
+						<MdNoteAdd style={{ position: "relative", top: 3, fontSize: 20 }} />
 						&nbsp; Create AP Form
 					</Button>
 				</FlexEnd>

@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import { Card } from "antd";
 import Helmet from "react-helmet";
 import { FaBalanceScale } from "react-icons/fa";
-import { Paragraph, Title } from "components/Body";
+import { Line, Paragraph, Title } from "components/Body";
 
 const title = "Privacy Policy";
 
@@ -26,6 +26,7 @@ const ViewPrivacyPage = () => (
 		>
 			<div css="padding: 0 30px 30px 30px;">
 				<Title>PRIVACY POLICY</Title>
+				<Line style={{ marginBottom: 10 }} />
 				<Paragraph>
 					This Privacy Policy explains how SJS Ice Team (collectively, the
 					&#34;Sharks Ice Team,&#34; the &#34;Ice Team&#34;, &#34;we,&#34;
@@ -37,7 +38,7 @@ const ViewPrivacyPage = () => (
 					are governed by the individual privacy policies. By using our
 					Services, you consent to the practices described in this Privacy
 					Policy. If you have any questions about this Privacy Policy, please
-					contact us at using our Contact Us form.
+					contact us using our Contact Us form.
 				</Paragraph>
 				<Title style={style}>
 					Information We Collect or Receive When You Use Our Services.
@@ -62,8 +63,7 @@ const ViewPrivacyPage = () => (
 					including the content you view, the date on which you accessed our
 					Services, and information in similar technologies. Information about
 					how you access our Services, including your browser or operating
-					system, your Internet Protocol (&#34;IP&#34;) address, and the
-					websites you visit before and after visiting our Services. Device
+					system, and your Internet Protocol (&#34;IP&#34;) address. Device
 					information. This is information we automatically collect and store
 					concerning the device you use when you access our Services. (Note that
 					by &#34;device,&#34; we mean anything you use to access our Services).

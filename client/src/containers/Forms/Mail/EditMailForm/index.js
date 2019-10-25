@@ -4,6 +4,7 @@ import isEmpty from "lodash/isEmpty";
 import { Card } from "antd";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
+import { FaEdit } from "react-icons/fa";
 import {
 	Button,
 	BackButton,
@@ -17,6 +18,11 @@ import updateFormFields from "./UpdateFormFields";
 import fields from "./Fields";
 
 const title = "Edit Mail";
+const iconStyle = {
+	verticalAlign: "middle",
+	marginRight: 10,
+	fontSize: 20,
+};
 
 export class EditMailForm extends Component {
 	constructor(props) {
@@ -81,7 +87,12 @@ export class EditMailForm extends Component {
 			extra={
 				<BackButton push={this.props.push} location="/employee/mail/viewall" />
 			}
-			title={title}
+			title={
+				<Fragment>
+					<FaEdit style={iconStyle} />
+					<span css="vertical-align: middle;">{title}</span>
+				</Fragment>
+			}
 		>
 			<FormContainer>
 				<FormTitle

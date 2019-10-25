@@ -1,16 +1,22 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import { Card } from "antd";
+import { FaFolderPlus } from "react-icons/fa";
 import { createSeason } from "actions/Seasons";
 import { BackButton, FormContainer, SubmitButton } from "components/Body";
 import { FieldGenerator, FormTitle } from "components/Forms";
 import { fieldValidator, fieldUpdater, parseFields } from "utils";
 import fields from "./Fields";
 
-const title = "New Season Form";
+const title = "New Season";
+const iconStyle = {
+	verticalAlign: "middle",
+	marginRight: 10,
+	fontSize: 20,
+};
 
 export class NewSeasonForm extends Component {
 	state = {
@@ -65,7 +71,12 @@ export class NewSeasonForm extends Component {
 					location="/employee/seasons/viewall"
 				/>
 			}
-			title={title}
+			title={
+				<Fragment>
+					<FaFolderPlus style={iconStyle} />
+					<span css="vertical-align: middle;">{title}</span>
+				</Fragment>
+			}
 		>
 			<FormContainer>
 				<FormTitle

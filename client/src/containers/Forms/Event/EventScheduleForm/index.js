@@ -4,7 +4,7 @@ import isEmpty from "lodash/isEmpty";
 import { Card } from "antd";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
-import { FaChartBar } from "react-icons/fa";
+import { FaChartBar, FaClipboardCheck } from "react-icons/fa";
 import {
 	Button,
 	BackButton,
@@ -17,7 +17,12 @@ import { FormTitle, LoadingScheduleForm } from "components/Forms";
 import { fetchEventForScheduling, updateEventSchedule } from "actions/Events";
 import Schedule from "./Schedule";
 
-const title = "Event Schedule Form";
+const title = "Event Scheduling";
+const iconStyle = {
+	verticalAlign: "middle",
+	marginRight: 10,
+	fontSize: 20,
+};
 
 export class EventScheduleForm extends Component {
 	state = {
@@ -142,7 +147,12 @@ export class EventScheduleForm extends Component {
 					location="/employee/events/viewall"
 				/>
 			}
-			title={title}
+			title={
+				<Fragment>
+					<FaClipboardCheck style={iconStyle} />
+					<span css="vertical-align: middle;">{title}</span>
+				</Fragment>
+			}
 		>
 			<Center>
 				<FormTitle

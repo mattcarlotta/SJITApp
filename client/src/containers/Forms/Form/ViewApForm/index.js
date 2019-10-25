@@ -5,6 +5,7 @@ import moment from "moment";
 import { Card } from "antd";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
+import { FaFileSignature } from "react-icons/fa";
 import {
 	BackButton,
 	FormContainer,
@@ -20,6 +21,11 @@ import condenseFormFields from "./CondenseFormFields";
 import fields from "./Fields";
 
 const title = "Sharks & Barracuda A/P Form";
+const iconStyle = {
+	verticalAlign: "middle",
+	marginRight: 10,
+	fontSize: 20,
+};
 
 export class ViewApForm extends Component {
 	state = {
@@ -85,7 +91,12 @@ export class ViewApForm extends Component {
 		return (
 			<Card
 				extra={<BackButton push={push} location="/employee/forms/viewall" />}
-				title={title}
+				title={
+					<Fragment>
+						<FaFileSignature style={iconStyle} />
+						<span css="vertical-align: middle;">{title}</span>
+					</Fragment>
+				}
 			>
 				<FormContainer>
 					<FormTitle

@@ -357,6 +357,19 @@ const updateMember = async (req, res) => {
       if (emailInUse) throw emailAlreadyTaken;
     }
 
+    if (role === "staff") {
+      await Event.updateMany(
+        {},
+        {
+          $pull: {
+            scheduledIds: existingMember._id,
+            schedule: { employeeIds: existingMember._id },
+          },
+        },
+        { multi: true },
+      );
+    }
+
     await existingMember.updateOne({
       email,
       firstName,

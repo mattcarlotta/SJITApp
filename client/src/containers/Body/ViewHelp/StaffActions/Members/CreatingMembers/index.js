@@ -23,8 +23,8 @@ const CreatingMembers = () => (
 			>
 				Create Member
 			</Link>{" "}
-			page and fill out the <strong>New Member Form</strong> by: Selecting the
-			appropriate <strong>Role</strong> and providing the member&#39;s email
+			page and fill out the <strong>Create Member</strong> form by: Selecting
+			the appropriate <strong>Role</strong> and providing the member&#39;s email
 			address that you wish to authorize. Once you&#39;ve filled out the form,
 			click the
 		</InfoText>

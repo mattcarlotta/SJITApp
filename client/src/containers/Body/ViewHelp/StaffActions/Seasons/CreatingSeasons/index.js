@@ -23,7 +23,7 @@ const CreatingSeasons = () => (
 			>
 				Create Season
 			</Link>{" "}
-			page and fill out the <strong>New Season Form</strong> by: Selecting the{" "}
+			page and fill out the <strong>New Season</strong> form by: Selecting the{" "}
 			<strong>Season Duration</strong> (beginning of and end of season) dates.
 			Once completed, click the
 		</InfoText>

@@ -1,15 +1,21 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import { Card } from "antd";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
+import { FaUserPlus } from "react-icons/fa";
 import { BackButton, FormContainer, SubmitButton } from "components/Body";
 import { FieldGenerator, FormTitle } from "components/Forms";
 import { createMember } from "actions/Members";
 import { fieldValidator, fieldUpdater, parseFields } from "utils";
 import fields from "./Fields";
 
-const title = "New Member Form";
+const title = "Create Member";
+const iconStyle = {
+	verticalAlign: "middle",
+	marginRight: 10,
+	fontSize: 20,
+};
 
 export class NewMemberForm extends Component {
 	state = {
@@ -44,7 +50,12 @@ export class NewMemberForm extends Component {
 					location="/employee/members/viewall"
 				/>
 			}
-			title={title}
+			title={
+				<Fragment>
+					<FaUserPlus style={iconStyle} />
+					<span css="vertical-align: middle;">{title}</span>
+				</Fragment>
+			}
 		>
 			<FormContainer>
 				<FormTitle

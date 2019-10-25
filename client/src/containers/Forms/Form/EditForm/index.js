@@ -4,6 +4,7 @@ import isEmpty from "lodash/isEmpty";
 import { Card } from "antd";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
+import { FaEdit } from "react-icons/fa";
 import { BackButton, FormContainer, SubmitButton } from "components/Body";
 import { FieldGenerator, FormTitle, LoadingForm } from "components/Forms";
 import { fetchForm, updateForm } from "actions/Forms";
@@ -12,6 +13,11 @@ import fields from "./Fields";
 import updateFormFields from "./UpdateFormFields";
 
 const title = "Edit Form";
+const iconStyle = {
+	verticalAlign: "middle",
+	marginRight: 10,
+	fontSize: 22,
+};
 
 export class EditForm extends Component {
 	state = {
@@ -67,7 +73,12 @@ export class EditForm extends Component {
 			extra={
 				<BackButton push={this.props.push} location="/employee/forms/viewall" />
 			}
-			title={title}
+			title={
+				<Fragment>
+					<FaEdit style={iconStyle} />
+					<span css="vertical-align: middle;">{title}</span>
+				</Fragment>
+			}
 		>
 			<FormContainer>
 				<FormTitle

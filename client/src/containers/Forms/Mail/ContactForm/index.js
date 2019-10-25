@@ -1,7 +1,8 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import { Card } from "antd";
 import { connect } from "react-redux";
+import { FaConciergeBell } from "react-icons/fa";
 import { FormContainer, SubmitButton } from "components/Body";
 import { FieldGenerator, FormTitle } from "components/Forms";
 import { contactUs } from "actions/Mail";
@@ -9,6 +10,11 @@ import { fieldValidator, fieldUpdater, parseFields } from "utils";
 import fields from "./Fields";
 
 const title = "Contact Us";
+const iconStyle = {
+	verticalAlign: "middle",
+	marginRight: 10,
+	fontSize: 20,
+};
 
 export class ContactForm extends Component {
 	state = {
@@ -38,7 +44,14 @@ export class ContactForm extends Component {
 	};
 
 	render = () => (
-		<Card title={title}>
+		<Card
+			title={
+				<Fragment>
+					<FaConciergeBell style={iconStyle} />
+					<span css="vertical-align: middle;">{title}</span>
+				</Fragment>
+			}
+		>
 			<FormContainer>
 				<FormTitle
 					header={title}
