@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
 import { FaCalendarCheck } from "react-icons/fa";
-import { Button, DisplayTeam, List, ListItem } from "components/Body";
+import { Button, DisplayTeam, FadeIn, List, ListItem } from "components/Body";
 
 const iconStyle = {
 	position: "relative",
@@ -24,43 +24,44 @@ const ScheduleList = ({
 	<List>
 		{!isEmpty(content) &&
 			content.map(item => (
-				<Button
-					key={item._id}
-					primary={item.team === "San Jose Sharks"}
-					danger={item.team === "San Jose Barracuda"}
-					padding="2px 0"
-					style={{ margin: "2px 0" }}
-					onClick={() => handleShowModal(item)}
-				>
-					<ListItem style={{ margin: 0, ...listStyle }}>
-						<DisplayTeam folder={folder || "calendar"} team={item.team} />
-						{item.opponent && (
-							<Fragment>
-								<span
-									css={`
-										margin: 0 ${spacing || 5}px;
-									`}
-								>
-									vs.
-								</span>
-								<DisplayTeam
-									folder={folder || "calendar"}
-									team={item.opponent}
-								/>
-							</Fragment>
-						)}
-						{!isEmpty(item.schedule) &&
-							item.schedule.map(({ employeeIds }) =>
-								!isEmpty(employeeIds) &&
-								employeeIds.some(({ _id }) => _id === loggedinUserId) ? (
-									<FaCalendarCheck
-										key={loggedinUserId}
-										style={{ ...iconStyle, ...scheduleIconStyle }}
+				<FadeIn key={item._id} timing="0.4s">
+					<Button
+						primary={item.team === "San Jose Sharks"}
+						danger={item.team === "San Jose Barracuda"}
+						padding="2px 0"
+						style={{ margin: "2px 0" }}
+						onClick={() => handleShowModal(item)}
+					>
+						<ListItem style={{ margin: 0, ...listStyle }}>
+							<DisplayTeam folder={folder || "calendar"} team={item.team} />
+							{item.opponent && (
+								<Fragment>
+									<span
+										css={`
+											margin: 0 ${spacing || 5}px;
+										`}
+									>
+										vs.
+									</span>
+									<DisplayTeam
+										folder={folder || "calendar"}
+										team={item.opponent}
 									/>
-								) : null,
+								</Fragment>
 							)}
-					</ListItem>
-				</Button>
+							{!isEmpty(item.schedule) &&
+								item.schedule.map(({ employeeIds }) =>
+									!isEmpty(employeeIds) &&
+									employeeIds.some(({ _id }) => _id === loggedinUserId) ? (
+										<FaCalendarCheck
+											key={loggedinUserId}
+											style={{ ...iconStyle, ...scheduleIconStyle }}
+										/>
+									) : null,
+								)}
+						</ListItem>
+					</Button>
+				</FadeIn>
 			))}
 	</List>
 );

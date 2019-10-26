@@ -6,12 +6,7 @@ import get from "lodash/get";
 import moment from "moment";
 import { Card, Col, Select } from "antd";
 import { MdEvent } from "react-icons/md";
-import {
-	FadeIn,
-	LoadingPanel,
-	ScheduleModal,
-	ScheduleList,
-} from "components/Body";
+import { LoadingPanel, ScheduleModal, ScheduleList } from "components/Body";
 import { fetchEvents } from "actions/Dashboard";
 import CalendarContainer from "./CalendarContainer";
 import CalendarDate from "./CalendarDate";
@@ -108,29 +103,27 @@ class Events extends Component {
 								/>
 							) : (
 								<div css="padding: 30px 20px;">
-									<FadeIn timing="0.5s">
-										{!isEmpty(events) ? (
-											events.map(props =>
-												moment(props.eventDate).format(format) < endOfDay ? (
-													<ScheduleList
-														key={props._id}
-														content={[props]}
-														listStyle={{ padding: 3 }}
-														spacing={20}
-														folder="lowres"
-														handleShowModal={this.handleShowModal}
-														loggedinUserId={this.props.loggedinUserId}
-														scheduleIconStyle={{
-															fontSize: 17,
-															verticalAlign: "middle",
-														}}
-													/>
-												) : null,
-											)
-										) : (
-											<NoEvents selectedToday={selectedToday} />
-										)}
-									</FadeIn>
+									{!isEmpty(events) ? (
+										events.map(props =>
+											moment(props.eventDate).format(format) < endOfDay ? (
+												<ScheduleList
+													key={props._id}
+													content={[props]}
+													listStyle={{ padding: 3 }}
+													spacing={20}
+													folder="lowres"
+													handleShowModal={this.handleShowModal}
+													loggedinUserId={this.props.loggedinUserId}
+													scheduleIconStyle={{
+														fontSize: 17,
+														verticalAlign: "middle",
+													}}
+												/>
+											) : null,
+										)
+									) : (
+										<NoEvents selectedToday={selectedToday} />
+									)}
 								</div>
 							)}
 						</CalendarContainer>
