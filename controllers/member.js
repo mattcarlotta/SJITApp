@@ -228,7 +228,6 @@ const getMemberEventCounts = async (req, res) => {
     const { eventId } = req.query;
     if (!eventId) throw missingEventId;
 
-    /* istanbul ignore next */
     const members = await getUsers({
       match: {
         role: { $nin: ["admin", "staff"] },

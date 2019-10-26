@@ -4,7 +4,7 @@ import { Row } from "antd";
 import Events from "./Events";
 import Forms from "./Forms";
 import Availability from "./Availability";
-import EventCountSpread from "./EventCountSpread";
+import EventDistribution from "./EventDistribution";
 
 const ViewDashboard = () => (
 	<Fragment>
@@ -13,7 +13,7 @@ const ViewDashboard = () => (
 			<Events />
 			<Forms />
 			<Availability />
-			<EventCountSpread />
+			<EventDistribution />
 		</Row>
 	</Fragment>
 );

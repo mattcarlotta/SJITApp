@@ -38,7 +38,7 @@ class Events extends Component {
 	};
 
 	handleSelection = selectedEvent => {
-		this.setState({ selectedEvent, isLoading: true }, () =>
+		this.setState({ selectedEvent }, () =>
 			this.props.fetchEvents(selectedEvent),
 		);
 	};

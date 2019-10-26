@@ -5,14 +5,14 @@ import { ResponsiveBar } from "@nivo/bar";
 
 const MemberEventCountChart = ({ members }) => (
 	<div css="height: 650px;width: 100%;padding-left: 18px;padding-right: 35px;">
-		<div css="height: 100%;width: 100%;background-color: #ebecf0;border-radius: 3px;">
+		<div css="height: 100%;width: 100%;background-color: #fff;border-radius: 3px;">
 			<ResponsiveBar
 				data={members}
 				margin={{ top: 60, right: 40, bottom: 200, left: 80 }}
 				indexBy="name"
 				keys={["Event Count"]}
 				axisLeft={{
-					legend: "Events",
+					legend: "Number of Events",
 					legendPosition: "middle",
 					legendOffset: -50,
 					tickValues: 2,
@@ -24,7 +24,7 @@ const MemberEventCountChart = ({ members }) => (
 					legendOffset: 170,
 				}}
 				labelTextColor="#fefefe"
-				colors={["#025f6d"]}
+				colors={{ scheme: "set2" }}
 				colorBy="index"
 				theme={{
 					axis: {

@@ -80,6 +80,20 @@
 	}
 }
 
+.dashboard-range-picker {
+	width: 300px;
+	height: 40px;
+
+	& .ant-input {
+		padding: 4px 11px 4px 35px;
+	}
+
+	& i {
+		font-size: 17px;
+		left: 14px;
+	}
+}
+
 .selector {
 	& .ant-select-selection--single {
 		height: 52px;

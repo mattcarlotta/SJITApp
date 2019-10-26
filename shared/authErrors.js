@@ -72,6 +72,8 @@ const invalidToken =
 const invalidUpdateEventRequest =
   "You must inclide all fields to update an exisiting event.";
 
+const missingDates = "You must supply a start date and end date.";
+
 const missingEmailCreds =
   "That email is not associated with an active account. Please make sure the email address is spelled correctly.";
 
@@ -217,6 +219,7 @@ export {
   invalidStatus,
   invalidToken,
   invalidUpdateEventRequest,
+  missingDates,
   missingEmailCreds,
   missingEventId,
   missingFormId,

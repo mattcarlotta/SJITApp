@@ -38,8 +38,17 @@ const dashboardReducer = (state = initialState, { payload, type }) => {
 		case types.DASHBOARD_FETCH_EVENTS: {
 			return { ...state, events };
 		}
+		case types.DASHBOARD_FETCH_EVENT_DISTRIBUTION: {
+			return { ...state, eventCounts };
+		}
 		case types.DASHBOARD_SET_EVENTS: {
 			return { ...state, events: { data: payload.events, isLoading: false } };
+		}
+		case types.DASHBOARD_SET_EVENT_DISTRIBUTION: {
+			return {
+				...state,
+				eventCounts: { data: payload.members, isLoading: false },
+			};
 		}
 		default: {
 			return state;
