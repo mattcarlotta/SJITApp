@@ -11,6 +11,8 @@ const MemberEventCountChart = ({ members }) => (
 				margin={{ top: 60, right: 40, bottom: 200, left: 80 }}
 				indexBy="name"
 				keys={["Event Count"]}
+				motionStiffness={180}
+				motionDamping={13}
 				axisLeft={{
 					legend: "Number of Events",
 					legendPosition: "middle",

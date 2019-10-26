@@ -10,10 +10,7 @@ const events = {
 	isLoading: true,
 };
 
-const eventCounts = {
-	data: [],
-	isLoading: true,
-};
+const eventCounts = [];
 
 const form = {
 	data: [],
@@ -47,7 +44,7 @@ const dashboardReducer = (state = initialState, { payload, type }) => {
 		case types.DASHBOARD_SET_EVENT_DISTRIBUTION: {
 			return {
 				...state,
-				eventCounts: { data: payload.members, isLoading: false },
+				eventCounts: payload.members,
 			};
 		}
 		default: {

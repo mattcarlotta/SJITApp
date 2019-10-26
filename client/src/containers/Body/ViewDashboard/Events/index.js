@@ -15,6 +15,7 @@ import {
 import { fetchEvents } from "actions/Dashboard";
 import CalendarContainer from "./CalendarContainer";
 import CalendarDate from "./CalendarDate";
+import NoEvents from "./NoEvents";
 import columns from "../Columns";
 
 const Option = Select.Option;
@@ -60,11 +61,12 @@ class Events extends Component {
 	render = () => {
 		const { selectedEvent } = this.state;
 		const { events, isLoading } = this.props;
-		const eventDate = get(events[0], ["eventDate"]) || Date.now();
+		const eventDate = get(events[0], ["eventDate"]);
 		const endOfDay = moment(eventDate)
 			.endOf("day")
 			.format(format);
 		const selectedToday = selectedEvent === "Today";
+		const currentDate = moment(eventDate).format("MMM DD");
 
 		return (
 			<Fragment>
@@ -93,22 +95,27 @@ class Events extends Component {
 							</Select>
 						}
 					>
-						{isLoading ? (
-							<LoadingPanel />
-						) : (
-							<CalendarContainer>
-								<CalendarDate>
-									{moment(eventDate).format("MMM DD")}
-								</CalendarDate>
-								<FadeIn>
-									<div css="padding: 30px 20px;">
+						<CalendarContainer>
+							<CalendarDate>{currentDate}</CalendarDate>
+							{isLoading ? (
+								<LoadingPanel
+									style={{
+										margin: "30px auto 0",
+										width: "350px",
+										borderRadius: 3,
+									}}
+									height="140px"
+								/>
+							) : (
+								<div css="padding: 30px 20px;">
+									<FadeIn timing="0.5s">
 										{!isEmpty(events) ? (
 											events.map(props =>
 												moment(props.eventDate).format(format) < endOfDay ? (
 													<ScheduleList
 														key={props._id}
 														content={[props]}
-														listStyle={{ padding: 6 }}
+														listStyle={{ padding: 3 }}
 														spacing={20}
 														folder="lowres"
 														handleShowModal={this.handleShowModal}
@@ -121,21 +128,12 @@ class Events extends Component {
 												) : null,
 											)
 										) : (
-											<div css="text-align: center; color: #909090;">
-												<p css="margin: 10px 0 0 0;padding: 0;">
-													<MdEvent style={{ fontSize: 70 }} />
-												</p>
-												<p css="margin: 0;padding: 0;">
-													{!selectedToday
-														? "No upcoming events"
-														: "No events today"}
-												</p>
-											</div>
+											<NoEvents selectedToday={selectedToday} />
 										)}
-									</div>
-								</FadeIn>
-							</CalendarContainer>
-						)}
+									</FadeIn>
+								</div>
+							)}
+						</CalendarContainer>
 					</Card>
 				</Col>
 				<ScheduleModal

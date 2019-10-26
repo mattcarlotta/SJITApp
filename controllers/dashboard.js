@@ -14,7 +14,6 @@ import {
 import { missingDates } from "shared/authErrors";
 
 const getEventDistribution = async (req, res) => {
-  const format = "MM/DD/YYYY";
   try {
     const { startDate, endDate } = req.query;
     if (!startDate || !endDate) throw missingDates;
@@ -33,8 +32,8 @@ const getEventDistribution = async (req, res) => {
       {
         $match: {
           eventDate: {
-            $gte: moment(startDate, format).toDate(),
-            $lte: moment(endDate, format).toDate(),
+            $gte: moment(startDate).toDate(),
+            $lte: moment(endDate).toDate(),
           },
         },
       },

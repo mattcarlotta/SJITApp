@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { Card, Col, DatePicker } from "antd";
 import { FaChartBar } from "react-icons/fa";
 import { fetchEventDistribution } from "actions/Dashboard";
-import { FadeIn, LoadingPanel, MemberEventCountChart } from "components/Body";
+import { MemberEventCountChart } from "components/Body";
 import columns from "../Columns";
 
 const { RangePicker } = DatePicker;
@@ -22,8 +22,6 @@ const iconStyle = {
 	fontSize: 22,
 };
 
-const format = "MM/DD/YYYY";
-
 class EventDistribution extends Component {
 	state = {
 		startDate: moment().startOf("month"),
@@ -33,8 +31,8 @@ class EventDistribution extends Component {
 	componentDidMount = () => {
 		const { startDate, endDate } = this.state;
 		this.props.fetchEventDistribution({
-			startDate: startDate.format(format),
-			endDate: endDate.format(format),
+			startDate: startDate.format(),
+			endDate: endDate.format(),
 		});
 	};
 
@@ -42,8 +40,8 @@ class EventDistribution extends Component {
 		const [startDate, endDate] = dates;
 		this.setState({ startDate, endDate }, () =>
 			this.props.fetchEventDistribution({
-				startDate: startDate.format(format),
-				endDate: endDate.format(format),
+				startDate: startDate.format(),
+				endDate: endDate.format(),
 			}),
 		);
 	};
@@ -68,13 +66,7 @@ class EventDistribution extends Component {
 					/>
 				}
 			>
-				{this.props.isLoading ? (
-					<LoadingPanel height="650px" />
-				) : (
-					<FadeIn>
-						<MemberEventCountChart {...this.props} />
-					</FadeIn>
-				)}
+				<MemberEventCountChart {...this.props} />
 			</Card>
 		</Col>
 	);
@@ -88,12 +80,10 @@ EventDistribution.propTypes = {
 		}),
 	),
 	fetchEventDistribution: PropTypes.func.isRequired,
-	isLoading: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
-	members: state.dashboard.eventCounts.data,
-	isLoading: state.dashboard.eventCounts.isLoading,
+	members: state.dashboard.eventCounts,
 	loggedinUserId: state.auth.id,
 });
 
