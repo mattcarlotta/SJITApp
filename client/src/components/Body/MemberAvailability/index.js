@@ -6,7 +6,7 @@ import moment from "moment";
 import { Empty } from "antd";
 import { ResponsivePie } from "@nivo/pie";
 import { ResponsiveBar } from "@nivo/bar";
-import { Center, Flex, FlexCenter, ScheduleHeader } from "components/Body"; // Badge
+import { Center, FlexCenter, ScheduleHeader } from "components/Body"; // Badge
 
 const COLORS = ["#247BA0", "#2A9D8F", "#F4A261", "#FF8060", "#BFBFBF"];
 
@@ -58,11 +58,9 @@ class MemberAvailability extends Component {
 						<div css="height: 400px;width: 100%; max-width: 700px; margin-left: auto; margin-right: auto; margin-bottom: 30px;">
 							<ResponsivePie
 								indexBy="id"
-								cornerRadius={3}
 								colors={COLORS}
 								data={memberAvailability.memberResponseCount}
-								innerRadius={0.5}
-								padAngle={0.7}
+								innerRadius={0.6}
 								radialLabelsSkipAngle={10}
 								radialLabelsTextXOffset={6}
 								radialLabelsTextColor="#333333"
@@ -73,11 +71,8 @@ class MemberAvailability extends Component {
 								radialLabelsLinkColor={{ from: "color" }}
 								slicesLabelsSkipAngle={10}
 								slicesLabelsTextColor="#fff"
-								startAngle={-90}
-								animate={true}
+								startAngle={-180}
 								margin={{ top: 40, right: 0, bottom: 80, left: 50 }}
-								motionStiffness={90}
-								motionDamping={15}
 								legends={[
 									{
 										anchor: "bottom",
@@ -118,6 +113,9 @@ class MemberAvailability extends Component {
 								colorBy="index"
 								indexBy="id"
 								keys={["events"]}
+								animate={true}
+								motionStiffness={180}
+								motionDamping={13}
 								labelTextColor="#fefefe"
 								data={memberAvailability.memberScheduleEvents}
 								margin={{ top: 60, right: 60, left: 60, bottom: 60 }}
@@ -153,11 +151,9 @@ class MemberAvailability extends Component {
 						</div>
 					</Fragment>
 				) : (
-					<Flex style={{ height: 800 }}>
-						<FlexCenter>
-							<Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
-						</FlexCenter>
-					</Flex>
+					<FlexCenter style={{ height: 830 }}>
+						<Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+					</FlexCenter>
 				)}
 			</Fragment>
 		);

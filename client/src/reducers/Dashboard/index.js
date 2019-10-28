@@ -5,8 +5,9 @@ const apform = {
 	isLoading: true,
 };
 
-const availability = {
+const eventAvailability = {
 	data: [],
+	months: [],
 	isLoading: true,
 };
 
@@ -19,7 +20,7 @@ const eventCounts = [];
 
 export const initialState = {
 	apform,
-	availability,
+	eventAvailability,
 	events,
 	eventCounts,
 };
@@ -35,6 +36,9 @@ const dashboardReducer = (state = initialState, { payload, type }) => {
 		case types.DASHBOARD_FETCH_APFORM: {
 			return { ...state, apform };
 		}
+		case types.DASHBOARD_FETCH_AVAILABILITY: {
+			return { ...state, eventAvailability };
+		}
 		case types.DASHBOARD_FETCH_EVENTS: {
 			return { ...state, events };
 		}
@@ -43,6 +47,16 @@ const dashboardReducer = (state = initialState, { payload, type }) => {
 		}
 		case types.DASHBOARD_SET_APFORM: {
 			return { ...state, apform: { data: payload.apform, isLoading: false } };
+		}
+		case types.DASHBOARD_SET_AVAILABILITY: {
+			return {
+				...state,
+				eventAvailability: {
+					data: payload.eventAvailability,
+					months: payload.months,
+					isLoading: false,
+				},
+			};
 		}
 		case types.DASHBOARD_SET_EVENTS: {
 			return { ...state, events: { data: payload.events, isLoading: false } };

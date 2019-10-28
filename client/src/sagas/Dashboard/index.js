@@ -1,12 +1,17 @@
 import { all, put, call, takeLatest } from "redux-saga/effects";
 import { app } from "utils";
 import { setServerMessage } from "actions/Messages";
-import { setEventDistribution, setEvents, setAPForm } from "actions/Dashboard";
+import {
+	setAPForm,
+	setAvailability,
+	setEventDistribution,
+	setEvents,
+} from "actions/Dashboard";
 import { parseData } from "utils/parseResponse";
 import * as types from "types";
 
 /**
- * Attempts to get event for editing.
+ * Attempts to get AP form for dashboard viewing.
  *
  * @generator
  * @function fetchAPForm
@@ -28,7 +33,29 @@ export function* fetchAPForm() {
 }
 
 /**
- * Attempts to get event for editing.
+ * Attempts to get event availability for dashboard viewing.
+ *
+ * @generator
+ * @function fetchAvailability
+ * @yields {object} - A response from a call to the API.
+ * @function parseData - Returns a parsed res.data.
+ * @yields {action} - A redux action to set event data to redux state.
+ * @throws {action} - A redux action to display a server message by type.
+ */
+
+export function* fetchAvailability() {
+	try {
+		const res = yield call(app.get, `dashboard/availability`);
+		const data = yield call(parseData, res);
+
+		yield put(setAvailability(data));
+	} catch (e) {
+		yield put(setServerMessage({ type: "error", message: e.toString() }));
+	}
+}
+
+/**
+ * Attempts to get event distribution for dashboard viewing.
  *
  * @generator
  * @function fetchEventDistribution
@@ -53,7 +80,7 @@ export function* fetchEventDistribution({ params }) {
 }
 
 /**
- * Attempts to get event for editing.
+ * Attempts to get event for dashboard viewing.
  *
  * @generator
  * @function fetchEvents
@@ -85,6 +112,7 @@ export function* fetchEvents({ selectedEvent }) {
 export default function* dashboardSagas() {
 	yield all([
 		takeLatest(types.DASHBOARD_FETCH_APFORM, fetchAPForm),
+		takeLatest(types.DASHBOARD_FETCH_AVAILABILITY, fetchAvailability),
 		takeLatest(types.DASHBOARD_FETCH_EVENTS, fetchEvents),
 		takeLatest(
 			types.DASHBOARD_FETCH_EVENT_DISTRIBUTION,

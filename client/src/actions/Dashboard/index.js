@@ -12,6 +12,15 @@ export const fetchAPForm = () => ({
 });
 
 /**
+ * Fetches current month AP form availability.
+ *
+ * @function fetchAvailability
+ * @returns {object}
+ */
+export const fetchAvailability = () => ({
+	type: types.DASHBOARD_FETCH_AVAILABILITY,
+});
+/**
  * Fetches event distribution by month.
  *
  * @function fetchEventDistribution
@@ -44,6 +53,18 @@ export const fetchEvents = selectedEvent => ({
  */
 export const setAPForm = data => ({
 	type: types.DASHBOARD_SET_APFORM,
+	payload: !isEmpty(data) ? data : {},
+});
+
+/**
+ * Sets availability to redux state
+ *
+ * @function setAvailability
+ * @param {array} data - contains availability data ({_id, label, value, color}).
+ * @returns {object}
+ */
+export const setAvailability = data => ({
+	type: types.DASHBOARD_SET_AVAILABILITY,
 	payload: !isEmpty(data) ? data : {},
 });
 

@@ -3,12 +3,13 @@ import isEmpty from "lodash/isEmpty";
 import { Event, Form } from "models";
 import {
   createDate,
+  createMemberAvailabilityAverage,
   createMemberEventCount,
   convertId,
   getUsers,
   getEndOfDay,
+  getMonthDateRange,
   getStartOfDay,
-  // getMonthDateRange,
   sendError,
 } from "shared/helpers";
 import { missingDates } from "shared/authErrors";
@@ -16,8 +17,6 @@ import { missingDates } from "shared/authErrors";
 const getAPForm = async (req, res) => {
   try {
     const currentDate = createDate().toDate();
-
-    // const { startOfMonth } = getMonthDateRange();
 
     const existingForm = await Form.findOne(
       {
@@ -41,6 +40,98 @@ const getAPForm = async (req, res) => {
 
     res.status(200).json({ apform: { ...existingForm, eventCounts } });
   } catch (err) {
+    return sendError(err, res);
+  }
+};
+
+const getAvailability = async (req, res) => {
+  try {
+    const currentDate = createDate().toDate();
+
+    const existingForm = await Form.findOne(
+      {
+        startMonth: {
+          $lte: currentDate,
+        },
+        endMonth: {
+          $gte: currentDate,
+        },
+      },
+      { __v: 0, sentEmails: 0, seasonId: 0, sendEmailNotificationsDate: 0 },
+    ).lean();
+    if (!existingForm) return res.status(200).json({ eventAvailability: [] });
+
+    const startOfMonth = moment(existingForm.startMonth).toDate();
+    const endOfMonth = moment(existingForm.endMonth).toDate();
+    const months = [startOfMonth, endOfMonth];
+
+    const eventCounts = await Event.countDocuments({
+      eventDate: {
+        $gte: startOfMonth,
+        $lte: endOfMonth,
+      },
+    });
+    if (eventCounts === 0)
+      return res.status(200).json({ eventAvailability: [], months });
+
+    const eventResponses = await Event.aggregate([
+      {
+        $match: {
+          eventDate: {
+            $gte: startOfMonth,
+            $lte: endOfMonth,
+          },
+        },
+      },
+      {
+        $addFields: {
+          employeeResponses: {
+            $map: {
+              input: {
+                $filter: {
+                  input: "$employeeResponses",
+                  cond: {
+                    $eq: ["$$this._id", convertId(req.session.user.id)],
+                  },
+                },
+              },
+              in: "$$this.response",
+            },
+          },
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          responses: {
+            $push: {
+              $ifNull: [
+                { $arrayElemAt: ["$employeeResponses", 0] },
+                "No response.",
+              ],
+            },
+          },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          responses: 1,
+        },
+      },
+    ]);
+    if (isEmpty(eventResponses))
+      return res.status(200).json({ eventAvailability: [], months });
+
+    res.status(200).json({
+      eventAvailability: createMemberAvailabilityAverage({
+        eventCounts,
+        eventResponses,
+      }),
+      months,
+    });
+  } catch (err) {
+    /* istanbul ignore next */
     return sendError(err, res);
   }
 };
@@ -153,4 +244,4 @@ const getEvents = async (req, res) => {
   }
 };
 
-export { getAPForm, getEventDistribution, getEvents };
+export { getAPForm, getAvailability, getEventDistribution, getEvents };

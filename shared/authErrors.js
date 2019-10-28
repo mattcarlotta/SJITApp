@@ -158,7 +158,7 @@ const unableToLocateEvent =
   "Unable to locate that event. That event doesn't exist.";
 
 const unableToLocateEvents = (startMonth, endMonth) =>
-  `Unable to locate any events. Make sure to create events between ${startMonth}-${endMonth} before trying again.`;
+  `Unable to locate any events. There doesn't appear to be any events between ${startMonth}-${endMonth}.`;
 
 const unableToLocateForm =
   "Unable to locate that form. That form doesn't exist.";

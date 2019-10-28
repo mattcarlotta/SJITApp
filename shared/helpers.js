@@ -37,6 +37,41 @@ const createAuthMail = (authorizedEmail, token, expiration) => ({
 });
 
 /**
+ * Helper function to generate a user event count based upon their scheduled events.
+ *
+ * @function createMemberResponseCount
+ * @param eventResponses - an array of responses
+ * @returns {array}
+ */
+
+const available = Array.from(responseTypes).splice(1, 3);
+const createMemberAvailabilityAverage = ({ eventCounts, eventResponses }) =>
+  eventResponses.reduce((acc, { responses }) => {
+    let avail = 0;
+    let unavail = 0;
+    responses.forEach(response => {
+      if (available.includes(response)) {
+        avail += 1;
+      } else {
+        unavail += 1;
+      }
+    });
+
+    return [
+      {
+        id: "available",
+        label: "available",
+        value: parseInt(((avail / eventCounts) * 100).toFixed(2), 10),
+      },
+      {
+        id: "unavailable",
+        label: "unavailable",
+        value: parseInt(((unavail / eventCounts) * 100).toFixed(2), 10),
+      },
+    ];
+  }, []);
+
+/**
  * Helper function to generate a unique token.
  *
  * @function
@@ -336,6 +371,7 @@ export {
   createAuthMail,
   createColumnSchedule,
   createDate,
+  createMemberAvailabilityAverage,
   createMemberEventCount,
   createMemberResponseCount,
   createRandomToken,

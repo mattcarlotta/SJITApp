@@ -8,8 +8,8 @@ const iconStyle = {
 	marginRight: 5,
 };
 
-const WarningText = ({ className, children }) => (
-	<span className={className}>
+const WarningText = ({ className, children, style }) => (
+	<span className={className} style={style}>
 		<FaExclamationTriangle style={iconStyle} /> {children}
 	</span>
 );
@@ -17,6 +17,9 @@ const WarningText = ({ className, children }) => (
 WarningText.propTypes = {
 	className: PropTypes.string.isRequired,
 	children: PropTypes.oneOfType([PropTypes.node, PropTypes.string]).isRequired,
+	style: PropTypes.objectOf(
+		PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+	),
 };
 
 export default WarningText;

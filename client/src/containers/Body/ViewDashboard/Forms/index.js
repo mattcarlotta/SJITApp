@@ -5,13 +5,13 @@ import moment from "moment";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import { Card, Col } from "antd";
-import { FaBell, FaFileSignature } from "react-icons/fa";
+import { FaFileSignature } from "react-icons/fa";
 import {
 	Bold,
 	Button,
 	CalendarContainer,
-	Center,
 	LoadingPanel,
+	WarningText,
 } from "components/Body";
 import { fetchAPForm } from "actions/Dashboard";
 import NoForms from "./NoForms";
@@ -21,6 +21,13 @@ const iconStyle = {
 	verticalAlign: "middle",
 	marginRight: 10,
 	fontSize: 22,
+};
+
+const warningStyle = {
+	verticalAlign: "middle",
+	marginTop: "15px",
+	padding: "5px 0",
+	borderRadius: 3,
 };
 
 const format = "MMM Do YYYY @ hh:mm a";
@@ -66,7 +73,6 @@ class Forms extends PureComponent {
 												: null
 										}
 										style={{
-											marginBottom: 10,
 											cursor: hasExpired ? "auto" : "pointer",
 										}}
 									>
@@ -76,42 +82,35 @@ class Forms extends PureComponent {
 										</div>
 									</Button>
 									<div css="font-size: 17px;">
-										<Center
-											style={{
-												color: "red",
-												marginBottom: 15,
-											}}
-										>
-											<FaBell
+										<div css="margin-top: 15px; padding: 0 5px;">
+											<div>
+												<Bold>Form Id:</Bold>
+												{apform._id}
+											</div>
+											<div>
+												<Bold>Expiration Date:</Bold>
+												{expDate.format(format)}
+											</div>
+											<div>
+												<Bold>Event Count:</Bold>
+												{apform.eventCounts}
+											</div>
+											<div>
+												<Bold>Notes:</Bold>
+												{apform.notes || "(none)"}
+											</div>
+											<WarningText
 												style={{
-													fontSize: 15,
-													marginRight: 7,
-													verticalAlign: "middle",
+													...warningStyle,
+													backgroundColor: !hasExpired ? "#2979ff" : "#f56342",
 												}}
-											/>
-											<span css="vertical-align: middle;">
+											>
 												{hasExpired
-													? `Expired! This form is no longer viewable.`
-													: `Form expires ${moment(expDate)
+													? `This form has expired and is no longer viewable.`
+													: `This form will expire ${moment(expDate)
 															.startOf("day")
 															.fromNow()}!`}
-											</span>
-										</Center>
-										<div>
-											<Bold>Form Id:</Bold>
-											{apform._id}
-										</div>
-										<div>
-											<Bold>Expiration Date:</Bold>
-											{expDate.format(format)}
-										</div>
-										<div>
-											<Bold>Event Count:</Bold>
-											{apform.eventCounts}
-										</div>
-										<div>
-											<Bold>Notes:</Bold>
-											{apform.notes || "(none)"}
+											</WarningText>
 										</div>
 									</div>
 								</Fragment>
