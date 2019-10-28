@@ -1,5 +1,10 @@
 import * as types from "types";
 
+const apform = {
+	data: {},
+	isLoading: true,
+};
+
 const availability = {
 	data: [],
 	isLoading: true,
@@ -12,16 +17,11 @@ const events = {
 
 const eventCounts = [];
 
-const form = {
-	data: [],
-	isLoading: true,
-};
-
 export const initialState = {
+	apform,
 	availability,
 	events,
 	eventCounts,
-	form,
 };
 
 /**
@@ -32,11 +32,17 @@ export const initialState = {
  */
 const dashboardReducer = (state = initialState, { payload, type }) => {
 	switch (type) {
+		case types.DASHBOARD_FETCH_APFORM: {
+			return { ...state, apform };
+		}
 		case types.DASHBOARD_FETCH_EVENTS: {
 			return { ...state, events };
 		}
 		case types.DASHBOARD_FETCH_EVENT_DISTRIBUTION: {
 			return { ...state, eventCounts };
+		}
+		case types.DASHBOARD_SET_APFORM: {
+			return { ...state, apform: { data: payload.apform, isLoading: false } };
 		}
 		case types.DASHBOARD_SET_EVENTS: {
 			return { ...state, events: { data: payload.events, isLoading: false } };

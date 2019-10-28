@@ -8,10 +8,42 @@ import {
   getUsers,
   getEndOfDay,
   getStartOfDay,
-  getMonthDateRange,
+  // getMonthDateRange,
   sendError,
 } from "shared/helpers";
 import { missingDates } from "shared/authErrors";
+
+const getAPForm = async (req, res) => {
+  try {
+    const currentDate = createDate().toDate();
+
+    // const { startOfMonth } = getMonthDateRange();
+
+    const existingForm = await Form.findOne(
+      {
+        startMonth: {
+          $lte: currentDate,
+        },
+        endMonth: {
+          $gte: currentDate,
+        },
+      },
+      { __v: 0, sentEmails: 0, seasonId: 0, sendEmailNotificationsDate: 0 },
+    ).lean();
+    if (!existingForm) return res.status(200).json({ apform: {} });
+
+    const eventCounts = await Event.countDocuments({
+      eventDate: {
+        $gte: moment(existingForm.startMonth).toDate(),
+        $lte: moment(existingForm.endMonth).toDate(),
+      },
+    });
+
+    res.status(200).json({ apform: { ...existingForm, eventCounts } });
+  } catch (err) {
+    return sendError(err, res);
+  }
+};
 
 const getEventDistribution = async (req, res) => {
   try {
@@ -121,4 +153,4 @@ const getEvents = async (req, res) => {
   }
 };
 
-export { getEventDistribution, getEvents };
+export { getAPForm, getEventDistribution, getEvents };

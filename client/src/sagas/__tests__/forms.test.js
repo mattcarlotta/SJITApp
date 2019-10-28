@@ -1,4 +1,4 @@
-import { push } from "connected-react-router";
+import { goBack, push } from "connected-react-router";
 import { expectSaga, testSaga } from "redux-saga-test-plan";
 import { app } from "utils";
 import * as types from "types";
@@ -21,7 +21,7 @@ describe("Form Sagas", () => {
 		mockApp.restore();
 	});
 
-	describe("Create Member", () => {
+	describe("Create Form", () => {
 		let message;
 		let props;
 		beforeEach(() => {

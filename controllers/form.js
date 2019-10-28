@@ -4,6 +4,7 @@ import { Event, Form, Season } from "models";
 import {
   convertId,
   createDate,
+  getMonthDateRange,
   getStartOfDay,
   sendError,
 } from "shared/helpers";
@@ -159,6 +160,7 @@ const updateForm = async (req, res) => {
 
     const [startMonth, endMonth] = enrollMonth;
     const existingForms = await Form.find({
+      _id: { $ne: formExists._id },
       startMonth: { $gte: startMonth },
       endMonth: { $lte: endMonth },
     });

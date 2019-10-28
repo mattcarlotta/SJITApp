@@ -114,6 +114,12 @@ const findMemberAvailabilty = async (existingMember, selectedDate, res) => {
         },
       },
     },
+    {
+      $project: {
+        _id: 0,
+        responses: 1,
+      },
+    },
   ]);
 
   const scheduledCount = await Event.countDocuments({

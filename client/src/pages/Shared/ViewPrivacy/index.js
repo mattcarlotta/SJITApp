@@ -3,6 +3,7 @@ import { Card } from "antd";
 import Helmet from "react-helmet";
 import { FaBalanceScale } from "react-icons/fa";
 import { Line, InfoText, Title } from "components/Body";
+import { Link } from "components/Navigation";
 
 const title = "Privacy Policy";
 
@@ -11,6 +12,10 @@ const iconStyle = {
 	verticalAlign: "middle",
 	marginRight: 10,
 	fontSize: 20,
+};
+const linkStyle = {
+	margin: 0,
+	padding: 0,
 };
 
 const ViewPrivacyPage = () => (
@@ -28,17 +33,22 @@ const ViewPrivacyPage = () => (
 				<Title>PRIVACY POLICY</Title>
 				<Line style={{ marginBottom: 10 }} />
 				<InfoText>
-					This Privacy Policy explains how the SJS Ice Team (collectively, the
-					&#34;Sharks Ice Team,&#34; the &#34;Ice Team&#34;, &#34;we,&#34;
-					&#34;our,&#34; &#34;us&#34;) and its affiliates use information in
-					operating this website and any other online service that displays or
-					provides an authorized link to this Privacy Policy (collectively, our
+					This Privacy Policy explains how the San Jose Sharks Ice
+					Team(collectively, the &#34;SJS Ice Team,&#34, &#34;Sharks Ice
+					Team,&#34; the &#34;Ice Team&#34;, &#34;we,&#34; &#34;our,&#34;
+					&#34;us&#34;) and its affiliates use information in operating this
+					website and any other online service that displays or provides an
+					authorized link to this Privacy Policy (collectively, our
 					&#34;Services&#34;). Please note that this Privacy Policy does not
-					apply to the websites, apps, or services of the SJS Ice Team, which
-					are governed by the individual privacy policies. By using our
-					Services, you consent to the practices described in this Privacy
+					apply to the websites, apps, or services of the San Jose Sharks Ice
+					Team, which are governed by the individual privacy policies. By using
+					our Services, you consent to the practices described in this Privacy
 					Policy. If you have any questions about this Privacy Policy, please
-					contact us using our Contact Us form.
+					contact us using our{" "}
+					<Link blue style={linkStyle} to="/employee/contact-us">
+						Contact Us
+					</Link>{" "}
+					form.
 				</InfoText>
 				<Title style={style}>
 					Information We Collect or Receive When You Use Our Services.
@@ -147,21 +157,21 @@ const ViewPrivacyPage = () => (
 					ANY INTELLECTUAL PROPERTY OR PROPRIETARY RIGHTS OF ANY PERSON; AND
 					(III) THE WARRANTIES RELATING TO THE ACCURACY, RELIABILITY,
 					CORRECTNESS, OR COMPLETENESS OF DATA OR CONTENT MADE AVAILABLE ON THE
-					SERVICES OR OTHERWISE BY THE SJS ICE TEAM. FURTHER, THERE IS NO
-					WARRANTY THAT THE SERVICES WILL MEET YOUR NEEDS OR REQUIREMENTS OR THE
-					NEEDS OR REQUIREMENTS OF ANY OTHER PERSON OR THE NEEDS OR REQUIREMENTS
-					SET FORTH IN ANY DOCUMENTATION. WE MAKE NO WARRANTIES, EXPRESS,
-					STATUTORY, OR IMPLIED, THAT THE SERVICES, INCLUDING, WITHOUT
-					LIMITATION, THE SJS ICE TEAM CONTENT, FUNCTIONS, OR MATERIALS
-					CONTAINED THEREIN, WILL BE TIMELY, SECURE, ACCURATE, ERROR-FREE,
-					COMPLETE, UP-TO-DATE, FREE OF VIRUSES, OR UNINTERRUPTED. THE SJS ICE
-					TEAM MAKES NO REPRESENTATION THAT THE SERVICES ARE APPROPRIATE OR
-					AVAILABLE FOR USE OUTSIDE OF THE UNITED STATES. NO ORAL OR WRITTEN
-					INFORMATION MADE AVAILABLE BY OR ON BEHALF OF THE SJS ICE TEAM SHALL
-					CREATE ANY WARRANTY. IF APPLICABLE LAW DOES NOT ALLOW THE EXCLUSION OF
-					SOME OR ALL OF THE ABOVE IMPLIED OR STATUTORY WARRANTIES TO APPLY TO
-					YOU, THE ABOVE EXCLUSIONS WILL APPLY TO YOU TO THE FULLEST EXTENT
-					PERMITTED BY APPLICABLE LAW.
+					SERVICES OR OTHERWISE BY THE San Jose Sharks Ice Team. FURTHER, THERE
+					IS NO WARRANTY THAT THE SERVICES WILL MEET YOUR NEEDS OR REQUIREMENTS
+					OR THE NEEDS OR REQUIREMENTS OF ANY OTHER PERSON OR THE NEEDS OR
+					REQUIREMENTS SET FORTH IN ANY DOCUMENTATION. WE MAKE NO WARRANTIES,
+					EXPRESS, STATUTORY, OR IMPLIED, THAT THE SERVICES, INCLUDING, WITHOUT
+					LIMITATION, THE San Jose Sharks Ice Team CONTENT, FUNCTIONS, OR
+					MATERIALS CONTAINED THEREIN, WILL BE TIMELY, SECURE, ACCURATE,
+					ERROR-FREE, COMPLETE, UP-TO-DATE, FREE OF VIRUSES, OR UNINTERRUPTED.
+					THE SJS ICE TEAM MAKES NO REPRESENTATION THAT THE SERVICES ARE
+					APPROPRIATE OR AVAILABLE FOR USE OUTSIDE OF THE UNITED STATES. NO ORAL
+					OR WRITTEN INFORMATION MADE AVAILABLE BY OR ON BEHALF OF THE San Jose
+					Sharks Ice Team SHALL CREATE ANY WARRANTY. IF APPLICABLE LAW DOES NOT
+					ALLOW THE EXCLUSION OF SOME OR ALL OF THE ABOVE IMPLIED OR STATUTORY
+					WARRANTIES TO APPLY TO YOU, THE ABOVE EXCLUSIONS WILL APPLY TO YOU TO
+					THE FULLEST EXTENT PERMITTED BY APPLICABLE LAW.
 				</InfoText>
 				<Title style={style}>Changes To This Privacy Policy.</Title>
 				<InfoText>
@@ -173,7 +183,11 @@ const ViewPrivacyPage = () => (
 				<Title style={style}>Contact Us.</Title>
 				<InfoText>
 					If you have any questions about this Privacy Policy or our privacy
-					practices, please contact us by using the Contact Us form.
+					practices, please contact us by using the{" "}
+					<Link blue style={linkStyle} to="/employee/contact-us">
+						Contact Us
+					</Link>{" "}
+					form.
 				</InfoText>
 			</div>
 		</Card>

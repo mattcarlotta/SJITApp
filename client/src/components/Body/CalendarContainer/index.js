@@ -10,6 +10,7 @@ export default styled.div`
 	background-color: #f7f6f6;
 	text-align: left;
 	border: 2px solid #e8e8e8;
+	overflow-y: auto;
 	-webkit-transition: background 0.3s;
 	transition: background 0.3s;
 `;

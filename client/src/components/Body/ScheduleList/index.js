@@ -7,7 +7,7 @@ import { Button, DisplayTeam, FadeIn, List, ListItem } from "components/Body";
 const iconStyle = {
 	position: "relative",
 	top: 0,
-	right: "-20px",
+	left: "10px",
 	color: "#fff",
 	fontSize: 12,
 };

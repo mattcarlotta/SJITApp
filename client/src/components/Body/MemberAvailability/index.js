@@ -6,7 +6,7 @@ import moment from "moment";
 import { Empty } from "antd";
 import { ResponsivePie } from "@nivo/pie";
 import { ResponsiveBar } from "@nivo/bar";
-import { Center, ScheduleHeader } from "components/Body"; // Badge
+import { Center, Flex, FlexCenter, ScheduleHeader } from "components/Body"; // Badge
 
 const COLORS = ["#247BA0", "#2A9D8F", "#F4A261", "#FF8060", "#BFBFBF"];
 
@@ -153,7 +153,11 @@ class MemberAvailability extends Component {
 						</div>
 					</Fragment>
 				) : (
-					<Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+					<Flex style={{ height: 800 }}>
+						<FlexCenter>
+							<Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+						</FlexCenter>
+					</Flex>
 				)}
 			</Fragment>
 		);

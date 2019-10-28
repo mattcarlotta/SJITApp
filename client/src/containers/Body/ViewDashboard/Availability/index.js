@@ -12,6 +12,11 @@ const iconStyle = {
 	fontSize: 22,
 };
 
+const newcolumns = {
+	...columns,
+	xl: 24,
+};
+
 class Availability extends Component {
 	state = { isLoading: true };
 
@@ -20,7 +25,7 @@ class Availability extends Component {
 	};
 
 	render = () => (
-		<Col {...columns}>
+		<Col {...newcolumns}>
 			<Card
 				bodyStyle={{ minHeight: "300px" }}
 				title={

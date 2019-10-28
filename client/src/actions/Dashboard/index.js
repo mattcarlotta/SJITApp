@@ -2,6 +2,16 @@ import isEmpty from "lodash/isEmpty";
 import * as types from "types";
 
 /**
+ * Fetches current month AP form.
+ *
+ * @function fetchAPForm
+ * @returns {object}
+ */
+export const fetchAPForm = () => ({
+	type: types.DASHBOARD_FETCH_APFORM,
+});
+
+/**
  * Fetches event distribution by month.
  *
  * @function fetchEventDistribution
@@ -23,6 +33,18 @@ export const fetchEventDistribution = params => ({
 export const fetchEvents = selectedEvent => ({
 	type: types.DASHBOARD_FETCH_EVENTS,
 	selectedEvent: selectedEvent.toLowerCase(),
+});
+
+/**
+ * Sets event distribution to redux state
+ *
+ * @function setAPForm
+ * @param {array} data - contains apform data ({_id, sendEmailNotificationsDate, startMonth, endMonth, expirationDate, notes, eventCounts}).
+ * @returns {object}
+ */
+export const setAPForm = data => ({
+	type: types.DASHBOARD_SET_APFORM,
+	payload: !isEmpty(data) ? data : {},
 });
 
 /**

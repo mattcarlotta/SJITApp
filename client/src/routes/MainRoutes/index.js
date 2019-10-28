@@ -11,7 +11,7 @@ import GlobalStyles from "styles/theme/globalStyles";
 const config = {
 	htmlAttributes: { lang: "en" },
 	title: "San Jose Sharks Ice Team",
-	titleTemplate: "SJS Ice Team - %s",
+	titleTemplate: "San Jose Sharks Ice Team - %s",
 	meta: [
 		{
 			name: "San Jose Sharks Ice Team",

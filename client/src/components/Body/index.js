@@ -7,6 +7,7 @@ export { default as Bold } from "./Bold";
 export { default as Button } from "./Button";
 export { default as ButtonContainer } from "./ButtonContainer";
 export { default as Calendar } from "./Calendar";
+export { default as CalendarContainer } from "./CalendarContainer";
 export { default as Center } from "./Center";
 export { default as Column } from "./Column";
 export { default as ColumnTitle } from "./ColumnTitle";

@@ -1,7 +1,7 @@
 import { all, put, call, takeLatest } from "redux-saga/effects";
 import { app } from "utils";
 import { setServerMessage } from "actions/Messages";
-import { setEventDistribution, setEvents } from "actions/Dashboard";
+import { setEventDistribution, setEvents, setAPForm } from "actions/Dashboard";
 import { parseData } from "utils/parseResponse";
 import * as types from "types";
 
@@ -9,7 +9,29 @@ import * as types from "types";
  * Attempts to get event for editing.
  *
  * @generator
- * @function selectedMonth
+ * @function fetchAPForm
+ * @yields {object} - A response from a call to the API.
+ * @function parseData - Returns a parsed res.data.
+ * @yields {action} - A redux action to set event data to redux state.
+ * @throws {action} - A redux action to display a server message by type.
+ */
+
+export function* fetchAPForm() {
+	try {
+		const res = yield call(app.get, `dashboard/ap-form`);
+		const data = yield call(parseData, res);
+
+		yield put(setAPForm(data));
+	} catch (e) {
+		yield put(setServerMessage({ type: "error", message: e.toString() }));
+	}
+}
+
+/**
+ * Attempts to get event for editing.
+ *
+ * @generator
+ * @function fetchEventDistribution
  * @param {object} params - startDate and endDate
  * @yields {object} - A response from a call to the API.
  * @function parseData - Returns a parsed res.data.
@@ -34,7 +56,7 @@ export function* fetchEventDistribution({ params }) {
  * Attempts to get event for editing.
  *
  * @generator
- * @function selectedEvent
+ * @function fetchEvents
  * @param {string} eventId
  * @yields {object} - A response from a call to the API.
  * @function parseData - Returns a parsed res.data.
@@ -62,6 +84,7 @@ export function* fetchEvents({ selectedEvent }) {
  */
 export default function* dashboardSagas() {
 	yield all([
+		takeLatest(types.DASHBOARD_FETCH_APFORM, fetchAPForm),
 		takeLatest(types.DASHBOARD_FETCH_EVENTS, fetchEvents),
 		takeLatest(
 			types.DASHBOARD_FETCH_EVENT_DISTRIBUTION,

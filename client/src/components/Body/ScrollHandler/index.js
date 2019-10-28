@@ -16,7 +16,7 @@ export class ScrollHandler extends PureComponent {
 				behavior: "auto",
 				top: 0,
 			});
-		}, 100);
+		});
 	};
 
 	render = () => this.props.children;

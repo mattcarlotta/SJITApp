@@ -6,9 +6,13 @@ import get from "lodash/get";
 import moment from "moment";
 import { Card, Col, Select } from "antd";
 import { MdEvent } from "react-icons/md";
-import { LoadingPanel, ScheduleModal, ScheduleList } from "components/Body";
+import {
+	CalendarContainer,
+	LoadingPanel,
+	ScheduleModal,
+	ScheduleList,
+} from "components/Body";
 import { fetchEvents } from "actions/Dashboard";
-import CalendarContainer from "./CalendarContainer";
 import CalendarDate from "./CalendarDate";
 import NoEvents from "./NoEvents";
 import columns from "../Columns";
@@ -117,6 +121,7 @@ class Events extends Component {
 													scheduleIconStyle={{
 														fontSize: 17,
 														verticalAlign: "middle",
+														left: "20px",
 													}}
 												/>
 											) : null,

@@ -1,4 +1,4 @@
-import { push } from "connected-react-router";
+import { goBack, push } from "connected-react-router";
 import { all, put, call, takeLatest } from "redux-saga/effects";
 import { app } from "utils";
 import { hideServerMessage, setServerMessage } from "actions/Messages";
@@ -132,7 +132,7 @@ export function* fetchFormAp({ formId }) {
 			}),
 		);
 	} catch (e) {
-		yield put(push("/employee/forms/viewall"));
+		yield put(goBack());
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
 }

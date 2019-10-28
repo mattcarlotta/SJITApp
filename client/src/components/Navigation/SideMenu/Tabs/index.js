@@ -14,7 +14,7 @@ import {
 	FaConciergeBell,
 	FaUserPlus,
 	FaUserFriends,
-	FaListAlt,
+	FaFileAlt,
 	FaKey,
 	FaFolder,
 	FaFolderOpen,
@@ -39,7 +39,7 @@ export const StaffRoutes = [
 		tab: "forms",
 		submenu: [
 			{ key: "forms/create", component: MdNoteAdd, tab: "Create Form" },
-			{ key: "forms/viewall", component: FaListAlt, tab: "View Forms" },
+			{ key: "forms/viewall", component: FaFileAlt, tab: "View Forms" },
 		],
 	},
 	{

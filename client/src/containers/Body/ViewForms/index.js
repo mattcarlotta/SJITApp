@@ -4,7 +4,7 @@ import Helmet from "react-helmet";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import { Card } from "antd";
-import { FaListAlt } from "react-icons/fa";
+import { FaFileSignature } from "react-icons/fa";
 import { MdNoteAdd } from "react-icons/md";
 import {
 	Button,
@@ -74,7 +74,7 @@ export const ViewForms = ({
 		<Card
 			title={
 				<Fragment>
-					<FaListAlt style={iconStyle} />
+					<FaFileSignature style={iconStyle} />
 					<span css="vertical-align: middle;">{title}</span>
 				</Fragment>
 			}
