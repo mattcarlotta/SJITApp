@@ -1,15 +1,9 @@
 import React from "react";
-import { FaSearchPlus } from "react-icons/fa";
-import { Button, InfoText, TextContainer } from "components/Body";
+import { Button, InfoText, TextContainer, WarningText } from "components/Body";
 import { Link } from "components/Navigation";
 
 const btnStyle = {
 	display: "inline-block",
-};
-
-const iconStyle = {
-	position: "relative",
-	top: 2,
 };
 
 const linkStyle = {
@@ -21,26 +15,29 @@ const ViewingForms = () => (
 	<TextContainer>
 		<InfoText>To view an A/P form, go to the</InfoText>
 		&nbsp;
-		<Link blue style={linkStyle} to="/employee/forms/viewall" target="_blank">
-			Forms
+		<Link blue style={linkStyle} to="/employee/dashboard" target="_blank">
+			Dashboard
 		</Link>
 		&nbsp;
-		<InfoText>page and click on one of the</InfoText>
+		<InfoText>page and click on the</InfoText>
 		&nbsp;
 		<Button
 			primary
-			width="50px"
+			width="300px"
 			padding="0px"
 			marginRight="0px"
 			style={btnStyle}
 			onClick={null}
 		>
-			<FaSearchPlus style={iconStyle} />
+			Sharks & Barracuda A/P Form
 		</Button>
 		&nbsp;
 		<InfoText>
-			view buttons located under the <strong>Table Actions</strong> column.
+			button located underneath the <strong>Forms</strong> tab.
 		</InfoText>
+		<WarningText>
+			Be advised that this button will be deactivated if the form has expired.
+		</WarningText>
 	</TextContainer>
 );
 

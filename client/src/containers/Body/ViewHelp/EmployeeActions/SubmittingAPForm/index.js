@@ -1,15 +1,9 @@
 import React from "react";
-import { FaSearchPlus } from "react-icons/fa";
 import { Button, InfoText, TextContainer, WarningText } from "components/Body";
 import { Link } from "components/Navigation";
 
 const btnStyle = {
 	display: "inline-block",
-};
-
-const iconStyle = {
-	position: "relative",
-	top: 2,
 };
 
 const linkStyle = {
@@ -19,34 +13,34 @@ const linkStyle = {
 
 const SubmittingAPForm = () => (
 	<TextContainer>
-		<InfoText>To add your availabilty to an A/P form, go to the</InfoText>
+		<InfoText>To add your availability to an A/P form, go to the</InfoText>
 		&nbsp;
-		<Link blue style={linkStyle} to="/employee/forms/viewall" target="_blank">
-			Forms
+		<Link blue style={linkStyle} to="/employee/dashboard" target="_blank">
+			Dashboard
 		</Link>
 		&nbsp;
 		<InfoText>page and click on the</InfoText>
 		&nbsp;
 		<Button
 			primary
-			width="50px"
+			width="300px"
 			padding="0px"
 			marginRight="0px"
 			style={btnStyle}
 			onClick={null}
 		>
-			<FaSearchPlus style={iconStyle} />
+			Sharks & Barracuda A/P Form
 		</Button>
 		&nbsp;
 		<InfoText>
-			(view) button located under the <strong>Table Actions</strong> column. For
-			each game, select one of the four available options:{" "}
-			<strong>I want to work.</strong>, <strong>Available to work.</strong>,{" "}
-			<strong>Prefer not to work.</strong>, or{" "}
-			<strong>Not available to work.</strong> If you&#39;re unavailable to work
-			or you want to work but have some stipulations, then you can optionally
-			add a reason/note to the specified game. This note will be visible to a
-			staff member when they&#39;re scheduling the specified game.
+			button located underneath the <strong>Forms</strong> tab. For each game
+			within the <strong>Sharks & Barracuda A/P Form</strong>, select one of the
+			four available options: <strong>I want to work.</strong>,{" "}
+			<strong>Available to work.</strong>, <strong>Prefer not to work.</strong>,
+			or <strong>Not available to work.</strong> If you&#39;re unavailable to
+			work or you want to work but have some stipulations, then you can
+			optionally add a reason/note to the specified game. This note will be
+			visible to a staff member when they&#39;re scheduling the specified game.
 		</InfoText>
 		<br />
 		<br />

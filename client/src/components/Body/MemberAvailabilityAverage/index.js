@@ -6,7 +6,7 @@ import { ResponsivePie } from "@nivo/pie";
 import { MdAccessTime } from "react-icons/md";
 import { CalendarContainer, FlexCenter } from "components/Body";
 
-const COLORS = ["#58AFFF", "#BBB"];
+const COLORS = ["#2979FF", "#BBBBBB"];
 const styles = {
 	position: "absolute",
 	top: 0,

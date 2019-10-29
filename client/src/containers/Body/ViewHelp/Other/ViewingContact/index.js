@@ -13,7 +13,7 @@ const ViewingContact = () => (
 			If you can&#39;t find an answer to your question, please go to the
 		</InfoText>
 		&nbsp;
-		<Link blue style={linkStyle} to="/employee/contact" target="_blank">
+		<Link blue style={linkStyle} to="/employee/contact-us" target="_blank">
 			Contact Us
 		</Link>
 		&nbsp;

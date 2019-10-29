@@ -16,6 +16,7 @@ import {
 	SendMail,
 	ViewAuthorizations,
 	ViewEvents,
+	ViewForms,
 	ViewMail,
 	ViewMemberProfile,
 	ViewMembers,
@@ -27,7 +28,6 @@ import {
 	ViewApForm,
 	ViewContact,
 	ViewDashboard,
-	ViewForms,
 	ViewHelp,
 	ViewLicense,
 	ViewPrivacy,
@@ -36,7 +36,7 @@ import {
 } from "pages/Shared";
 
 const AppRoutes = ({ match: { url }, role }) =>
-	role === "staff" || role === "admin" ? (
+	role !== "employee" ? (
 		<Switch>
 			<Redirect exact from={`${url}`} to={`${url}/dashboard`} />
 			<Redirect from={`${url}/login`} to={`${url}/dashboard`} />
@@ -89,7 +89,6 @@ const AppRoutes = ({ match: { url }, role }) =>
 			<Redirect exact from={`${url}`} to={`${url}/dashboard`} />
 			<Redirect from={`${url}/login`} to={`${url}/dashboard`} />
 			<Route exact path={`${url}/dashboard`} component={ViewDashboard} />
-			<Route exact path={`${url}/forms/viewall`} component={ViewForms} />
 			<Route exact path={`${url}/forms/view/:id`} component={ViewApForm} />
 			<Route exact path={`${url}/schedule`} component={ViewSchedule} />
 			<Route exact path={`${url}/settings`} component={ViewSettings} />

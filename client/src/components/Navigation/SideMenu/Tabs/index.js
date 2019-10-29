@@ -98,11 +98,6 @@ export const StaffRoutes = [
 export const EmployeeRoutes = [
 	{ component: MdDashboard, key: "dashboard", tab: "dashboard" },
 	{
-		component: FaFileSignature,
-		key: "forms/viewall",
-		tab: "forms",
-	},
-	{
 		component: FaCalendar,
 		key: "schedule",
 		tab: "schedule",

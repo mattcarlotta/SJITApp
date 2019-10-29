@@ -16,12 +16,26 @@ const ViewingAvailability = () => (
 		</Link>
 		&nbsp;
 		<InfoText>
-			page and click on the <strong>Availability</strong> tab. You can change
-			the month and/or year to reflect which month and year you&#39;d wish to
-			view. The pie chart displays your responses for the selected month&#39;s
-			A/P form and the bar chart displays the amount of games that you were
-			scheduled for versus the amount of available home games within the
-			selected month and year.
+			page and click on the <strong>Availability</strong> tab -- you can change
+			the <strong>Month</strong> and/or <strong>Year</strong> to reflect which
+			month and year you&#39;d wish to view. The pie chart displays your
+			responses for the selected month&#39;s A/P form and the bar chart displays
+			the amount of games that you were scheduled for versus the amount of
+			available home games.
+		</InfoText>
+		<br />
+		<br />
+		<InfoText>
+			To view your current month&#39;s availability percentage, go to the
+		</InfoText>
+		&nbsp;
+		<Link blue style={linkStyle} to="/employee/dashboard" target="_blank">
+			Dashboard
+		</Link>
+		&nbsp;
+		<InfoText>
+			page and underneath the <strong>Availabilty</strong> tab will be your
+			current month&#39;s availability percentage.
 		</InfoText>
 	</TextContainer>
 );

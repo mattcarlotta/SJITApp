@@ -23,12 +23,13 @@ const ViewingMySchedule = () => (
 		&nbsp;
 		<InfoText>
 			page and change the selected <strong>All Games</strong> option to the{" "}
-			<strong>My Games</strong> option. Optionally, you can also select a{" "}
-			<strong>Month</strong> and <strong>Year</strong> to filter the calendar.
+			<strong>My Games</strong> option -- you can also select a{" "}
+			<strong>Month</strong> and a <strong>Year</strong> to filter the calendar.
 			If you&#39;ve been scheduled to work a game within the selected month and
-			year, then you&#39;ll see a game button rendered within a calendar date.
-			Click on the game button to view its details. Underneath one of the{" "}
-			<strong>Scheduled Employees</strong> call times(
+			year, then you&#39;ll see a button with a scheduled (
+			<FaCalendarCheck style={iconStyle} />) icon. Click on the button to view
+			its details. Underneath one of the <strong>Scheduled Employees</strong>{" "}
+			call times(
 			<FaClock style={iconStyle} />
 			), you&#39;ll see your name{" "}
 			<strong
@@ -42,6 +43,22 @@ const ViewingMySchedule = () => (
 			</strong>{" "}
 			to delineate which call time you&#39;ve been assigned to.
 		</InfoText>
+		<br />
+		<br />
+		<InfoText>
+			You can also view your next scheduled game (within 7 days of the current
+			date) that you have been assigned to by going to the
+		</InfoText>
+		&nbsp;
+		<Link blue style={linkStyle} to="/employee/dashboard" target="_blank">
+			Dashboard
+		</Link>
+		&nbsp;
+		<InfoText>
+			page and, within the <strong>Events</strong> tab, change the{" "}
+			<strong>Today</strong> option to the <strong>Upcoming</strong> option.
+		</InfoText>
+		&nbsp;
 	</TextContainer>
 );
 

@@ -25,7 +25,7 @@ const iconStyle = {
 
 const warningStyle = {
 	verticalAlign: "middle",
-	marginTop: "15px",
+	marginTop: 10,
 	padding: "5px 0",
 	borderRadius: 3,
 };
@@ -62,58 +62,51 @@ class Forms extends PureComponent {
 					) : (
 						<CalendarContainer>
 							{!isEmpty(apform) ? (
-								<Fragment>
+								<div css="margin-top: 10px;">
 									<Button
 										primary
-										padding="0px"
+										disabled={hasExpired}
+										padding="10px 0"
 										marginRight="0px"
 										onClick={
 											!hasExpired
 												? () => push(`/employee/forms/view/${apform._id}`)
 												: null
 										}
-										style={{
-											cursor: hasExpired ? "auto" : "pointer",
-										}}
 									>
 										<div>Sharks & Barracuda A/P Form</div>
+									</Button>
+									<div css="font-size: 17px;padding: 0 5px; margin-top: 15px;">
 										<div>
+											<Bold>Form Id:</Bold>
+											{apform._id}
+										</div>
+										<div>
+											<Bold>Dates:</Bold>
 											{startDate} - {endDate}
 										</div>
-									</Button>
-									<div css="font-size: 17px;">
-										<div css="margin-top: 15px; padding: 0 5px;">
-											<div>
-												<Bold>Form Id:</Bold>
-												{apform._id}
-											</div>
-											<div>
-												<Bold>Expiration Date:</Bold>
-												{expDate.format(format)}
-											</div>
-											<div>
-												<Bold>Event Count:</Bold>
-												{apform.eventCounts}
-											</div>
-											<div>
-												<Bold>Notes:</Bold>
-												{apform.notes || "(none)"}
-											</div>
-											<WarningText
-												style={{
-													...warningStyle,
-													backgroundColor: !hasExpired ? "#2979ff" : "#f56342",
-												}}
-											>
-												{hasExpired
-													? `This form has expired and is no longer viewable.`
-													: `This form will expire ${moment(expDate)
-															.startOf("day")
-															.fromNow()}!`}
-											</WarningText>
+										<div>
+											<Bold>Expiration Date:</Bold>
+											{expDate.format(format)}
 										</div>
+										<div>
+											<Bold>Event Count:</Bold>
+											{apform.eventCounts}
+										</div>
+										<WarningText
+											style={{
+												...warningStyle,
+												backgroundColor: !hasExpired ? "#2979ff" : "#f56342",
+											}}
+										>
+											{hasExpired
+												? `This form has expired and is no longer viewable.`
+												: `This form will expire ${moment(expDate)
+														.startOf("day")
+														.fromNow()}!`}
+										</WarningText>
 									</div>
-								</Fragment>
+								</div>
 							) : (
 								<NoForms />
 							)}
@@ -131,7 +124,6 @@ Forms.propTypes = {
 		startMonth: PropTypes.string,
 		endMonth: PropTypes.string,
 		expirationDate: PropTypes.string,
-		notes: PropTypes.string,
 		eventCounts: PropTypes.number,
 	}),
 	isLoading: PropTypes.bool.isRequired,

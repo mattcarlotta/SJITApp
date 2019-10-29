@@ -12,6 +12,7 @@ import {
 	SendMail,
 	ViewAuthorizations,
 	ViewEvents,
+	ViewForms,
 	ViewMail,
 	ViewMemberProfile,
 	ViewMembers,
@@ -23,7 +24,6 @@ import {
 	ViewApForm,
 	ViewContact,
 	ViewDashboard,
-	ViewForms,
 	ViewHelp,
 	ViewLicense,
 	ViewPrivacy,
@@ -270,8 +270,8 @@ describe("Application routes", () => {
 			wrapper.setProps({ role: "member" });
 		});
 
-		it("initially renders 10 routes", () => {
-			expect(wrapper.find("Route")).toHaveLength(10);
+		it("initially renders 9 routes", () => {
+			expect(wrapper.find("Route")).toHaveLength(9);
 		});
 
 		it("routes to ViewDashboard", () => {
@@ -280,14 +280,6 @@ describe("Application routes", () => {
 					.find("Route[exact=true][path='/employee/dashboard']")
 					.prop("component"),
 			).toBe(ViewDashboard);
-		});
-
-		it("routes to ViewForms", () => {
-			expect(
-				wrapper
-					.find("Route[exact=true][path='/employee/forms/viewall']")
-					.prop("component"),
-			).toBe(ViewForms);
 		});
 
 		it("routes to ViewApForm", () => {
@@ -350,7 +342,7 @@ describe("Application routes", () => {
 			expect(
 				wrapper
 					.find("Route")
-					.at(9)
+					.at(8)
 					.prop("component"),
 			).toBe(AppPageNotFound);
 		});
