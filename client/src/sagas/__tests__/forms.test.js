@@ -439,7 +439,7 @@ describe("Form Sagas", () => {
 				.next(res.data.message)
 				.put(setServerMessage({ type: "success", message: res.data.message }))
 				.next()
-				.put(push("/employee/forms/viewall"))
+				.put(push("/employee/dashboard"))
 				.next()
 				.isDone();
 		});

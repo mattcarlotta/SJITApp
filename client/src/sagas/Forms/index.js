@@ -250,7 +250,7 @@ export function* updateFormAp({ props }) {
 			}),
 		);
 
-		yield put(push("/employee/forms/viewall"));
+		yield put(push("/employee/dashboard"));
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}

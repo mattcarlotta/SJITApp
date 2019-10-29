@@ -31,7 +31,7 @@ class DisplayTeam extends Component {
 		this.state.loadedFile ? (
 			<img src={this.state.loadedFile} alt={`${this.props.team}.png`} />
 		) : (
-			<LoadingImage />
+			<LoadingImage {...this.props} />
 		);
 }
 

@@ -115,6 +115,8 @@ class Events extends Component {
 													content={[props]}
 													listStyle={{ padding: 3 }}
 													spacing={20}
+													height="45px"
+													width="45px"
 													folder="lowres"
 													handleShowModal={this.handleShowModal}
 													loggedinUserId={this.props.loggedinUserId}

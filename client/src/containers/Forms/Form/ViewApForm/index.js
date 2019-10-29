@@ -4,7 +4,7 @@ import isEmpty from "lodash/isEmpty";
 import moment from "moment";
 import { Card } from "antd";
 import { connect } from "react-redux";
-import { push } from "connected-react-router";
+import { goBack } from "connected-react-router";
 import { FaFileSignature } from "react-icons/fa";
 import {
 	BackButton,
@@ -86,11 +86,11 @@ export class ViewApForm extends Component {
 
 	render = () => {
 		const { fields, isLoading, isSubmitting } = this.state;
-		const { push, viewForm } = this.props;
+		const { goBack, viewForm } = this.props;
 
 		return (
 			<Card
-				extra={<BackButton push={push} location="/employee/forms/viewall" />}
+				extra={<BackButton push={goBack} />}
 				title={
 					<Fragment>
 						<FaFileSignature style={iconStyle} />
@@ -162,7 +162,7 @@ ViewApForm.propTypes = {
 			id: PropTypes.string,
 		}),
 	}).isRequired,
-	push: PropTypes.func.isRequired,
+	goBack: PropTypes.func.isRequired,
 	serverMessage: PropTypes.string,
 	updateFormAp: PropTypes.func.isRequired,
 	viewForm: PropTypes.shape({
@@ -182,7 +182,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
 	fetchFormAp,
-	push,
+	goBack,
 	updateFormAp,
 };
 

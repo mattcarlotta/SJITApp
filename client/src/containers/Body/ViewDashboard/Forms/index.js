@@ -41,10 +41,7 @@ class Forms extends PureComponent {
 	render = () => {
 		const { apform, isLoading, push } = this.props;
 		const expDate = moment(apform.expirationDate);
-		const currentDate = moment();
-		const startDate = moment(apform.startMonth).format(simpleFormat);
-		const endDate = moment(apform.endMonth).format(simpleFormat);
-		const hasExpired = expDate.toDate() < currentDate.toDate();
+		const hasExpired = expDate.toDate() < moment().toDate();
 
 		return (
 			<Col {...columns}>
@@ -76,14 +73,15 @@ class Forms extends PureComponent {
 									>
 										<div>Sharks & Barracuda A/P Form</div>
 									</Button>
-									<div css="font-size: 17px;padding: 0 5px; margin-top: 15px;">
+									<div css="font-size: 17px;padding: 0 5px;margin-top: 15px;">
 										<div>
 											<Bold>Form Id:</Bold>
 											{apform._id}
 										</div>
 										<div>
 											<Bold>Dates:</Bold>
-											{startDate} - {endDate}
+											{moment(apform.startMonth).format(simpleFormat)} -{" "}
+											{moment(apform.endMonth).format(simpleFormat)}
 										</div>
 										<div>
 											<Bold>Expiration Date:</Bold>

@@ -16,6 +16,8 @@ const ScheduleList = ({
 	content,
 	folder,
 	handleShowModal,
+	height,
+	width,
 	listStyle,
 	loggedinUserId,
 	scheduleIconStyle,
@@ -33,7 +35,12 @@ const ScheduleList = ({
 						onClick={() => handleShowModal(item)}
 					>
 						<ListItem style={{ margin: 0, ...listStyle }}>
-							<DisplayTeam folder={folder || "calendar"} team={item.team} />
+							<DisplayTeam
+								folder={folder || "calendar"}
+								height={height}
+								width={width}
+								team={item.team}
+							/>
 							{item.opponent && (
 								<Fragment>
 									<span
@@ -44,6 +51,8 @@ const ScheduleList = ({
 										vs.
 									</span>
 									<DisplayTeam
+										height={height}
+										width={width}
 										folder={folder || "calendar"}
 										team={item.opponent}
 									/>
@@ -94,6 +103,7 @@ ScheduleList.propTypes = {
 	),
 	folder: PropTypes.string,
 	handleShowModal: PropTypes.func.isRequired,
+	height: PropTypes.string,
 	listStyle: PropTypes.objectOf(
 		PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 	),
@@ -102,6 +112,7 @@ ScheduleList.propTypes = {
 	scheduleIconStyle: PropTypes.objectOf(
 		PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 	),
+	width: PropTypes.string,
 };
 
 export default ScheduleList;

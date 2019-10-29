@@ -47,15 +47,12 @@ const createAuthMail = (authorizedEmail, token, expiration) => ({
 const available = Array.from(responseTypes).splice(1, 3);
 const createMemberAvailabilityAverage = ({ eventCounts, eventResponses }) =>
   eventResponses.reduce((acc, { responses }) => {
-    let avail = 0;
-    let unavail = 0;
-    responses.forEach(response => {
-      if (available.includes(response)) {
-        avail += 1;
-      } else {
-        unavail += 1;
-      }
-    });
+    let avail = 0,
+      unavail = 0;
+
+    for (const response of responses) {
+      available.includes(response) ? avail++ : unavail++;
+    }
 
     return [
       {
@@ -316,7 +313,7 @@ const getStartOfDay = () =>
  * @param project - projected data structure
  * @returns {array}
  */
-const getUsers = async ({ match, project }) => {
+const getUsers = async ({ match, project, group }) => {
   const members = await User.aggregate([
     {
       $match: match,

@@ -118,6 +118,8 @@ class CustomCalendar extends Component {
 				loggedinUserId={this.props.loggedinUserId}
 				content={content}
 				handleShowModal={this.handleShowModal}
+				height="20px"
+				width="20px"
 			/>
 		);
 	};
