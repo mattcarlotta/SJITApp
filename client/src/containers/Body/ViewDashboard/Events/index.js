@@ -59,7 +59,7 @@ class Events extends Component {
 
 	render = () => {
 		const { selectedEvent } = this.state;
-		const { events, isLoading } = this.props;
+		const { events, isLoading, role } = this.props;
 		const eventDate = get(events[0], ["eventDate"]);
 		const endOfDay = moment(eventDate)
 			.endOf("day")
@@ -79,19 +79,21 @@ class Events extends Component {
 							</Fragment>
 						}
 						extra={
-							<Select
-								size="large"
-								onChange={this.handleSelection}
-								defaultValue={selectedEvent}
-								value={selectedEvent}
-								style={{ width: 120 }}
-							>
-								{["Today", "Upcoming"].map(game => (
-									<Option key={game} value={game}>
-										{game}
-									</Option>
-								))}
-							</Select>
+							role === "employee" && (
+								<Select
+									size="large"
+									onChange={this.handleSelection}
+									defaultValue={selectedEvent}
+									value={selectedEvent}
+									style={{ width: 120 }}
+								>
+									{["Today", "Upcoming"].map(game => (
+										<Option key={game} value={game}>
+											{game}
+										</Option>
+									))}
+								</Select>
+							)
 						}
 					>
 						<CalendarContainer>
@@ -174,13 +176,15 @@ Events.propTypes = {
 	),
 	isLoading: PropTypes.bool.isRequired,
 	fetchEvents: PropTypes.func.isRequired,
-	loggedinUserId: PropTypes.string,
+	loggedinUserId: PropTypes.string.isRequired,
+	role: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => ({
 	events: state.dashboard.events.data,
 	isLoading: state.dashboard.events.isLoading,
 	loggedinUserId: state.auth.id,
+	role: state.auth.role,
 });
 
 const mapDispatchToProps = {

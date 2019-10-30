@@ -45,6 +45,16 @@ export const fetchEvents = selectedEvent => ({
 });
 
 /**
+ * Fetches current month AP form members' availabilities.
+ *
+ * @function fetchMembersAvailability
+ * @returns {object}
+ */
+export const fetchMembersAvailability = () => ({
+	type: types.DASHBOARD_FETCH_MEMBERS_AVAILABILITY,
+});
+
+/**
  * Sets event distribution to redux state
  *
  * @function setAPForm
@@ -84,10 +94,22 @@ export const setEventDistribution = data => ({
  * Sets events to redux state
  *
  * @function setEvents
- * @param {array} data - contains events data ([_id, eventType,location,callTimes, uniform,	seasonId, eventDate, notes, scheduledEmployees]).
+ * @param {array} data - contains events data ([{_id, eventType,location,callTimes, uniform,	seasonId, eventDate, notes, scheduledEmployees}]).
  * @returns {object}
  */
 export const setEvents = data => ({
 	type: types.DASHBOARD_SET_EVENTS,
+	payload: !isEmpty(data) ? data : [],
+});
+
+/**
+ * Sets availability to redux state
+ *
+ * @function setMembersAvailability
+ * @param {array} data - contains availability data ([{eventCounts,membersAvailability, months}]).
+ * @returns {object}
+ */
+export const setMembersAvailability = data => ({
+	type: types.DASHBOARD_SET_MEMBERS_AVAILABILITY,
 	payload: !isEmpty(data) ? data : [],
 });

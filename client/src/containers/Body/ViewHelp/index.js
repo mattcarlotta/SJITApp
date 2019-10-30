@@ -51,6 +51,7 @@ import {
 	ViewingAllMembers,
 	ViewingAllSeasons,
 	ViewMemberAuthorizations,
+	ViewingMembersAvailability,
 	ViewingMemberProfile,
 	ViewingMonthlyMemberSchedule,
 	ViewingSchedules,
@@ -296,6 +297,12 @@ const Help = ({ role }) => (
 										key="DeletingMembers"
 									>
 										<DeletingMembers />
+									</Panel>
+									<Panel
+										header="How do I view all members' availability for the current month's A/P form?"
+										key="ViewingMembersAvailability"
+									>
+										<ViewingMembersAvailability />
 									</Panel>
 								</Collapse>
 							</Panel>

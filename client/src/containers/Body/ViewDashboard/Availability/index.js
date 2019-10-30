@@ -5,11 +5,7 @@ import isEmpty from "lodash/isEmpty";
 import { connect } from "react-redux";
 import { Card, Col } from "antd";
 import { FaUserClock } from "react-icons/fa";
-import {
-	// Center,
-	LoadingPanel,
-	MemberAvailabilityAverage,
-} from "components/Body";
+import { LoadingPanel, MemberAvailabilityAverage } from "components/Body";
 import { fetchAvailability } from "actions/Dashboard";
 import columns from "../Columns";
 
@@ -17,11 +13,6 @@ const iconStyle = {
 	verticalAlign: "middle",
 	marginRight: 10,
 	fontSize: 22,
-};
-
-const newcolumns = {
-	...columns,
-	xl: 24,
 };
 
 const format = "MM/DD/YYYY";
@@ -35,7 +26,7 @@ class Availability extends PureComponent {
 		const { months, isLoading } = this.props;
 
 		return (
-			<Col {...newcolumns}>
+			<Col {...columns}>
 				<Card
 					bodyStyle={{ minHeight: "300px" }}
 					title={

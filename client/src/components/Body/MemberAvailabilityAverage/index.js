@@ -3,8 +3,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
 import { ResponsivePie } from "@nivo/pie";
-import { MdAccessTime } from "react-icons/md";
-import { CalendarContainer, FlexCenter } from "components/Body";
+import { NoAvailability } from "components/Body";
 
 const COLORS = ["#2979FF", "#BBBBBB"];
 const styles = {
@@ -46,20 +45,7 @@ const MemberAvailabilityAverage = ({ eventAvailability }) =>
 			</div>
 		</div>
 	) : (
-		<CalendarContainer>
-			<FlexCenter
-				style={{
-					backgroundColor: "#f7f6f6",
-					color: "#909090",
-					flexDirection: "column",
-				}}
-			>
-				<p css="margin: 60px 0 0 0;padding: 0;">
-					<MdAccessTime style={{ fontSize: 70 }} />
-				</p>
-				<p css="margin: 0;padding: 0;">No availability this month</p>
-			</FlexCenter>
-		</CalendarContainer>
+		<NoAvailability />
 	);
 
 MemberAvailabilityAverage.propTypes = {

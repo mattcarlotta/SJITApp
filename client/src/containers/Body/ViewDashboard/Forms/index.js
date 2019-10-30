@@ -53,6 +53,23 @@ class Forms extends PureComponent {
 							<span css="vertical-align: middle;">Forms</span>
 						</Fragment>
 					}
+					extra={
+						<Button
+							tertiary
+							width="88px"
+							disabled={hasExpired}
+							padding="5px"
+							marginRight="0px"
+							style={{ fontSize: 16 }}
+							onClick={
+								!hasExpired
+									? () => push(`/employee/forms/view/${apform._id}`)
+									: null
+							}
+						>
+							View
+						</Button>
+					}
 				>
 					{isLoading ? (
 						<LoadingPanel />
@@ -60,28 +77,18 @@ class Forms extends PureComponent {
 						<CalendarContainer>
 							{!isEmpty(apform) ? (
 								<div css="margin-top: 10px;">
-									<Button
-										primary
-										disabled={hasExpired}
-										padding="10px 0"
-										marginRight="0px"
-										onClick={
-											!hasExpired
-												? () => push(`/employee/forms/view/${apform._id}`)
-												: null
-										}
-									>
+									<div css="padding: 5px 0;text-align: center;background-color: #025f6d;color: #fff;border-radius: 3px;">
 										<div>Sharks & Barracuda A/P Form</div>
-									</Button>
+										<div>
+											{" "}
+											{moment(apform.startMonth).format(simpleFormat)} -{" "}
+											{moment(apform.endMonth).format(simpleFormat)}
+										</div>
+									</div>
 									<div css="font-size: 17px;padding: 0 5px;margin-top: 15px;">
 										<div>
 											<Bold>Form Id:</Bold>
 											{apform._id}
-										</div>
-										<div>
-											<Bold>Dates:</Bold>
-											{moment(apform.startMonth).format(simpleFormat)} -{" "}
-											{moment(apform.endMonth).format(simpleFormat)}
 										</div>
 										<div>
 											<Bold>Expiration Date:</Bold>

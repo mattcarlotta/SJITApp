@@ -59,10 +59,12 @@ export class Settings extends PureComponent {
 			eventResponses,
 			fetchMemberSettingsAvailability,
 			fetchMemberSettingsEvents,
+			role,
 			viewMember,
 		} = this.props;
 
 		const { _id } = viewMember;
+		const isStaff = role !== "employee";
 
 		return (
 			<Fragment>
@@ -83,7 +85,7 @@ export class Settings extends PureComponent {
 							<Pane tab={profile} key="profile">
 								<Profile {...this.props.viewMember} />
 							</Pane>
-							<Pane tab={availability} key="availability">
+							<Pane tab={availability} disabled={isStaff} key="availability">
 								<PaneBody>
 									<Title centered>My Availability</Title>
 									<Line centered width="400px" />
@@ -94,7 +96,7 @@ export class Settings extends PureComponent {
 									/>
 								</PaneBody>
 							</Pane>
-							<Pane tab={responses} key="responses">
+							<Pane tab={responses} disabled={isStaff} key="responses">
 								<PaneBody>
 									<Title centered>My Event Responses</Title>
 									<Line centered width="400px" />
@@ -152,6 +154,7 @@ Settings.propTypes = {
 			}),
 		),
 	}),
+	role: PropTypes.string.isRequired,
 	viewMember: PropTypes.shape({
 		_id: PropTypes.string,
 		email: PropTypes.string,
@@ -169,6 +172,7 @@ Settings.propTypes = {
 const mapStateToProps = state => ({
 	eventResponses: state.members.eventResponses,
 	memberAvailability: state.members.memberAvailability,
+	role: state.auth.role,
 	viewMember: state.members.viewMember,
 	serverMessage: state.server.message,
 });

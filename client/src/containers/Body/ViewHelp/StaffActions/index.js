@@ -39,6 +39,9 @@ export {
 	default as ViewingMemberProfile,
 } from "./Members/ViewingMemberProfile";
 export { default as ViewingAllMembers } from "./Members/ViewingAllMembers";
+export {
+	default as ViewingMembersAvailability,
+} from "./Members/ViewingMembersAvailability";
 
 // seasons
 export { default as CreatingSeasons } from "./Seasons/CreatingSeasons";

@@ -73,10 +73,10 @@ const deleteForm = async (req, res) => {
     const { id: _id } = req.params;
     if (!_id) throw missingFormId;
 
-    const existingEvent = await Form.findOne({ _id });
-    if (!existingEvent) throw unableToDeleteForm;
+    const existingForm = await Form.findOne({ _id });
+    if (!existingForm) throw unableToDeleteForm;
 
-    await existingEvent.delete();
+    await existingForm.delete();
 
     res.status(200).json({ message: "Successfully deleted the form." });
   } catch (err) {

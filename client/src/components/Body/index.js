@@ -51,6 +51,7 @@ export { default as MenuButton } from "./MenuButton";
 export { default as MenuItemContainer } from "./MenuItemContainer";
 export { default as MenuItemTitle } from "./MenuItemTitle";
 export { default as Modal } from "./Modal";
+export { default as NoAvailability } from "./NoAvailability";
 export { default as Notes } from "./Notes";
 export { default as NoUsers } from "./NoUsers";
 export { default as PaneBody } from "./PaneBody";

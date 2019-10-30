@@ -22,6 +22,20 @@ const UpdatingAPForm = () => (
 		<InfoText>page and click on the</InfoText>
 		&nbsp;
 		<Button
+			width="60px"
+			padding="0px"
+			marginRight="0px"
+			style={btnStyle}
+			onClick={null}
+		>
+			View
+		</Button>
+		&nbsp;
+		<InfoText>
+			button located next to the <strong>Forms</strong> tab, or click on the
+		</InfoText>
+		&nbsp;
+		<Button
 			primary
 			width="300px"
 			padding="0px"

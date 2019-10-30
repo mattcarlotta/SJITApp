@@ -33,6 +33,7 @@ export const ViewSchedule = ({ fetchScheduleEvents, ...rest }) => (
 ViewSchedule.propTypes = {
 	fetchScheduleEvents: PropTypes.func.isRequired,
 	loggedinUserId: PropTypes.string.isRequired,
+	role: PropTypes.string.isRequired,
 	scheduleEvents: PropTypes.arrayOf(
 		PropTypes.shape({
 			_id: PropTypes.string,
@@ -64,6 +65,7 @@ ViewSchedule.propTypes = {
 const mapStateToProps = state => ({
 	loggedinUserId: state.auth.id,
 	scheduleEvents: state.events.scheduleEvents,
+	role: state.auth.role,
 });
 
 /* istanbul ignore next */

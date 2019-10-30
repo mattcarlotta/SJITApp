@@ -6,6 +6,7 @@ import {
 	setAvailability,
 	setEventDistribution,
 	setEvents,
+	setMembersAvailability,
 } from "actions/Dashboard";
 import { parseData } from "utils/parseResponse";
 import * as types from "types";
@@ -103,6 +104,28 @@ export function* fetchEvents({ selectedEvent }) {
 }
 
 /**
+ * Attempts to get current months AP form members' availabilities.
+ *
+ * @generator
+ * @function fetchMembersAvailability
+ * @yields {object} - A response from a call to the API.
+ * @function parseData - Returns a parsed res.data.
+ * @yields {action} - A redux action to set event data to redux state.
+ * @throws {action} - A redux action to display a server message by type.
+ */
+
+export function* fetchMembersAvailability() {
+	try {
+		const res = yield call(app.get, `dashboard/membersavailability`);
+		const data = yield call(parseData, res);
+
+		yield put(setMembersAvailability(data));
+	} catch (e) {
+		yield put(setServerMessage({ type: "error", message: e.toString() }));
+	}
+}
+
+/**
  * Creates watchers for all generators.
  *
  * @generator
@@ -117,6 +140,10 @@ export default function* dashboardSagas() {
 		takeLatest(
 			types.DASHBOARD_FETCH_EVENT_DISTRIBUTION,
 			fetchEventDistribution,
+		),
+		takeLatest(
+			types.DASHBOARD_FETCH_MEMBERS_AVAILABILITY,
+			fetchMembersAvailability,
 		),
 	]);
 }

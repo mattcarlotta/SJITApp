@@ -149,7 +149,6 @@ const getEventForScheduling = async (req, res) => {
     const event = await Event.findOne({ _id }, { __v: 0 }).lean();
     if (!event) throw unableToLocateEvent;
 
-    /* istanbul ignore next */
     const members = await getUsers({
       match: { role: { $nin: ["admin", "staff"] }, status: "active" },
       project: { firstName: 1, lastName: 1 },

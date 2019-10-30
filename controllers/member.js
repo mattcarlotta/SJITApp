@@ -2,6 +2,7 @@ import { Event, Token, User } from "models";
 import {
   createMemberEventCount,
   createMemberResponseCount,
+  getEventCounts,
   getMonthDateRange,
   getUsers,
   sendError,
@@ -67,12 +68,7 @@ const findMemberEvents = async (existingMember, selectedDate) => {
 const findMemberAvailabilty = async (existingMember, selectedDate, res) => {
   const { startOfMonth, endOfMonth } = getMonthDateRange(selectedDate);
 
-  const eventCount = await Event.countDocuments({
-    eventDate: {
-      $gte: startOfMonth,
-      $lte: endOfMonth,
-    },
-  });
+  const eventCount = await getEventCounts(startOfMonth, endOfMonth);
   if (eventCount === 0) return res.status(200).send({});
 
   const eventResponses = await Event.aggregate([

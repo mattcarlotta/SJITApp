@@ -97,6 +97,7 @@ class CustomCalendar extends Component {
 		<ScheduleHeader
 			{...this.state}
 			{...props}
+			role={this.props.role}
 			handleSelection={this.handleSelection}
 		/>
 	);
@@ -152,6 +153,7 @@ CustomCalendar.propTypes = {
 			id: PropTypes.string,
 		}),
 	}),
+	role: PropTypes.string,
 	scheduleEvents: PropTypes.arrayOf(
 		PropTypes.shape({
 			_id: PropTypes.string,

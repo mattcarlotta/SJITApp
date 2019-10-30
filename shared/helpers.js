@@ -2,7 +2,7 @@ import isEmpty from "lodash/isEmpty";
 import moment from "moment";
 import random from "lodash/random";
 import { Types } from "mongoose";
-import { User } from "models";
+import { Event, User } from "models";
 import { newAuthorizationKeyTemplate } from "services/templates";
 import { unableToLocateMembers } from "shared/authErrors";
 
@@ -304,6 +304,22 @@ const getEndOfDay = () =>
     .format();
 
 /**
+ * Helper function to get event counts.
+ *
+ * @function getEndOfDay
+ * @param startMonth
+ * @param endMonth
+ * @returns {object}
+ */
+const getEventCounts = async (startMonth, endMonth) =>
+  await Event.countDocuments({
+    eventDate: {
+      $gte: moment(startMonth).toDate(),
+      $lte: moment(endMonth).toDate(),
+    },
+  });
+
+/**
  * Helper function to generate a date range.
  *
  * @function getMonthDateRange
@@ -408,6 +424,7 @@ export {
   createUniqueName,
   expirationDate,
   getEndOfDay,
+  getEventCounts,
   getMonthDateRange,
   getStartOfDay,
   getUsers,

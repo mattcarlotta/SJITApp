@@ -11,7 +11,7 @@ export default app => {
   app.get("/api/dashboard/ap-form", requireAuth, getAPForm);
   app.get("/api/dashboard/availability", requireAuth, getAvailability);
   app.get(
-    "/api/dashboard/memberavailability",
+    "/api/dashboard/membersavailability",
     requireStaffRole,
     getAvailabilityForAllMembers,
   );

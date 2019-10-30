@@ -7,6 +7,7 @@ import {
   createMemberAvailabilityAverages,
   createMemberEventCount,
   convertId,
+  getEventCounts,
   getUsers,
   getEndOfDay,
   getMonthDateRange,
@@ -38,12 +39,10 @@ const getAPForm = async (req, res) => {
     ).lean();
     if (!existingForm) return res.status(200).json({ apform: {} });
 
-    const eventCounts = await Event.countDocuments({
-      eventDate: {
-        $gte: moment(existingForm.startMonth).toDate(),
-        $lte: moment(existingForm.endMonth).toDate(),
-      },
-    });
+    const eventCounts = await getEventCounts(
+      existingForm.startMonth,
+      existingForm.endMonth,
+    );
 
     res.status(200).json({ apform: { ...existingForm, eventCounts } });
   } catch (err) {
@@ -54,6 +53,8 @@ const getAPForm = async (req, res) => {
 const getAvailability = async (req, res) => {
   try {
     const currentDate = createDate().toDate();
+    const eventAvailability = [];
+    let months = [];
 
     const existingForm = await Form.findOne(
       {
@@ -66,19 +67,14 @@ const getAvailability = async (req, res) => {
       },
       { __v: 0, sentEmails: 0, seasonId: 0, sendEmailNotificationsDate: 0 },
     ).lean();
-    if (!existingForm) return res.status(200).json({ eventAvailability: [] });
+    if (!existingForm)
+      return res.status(200).json({ eventAvailability, months });
 
     const startOfMonth = moment(existingForm.startMonth).toDate();
     const endOfMonth = moment(existingForm.endMonth).toDate();
-    const eventAvailability = [];
-    const months = [startOfMonth, endOfMonth];
+    months = [startOfMonth, endOfMonth];
 
-    const eventCounts = await Event.countDocuments({
-      eventDate: {
-        $gte: startOfMonth,
-        $lte: endOfMonth,
-      },
-    });
+    const eventCounts = await getEventCounts(startOfMonth, endOfMonth);
     if (eventCounts === 0)
       return res.status(200).json({ eventAvailability, months });
 
@@ -144,9 +140,8 @@ const getAvailability = async (req, res) => {
 
 const getAvailabilityForAllMembers = async (req, res) => {
   try {
-    let memberAvailability = [];
+    let membersAvailability = [];
     let months = [];
-    let eventCounts = 0;
 
     const members = await User.aggregate([
       {
@@ -166,7 +161,7 @@ const getAvailabilityForAllMembers = async (req, res) => {
       },
     ]);
     if (isEmpty(members))
-      return res.status(200).json({ memberAvailability, months, eventCounts });
+      return res.status(200).json({ membersAvailability, months });
 
     const currentDate = createDate().toDate();
 
@@ -182,20 +177,15 @@ const getAvailabilityForAllMembers = async (req, res) => {
       { __v: 0, sentEmails: 0, seasonId: 0, sendEmailNotificationsDate: 0 },
     ).lean();
     if (!existingForm)
-      return res.status(200).json({ memberAvailability, months, eventCounts });
+      return res.status(200).json({ membersAvailability, months });
 
     const startOfMonth = moment(existingForm.startMonth).toDate();
     const endOfMonth = moment(existingForm.endMonth).toDate();
     months = [startOfMonth, endOfMonth];
 
-    eventCounts = await Event.countDocuments({
-      eventDate: {
-        $gte: startOfMonth,
-        $lte: endOfMonth,
-      },
-    });
+    const eventCounts = await getEventCounts(startOfMonth, endOfMonth);
     if (eventCounts === 0)
-      return res.status(200).json({ memberAvailability, months, eventCounts });
+      return res.status(200).json({ membersAvailability, months });
 
     const eventResponses = await Event.aggregate([
       {
@@ -233,8 +223,7 @@ const getAvailabilityForAllMembers = async (req, res) => {
     ]);
 
     return res.status(200).json({
-      eventCounts,
-      memberAvailability: createMemberAvailabilityAverages({
+      membersAvailability: createMemberAvailabilityAverages({
         eventCounts,
         eventResponses,
         members,
