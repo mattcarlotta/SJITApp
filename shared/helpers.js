@@ -19,7 +19,7 @@ const responseTypes = [
 
 const COLORS = ["#247BA0", "#2A9D8F", "#F4A261", "#FF8060", "#BFBFBF"];
 
-const toPercentage = (num, total) =>
+const toAverage = (num, total) =>
   parseInt(((num / total) * 100).toFixed(2), 10);
 
 /**
@@ -43,7 +43,7 @@ const createAuthMail = (authorizedEmail, token, expiration) => ({
  * Helper function to generate a user event availability based upon their responses.
  *
  * @function createMemberAvailabilityAverage
- * @param eventResponses - an array of responses
+ * @param object - eventCounts: number, eventResponses: an array of responses
  * @returns {array}
  */
 const available = Array.from(responseTypes).splice(1, 3);
@@ -59,12 +59,12 @@ const createMemberAvailabilityAverage = ({ eventCounts, eventResponses }) =>
       {
         id: "available",
         label: "available",
-        value: toPercentage(avail, eventCounts),
+        value: toAverage(avail, eventCounts),
       },
       {
         id: "unavailable",
         label: "unavailable",
-        value: toPercentage(unavail, eventCounts),
+        value: toAverage(unavail, eventCounts),
       },
     ];
   }, []);
@@ -82,21 +82,17 @@ const createMemberAvailabilityAverages = ({
   members,
 }) =>
   members.reduce((acc, member) => {
-    let avail = 0;
-
-    if (!isEmpty(eventResponses)) {
-      for (const response of eventResponses) {
-        if (response._id.equals(member._id)) {
-          avail = response.availability;
-        }
-      }
-    }
+    const hasResponse =
+      !isEmpty(eventResponses) &&
+      eventResponses.find(doc => doc._id.equals(member._id));
 
     return [
       ...acc,
       {
         id: member.name,
-        availability: toPercentage(avail, eventCounts),
+        availability: hasResponse
+          ? toAverage(hasResponse.availability, eventCounts)
+          : 0,
       },
     ];
   }, []);

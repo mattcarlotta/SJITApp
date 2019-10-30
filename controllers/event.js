@@ -115,17 +115,7 @@ const getAllEvents = async (_, res) => {
         uniform: 1,
         sentEmailReminders: 1,
         employeeResponses: { $size: "$employeeResponses" },
-        schedule: {
-          $sum: {
-            $map: {
-              input: "$schedule",
-              as: "result",
-              in: {
-                $size: "$$result.employeeIds",
-              },
-            },
-          },
-        },
+        schedule: { $size: "$scheduledIds" },
       },
     },
     { $sort: { eventDate: -1 } },
