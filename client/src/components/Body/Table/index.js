@@ -251,7 +251,10 @@ class CustomTable extends Component {
 				<Table
 					columns={this.createTableColumns()}
 					dataSource={this.props.data}
-					pagination={false}
+					pagination={{
+						defaultPageSize: 10,
+						hideOnSinglePage: true,
+					}}
 					bordered={true}
 					rowKey="_id"
 					scroll={{ x: 1300 }}

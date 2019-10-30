@@ -4,6 +4,7 @@ import { Event, Form, User } from "models";
 import {
   createDate,
   createMemberAvailabilityAverage,
+  createMemberAvailabilityAverages,
   createMemberEventCount,
   convertId,
   getUsers,
@@ -143,35 +144,30 @@ const getAvailability = async (req, res) => {
 
 const getAvailabilityForAllMembers = async (req, res) => {
   try {
-    const memberAvailability = [];
+    let memberAvailability = [];
     let months = [];
     let eventCounts = 0;
 
     const members = await User.aggregate([
       {
         $match: {
-          role: { $eq: "employee" },
+          role: { $ne: "admin" },
+          status: "active",
         },
       },
       { $sort: { lastName: 1 } },
       {
-        $group: {
-          _id: null,
-          ids: {
-            $addToSet: "$_id",
-          },
-        },
-      },
-      {
         $project: {
-          _id: 0,
+          id: 1,
+          name: {
+            $concat: ["$firstName", " ", "$lastName"],
+          },
         },
       },
     ]);
     if (isEmpty(members))
       return res.status(200).json({ memberAvailability, months, eventCounts });
 
-    const [{ ids }] = members;
     const currentDate = createDate().toDate();
 
     const existingForm = await Form.findOne(
@@ -235,10 +231,16 @@ const getAvailabilityForAllMembers = async (req, res) => {
         },
       },
     ]);
-    if (isEmpty(eventResponses))
-      return res.status(200).json({ memberAvailability, months, eventCounts });
 
-    return sendError("Not yet", res);
+    return res.status(200).json({
+      eventCounts,
+      memberAvailability: createMemberAvailabilityAverages({
+        eventCounts,
+        eventResponses,
+        members,
+      }),
+      months,
+    });
   } catch (err) {
     /* istanbul ignore next */
     return sendError(err, res);

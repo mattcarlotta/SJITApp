@@ -19,6 +19,9 @@ const responseTypes = [
 
 const COLORS = ["#247BA0", "#2A9D8F", "#F4A261", "#FF8060", "#BFBFBF"];
 
+const toPercentage = (num, total) =>
+  parseInt(((num / total) * 100).toFixed(2), 10);
+
 /**
  * Helper function to generate an auth token email.
  *
@@ -37,19 +40,17 @@ const createAuthMail = (authorizedEmail, token, expiration) => ({
 });
 
 /**
- * Helper function to generate a user event count based upon their scheduled events.
+ * Helper function to generate a user event availability based upon their responses.
  *
- * @function createMemberResponseCount
+ * @function createMemberAvailabilityAverage
  * @param eventResponses - an array of responses
  * @returns {array}
  */
-
 const available = Array.from(responseTypes).splice(1, 3);
 const createMemberAvailabilityAverage = ({ eventCounts, eventResponses }) =>
   eventResponses.reduce((acc, { responses }) => {
     let avail = 0,
       unavail = 0;
-
     for (const response of responses) {
       available.includes(response) ? avail++ : unavail++;
     }
@@ -58,12 +59,44 @@ const createMemberAvailabilityAverage = ({ eventCounts, eventResponses }) =>
       {
         id: "available",
         label: "available",
-        value: parseInt(((avail / eventCounts) * 100).toFixed(2), 10),
+        value: toPercentage(avail, eventCounts),
       },
       {
         id: "unavailable",
         label: "unavailable",
-        value: parseInt(((unavail / eventCounts) * 100).toFixed(2), 10),
+        value: toPercentage(unavail, eventCounts),
+      },
+    ];
+  }, []);
+
+/**
+ * Helper function to generate all user event availability based upon their responses.
+ *
+ * @function createMemberAvailabilityAverages
+ * @param object -  eventCounts: number, eventResponses: [_id, availability], members: [_id, name]
+ * @returns {array}
+ */
+const createMemberAvailabilityAverages = ({
+  eventCounts,
+  eventResponses,
+  members,
+}) =>
+  members.reduce((acc, member) => {
+    let avail = 0;
+
+    if (!isEmpty(eventResponses)) {
+      for (const response of eventResponses) {
+        if (response._id.equals(member._id)) {
+          avail = response.availability;
+        }
+      }
+    }
+
+    return [
+      ...acc,
+      {
+        id: member.name,
+        availability: toPercentage(avail, eventCounts),
       },
     ];
   }, []);
@@ -369,6 +402,7 @@ export {
   createColumnSchedule,
   createDate,
   createMemberAvailabilityAverage,
+  createMemberAvailabilityAverages,
   createMemberEventCount,
   createMemberResponseCount,
   createRandomToken,
