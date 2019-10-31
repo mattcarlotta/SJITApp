@@ -2,6 +2,7 @@ import { Event, Token, User } from "models";
 import {
   createMemberEventCount,
   createMemberResponseCount,
+  findEventById,
   getEventCounts,
   getMonthDateRange,
   getUsers,
@@ -240,8 +241,7 @@ const getMemberEventCounts = async (req, res) => {
       },
     });
 
-    const eventExists = await Event.findOne({ _id: eventId }, { eventDate: 1 });
-    if (!eventExists) throw unableToLocateEvent;
+    const eventExists = await findEventById(eventId);
 
     const { startOfMonth, endOfMonth } = getMonthDateRange(
       eventExists.eventDate,

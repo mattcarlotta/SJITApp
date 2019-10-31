@@ -195,7 +195,7 @@ describe("Member Reducer", () => {
 		expect(state).toEqual({
 			data: [],
 			editToken: {},
-			eventResponses: mocks.memberEventResponses,
+			eventResponses: [],
 			memberAvailability: mocks.memberAvailability,
 			names: [],
 			viewMember: mocks.membersData,

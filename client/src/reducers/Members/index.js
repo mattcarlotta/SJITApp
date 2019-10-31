@@ -50,7 +50,6 @@ const memberReducer = (state = initialState, { payload, type }) => {
 			return {
 				...state,
 				viewMember: payload.member,
-				eventResponses: payload.eventResponses,
 				memberAvailability: payload.memberAvailability,
 			};
 		}

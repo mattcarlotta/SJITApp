@@ -183,9 +183,6 @@ export function* fetchProfile({ memberId }) {
 		let res = yield call(app.get, `member/review/${memberId}`);
 		const basicMemberInfo = yield call(parseData, res);
 
-		res = yield call(app.get, "member/events", { params: { id: memberId } });
-		const memberEventResponses = yield call(parseData, res);
-
 		res = yield call(app.get, "member/availability", {
 			params: { id: memberId },
 		});
@@ -194,7 +191,6 @@ export function* fetchProfile({ memberId }) {
 		yield put(
 			setMemberToReview({
 				...basicMemberInfo,
-				...memberEventResponses,
 				memberAvailability,
 			}),
 		);
@@ -267,16 +263,12 @@ export function* fetchSettings() {
 		let res = yield call(app.get, `member/settings`);
 		const basicMemberInfo = yield call(parseData, res);
 
-		res = yield call(app.get, "member/settings/events");
-		const memberEventResponses = yield call(parseData, res);
-
 		res = yield call(app.get, "member/settings/availability");
 		const memberAvailability = yield call(parseData, res);
 
 		yield put(
 			setMemberToReview({
 				...basicMemberInfo,
-				...memberEventResponses,
 				memberAvailability,
 			}),
 		);

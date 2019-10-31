@@ -6,6 +6,7 @@ import {
   createColumnSchedule,
   createUserSchedule,
   createSchedule,
+  findEventById,
   getMonthDateRange,
   getUsers,
   sendError,
@@ -90,8 +91,7 @@ const deleteEvent = async (req, res) => {
     const { id: _id } = req.params;
     if (!_id) throw missingEventId;
 
-    const existingEvent = await Event.findOne({ _id });
-    if (!existingEvent) throw unableToDeleteEvent;
+    const existingEvent = await findEventById(_id);
 
     await existingEvent.delete();
 
@@ -129,11 +129,7 @@ const getEvent = async (req, res) => {
     const { id: _id } = req.params;
     if (!_id) throw missingEventId;
 
-    const event = await Event.findOne(
-      { _id },
-      { employeeResponses: 0, scheduledEmployees: 0, __v: 0 },
-    );
-    if (!event) throw unableToLocateEvent;
+    const event = await findEventById(_id);
 
     res.status(200).json({ event });
   } catch (err) {
@@ -146,8 +142,7 @@ const getEventForScheduling = async (req, res) => {
     const { id: _id } = req.params;
     if (!_id) throw missingEventId;
 
-    const event = await Event.findOne({ _id }, { __v: 0 }).lean();
-    if (!event) throw unableToLocateEvent;
+    const event = await findEventById(_id);
 
     const members = await getUsers({
       match: { role: { $nin: ["admin", "staff"] }, status: "active" },
@@ -222,8 +217,7 @@ const resendEventEmail = async (req, res) => {
     const { id: _id } = req.params;
     if (!_id) throw missingEventId;
 
-    const existingEvent = await Event.findOne({ _id }, { __v: 0 });
-    if (!existingEvent) throw unableToLocateEvent;
+    const existingEvent = await findEventById(_id);
 
     await existingEvent.updateOne({
       sentEmailReminders: false,
@@ -267,8 +261,7 @@ const updateEvent = async (req, res) => {
     const uniqueCallTimes = uniqueArray(callTimes);
     if (!uniqueCallTimes) throw mustContainUniqueCallTimes;
 
-    const existingEvent = await Event.findOne({ _id });
-    if (!existingEvent) throw unableToLocateEvent;
+    const existingEvent = await findEventById(_id);
 
     const schedule = createSchedule(callTimes);
 
@@ -298,8 +291,7 @@ const updateEventSchedule = async (req, res) => {
     const { _id, schedule } = req.body;
     if (!_id || isEmpty(schedule)) throw invalidUpdateEventRequest;
 
-    const existingEvent = await Event.findOne({ _id });
-    if (!existingEvent) throw unableToLocateEvent;
+    const existingEvent = await findEventById(_id);
 
     const scheduledIds = updateScheduleIds(schedule);
 

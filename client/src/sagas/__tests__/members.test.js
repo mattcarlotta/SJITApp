@@ -296,18 +296,15 @@ describe("Member Sagas", () => {
 
 	describe("Fetch Profile", () => {
 		let basicMemberInfo;
-		let memberEventResponses;
 		let memberAvailability;
 		beforeEach(() => {
 			basicMemberInfo = { member: mocks.membersData };
-			memberEventResponses = { eventResponses: mocks.memberEventResponses };
 			memberAvailability = { memberAvailability: mocks.memberAvailability };
 		});
 
 		it("logical flow matches pattern for fetch member requests", () => {
 			const res = { basicMemberInfo };
-			const res2 = { memberEventResponses };
-			const res3 = { memberAvailability };
+			const res2 = { memberAvailability };
 			const params = { params: { id: memberId } };
 
 			testSaga(sagas.fetchProfile, { memberId })
@@ -319,16 +316,11 @@ describe("Member Sagas", () => {
 				.call(app.get, "member/events", params)
 				.next(res2)
 				.call(parseData, res2)
-				.next(res2.memberEventResponses)
-				.call(app.get, "member/availability", params)
-				.next(res3)
-				.call(parseData, res3)
-				.next(res3.memberAvailability)
+				.next(res2.memberAvailability)
 				.put(
 					actions.setMemberToReview({
 						...res.basicMemberInfo,
-						...res2.memberEventResponses,
-						memberAvailability,
+						memberAvailability: res2.memberAvailability,
 					}),
 				)
 				.next()
@@ -337,7 +329,6 @@ describe("Member Sagas", () => {
 
 		it("successfully fetches an existing member", async () => {
 			mockApp.onGet(`member/review/${memberId}`).reply(200, basicMemberInfo);
-			mockApp.onGet("member/events").reply(200, memberEventResponses);
 			mockApp.onGet("member/availability").reply(200, memberAvailability);
 
 			return expectSaga(sagas.fetchProfile, { memberId })
@@ -349,7 +340,7 @@ describe("Member Sagas", () => {
 					editToken: {},
 					names: [],
 					viewMember: mocks.membersData,
-					eventResponses: mocks.memberEventResponses,
+					eventResponses: [],
 					memberAvailability,
 				})
 				.run();
