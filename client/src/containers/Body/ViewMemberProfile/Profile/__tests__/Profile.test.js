@@ -53,10 +53,7 @@ describe("Profile", () => {
 	});
 
 	it("displays the member's status, as well as a activate/suspend button", () => {
-		let statusButton = wrapper
-			.find("LightText")
-			.at(1)
-			.find("Button");
+		let statusButton = wrapper.find("Button");
 
 		// active status
 		expect(statusButton.props().primary).toBeFalsy();
@@ -67,10 +64,7 @@ describe("Profile", () => {
 		// inactive status
 		wrapper.setProps({ viewMember: { ...inactiveMember } });
 
-		statusButton = wrapper
-			.find("LightText")
-			.at(1)
-			.find("Button");
+		statusButton = wrapper.find("Button");
 
 		expect(statusButton.props().primary).toBeTruthy();
 		expect(statusButton.props().danger).toBeFalsy();
@@ -78,11 +72,7 @@ describe("Profile", () => {
 	});
 
 	it("calls updateMemberStatus when the button is clicked", () => {
-		wrapper
-			.find("LightText")
-			.at(1)
-			.find("Button")
-			.simulate("click");
+		wrapper.find("Button").simulate("click");
 
 		expect(updateMemberStatus).toHaveBeenCalledTimes(1);
 	});

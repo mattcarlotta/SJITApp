@@ -4,27 +4,12 @@ import Profile from "../index";
 const push = jest.fn();
 const updateMemberStatus = jest.fn();
 
-const viewMember = {
-	_id: "0123456789",
-	email: "member@example.com",
-	events: [],
+const initProps = {
 	firstName: "Beta",
 	lastName: "Tester",
 	registered: "2019-07-26T16:56:40.518+00:00",
 	role: "member",
-	schedule: [],
 	status: "active",
-};
-
-const inactiveMember = {
-	...viewMember,
-	status: "suspended",
-};
-
-const initProps = {
-	push,
-	viewMember,
-	updateMemberStatus,
 };
 
 describe("Profile", () => {
@@ -39,7 +24,7 @@ describe("Profile", () => {
 
 	it("displays a Title with the member's name", () => {
 		expect(wrapper.find("Title").text()).toContain(
-			`${viewMember.firstName} ${viewMember.lastName}`,
+			`${initProps.firstName} ${initProps.lastName}`,
 		);
 	});
 
@@ -49,54 +34,24 @@ describe("Profile", () => {
 				.find("LightText")
 				.first()
 				.text(),
-		).toContain(viewMember._id);
-	});
-
-	it("displays the member's status, as well as a activate/suspend button", () => {
-		let statusButton = wrapper
-			.find("LightText")
-			.at(1)
-			.find("Button");
-
-		// active status
-		expect(statusButton.props().primary).toBeFalsy();
-		expect(statusButton.props().danger).toBeTruthy();
-		expect(statusButton.find("FaBan").exists()).toBeTruthy();
-		expect(statusButton.text()).toContain("Suspend");
-
-		// inactive status
-		wrapper.setProps({ viewMember: { ...inactiveMember } });
-
-		statusButton = wrapper
-			.find("LightText")
-			.at(1)
-			.find("Button");
-
-		expect(statusButton.props().primary).toBeTruthy();
-		expect(statusButton.props().danger).toBeFalsy();
-		expect(statusButton.text()).toContain("Activate");
-	});
-
-	it("calls updateMemberStatus when the button is clicked", () => {
-		wrapper
-			.find("LightText")
-			.at(1)
-			.find("Button")
-			.simulate("click");
-
-		expect(updateMemberStatus).toHaveBeenCalledTimes(1);
+		).toContain(initProps.status);
 	});
 
 	it("displays the member's registration date", () => {
 		expect(
 			wrapper
 				.find("LightText")
-				.at(2)
+				.at(1)
 				.text(),
-		).toContain(`${moment(viewMember.registered).format("MMMM Do, YYYY")}`);
+		).toContain(`${moment(initProps.registered).format("MMMM Do, YYYY")}`);
 	});
 
-	it("displays the EditMemberForm", () => {
-		expect(wrapper.find("Connect(EditMemberForm)").exists()).toBeTruthy();
+	it("displays the member's role", () => {
+		expect(
+			wrapper
+				.find("LightText")
+				.at(2)
+				.text(),
+		).toContain(initProps.role);
 	});
 });

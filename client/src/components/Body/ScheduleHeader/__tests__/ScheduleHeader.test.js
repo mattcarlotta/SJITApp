@@ -27,6 +27,7 @@ const initProps = {
 	selectedGames: "All Games",
 	selectedMonth: "Aug",
 	selectedYear: 2019,
+	role: "employee",
 	onChange,
 	years,
 	value,

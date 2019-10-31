@@ -267,7 +267,7 @@ describe("Application routes", () => {
 
 	describe("Member Routes", () => {
 		beforeEach(() => {
-			wrapper.setProps({ role: "member" });
+			wrapper.setProps({ role: "employee" });
 		});
 
 		it("initially renders 9 routes", () => {

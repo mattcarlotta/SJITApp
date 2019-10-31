@@ -1,6 +1,6 @@
 import Help from "../index";
 
-const wrapper = mount(<Help />);
+const wrapper = HOCWrap(Help);
 
 describe("Help Page", () => {
 	it("renders without errors", () => {

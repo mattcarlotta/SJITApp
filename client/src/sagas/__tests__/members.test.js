@@ -313,14 +313,14 @@ describe("Member Sagas", () => {
 				.next(res)
 				.call(parseData, res)
 				.next(res.basicMemberInfo)
-				.call(app.get, "member/events", params)
+				.call(app.get, "member/availability", params)
 				.next(res2)
 				.call(parseData, res2)
 				.next(res2.memberAvailability)
 				.put(
 					actions.setMemberToReview({
 						...res.basicMemberInfo,
-						memberAvailability: res2.memberAvailability,
+						memberAvailability,
 					}),
 				)
 				.next()

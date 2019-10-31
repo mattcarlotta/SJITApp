@@ -8,6 +8,7 @@ const initProps = {
 			id: "",
 		},
 	},
+	role: "staff",
 	scheduleEvents: [],
 };
 

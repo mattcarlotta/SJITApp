@@ -152,7 +152,7 @@ describe("Schedule Modal", () => {
 		);
 		expect(wrapper.find(".employee").prop("style")).toHaveProperty(
 			"fontWeight",
-			"normal",
+			"bold",
 		);
 	});
 });

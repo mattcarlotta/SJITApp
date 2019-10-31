@@ -1,6 +1,6 @@
 import Dashboard from "../index";
 
-const wrapper = mount(<Dashboard />);
+const wrapper = HOCWrap(Dashboard);
 
 describe("Dashboard Page", () => {
 	it("renders without errors", () => {

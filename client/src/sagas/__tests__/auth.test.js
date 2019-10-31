@@ -116,8 +116,9 @@ describe("Auth Sagas", () => {
 
 		it("successfully requests a password reset", async () => {
 			const message =
-				"An password reset email has been sent to test@example.com.";
+				"A password reset email has been sent to test@example.com.";
 			mockApp.onPut("reset-password").reply(200, { message });
+			mockApp.onGet("signout").reply(200, { message });
 
 			return expectSaga(sagas.resetPassword, { props })
 				.dispatch(actions.resetPassword)
@@ -196,7 +197,7 @@ describe("Auth Sagas", () => {
 
 	describe("Signout User", () => {
 		it("logical flow matches pattern for a sign out session", () => {
-			testSaga(sagas.signoutUser)
+			testSaga(sagas.signoutUserSession)
 				.next()
 				.call(app.get, "signout")
 				.next()
@@ -210,7 +211,7 @@ describe("Auth Sagas", () => {
 		it("removes the current signed in user from the session", async () => {
 			mockApp.onGet("signout").reply(200);
 
-			return expectSaga(sagas.signoutUser)
+			return expectSaga(sagas.signoutUserSession)
 				.dispatch(actions.signoutUser)
 				.withReducer(authReducer)
 				.hasFinalState({
@@ -227,7 +228,7 @@ describe("Auth Sagas", () => {
 			const err = "Unable to sign out.";
 			mockApp.onGet("signout").reply(404, { err });
 
-			return expectSaga(sagas.signoutUser)
+			return expectSaga(sagas.signoutUserSession)
 				.dispatch(actions.signoutUser)
 				.withReducer(messageReducer)
 				.hasFinalState({
@@ -323,6 +324,7 @@ describe("Auth Sagas", () => {
 		it("updates the current signed in user's password", async () => {
 			const message = "Your password has been reset!";
 			mockApp.onPut("new-password").reply(200, { message });
+			mockApp.onGet("signout").reply(200, { message });
 
 			return expectSaga(sagas.updateUserPassword, { props })
 				.dispatch(actions.updateUserPassword)

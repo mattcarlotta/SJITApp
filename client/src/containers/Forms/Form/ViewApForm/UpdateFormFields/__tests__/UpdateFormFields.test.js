@@ -77,6 +77,7 @@ describe("UpdateFormFields", () => {
 				errors: "",
 				placeholder:
 					"(Optional) Include any special notes for the event above...",
+				className: "ap-form-notes",
 				required: false,
 				disabled: false,
 				width: "350px",
@@ -128,6 +129,7 @@ describe("UpdateFormFields", () => {
 				errors: "",
 				placeholder:
 					"(Optional) Include any special notes for the event above...",
+				className: "ap-form-notes",
 				required: false,
 				disabled: false,
 				width: "350px",

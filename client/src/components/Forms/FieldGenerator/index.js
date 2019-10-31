@@ -59,7 +59,6 @@ const FieldGenerator = ({ fields, onChange }) =>
 		switch (props.type) {
 			case "text":
 			case "email":
-			case "input":
 			case "password": {
 				return <Input {...props} key={props.name} onChange={onChange} />;
 			}

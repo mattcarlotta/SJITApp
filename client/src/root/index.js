@@ -22,6 +22,8 @@ import createRootReducer from "reducers";
 import rootSagas from "sagas";
 import { MainRoutes } from "routes";
 
+const inTesting = process.env.NODE_ENV === "testing";
+
 const history = createBrowserHistory();
 export const saga = createSagaMiddleware();
 const config = {
@@ -34,15 +36,14 @@ const config = {
 	],
 };
 
-const middlewares = applyMiddleware(
-	saga,
-	routerMiddleware(history),
-	createStateSyncMiddleware(config),
-);
+const middlewares = [saga, routerMiddleware(history)];
+if (!inTesting) middlewares.push(createStateSyncMiddleware(config));
+
+const appliedMiddleware = applyMiddleware(...middlewares);
 
 export const store = createStore(
 	createRootReducer(history),
-	composeWithDevTools(middlewares),
+	composeWithDevTools(appliedMiddleware),
 );
 
 saga.run(rootSagas);

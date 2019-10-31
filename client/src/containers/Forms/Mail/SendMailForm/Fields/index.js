@@ -48,7 +48,7 @@ export default [
 	},
 	{
 		name: "subject",
-		type: "input",
+		type: "text",
 		label: "Subject",
 		icon: "mail",
 		value: "",

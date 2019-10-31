@@ -1,6 +1,6 @@
 import Contact from "../index";
 
-const wrapper = mount(<Contact />);
+const wrapper = HOCWrap(Contact);
 
 describe("Contact Page", () => {
 	it("renders without errors", () => {

@@ -43,7 +43,7 @@ const SideMenu = ({
 						</FadeIn>
 					) : (
 						<Title style={{ color: "#fff", paddingTop: 20, margin: 0 }}>
-							SJS Ice Team
+							Ice Team
 						</Title>
 					)}
 				</Link>
