@@ -34,7 +34,7 @@ const MemberAvailabilityAverage = ({ eventAvailability }) =>
 				endAngle={0}
 				enableRadialLabels={false}
 				enableSlicesLabels={false}
-				tooltipFormat={value => `${value}%`}
+				tooltipFormat={/* istanbul ignore next */ value => `${value}%`}
 				animate={true}
 				motionStiffness={90}
 				motionDamping={15}
@@ -54,7 +54,6 @@ MemberAvailabilityAverage.propTypes = {
 			id: PropTypes.string,
 			label: PropTypes.string,
 			value: PropTypes.number,
-			color: PropTypes.string,
 		}),
 	),
 };

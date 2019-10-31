@@ -22,7 +22,7 @@ const iconStyle = {
 	fontSize: 22,
 };
 
-class EventDistribution extends Component {
+export class EventDistribution extends Component {
 	state = {
 		startDate: moment().startOf("month"),
 		endDate: moment().endOf("month"),
@@ -82,11 +82,13 @@ EventDistribution.propTypes = {
 	fetchEventDistribution: PropTypes.func.isRequired,
 };
 
+/* istanbul ignore next */
 const mapStateToProps = state => ({
 	members: state.dashboard.eventCounts,
 	loggedinUserId: state.auth.id,
 });
 
+/* istanbul ignore next */
 const mapDispatchToProps = {
 	fetchEventDistribution,
 };

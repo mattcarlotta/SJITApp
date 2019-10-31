@@ -17,7 +17,7 @@ const iconStyle = {
 
 const format = "MM/DD/YYYY";
 
-class Availability extends PureComponent {
+export class Availability extends PureComponent {
 	componentDidMount = () => {
 		this.props.fetchAvailability();
 	};
@@ -61,7 +61,6 @@ Availability.propTypes = {
 			id: PropTypes.string,
 			label: PropTypes.string,
 			value: PropTypes.number,
-			color: PropTypes.string,
 		}),
 	),
 	months: PropTypes.arrayOf(PropTypes.string),
@@ -69,12 +68,14 @@ Availability.propTypes = {
 	isLoading: PropTypes.bool.isRequired,
 };
 
+/* istanbul ignore next */
 const mapStateToProps = state => ({
 	eventAvailability: state.dashboard.eventAvailability.data,
 	months: state.dashboard.eventAvailability.months,
 	isLoading: state.dashboard.eventAvailability.isLoading,
 });
 
+/* istanbul ignore next */
 const mapDispatchToProps = {
 	fetchAvailability,
 };

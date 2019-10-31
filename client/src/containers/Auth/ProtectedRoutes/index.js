@@ -46,7 +46,9 @@ export class ProtectedRoutes extends PureComponent {
 				{!this.props.role || this.props.role === "guest" ? (
 					<Route path={`${url}`} component={AppLoader} />
 				) : (
-					<Route render={() => <App {...this.props} />} />
+					<Route
+						render={/* istanbul ignore next */ () => <App {...this.props} />}
+					/>
 				)}
 			</Switch>
 		);
