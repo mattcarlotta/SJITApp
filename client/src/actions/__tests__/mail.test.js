@@ -25,6 +25,15 @@ const props = {
 };
 
 describe("Mail Actions", () => {
+	it("returns MAIL_CONTACT_US with props", () => {
+		const value = actions.contactUs(props);
+
+		expect(value).toEqual({
+			type: types.MAIL_CONTACT_US,
+			props,
+		});
+	});
+
 	it("returns MAIL_CREATE with props", () => {
 		const value = actions.createMail(props);
 

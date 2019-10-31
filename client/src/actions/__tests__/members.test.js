@@ -106,6 +106,46 @@ describe("Member Actions", () => {
 		});
 	});
 
+	it("returns MEMBERS_FETCH_NAMES", () => {
+		const value = actions.fetchMemberNames();
+
+		expect(value).toEqual({
+			type: types.MEMBERS_FETCH_NAMES,
+		});
+	});
+
+	it("returns MEMBERS_FETCH_SETTINGS", () => {
+		const value = actions.fetchMemberSettings();
+
+		expect(value).toEqual({
+			type: types.MEMBERS_FETCH_SETTINGS,
+		});
+	});
+
+	it("returns MEMBERS_FETCH_SETTINGS_AVAILABILITY", () => {
+		const params = {
+			selectedDate: "2019-12-17T01:00:00-08:00",
+		};
+		const value = actions.fetchMemberSettingsAvailability(params);
+
+		expect(value).toEqual({
+			type: types.MEMBERS_FETCH_SETTINGS_AVAILABILITY,
+			params,
+		});
+	});
+
+	it("returns MEMBERS_FETCH_SETTINGS_EVENTS", () => {
+		const params = {
+			selectedDate: "2019-12-17T01:00:00-08:00",
+		};
+		const value = actions.fetchMemberSettingsEvents(params);
+
+		expect(value).toEqual({
+			type: types.MEMBERS_FETCH_SETTINGS_EVENTS,
+			params,
+		});
+	});
+
 	it("returns MEMBERS_FETCH_TOKEN", () => {
 		const value = actions.fetchToken(tokenId);
 
@@ -298,6 +338,20 @@ describe("Member Actions", () => {
 
 		expect(value).toEqual({
 			type: types.MEMBERS_UPDATE_TOKEN,
+			props,
+		});
+	});
+
+	it("returns MEMBERS_UPDATE_SETTINGS with props", () => {
+		const props = {
+			id: "1234567890",
+			status: "active",
+		};
+
+		const value = actions.updateSettings(props);
+
+		expect(value).toEqual({
+			type: types.MEMBERS_UPDATE_SETTINGS,
 			props,
 		});
 	});

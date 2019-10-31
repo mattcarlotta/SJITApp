@@ -70,7 +70,7 @@ export const setAPForm = data => ({
  * Sets availability to redux state
  *
  * @function setAvailability
- * @param {array} data - contains availability data ({_id, label, value, color}).
+ * @param {array} data - contains availability data ({_id, label, value}).
  * @returns {object}
  */
 export const setAvailability = data => ({

@@ -26,7 +26,7 @@ export default styled(Button)`
 		${props => {
 			if (props.primary) return "#025f6d";
 			if (props.danger) return "#f56342";
-			if (props.danger) return "#fff";
+			if (props.tertiary) return "#fff";
 			return "transparent";
 		}};
 	width: ${({ width }) => width || "100%"};

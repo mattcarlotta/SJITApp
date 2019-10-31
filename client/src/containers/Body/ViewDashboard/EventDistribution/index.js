@@ -8,7 +8,7 @@ import { fetchEventDistribution } from "actions/Dashboard";
 import { MemberEventCountChart } from "components/Body";
 import columns from "../Columns";
 
-const { RangePicker } = DatePicker;
+const RangePicker = DatePicker.RangePicker;
 
 const newcolumns = {
 	...columns,
