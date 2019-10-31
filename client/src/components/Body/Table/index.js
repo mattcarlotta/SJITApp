@@ -1,7 +1,7 @@
 /* eslint-disable react/forbid-prop-types, react/jsx-boolean-value */
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
-import { Divider, Icon, Input, Popconfirm, Table, Tooltip } from "antd";
+import { Icon, Input, Popconfirm, Table, Tooltip } from "antd";
 import {
 	FaEdit,
 	FaShareSquare,
@@ -11,7 +11,13 @@ import {
 	FaClipboardCheck,
 } from "react-icons/fa";
 import { GoStop } from "react-icons/go";
-import { Button, FadeIn, FlexCenter, LoadingTable } from "components/Body";
+import {
+	Button,
+	FadeIn,
+	FlexCenter,
+	LoadingTable,
+	Spacer,
+} from "components/Body";
 
 class CustomTable extends Component {
 	state = {
@@ -138,7 +144,7 @@ class CustomTable extends Component {
 			title: "Actions",
 			key: "action",
 			render: (_, record) => (
-				<FlexCenter>
+				<FlexCenter direction="column">
 					{assignLocation && notEmployee && (
 						<Fragment>
 							<Tooltip placement="top" title={<span>View & Assign</span>}>
@@ -155,7 +161,7 @@ class CustomTable extends Component {
 									<FaClipboardCheck style={{ fontSize: 17 }} />
 								</Button>
 							</Tooltip>
-							<Divider type="vertical" />
+							<Spacer />
 						</Fragment>
 					)}
 					{viewLocation && (
@@ -174,7 +180,7 @@ class CustomTable extends Component {
 									<FaSearchPlus style={{ fontSize: 16 }} />
 								</Button>
 							</Tooltip>
-							{notEmployee && <Divider type="vertical" />}
+							{notEmployee && <Spacer />}
 						</Fragment>
 					)}
 					{editLocation && notEmployee && (
@@ -193,7 +199,7 @@ class CustomTable extends Component {
 									<FaEdit />
 								</Button>
 							</Tooltip>
-							<Divider type="vertical" />
+							<Spacer />
 						</Fragment>
 					)}
 					{sendMail && notEmployee && (
@@ -210,7 +216,7 @@ class CustomTable extends Component {
 									<FaShareSquare style={{ fontSize: 18 }} />
 								</Button>
 							</Tooltip>
-							<Divider type="vertical" />
+							<Spacer />
 						</Fragment>
 					)}
 					{deleteAction && notEmployee && (

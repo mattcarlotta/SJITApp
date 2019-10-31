@@ -49,6 +49,7 @@ class App extends Component {
 
 		this.state = {
 			isCollapsed: false,
+			hideSideBar: false,
 			openKeys: openedKey(pathname),
 			storedKeys: openedKey(pathname),
 			selectedKey: selectedTab(pathname),
@@ -71,6 +72,15 @@ class App extends Component {
 				openKeys: openedKey(pathname),
 			});
 		}
+	};
+
+	handleBreakpoint = isBroken => {
+		this.setState(prevState => ({
+			...prevState,
+			isCollapsed: isBroken,
+			hideSideBar: isBroken,
+			openKeys: isBroken ? [] : prevState.storedKeys,
+		}));
 	};
 
 	handleOpenMenuChange = openKeys => {
@@ -106,12 +116,21 @@ class App extends Component {
 				<SideMenu
 					{...this.state}
 					role={this.props.role}
+					onHandleBreakpoint={this.handleBreakpoint}
 					onHandleTabClick={this.handleTabClick}
 					onHandleOpenMenuChange={this.handleOpenMenuChange}
 				/>
 				<Layout>
 					<Header>
-						<LeftMenu toggleSideMenu={this.toggleSideMenu} />
+						{!this.state.hideSideBar && (
+							<LeftMenu
+								toggleSideMenu={
+									!this.state.hideSideBar
+										? this.toggleSideMenu
+										: this.toggleSideBar
+								}
+							/>
+						)}
 						<RightMenu {...this.props} />
 					</Header>
 					<Content>

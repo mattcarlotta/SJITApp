@@ -63,6 +63,7 @@ export { default as ScheduleList } from "./ScheduleList";
 export { default as ScheduleModal } from "./ScheduleModal";
 export { default as ScrollHandler } from "./ScrollHandler";
 export { default as Small } from "./Small";
+export { default as Spacer } from "./Spacer";
 export { default as Spinner } from "./Spinner";
 export { default as SubmitButton } from "./SubmitButton";
 export { default as Submitting } from "./Submitting";

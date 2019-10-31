@@ -1,10 +1,12 @@
 import SideMenu from "../index";
 
+const onHandleBreakpoint = jest.fn();
 const onHandleTabClick = jest.fn();
 const onHandleOpenMenuChange = jest.fn();
 
 const initProps = {
 	isCollapsed: false,
+	onHandleBreakpoint,
 	onHandleTabClick,
 	onHandleOpenMenuChange,
 	selectedKey: ["/dashboard"],

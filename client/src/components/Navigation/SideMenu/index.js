@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { Layout, Menu, Icon } from "antd";
 import SharksLogo from "images/misc/sharksLogo.png";
-import { Center, Legal, Tab, Title } from "components/Body";
+import { Center, FadeIn, Legal, Tab, Title } from "components/Body";
 import { Link } from "components/Navigation";
 import { StaffRoutes, EmployeeRoutes } from "./Tabs";
 
@@ -14,6 +14,7 @@ const Divider = Menu.Divider;
 const SideMenu = ({
 	role,
 	isCollapsed,
+	onHandleBreakpoint,
 	onHandleTabClick,
 	onHandleOpenMenuChange,
 	openKeys,
@@ -21,19 +22,28 @@ const SideMenu = ({
 }) => {
 	const TABS = role !== "employee" ? StaffRoutes : EmployeeRoutes;
 	return (
-		<Sider width={266} trigger={null} collapsible collapsed={isCollapsed}>
+		<Sider
+			breakpoint="xl"
+			width={266}
+			trigger={null}
+			onBreakpoint={onHandleBreakpoint}
+			collapsible
+			collapsed={isCollapsed}
+		>
 			<Center style={{ height: 60 }}>
 				<Link to="/" style={{ padding: 0, margin: 0 }}>
 					{isCollapsed ? (
-						<img
-							alt="sharksLogo.png"
-							src={SharksLogo}
-							width="50px"
-							style={{ paddingTop: 10 }}
-						/>
+						<FadeIn timing="0.4s">
+							<img
+								alt="sharksLogo.png"
+								src={SharksLogo}
+								width="50px"
+								style={{ paddingTop: 10 }}
+							/>
+						</FadeIn>
 					) : (
 						<Title style={{ color: "#fff", paddingTop: 20, margin: 0 }}>
-							Sharks Ice Team
+							SJS Ice Team
 						</Title>
 					)}
 				</Link>
@@ -84,6 +94,7 @@ const SideMenu = ({
 
 SideMenu.propTypes = {
 	isCollapsed: PropTypes.bool.isRequired,
+	onHandleBreakpoint: PropTypes.func.isRequired,
 	onHandleOpenMenuChange: PropTypes.func.isRequired,
 	onHandleTabClick: PropTypes.func.isRequired,
 	openKeys: PropTypes.arrayOf(PropTypes.string),
