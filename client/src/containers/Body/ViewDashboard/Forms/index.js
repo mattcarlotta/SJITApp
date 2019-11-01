@@ -54,21 +54,23 @@ class Forms extends PureComponent {
 						</Fragment>
 					}
 					extra={
-						<Button
-							tertiary
-							width="88px"
-							disabled={hasExpired}
-							padding="5px"
-							marginRight="0px"
-							style={{ fontSize: 16 }}
-							onClick={
-								!hasExpired
-									? () => push(`/employee/forms/view/${apform._id}`)
-									: null
-							}
-						>
-							View
-						</Button>
+						!isEmpty(apform) ? (
+							<Button
+								tertiary
+								width="88px"
+								disabled={hasExpired}
+								padding="5px"
+								marginRight="0px"
+								style={{ fontSize: 16 }}
+								onClick={
+									!hasExpired
+										? () => push(`/employee/forms/view/${apform._id}`)
+										: null
+								}
+							>
+								View
+							</Button>
+						) : null
 					}
 				>
 					{isLoading ? (
