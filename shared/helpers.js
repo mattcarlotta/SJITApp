@@ -369,9 +369,6 @@ const getUsers = async ({ match, project, group }) => {
     },
   ]);
 
-  /* istanbul ignore next */
-  if (isEmpty(members)) throw unableToLocateMembers;
-
   return members;
 };
 

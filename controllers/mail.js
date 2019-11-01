@@ -1,3 +1,4 @@
+import isEmpty from "lodash/isEmpty";
 import { Mail, User } from "models";
 import { createDate, getStartOfDay, getUsers, sendError } from "shared/helpers";
 import {
@@ -7,6 +8,7 @@ import {
   unableToCreateNewMail,
   unableToDeleteMail,
   unableToLocateContacts,
+  unableToLocateMembers,
   unableToLocateMail,
   unableToUpdateMail,
 } from "shared/authErrors";
@@ -29,6 +31,8 @@ const contactUs = async (req, res) => {
         },
       },
     });
+    /* istanbul ignore next */
+    if (isEmpty(members)) throw unableToLocateMembers;
 
     const mailingAddresses = members.map(({ email }) => email);
     const { firstName, lastName, email } = req.session.user;

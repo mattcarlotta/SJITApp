@@ -1,3 +1,4 @@
+import isEmpty from "lodash/isEmpty";
 import { Event, Token, User } from "models";
 import {
   createMemberEventCount,
@@ -17,6 +18,7 @@ import {
   unableToDeleteMember,
   unableToLocateEvent,
   unableToLocateMember,
+  unableToLocateMembers,
 } from "shared/authErrors";
 
 const findMember = async _id => {
@@ -192,7 +194,6 @@ const getAllMembers = async (_, res) => {
 
 const getAllMemberNames = async (_, res) => {
   try {
-    /* istanbul ignore next */
     const members = await getUsers({
       match: {
         role: { $ne: "admin" },
@@ -205,6 +206,8 @@ const getAllMemberNames = async (_, res) => {
         },
       },
     });
+    /* istanbul ignore next */
+    if (isEmpty(members)) throw unableToLocateMembers;
 
     res.status(200).json({ members });
   } catch (err) {

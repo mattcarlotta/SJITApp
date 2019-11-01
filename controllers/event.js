@@ -21,6 +21,7 @@ import {
   mustContainUniqueCallTimes,
   unableToDeleteEvent,
   unableToLocateEvent,
+  unableToLocateMembers,
   unableToLocateSeason,
 } from "shared/authErrors";
 
@@ -148,6 +149,8 @@ const getEventForScheduling = async (req, res) => {
       match: { role: { $nin: ["admin", "staff"] }, status: "active" },
       project: { firstName: 1, lastName: 1 },
     });
+    /* istanbul ignore next */
+    if (isEmpty(members)) throw unableToLocateMembers;
 
     res.status(200).json({
       schedule: {
