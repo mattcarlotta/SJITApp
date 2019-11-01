@@ -123,13 +123,7 @@ class App extends Component {
 				<Layout>
 					<Header>
 						{!this.state.hideSideBar && (
-							<LeftMenu
-								toggleSideMenu={
-									!this.state.hideSideBar
-										? this.toggleSideMenu
-										: this.toggleSideBar
-								}
-							/>
+							<LeftMenu toggleSideMenu={this.toggleSideMenu} />
 						)}
 						<RightMenu {...this.props} />
 					</Header>

@@ -123,6 +123,28 @@ describe("Employee App", () => {
 		expect(wrapper.find("App").state("openKeys")).toEqual([]);
 	});
 
+	it("collapses the SideMenu when the breakpoint is triggered", () => {
+		wrapper.find(App).setState({ storedKeys: ["forms"] });
+
+		wrapper
+			.find("App")
+			.instance()
+			.handleBreakpoint(false);
+
+		expect(wrapper.find("App").state("isCollapsed")).toBeFalsy();
+		expect(wrapper.find("App").state("hideSideBar")).toBeFalsy();
+		expect(wrapper.find("App").state("openKeys")).toEqual(["forms"]);
+
+		wrapper
+			.find("App")
+			.instance()
+			.handleBreakpoint(true);
+
+		expect(wrapper.find("App").state("isCollapsed")).toBeTruthy();
+		expect(wrapper.find("App").state("hideSideBar")).toBeTruthy();
+		expect(wrapper.find("App").state("openKeys")).toEqual([]);
+	});
+
 	it("toggles sidebar menu", () => {
 		expect(
 			wrapper.find("aside.ant-layout-sider-collapsed").exists(),

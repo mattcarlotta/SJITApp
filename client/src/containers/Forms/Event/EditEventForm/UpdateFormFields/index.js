@@ -23,7 +23,6 @@ export default (result, field, editEvent, onFieldRemove) => {
 					...field,
 					value: editEvent.opponent,
 					selectOptions: editEvent.teams,
-					required: editEvent.eventType === "Game",
 					disabled: false,
 				},
 			];

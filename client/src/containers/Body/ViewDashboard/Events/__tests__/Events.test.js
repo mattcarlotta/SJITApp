@@ -15,7 +15,7 @@ const events = [
 		team: "San Jose Sharks",
 		schedule: [
 			{
-				_id: "012345678990",
+				_id: `${moment().format()}`,
 				title: "5:50pm",
 				employeeIds: [],
 			},
@@ -34,7 +34,9 @@ const events = [
 		team: "San Jose Barracuda",
 		schedule: [
 			{
-				_id: "012345678990",
+				_id: `${moment()
+					.add(2, "days")
+					.format()}`,
 				title: "5:50pm",
 				employeeIds: [],
 			},

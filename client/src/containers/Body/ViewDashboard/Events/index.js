@@ -18,10 +18,7 @@ import NoEvents from "./NoEvents";
 import columns from "../Columns";
 
 const Option = Select.Option;
-
-moment.createFromInputFallback = function(config) {
-	config._d = new Date(config._i);
-};
+const format = "MM DD YYYY, hh:mm a";
 
 const iconStyle = {
 	verticalAlign: "middle",
@@ -66,7 +63,7 @@ export class Events extends Component {
 		const eventDate = get(events[0], ["eventDate"]);
 		const endOfDay = moment(eventDate)
 			.endOf("day")
-			.format();
+			.format(format);
 		const selectedToday = selectedEvent === "Today";
 		const currentDate = moment(eventDate).format("MMM DD");
 
@@ -114,7 +111,7 @@ export class Events extends Component {
 								<div css="padding: 30px 20px;">
 									{!isEmpty(events) ? (
 										events.map(props =>
-											moment(props.eventDate).format() < endOfDay ? (
+											moment(props.eventDate).format(format) < endOfDay ? (
 												<ScheduleList
 													key={props._id}
 													content={[props]}
