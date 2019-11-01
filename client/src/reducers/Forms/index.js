@@ -17,6 +17,8 @@ const formReducer = (state = initialState, { payload, type }) => {
 	switch (type) {
 		case types.FORMS_EDIT:
 		case types.FORMS_FETCH:
+		case types.FORMS_FETCH_AP:
+		case types.FORMS_RESET_AP:
 			return initialState;
 		case types.FORMS_SET: {
 			return { ...state, data: payload.forms };

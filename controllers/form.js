@@ -197,10 +197,11 @@ const updateApForm = async (req, res) => {
     const formExists = await Form.findOne({ _id });
     if (!formExists) throw unableToLocateForm;
 
+    const { id: userId } = req.session.user;
+
     await Event.bulkWrite(
       responses.map(response => {
         const { id: eventId, value, notes, updateEvent } = response;
-        const { id: userId } = req.session.user;
 
         const filter = updateEvent
           ? {

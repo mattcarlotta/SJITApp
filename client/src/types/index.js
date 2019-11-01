@@ -44,6 +44,7 @@ export const FORMS_SET = "FORMS/SET";
 export const FORMS_SET_EDIT = "FORMS/SET_EDIT";
 export const FORMS_UPDATE = "FORMS/UPDATE";
 export const FORMS_SET_AP = "FORMS/SET_AP";
+export const FORMS_RESET_AP = "FORMS/RESET_AP";
 export const FORMS_UPDATE_AP = "FORMS/UPDATE_AP";
 
 // mail
