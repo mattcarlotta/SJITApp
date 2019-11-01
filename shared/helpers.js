@@ -46,7 +46,7 @@ const createAuthMail = (authorizedEmail, token, expiration) => ({
  * @param object - eventCounts: number, eventResponses: an array of responses
  * @returns {array}
  */
-const available = Array.from(responseTypes).splice(1, 3);
+const available = Array.from(responseTypes).splice(0, 2);
 const createMemberAvailabilityAverage = ({ eventCounts, eventResponses }) =>
   eventResponses.reduce((acc, { responses }) => {
     let avail = 0,

@@ -152,14 +152,14 @@ const deleteMember = async (req, res) => {
     const existingUser = await User.findOne({ _id });
     if (!existingUser) throw unableToDeleteMember;
 
-    // await existingUser.delete();
-    // await Token.deleteOne({ email: existingUser.email });
+    await existingUser.delete();
+    await Token.deleteOne({ email: existingUser.email });
     await Event.updateMany(
       {},
       {
         $pull: {
           scheduledIds: existingUser._id,
-          schedule: { employeeIds: existingUser._id },
+          "schedule.$[].employeeIds": existingUser._id,
           employeeResponses: { _id: existingUser._id },
         },
       },
@@ -363,8 +363,8 @@ const updateMember = async (req, res) => {
         {},
         {
           $pull: {
-            scheduledIds: existingMember._id,
-            schedule: { employeeIds: existingMember._id },
+            scheduledIds: existingUser._id,
+            "schedule.$[].employeeIds": existingUser._id,
           },
         },
         { multi: true },
@@ -434,8 +434,8 @@ const updateMemberStatus = async (req, res) => {
         {},
         {
           $pull: {
-            scheduledIds: existingMember._id,
-            schedule: { employeeIds: existingMember._id },
+            scheduledIds: existingUser._id,
+            "schedule.$[].employeeIds": existingUser._id,
           },
         },
         { multi: true },

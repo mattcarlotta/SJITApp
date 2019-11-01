@@ -125,6 +125,13 @@ const getAvailability = async (req, res) => {
       },
     ]);
 
+    // const eventAvailability2 = createMemberAvailabilityAverage({
+    //   eventCounts,
+    //   eventResponses,
+    // });
+
+    console.log("eventResponses", eventResponses);
+
     res.status(200).json({
       eventAvailability: createMemberAvailabilityAverage({
         eventCounts,
