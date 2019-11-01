@@ -154,8 +154,8 @@ const deleteMember = async (req, res) => {
     const existingUser = await User.findOne({ _id });
     if (!existingUser) throw unableToDeleteMember;
 
-    // await existingUser.delete();
-    // await Token.deleteOne({ email: existingUser.email });
+    await existingUser.delete();
+    await Token.deleteOne({ email: existingUser.email });
     await Event.updateMany(
       {},
       {
