@@ -14,7 +14,7 @@ describe("Badge", () => {
 	});
 
 	it("renders without errors", () => {
-		expect(wrapper.find("p").exists()).toBeTruthy();
+		expect(wrapper.find("div").exists()).toBeTruthy();
 	});
 
 	it("initially renders a transparent color", () => {

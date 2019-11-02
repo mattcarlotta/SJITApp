@@ -2,10 +2,12 @@
 import React from "react";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
+import get from "lodash/get";
 import { ResponsivePie } from "@nivo/pie";
 import { NoAvailability } from "components/Body";
 
-const COLORS = ["#2979FF", "#BBBBBB"];
+const VALIDCOLORS = ["#2979FF", "#BBBBBB"];
+const INVALIDCOLORS = ["#F04D4D", "#BBBBBB"];
 const styles = {
 	position: "absolute",
 	top: 0,
@@ -22,12 +24,14 @@ const styles = {
 	pointerEvents: "none",
 };
 
-const MemberAvailabilityAverage = ({ eventAvailability }) =>
-	!isEmpty(eventAvailability) ? (
+const MemberAvailabilityAverage = ({ eventAvailability }) => {
+	const availabilityPercentage = get(eventAvailability[0], ["value"]) || 0;
+
+	return !isEmpty(eventAvailability) ? (
 		<div css="height: 250px;width: 250px; margin-left: auto; margin-right: auto; position: relative;">
 			<ResponsivePie
 				indexBy="id"
-				colors={COLORS}
+				colors={availabilityPercentage >= 66 ? VALIDCOLORS : INVALIDCOLORS}
 				data={eventAvailability}
 				innerRadius={0.8}
 				startAngle={360}
@@ -40,13 +44,14 @@ const MemberAvailabilityAverage = ({ eventAvailability }) =>
 				motionDamping={15}
 			/>
 			<div style={styles}>
-				<span>{eventAvailability[0].value}%</span>
+				<span>{availabilityPercentage}%</span>
 				<span>Availability</span>
 			</div>
 		</div>
 	) : (
 		<NoAvailability />
 	);
+};
 
 MemberAvailabilityAverage.propTypes = {
 	eventAvailability: PropTypes.arrayOf(

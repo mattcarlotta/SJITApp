@@ -4,7 +4,7 @@ import isEmpty from "lodash/isEmpty";
 import moment from "moment";
 import { Card } from "antd";
 import { connect } from "react-redux";
-import { goBack } from "connected-react-router";
+import { push } from "connected-react-router";
 import { FaFileSignature } from "react-icons/fa";
 import {
 	BackButton,
@@ -14,7 +14,7 @@ import {
 	Title,
 } from "components/Body";
 import { FieldGenerator, FormTitle, LoadingForm } from "components/Forms";
-import { fetchFormAp, updateFormAp } from "actions/Forms";
+import { fetchFormAp, resetApForm, updateFormAp } from "actions/Forms";
 import { fieldValidator, fieldUpdater, parseFields } from "utils";
 import updateFormFields from "./UpdateFormFields";
 import condenseFormFields from "./CondenseFormFields";
@@ -58,6 +58,10 @@ export class ViewApForm extends Component {
 		this.props.fetchFormAp(id);
 	};
 
+	componentWillUnmount = () => {
+		this.props.resetApForm();
+	};
+
 	handleChange = ({ target: { name, value } }) => {
 		this.setState(prevState => ({
 			...prevState,
@@ -86,11 +90,11 @@ export class ViewApForm extends Component {
 
 	render = () => {
 		const { fields, isLoading, isSubmitting } = this.state;
-		const { goBack, viewForm } = this.props;
+		const { push, viewForm } = this.props;
 
 		return (
 			<Card
-				extra={<BackButton push={goBack} />}
+				extra={<BackButton push={push} location="/employee/dashboard" />}
 				title={
 					<Fragment>
 						<FaFileSignature style={iconStyle} />
@@ -162,7 +166,8 @@ ViewApForm.propTypes = {
 			id: PropTypes.string,
 		}),
 	}).isRequired,
-	goBack: PropTypes.func.isRequired,
+	push: PropTypes.func.isRequired,
+	resetApForm: PropTypes.func.isRequired,
 	serverMessage: PropTypes.string,
 	updateFormAp: PropTypes.func.isRequired,
 	viewForm: PropTypes.shape({
@@ -182,7 +187,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
 	fetchFormAp,
-	goBack,
+	push,
+	resetApForm,
 	updateFormAp,
 };
 

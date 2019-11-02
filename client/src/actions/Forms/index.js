@@ -72,6 +72,16 @@ export const resendMail = formId => ({
 });
 
 /**
+ * Reset AP responses to ensure 1:1.
+ *
+ * @function resetApForm
+ * @returns {object}
+ */
+export const resetApForm = () => ({
+	type: types.FORMS_RESET_AP,
+});
+
+/**
  * Sets any members from API to redux state
  *
  * @function setApForm

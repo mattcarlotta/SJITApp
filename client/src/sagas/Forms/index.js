@@ -250,7 +250,6 @@ export function* updateFormAp({ props }) {
 			}),
 		);
 
-		yield put({ type: types.FORMS_RESET_AP });
 		yield put(push("/employee/dashboard"));
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));

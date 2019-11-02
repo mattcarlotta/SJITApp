@@ -2,7 +2,8 @@ import { ViewApForm } from "../index";
 
 const id = "5d4e00bcf2d83c45a863e2bc";
 const fetchFormAp = jest.fn();
-const goBack = jest.fn();
+const push = jest.fn();
+const resetApForm = jest.fn();
 const updateFormAp = jest.fn();
 
 const viewForm = {
@@ -39,7 +40,8 @@ const initProps = {
 			id,
 		},
 	},
-	goBack,
+	push,
+	resetApForm,
 	serverMessage: "",
 	updateFormAp,
 	viewForm: {},

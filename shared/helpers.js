@@ -4,7 +4,6 @@ import random from "lodash/random";
 import { Types } from "mongoose";
 import { Event, User } from "models";
 import { newAuthorizationKeyTemplate } from "services/templates";
-import { unableToLocateEvent, unableToLocateMembers } from "shared/authErrors";
 
 const { ObjectId } = Types;
 const { CLIENT } = process.env;
@@ -380,8 +379,6 @@ const getUsers = async ({ match, project, group }) => {
  */
 const findEventById = async _id => {
   const existingEvent = await Event.findOne({ _id });
-  if (!existingEvent) throw unableToLocateEvent;
-
   return existingEvent;
 };
 

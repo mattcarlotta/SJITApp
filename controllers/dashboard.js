@@ -146,7 +146,7 @@ const getAvailabilityForAllMembers = async (req, res) => {
     const members = await User.aggregate([
       {
         $match: {
-          role: { $ne: "admin" },
+          role: { $eq: "employee" },
           status: "active",
         },
       },
@@ -243,7 +243,7 @@ const getEventDistribution = async (req, res) => {
 
     const members = await getUsers({
       match: {
-        role: { $nin: ["admin", "staff"] },
+        role: { $eq: "employee" },
       },
       project: {
         _id: 1,

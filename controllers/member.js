@@ -236,7 +236,7 @@ const getMemberEventCounts = async (req, res) => {
 
     const members = await getUsers({
       match: {
-        role: { $nin: ["admin", "staff"] },
+        role: { eq: "employee" },
       },
       project: {
         _id: 1,
@@ -244,10 +244,11 @@ const getMemberEventCounts = async (req, res) => {
       },
     });
 
-    const eventExists = await findEventById(eventId);
+    const existingEvent = await findEventById(eventId);
+    if (!existingEvent) throw unableToLocateEvent;
 
     const { startOfMonth, endOfMonth } = getMonthDateRange(
-      eventExists.eventDate,
+      existingEvent.eventDate,
     );
 
     const memberEventCounts = await Event.aggregate([

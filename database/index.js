@@ -62,7 +62,7 @@ if (!inTesting) {
     mongoose.connection.close(() => {
       log(
         `${chalk.rgb(7, 54, 66).bgRgb(38, 139, 210)(" I ")} ${chalk.magenta(
-          `Connection was manully terminated from ${DATABASE}`,
+          `Connection was manually terminated from ${DATABASE}`,
         )}`,
       );
       process.exit(0);

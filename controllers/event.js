@@ -93,6 +93,7 @@ const deleteEvent = async (req, res) => {
     if (!_id) throw missingEventId;
 
     const existingEvent = await findEventById(_id);
+    if (!existingEvent) throw unableToLocateEvent;
 
     await existingEvent.delete();
 
@@ -130,9 +131,10 @@ const getEvent = async (req, res) => {
     const { id: _id } = req.params;
     if (!_id) throw missingEventId;
 
-    const event = await findEventById(_id);
+    const existingEvent = await findEventById(_id);
+    if (!existingEvent) throw unableToLocateEvent;
 
-    res.status(200).json({ event });
+    res.status(200).json({ event: existingEvent });
   } catch (err) {
     return sendError(err, res);
   }
@@ -144,9 +146,10 @@ const getEventForScheduling = async (req, res) => {
     if (!_id) throw missingEventId;
 
     const event = await findEventById(_id);
+    if (!event) throw unableToLocateEvent;
 
     const members = await getUsers({
-      match: { role: { $nin: ["admin", "staff"] }, status: "active" },
+      match: { role: { $eq: "employee" }, status: "active" },
       project: { firstName: 1, lastName: 1 },
     });
     /* istanbul ignore next */
@@ -221,6 +224,7 @@ const resendEventEmail = async (req, res) => {
     if (!_id) throw missingEventId;
 
     const existingEvent = await findEventById(_id);
+    if (!existingEvent) throw unableToLocateEvent;
 
     await existingEvent.updateOne({
       sentEmailReminders: false,
@@ -265,6 +269,7 @@ const updateEvent = async (req, res) => {
     if (!uniqueCallTimes) throw mustContainUniqueCallTimes;
 
     const existingEvent = await findEventById(_id);
+    if (!existingEvent) throw unableToLocateEvent;
 
     const schedule = createSchedule(callTimes);
 
@@ -295,6 +300,7 @@ const updateEventSchedule = async (req, res) => {
     if (!_id || isEmpty(schedule)) throw invalidUpdateEventRequest;
 
     const existingEvent = await findEventById(_id);
+    if (!existingEvent) throw unableToLocateEvent;
 
     const scheduledIds = updateScheduleIds(schedule);
 
