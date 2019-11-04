@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 export default styled.div`
 	display: block;
-	height: 252px;
+	height: ${({ height }) => height || "252px"};
 	margin: 0 4px;
 	padding: 4px 8px;
 	color: rgba(0, 0, 0, 0.65);

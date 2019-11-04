@@ -250,6 +250,7 @@ const getEventDistribution = async (req, res) => {
         name: { $concat: ["$firstName", " ", "$lastName"] },
       },
     });
+    if (isEmpty(members)) return res.status(200).json({ members: [] });
 
     const memberEventCounts = await Event.aggregate([
       {
@@ -273,6 +274,8 @@ const getEventDistribution = async (req, res) => {
         },
       },
     ]);
+    if (isEmpty(memberEventCounts))
+      return res.status(200).json({ members: [] });
 
     res.status(200).json({
       members: createMemberEventCount({

@@ -236,13 +236,14 @@ const getMemberEventCounts = async (req, res) => {
 
     const members = await getUsers({
       match: {
-        role: { eq: "employee" },
+        role: { $eq: "employee" },
       },
       project: {
         _id: 1,
         name: { $concat: ["$firstName", " ", "$lastName"] },
       },
     });
+    if (isEmpty(members)) return res.status(200).json({ members: [] });
 
     const existingEvent = await findEventById(eventId);
     if (!existingEvent) throw unableToLocateEvent;
@@ -273,6 +274,10 @@ const getMemberEventCounts = async (req, res) => {
         },
       },
     ]);
+    if (isEmpty(memberEventCounts))
+      return res.status(200).json({ members: [] });
+
+    console.log("memberEventCounts", memberEventCounts);
 
     res.status(200).json({
       members: createMemberEventCount({

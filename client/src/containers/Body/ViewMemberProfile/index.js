@@ -24,9 +24,9 @@ import {
 	BackButton,
 	Calendar,
 	Line,
+	LoadingPanel,
 	MemberAvailability,
 	PaneBody,
-	Spinner,
 	Title,
 } from "components/Body";
 import Profile from "./Profile";
@@ -105,7 +105,7 @@ export class ViewMemberProfile extends PureComponent {
 					}
 				>
 					{isEmpty(viewMember) ? (
-						<Spinner />
+						<LoadingPanel height="685px" />
 					) : (
 						<Tabs tabPosition="left">
 							<Pane tab={profile} key="profile">

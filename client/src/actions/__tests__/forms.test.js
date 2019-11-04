@@ -49,6 +49,14 @@ describe("Forms Actions", () => {
 		});
 	});
 
+	it("returns FORMS_RESET_AP", () => {
+		const value = actions.resetApForm();
+
+		expect(value).toEqual({
+			type: types.FORMS_RESET_AP,
+		});
+	});
+
 	it("returns FORMS_RESEND_MAIL", () => {
 		const value = actions.resendMail(formId);
 

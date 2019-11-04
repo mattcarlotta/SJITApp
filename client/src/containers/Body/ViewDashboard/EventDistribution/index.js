@@ -66,7 +66,7 @@ export class EventDistribution extends Component {
 					/>
 				}
 			>
-				<MemberEventCountChart {...this.props} />
+				<MemberEventCountChart height="650px" {...this.props} />
 			</Card>
 		</Col>
 	);

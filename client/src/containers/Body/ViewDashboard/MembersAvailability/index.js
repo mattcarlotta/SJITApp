@@ -43,7 +43,7 @@ const tableHeader = {
 
 const format = "MM/DD/YYYY";
 
-class MembersAvailability extends PureComponent {
+export class MembersAvailability extends PureComponent {
 	componentDidMount = () => {
 		this.props.fetchMembersAvailability();
 	};

@@ -14,9 +14,9 @@ import {
 import {
 	Calendar,
 	Line,
+	LoadingPanel,
 	MemberAvailability,
 	PaneBody,
-	Spinner,
 	Title,
 } from "components/Body";
 import Profile from "./Profile";
@@ -59,11 +59,10 @@ export class Settings extends PureComponent {
 			eventResponses,
 			fetchMemberSettingsAvailability,
 			fetchMemberSettingsEvents,
-			role,
 			viewMember,
 		} = this.props;
 
-		const { _id } = viewMember;
+		const { _id, role } = viewMember;
 		const isStaff = role !== "employee";
 
 		return (
@@ -79,7 +78,7 @@ export class Settings extends PureComponent {
 					}
 				>
 					{isEmpty(viewMember) ? (
-						<Spinner />
+						<LoadingPanel height="685px" />
 					) : (
 						<Tabs tabPosition="left">
 							<Pane tab={profile} key="profile">
@@ -154,7 +153,6 @@ Settings.propTypes = {
 			}),
 		),
 	}),
-	role: PropTypes.string.isRequired,
 	viewMember: PropTypes.shape({
 		_id: PropTypes.string,
 		email: PropTypes.string,
@@ -172,7 +170,6 @@ Settings.propTypes = {
 const mapStateToProps = state => ({
 	eventResponses: state.members.eventResponses,
 	memberAvailability: state.members.memberAvailability,
-	role: state.auth.role,
 	viewMember: state.members.viewMember,
 	serverMessage: state.server.message,
 });

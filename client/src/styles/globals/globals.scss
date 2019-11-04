@@ -129,6 +129,11 @@
 	}
 }
 
+.has-error,
+.has-error:hover {
+	border-color: #f5222d;
+}
+
 // .date-picker > div > input {
 // 	padding: 14px 0 14px 48px !important;
 // }

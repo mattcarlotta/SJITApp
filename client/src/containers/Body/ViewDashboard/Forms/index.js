@@ -33,7 +33,7 @@ const warningStyle = {
 const format = "MMM Do YYYY @ hh:mm a";
 const simpleFormat = "MM/DD/YYYY";
 
-class Forms extends PureComponent {
+export class Forms extends PureComponent {
 	componentDidMount = () => {
 		this.props.fetchAPForm();
 	};
@@ -103,11 +103,11 @@ class Forms extends PureComponent {
 										<WarningText
 											style={{
 												...warningStyle,
-												backgroundColor: !hasExpired ? "#2979ff" : "#f56342",
+												backgroundColor: hasExpired ? "#f56342" : "#2979ff",
 											}}
 										>
 											{hasExpired
-												? `This form has expired and is no longer viewable.`
+												? "This form has expired and is no longer viewable."
 												: `This form will expire ${moment(expDate)
 														.startOf("day")
 														.fromNow()}!`}

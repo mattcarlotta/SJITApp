@@ -193,14 +193,19 @@ const FieldGenerator = ({ fields, onChange }) =>
 					<Form.Item
 						key={props.name}
 						className={props.className}
-						style={{ minHeight: 105, marginBottom: props.label ? 20 : 40 }}
+						style={{ minHeight: props.minHeight || 212 }}
 					>
 						{props.label && <Label {...props} />}
 						<TextArea
-							{...props}
+							name={props.name}
+							className={props.errors ? "has-error" : ""}
+							disabled={props.disabled}
+							maxLength={props.maxLength}
+							placeholder={props.placeholder}
 							style={{ width: props.width || "100%" }}
 							onChange={onChange}
 							rows={props.rows || 4}
+							value={props.value}
 						/>
 						{props.errors && <Errors>{props.errors}</Errors>}
 					</Form.Item>

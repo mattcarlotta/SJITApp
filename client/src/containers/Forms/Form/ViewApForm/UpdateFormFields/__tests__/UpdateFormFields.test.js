@@ -81,6 +81,8 @@ describe("UpdateFormFields", () => {
 				required: false,
 				disabled: false,
 				width: "350px",
+				minHeight: "125px",
+				maxLength: 200,
 				rows: 3,
 			},
 		]);
@@ -133,6 +135,8 @@ describe("UpdateFormFields", () => {
 				required: false,
 				disabled: false,
 				width: "350px",
+				minHeight: "125px",
+				maxLength: 200,
 				rows: 3,
 			},
 		]);

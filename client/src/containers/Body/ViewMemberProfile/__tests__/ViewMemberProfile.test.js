@@ -50,8 +50,8 @@ describe("View Member Profile", () => {
 		fetchMember.mockClear();
 	});
 
-	it("initially renders a Spinner", () => {
-		expect(wrapper.find("Spinner").exists()).toBeTruthy();
+	it("initially renders a LoadingPanel", () => {
+		expect(wrapper.find("LoadingPanel").exists()).toBeTruthy();
 	});
 
 	it("initially calls fetchMember on mount", () => {

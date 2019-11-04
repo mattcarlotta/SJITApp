@@ -190,7 +190,11 @@ export class EventScheduleForm extends Component {
 			</form>
 			{this.state.isVisible && (
 				<Modal maxWidth="100%" onClick={this.handleToggleModal}>
-					<MemberEventCountChart {...this.props} />
+					<MemberEventCountChart
+						height="600px"
+						style={{ marginTop: 20 }}
+						{...this.props}
+					/>
 				</Modal>
 			)}
 		</Card>

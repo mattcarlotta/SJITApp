@@ -9,7 +9,7 @@ import Availability from "./Availability";
 import MembersAvailability from "./MembersAvailability";
 import EventDistribution from "./EventDistribution";
 
-const ViewDashboard = ({ role }) => (
+export const ViewDashboard = ({ role }) => (
 	<Fragment>
 		<Helmet title="Dashboard" />
 		<Row gutter={[32, 32]}>

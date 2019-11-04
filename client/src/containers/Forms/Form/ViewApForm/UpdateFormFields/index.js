@@ -46,7 +46,9 @@ export default (result, field, events) => {
 			required: false,
 			disabled: false,
 			width: "350px",
+			minHeight: "125px",
 			className: "ap-form-notes",
+			maxLength: 200,
 			rows: 3,
 		};
 
