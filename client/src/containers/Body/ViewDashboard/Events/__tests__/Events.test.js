@@ -3,10 +3,15 @@ import { Events } from "../index";
 
 const fetchEvents = jest.fn();
 
+const today = Date.now();
+
 const events = [
 	{
 		_id: "0123456782239",
-		eventDate: `${moment().format()}`,
+		eventDate: `${moment
+			.utc(today)
+			.startOf("day")
+			.format()}`,
 		eventNotes: "",
 		eventType: "Game",
 		notes: "",
@@ -15,7 +20,10 @@ const events = [
 		team: "San Jose Sharks",
 		schedule: [
 			{
-				_id: `${moment().format()}`,
+				_id: `${moment()
+					.utc(today)
+					.startOf("day")
+					.format()}`,
 				title: "5:50pm",
 				employeeIds: [],
 			},
@@ -23,8 +31,9 @@ const events = [
 	},
 	{
 		_id: "012345678997158",
-		eventDate: `${moment()
-			.add(2, "days")
+		eventDate: `${moment
+			.utc(today)
+			.add(3, "days")
 			.format()}`,
 		eventNotes: "",
 		eventType: "Game",
@@ -34,8 +43,9 @@ const events = [
 		team: "San Jose Barracuda",
 		schedule: [
 			{
-				_id: `${moment()
-					.add(2, "days")
+				_id: `${moment
+					.utc(today)
+					.add(3, "days")
 					.format()}`,
 				title: "5:50pm",
 				employeeIds: [],

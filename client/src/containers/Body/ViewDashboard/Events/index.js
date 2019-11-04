@@ -18,7 +18,7 @@ import NoEvents from "./NoEvents";
 import columns from "../Columns";
 
 const Option = Select.Option;
-const format = "MM DD YYYY, hh:mm a";
+// const format = "MM DD YYYY, hh:mm a";
 
 const iconStyle = {
 	verticalAlign: "middle",
@@ -61,9 +61,10 @@ export class Events extends Component {
 		const { selectedEvent } = this.state;
 		const { events, isLoading, role } = this.props;
 		const eventDate = get(events[0], ["eventDate"]);
-		const endOfDay = moment(eventDate)
+		const endOfDay = moment
+			.utc(eventDate)
 			.endOf("day")
-			.format(format);
+			.format();
 		const selectedToday = selectedEvent === "Today";
 		const currentDate = moment(eventDate).format("MMM DD");
 
@@ -111,7 +112,7 @@ export class Events extends Component {
 								<div css="padding: 30px 20px;">
 									{!isEmpty(events) ? (
 										events.map(props =>
-											moment(props.eventDate).format(format) < endOfDay ? (
+											moment.utc(props.eventDate).format() < endOfDay ? (
 												<ScheduleList
 													key={props._id}
 													content={[props]}

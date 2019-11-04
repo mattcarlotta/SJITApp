@@ -167,6 +167,7 @@ export class EventScheduleForm extends Component {
 				) : (
 					<Fragment>
 						<Button
+							id="event-distribution"
 							primary
 							padding="8px"
 							width="335px"

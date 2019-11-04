@@ -37,6 +37,7 @@ const config = {
 };
 
 const middlewares = [saga, routerMiddleware(history)];
+/* istanbul ignore next */
 if (!inTesting) middlewares.push(createStateSyncMiddleware(config));
 
 const appliedMiddleware = applyMiddleware(...middlewares);

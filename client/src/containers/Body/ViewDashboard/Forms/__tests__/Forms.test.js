@@ -62,7 +62,7 @@ describe("Dashboard Forms", () => {
 		it("displays a message stating that the form has 6 days left", () => {
 			const warningText = wrapper.find("WarningText").first();
 
-			expect(warningText.text()).toEqual(" This form will expire in 6 days!");
+			expect(warningText.text()).toContain(" This form will expire in");
 			expect(warningText.get(0).props.style.backgroundColor).toEqual("#2979ff");
 		});
 	});

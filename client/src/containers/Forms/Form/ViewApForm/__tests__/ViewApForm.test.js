@@ -55,6 +55,7 @@ describe("View Ap Form", () => {
 
 	afterEach(() => {
 		fetchFormAp.mockClear();
+		resetApForm.mockClear();
 		updateFormAp.mockClear();
 	});
 
@@ -68,6 +69,11 @@ describe("View Ap Form", () => {
 
 	it("calls fetchFormAp on mount", () => {
 		expect(fetchFormAp).toHaveBeenCalledWith(id);
+	});
+
+	it("calls resetApForm on unmount", () => {
+		wrapper.unmount();
+		expect(resetApForm).toHaveBeenCalledTimes(1);
 	});
 
 	describe("Form Initialized", () => {

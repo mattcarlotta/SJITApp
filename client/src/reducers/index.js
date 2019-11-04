@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import { combineReducers } from "redux";
 import { connectRouter } from "connected-react-router";
 import { withReduxStateSync } from "redux-state-sync";

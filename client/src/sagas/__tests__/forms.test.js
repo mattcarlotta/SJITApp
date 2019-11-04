@@ -162,7 +162,7 @@ describe("Form Sagas", () => {
 				.isDone();
 		});
 
-		it("successfully fetches a fetch form for editing", async () => {
+		it("successfully fetches a form for editing", async () => {
 			mockApp.onGet(`form/edit/${formId}`).reply(200, data);
 
 			mockApp
@@ -229,7 +229,7 @@ describe("Form Sagas", () => {
 				.isDone();
 		});
 
-		it("successfully fetches a fetch AP form for editing", async () => {
+		it("successfully fetches an AP form for editing", async () => {
 			mockApp.onGet(`form/view/${formId}`).reply(200, data);
 
 			return expectSaga(sagas.fetchFormAp, { formId })
