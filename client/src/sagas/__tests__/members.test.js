@@ -4,6 +4,7 @@ import { app } from "utils";
 import * as types from "types";
 import * as actions from "actions/Members";
 import { hideServerMessage, setServerMessage } from "actions/Messages";
+import { signoutUser } from "actions/Auth";
 import * as sagas from "sagas/Members";
 import * as mocks from "sagas/__mocks__/sagas.mocks";
 import messageReducer from "reducers/Messages";
@@ -475,6 +476,188 @@ describe("Member Sagas", () => {
 		});
 	});
 
+	describe("Fetch Member's Settings", () => {
+		let basicMemberInfo;
+		let memberAvailability;
+		beforeEach(() => {
+			basicMemberInfo = { member: mocks.membersData };
+			memberAvailability = { memberAvailability: mocks.memberAvailability };
+		});
+
+		it("logical flow matches pattern for fetch member's settings requests", () => {
+			const res = { basicMemberInfo };
+			const res2 = { memberAvailability };
+
+			testSaga(sagas.fetchSettings)
+				.next()
+				.call(app.get, "member/settings")
+				.next(res)
+				.call(parseData, res)
+				.next(res.basicMemberInfo)
+				.call(app.get, "member/settings/availability")
+				.next(parseData, res2)
+				.next(res.memberAvailability)
+				.put(
+					actions.setMemberToReview({
+						...res.basicMemberInfo,
+						memberAvailability: res.memberAvailability,
+					}),
+				)
+				.next()
+				.isDone();
+		});
+
+		it("successfully fetches a member's settings", async () => {
+			mockApp.onGet("member/settings").reply(200, basicMemberInfo);
+			mockApp
+				.onGet("member/settings/availability")
+				.reply(200, memberAvailability);
+
+			return expectSaga(sagas.fetchSettings)
+				.dispatch(actions.fetchSettings)
+				.withReducer(memberReducer)
+				.hasFinalState({
+					data: [],
+					tokens: [],
+					editToken: {},
+					names: [],
+					viewMember: mocks.membersData,
+					eventResponses: [],
+					memberAvailability,
+				})
+				.run();
+		});
+
+		it("if API call fails, it displays a message", async () => {
+			const err = "Unable to fetch member's availability.";
+			mockApp.onGet("member/settings").reply(404, { err });
+
+			return expectSaga(sagas.fetchSettings)
+				.dispatch(actions.fetchSettings)
+				.withReducer(messageReducer)
+				.hasFinalState({
+					message: err,
+					show: true,
+					type: "error",
+				})
+				.run();
+		});
+	});
+
+	describe("Fetch Member's Settings Availability", () => {
+		let data;
+		let params;
+		beforeEach(() => {
+			data = mocks.memberAvailability;
+			params = { id: "0123456789", selectedDate: "2019-10-01T00:00:00-07:00" };
+		});
+
+		it("logical flow matches pattern for fetch member's settings availability requests", () => {
+			const res = { data };
+
+			testSaga(sagas.fetchSettingsAvailability, { params })
+				.next()
+				.call(app.get, "member/settings/availability", { params })
+				.next(parseData, res)
+				.next(res.data)
+				.put(actions.setMemberAvailability(res.data))
+				.next()
+				.isDone();
+		});
+
+		it("successfully fetches a member's settings availability", async () => {
+			mockApp.onGet("member/settings/availability").reply(200, data);
+
+			return expectSaga(sagas.fetchSettingsAvailability, { params })
+				.dispatch(actions.fetchSettingsAvailability)
+				.withReducer(memberReducer)
+				.hasFinalState({
+					data: [],
+					tokens: [],
+					editToken: {},
+					names: [],
+					viewMember: {},
+					eventResponses: [],
+					memberAvailability: data,
+				})
+				.run();
+		});
+
+		it("if API call fails, it displays a message", async () => {
+			const err = "Unable to fetch member's availability.";
+			mockApp.onGet("member/settings/availability").reply(404, { err });
+
+			return expectSaga(sagas.fetchSettingsAvailability, { params })
+				.dispatch(actions.fetchSettingsAvailability)
+				.withReducer(messageReducer)
+				.hasFinalState({
+					message: err,
+					show: true,
+					type: "error",
+				})
+				.run();
+		});
+	});
+
+	describe("Fetch Member's Settings Event Responses", () => {
+		let data;
+		let params;
+		beforeEach(() => {
+			data = mocks.eventResponseData;
+			params = {
+				id: "0123456789",
+				selectedDate: "2019-10-01T00:00:00-07:00",
+				selectedGames: "All Games",
+			};
+		});
+
+		it("logical flow matches pattern for fetch member's settings event responses requests", () => {
+			const res = { data };
+
+			testSaga(sagas.fetchMemberSettingsEvents, { params })
+				.next()
+				.call(app.get, "member/settings/events", { params })
+				.next(parseData, res)
+				.next(res.data)
+				.put(actions.setMemberEventsByDate(res.data))
+				.next()
+				.isDone();
+		});
+
+		it("successfully fetches a member's settings event responses", async () => {
+			mockApp.onGet("member/settings/events").reply(200, data);
+
+			return expectSaga(sagas.fetchMemberSettingsEvents, { params })
+				.dispatch(actions.fetchMemberSettingsEvents)
+				.withReducer(memberReducer)
+				.hasFinalState({
+					data: [],
+					tokens: [],
+					editToken: {},
+					names: [],
+					viewMember: {},
+					eventResponses: mocks.eventResponses,
+					memberAvailability: {},
+				})
+				.run();
+		});
+
+		it("if API call fails, it displays a message", async () => {
+			const err = "Unable to fetch member's event responses.";
+			mockApp.onGet("member/settings/events").reply(404, { err });
+
+			return expectSaga(sagas.fetchMemberSettingsEvents, { params })
+				.dispatch(actions.fetchMemberSettingsEvents)
+				.withReducer(messageReducer)
+				.hasFinalState({
+					message: err,
+					show: true,
+					type: "error",
+				})
+				.run();
+		});
+	});
+
 	describe("Fetch Token", () => {
 		let tokenData;
 		let seasonData;
@@ -758,6 +941,82 @@ describe("Member Sagas", () => {
 
 			return expectSaga(sagas.updateMemberToken, { props })
 				.dispatch(actions.updateMemberToken, { props })
+				.withReducer(messageReducer)
+				.hasFinalState({
+					message: err,
+					show: true,
+					type: "error",
+				})
+				.run();
+		});
+	});
+
+	describe("Update Member's Settings", () => {
+		let props;
+		beforeEach(() => {
+			props = mocks.memberSettings;
+		});
+
+		it("logical flow matches pattern for updating crucial member's settings requests", () => {
+			const message =
+				"Your email has changed, please log out and log in with your new email.";
+			const res = { data: { message } };
+
+			testSaga(sagas.updateSettings, { props })
+				.next()
+				.put(hideServerMessage())
+				.next()
+				.call(app.put, "member/settings/update", { ...props })
+				.next(res)
+				.call(parseMessage, res)
+				.next(res.data.message)
+				.put(setServerMessage({ type: "success", message: res.data.message }))
+				.next()
+				.put(signoutUser())
+				.next()
+				.isDone();
+		});
+
+		it("logical flow matches pattern for updating non-crucial member's settings requests", () => {
+			const message = "Successfully updated your settings.";
+			const res = { data: { message } };
+
+			testSaga(sagas.updateSettings, { props })
+				.next()
+				.put(hideServerMessage())
+				.next()
+				.call(app.put, "member/settings/update", { ...props })
+				.next(res)
+				.call(parseMessage, res)
+				.next(res.data.message)
+				.put(setServerMessage({ type: "success", message: res.data.message }))
+				.next(res.data.message)
+				.put({ type: types.MEMBERS_FETCH_SETTINGS })
+				.next()
+				.isDone();
+		});
+
+		it("successfully updates a member's settings", async () => {
+			const message = "Successfully updated your settings.";
+			mockApp.onPut("member/settings/update").reply(200, { message });
+
+			return expectSaga(sagas.updateSettings, { props })
+				.dispatch(actions.updateSettings)
+				.withReducer(messageReducer)
+				.hasFinalState({
+					message,
+					show: true,
+					type: "success",
+				})
+				.run();
+		});
+
+		it("if API call fails, it displays a message", async () => {
+			const err = "Unable to update the member's settings.";
+			mockApp.onPut("member/settings/update").reply(404, { err });
+
+			return expectSaga(sagas.updateSettings, { props })
+				.dispatch(actions.updateSettings)
 				.withReducer(messageReducer)
 				.hasFinalState({
 					message: err,

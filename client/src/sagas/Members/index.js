@@ -283,7 +283,7 @@ export function* fetchSettings() {
  *
  * @generator
  * @function fetchSettingsAvailability
- * @param {object} params
+ * @param {object} params - id and selectedDate
  * @yields {object} - A response from a call to the API.
  * @function parseData - Returns a parsed res.data (member availability info).
  * @yields {action} - A redux action to set member data to redux state.
@@ -308,7 +308,7 @@ export function* fetchSettingsAvailability({ params }) {
  *
  * @generator
  * @function fetchMemberSettingsEvents
- * @param {object} params
+ * @param {object} params - id, selectedDate and selectedGames
  * @yields {object} - A response from a call to the API.
  * @function parseData - Returns a parsed res.data.
  * @yields {action} - A redux action to set member data to redux state.

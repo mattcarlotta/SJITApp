@@ -12,6 +12,12 @@ export const userSession = {
 	role: "staff",
 };
 
+export const contactUsMail = {
+	sendTo: "staff",
+	message: "<span>Test</span>",
+	subject: "Test",
+};
+
 export const mailData = {
 	sendTo: ["test@test.com"],
 	sendFrom: "test@test.com",
@@ -163,6 +169,14 @@ export const formsData = [
 		notes: "Test",
 	},
 ];
+
+export const memberSettings = {
+	id: "0123456789",
+	email: "test@test.com",
+	firstName: "Bob",
+	lastName: "Dole",
+	role: "employee",
+};
 
 export const eventResponseData = [
 	{

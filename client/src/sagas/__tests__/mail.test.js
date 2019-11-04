@@ -21,6 +21,62 @@ describe("Mail Sagas", () => {
 		mockApp.restore();
 	});
 
+	describe("Contact Us", () => {
+		let message;
+		let props;
+		beforeEach(() => {
+			message = "Successfully created a new contact us mail!";
+			props = mocks.contactUsMail;
+		});
+
+		it("logical flow matches pattern for a create contact us mail request", () => {
+			const res = { data: { message } };
+
+			testSaga(sagas.contactUs, { props })
+				.next()
+				.put(hideServerMessage())
+				.next()
+				.call(app.post, "mail/contact", { ...props })
+				.next(res)
+				.call(parseMessage, res)
+				.next(res.data.message)
+				.put(setServerMessage({ type: "success", message: res.data.message }))
+				.next()
+				.put(push("/employee/dashboard"))
+				.next()
+				.isDone();
+		});
+
+		it("successfully creates a new contact us mail", async () => {
+			mockApp.onPost("mail/contact").reply(200, { message });
+
+			return expectSaga(sagas.contactUs, { props })
+				.dispatch(actions.contactUs)
+				.withReducer(messageReducer)
+				.hasFinalState({
+					message,
+					show: true,
+					type: "success",
+				})
+				.run();
+		});
+
+		it("if API call fails, it displays a message", async () => {
+			const err = "Unable to create a new  contact us mail.";
+			mockApp.onPost("mail/contact").reply(404, { err });
+
+			return expectSaga(sagas.contactUs, { props })
+				.dispatch(actions.contactUs)
+				.withReducer(messageReducer)
+				.hasFinalState({
+					message: err,
+					show: true,
+					type: "error",
+				})
+				.run();
+		});
+	});
+
 	describe("Create Mail", () => {
 		let message;
 		let props;
