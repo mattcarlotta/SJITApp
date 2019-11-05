@@ -4,6 +4,7 @@ import {
   clearSession,
   createDate,
   createColumnSchedule,
+  createMemberAvailabilityAverage,
   createMemberEventCount,
   createMemberResponseCount,
   createRandomToken,
@@ -124,6 +125,33 @@ describe("Helpers", () => {
         lastName: staff.lastName,
         response: "No response.",
         notes: "",
+      },
+    ]);
+  });
+
+  it("creates a member availability average", () => {
+    const eventCounts = 3;
+    const eventResponses = [
+      {
+        responses: ["I want to work.", "Available to work.", "Not available."],
+      },
+    ];
+
+    const averages = createMemberAvailabilityAverage({
+      eventCounts,
+      eventResponses,
+    });
+
+    expect(averages).toEqual([
+      {
+        id: "available",
+        label: "available",
+        value: 66,
+      },
+      {
+        id: "unavailable",
+        label: "unavailable",
+        value: 33,
       },
     ]);
   });

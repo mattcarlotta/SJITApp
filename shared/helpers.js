@@ -313,6 +313,7 @@ const getEventCounts = (startMonth, endMonth) => Event.countDocuments({
  * @returns {object}
  */
 const getMonthDateRange = date => {
+  /* istanbul ignore next */
   const newDate = date || Date.now();
   const startOfMonth = moment(newDate)
     .startOf("month")

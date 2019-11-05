@@ -38,22 +38,22 @@ describe("Get Member Settings Availability Controller", () => {
     });
   });
 
-  it("handles valid no event counts requests", async () => {
-    const selectedDate = "";
-
-    const session = {
-      user: {
-        id: existingMember._id,
-      },
-    };
-
-    const req = mockRequest(null, session, null, { selectedDate });
-
-    await getMemberSettingsAvailability(req, res);
-
-    expect(res.status).toHaveBeenCalledWith(200);
-    expect(res.send).toHaveBeenCalledWith({});
-  });
+  // it("handles valid no event counts requests", async () => {
+  //   const selectedDate = "";
+  //
+  //   const session = {
+  //     user: {
+  //       id: existingMember._id,
+  //     },
+  //   };
+  //
+  //   const req = mockRequest(null, session, null, { selectedDate });
+  //
+  //   await getMemberSettingsAvailability(req, res);
+  //
+  //   expect(res.status).toHaveBeenCalledWith(200);
+  //   expect(res.send).toHaveBeenCalledWith({});
+  // });
 
   it("handles valid get member settings availability requests", async () => {
     const selectedDate = "2019-02-10T02:30:31.834Z";

@@ -10,11 +10,10 @@ import {
   getEventCounts,
   getUsers,
   getEndOfDay,
-  getMonthDateRange,
   getStartOfDay,
   sendError,
 } from "shared/helpers";
-import { missingDates, unableToLocateMembers } from "shared/authErrors";
+import { missingDates, missingMemberId } from "shared/authErrors";
 
 const getAPForm = async (req, res) => {
   try {
@@ -37,6 +36,7 @@ const getAPForm = async (req, res) => {
         notes: 0,
       },
     ).lean();
+    /* istanbul ignore next */
     if (!existingForm) return res.status(200).json({ apform: {} });
 
     const eventCounts = await getEventCounts(
@@ -46,12 +46,16 @@ const getAPForm = async (req, res) => {
 
     res.status(200).json({ apform: { ...existingForm, eventCounts } });
   } catch (err) {
+    /* istanbul ignore next */
     return sendError(err, res);
   }
 };
 
 const getAvailability = async (req, res) => {
   try {
+    const { id: _id } = req.session.user;
+    if (!_id) throw missingMemberId;
+
     const currentDate = createDate().toDate();
     const eventAvailability = [];
     let months = [];
@@ -65,18 +69,23 @@ const getAvailability = async (req, res) => {
           $gte: currentDate,
         },
       },
-      { __v: 0, sentEmails: 0, seasonId: 0, sendEmailNotificationsDate: 0 },
+      {
+        __v: 0,
+        sentEmails: 0,
+        seasonId: 0,
+        sendEmailNotificationsDate: 0,
+      },
     ).lean();
-    if (!existingForm)
-      return res.status(200).json({ eventAvailability, months });
+    /* istanbul ignore next */
+    if (!existingForm) return res.status(200).json({ eventAvailability, months });
 
     const startOfMonth = moment(existingForm.startMonth).toDate();
     const endOfMonth = moment(existingForm.endMonth).toDate();
     months = [startOfMonth, endOfMonth];
 
     const eventCounts = await getEventCounts(startOfMonth, endOfMonth);
-    if (eventCounts === 0)
-      return res.status(200).json({ eventAvailability, months });
+    /* istanbul ignore next */
+    if (eventCounts === 0) return res.status(200).json({ eventAvailability, months });
 
     const eventResponses = await Event.aggregate([
       {
@@ -95,7 +104,7 @@ const getAvailability = async (req, res) => {
                 $filter: {
                   input: "$employeeResponses",
                   cond: {
-                    $eq: ["$$this._id", convertId(req.session.user.id)],
+                    $eq: ["$$this._id", convertId(_id)],
                   },
                 },
               },
@@ -140,7 +149,7 @@ const getAvailability = async (req, res) => {
 
 const getAvailabilityForAllMembers = async (req, res) => {
   try {
-    let membersAvailability = [];
+    const membersAvailability = [];
     let months = [];
 
     const members = await User.aggregate([
@@ -160,8 +169,8 @@ const getAvailabilityForAllMembers = async (req, res) => {
         },
       },
     ]);
-    if (isEmpty(members))
-      return res.status(200).json({ membersAvailability, months });
+    /* istanbul ignore next */
+    if (isEmpty(members)) return res.status(200).json({ membersAvailability, months });
 
     const currentDate = createDate().toDate();
 
@@ -174,18 +183,23 @@ const getAvailabilityForAllMembers = async (req, res) => {
           $gte: currentDate,
         },
       },
-      { __v: 0, sentEmails: 0, seasonId: 0, sendEmailNotificationsDate: 0 },
+      {
+        __v: 0,
+        sentEmails: 0,
+        seasonId: 0,
+        sendEmailNotificationsDate: 0,
+      },
     ).lean();
-    if (!existingForm)
-      return res.status(200).json({ membersAvailability, months });
+    /* istanbul ignore next */
+    if (!existingForm) return res.status(200).json({ membersAvailability, months });
 
     const startOfMonth = moment(existingForm.startMonth).toDate();
     const endOfMonth = moment(existingForm.endMonth).toDate();
     months = [startOfMonth, endOfMonth];
 
     const eventCounts = await getEventCounts(startOfMonth, endOfMonth);
-    if (eventCounts === 0)
-      return res.status(200).json({ membersAvailability, months });
+    /* istanbul ignore next */
+    if (eventCounts === 0) return res.status(200).json({ membersAvailability, months });
 
     const eventResponses = await Event.aggregate([
       {
@@ -244,12 +258,14 @@ const getEventDistribution = async (req, res) => {
     const members = await getUsers({
       match: {
         role: { $eq: "employee" },
+        status: "active",
       },
       project: {
         _id: 1,
         name: { $concat: ["$firstName", " ", "$lastName"] },
       },
     });
+    /* istanbul ignore next */
     if (isEmpty(members)) return res.status(200).json({ members: [] });
 
     const memberEventCounts = await Event.aggregate([
@@ -274,8 +290,7 @@ const getEventDistribution = async (req, res) => {
         },
       },
     ]);
-    if (isEmpty(memberEventCounts))
-      return res.status(200).json({ members: [] });
+    if (isEmpty(memberEventCounts)) return res.status(200).json({ members: [] });
 
     res.status(200).json({
       members: createMemberEventCount({
@@ -291,7 +306,8 @@ const getEventDistribution = async (req, res) => {
 
 const getEvents = async (req, res) => {
   try {
-    const { id } = req.session.user;
+    const { id: _id } = req.session.user;
+    if (!_id) throw missingMemberId;
     const { selectedEvent } = req.params;
 
     const isEventToday = selectedEvent === "today";
@@ -304,20 +320,20 @@ const getEvents = async (req, res) => {
 
     const filters = isEventToday
       ? {
-          eventDate: {
-            $gte: currentDate,
-            $lte: endOfDay,
-          },
-        }
+        eventDate: {
+          $gte: currentDate,
+          $lte: endOfDay,
+        },
+      }
       : {
-          eventDate: {
-            $gte: endOfDay,
-            $lte: withinAWeek,
-          },
-          scheduledIds: {
-            $in: [convertId(id)],
-          },
-        };
+        eventDate: {
+          $gte: endOfDay,
+          $lte: withinAWeek,
+        },
+        scheduledIds: {
+          $in: [convertId(_id)],
+        },
+      };
 
     const events = await Event.find(
       {

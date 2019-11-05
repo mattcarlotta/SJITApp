@@ -72,6 +72,7 @@ const findMemberAvailabilty = async (existingMember, selectedDate, res) => {
   const { startOfMonth, endOfMonth } = getMonthDateRange(selectedDate);
 
   const eventCount = await getEventCounts(startOfMonth, endOfMonth);
+  /* instanbul ignore next */
   if (eventCount === 0) return res.status(200).send({});
 
   const eventResponses = await Event.aggregate([
@@ -275,8 +276,7 @@ const getMemberEventCounts = async (req, res) => {
         },
       },
     ]);
-    if (isEmpty(memberEventCounts))
-      return res.status(200).json({ members: [] });
+    if (isEmpty(memberEventCounts)) return res.status(200).json({ members: [] });
 
     res.status(200).json({
       members: createMemberEventCount({
@@ -359,9 +359,10 @@ const getMemberSettingsEvents = async (req, res) => {
 
 const updateMember = async (req, res) => {
   try {
-    const { _id, email, firstName, lastName, role } = req.body;
-    if (!_id || !email || !firstName || !lastName || !role)
-      throw missingUpdateMemberParams;
+    const {
+      _id, email, firstName, lastName, role,
+    } = req.body;
+    if (!_id || !email || !firstName || !lastName || !role) throw missingUpdateMemberParams;
 
     const existingMember = await findMember(_id);
 

@@ -94,8 +94,8 @@ describe("View AP Form", () => {
 
     const form = {
       expirationDate: new Date("2099-08-10T07:00:00.000Z"),
-      startMonth: new Date("2019-11-01T07:00:00.000Z"),
-      endMonth: new Date("2019-11-30T07:00:00.000Z"),
+      startMonth: new Date("2099-11-01T07:00:00.000Z"),
+      endMonth: new Date("2099-11-30T07:00:00.000Z"),
       notes: "Form 99",
       seasonId: "20192020",
     };
@@ -118,7 +118,7 @@ describe("View AP Form", () => {
 
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith({
-      err: unableToLocateEvents("11/01/2019", "11/29/2019"),
+      err: unableToLocateEvents("11/01/2099", "11/29/2099"),
     });
   });
 
