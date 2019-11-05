@@ -3,7 +3,7 @@ import styled from "styled-components";
 import LoadingForm from "./LoadingForm";
 
 export default styled(LoadingForm)`
-	min-height: 500px;
+	min-height: ${({ minHeight }) => minHeight || "500px"};
 	width: 100%;
 
 	& .input {

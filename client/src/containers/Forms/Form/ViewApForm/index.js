@@ -112,12 +112,14 @@ export class ViewApForm extends Component {
 					<form style={{ textAlign: "center" }} onSubmit={this.handleSubmit}>
 						{isLoading ? (
 							<Fragment>
-								<LoadingForm rows={1} style={{ minHeight: "auto" }} />
-								<LoadingPanel height="400px" />
-								<br />
-								<LoadingPanel height="400px" />
-								<br />
-								<LoadingPanel height="400px" />
+								<LoadingForm rows={1} minHeight="92px" />
+								{[0, 1, 2].map(num => (
+									<LoadingPanel
+										key={num}
+										height="400px"
+										style={{ marginBottom: 20 }}
+									/>
+								))}
 							</Fragment>
 						) : (
 							<Fragment>
