@@ -63,8 +63,9 @@ describe("View Ap Form", () => {
 		expect(wrapper.find("Card").exists()).toBeTruthy();
 	});
 
-	it("shows a LoadingForm when fetching seasonIds", () => {
+	it("shows a LoadingForm and LoadingPanels when fetching events", () => {
 		expect(wrapper.find("LoadingForm").exists()).toBeTruthy();
+		expect(wrapper.find("LoadingPanel").exists()).toBeTruthy();
 	});
 
 	it("calls fetchFormAp on mount", () => {

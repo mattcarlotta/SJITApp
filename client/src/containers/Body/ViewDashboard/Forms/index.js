@@ -25,7 +25,7 @@ const iconStyle = {
 
 const warningStyle = {
 	verticalAlign: "middle",
-	marginTop: 10,
+	marginTop: 15,
 	padding: "5px 0",
 	borderRadius: 3,
 };
@@ -79,18 +79,18 @@ export class Forms extends PureComponent {
 						<CalendarContainer>
 							{!isEmpty(apform) ? (
 								<div css="margin-top: 10px;">
-									<div css="padding: 5px 0;text-align: center;background-color: #025f6d;color: #fff;border-radius: 3px;">
-										<div>Sharks & Barracuda A/P Form</div>
-										<div>
-											{" "}
-											{moment(apform.startMonth).format(simpleFormat)} -{" "}
-											{moment(apform.endMonth).format(simpleFormat)}
-										</div>
+									<div css="text-align: center;background-color: #025f6d;color: #fff;border-radius: 3px;font-size: 18px;">
+										Sharks & Barracuda A/P Form
 									</div>
 									<div css="font-size: 17px;padding: 0 5px;margin-top: 15px;">
 										<div>
 											<Bold>Form Id:</Bold>
 											{apform._id}
+										</div>
+										<div>
+											<Bold>Form Dates:</Bold>
+											{moment(apform.startMonth).format(simpleFormat)} -{" "}
+											{moment(apform.endMonth).format(simpleFormat)}
 										</div>
 										<div>
 											<Bold>Expiration Date:</Bold>

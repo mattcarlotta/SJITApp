@@ -9,6 +9,7 @@ import { FaFileSignature } from "react-icons/fa";
 import {
 	BackButton,
 	FormContainer,
+	LoadingPanel,
 	SubmitButton,
 	Notes,
 	Title,
@@ -110,7 +111,14 @@ export class ViewApForm extends Component {
 					/>
 					<form style={{ textAlign: "center" }} onSubmit={this.handleSubmit}>
 						{isLoading ? (
-							<LoadingForm rows={9} />
+							<Fragment>
+								<LoadingForm rows={1} style={{ minHeight: "auto" }} />
+								<LoadingPanel height="400px" />
+								<br />
+								<LoadingPanel height="400px" />
+								<br />
+								<LoadingPanel height="400px" />
+							</Fragment>
 						) : (
 							<Fragment>
 								<Title style={{ color: "#025f6d" }}>
