@@ -12,9 +12,7 @@ export default styled.ul`
 	}
 
 	display: flex;
-	flex-flow: row wrap;
 	flex-direction: row;
-	-ms-flex-flow: row wrap;
 	-ms-flex-align: center;
 	align-items: center;
 	list-style-type: none;

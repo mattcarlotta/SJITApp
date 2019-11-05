@@ -2,12 +2,12 @@
 import styled from "styled-components";
 
 export default styled.nav`
-	@media (max-width: 725px) {
+	@media (max-width: 980px) {
 		text-align: center;
 		display: block;
 	}
 	@media (min-width: 1340px) {
-		max-width: 1000px;
+		max-width: 940px;
 	}
 	display: -ms-flexbox;
 	display: flex;

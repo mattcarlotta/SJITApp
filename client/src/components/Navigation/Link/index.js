@@ -13,4 +13,10 @@ export default styled(Link)`
 	&:hover {
 		color: ${({ blue }) => (blue ? "#40a9ff" : "#62c0ce")};
 	}
+
+	&:focus {
+		color: ${({ blue }) => (blue ? "#40a9ff" : "#62c0ce")};
+		outline: none;
+		border: 0;
+	}
 `;

@@ -23,6 +23,9 @@ describe("Styled Link", () => {
 		expect(StyledLink).toHaveStyleRule("color", "#62c0ce", {
 			modifier: ":hover",
 		});
+		expect(StyledLink).toHaveStyleRule("color", "#62c0ce", {
+			modifier: ":focus",
+		});
 	});
 
 	it("displays as blue with a light blue hover when passed a 'blue' prop", () => {
@@ -32,6 +35,9 @@ describe("Styled Link", () => {
 		expect(StyledLink).toHaveStyleRule("color", "#1890ff");
 		expect(StyledLink).toHaveStyleRule("color", "#40a9ff", {
 			modifier: ":hover",
+		});
+		expect(StyledLink).toHaveStyleRule("color", "#40a9ff", {
+			modifier: ":focus",
 		});
 	});
 });
