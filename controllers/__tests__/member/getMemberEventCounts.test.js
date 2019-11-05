@@ -41,6 +41,20 @@ describe("Get Member Events Counts Controller", () => {
     });
   });
 
+  it("handles events that aren't scheduled yet requests", async () => {
+    const existingEvent = await Event.findOne({ notes: "Unscheduled game." });
+    const eventId = existingEvent._id;
+
+    const req = mockRequest(null, null, null, { eventId });
+
+    await getMemberEventCounts(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith({
+      members: [],
+    });
+  });
+
   it("handles valid get member events counts requests", async () => {
     const existingEvent = await Event.findOne({
       opponent: "Winnipeg Jets",

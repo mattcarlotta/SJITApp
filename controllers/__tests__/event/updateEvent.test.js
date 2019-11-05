@@ -2,6 +2,7 @@ import { Event } from "models";
 import { updateEvent } from "controllers/event";
 import {
   invalidUpdateEventRequest,
+  mustContainUniqueCallTimes,
   unableToLocateEvent,
 } from "shared/authErrors";
 
@@ -39,6 +40,30 @@ describe("Update Event Controller", () => {
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith({
       err: invalidUpdateEventRequest,
+    });
+  });
+
+  it("handles duplicate callTimes", async () => {
+    const invalidCallTimes = {
+      _id: "5d4e00bcf2d83c45a863e2bc",
+      callTimes: ["2019-08-09T19:00:38-07:00", "2019-08-09T19:00:38-07:00"],
+      eventDate: "2019-08-11T02:30:30.036+00:00",
+      eventType: "Promotional",
+      team: "San Jose Sharks",
+      opponent: "Anaheim Ducks",
+      location: "SAP Center at San Jose",
+      notes: "",
+      seasonId: "20012002",
+      uniform: "Sharks Teal Jersey",
+    };
+
+    const req = mockRequest(null, null, invalidCallTimes);
+
+    await updateEvent(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.json).toHaveBeenCalledWith({
+      err: mustContainUniqueCallTimes,
     });
   });
 

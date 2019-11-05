@@ -1,6 +1,7 @@
 import { Form } from "models";
 import { createForm } from "controllers/form";
 import {
+  formAlreadyExists,
   invalidExpirationDate,
   invalidSendEmailNoteDate,
   unableToCreateNewForm,
@@ -37,6 +38,28 @@ describe("Create Form Controller", () => {
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith({
       err: unableToCreateNewForm,
+    });
+  });
+
+  it("handles form already exists requests", async () => {
+    const newForm = {
+      expirationDate: new Date("2000-08-10T07:00:00.000Z"),
+      enrollMonth: [
+        new Date("2000-08-01T07:00:00.000Z"),
+        new Date("2000-08-31T07:00:00.000Z"),
+      ],
+      notes: "Form 1",
+      seasonId: "20002001",
+      sendEmailNotificationsDate: new Date("2000-08-31T07:00:00.000Z"),
+      sentEmails: false,
+    };
+
+    const req = mockRequest(null, null, newForm);
+
+    await createForm(req, res);
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.json).toHaveBeenCalledWith({
+      err: formAlreadyExists,
     });
   });
 

@@ -275,7 +275,8 @@ const getMemberEventCounts = async (req, res) => {
         },
       },
     ]);
-    if (isEmpty(memberEventCounts)) return res.status(200).json({ members: [] });
+    if (isEmpty(memberEventCounts))
+      return res.status(200).json({ members: [] });
 
     res.status(200).json({
       members: createMemberEventCount({
@@ -330,8 +331,10 @@ const getMemberSettings = async (req, res) => {
 const getMemberSettingsAvailability = async (req, res) => {
   try {
     const { selectedDate } = req.query;
+    const { id: _id } = req.session.user;
+    if (!_id) throw missingMemberId;
 
-    const existingMember = await findMember(req.session.user.id);
+    const existingMember = await findMember(_id);
 
     await findMemberAvailabilty(existingMember, selectedDate, res);
   } catch (err) {
@@ -342,8 +345,10 @@ const getMemberSettingsAvailability = async (req, res) => {
 const getMemberSettingsEvents = async (req, res) => {
   try {
     const { selectedDate } = req.query;
+    const { id: _id } = req.session.user;
+    if (!_id) throw missingMemberId;
 
-    const existingMember = await findMember(req.session.user.id);
+    const existingMember = await findMember(_id);
     const events = await findMemberEvents(existingMember, selectedDate);
 
     res.status(200).json({ ...events[0] });
@@ -354,10 +359,9 @@ const getMemberSettingsEvents = async (req, res) => {
 
 const updateMember = async (req, res) => {
   try {
-    const {
-      _id, email, firstName, lastName, role,
-    } = req.body;
-    if (!_id || !email || !firstName || !lastName || !role) throw missingUpdateMemberParams;
+    const { _id, email, firstName, lastName, role } = req.body;
+    if (!_id || !email || !firstName || !lastName || !role)
+      throw missingUpdateMemberParams;
 
     const existingMember = await findMember(_id);
 
@@ -397,6 +401,9 @@ const updateMember = async (req, res) => {
 const updateMemberSettings = async (req, res) => {
   try {
     let updatedEmail = false;
+    const { id: _id } = req.session.user;
+    if (!_id) throw missingMemberId;
+
     const { email, firstName, lastName } = req.body;
     if (!email || !firstName || !lastName) throw missingUpdateMemberParams;
 
