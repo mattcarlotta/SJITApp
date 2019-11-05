@@ -3,16 +3,16 @@ import Helmet from "react-helmet";
 import { Header } from "components/Navigation";
 import { Center, Container, Title } from "components/Body";
 
-const Home = () => (
+const Contact = () => (
 	<Fragment>
 		<Header />
-		<Helmet title="Home" />
+		<Helmet title="Contact" />
 		<Container>
 			<Center>
-				<Title>Home</Title>
+				<Title>Contact</Title>
 			</Center>
 		</Container>
 	</Fragment>
 );
 
-export default Home;
+export default Contact;
