@@ -19,6 +19,7 @@
     "initialize": "yarn install && cd client && yarn install && cd ..",
     "pre-commit": "npm run lint && npm run test",
     "start": "better-npm-run start",
+    "staging": "better-npm-run staging",
     "server": "better-npm-run server",
     "client": "npm run dev --prefix client",
     "build": "npm run build --prefix client",
@@ -79,6 +80,16 @@
         "CLIENT": "http://example.com",
         "DATABASE": "sjsitapp-prod-db",
         "NODE_ENV": "production",
+        "APIPORT": 8080
+      }
+    },
+    "staging": {
+      "command": "babel-node app.js",
+      "env": {
+        "HOST": "http://localhost:",
+        "CLIENT": "http://localhost:8080",
+        "DATABASE": "sjsitapp-prod-staging",
+        "NODE_ENV": "staging",
         "APIPORT": 8080
       }
     },

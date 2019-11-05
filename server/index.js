@@ -13,7 +13,7 @@ const {
 
 export default app => {
   const currentDirectory = process.cwd();
-  const inProduction = NODE_ENV === "production";
+  const inProduction = NODE_ENV === "production" || NODE_ENV === "staging";
 
   //= ===========================================================//
   // PRODUCTION CONFIG                                           //

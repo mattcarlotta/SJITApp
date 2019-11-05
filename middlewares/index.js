@@ -8,7 +8,7 @@ import redis from "redis";
 import config from "env";
 import "database";
 
-const { CLIENT, NODE_ENV, protocol } = process.env;
+const { CLIENT, NODE_ENV } = process.env;
 const inTesting = NODE_ENV === "testing";
 
 const RedisStore = connectRedis(session);
@@ -31,7 +31,7 @@ export default app => {
       cookie: {
         path: "/",
         httpOnly: true,
-        secure: protocol === "https",
+        secure: NODE_ENV === "production",
         maxAge: 30 * 24 * 60 * 60 * 1000, // 30 * 24 * 60 * 60 * 1000 expire after 30 days, 30days/24hr/60m/60s/1000ms
       },
       store: new RedisStore({

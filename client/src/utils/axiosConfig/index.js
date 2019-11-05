@@ -8,7 +8,7 @@ const app = axios.create({
 	/* eslint-disable-next  */
 	baseURL: inDevelopment
 		? `http://localhost:${APIPORT}/api/`
-		: "https://example.com",
+		: "http://localhost:8080/api/",
 	withCredentials: true,
 });
 
