@@ -219,7 +219,7 @@ describe("Helpers", () => {
   it("creates a random 32 character string", () => {
     const signupToken = createSignupToken();
     expect(signupToken).toEqual(expect.any(String));
-    expect(signupToken.length).toEqual(32);
+    expect(signupToken.length).toEqual(64);
   });
 
   it("creates a unique snake-cased template string", () => {

@@ -11,6 +11,8 @@ import {
 } from "shared/helpers";
 import config from "env";
 
+"";
+
 const { NODE_ENV, SEED } = process.env;
 
 const { admin, password } = config[NODE_ENV];
@@ -190,6 +192,15 @@ const seedDB = async () => {
       token: createRandomToken(),
     };
 
+    const scheduledMember = {
+      email: "scheduledmember@test.com",
+      password: memberPassword,
+      firstName: "Scheduled",
+      lastName: "Member",
+      role: "employee",
+      token: createRandomToken(),
+    };
+
     const member = {
       email: "member@example.com",
       password: memberPassword,
@@ -287,9 +298,20 @@ const seedDB = async () => {
       status: "suspended",
     };
 
+    const member299 = {
+      email: "member299@example.com",
+      password: memberPassword,
+      firstName: "Member299",
+      lastName: "Member299",
+      role: "employee",
+      token: createRandomToken(),
+      status: "active",
+    };
+
     await User.insertMany([
       administrator,
       staffMember,
+      scheduledMember,
       member,
       member2,
       member3,
@@ -299,10 +321,11 @@ const seedDB = async () => {
       member7,
       member8,
       member9,
+      member299,
       suspendedEmployee,
     ]);
 
-    const adminAccount = await User.findOne({ email: administrator.email });
+    const scheduledUser = await User.findOne({ email: scheduledMember.email });
 
     const newEventCallTimes = [
       "2019-08-09T17:45:26-07:00",
@@ -313,14 +336,32 @@ const seedDB = async () => {
 
     const newEvent = {
       team: "San Jose Sharks",
-      opponent: "Los Angeles Kings",
+      opponent: "Winnipeg Jets",
       eventType: "Game",
       location: "Test Location",
       callTimes: newEventCallTimes,
       uniform: "Teal Jersey",
       seasonId: "20192020",
       eventDate: "2019-08-10T02:30:31.834Z",
-      schedule: createSchedule(newEventCallTimes),
+      scheduledIds: [scheduledUser._id],
+      schedule: [
+        {
+          _id: "2019-08-09T17:45:26-07:00",
+          employeeIds: [scheduledUser._id],
+        },
+        {
+          _id: "2019-08-09T18:15:26-07:00",
+          employeeIds: [],
+        },
+        {
+          _id: "2019-08-09T18:30:26-07:00",
+          employeeIds: [],
+        },
+        {
+          _id: "2019-08-09T19:00:26-07:00",
+          employeeIds: [],
+        },
+      ],
       sentEmailReminders: false,
     };
 
@@ -358,7 +399,7 @@ const seedDB = async () => {
       team: "San Jose Sharks",
       employeeResponses: [
         {
-          _id: adminAccount._id,
+          _id: scheduledUser._id,
           response: "I want to work.",
           notes: "",
         },
@@ -386,7 +427,7 @@ const seedDB = async () => {
       team: "San Jose Sharks",
       employeeResponses: [
         {
-          _id: adminAccount._id,
+          _id: scheduledUser._id,
           response: "I want to work.",
           notes: "",
         },
@@ -501,7 +542,7 @@ const seedDB = async () => {
       notes: "Form 1",
       seasonId: "20002001",
       sendEmailNotificationsDate: new Date("2000-08-31T07:00:00.000Z"),
-      sendEmails: false,
+      sentEmails: false,
     };
 
     const form2 = {
@@ -511,7 +552,7 @@ const seedDB = async () => {
       notes: "Form 2",
       seasonId: "20052006",
       sendEmailNotificationsDate: new Date("2005-08-31T07:00:00.000Z"),
-      sendEmails: false,
+      sentEmails: false,
     };
 
     const form3 = {
@@ -521,7 +562,7 @@ const seedDB = async () => {
       notes: "Form 3",
       seasonId: "20112012",
       sendEmailNotificationsDate: new Date("2011-08-31T07:00:00.000Z"),
-      sendEmails: false,
+      sentEmails: false,
     };
 
     const form4 = {
@@ -531,7 +572,7 @@ const seedDB = async () => {
       notes: "Form 4",
       seasonId: "20192020",
       sendEmailNotificationsDate: new Date("2019-08-31T07:00:00.000Z"),
-      sendEmails: false,
+      sentEmails: false,
     };
 
     const form5 = {
@@ -541,7 +582,7 @@ const seedDB = async () => {
       notes: "Form 5",
       seasonId: "20192020",
       sendEmailNotificationsDate: new Date("2019-09-31T07:00:00.000Z"),
-      sendEmails: false,
+      sentEmails: false,
     };
 
     const form6 = {
@@ -551,7 +592,7 @@ const seedDB = async () => {
       notes: "Form 6",
       seasonId: "20192020",
       sendEmailNotificationsDate: new Date("2019-10-31T07:00:00.000Z"),
-      sendEmails: false,
+      sentEmails: false,
     };
 
     const form7 = {
@@ -561,7 +602,7 @@ const seedDB = async () => {
       notes: "Form 7",
       seasonId: "20192020",
       sendEmailNotificationsDate: new Date("2019-11-31T07:00:00.000Z"),
-      sendEmails: true,
+      sentEmails: true,
     };
 
     await Form.insertMany([form1, form2, form3, form4, form5, form6, form7]);
@@ -602,7 +643,16 @@ const seedDB = async () => {
       subject: "Test 88",
     };
 
-    await Mail.insertMany([newMail, newMail2, newMail3, newMail4]);
+    const newMail5 = {
+      sendTo: ["test@test.com"],
+      sendFrom: "test@test.com",
+      sendDate: "2011-10-06T07:00:00.000+00:00",
+      message: "<span>Test 1199</span>",
+      status: "sent",
+      subject: "Test 1199",
+    };
+
+    await Mail.insertMany([newMail, newMail2, newMail3, newMail4, newMail5]);
 
     await db.close();
 

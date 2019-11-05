@@ -1,6 +1,6 @@
 import { Event } from "models";
 import { deleteEvent } from "controllers/event";
-import { missingEventId, unableToDeleteEvent } from "shared/authErrors";
+import { missingEventId, unableToLocateEvent } from "shared/authErrors";
 
 describe("Delete Event Controller", () => {
   let res;
@@ -37,7 +37,7 @@ describe("Delete Event Controller", () => {
 
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith({
-      err: unableToDeleteEvent,
+      err: unableToLocateEvent,
     });
   });
 

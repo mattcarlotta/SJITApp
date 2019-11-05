@@ -59,7 +59,15 @@ describe("Get Event For Scheduling Controller", () => {
             employeeIds: expect.anything(),
           }),
         ]),
-        event,
+        event: expect.objectContaining({
+          _id: expect.any(ObjectId),
+          callTimes: expect.any(Array),
+          scheduledIds: expect.any(Array),
+          seasonId: expect.any(String),
+          sentEmailReminders: expect.any(Boolean),
+          team: expect.any(String),
+          opponent: expect.any(String),
+        }),
         users: expect.arrayContaining([
           expect.objectContaining({
             _id: expect.any(ObjectId),

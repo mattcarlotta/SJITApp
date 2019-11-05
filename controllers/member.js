@@ -243,6 +243,7 @@ const getMemberEventCounts = async (req, res) => {
         name: { $concat: ["$firstName", " ", "$lastName"] },
       },
     });
+    /* istanbul ignore next */
     if (isEmpty(members)) return res.status(200).json({ members: [] });
 
     const existingEvent = await findEventById(eventId);
@@ -274,10 +275,7 @@ const getMemberEventCounts = async (req, res) => {
         },
       },
     ]);
-    if (isEmpty(memberEventCounts))
-      return res.status(200).json({ members: [] });
-
-    console.log("memberEventCounts", memberEventCounts);
+    if (isEmpty(memberEventCounts)) return res.status(200).json({ members: [] });
 
     res.status(200).json({
       members: createMemberEventCount({
@@ -356,9 +354,10 @@ const getMemberSettingsEvents = async (req, res) => {
 
 const updateMember = async (req, res) => {
   try {
-    const { _id, email, firstName, lastName, role } = req.body;
-    if (!_id || !email || !firstName || !lastName || !role)
-      throw missingUpdateMemberParams;
+    const {
+      _id, email, firstName, lastName, role,
+    } = req.body;
+    if (!_id || !email || !firstName || !lastName || !role) throw missingUpdateMemberParams;
 
     const existingMember = await findMember(_id);
 
@@ -372,8 +371,8 @@ const updateMember = async (req, res) => {
         {},
         {
           $pull: {
-            scheduledIds: existingUser._id,
-            "schedule.$[].employeeIds": existingUser._id,
+            scheduledIds: existingMember._id,
+            "schedule.$[].employeeIds": existingMember._id,
           },
         },
         { multi: true },
@@ -443,8 +442,8 @@ const updateMemberStatus = async (req, res) => {
         {},
         {
           $pull: {
-            scheduledIds: existingUser._id,
-            "schedule.$[].employeeIds": existingUser._id,
+            scheduledIds: existingMember._id,
+            "schedule.$[].employeeIds": existingMember._id,
           },
         },
         { multi: true },

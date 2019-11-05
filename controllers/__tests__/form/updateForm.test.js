@@ -141,8 +141,8 @@ describe("Update Form Controller", () => {
     const updatedFormDetails = {
       ...newForm,
       enrollMonth: [
-        "2019-08-01T07:00:00.000+00:00",
-        "2019-08-31T07:00:00.000+00:00",
+        "2021-08-01T07:00:00.000+00:00",
+        "2021-08-31T07:00:00.000+00:00",
       ],
     };
 

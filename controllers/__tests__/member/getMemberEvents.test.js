@@ -45,7 +45,7 @@ describe("Get Member Events", () => {
 
   it("handles valid get member events requests", async () => {
     const existingUser = await User.findOne({
-      email: "carlotta.matt@gmail.com",
+      email: "scheduledmember@test.com",
     });
 
     const id = existingUser._id;

@@ -43,7 +43,7 @@ describe("Get Member Events Counts Controller", () => {
 
   it("handles valid get member events counts requests", async () => {
     const existingEvent = await Event.findOne({
-      opponent: "Los Angeles Kings",
+      opponent: "Winnipeg Jets",
     });
 
     const eventId = existingEvent._id;

@@ -19,7 +19,7 @@ describe("Get Scheduled Events Controller", () => {
   it("handles valid get All Games requests", async () => {
     const query = {
       id: "",
-      selectedDate: "",
+      selectedDate: "2019-10-21T02:30:36.000+00:00",
       selectedGames: "",
     };
     const session = {

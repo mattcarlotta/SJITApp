@@ -1,5 +1,6 @@
 import { User } from "models";
 import { getMember } from "controllers/member";
+import { createSignupToken } from "shared/helpers";
 import { missingMemberId, unableToLocateMember } from "shared/authErrors";
 
 describe("Get Member Controller", () => {
@@ -42,8 +43,15 @@ describe("Get Member Controller", () => {
   });
 
   it("handles valid get Member requests", async () => {
-    const email = "carlotta.matt@gmail.com";
-    const existingMember = await User.findOne({ email });
+    const email = "hello.goodbye@test.com";
+    const existingMember = await User.create({
+      email,
+      role: "employee",
+      token: createSignupToken(),
+      firstName: "Hello",
+      lastName: "Goodbye",
+      password: "password",
+    });
 
     const req = mockRequest(null, null, null, null, { id: existingMember._id });
 
@@ -52,7 +60,6 @@ describe("Get Member Controller", () => {
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.json).toHaveBeenCalledWith({
       member: expect.objectContaining({
-        __v: expect.any(Number),
         _id: expect.any(ObjectId),
         email: expect.any(String),
         firstName: expect.any(String),

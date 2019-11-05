@@ -107,8 +107,8 @@ describe("Create Form Controller", () => {
     const newForm = {
       expirationDate: new Date("2000-08-10T07:00:00.000Z"),
       enrollMonth: [
-        new Date("2000-08-01T07:00:00.000Z"),
-        new Date("2000-08-31T07:00:00.000Z"),
+        new Date("2004-08-01T07:00:00.000Z"),
+        new Date("2004-08-31T07:00:00.000Z"),
       ],
       notes: "Let me know if you want to work extra games.",
       seasonId: "20002001",
