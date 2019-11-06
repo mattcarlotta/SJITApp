@@ -1,6 +1,7 @@
 /* eslint-disable react/forbid-prop-types, react/jsx-boolean-value */
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
+import qs from "qs";
 import { Icon, Input, Popconfirm, Table, Tooltip } from "antd";
 import {
 	FaEdit,
@@ -19,41 +20,42 @@ import {
 	Spacer,
 } from "components/Body";
 
+const getPageNumber = query => {
+	const { page } = qs.parse(query, {
+		ignoreQueryPrefix: true,
+	});
+
+	return parseInt(page || 1, 10);
+};
+
 class CustomTable extends Component {
 	state = {
-		isLoading: true,
+		currentPage: getPageNumber(this.props.location.search),
 	};
 
+	static getDerivedStateFromProps({ location }) {
+		return {
+			currentPage: getPageNumber(location.search),
+		};
+	}
+
 	componentDidMount = () => {
-		this.props.fetchData();
-		this.setTimer();
+		const { currentPage } = this.state;
+		this.props.fetchData(currentPage);
 	};
 
 	shouldComponentUpdate = (nextProps, nextState) =>
-		nextProps.data !== this.props.data ||
-		nextState.isLoading !== this.state.isLoading;
+		nextProps.isLoading !== this.props.isLoading ||
+		nextState.currentPage !== this.state.currentPage;
 
-	componentDidUpdate = prevProps => {
-		if (this.props.data !== prevProps.data && this.state.isLoading)
-			this.clearTimer();
-	};
-
-	/* istanbul ignore next */
-	componentWillUnmount = () => {
-		this.cancelClearTimer = true;
-		clearTimeout(this.timeout);
+	componentDidUpdate = (prevProps, prevState) => {
+		const { currentPage } = this.state;
+		if (currentPage !== prevState.currentPage)
+			this.props.fetchData(currentPage);
 	};
 
 	handleClickAction = (action, record) =>
-		this.setState({ isLoading: true }, () => action(record._id));
-
-	/* istanbul ignore next */
-	clearTimer = () => {
-		if (!this.cancelClearTimer)
-			this.setState({ isLoading: false }, () => clearTimeout(this.timeout));
-	};
-
-	setTimer = () => (this.timeout = setTimeout(this.clearTimer, 3000));
+		action(record._id, this.state.currentPage);
 
 	handleSearch = (_, confirm) => confirm();
 
@@ -61,6 +63,9 @@ class CustomTable extends Component {
 
 	handleSelectKeys = (value, setSelectedKeys) =>
 		setSelectedKeys(value ? [value] : []);
+
+	handlePageChange = ({ current: currentPage }) =>
+		this.props.push(`${this.props.location.pathname}?page=${currentPage}`);
 
 	/* istanbul ignore next */
 	getColumnSearchProps = dataIndex => ({
@@ -250,20 +255,22 @@ class CustomTable extends Component {
 	};
 
 	render = () =>
-		this.state.isLoading ? (
+		this.props.isLoading ? (
 			<LoadingTable />
 		) : (
-			<FadeIn>
+			<FadeIn timing="0.4s">
 				<Table
 					columns={this.createTableColumns()}
 					dataSource={this.props.data}
 					pagination={{
 						defaultPageSize: 10,
-						hideOnSinglePage: true,
+						current: this.state.currentPage,
+						total: this.props.totalDocs,
 					}}
 					bordered={true}
 					rowKey="_id"
 					scroll={{ x: 1300 }}
+					onChange={this.handlePageChange}
 				/>
 			</FadeIn>
 		);
@@ -280,12 +287,15 @@ CustomTable.propTypes = {
 		}),
 	).isRequired,
 	data: PropTypes.any.isRequired,
+	isLoading: PropTypes.bool.isRequired,
+	location: PropTypes.any,
 	deleteAction: PropTypes.func,
 	editLocation: PropTypes.string,
 	fetchData: PropTypes.func.isRequired,
 	push: PropTypes.func.isRequired,
 	role: PropTypes.string,
 	sendMail: PropTypes.func,
+	totalDocs: PropTypes.number,
 	viewLocation: PropTypes.string,
 };
 

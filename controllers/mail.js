@@ -1,3 +1,4 @@
+import get from "lodash/get";
 import isEmpty from "lodash/isEmpty";
 import { Mail, User } from "models";
 import { createDate, getStartOfDay, getUsers, sendError } from "shared/helpers";
@@ -100,10 +101,23 @@ const deleteMail = async (req, res) => {
   }
 };
 
-const getAllMail = async (_, res) => {
-  const mail = await Mail.find({}, { __v: 0 }).sort("-sendDate");
+const getAllMail = async (req, res) => {
+  try {
+    const { page } = req.query;
 
-  res.status(200).json({ mail });
+    const results = await Mail.paginate(
+      {},
+      { sort: { sendDate: -1 }, page, limit: 10, select: "-notes -__v" },
+    );
+
+    const mail = get(results, ["docs"]);
+    const totalDocs = get(results, ["totalDocs"]);
+
+    res.status(200).json({ mail, totalDocs });
+  } catch (err) {
+    /* istanbul ignore next */
+    return sendError(err, res);
+  }
 };
 
 const getMail = async (req, res) => {

@@ -63,11 +63,13 @@ const columns = [
 		title: "Employee Responses",
 		dataIndex: "employeeResponses",
 		key: "employeeResponses",
+		render: responses => <span>{responses.length}</span>,
 	},
 	{
 		title: "Scheduled Employees",
-		dataIndex: "schedule",
-		key: "schedule",
+		dataIndex: "scheduledIds",
+		key: "scheduledIds",
+		render: employees => <span>{employees.length}</span>,
 	},
 	{
 		title: "Sent Email Reminders",
@@ -83,6 +85,7 @@ export const ViewEvents = ({
 	fetchEvents,
 	push,
 	resendMail,
+	...rest
 }) => (
 	<Fragment>
 		<Helmet title={title} />
@@ -110,6 +113,7 @@ export const ViewEvents = ({
 				</Button>
 			</FlexEnd>
 			<Table
+				{...rest}
 				columns={columns}
 				data={data}
 				deleteAction={deleteEvent}
@@ -137,16 +141,26 @@ ViewEvents.propTypes = {
 			callTimes: PropTypes.arrayOf(PropTypes.string),
 			seasonId: PropTypes.string,
 			eventDate: PropTypes.string,
-			employeeResponses: PropTypes.number,
+			employeeResponses: PropTypes.arrayOf(
+				PropTypes.shape({
+					_id: PropTypes.string,
+					response: PropTypes.string,
+					notes: PropTypes.string,
+				}),
+			),
 			schedule: PropTypes.number,
 			sentEmailReminders: PropTypes.bool,
 		}),
 	),
+	isLoading: PropTypes.bool.isRequired,
 	resendMail: PropTypes.func.isRequired,
+	totalDocs: PropTypes.number,
 };
 
 const mapStateToProps = state => ({
 	data: state.events.data,
+	isLoading: state.events.isLoading,
+	totalDocs: state.events.totalDocs,
 });
 
 const mapDispatchToProps = {

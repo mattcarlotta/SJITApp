@@ -1,3 +1,4 @@
+import mongoosePaginate from "mongoose-paginate-v2";
 import { Schema, model } from "mongoose";
 import moment from "moment";
 
@@ -16,5 +17,7 @@ const formSchema = new Schema({
   sentEmails: { type: Boolean, default: false },
   notes: String,
 });
+
+formSchema.plugin(mongoosePaginate);
 
 export default model("Form", formSchema);

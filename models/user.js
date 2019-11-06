@@ -1,3 +1,4 @@
+import mongoosePaginate from "mongoose-paginate-v2";
 import { Schema, model } from "mongoose";
 import moment from "moment";
 import bcrypt from "bcryptjs";
@@ -23,6 +24,8 @@ const userSchema = new Schema({
   timesAvailable: Number,
   timesUnavailable: Number,
 });
+
+userSchema.plugin(mongoosePaginate);
 
 userSchema.statics.createUser = function newUser(user) {
   return this.create(user);

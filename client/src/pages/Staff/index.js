@@ -14,7 +14,7 @@ export { default as ViewEvents } from "./Events/ViewEvents";
 // forms
 export { default as EditForm } from "./Forms/EditForm";
 export { default as NewForm } from "./Forms/NewForm";
-export { default as ViewForms } from "./ViewForms";
+export { default as ViewForms } from "./Forms/ViewForms";
 
 // mail
 export { default as EditMail } from "./Mail/EditMail";

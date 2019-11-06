@@ -68,6 +68,7 @@ export const ViewForms = ({
 	push,
 	resendMail,
 	role,
+	...rest
 }) => (
 	<Fragment>
 		<Helmet title={title} />
@@ -95,6 +96,7 @@ export const ViewForms = ({
 				</FlexEnd>
 			)}
 			<Table
+				{...rest}
 				columns={columns}
 				data={data}
 				deleteAction={deleteForm}
@@ -124,13 +126,16 @@ ViewForms.propTypes = {
 			sentEmails: PropTypes.bool,
 		}),
 	),
+	isLoading: PropTypes.bool.isRequired,
 	resendMail: PropTypes.func.isRequired,
 	role: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => ({
 	data: state.forms.data,
+	isLoading: state.forms.isLoading,
 	role: state.auth.role,
+	totalDocs: state.forms.totalDocs,
 });
 
 const mapDispatchToProps = {

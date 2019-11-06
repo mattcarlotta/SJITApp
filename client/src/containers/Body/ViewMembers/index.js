@@ -40,7 +40,13 @@ const columns = [
 	},
 ];
 
-export const ViewMembers = ({ data, deleteMember, fetchMembers, push }) => (
+export const ViewMembers = ({
+	data,
+	deleteMember,
+	fetchMembers,
+	push,
+	...rest
+}) => (
 	<Fragment>
 		<Helmet title={title} />
 		<Card
@@ -65,6 +71,7 @@ export const ViewMembers = ({ data, deleteMember, fetchMembers, push }) => (
 				</Button>
 			</FlexEnd>
 			<Table
+				{...rest}
 				columns={columns}
 				data={data}
 				deleteAction={deleteMember}

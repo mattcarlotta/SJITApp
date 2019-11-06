@@ -49,6 +49,7 @@ export const ViewAuthorizations = ({
 	fetchTokens,
 	push,
 	tokens,
+	...rest
 }) => (
 	<Fragment>
 		<Helmet title={title} />
@@ -74,6 +75,7 @@ export const ViewAuthorizations = ({
 				</Button>
 			</FlexEnd>
 			<Table
+				{...rest}
 				columns={columns}
 				data={tokens}
 				deleteAction={deleteToken}

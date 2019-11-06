@@ -108,9 +108,7 @@ export class Forms extends PureComponent {
 										>
 											{hasExpired
 												? "This form has expired and is no longer viewable."
-												: `This form will expire ${moment(expDate)
-														.startOf("day")
-														.fromNow()}!`}
+												: `This form will expire ${moment(expDate).fromNow()}!`}
 										</WarningText>
 									</div>
 								</div>

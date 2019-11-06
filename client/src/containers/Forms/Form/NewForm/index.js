@@ -66,7 +66,10 @@ export class NewAPForm extends Component {
 	render = () => (
 		<Card
 			extra={
-				<BackButton push={this.props.push} location="/employee/forms/viewall" />
+				<BackButton
+					push={this.props.push}
+					location="/employee/forms/viewall?page=1"
+				/>
 			}
 			title={
 				<Fragment>

@@ -1,4 +1,5 @@
 import moment from "moment";
+import get from "lodash/get";
 import isEmpty from "lodash/isEmpty";
 import { Event, Season } from "models";
 import {
@@ -103,27 +104,23 @@ const deleteEvent = async (req, res) => {
   }
 };
 
-const getAllEvents = async (_, res) => {
-  const events = await Event.aggregate([
-    {
-      $project: {
-        seasonId: 1,
-        eventDate: 1,
-        team: 1,
-        opponent: 1,
-        eventType: 1,
-        location: 1,
-        callTimes: 1,
-        uniform: 1,
-        sentEmailReminders: 1,
-        employeeResponses: { $size: "$employeeResponses" },
-        schedule: { $size: "$scheduledIds" },
-      },
-    },
-    { $sort: { eventDate: -1 } },
-  ]);
+const getAllEvents = async (req, res) => {
+  try {
+    const { page } = req.query;
 
-  res.status(200).json({ events });
+    const results = await Event.paginate(
+      {},
+      { sort: { eventDate: -1 }, page, limit: 10, select: "-schedule -__v" },
+    );
+
+    const events = get(results, ["docs"]);
+    const totalDocs = get(results, ["totalDocs"]);
+
+    res.status(200).json({ events, totalDocs });
+  } catch (err) {
+    /* istanbul ignore next */
+    return sendError(err, res);
+  }
 };
 
 const getEvent = async (req, res) => {

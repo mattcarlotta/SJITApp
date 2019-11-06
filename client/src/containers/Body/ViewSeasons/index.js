@@ -43,7 +43,13 @@ const columns = [
 	},
 ];
 
-export const ViewSeasons = ({ data, deleteSeason, fetchSeasons, push }) => (
+export const ViewSeasons = ({
+	data,
+	deleteSeason,
+	fetchSeasons,
+	push,
+	...rest
+}) => (
 	<Fragment>
 		<Helmet title={title} />
 		<Card
@@ -68,6 +74,7 @@ export const ViewSeasons = ({ data, deleteSeason, fetchSeasons, push }) => (
 				</Button>
 			</FlexEnd>
 			<Table
+				{...rest}
 				columns={columns}
 				data={data}
 				deleteAction={deleteSeason}

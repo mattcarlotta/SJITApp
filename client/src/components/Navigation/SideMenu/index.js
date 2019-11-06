@@ -63,7 +63,7 @@ const SideMenu = ({
 							style={{ backgroundColor: "#3d8792", margin: "20px 0" }}
 						/>
 					) : !submenu ? (
-						<MenuItem key={key}>
+						<MenuItem value={key} key={key}>
 							<Icon component={component} />
 							<Tab>{tab}</Tab>
 						</MenuItem>
@@ -77,8 +77,8 @@ const SideMenu = ({
 								</Fragment>
 							}
 						>
-							{submenu.map(({ component, disabled, tab, key }) => (
-								<MenuItem disabled={disabled} key={key}>
+							{submenu.map(({ component, disabled, tab, value, key }) => (
+								<MenuItem disabled={disabled} value={value} key={key}>
 									<Icon component={component} />
 									<Tab>{tab}</Tab>
 								</MenuItem>

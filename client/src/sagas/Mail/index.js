@@ -1,4 +1,4 @@
-import { push } from "connected-react-router";
+import { goBack, push } from "connected-react-router";
 import { all, put, call, takeLatest } from "redux-saga/effects";
 import { app } from "utils";
 import { hideServerMessage, setServerMessage } from "actions/Messages";
@@ -66,7 +66,7 @@ export function* createMail({ props }) {
 			}),
 		);
 
-		yield put(push("/employee/mail/viewall"));
+		yield put(push("/employee/mail/viewall?page=1"));
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
@@ -77,7 +77,7 @@ export function* createMail({ props }) {
  *
  * @generator
  * @function deleteMail
- * @param {string} mailId
+ * @params {obect} - mailId and currentPage
  * @yields {object} - A response from a call to the API.
  * @function parseMessage - Returns a parsed res.data.message.
  * @yields {action} - A redux action to display a server message by type.
@@ -85,7 +85,7 @@ export function* createMail({ props }) {
  * @throws {action} - A redux action to display a server message by type.
  */
 
-export function* deleteMail({ mailId }) {
+export function* deleteMail({ mailId, currentPage }) {
 	try {
 		yield put(hideServerMessage());
 
@@ -99,7 +99,11 @@ export function* deleteMail({ mailId }) {
 			}),
 		);
 
-		yield put({ type: types.MAIL_FETCH });
+		if (currentPage > 1) {
+			yield put(push("/employee/mail/viewall?page=1"));
+		} else {
+			yield put({ type: types.MAIL_FETCH, currentPage: 1 });
+		}
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
@@ -142,15 +146,16 @@ export function* fetchMail({ mailId }) {
  *
  * @generator
  * @function fetchMails
+ * @param {string} currentPage
  * @yields {object} - A response from a call to the API.
  * @function parseData - Returns a parsed res.data.
  * @yields {action} - A redux action to set mail data to redux state.
  * @throws {action} - A redux action to display a server message by type.
  */
 
-export function* fetchMails() {
+export function* fetchMails({ currentPage }) {
 	try {
-		const res = yield call(app.get, "mail/all");
+		const res = yield call(app.get, `mail/all?page=${currentPage}`);
 		const data = yield call(parseData, res);
 
 		yield put(setMails(data));
@@ -164,7 +169,7 @@ export function* fetchMails() {
  *
  * @generator
  * @function resendMail
- * @param {string} mailId
+ * @params {object} - mailId and currentPage
  * @yields {object} - A response from a call to the API.
  * @function parseMessage - Returns a parsed res.data.message.
  * @yields {action} - A redux action to display a server message by type.
@@ -172,7 +177,7 @@ export function* fetchMails() {
  * @throws {action} - A redux action to display a server message by type.
  */
 
-export function* resendMail({ mailId }) {
+export function* resendMail({ mailId, currentPage }) {
 	try {
 		yield put(hideServerMessage());
 
@@ -186,7 +191,7 @@ export function* resendMail({ mailId }) {
 			}),
 		);
 
-		yield put({ type: types.MAIL_FETCH });
+		yield put({ type: types.MAIL_FETCH, currentPage });
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
@@ -219,7 +224,7 @@ export function* updateMail({ props }) {
 			}),
 		);
 
-		yield put(push("/employee/mail/viewall"));
+		yield put(goBack());
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}

@@ -1,4 +1,4 @@
-import { push } from "connected-react-router";
+import { goBack, push } from "connected-react-router";
 import { expectSaga, testSaga } from "redux-saga-test-plan";
 import { app } from "utils";
 import * as types from "types";
@@ -544,7 +544,7 @@ describe("Event Sagas", () => {
 				.next(res.data.message)
 				.put(setServerMessage({ type: "success", message: res.data.message }))
 				.next()
-				.put(push("/employee/events/viewall"))
+				.put(goBack())
 				.next()
 				.isDone();
 		});
@@ -600,7 +600,7 @@ describe("Event Sagas", () => {
 				.next(res.data.message)
 				.put(setServerMessage({ type: "success", message: res.data.message }))
 				.next()
-				.put(push("/employee/events/viewall"))
+				.put(goBack())
 				.next()
 				.isDone();
 		});

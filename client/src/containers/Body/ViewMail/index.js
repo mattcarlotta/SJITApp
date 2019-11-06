@@ -63,6 +63,7 @@ export const ViewMail = ({
 	fetchMails,
 	push,
 	resendMail,
+	...rest
 }) => (
 	<Fragment>
 		<Helmet title={title} />
@@ -103,6 +104,7 @@ export const ViewMail = ({
 				</FlexEnd>
 			</Flex>
 			<Table
+				{...rest}
 				columns={columns}
 				data={data}
 				deleteAction={deleteMail}
@@ -129,12 +131,16 @@ ViewMail.propTypes = {
 	),
 	deleteMail: PropTypes.func,
 	fetchMails: PropTypes.func.isRequired,
+	isLoading: PropTypes.bool.isRequired,
 	push: PropTypes.func,
 	resendMail: PropTypes.func.isRequired,
+	totalDocs: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = state => ({
 	data: state.mail.data,
+	isLoading: state.mail.isLoading,
+	totalDocs: state.mail.totalDocs,
 });
 
 const mapDispatchToProps = {

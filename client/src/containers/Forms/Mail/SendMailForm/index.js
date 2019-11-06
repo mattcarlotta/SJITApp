@@ -75,7 +75,10 @@ export class SendMailForm extends Component {
 	render = () => (
 		<Card
 			extra={
-				<BackButton push={this.props.push} location="/employee/mail/viewall" />
+				<BackButton
+					push={this.props.push}
+					location="/employee/mail/viewall?page=1"
+				/>
 			}
 			title={
 				<Fragment>

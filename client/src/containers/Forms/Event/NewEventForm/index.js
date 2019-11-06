@@ -96,7 +96,7 @@ export class NewEventForm extends Component {
 			extra={
 				<BackButton
 					push={this.props.push}
-					location="/employee/events/viewall"
+					location="/employee/events/viewall?page=1"
 				/>
 			}
 			title={

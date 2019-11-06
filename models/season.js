@@ -1,3 +1,4 @@
+import mongoosePaginate from "mongoose-paginate-v2";
 import { Schema, model } from "mongoose";
 
 // current season year
@@ -6,5 +7,7 @@ const seasonSchema = new Schema({
   startDate: Date,
   endDate: Date,
 });
+
+seasonSchema.plugin(mongoosePaginate);
 
 export default model("Season", seasonSchema);

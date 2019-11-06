@@ -93,9 +93,14 @@ class App extends Component {
 		this.setState({ openKeys: containsLatestKey ? openKeys : [latestOpenKey] });
 	};
 
-	handleTabClick = ({ key }) => {
+	handleTabClick = ({
+		key,
+		item: {
+			props: { value },
+		},
+	}) => {
 		this.setState(() => {
-			this.props.push(`/employee/${key}`);
+			this.props.push(`/employee/${value}`);
 			const openKeys = ROOTTABS.find(tab => key.includes(tab));
 
 			return {

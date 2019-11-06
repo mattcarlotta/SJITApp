@@ -1,4 +1,5 @@
 import moment from "moment";
+import get from "lodash/get";
 import isEmpty from "lodash/isEmpty";
 import { Event, Form, Season } from "models";
 import {
@@ -84,23 +85,23 @@ const deleteForm = async (req, res) => {
   }
 };
 
-const getAllForms = async (_, res) => {
-  const forms = await Form.aggregate([
-    { $sort: { startMonth: -1 } },
-    {
-      $project: {
-        seasonId: 1,
-        startMonth: 1,
-        endMonth: 1,
-        expirationDate: 1,
-        notes: 1,
-        sendEmailNotificationsDate: 1,
-        sentEmails: 1,
-      },
-    },
-  ]);
+const getAllForms = async (req, res) => {
+  try {
+    const { page } = req.query;
 
-  res.status(200).json({ forms });
+    const results = await Form.paginate(
+      {},
+      { sort: { startMonth: -1 }, page, limit: 10, select: "-notes -__v" },
+    );
+
+    const forms = get(results, ["docs"]);
+    const totalDocs = get(results, ["totalDocs"]);
+
+    res.status(200).json({ forms, totalDocs });
+  } catch (err) {
+    /* istanbul ignore next */
+    return sendError(err, res);
+  }
 };
 
 const getForm = async (req, res) => {

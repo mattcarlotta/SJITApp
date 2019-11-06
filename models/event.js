@@ -1,3 +1,4 @@
+import mongoosePaginate from "mongoose-paginate-v2";
 import { Schema, model } from "mongoose";
 import { createSchedule } from "shared/helpers";
 
@@ -33,7 +34,9 @@ const eventSchema = new Schema({
   sentEmailReminders: { type: Boolean, default: false },
 });
 
-eventSchema.pre("save", function (next) {
+eventSchema.plugin(mongoosePaginate);
+
+eventSchema.pre("save", function(next) {
   this.schedule = createSchedule(this.callTimes);
   next();
 });

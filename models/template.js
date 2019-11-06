@@ -1,3 +1,4 @@
+import mongoosePaginate from "mongoose-paginate-v2";
 import { Schema, model } from "mongoose";
 
 // email templates
@@ -10,5 +11,7 @@ const templateSchema = new Schema({
   team: { type: String, unique: true, lowercase: true },
   uniquetemplateName: { type: String, unique: true, lowercase: true },
 });
+
+templateSchema.plugin(mongoosePaginate);
 
 export default model("Template", templateSchema);

@@ -1,3 +1,4 @@
+import mongoosePaginate from "mongoose-paginate-v2";
 import { Schema, model } from "mongoose";
 
 // token templates
@@ -10,5 +11,7 @@ const tokenSchema = new Schema({
     type: Date,
   },
 });
+
+tokenSchema.plugin(mongoosePaginate);
 
 export default model("Token", tokenSchema);
