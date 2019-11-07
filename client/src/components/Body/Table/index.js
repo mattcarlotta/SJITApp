@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import qs from "qs";
+import isEmpty from "lodash/isEmpty";
 import { Icon, Input, Popover, Table } from "antd";
 import { FaSearch, FaTools } from "react-icons/fa";
 import {
@@ -47,8 +48,12 @@ class CustomTable extends Component {
 
 	componentDidUpdate = (prevProps, prevState) => {
 		const { currentPage } = this.state;
+		const { totalDocs, data, location, push, isLoading } = this.props;
 		if (currentPage !== prevState.currentPage)
 			this.props.fetchData(currentPage);
+
+		if (totalDocs > 0 && isEmpty(data) && !isLoading)
+			push(`${location.pathname}?page=${Math.ceil(totalDocs / 10)}`);
 	};
 
 	handleClickAction = (action, record) =>

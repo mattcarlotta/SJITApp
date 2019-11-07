@@ -51,12 +51,16 @@ const data = [
 	},
 ];
 
+const pathname = "/employees/seasons/viewall";
+
 const location = {
 	search: "?page=1",
+	pathname,
 };
 
 const nextLocation = {
 	search: "?page=2",
+	pathname,
 };
 
 const deleteAction = jest.fn();
@@ -232,8 +236,17 @@ describe("Custom Table", () => {
 			expect(setSelectedKeys).toHaveBeenCalledWith([]);
 		});
 
+		it("handles invalid pages", () => {
+			wrapper.setProps({
+				data: [],
+				location: { pathname, search: "?page=500" },
+			});
+
+			expect(push).toHaveBeenCalledWith(`${pathname}?page=1`);
+		});
+
 		it("handles missing page numbers", () => {
-			wrapper.setProps({ location: { search: "" } });
+			wrapper.setProps({ location: { pathname, search: "" } });
 
 			expect(wrapper.state("currentPage")).toEqual(1);
 		});
@@ -245,7 +258,7 @@ describe("Custom Table", () => {
 		});
 
 		it("calls fetchData when the page query has been updated", () => {
-			wrapper.setProps({ location: { search: "?page=3" } });
+			wrapper.setProps({ location: { pathname, search: "?page=3" } });
 
 			expect(fetchData).toHaveBeenCalledTimes(3);
 		});
