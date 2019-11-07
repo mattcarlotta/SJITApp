@@ -1,6 +1,7 @@
 import isEmpty from "lodash/isEmpty";
 import moment from "moment";
 import random from "lodash/random";
+import sortBy from "lodash/sortBy";
 import { Types } from "mongoose";
 import { Event, User } from "models";
 import { newAuthorizationKeyTemplate } from "services/templates";
@@ -399,6 +400,21 @@ const findEventById = async _id => {
 const sendError = (err, res) => res.status(400).json({ err: err.toString() });
 
 /**
+ * Helper function to sort a schedule list based upon last name.
+ *
+ * @function sortScheduledUsersByLastName
+ * @param event - an object containing event details
+ * @returns {array}
+ */
+const sortScheduledUsersByLastName = events =>
+  !isEmpty(events)
+    ? events.map(({ scheduledIds, ...rest }) => ({
+        ...rest,
+        scheduledIds: sortBy(scheduledIds, "lastName"),
+      }))
+    : [];
+
+/**
  * Helper function to check if an array contains duplicate values.
  *
  * @function
@@ -445,6 +461,7 @@ export {
   getStartOfDay,
   getUsers,
   sendError,
+  sortScheduledUsersByLastName,
   uniqueArray,
   updateScheduleIds,
 };

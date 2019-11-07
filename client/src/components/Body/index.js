@@ -13,6 +13,9 @@ export { default as Column } from "./Column";
 export { default as ColumnTitle } from "./ColumnTitle";
 export { default as Container } from "./Container";
 export { default as DisplayEmailReminder } from "./DisplayEmailReminder";
+export {
+	default as DisplayScheduledEmployees,
+} from "./DisplayScheduledEmployees";
 export { default as DisplaySendToList } from "./DisplaySendToList";
 export { default as DisplayStatus } from "./DisplayStatus";
 export { default as DisplayTime } from "./DisplayTime";

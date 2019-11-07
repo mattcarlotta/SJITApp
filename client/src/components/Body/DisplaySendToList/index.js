@@ -9,11 +9,10 @@ export const showFullList = emails =>
 		</p>
 	));
 
-/* istanbul ignore next */
 const DisplaySendToList = ({ emails }) => (
 	<Tooltip
 		arrowPointAtCenter
-		title={() => showFullList(emails)}
+		title={/* istanbul ignore next */ () => showFullList(emails)}
 		overlayStyle={{ maxWidth: 400 }}
 		placement="top"
 	>

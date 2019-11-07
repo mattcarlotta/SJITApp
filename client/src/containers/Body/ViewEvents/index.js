@@ -9,6 +9,7 @@ import { FaCalendarPlus } from "react-icons/fa";
 import {
 	Button,
 	DisplayEmailReminder,
+	DisplayScheduledEmployees,
 	DisplayTime,
 	DisplayTeam,
 	FlexEnd,
@@ -63,13 +64,13 @@ const columns = [
 		title: "Employee Responses",
 		dataIndex: "employeeResponses",
 		key: "employeeResponses",
-		render: responses => <span>{responses.length}</span>,
+		render: responses => <span css="cursor: default;">{responses.length}</span>,
 	},
 	{
 		title: "Scheduled Employees",
 		dataIndex: "scheduledIds",
 		key: "scheduledIds",
-		render: employees => <span>{employees.length}</span>,
+		render: employees => <DisplayScheduledEmployees employees={employees} />,
 	},
 	{
 		title: "Sent Email Reminders",

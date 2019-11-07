@@ -245,6 +245,7 @@ const getMemberEventCounts = async (req, res) => {
     const members = await getUsers({
       match: {
         role: { $eq: "employee" },
+        status: "active",
       },
       project: {
         _id: 1,
