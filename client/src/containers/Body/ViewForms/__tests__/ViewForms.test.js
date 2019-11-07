@@ -22,9 +22,13 @@ const initProps = {
 	data: [],
 	deleteForm,
 	fetchForms,
-	isLoading: false,
+	isLoading: true,
+	location: {
+		search: "?page=1",
+	},
 	push,
 	resendMail,
+	totalDocs: 0,
 };
 
 describe("View All Forms", () => {
@@ -51,7 +55,7 @@ describe("View All Forms", () => {
 	});
 
 	it("renders FormatDate and DisplayEmailReminder", () => {
-		wrapper.setProps({ data });
+		wrapper.setProps({ data, isLoading: false, totalDocs: 1 });
 		wrapper.update();
 
 		expect(wrapper.find("FormatDate").exists()).toBeTruthy();

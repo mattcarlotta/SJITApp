@@ -1,6 +1,12 @@
 import ViewForms from "../index";
 
-const wrapper = HOCWrap(ViewForms);
+const initProps = {
+	location: {
+		search: "?page=1",
+	},
+};
+
+const wrapper = HOCWrap(ViewForms, initProps);
 
 describe("ViewForms Page", () => {
 	it("renders without errors", () => {

@@ -4,6 +4,7 @@ import * as mocks from "reducers/__mocks__/reducers.mocks";
 
 const eventsData = {
 	events: mocks.eventsData,
+	totalDocs: 1,
 };
 
 describe("Event Reducer", () => {
@@ -21,6 +22,8 @@ describe("Event Reducer", () => {
 
 		expect(state).toEqual({
 			data: mocks.eventsData,
+			isLoading: false,
+			totalDocs: 1,
 			editEvent: {},
 			members: [],
 			newEvent: {},
@@ -68,6 +71,8 @@ describe("Event Reducer", () => {
 			newEvent: {},
 			schedule: {},
 			scheduleEvents: [],
+			isLoading: true,
+			totalDocs: 0,
 		});
 	});
 
@@ -83,6 +88,8 @@ describe("Event Reducer", () => {
 			newEvent: {},
 			schedule: mocks.eventForSchedulingData,
 			scheduleEvents: [],
+			isLoading: true,
+			totalDocs: 0,
 		});
 	});
 
@@ -99,6 +106,8 @@ describe("Event Reducer", () => {
 			newEvent: {},
 			schedule: {},
 			scheduleEvents: mocks.scheduleEventsData,
+			isLoading: true,
+			totalDocs: 0,
 		});
 	});
 });

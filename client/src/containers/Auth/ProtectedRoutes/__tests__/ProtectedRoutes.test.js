@@ -1,10 +1,10 @@
-import { AppLoader, authError, sessionError } from "containers/Auth";
+import { AppLoader } from "containers/Auth";
 import {
 	NewPasswordForm,
 	ResetPasswordForm,
 	SignupForm,
 } from "containers/Forms";
-import { ProtectedRoutes } from "../index";
+import { ProtectedRoutes, authError, sessionError } from "../index";
 
 const signin = jest.fn();
 

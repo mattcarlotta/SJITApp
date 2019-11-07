@@ -9,7 +9,7 @@ const editSeason = {
 	endDate: new Date(2001, 7, 6),
 };
 const fetchSeason = jest.fn();
-const push = jest.fn();
+const goBack = jest.fn();
 const updateSeason = jest.fn();
 
 const initProps = {
@@ -21,7 +21,7 @@ const initProps = {
 	editSeason: {},
 	fetchSeason,
 	isLoading: true,
-	push,
+	goBack,
 	serverMessage: "",
 	updateSeason,
 };

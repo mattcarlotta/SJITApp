@@ -4,6 +4,7 @@ import * as mocks from "reducers/__mocks__/reducers.mocks";
 
 const seasonsData = {
 	seasons: mocks.seasonsData,
+	totalDocs: 1,
 };
 
 const seasonData = {
@@ -29,6 +30,8 @@ describe("Season Reducer", () => {
 
 		expect(state).toEqual({
 			data: mocks.seasonsData,
+			isLoading: false,
+			totalDocs: 1,
 			editSeason: {},
 			ids: [],
 		});
@@ -83,6 +86,8 @@ describe("Season Reducer", () => {
 			data: [],
 			editSeason: mocks.seasonsData,
 			ids: [],
+			isLoading: true,
+			totalDocs: 0,
 		});
 	});
 
@@ -96,6 +101,8 @@ describe("Season Reducer", () => {
 			data: [],
 			editSeason: {},
 			ids: mocks.seasonIdsData,
+			isLoading: true,
+			totalDocs: 0,
 		});
 	});
 });

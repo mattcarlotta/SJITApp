@@ -1,4 +1,4 @@
-import { push } from "connected-react-router";
+import { goBack, push } from "connected-react-router";
 import { expectSaga, testSaga } from "redux-saga-test-plan";
 import { app } from "utils";
 import * as types from "types";
@@ -11,6 +11,7 @@ import seasonReducer from "reducers/Seasons";
 import { parseData, parseMessage } from "utils/parseResponse";
 
 const seasonId = "124567890";
+const currentPage = 1;
 
 describe("Season Sagas", () => {
 	afterEach(() => {
@@ -42,7 +43,7 @@ describe("Season Sagas", () => {
 				.next(res.data.message)
 				.put(setServerMessage({ type: "success", message: res.data.message }))
 				.next()
-				.put(push("/employee/seasons/viewall"))
+				.put(push("/employee/seasons/viewall?page=1"))
 				.next()
 				.isDone();
 		});
@@ -78,11 +79,11 @@ describe("Season Sagas", () => {
 	});
 
 	describe("Delete Season", () => {
-		it("logical flow matches pattern for delete season requests", () => {
+		it("logical flow matches pattern for delete season on page 1 requests", () => {
 			const message = "Successfully deleted season.";
 			const res = { data: { message } };
 
-			testSaga(sagas.deleteSeason, { seasonId })
+			testSaga(sagas.deleteSeason, { seasonId, currentPage })
 				.next()
 				.put(hideServerMessage())
 				.next()
@@ -92,7 +93,26 @@ describe("Season Sagas", () => {
 				.next(res.data.message)
 				.put(setServerMessage({ type: "success", message: res.data.message }))
 				.next()
-				.put({ type: types.SEASONS_FETCH })
+				.put({ type: types.SEASONS_FETCH, currentPage })
+				.next()
+				.isDone();
+		});
+
+		it("logical flow matches pattern for delete season on page 1+ requests", () => {
+			const message = "Successfully deleted season.";
+			const res = { data: { message } };
+
+			testSaga(sagas.deleteSeason, { seasonId, currentPage: 2 })
+				.next()
+				.put(hideServerMessage())
+				.next()
+				.call(app.delete, `season/delete/${seasonId}`)
+				.next(res)
+				.call(parseMessage, res)
+				.next(res.data.message)
+				.put(setServerMessage({ type: "success", message: res.data.message }))
+				.next()
+				.put(push("/employee/seasons/viewall?page=1"))
 				.next()
 				.isDone();
 		});
@@ -101,7 +121,7 @@ describe("Season Sagas", () => {
 			const message = "Successfully deleted the season.";
 			mockApp.onDelete(`season/delete/${seasonId}`).reply(200, { message });
 
-			return expectSaga(sagas.deleteSeason, { seasonId })
+			return expectSaga(sagas.deleteSeason, { seasonId, currentPage })
 				.dispatch(actions.deleteSeason)
 				.withReducer(messageReducer)
 				.hasFinalState({
@@ -116,7 +136,7 @@ describe("Season Sagas", () => {
 			const err = "Unable to delete the season.";
 			mockApp.onDelete(`season/delete/${seasonId}`).reply(404, { err });
 
-			return expectSaga(sagas.deleteSeason, { seasonId })
+			return expectSaga(sagas.deleteSeason, { seasonId, currentPage })
 				.dispatch(actions.deleteSeason)
 				.withReducer(messageReducer)
 				.hasFinalState({
@@ -160,6 +180,8 @@ describe("Season Sagas", () => {
 					data: [],
 					editSeason: mocks.seasonsData,
 					ids: [],
+					isLoading: true,
+					totalDocs: 0,
 				})
 				.run();
 		});
@@ -183,15 +205,15 @@ describe("Season Sagas", () => {
 	describe("Fetch Seasons", () => {
 		let data;
 		beforeEach(() => {
-			data = { seasons: mocks.seasonsData };
+			data = { seasons: mocks.seasonsData, totalDocs: 1 };
 		});
 
 		it("logical flow matches pattern for fetch seasons requests", () => {
 			const res = { data };
 
-			testSaga(sagas.fetchSeasons)
+			testSaga(sagas.fetchSeasons, { currentPage })
 				.next()
-				.call(app.get, "seasons/all")
+				.call(app.get, `seasons/all?page=${currentPage}`)
 				.next(res)
 				.call(parseData, res)
 				.next(res.data)
@@ -201,13 +223,15 @@ describe("Season Sagas", () => {
 		});
 
 		it("successfully fetches a season for editing", async () => {
-			mockApp.onGet("seasons/all").reply(200, data);
+			mockApp.onGet(`seasons/all?page=${currentPage}`).reply(200, data);
 
-			return expectSaga(sagas.fetchSeasons)
+			return expectSaga(sagas.fetchSeasons, { currentPage })
 				.dispatch(actions.fetchSeasons)
 				.withReducer(seasonReducer)
 				.hasFinalState({
 					data: mocks.seasonsData,
+					isLoading: false,
+					totalDocs: 1,
 					editSeason: {},
 					ids: [],
 				})
@@ -216,9 +240,9 @@ describe("Season Sagas", () => {
 
 		it("if API call fails, it displays a message", async () => {
 			const err = "Unable to create a new season.";
-			mockApp.onGet("seasons/all").reply(404, { err });
+			mockApp.onGet(`seasons/all?page=${currentPage}`).reply(404, { err });
 
-			return expectSaga(sagas.fetchSeasons)
+			return expectSaga(sagas.fetchSeasons, { currentPage })
 				.dispatch(actions.fetchSeasons)
 				.withReducer(messageReducer)
 				.hasFinalState({
@@ -262,6 +286,8 @@ describe("Season Sagas", () => {
 					data: [],
 					editSeason: {},
 					ids: mocks.seasonIdsData,
+					isLoading: true,
+					totalDocs: 0,
 				})
 				.run();
 		});
@@ -303,7 +329,7 @@ describe("Season Sagas", () => {
 				.next(res.data.message)
 				.put(setServerMessage({ type: "success", message: res.data.message }))
 				.next()
-				.put(push("/employee/seasons/viewall"))
+				.put(goBack())
 				.next()
 				.isDone();
 		});

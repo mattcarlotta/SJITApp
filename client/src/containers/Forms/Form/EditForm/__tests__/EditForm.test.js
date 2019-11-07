@@ -2,7 +2,7 @@ import { EditForm } from "../index";
 
 const id = "5d54769658ae8d57e19a1ecc";
 const fetchForm = jest.fn();
-const push = jest.fn();
+const goBack = jest.fn();
 const updateForm = jest.fn();
 
 const editForm = {
@@ -24,7 +24,7 @@ const initProps = {
 			id,
 		},
 	},
-	push,
+	goBack,
 	serverMessage: "",
 	updateForm,
 };

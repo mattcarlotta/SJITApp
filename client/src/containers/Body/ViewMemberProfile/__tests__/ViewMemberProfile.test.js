@@ -5,7 +5,7 @@ const fetchMemberEvents = jest.fn();
 const hideServerMessage = jest.fn();
 const fetchScheduleEvents = jest.fn();
 const fetchMemberAvailability = jest.fn();
-const push = jest.fn();
+const goBack = jest.fn();
 const updateMemberStatus = jest.fn();
 
 const initProps = {
@@ -20,7 +20,7 @@ const initProps = {
 			id: "0123456789",
 		},
 	},
-	push,
+	goBack,
 	viewMember: {},
 	updateMemberStatus,
 	serverMessage: "This is a server message.",
@@ -46,7 +46,7 @@ describe("View Member Profile", () => {
 
 	afterEach(() => {
 		hideServerMessage.mockClear();
-		push.mockClear();
+		goBack.mockClear();
 		fetchMember.mockClear();
 	});
 

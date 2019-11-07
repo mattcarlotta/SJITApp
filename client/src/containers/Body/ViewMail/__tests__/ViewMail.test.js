@@ -9,8 +9,12 @@ const initProps = {
 	data: [],
 	deleteMail,
 	fetchMails,
-	isLoading: false,
+	isLoading: true,
+	location: {
+		search: "?page=1",
+	},
 	push,
+	totalDocs: 0,
 	resendMail,
 };
 
@@ -50,7 +54,7 @@ describe("View Mail", () => {
 	});
 
 	it("renders an EmailStatus, DisplaySendToList, and FormatDate", () => {
-		wrapper.setProps({ data });
+		wrapper.setProps({ data, isLoading: false, totalDocs: 1 });
 		wrapper.update();
 
 		expect(wrapper.find("EmailStatus").exists()).toBeTruthy();

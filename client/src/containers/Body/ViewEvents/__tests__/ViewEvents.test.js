@@ -10,9 +10,13 @@ const initProps = {
 	data: [],
 	deleteEvent,
 	fetchEvents,
-	isLoading: false,
+	isLoading: true,
+	location: {
+		search: "?page=1",
+	},
 	push,
 	resendMail,
+	totalDocs: 0,
 };
 
 const data = [
@@ -29,8 +33,8 @@ const data = [
 		uniform: "Teal Jersey",
 		seasonId: "20192020",
 		eventDate: moment("2019-08-09T02:00:12.074Z").format(),
-		employeeResponses: 0,
-		scheduledEmployees: 0,
+		employeeResponses: [],
+		scheduledIds: [],
 		sentEmailReminders: false,
 	},
 	{
@@ -46,8 +50,8 @@ const data = [
 		uniform: "Teal Jersey",
 		seasonId: "20192020",
 		eventDate: moment("2019-08-09T02:00:12.074Z").format(),
-		employeeResponses: 0,
-		scheduledEmployees: 0,
+		employeeResponses: [],
+		scheduledIds: [],
 		sentEmailReminders: true,
 	},
 ];
@@ -76,7 +80,7 @@ describe("View All Events", () => {
 	});
 
 	it("renders DisplayTeam, FormatDate, DisplayTime and DisplayEmailReminder", () => {
-		wrapper.setProps({ data });
+		wrapper.setProps({ data, isLoading: false, totalDocs: 2 });
 		wrapper.update();
 
 		expect(wrapper.find("DisplayTeam").exists()).toBeTruthy();

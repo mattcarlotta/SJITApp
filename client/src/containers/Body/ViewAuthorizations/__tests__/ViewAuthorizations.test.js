@@ -7,8 +7,12 @@ const fetchTokens = jest.fn();
 const initProps = {
 	deleteToken,
 	fetchTokens,
-	isLoading: false,
+	location: {
+		search: "?page=1",
+	},
+	isLoading: true,
 	tokens: [],
+	totalDocs: 0,
 	push,
 };
 
@@ -59,7 +63,7 @@ describe("View Member Profile", () => {
 	});
 
 	it("renders an expiration date if an email is missing", () => {
-		wrapper.setProps({ tokens });
+		wrapper.setProps({ tokens, isLoading: false, totalDocs: 2 });
 		wrapper.update();
 
 		const emptyExpirationDate = wrapper
@@ -80,7 +84,7 @@ describe("View Member Profile", () => {
 	});
 
 	it("renders an token status", () => {
-		wrapper.setProps({ tokens });
+		wrapper.setProps({ tokens, isLoading: false, totalDocs: 2 });
 		wrapper.update();
 
 		expect(wrapper.find("FaUserCheck").exists()).toBeTruthy();

@@ -1,6 +1,12 @@
 import ViewEvents from "../index";
 
-const wrapper = HOCWrap(ViewEvents);
+const initProps = {
+	location: {
+		search: "?page=1",
+	},
+};
+
+const wrapper = HOCWrap(ViewEvents, initProps);
 
 describe("ViewEvents Page", () => {
 	it("renders without errors", () => {

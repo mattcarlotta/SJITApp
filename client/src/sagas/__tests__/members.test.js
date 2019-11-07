@@ -1,4 +1,4 @@
-import { push } from "connected-react-router";
+import { goBack, push } from "connected-react-router";
 import { expectSaga, testSaga } from "redux-saga-test-plan";
 import { app } from "utils";
 import * as types from "types";
@@ -13,6 +13,7 @@ import { parseData, parseMessage } from "utils/parseResponse";
 
 const memberId = "124567890";
 const tokenId = "0123456789";
+const currentPage = 1;
 
 describe("Member Sagas", () => {
 	afterEach(() => {
@@ -44,7 +45,7 @@ describe("Member Sagas", () => {
 				.next(res.data.message)
 				.put(setServerMessage({ type: "success", message: res.data.message }))
 				.next()
-				.put(push("/employee/members/authorizations/viewall"))
+				.put(push("/employee/members/authorizations/viewall?page=1"))
 				.next()
 				.isDone();
 		});
@@ -80,11 +81,11 @@ describe("Member Sagas", () => {
 	});
 
 	describe("Delete Member", () => {
-		it("logical flow matches pattern for delete member requests", () => {
+		it("logical flow matches pattern for delete member on page 1 requests", () => {
 			const message = "Successfully deleted member.";
 			const res = { data: { message } };
 
-			testSaga(sagas.deleteMember, { memberId })
+			testSaga(sagas.deleteMember, { memberId, currentPage })
 				.next()
 				.put(hideServerMessage())
 				.next()
@@ -94,7 +95,26 @@ describe("Member Sagas", () => {
 				.next(res.data.message)
 				.put(setServerMessage({ type: "success", message: res.data.message }))
 				.next()
-				.put({ type: types.MEMBERS_FETCH })
+				.put({ type: types.MEMBERS_FETCH, currentPage })
+				.next()
+				.isDone();
+		});
+
+		it("logical flow matches pattern for delete member on page 1+ requests", () => {
+			const message = "Successfully deleted member.";
+			const res = { data: { message } };
+
+			testSaga(sagas.deleteMember, { memberId, currentPage: 2 })
+				.next()
+				.put(hideServerMessage())
+				.next()
+				.call(app.delete, `member/delete/${memberId}`)
+				.next(res)
+				.call(parseMessage, res)
+				.next(res.data.message)
+				.put(setServerMessage({ type: "success", message: res.data.message }))
+				.next()
+				.put(push("/employee/members/viewall?page=1"))
 				.next()
 				.isDone();
 		});
@@ -103,7 +123,7 @@ describe("Member Sagas", () => {
 			const message = "Successfully deleted the member.";
 			mockApp.onDelete(`member/delete/${memberId}`).reply(200, { message });
 
-			return expectSaga(sagas.deleteMember, { memberId })
+			return expectSaga(sagas.deleteMember, { memberId, currentPage })
 				.dispatch(actions.deleteMember)
 				.withReducer(messageReducer)
 				.hasFinalState({
@@ -118,7 +138,7 @@ describe("Member Sagas", () => {
 			const err = "Unable to delete the member.";
 			mockApp.onDelete(`member/delete/${memberId}`).reply(404, { err });
 
-			return expectSaga(sagas.deleteMember, { memberId })
+			return expectSaga(sagas.deleteMember, { memberId, currentPage })
 				.dispatch(actions.deleteMember)
 				.withReducer(messageReducer)
 				.hasFinalState({
@@ -131,11 +151,11 @@ describe("Member Sagas", () => {
 	});
 
 	describe("Delete Token", () => {
-		it("logical flow matches pattern for delete member token requests", () => {
+		it("logical flow matches pattern for delete member token on page 1 requests", () => {
 			const message = "Successfully deleted member authorization token.";
 			const res = { data: { message } };
 
-			testSaga(sagas.deleteToken, { tokenId })
+			testSaga(sagas.deleteToken, { tokenId, currentPage })
 				.next()
 				.put(hideServerMessage())
 				.next()
@@ -145,7 +165,26 @@ describe("Member Sagas", () => {
 				.next(res.data.message)
 				.put(setServerMessage({ type: "success", message: res.data.message }))
 				.next()
-				.put({ type: types.MEMBERS_FETCH_TOKENS })
+				.put({ type: types.MEMBERS_FETCH_TOKENS, currentPage })
+				.next()
+				.isDone();
+		});
+
+		it("logical flow matches pattern for delete member token on page 1+ requests", () => {
+			const message = "Successfully deleted member authorization token.";
+			const res = { data: { message } };
+
+			testSaga(sagas.deleteToken, { tokenId, currentPage: 2 })
+				.next()
+				.put(hideServerMessage())
+				.next()
+				.call(app.delete, `token/delete/${tokenId}`)
+				.next(res)
+				.call(parseMessage, res)
+				.next(res.data.message)
+				.put(setServerMessage({ type: "success", message: res.data.message }))
+				.next()
+				.put(push("/employee/members/authorizations/viewall?page=1"))
 				.next()
 				.isDone();
 		});
@@ -154,7 +193,7 @@ describe("Member Sagas", () => {
 			const message = "Successfully deleted the member token.";
 			mockApp.onDelete(`token/delete/${tokenId}`).reply(200, { message });
 
-			return expectSaga(sagas.deleteToken, { tokenId })
+			return expectSaga(sagas.deleteToken, { tokenId, currentPage })
 				.dispatch(actions.deleteToken)
 				.withReducer(messageReducer)
 				.hasFinalState({
@@ -169,7 +208,7 @@ describe("Member Sagas", () => {
 			const err = "Unable to delete the member.";
 			mockApp.onDelete(`token/delete/${tokenId}`).reply(404, { err });
 
-			return expectSaga(sagas.deleteToken, { tokenId })
+			return expectSaga(sagas.deleteToken, { tokenId, currentPage })
 				.dispatch(actions.deleteToken)
 				.withReducer(messageReducer)
 				.hasFinalState({
@@ -219,6 +258,8 @@ describe("Member Sagas", () => {
 					viewMember: {},
 					eventResponses: [],
 					memberAvailability: { memberAvailability: mocks.memberAvailability },
+					isLoading: true,
+					totalDocs: 0,
 				})
 				.run();
 		});
@@ -275,6 +316,8 @@ describe("Member Sagas", () => {
 					viewMember: {},
 					eventResponses: [],
 					memberAvailability: {},
+					isLoading: true,
+					totalDocs: 0,
 				})
 				.run();
 		});
@@ -343,6 +386,8 @@ describe("Member Sagas", () => {
 					viewMember: mocks.membersData,
 					eventResponses: [],
 					memberAvailability,
+					isLoading: true,
+					totalDocs: 0,
 				})
 				.run();
 		});
@@ -402,6 +447,8 @@ describe("Member Sagas", () => {
 					viewMember: {},
 					eventResponses: mocks.eventResponseData,
 					memberAvailability: {},
+					isLoading: true,
+					totalDocs: 0,
 				})
 				.run();
 		});
@@ -425,15 +472,15 @@ describe("Member Sagas", () => {
 	describe("Fetch Members", () => {
 		let data;
 		beforeEach(() => {
-			data = { members: mocks.membersData };
+			data = { members: mocks.membersData, totalDocs: 1 };
 		});
 
 		it("logical flow matches pattern for fetch members requests", () => {
 			const res = { data };
 
-			testSaga(sagas.fetchMembers)
+			testSaga(sagas.fetchMembers, { currentPage })
 				.next()
-				.call(app.get, "members/all")
+				.call(app.get, `members/all?page=${currentPage}`)
 				.next(res)
 				.call(parseData, res)
 				.next(res.data)
@@ -443,13 +490,15 @@ describe("Member Sagas", () => {
 		});
 
 		it("successfully fetches a member for editing", async () => {
-			mockApp.onGet("members/all").reply(200, data);
+			mockApp.onGet(`members/all?page=${currentPage}`).reply(200, data);
 
-			return expectSaga(sagas.fetchMembers)
+			return expectSaga(sagas.fetchMembers, { currentPage })
 				.dispatch(actions.fetchMembers)
 				.withReducer(memberReducer)
 				.hasFinalState({
 					data: mocks.membersData,
+					isLoading: false,
+					totalDocs: 1,
 					tokens: [],
 					editToken: {},
 					names: [],
@@ -462,9 +511,9 @@ describe("Member Sagas", () => {
 
 		it("if API call fails, it displays a message", async () => {
 			const err = "Unable to fetch members.";
-			mockApp.onGet("members/all").reply(404, { err });
+			mockApp.onGet(`members/all?page=${currentPage}`).reply(404, { err });
 
-			return expectSaga(sagas.fetchMembers)
+			return expectSaga(sagas.fetchMembers, { currentPage })
 				.dispatch(actions.fetchMembers)
 				.withReducer(messageReducer)
 				.hasFinalState({
@@ -524,6 +573,8 @@ describe("Member Sagas", () => {
 					viewMember: mocks.membersData,
 					eventResponses: [],
 					memberAvailability,
+					isLoading: true,
+					totalDocs: 0,
 				})
 				.run();
 		});
@@ -579,6 +630,8 @@ describe("Member Sagas", () => {
 					viewMember: {},
 					eventResponses: [],
 					memberAvailability: data,
+					isLoading: true,
+					totalDocs: 0,
 				})
 				.run();
 		});
@@ -638,6 +691,8 @@ describe("Member Sagas", () => {
 					viewMember: {},
 					eventResponses: mocks.eventResponses,
 					memberAvailability: {},
+					isLoading: true,
+					totalDocs: 0,
 				})
 				.run();
 		});
@@ -709,6 +764,8 @@ describe("Member Sagas", () => {
 					viewMember: {},
 					eventResponses: [],
 					memberAvailability: {},
+					isLoading: true,
+					totalDocs: 0,
 				})
 				.run();
 		});
@@ -732,15 +789,15 @@ describe("Member Sagas", () => {
 	describe("Fetch Tokens", () => {
 		let data;
 		beforeEach(() => {
-			data = { tokens: mocks.tokensData };
+			data = { tokens: mocks.tokensData, totalDocs: 1 };
 		});
 
 		it("logical flow matches pattern for fetch member tokens requests", () => {
 			const res = { data };
 
-			testSaga(sagas.fetchTokens)
+			testSaga(sagas.fetchTokens, { currentPage })
 				.next()
-				.call(app.get, "tokens/all")
+				.call(app.get, `tokens/all?page=${currentPage}`)
 				.next(res)
 				.call(parseData, res)
 				.next(res.data)
@@ -750,14 +807,16 @@ describe("Member Sagas", () => {
 		});
 
 		it("successfully fetches a member for editing", async () => {
-			mockApp.onGet("tokens/all").reply(200, data);
+			mockApp.onGet(`tokens/all?page=${currentPage}`).reply(200, data);
 
-			return expectSaga(sagas.fetchTokens)
+			return expectSaga(sagas.fetchTokens, { currentPage })
 				.dispatch(actions.fetchTokens)
 				.withReducer(memberReducer)
 				.hasFinalState({
 					data: [],
 					tokens: mocks.tokensData,
+					isLoading: false,
+					totalDocs: 1,
 					editToken: {},
 					names: [],
 					viewMember: {},
@@ -769,9 +828,9 @@ describe("Member Sagas", () => {
 
 		it("if API call fails, it displays a message", async () => {
 			const err = "Unable to fetch tokens.";
-			mockApp.onGet("tokens/all").reply(404, { err });
+			mockApp.onGet(`tokens/all?page=${currentPage}`).reply(404, { err });
 
-			return expectSaga(sagas.fetchTokens)
+			return expectSaga(sagas.fetchTokens, { currentPage })
 				.dispatch(actions.fetchTokens)
 				.withReducer(messageReducer)
 				.hasFinalState({
@@ -916,7 +975,7 @@ describe("Member Sagas", () => {
 				.next(res.data.message)
 				.put(setServerMessage({ type: "info", message: res.data.message }))
 				.next()
-				.put(push("/employee/members/authorizations/viewall"))
+				.put(goBack())
 				.next()
 				.isDone();
 		});

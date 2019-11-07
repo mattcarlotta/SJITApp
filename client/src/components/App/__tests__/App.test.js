@@ -116,7 +116,7 @@ describe("Employee App", () => {
 				key: "forms/viewall",
 				item: { props: { value } },
 			});
-		expect(push).toHaveBeenCalledWith(value);
+		expect(push).toHaveBeenCalledWith(`/employee/${value}`);
 
 		expect(wrapper.find("App").state("openKeys")).toEqual(["forms"]);
 

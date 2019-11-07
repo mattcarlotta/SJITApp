@@ -4,6 +4,7 @@ import * as mocks from "reducers/__mocks__/reducers.mocks";
 
 const membersData = {
 	members: mocks.membersData,
+	totalDocs: 1,
 };
 
 const memberData = {
@@ -14,6 +15,7 @@ const memberData = {
 
 const tokensData = {
 	tokens: mocks.tokensData,
+	totalDocs: 1,
 };
 
 const tokenData = {
@@ -40,6 +42,8 @@ describe("Member Reducer", () => {
 
 		expect(state).toEqual({
 			data: mocks.membersData,
+			isLoading: false,
+			totalDocs: 1,
 			eventResponses: [],
 			memberAvailability: {},
 			names: [],
@@ -63,6 +67,8 @@ describe("Member Reducer", () => {
 			names: [],
 			viewMember: {},
 			tokens: [],
+			isLoading: true,
+			totalDocs: 0,
 		});
 	});
 
@@ -80,6 +86,8 @@ describe("Member Reducer", () => {
 			memberAvailability: {},
 			viewMember: {},
 			tokens: [],
+			isLoading: true,
+			totalDocs: 0,
 		});
 	});
 
@@ -97,6 +105,8 @@ describe("Member Reducer", () => {
 			names: mocks.memberNamesData,
 			viewMember: {},
 			tokens: [],
+			isLoading: true,
+			totalDocs: 0,
 		});
 	});
 
@@ -166,6 +176,8 @@ describe("Member Reducer", () => {
 			names: [],
 			viewMember: {},
 			tokens: mocks.tokensData,
+			isLoading: false,
+			totalDocs: 1,
 		});
 	});
 
@@ -183,6 +195,8 @@ describe("Member Reducer", () => {
 			names: [],
 			viewMember: {},
 			tokens: [],
+			isLoading: true,
+			totalDocs: 0,
 		});
 	});
 
@@ -200,6 +214,8 @@ describe("Member Reducer", () => {
 			names: [],
 			viewMember: mocks.membersData,
 			tokens: [],
+			isLoading: true,
+			totalDocs: 0,
 		});
 	});
 });

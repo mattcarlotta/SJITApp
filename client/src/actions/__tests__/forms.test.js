@@ -11,6 +11,7 @@ const data = {
 };
 
 const formId = "1234567890";
+const currentPage = 1;
 
 describe("Forms Actions", () => {
 	it("returns FORMS_CREATE with data", () => {
@@ -24,11 +25,12 @@ describe("Forms Actions", () => {
 	});
 
 	it("returns FORMS_DELETE with a formId", () => {
-		const value = actions.deleteForm(formId);
+		const value = actions.deleteForm(formId, currentPage);
 
 		expect(value).toEqual({
 			type: types.FORMS_DELETE,
 			formId,
+			currentPage,
 		});
 	});
 
@@ -42,10 +44,11 @@ describe("Forms Actions", () => {
 	});
 
 	it("returns FORMS_FETCH", () => {
-		const value = actions.fetchForms();
+		const value = actions.fetchForms(currentPage);
 
 		expect(value).toEqual({
 			type: types.FORMS_FETCH,
+			currentPage,
 		});
 	});
 
@@ -58,11 +61,12 @@ describe("Forms Actions", () => {
 	});
 
 	it("returns FORMS_RESEND_MAIL", () => {
-		const value = actions.resendMail(formId);
+		const value = actions.resendMail(formId, currentPage);
 
 		expect(value).toEqual({
 			type: types.FORMS_RESEND_MAIL,
 			formId,
+			currentPage,
 		});
 	});
 

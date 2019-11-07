@@ -4,7 +4,7 @@ import { EditMailForm } from "../index";
 const id = "0123456789";
 const fetchMail = jest.fn();
 const updateMail = jest.fn();
-const push = jest.fn();
+const goBack = jest.fn();
 
 const dataSource = [
 	{
@@ -34,7 +34,7 @@ const initProps = {
 			id,
 		},
 	},
-	push,
+	goBack,
 	serverMessage: "",
 	updateMail,
 };

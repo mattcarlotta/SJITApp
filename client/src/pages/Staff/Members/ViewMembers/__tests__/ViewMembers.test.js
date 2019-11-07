@@ -1,6 +1,12 @@
 import ViewMembers from "../index";
 
-const wrapper = HOCWrap(ViewMembers);
+const initProps = {
+	location: {
+		search: "?page=1",
+	},
+};
+
+const wrapper = HOCWrap(ViewMembers, initProps);
 
 describe("View Members Page", () => {
 	it("renders the page without errors", () => {

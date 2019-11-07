@@ -28,6 +28,8 @@ const memberData = { member: [data] };
 const tokensData = { tokens: [token] };
 const tokenData = { token: [token] };
 
+const currentPage = 1;
+
 const memberId = "1234567890";
 describe("Member Actions", () => {
 	it("returns MEMBERS_CREATE with props", () => {
@@ -46,20 +48,22 @@ describe("Member Actions", () => {
 	});
 
 	it("returns MEMBERS_DELETE with a memberId", () => {
-		const value = actions.deleteMember(memberId);
+		const value = actions.deleteMember(memberId, currentPage);
 
 		expect(value).toEqual({
 			type: types.MEMBERS_DELETE,
 			memberId,
+			currentPage,
 		});
 	});
 
 	it("returns MEMBERS_DELETE_TOKEN with a memberId", () => {
-		const value = actions.deleteToken(tokenId);
+		const value = actions.deleteToken(tokenId, currentPage);
 
 		expect(value).toEqual({
 			type: types.MEMBERS_DELETE_TOKEN,
 			tokenId,
+			currentPage,
 		});
 	});
 
@@ -73,10 +77,11 @@ describe("Member Actions", () => {
 	});
 
 	it("returns MEMBERS_FETCH", () => {
-		const value = actions.fetchMembers();
+		const value = actions.fetchMembers(currentPage);
 
 		expect(value).toEqual({
 			type: types.MEMBERS_FETCH,
+			currentPage,
 		});
 	});
 
@@ -156,10 +161,11 @@ describe("Member Actions", () => {
 	});
 
 	it("returns MEMBERS_FETCH_TOKENS", () => {
-		const value = actions.fetchTokens();
+		const value = actions.fetchTokens(currentPage);
 
 		expect(value).toEqual({
 			type: types.MEMBERS_FETCH_TOKENS,
+			currentPage,
 		});
 	});
 
