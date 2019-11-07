@@ -107,18 +107,26 @@ describe("Employee App", () => {
 	it("handles tab clicks and closes any unneccessary sub menus", () => {
 		wrapper.find(App).setState({ openKeys: ["forms"] });
 
+		const value = "forms/viewall?page=1";
+
 		wrapper
 			.find("App")
 			.instance()
-			.handleTabClick({ key: "forms/viewall" });
-		expect(push).toHaveBeenCalledWith("/employee/forms/viewall");
+			.handleTabClick({
+				key: "forms/viewall",
+				item: { props: { value } },
+			});
+		expect(push).toHaveBeenCalledWith(value);
 
 		expect(wrapper.find("App").state("openKeys")).toEqual(["forms"]);
 
 		wrapper
 			.find("App")
 			.instance()
-			.handleTabClick({ key: "schedule" });
+			.handleTabClick({
+				key: "schedule",
+				item: { props: { value: "schedule" } },
+			});
 
 		expect(wrapper.find("App").state("openKeys")).toEqual([]);
 	});

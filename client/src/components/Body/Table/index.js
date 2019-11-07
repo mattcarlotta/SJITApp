@@ -2,7 +2,7 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import qs from "qs";
-import { Icon, Input, Popconfirm, Table, Tooltip } from "antd";
+import { Icon, Input, Popover, Popconfirm, Table, Tooltip } from "antd";
 import {
 	FaEdit,
 	FaShareSquare,
@@ -10,6 +10,7 @@ import {
 	FaTrash,
 	FaSearchPlus,
 	FaClipboardCheck,
+	FaTools,
 } from "react-icons/fa";
 import { GoStop } from "react-icons/go";
 import {
@@ -19,6 +20,11 @@ import {
 	LoadingTable,
 	Spacer,
 } from "components/Body";
+
+const iconStyle = {
+	position: "relative",
+	top: 2,
+};
 
 const getPageNumber = query => {
 	const { page } = qs.parse(query, {
@@ -127,131 +133,154 @@ class CustomTable extends Component {
 	});
 
 	createTableColumns = () => {
-		const {
-			assignLocation,
-			columns,
-			deleteAction,
-			editLocation,
-			push,
-			role,
-			sendMail,
-			viewLocation,
-		} = this.props;
-
-		const notEmployee = role !== "employee";
+		const { columns } = this.props;
 
 		const tableColumns = columns.map(props => ({
 			...props,
 			...this.getColumnSearchProps(props.dataIndex),
 		}));
 
+		const title = <FlexCenter>Available Actions</FlexCenter>;
+
 		tableColumns.push({
 			title: "Actions",
 			key: "action",
 			render: (_, record) => (
-				<FlexCenter direction="column">
-					{assignLocation && notEmployee && (
-						<Fragment>
-							<Tooltip placement="top" title={<span>View & Assign</span>}>
-								<Button
-									primary
-									display="inline-block"
-									width="50px"
-									padding="3px 0 0 0"
-									marginRight="0px"
-									onClick={() =>
-										push(`/employee/${assignLocation}/assign/${record._id}`)
-									}
-								>
-									<FaClipboardCheck style={{ fontSize: 17 }} />
-								</Button>
-							</Tooltip>
-							<Spacer />
-						</Fragment>
-					)}
-					{viewLocation && (
-						<Fragment>
-							<Tooltip placement="top" title={<span>View</span>}>
-								<Button
-									primary
-									display="inline-block"
-									width="50px"
-									padding="3px 0 0 0"
-									marginRight="0px"
-									onClick={() =>
-										push(`/employee/${viewLocation}/view/${record._id}`)
-									}
-								>
-									<FaSearchPlus style={{ fontSize: 16 }} />
-								</Button>
-							</Tooltip>
-							{notEmployee && <Spacer />}
-						</Fragment>
-					)}
-					{editLocation && notEmployee && (
-						<Fragment>
-							<Tooltip placement="top" title={<span>Edit</span>}>
-								<Button
-									primary
-									display="inline-block"
-									width="50px"
-									padding="3px 0px 0 3px"
-									marginRight="0px"
-									onClick={() =>
-										push(`/employee/${editLocation}/edit/${record._id}`)
-									}
-								>
-									<FaEdit />
-								</Button>
-							</Tooltip>
-							<Spacer />
-						</Fragment>
-					)}
-					{sendMail && notEmployee && (
-						<Fragment>
-							<Tooltip placement="top" title={<span>Send/Resend Mail</span>}>
-								<Button
-									primary
-									display="inline-block"
-									width="50px"
-									padding="3px 0 0 0"
-									marginRight="0px"
-									onClick={() => this.handleClickAction(sendMail, record)}
-								>
-									<FaShareSquare style={{ fontSize: 18 }} />
-								</Button>
-							</Tooltip>
-							<Spacer />
-						</Fragment>
-					)}
-					{deleteAction && notEmployee && (
-						<Tooltip placement="top" title={<span>Delete</span>}>
-							<Popconfirm
-								placement="top"
-								title="Are you sure? This action is irreversible."
-								icon={<Icon component={GoStop} style={{ color: "red" }} />}
-								onConfirm={() => this.handleClickAction(deleteAction, record)}
-							>
-								<Button
-									danger
-									display="inline-block"
-									width="50px"
-									padding="5px 0 1px 0"
-									marginRight="0px"
-									style={{ fontSize: "16px" }}
-								>
-									<FaTrash />
-								</Button>
-							</Popconfirm>
-						</Tooltip>
-					)}
-				</FlexCenter>
+				<Popover
+					placement="bottom"
+					title={title}
+					content={this.renderTableActions(record)}
+					trigger="click"
+				>
+					<Button padding="3px" marginRight="0px" onClick={null}>
+						<FaTools style={iconStyle} />
+					</Button>
+				</Popover>
 			),
 			fixed: "right",
-			width: 100,
+			width: 50,
 		});
 
 		return tableColumns;
+	};
+
+	renderTableActions = record => {
+		const {
+			assignLocation,
+			deleteAction,
+			editLocation,
+			push,
+			sendMail,
+			viewLocation,
+		} = this.props;
+
+		return (
+			<FlexCenter direction="column">
+				{assignLocation && (
+					<Fragment>
+						<Tooltip
+							placement="top"
+							title={<span>View & Assign Schedule</span>}
+						>
+							<Button
+								primary
+								display="inline-block"
+								padding="3px 0 0 0"
+								marginRight="0px"
+								onClick={() =>
+									push(`/employee/${assignLocation}/assign/${record._id}`)
+								}
+							>
+								<FaClipboardCheck style={{ ...iconStyle, fontSize: 17 }} />
+								&nbsp;
+								<span>Schedule</span>
+							</Button>
+						</Tooltip>
+						<Spacer />
+					</Fragment>
+				)}
+				{viewLocation && (
+					<Fragment>
+						<Tooltip placement="top" title={<span>View</span>}>
+							<Button
+								primary
+								display="inline-block"
+								padding="3px 0 0 0"
+								marginRight="0px"
+								onClick={() =>
+									push(`/employee/${viewLocation}/view/${record._id}`)
+								}
+							>
+								<FaSearchPlus style={{ ...iconStyle, fontSize: 16 }} />
+								&nbsp;
+								<span>View</span>
+							</Button>
+						</Tooltip>
+						<Spacer />
+					</Fragment>
+				)}
+				{editLocation && (
+					<Fragment>
+						<Tooltip placement="top" title={<span>Edit</span>}>
+							<Button
+								primary
+								display="inline-block"
+								padding="3px 0px 0 3px"
+								marginRight="0px"
+								onClick={() =>
+									push(`/employee/${editLocation}/edit/${record._id}`)
+								}
+							>
+								<FaEdit style={iconStyle} />
+								&nbsp;
+								<span>Edit</span>
+							</Button>
+						</Tooltip>
+						<Spacer />
+					</Fragment>
+				)}
+				{sendMail && (
+					<Fragment>
+						<Tooltip placement="top" title={<span>Send/Resend Mail</span>}>
+							<Button
+								primary
+								display="inline-block"
+								padding="3px 0 0 0"
+								marginRight="0px"
+								onClick={() => this.handleClickAction(sendMail, record)}
+							>
+								<FaShareSquare style={{ ...iconStyle, fontSize: 18 }} />
+								&nbsp;
+								<span>Send</span>
+							</Button>
+						</Tooltip>
+						<Spacer />
+					</Fragment>
+				)}
+				{deleteAction && (
+					<Tooltip placement="top" title={<span>Delete</span>}>
+						<Popconfirm
+							placement="top"
+							title="Are you sure? This action is irreversible."
+							icon={<Icon component={GoStop} style={{ color: "red" }} />}
+							onConfirm={() => this.handleClickAction(deleteAction, record)}
+						>
+							<Button
+								danger
+								display="inline-block"
+								padding="5px 0 1px 0"
+								marginRight="0px"
+								style={{}}
+							>
+								<FaTrash style={{ ...iconStyle, fontSize: 16 }} />
+								&nbsp;
+								<span>Delete</span>
+							</Button>
+						</Popconfirm>
+					</Tooltip>
+				)}
+			</FlexCenter>
+		);
 	};
 
 	render = () =>
@@ -265,6 +294,8 @@ class CustomTable extends Component {
 					pagination={{
 						defaultPageSize: 10,
 						current: this.state.currentPage,
+						hideOnSinglePage: true,
+						showTotal: total => <span>{total}&nbsp;items</span>,
 						total: this.props.totalDocs,
 					}}
 					bordered={true}
@@ -293,11 +324,110 @@ CustomTable.propTypes = {
 	editLocation: PropTypes.string,
 	fetchData: PropTypes.func.isRequired,
 	push: PropTypes.func.isRequired,
-	role: PropTypes.string,
 	sendMail: PropTypes.func,
 	totalDocs: PropTypes.number,
 	viewLocation: PropTypes.string,
 };
 
 export default CustomTable;
+/*
+<FlexCenter direction="column">
+	{assignLocation && (
+		<Fragment>
+			<Tooltip placement="top" title={<span>View & Assign</span>}>
+				<Button
+					primary
+					display="inline-block"
+					width="50px"
+					padding="3px 0 0 0"
+					marginRight="0px"
+					onClick={() =>
+						push(`/employee/${assignLocation}/assign/${record._id}`)
+					}
+				>
+					<FaClipboardCheck style={{ fontSize: 17 }} />
+				</Button>
+			</Tooltip>
+			<Spacer />
+		</Fragment>
+	)}
+	{viewLocation && (
+		<Fragment>
+			<Tooltip placement="top" title={<span>View</span>}>
+				<Button
+					primary
+					display="inline-block"
+					width="50px"
+					padding="3px 0 0 0"
+					marginRight="0px"
+					onClick={() =>
+						push(`/employee/${viewLocation}/view/${record._id}`)
+					}
+				>
+					<FaSearchPlus style={{ fontSize: 16 }} />
+				</Button>
+			</Tooltip>
+			<Spacer />
+		</Fragment>
+	)}
+	{editLocation && (
+		<Fragment>
+			<Tooltip placement="top" title={<span>Edit</span>}>
+				<Button
+					primary
+					display="inline-block"
+					width="50px"
+					padding="3px 0px 0 3px"
+					marginRight="0px"
+					onClick={() =>
+						push(`/employee/${editLocation}/edit/${record._id}`)
+					}
+				>
+					<FaEdit />
+				</Button>
+			</Tooltip>
+			<Spacer />
+		</Fragment>
+	)}
+	{sendMail && (
+		<Fragment>
+			<Tooltip placement="top" title={<span>Send/Resend Mail</span>}>
+				<Button
+					primary
+					display="inline-block"
+					width="50px"
+					padding="3px 0 0 0"
+					marginRight="0px"
+					onClick={() => this.handleClickAction(sendMail, record)}
+				>
+					<FaShareSquare style={{ fontSize: 18 }} />
+				</Button>
+			</Tooltip>
+			<Spacer />
+		</Fragment>
+	)}
+	{deleteAction && (
+		<Tooltip placement="top" title={<span>Delete</span>}>
+			<Popconfirm
+				placement="top"
+				title="Are you sure? This action is irreversible."
+				icon={<Icon component={GoStop} style={{ color: "red" }} />}
+				onConfirm={() => this.handleClickAction(deleteAction, record)}
+			>
+				<Button
+					danger
+					display="inline-block"
+					width="50px"
+					padding="5px 0 1px 0"
+					marginRight="0px"
+					style={{ fontSize: "16px" }}
+				>
+					<FaTrash />
+				</Button>
+			</Popconfirm>
+		</Tooltip>
+	)}
+</FlexCenter>
+*/
+
 /* eslint-enable react/forbid-prop-types, react/jsx-boolean-value */

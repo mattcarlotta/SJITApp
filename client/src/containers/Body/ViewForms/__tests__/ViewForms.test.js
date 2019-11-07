@@ -25,7 +25,6 @@ const initProps = {
 	isLoading: false,
 	push,
 	resendMail,
-	role: "staff",
 };
 
 describe("View All Forms", () => {

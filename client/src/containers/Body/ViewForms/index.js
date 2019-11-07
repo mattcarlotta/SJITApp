@@ -67,7 +67,6 @@ export const ViewForms = ({
 	fetchForms,
 	push,
 	resendMail,
-	role,
 	...rest
 }) => (
 	<Fragment>
@@ -80,21 +79,19 @@ export const ViewForms = ({
 				</Fragment>
 			}
 		>
-			{role !== "employee" && (
-				<FlexEnd>
-					<Button
-						primary
-						width="200px"
-						marginRight="0px"
-						padding="5px 10px"
-						style={{ marginBottom: 20 }}
-						onClick={() => push("/employee/forms/create")}
-					>
-						<MdNoteAdd style={{ position: "relative", top: 3, fontSize: 20 }} />
-						&nbsp; Create AP Form
-					</Button>
-				</FlexEnd>
-			)}
+			<FlexEnd>
+				<Button
+					primary
+					width="200px"
+					marginRight="0px"
+					padding="5px 10px"
+					style={{ marginBottom: 20 }}
+					onClick={() => push("/employee/forms/create")}
+				>
+					<MdNoteAdd style={{ position: "relative", top: 3, fontSize: 20 }} />
+					&nbsp; Create AP Form
+				</Button>
+			</FlexEnd>
 			<Table
 				{...rest}
 				columns={columns}
@@ -105,7 +102,6 @@ export const ViewForms = ({
 				editLocation="forms"
 				viewLocation="forms"
 				sendMail={resendMail}
-				role={role}
 			/>
 		</Card>
 	</Fragment>
@@ -128,13 +124,11 @@ ViewForms.propTypes = {
 	),
 	isLoading: PropTypes.bool.isRequired,
 	resendMail: PropTypes.func.isRequired,
-	role: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => ({
 	data: state.forms.data,
 	isLoading: state.forms.isLoading,
-	role: state.auth.role,
 	totalDocs: state.forms.totalDocs,
 });
 

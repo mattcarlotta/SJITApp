@@ -12,10 +12,10 @@ import {
 } from "containers/Forms";
 import { signin } from "actions/Auth";
 
-const authError =
+export const authError =
 	"There was a problem with your login credentials. Please make sure your username and password are correct.";
 
-const sessionError =
+export const sessionError =
 	"Your login session has expired. Please log into your account again.";
 
 export class ProtectedRoutes extends PureComponent {

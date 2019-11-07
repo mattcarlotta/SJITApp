@@ -34,7 +34,7 @@ const columns = [
 		key: "authorizedEmail",
 	},
 	{ title: "Role", dataIndex: "role", key: "role" },
-	{ title: "Token", dataIndex: "token", key: "token" },
+	{ title: "Authorization Key", dataIndex: "token", key: "token" },
 	{
 		title: "Expiration Date",
 		dataIndex: "expiration",

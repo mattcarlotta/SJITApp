@@ -1,4 +1,4 @@
-import { AppLoader } from "containers/Auth";
+import { AppLoader, authError, sessionError } from "containers/Auth";
 import {
 	NewPasswordForm,
 	ResetPasswordForm,
@@ -7,12 +7,6 @@ import {
 import { ProtectedRoutes } from "../index";
 
 const signin = jest.fn();
-
-const authError =
-	"There was a problem with your login credentials. Please make sure your username and password are correct.";
-
-const sessionError =
-	"Your login session has expired. Please log into your account again.";
 
 const initProps = {
 	firstName: "",
