@@ -1,3 +1,4 @@
+import get from "lodash/get";
 import {
   createAuthMail,
   createSignupToken,
@@ -63,16 +64,28 @@ const deleteToken = async (req, res) => {
   }
 };
 
-const getAllTokens = async (_, res) => {
-  const tokens = await Token.aggregate([
-    {
-      $project: {
-        __v: 0,
-      },
-    },
-  ]);
+const getAllTokens = async (req, res) => {
+  try {
+    const { page } = req.query;
 
-  res.status(201).json({ tokens });
+    const results = await Token.paginate(
+      {},
+      {
+        sort: { expiration: -1 },
+        page,
+        limit: 10,
+        select: "-__v",
+      },
+    );
+
+    const tokens = get(results, ["docs"]);
+    const totalDocs = get(results, ["totalDocs"]);
+
+    res.status(200).json({ tokens, totalDocs });
+  } catch (err) {
+    /* istanbul ignore next */
+    return sendError(err, res);
+  }
 };
 
 const getToken = async (req, res) => {
@@ -121,6 +134,4 @@ const updateToken = async (req, res) => {
   }
 };
 
-export {
-  createToken, deleteToken, getAllTokens, getToken, updateToken,
-};
+export { createToken, deleteToken, getAllTokens, getToken, updateToken };

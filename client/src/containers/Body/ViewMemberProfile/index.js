@@ -2,7 +2,7 @@ import React, { Fragment, PureComponent } from "react";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
 import Helmet from "react-helmet";
-import { push } from "connected-react-router";
+import { goBack } from "connected-react-router";
 import { connect } from "react-redux";
 import { Card, Icon, Tabs } from "antd";
 import {
@@ -23,6 +23,7 @@ import { fetchScheduleEvents } from "actions/Events";
 import {
 	BackButton,
 	Calendar,
+	FadeIn,
 	Line,
 	LoadingPanel,
 	MemberAvailability,
@@ -83,7 +84,7 @@ export class ViewMemberProfile extends PureComponent {
 			eventResponses,
 			fetchMemberAvailability,
 			fetchMemberEvents,
-			push,
+			goBack,
 			viewMember,
 		} = this.props;
 
@@ -94,9 +95,7 @@ export class ViewMemberProfile extends PureComponent {
 				<Helmet title={title} />
 				<Card
 					style={{ minHeight: 800 }}
-					extra={
-						<BackButton push={push} location="/employee/members/viewall" />
-					}
+					extra={<BackButton push={goBack} />}
 					title={
 						<Fragment>
 							<FaUserEdit style={iconStyle} />
@@ -107,51 +106,53 @@ export class ViewMemberProfile extends PureComponent {
 					{isEmpty(viewMember) ? (
 						<LoadingPanel height="685px" />
 					) : (
-						<Tabs tabPosition="left">
-							<Pane tab={profile} key="profile">
-								<Profile {...this.props} />
-							</Pane>
-							<Pane tab={availability} key="availability">
-								<PaneBody>
-									<Title centered>
-										{firstName} {lastName}&#39;s Availability
-									</Title>
-									<Line centered width="400px" />
-									<MemberAvailability
-										{...this.props}
-										id={_id}
-										fetchAction={fetchMemberAvailability}
-									/>
-								</PaneBody>
-							</Pane>
-							<Pane tab={responses} key="responses">
-								<PaneBody>
-									<Title centered>
-										{firstName} {lastName}&#39;s Responses
-									</Title>
-									<Line centered width="400px" />
-									<Calendar
-										{...this.props}
-										id={_id}
-										scheduleEvents={eventResponses}
-										fetchAction={fetchMemberEvents}
-									/>
-								</PaneBody>
-							</Pane>
-							<Pane tab={scheduling} key="schedule">
-								<PaneBody>
-									<Title centered>
-										{firstName} {lastName}&#39;s Schedule
-									</Title>
-									<Line centered width="400px" />
-									<Calendar
-										{...this.props}
-										fetchAction={this.props.fetchScheduleEvents}
-										title="View Member Schedule"
-									/>
-								</PaneBody>
-							</Pane>
-						</Tabs>
+						<FadeIn timing="0.6s">
+							<Tabs tabPosition="left">
+								<Pane tab={profile} key="profile">
+									<Profile {...this.props} />
+								</Pane>
+								<Pane tab={availability} key="availability">
+									<PaneBody>
+										<Title centered>
+											{firstName} {lastName}&#39;s Availability
+										</Title>
+										<Line centered width="400px" />
+										<MemberAvailability
+											{...this.props}
+											id={_id}
+											fetchAction={fetchMemberAvailability}
+										/>
+									</PaneBody>
+								</Pane>
+								<Pane tab={responses} key="responses">
+									<PaneBody>
+										<Title centered>
+											{firstName} {lastName}&#39;s Responses
+										</Title>
+										<Line centered width="400px" />
+										<Calendar
+											{...this.props}
+											id={_id}
+											scheduleEvents={eventResponses}
+											fetchAction={fetchMemberEvents}
+										/>
+									</PaneBody>
+								</Pane>
+								<Pane tab={scheduling} key="schedule">
+									<PaneBody>
+										<Title centered>
+											{firstName} {lastName}&#39;s Schedule
+										</Title>
+										<Line centered width="400px" />
+										<Calendar
+											{...this.props}
+											fetchAction={this.props.fetchScheduleEvents}
+											title="View Member Schedule"
+										/>
+									</PaneBody>
+								</Pane>
+							</Tabs>
+						</FadeIn>
 					)}
 				</Card>
 			</Fragment>
@@ -199,7 +200,7 @@ ViewMemberProfile.propTypes = {
 			}),
 		),
 	}),
-	push: PropTypes.func.isRequired,
+	goBack: PropTypes.func.isRequired,
 	viewMember: PropTypes.shape({
 		_id: PropTypes.string,
 		email: PropTypes.string,
@@ -253,7 +254,7 @@ const mapDispatchToProps = {
 	fetchMemberEvents,
 	fetchScheduleEvents,
 	hideServerMessage,
-	push,
+	goBack,
 	updateMemberStatus,
 };
 

@@ -15,13 +15,16 @@ import { signin } from "actions/Auth";
 const authError =
 	"There was a problem with your login credentials. Please make sure your username and password are correct.";
 
+const sessionError =
+	"Your login session has expired. Please log into your account again.";
+
 export class ProtectedRoutes extends PureComponent {
 	componentDidUpdate = prevProps => {
 		const { serverMessage, role, signin } = this.props;
 
 		if (
 			prevProps.serverMessage !== serverMessage &&
-			serverMessage === authError &&
+			(serverMessage === authError || serverMessage === sessionError) &&
 			role !== "guest"
 		) {
 			signin({ role: "guest" });

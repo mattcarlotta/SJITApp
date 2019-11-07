@@ -18,11 +18,13 @@ export const createMember = props => ({
  *
  * @function deleteMember
  * @param {string} memberId
+ * @param {string} currentPage
  * @returns {object}
  */
-export const deleteMember = memberId => ({
+export const deleteMember = (memberId, currentPage) => ({
 	type: types.MEMBERS_DELETE,
 	memberId,
+	currentPage,
 });
 
 /**
@@ -30,11 +32,13 @@ export const deleteMember = memberId => ({
  *
  * @function deleteToken
  * @param {string} tokenId
+ * @param {string} currentPage
  * @returns {object}
  */
-export const deleteToken = tokenId => ({
+export const deleteToken = (tokenId, currentPage) => ({
 	type: types.MEMBERS_DELETE_TOKEN,
 	tokenId,
+	currentPage,
 });
 
 /**
@@ -53,10 +57,12 @@ export const fetchMember = memberId => ({
  * Fetches all members.
  *
  * @function fetchMembers
+ * @param {string} currentPage
  * @returns {object}
  */
-export const fetchMembers = () => ({
+export const fetchMembers = currentPage => ({
 	type: types.MEMBERS_FETCH,
+	currentPage,
 });
 
 /**
@@ -143,10 +149,12 @@ export const fetchToken = tokenId => ({
  * Fetches all tokens.
  *
  * @function fetchTokens
+ * @param {string} currentPage
  * @returns {object}
  */
-export const fetchTokens = () => ({
+export const fetchTokens = currentPage => ({
 	type: types.MEMBERS_FETCH_TOKENS,
+	currentPage,
 });
 
 /**

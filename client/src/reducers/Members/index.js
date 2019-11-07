@@ -8,6 +8,8 @@ export const initialState = {
 	eventResponses: [],
 	memberAvailability: {},
 	names: [],
+	isLoading: true,
+	totalDocs: 0,
 };
 
 /**
@@ -26,7 +28,12 @@ const memberReducer = (state = initialState, { payload, type }) => {
 			return initialState;
 		}
 		case types.MEMBERS_SET: {
-			return { ...state, data: payload.members };
+			return {
+				...state,
+				data: payload.members,
+				totalDocs: payload.totalDocs,
+				isLoading: false,
+			};
 		}
 		case types.MEMBERS_SET_AVAILABILITY: {
 			return {
@@ -41,7 +48,12 @@ const memberReducer = (state = initialState, { payload, type }) => {
 			return { ...state, names: payload.members };
 		}
 		case types.MEMBERS_SET_TOKENS: {
-			return { ...state, tokens: payload.tokens };
+			return {
+				...state,
+				tokens: payload.tokens,
+				totalDocs: payload.totalDocs,
+				isLoading: false,
+			};
 		}
 		case types.MEMBERS_SET_TOKEN: {
 			return { ...state, editToken: payload };

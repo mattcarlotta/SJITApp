@@ -1,9 +1,7 @@
 /* eslint-disable no-console */
 import moment from "moment";
 import { connectDatabase } from "database";
-import {
-  Event, Form, Mail, User, Season, Team, Token,
-} from "models";
+import { Event, Form, Mail, User, Season, Team, Token } from "models";
 import {
   createSchedule,
   createSignupToken,
@@ -78,7 +76,83 @@ const seedDB = async () => {
       expiration: expirationDate().toDate(),
     };
 
-    await Token.insertMany([newHire, newHire1, newHire2]);
+    const newHire3 = {
+      authorizedEmail: "member66@example.com",
+      email: "",
+      role: "employee",
+      token: createSignupToken(),
+      expiration: expirationDate().toDate(),
+    };
+
+    const newHire4 = {
+      authorizedEmail: "member66@example.com",
+      email: "",
+      role: "employee",
+      token: createSignupToken(),
+      expiration: expirationDate().toDate(),
+    };
+
+    const newHire5 = {
+      authorizedEmail: "member77@example.com",
+      email: "",
+      role: "employee",
+      token: createSignupToken(),
+      expiration: expirationDate().toDate(),
+    };
+
+    const newHire6 = {
+      authorizedEmail: "member888@example.com",
+      email: "",
+      role: "employee",
+      token: createSignupToken(),
+      expiration: expirationDate().toDate(),
+    };
+
+    const newHire7 = {
+      authorizedEmail: "member999@example.com",
+      email: "",
+      role: "employee",
+      token: createSignupToken(),
+      expiration: expirationDate().toDate(),
+    };
+
+    const newHire8 = {
+      authorizedEmail: "member1000@example.com",
+      email: "",
+      role: "employee",
+      token: createSignupToken(),
+      expiration: expirationDate().toDate(),
+    };
+
+    const newHire9 = {
+      authorizedEmail: "member1001@example.com",
+      email: "",
+      role: "employee",
+      token: createSignupToken(),
+      expiration: expirationDate().toDate(),
+    };
+
+    const newHire10 = {
+      authorizedEmail: "member1002@example.com",
+      email: "",
+      role: "employee",
+      token: createSignupToken(),
+      expiration: expirationDate().toDate(),
+    };
+
+    await Token.insertMany([
+      newHire,
+      newHire1,
+      newHire2,
+      newHire3,
+      newHire4,
+      newHire5,
+      newHire6,
+      newHire7,
+      newHire8,
+      newHire9,
+      newHire10,
+    ]);
 
     const adminPassword = await User.createPassword(password);
 
@@ -99,6 +173,15 @@ const seedDB = async () => {
       firstName: "Staff",
       lastName: "Member",
       role: "staff",
+      token: createRandomToken(),
+    };
+
+    const realMember = {
+      email: "carlotta.matthew@gmail.com",
+      password: memberPassword,
+      firstName: "Matthew",
+      lastName: "Carlotta",
+      role: "employee",
       token: createRandomToken(),
     };
 
@@ -240,6 +323,7 @@ const seedDB = async () => {
 
     await User.insertMany([
       administrator,
+      realMember,
       staffMember,
       scheduledMember,
       member,

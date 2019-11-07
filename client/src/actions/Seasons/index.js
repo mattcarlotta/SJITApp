@@ -18,11 +18,13 @@ export const createSeason = props => ({
  *
  * @function deleteSeason
  * @param {string} seasonId
+ * @param {string} currentPage
  * @returns {object}
  */
-export const deleteSeason = seasonId => ({
+export const deleteSeason = (seasonId, currentPage) => ({
 	type: types.SEASONS_DELETE,
 	seasonId,
+	currentPage,
 });
 
 /**
@@ -41,10 +43,12 @@ export const fetchSeason = seasonId => ({
  * Fetches all seasons.
  *
  * @function fetchSeasons
+ * @param {string} currentPage
  * @returns {object}
  */
-export const fetchSeasons = () => ({
+export const fetchSeasons = currentPage => ({
 	type: types.SEASONS_FETCH,
+	currentPage,
 });
 
 /**

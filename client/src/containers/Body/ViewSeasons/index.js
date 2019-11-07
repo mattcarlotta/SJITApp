@@ -97,11 +97,15 @@ ViewSeasons.propTypes = {
 	),
 	deleteSeason: PropTypes.func,
 	fetchSeasons: PropTypes.func.isRequired,
+	isLoading: PropTypes.bool.isRequired,
 	push: PropTypes.func,
+	totalDocs: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = state => ({
 	data: state.seasons.data,
+	isLoading: state.seasons.isLoading,
+	totalDocs: state.seasons.totalDocs,
 });
 
 const mapDispatchToProps = {

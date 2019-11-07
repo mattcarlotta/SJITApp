@@ -1,4 +1,4 @@
-import { push } from "connected-react-router";
+import { goBack, push } from "connected-react-router";
 import { all, put, call, takeLatest } from "redux-saga/effects";
 import { app } from "utils";
 import { hideServerMessage, setServerMessage } from "actions/Messages";
@@ -43,7 +43,7 @@ export function* createMember({ props }) {
 			}),
 		);
 
-		yield put(push("/employee/members/authorizations/viewall"));
+		yield put(push("/employee/members/authorizations/viewall?page=1"));
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
@@ -54,7 +54,7 @@ export function* createMember({ props }) {
  *
  * @generator
  * @function deleteMember
- * @param {object} memberId
+ * @param {object} - memberId and currentPage
  * @yields {object} - A response from a call to the API.
  * @function parseMessage - Returns a parsed res.data.message.
  * @yields {action} - A redux action to display a server message by type.
@@ -62,7 +62,7 @@ export function* createMember({ props }) {
  * @throws {action} - A redux action to display a server message by type.
  */
 
-export function* deleteMember({ memberId }) {
+export function* deleteMember({ memberId, currentPage }) {
 	try {
 		yield put(hideServerMessage());
 
@@ -76,7 +76,11 @@ export function* deleteMember({ memberId }) {
 			}),
 		);
 
-		yield put({ type: types.MEMBERS_FETCH });
+		if (currentPage > 1) {
+			yield put(push("/employee/members/viewall?page=1"));
+		} else {
+			yield put({ type: types.MEMBERS_FETCH, currentPage: 1 });
+		}
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
@@ -87,7 +91,7 @@ export function* deleteMember({ memberId }) {
  *
  * @generator
  * @function deleteToken
- * @param {object} tokenId
+ * @param {object} - tokenId and currentPage
  * @yields {object} - A response from a call to the API.
  * @function parseMessage - Returns a parsed res.data.message.
  * @yields {action} - A redux action to display a server message by type.
@@ -95,7 +99,7 @@ export function* deleteMember({ memberId }) {
  * @throws {action} - A redux action to display a server message by type.
  */
 
-export function* deleteToken({ tokenId }) {
+export function* deleteToken({ tokenId, currentPage }) {
 	try {
 		yield put(hideServerMessage());
 
@@ -109,7 +113,11 @@ export function* deleteToken({ tokenId }) {
 			}),
 		);
 
-		yield put({ type: types.MEMBERS_FETCH_TOKENS });
+		if (currentPage > 1) {
+			yield put(push("/employee/members/authorizations/viewall?page=1"));
+		} else {
+			yield put({ type: types.MEMBERS_FETCH_TOKENS, currentPage: 1 });
+		}
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
@@ -195,7 +203,7 @@ export function* fetchProfile({ memberId }) {
 			}),
 		);
 	} catch (e) {
-		yield put(push("/employee/members/viewall"));
+		yield put(goBack());
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
 }
@@ -228,15 +236,16 @@ export function* fetchMemberEvents({ params }) {
  *
  * @generator
  * @function fetchMembers
+ * @param {string} currentPage
  * @yields {object} - A response from a call to the API.
  * @function parseData - Returns a parsed res.data.
  * @yields {action} - A redux action to set members data to redux state.
  * @throws {action} - A redux action to display a server message by type.
  */
 
-export function* fetchMembers() {
+export function* fetchMembers({ currentPage }) {
 	try {
-		const res = yield call(app.get, "members/all");
+		const res = yield call(app.get, `members/all?page=${currentPage}`);
 		const data = yield call(parseData, res);
 
 		yield put(setMembers(data));
@@ -273,7 +282,7 @@ export function* fetchSettings() {
 			}),
 		);
 	} catch (e) {
-		yield put(push("/employee/members/viewall"));
+		yield put(push("/employee/dashboard"));
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
 }
@@ -360,15 +369,16 @@ export function* fetchToken({ tokenId }) {
  *
  * @generator
  * @function fetchTokens
+ * @param {string} currentPage
  * @yields {object} - A response from a call to the API.
  * @function parseData - Returns a parsed res.data.
  * @yields {action} - A redux action to set tokens data to redux state.
  * @throws {action} - A redux action to display a server message by type.
  */
 
-export function* fetchTokens() {
+export function* fetchTokens({ currentPage }) {
 	try {
-		const res = yield call(app.get, "tokens/all");
+		const res = yield call(app.get, `tokens/all?page=${currentPage}`);
 		const data = yield call(parseData, res);
 
 		yield put(setTokens(data));
@@ -470,7 +480,7 @@ export function* updateMemberToken({ props }) {
 			}),
 		);
 
-		yield put(push("/employee/members/authorizations/viewall"));
+		yield put(goBack());
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}

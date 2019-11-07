@@ -52,6 +52,9 @@ const invalidSendDate =
 const invalidSendEmailNoteDate =
   "The selected 'Send Email Notifications Date' has already past. Please select a later date.";
 
+const invalidSession =
+  "Your login session has expired. Please log into your account again.";
+
 const invalidSignupEmail =
   "There was a problem authenticating your request. The authorized key that was supplied does not match the staff approved email.";
 
@@ -215,6 +218,7 @@ export {
   invalidSeasonId,
   invalidSendDate,
   invalidSendEmailNoteDate,
+  invalidSession,
   invalidSignupEmail,
   invalidStatus,
   invalidToken,

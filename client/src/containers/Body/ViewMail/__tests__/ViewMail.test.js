@@ -36,21 +36,10 @@ describe("View Mail", () => {
 		expect(wrapper.find("Card").exists()).toBeTruthy();
 	});
 
-	it("clicking on the 'Refresh' button, calls fetchMails", () => {
-		fetchMails.mockClear();
-
-		wrapper
-			.find("Button")
-			.first()
-			.simulate("click");
-
-		expect(fetchMails).toHaveBeenCalledTimes(1);
-	});
-
 	it("clicking on the 'Send Mail' button, moves the user to the Send Mail Form page", () => {
 		wrapper
 			.find("Button")
-			.at(1)
+			.first()
 			.simulate("click");
 
 		expect(push).toHaveBeenCalledWith("/employee/mail/create");

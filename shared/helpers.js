@@ -18,7 +18,8 @@ const responseTypes = [
 
 const COLORS = ["#247BA0", "#2A9D8F", "#F4A261", "#FF8060", "#BFBFBF"];
 
-const toAverage = (num, total) => parseInt(((num / total) * 100).toFixed(2), 10);
+const toAverage = (num, total) =>
+  parseInt(((num / total) * 100).toFixed(2), 10);
 
 /**
  * Helper function to generate an auth token email.
@@ -45,30 +46,31 @@ const createAuthMail = (authorizedEmail, token, expiration) => ({
  * @returns {array}
  */
 const available = Array.from(responseTypes).splice(0, 2);
-const createMemberAvailabilityAverage = ({ eventCounts, eventResponses }) => eventResponses.reduce((acc, { responses }) => {
-  let avail = 0;
-  let unavail = 0;
-  responses.forEach(response => {
-    if (available.includes(response)) {
-      avail += 1;
-    } else {
-      unavail += 1;
-    }
-  });
+const createMemberAvailabilityAverage = ({ eventCounts, eventResponses }) =>
+  eventResponses.reduce((acc, { responses }) => {
+    let avail = 0;
+    let unavail = 0;
+    responses.forEach(response => {
+      if (available.includes(response)) {
+        avail += 1;
+      } else {
+        unavail += 1;
+      }
+    });
 
-  return [
-    {
-      id: "available",
-      label: "available",
-      value: toAverage(avail, eventCounts),
-    },
-    {
-      id: "unavailable",
-      label: "unavailable",
-      value: toAverage(unavail, eventCounts),
-    },
-  ];
-}, []);
+    return [
+      {
+        id: "available",
+        label: "available",
+        value: toAverage(avail, eventCounts),
+      },
+      {
+        id: "unavailable",
+        label: "unavailable",
+        value: toAverage(unavail, eventCounts),
+      },
+    ];
+  }, []);
 
 /**
  * Helper function to generate all user event availability based upon their responses.
@@ -81,20 +83,22 @@ const createMemberAvailabilityAverages = ({
   eventCounts,
   eventResponses,
   members,
-}) => members.reduce((acc, member) => {
-  const hasResponse = !isEmpty(eventResponses)
-      && eventResponses.find(doc => doc._id.equals(member._id));
+}) =>
+  members.reduce((acc, member) => {
+    const hasResponse =
+      !isEmpty(eventResponses) &&
+      eventResponses.find(doc => doc._id.equals(member._id));
 
-  return [
-    ...acc,
-    {
-      id: member.name,
-      availability: hasResponse
-        ? toAverage(hasResponse.availability, eventCounts)
-        : 0,
-    },
-  ];
-}, []);
+    return [
+      ...acc,
+      {
+        id: member.name,
+        availability: hasResponse
+          ? toAverage(hasResponse.availability, eventCounts)
+          : 0,
+      },
+    ];
+  }, []);
 
 /**
  * Helper function to generate a unique token.
@@ -117,12 +121,16 @@ const tokenGenerator = (str, tlen) => {
  * Helper function to clear the user session.
  *
  * @function
+ * @param {object} res
+ * @param {number} status
+ * @param {string} err
  * @returns {response}
  */
-const clearSession = res => res
-  .status(200)
-  .clearCookie("SJSITApp", { path: "/" })
-  .json({ role: "guest" });
+const clearSession = (res, status, err) =>
+  res
+    .status(status)
+    .clearCookie("SJSITApp", { path: "/" })
+    .json({ role: "guest", err });
 
 /**
  * Helper function to generate a schedule based upon calltimes.
@@ -165,15 +173,17 @@ const createDate = date => moment(date || Date.now());
  * @param memberEventCounts - an array of members and their eventCount
  * @returns {array}
  */
-const createMemberEventCount = ({ members, memberEventCounts }) => members.map(member => {
-  const hasEventCount = !isEmpty(memberEventCounts)
-      && memberEventCounts.find(doc => doc._id.equals(member._id));
+const createMemberEventCount = ({ members, memberEventCounts }) =>
+  members.map(member => {
+    const hasEventCount =
+      !isEmpty(memberEventCounts) &&
+      memberEventCounts.find(doc => doc._id.equals(member._id));
 
-  return {
-    name: member.name,
-    "Event Count": hasEventCount ? hasEventCount.eventCount : 0,
-  };
-});
+    return {
+      name: member.name,
+      "Event Count": hasEventCount ? hasEventCount.eventCount : 0,
+    };
+  });
 
 /**
  * Helper function to generate a user event count based upon their scheduled events.
@@ -182,18 +192,19 @@ const createMemberEventCount = ({ members, memberEventCounts }) => members.map(m
  * @param eventResponses - an array of responses
  * @returns {array}
  */
-const createMemberResponseCount = eventResponses => eventResponses.reduce((acc, { responses }) => {
-  responseTypes.forEach((rspType, index) => {
-    acc.push({
-      id: rspType,
-      label: rspType,
-      color: COLORS[index],
-      value: responses.filter(rsp => rsp === rspType).length,
+const createMemberResponseCount = eventResponses =>
+  eventResponses.reduce((acc, { responses }) => {
+    responseTypes.forEach((rspType, index) => {
+      acc.push({
+        id: rspType,
+        label: rspType,
+        color: COLORS[index],
+        value: responses.filter(rsp => rsp === rspType).length,
+      });
     });
-  });
 
-  return acc;
-}, []);
+    return acc;
+  }, []);
 
 /**
  * Helper function to create a 64 length random string.
@@ -201,10 +212,11 @@ const createMemberResponseCount = eventResponses => eventResponses.reduce((acc, 
  * @function createRandomToken
  * @returns {String}
  */
-const createRandomToken = () => tokenGenerator(
-  "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$/.",
-  64,
-);
+const createRandomToken = () =>
+  tokenGenerator(
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$/.",
+    64,
+  );
 
 /**
  * Helper function to generate a schedule based upon calltimes.
@@ -213,10 +225,11 @@ const createRandomToken = () => tokenGenerator(
  * @param callTimes - an array of dates
  * @returns {object}
  */
-const createSchedule = callTimes => callTimes.map(time => ({
-  _id: time,
-  employeeIds: [],
-}));
+const createSchedule = callTimes =>
+  callTimes.map(time => ({
+    _id: time,
+    employeeIds: [],
+  }));
 
 /**
  * Helper function to generate a schedule based upon calltimes.
@@ -228,7 +241,9 @@ const createSchedule = callTimes => callTimes.map(time => ({
  */
 const createUserSchedule = ({ event, members }) => [
   ...members.map(member => {
-    const eventResponse = event.employeeResponses.find(response => response._id.equals(member._id));
+    const eventResponse = event.employeeResponses.find(response =>
+      response._id.equals(member._id),
+    );
 
     return {
       ...member,
@@ -252,11 +267,12 @@ const convertId = id => ObjectId(id);
  * @function
  * @returns {String}
  */
-const createUniqueName = name => name
-  .trim()
-  .toLowerCase()
-  .replace(/[^\w\s]/gi, "")
-  .replace(/ /g, "-");
+const createUniqueName = name =>
+  name
+    .trim()
+    .toLowerCase()
+    .replace(/[^\w\s]/gi, "")
+    .replace(/ /g, "-");
 
 /**
  * Helper function to create a 64 length random string.
@@ -264,10 +280,11 @@ const createUniqueName = name => name
  * @function createSignupToken
  * @returns {String}
  */
-const createSignupToken = () => tokenGenerator(
-  "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
-  64,
-);
+const createSignupToken = () =>
+  tokenGenerator(
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+    64,
+  );
 
 /**
  * Helper function to get 90 days date from current date.
@@ -275,9 +292,10 @@ const createSignupToken = () => tokenGenerator(
  * @function
  * @returns {month}
  */
-const expirationDate = () => moment(Date.now())
-  .add(90, "days")
-  .endOf("day");
+const expirationDate = () =>
+  moment(Date.now())
+    .add(90, "days")
+    .endOf("day");
 
 /**
  * Helper function to generate a date.
@@ -286,9 +304,10 @@ const expirationDate = () => moment(Date.now())
  * @param date
  * @returns {object}
  */
-const getEndOfDay = () => moment(Date.now())
-  .endOf("day")
-  .format();
+const getEndOfDay = () =>
+  moment(Date.now())
+    .endOf("day")
+    .format();
 
 /**
  * Helper function to get event counts.
@@ -298,12 +317,13 @@ const getEndOfDay = () => moment(Date.now())
  * @param endMonth
  * @returns {object}
  */
-const getEventCounts = (startMonth, endMonth) => Event.countDocuments({
-  eventDate: {
-    $gte: moment(startMonth).toDate(),
-    $lte: moment(endMonth).toDate(),
-  },
-});
+const getEventCounts = (startMonth, endMonth) =>
+  Event.countDocuments({
+    eventDate: {
+      $gte: moment(startMonth).toDate(),
+      $lte: moment(endMonth).toDate(),
+    },
+  });
 
 /**
  * Helper function to generate a date range.
@@ -332,9 +352,10 @@ const getMonthDateRange = date => {
  * @param date
  * @returns {object}
  */
-const getStartOfDay = () => moment(Date.now())
-  .startOf("day")
-  .format();
+const getStartOfDay = () =>
+  moment(Date.now())
+    .startOf("day")
+    .format();
 
 /**
  * Helper function to generate a date range.
@@ -392,13 +413,14 @@ const uniqueArray = arr => arr.length === new Set(arr).size;
  * @param schedule - an array of ids
  * @returns {array}
  */
-const updateScheduleIds = schedule => schedule.reduce(
-  (result, { employeeIds }) => [
-    ...result,
-    ...employeeIds.map(id => ObjectId(id)),
-  ],
-  [],
-);
+const updateScheduleIds = schedule =>
+  schedule.reduce(
+    (result, { employeeIds }) => [
+      ...result,
+      ...employeeIds.map(id => ObjectId(id)),
+    ],
+    [],
+  );
 
 export {
   clearSession,

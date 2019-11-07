@@ -90,6 +90,7 @@ export const ViewAuthorizations = ({
 ViewAuthorizations.propTypes = {
 	deleteToken: PropTypes.func,
 	fetchTokens: PropTypes.func.isRequired,
+	isLoading: PropTypes.bool.isRequired,
 	push: PropTypes.func,
 	tokens: PropTypes.arrayOf(
 		PropTypes.shape({
@@ -100,10 +101,13 @@ ViewAuthorizations.propTypes = {
 			token: PropTypes.string,
 		}),
 	),
+	totalDocs: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = state => ({
 	tokens: state.members.tokens,
+	isLoading: state.members.isLoading,
+	totalDocs: state.members.totalDocs,
 });
 
 const mapDispatchToProps = {

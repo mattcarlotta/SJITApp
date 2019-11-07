@@ -97,11 +97,15 @@ ViewMembers.propTypes = {
 	),
 	deleteMember: PropTypes.func,
 	fetchMembers: PropTypes.func.isRequired,
+	isLoading: PropTypes.bool.isRequired,
 	push: PropTypes.func,
+	totalDocs: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = state => ({
 	data: state.members.data,
+	isLoading: state.members.isLoading,
+	totalDocs: state.members.totalDocs,
 });
 
 const mapDispatchToProps = {

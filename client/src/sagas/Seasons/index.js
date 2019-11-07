@@ -1,4 +1,4 @@
-import { push } from "connected-react-router";
+import { goBack, push } from "connected-react-router";
 import { all, put, call, takeLatest } from "redux-saga/effects";
 import { app } from "utils";
 import { hideServerMessage, setServerMessage } from "actions/Messages";
@@ -33,7 +33,7 @@ export function* createSeason({ props }) {
 			}),
 		);
 
-		yield put(push("/employee/seasons/viewall"));
+		yield put(push("/employee/seasons/viewall?page=1"));
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
@@ -44,7 +44,7 @@ export function* createSeason({ props }) {
  *
  * @generator
  * @function deleteSeason
- * @param {object} props - props contain seasonID and season fields.
+ * @param {object} - seasonId and currentPage
  * @yields {object} - A response from a call to the API.
  * @function parseMessage - Returns a parsed res.data.message.
  * @yields {action} - A redux action to display a server message by type.
@@ -52,7 +52,7 @@ export function* createSeason({ props }) {
  * @throws {action} - A redux action to display a server message by type.
  */
 
-export function* deleteSeason({ seasonId }) {
+export function* deleteSeason({ seasonId, currentPage }) {
 	try {
 		yield put(hideServerMessage());
 
@@ -66,7 +66,11 @@ export function* deleteSeason({ seasonId }) {
 			}),
 		);
 
-		yield put({ type: types.SEASONS_FETCH });
+		if (currentPage > 1) {
+			yield put(push("/employee/seasons/viewall?page=1"));
+		} else {
+			yield put({ type: types.SEASONS_FETCH, currentPage: 1 });
+		}
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
@@ -101,15 +105,16 @@ export function* fetchSeason({ seasonId }) {
  *
  * @generator
  * @function fetchSeasons
+ * @param {string} currentPage
  * @yields {object} - A response from a call to the API.
  * @function parseData - Returns a parsed res.data.
  * @yields {action} - A redux action to set season data to redux state.
  * @throws {action} - A redux action to display a server message by type.
  */
 
-export function* fetchSeasons() {
+export function* fetchSeasons({ currentPage }) {
 	try {
-		const res = yield call(app.get, "seasons/all");
+		const res = yield call(app.get, `seasons/all?page=${currentPage}`);
 		const data = yield call(parseData, res);
 
 		yield put(setSeasons(data));
@@ -169,7 +174,7 @@ export function* updateSeason({ props }) {
 			}),
 		);
 
-		yield put(push("/employee/seasons/viewall"));
+		yield put(goBack());
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}

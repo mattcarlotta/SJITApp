@@ -68,7 +68,7 @@ export class NewSeasonForm extends Component {
 			extra={
 				<BackButton
 					push={this.props.push}
-					location="/employee/seasons/viewall"
+					location="/employee/seasons/viewall?page=1"
 				/>
 			}
 			title={

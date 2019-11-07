@@ -4,15 +4,13 @@ import Helmet from "react-helmet";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import { Card } from "antd";
-import { FaMailBulk, FaPaperPlane, FaSync } from "react-icons/fa";
+import { FaMailBulk, FaPaperPlane } from "react-icons/fa";
 import {
 	Button,
 	DisplaySendToList,
 	EmailStatus,
 	FormatDate,
-	Flex,
 	FlexEnd,
-	FlexStart,
 	Table,
 } from "components/Body";
 import { deleteMail, fetchMails, resendMail } from "actions/Mail";
@@ -75,34 +73,19 @@ export const ViewMail = ({
 				</Fragment>
 			}
 		>
-			<Flex>
-				<FlexStart>
-					<Button
-						primary
-						width="180px"
-						marginRight="0px"
-						padding="5px 10px"
-						style={{ marginBottom: 20 }}
-						onClick={() => fetchMails()}
-					>
-						<FaSync style={iconStyle} />
-						&nbsp; Refresh
-					</Button>
-				</FlexStart>
-				<FlexEnd>
-					<Button
-						primary
-						width="180px"
-						marginRight="0px"
-						padding="5px 10px"
-						style={{ marginBottom: 20 }}
-						onClick={() => push("/employee/mail/create")}
-					>
-						<FaPaperPlane style={iconStyle} />
-						&nbsp; Send Mail
-					</Button>
-				</FlexEnd>
-			</Flex>
+			<FlexEnd>
+				<Button
+					primary
+					width="180px"
+					marginRight="0px"
+					padding="5px 10px"
+					style={{ marginBottom: 20 }}
+					onClick={() => push("/employee/mail/create")}
+				>
+					<FaPaperPlane style={iconStyle} />
+					&nbsp; Send Mail
+				</Button>
+			</FlexEnd>
 			<Table
 				{...rest}
 				columns={columns}

@@ -1,3 +1,4 @@
+import get from "lodash/get";
 import isEmpty from "lodash/isEmpty";
 import { Event, Token, User } from "models";
 import {
@@ -175,29 +176,35 @@ const deleteMember = async (req, res) => {
   }
 };
 
-const getAllMembers = async (_, res) => {
-  const members = await getUsers({
-    match: {
-      role: { $ne: "admin" },
-    },
-    project: {
-      role: 1,
-      status: 1,
-      registered: 1,
-      email: 1,
-      firstName: 1,
-      lastName: 1,
-    },
-  });
+const getAllMembers = async (req, res) => {
+  try {
+    const { page } = req.query;
 
-  res.status(200).json({ members });
+    const results = await User.paginate(
+      { role: { $eq: "employee" } },
+      {
+        sort: { lastName: 1 },
+        page,
+        limit: 10,
+        select: "role status registered email firstName lastName",
+      },
+    );
+
+    const members = get(results, ["docs"]);
+    const totalDocs = get(results, ["totalDocs"]);
+
+    res.status(200).json({ members, totalDocs });
+  } catch (err) {
+    /* istanbul ignore next */
+    return sendError(err, res);
+  }
 };
 
 const getAllMemberNames = async (_, res) => {
   try {
     const members = await getUsers({
       match: {
-        role: { $ne: "admin" },
+        role: { $eq: "employee" },
         status: "active",
       },
       project: {
@@ -276,7 +283,8 @@ const getMemberEventCounts = async (req, res) => {
         },
       },
     ]);
-    if (isEmpty(memberEventCounts)) return res.status(200).json({ members: [] });
+    if (isEmpty(memberEventCounts))
+      return res.status(200).json({ members: [] });
 
     res.status(200).json({
       members: createMemberEventCount({
@@ -359,10 +367,9 @@ const getMemberSettingsEvents = async (req, res) => {
 
 const updateMember = async (req, res) => {
   try {
-    const {
-      _id, email, firstName, lastName, role,
-    } = req.body;
-    if (!_id || !email || !firstName || !lastName || !role) throw missingUpdateMemberParams;
+    const { _id, email, firstName, lastName, role } = req.body;
+    if (!_id || !email || !firstName || !lastName || !role)
+      throw missingUpdateMemberParams;
 
     const existingMember = await findMember(_id);
 
