@@ -15,7 +15,7 @@ const ViewMemberAuthorizations = () => (
 			<Link
 				blue
 				style={linkStyle}
-				to="/employee/members/authorizations/viewall"
+				to="/employee/members/authorizations/viewall?page=1"
 				target="_blank"
 			>
 				View Authorizations

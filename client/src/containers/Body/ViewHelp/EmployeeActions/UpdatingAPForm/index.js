@@ -32,22 +32,7 @@ const UpdatingAPForm = () => (
 		</Button>
 		&nbsp;
 		<InfoText>
-			button located next to the <strong>Forms</strong> tab, or click on the
-		</InfoText>
-		&nbsp;
-		<Button
-			primary
-			width="300px"
-			padding="0px"
-			marginRight="0px"
-			style={btnStyle}
-			onClick={null}
-		>
-			Sharks & Barracuda A/P Form
-		</Button>
-		&nbsp;
-		<InfoText>
-			button located underneath the <strong>Forms</strong> tab. Update your
+			button located next to the <strong>Forms</strong> tab. Update your
 			previous responses accordingly and click the
 		</InfoText>
 		&nbsp;

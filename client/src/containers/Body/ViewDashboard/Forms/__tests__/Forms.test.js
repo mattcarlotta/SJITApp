@@ -72,9 +72,8 @@ describe("Dashboard Forms", () => {
 			wrapper.setProps({ apform, isLoading: false });
 		});
 
-		it("disabled the 'View' button", () => {
-			wrapper.find("Button").simulate("click");
-			expect(push).toHaveBeenCalledTimes(0);
+		it("hides the 'View' button", () => {
+			expect(wrapper.find("Button").exists()).toBeFalsy();
 		});
 
 		it("displays a message stating that the form has expired", () => {

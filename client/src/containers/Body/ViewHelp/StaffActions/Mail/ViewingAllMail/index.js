@@ -11,7 +11,12 @@ const ViewingAllMail = () => (
 	<TextContainer>
 		<InfoText>
 			To view all available mail, go to the{" "}
-			<Link blue style={linkStyle} to="/employee/mail/viewall" target="_blank">
+			<Link
+				blue
+				style={linkStyle}
+				to="/employee/mail/viewall?page=1"
+				target="_blank"
+			>
 				View Mail
 			</Link>{" "}
 			page.

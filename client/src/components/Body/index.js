@@ -72,6 +72,7 @@ export { default as SubmitButton } from "./SubmitButton";
 export { default as Submitting } from "./Submitting";
 export { default as Tab } from "./Tab";
 export { default as Table } from "./Table";
+export { default as TableActions } from "./TableActions";
 export { default as Text } from "./Text";
 export { default as TextContainer } from "./TextContainer";
 export { default as Title } from "./Title";

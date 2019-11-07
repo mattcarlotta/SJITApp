@@ -14,7 +14,7 @@ const ViewingAllMembers = () => (
 			<Link
 				blue
 				style={linkStyle}
-				to="/employee/members/viewall"
+				to="/employee/members/viewall?page=1"
 				target="_blank"
 			>
 				View Members

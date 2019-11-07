@@ -1,5 +1,5 @@
 import React from "react";
-import { FaTrash } from "react-icons/fa";
+import { FaTrash, FaTools } from "react-icons/fa";
 import { Button, InfoText, TextContainer, WarningText } from "components/Body";
 import { Link } from "components/Navigation";
 
@@ -24,29 +24,42 @@ const DeletingMembers = () => (
 			<Link
 				blue
 				style={linkStyle}
-				to="/employee/members/viewall"
+				to="/employee/members/viewall?page=1"
 				target="_blank"
 			>
 				View Members
 			</Link>{" "}
-			page and click on one of the
+			page, underneath the <strong>Table Actions</strong> column, click on one
+			of the
 		</InfoText>
 		&nbsp;
 		<Button
-			primary
 			width="50px"
+			padding="3px"
+			marginRight="0px"
+			style={btnStyle}
+			onClick={null}
+		>
+			<FaTools style={iconStyle} />
+		</Button>
+		&nbsp;
+		<InfoText>table actions buttons to open a menu, then click on the</InfoText>
+		&nbsp;
+		<Button
+			danger
+			width="100px"
 			padding="0px"
 			marginRight="0px"
 			style={btnStyle}
 			onClick={null}
 		>
-			<FaTrash style={iconStyle} />
+			<FaTrash style={{ ...iconStyle, marginRight: 5 }} />
+			<span>Delete</span>
 		</Button>
 		&nbsp;
 		<InfoText>
-			(delete) buttons located under the <strong>Table Actions</strong> column.
-			A pop up will confirm your selection and will remove the member upon
-			confirmation.
+			(Delete) button. A pop up will confirm your selection and will remove the
+			member upon confirmation.
 		</InfoText>
 		<WarningText>
 			Be advised that deleting a member will remove them from all their

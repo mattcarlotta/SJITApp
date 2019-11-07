@@ -12,7 +12,7 @@ const MemberEventCountChart = ({ height, members, style }) =>
 			<div css="height: 100%;width: 100%;background-color: #fff;border-radius: 3px;">
 				<ResponsiveBar
 					data={members}
-					margin={{ top: 60, right: 40, bottom: 200, left: 80 }}
+					margin={{ top: 60, right: 40, bottom: 250, left: 80 }}
 					indexBy="name"
 					keys={["Event Count"]}
 					motionStiffness={180}
@@ -20,14 +20,14 @@ const MemberEventCountChart = ({ height, members, style }) =>
 					axisLeft={{
 						legend: "Number of Events",
 						legendPosition: "middle",
-						legendOffset: -50,
+						legendOffset: -70,
 						tickValues: 2,
 					}}
 					axisBottom={{
 						tickRotation: -90,
 						legend: "Employee Name",
 						legendPosition: "middle",
-						legendOffset: 170,
+						legendOffset: 220,
 					}}
 					labelTextColor="#fefefe"
 					colors={{ scheme: "set2" }}

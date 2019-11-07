@@ -90,8 +90,8 @@ const ScheduleModal = ({
 											<Bold style={{ paddingLeft: 10 }}>
 												<FaClock
 													style={{
-														marginRight: 5,
-														fontSize: 15,
+														marginRight: 7,
+														fontSize: 14,
 														position: "relative",
 														top: 1,
 													}}
@@ -107,7 +107,7 @@ const ScheduleModal = ({
 													<ListItem
 														className="employee"
 														style={{
-															marginLeft: 20,
+															marginLeft: 15,
 															paddingLeft: 10,
 															backgroundColor:
 																_id === id || _id === loggedinUserId
@@ -124,9 +124,16 @@ const ScheduleModal = ({
 														}}
 														key={_id}
 													>
-														<FaCalendarCheck
-															style={{ fontSize: 14, marginRight: 8 }}
-														/>
+														<span css="margin-right: 5px;">&#9900;</span>
+														{(_id === id || _id === loggedinUserId) && (
+															<span css="margin-right: 5px;">
+																<FaCalendarCheck
+																	style={{
+																		fontSize: 14,
+																	}}
+																/>
+															</span>
+														)}
 														<span>
 															{firstName} {lastName}
 														</span>

@@ -54,7 +54,7 @@ export class Forms extends PureComponent {
 						</Fragment>
 					}
 					extra={
-						!isEmpty(apform) ? (
+						!isEmpty(apform) && !hasExpired ? (
 							<Button
 								tertiary
 								width="88px"
@@ -62,11 +62,7 @@ export class Forms extends PureComponent {
 								padding="5px"
 								marginRight="0px"
 								style={{ fontSize: 16 }}
-								onClick={
-									!hasExpired
-										? () => push(`/employee/forms/view/${apform._id}`)
-										: null
-								}
+								onClick={() => push(`/employee/forms/view/${apform._id}`)}
 							>
 								View
 							</Button>

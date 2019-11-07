@@ -1,5 +1,5 @@
 import React from "react";
-import { FaSearchPlus } from "react-icons/fa";
+import { FaSearchPlus, FaTools } from "react-icons/fa";
 import { Button, InfoText, TextContainer, WarningText } from "components/Body";
 import { Link } from "components/Navigation";
 
@@ -24,32 +24,46 @@ const EditingMembers = () => (
 			<Link
 				blue
 				style={linkStyle}
-				to="/employee/members/viewall"
+				to="/employee/members/viewall?page=1"
 				target="_blank"
 			>
 				View Members
 			</Link>{" "}
-			page and click on one of the
+			page, underneath the <strong>Table Actions</strong> column, click on one
+			of the
 		</InfoText>
 		&nbsp;
 		<Button
-			primary
 			width="50px"
+			padding="3px"
+			marginRight="0px"
+			style={btnStyle}
+			onClick={null}
+		>
+			<FaTools style={iconStyle} />
+		</Button>
+		&nbsp;
+		<InfoText>table actions buttons to open a menu, then click on the</InfoText>
+		&nbsp;
+		<Button
+			primary
+			width="80px"
 			padding="0px"
 			marginRight="0px"
 			style={btnStyle}
 			onClick={null}
 		>
-			<FaSearchPlus style={iconStyle} />
+			<FaSearchPlus style={{ ...iconStyle, marginRight: 5 }} />
+			<span>View</span>
 		</Button>
 		&nbsp;
 		<InfoText>
-			(view) buttons located under the <strong>Table Actions</strong> column.
-			Here you&#39;ll have access to their <strong>Profile</strong>, which will
-			allow you to update their <strong>Authorized Email</strong>,{" "}
-			<strong>First Name</strong>, <strong>Last Name</strong>, and{" "}
-			<strong>Role</strong>. In addition, you&#39;ll be able to{" "}
-			<strong>Suspend</strong> or <strong>Activate</strong> their accounts.
+			(View) button. Here you&#39;ll have access to their{" "}
+			<strong>Profile</strong>, which will allow you to update their{" "}
+			<strong>Authorized Email</strong>, <strong>First Name</strong>,{" "}
+			<strong>Last Name</strong>, and <strong>Role</strong>. In addition,
+			you&#39;ll be able to <strong>Suspend</strong> or{" "}
+			<strong>Activate</strong> their accounts.
 		</InfoText>
 		<WarningText>
 			Be advised that suspending a member&#39;s account will not allow them to

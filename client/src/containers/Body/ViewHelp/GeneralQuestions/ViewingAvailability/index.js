@@ -19,9 +19,9 @@ const ViewingAvailability = () => (
 			page and click on the <strong>Availability</strong> tab -- you can change
 			the <strong>Month</strong> and/or <strong>Year</strong> to reflect which
 			month and year you&#39;d wish to view. The pie chart displays your
-			responses for the selected month&#39;s A/P form and the bar chart displays
-			the amount of games that you were scheduled for versus the amount of
-			available home games.
+			responses and availability for the selected month&#39;s A/P form and the
+			bar chart displays the amount of games that you were scheduled for versus
+			the amount of available home games.
 		</InfoText>
 		<br />
 		<br />

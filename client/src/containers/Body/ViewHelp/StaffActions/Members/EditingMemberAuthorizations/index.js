@@ -1,5 +1,5 @@
 import React from "react";
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaTools } from "react-icons/fa";
 import { Button, InfoText, TextContainer, WarningText } from "components/Body";
 import { Link } from "components/Navigation";
 
@@ -24,28 +24,40 @@ const EditingMemberAuthorizations = () => (
 			<Link
 				blue
 				style={linkStyle}
-				to="/employee/members/viewall"
+				to="/employee/members/authorizations/viewall?page=1"
 				target="_blank"
 			>
-				View Members
+				View Authorizations
 			</Link>{" "}
-			page and click on one of the
+			page, underneath the <strong>Table Actions</strong> column, click on one
+			of the
 		</InfoText>
 		&nbsp;
 		<Button
-			primary
 			width="50px"
+			padding="3px"
+			marginRight="0px"
+			style={btnStyle}
+			onClick={null}
+		>
+			<FaTools style={iconStyle} />
+		</Button>
+		&nbsp;
+		<InfoText>table actions buttons to open a menu, then click on the</InfoText>
+		&nbsp;
+		<Button
+			primary
+			width="80px"
 			padding="0px"
 			marginRight="0px"
 			style={btnStyle}
 			onClick={null}
 		>
-			<FaEdit style={iconStyle} />
+			<FaEdit style={{ ...iconStyle, marginRight: 5 }} />
+			<span>Edit</span>
 		</Button>
 		&nbsp;
-		<InfoText>
-			(edit) buttons located under the <strong>Table Actions</strong> column.
-		</InfoText>
+		<InfoText>(Edit) button.</InfoText>
 		<br />
 		<br />
 		<InfoText>

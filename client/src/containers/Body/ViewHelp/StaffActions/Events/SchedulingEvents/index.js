@@ -1,7 +1,7 @@
 import React from "react";
-import { FaClipboardCheck } from "react-icons/fa";
+import { Tooltip } from "antd";
+import { FaClipboardCheck, FaFileAlt, FaTools } from "react-icons/fa";
 import {
-	Badge,
 	Button,
 	Column,
 	ColumnTitle,
@@ -29,6 +29,19 @@ const linkStyle = {
 	padding: 0,
 };
 
+const showNotes = notes => (
+	<Tooltip trigger="hover" title={notes}>
+		<FaFileAlt
+			style={{
+				marginLeft: 5,
+				fontSize: 14,
+				position: "relative",
+				top: 2,
+			}}
+		/>
+	</Tooltip>
+);
+
 const SchedulingEvents = () => (
 	<TextContainer>
 		<InfoText>
@@ -36,68 +49,63 @@ const SchedulingEvents = () => (
 			<Link
 				blue
 				style={linkStyle}
-				to="/employee/events/viewall"
+				to="/employee/events/viewall?page=1"
 				target="_blank"
 			>
 				View Events
 			</Link>{" "}
-			page and click on one of the
+			page, underneath the <strong>Table Actions</strong> column, click on one
+			of the
 		</InfoText>
 		&nbsp;
 		<Button
-			primary
 			width="50px"
+			padding="3px"
+			marginRight="0px"
+			style={btnStyle}
+			onClick={null}
+		>
+			<FaTools style={iconStyle} />
+		</Button>
+		&nbsp;
+		<InfoText>table actions buttons to open a menu, then click on the</InfoText>
+		&nbsp;
+		<Button
+			primary
+			width="125px"
 			padding="0px"
 			marginRight="0px"
 			style={btnStyle}
 			onClick={null}
 		>
-			<FaClipboardCheck style={{ ...iconStyle, fontSize: 17 }} />
+			<FaClipboardCheck
+				style={{ ...iconStyle, fontSize: 17, marginRight: 5 }}
+			/>
+			<span>Schedule</span>
 		</Button>
 		&nbsp;
 		<InfoText>
-			(View & Assign) buttons located under the <strong>Table Actions</strong>{" "}
-			column. Scroll down the page until you see an <strong>EMPLOYEES</strong>{" "}
-			column -- each employee will have a colored badge that relates to one of
-			the legend&#39;s response colors -- followed by one or many call time
-			columns:
+			(View & Assign Schedule) button. Scroll down the page until you see an{" "}
+			<strong>EMPLOYEES</strong> column -- each employee will have a colored
+			badge that relates to one of the legend&#39;s response colors -- followed
+			by one or many call time columns:
 		</InfoText>
 		<Legend />
-		<Row>
+		<Row style={{ margin: "10px 0" }}>
 			<Column width="200px">
 				<ColumnTitle style={{ marginBottom: 5 }}>Employees</ColumnTitle>
 				<UserContainer>
-					<User>
-						<Badge response="I want to work." style={{ margin: 0 }}>
-							firstName lastName
-						</Badge>
+					<User response="I want to work.">Lisa Nguyen</User>
+					<User response="Available to work.">
+						Jamal Brown
+						{showNotes("In class until 5pm, but I can work afterward.")}
 					</User>
-					<User>
-						<Badge response="Available to work." style={{ margin: 0 }}>
-							firstName lastName
-						</Badge>
-						<p css="margin: 0; padding-left: 25px;font-style: italic;">
-							(In class until 5PM)
-						</p>
+					<User response="Prefer not to work.">Mike Wilson</User>
+					<User response="Not available to work.">
+						Jane Williams
+						{showNotes("Out of town.")}
 					</User>
-					<User>
-						<Badge response="Prefer not to work." style={{ margin: 0 }}>
-							firstName lastName
-						</Badge>
-					</User>
-					<User>
-						<Badge response="Not available to work." style={{ margin: 0 }}>
-							firstName lastName
-						</Badge>
-						<p css="margin: 0; padding-left: 25px;font-style: italic;">
-							(Out of town)
-						</p>
-					</User>
-					<User>
-						<Badge response="No response." style={{ margin: 0 }}>
-							firstName lastName
-						</Badge>
-					</User>
+					<User response="No response.">Matt Miller</User>
 				</UserContainer>
 			</Column>
 			<Column width="200px">
@@ -108,11 +116,20 @@ const SchedulingEvents = () => (
 			</Column>
 		</Row>
 		<InfoText>
-			To assign an employee to a call time, hover over an employee&#39;s name
-			and click and hold the mouse left click button. Then drag them over to a
-			call time column and release the left mouse click button to drop and
-			assign them to that call time slot. Once the event has been completely
-			scheduled, click the
+			Any employees that have a{" "}
+			<FaFileAlt
+				style={{
+					fontSize: 14,
+					position: "relative",
+					top: 2,
+				}}
+			/>{" "}
+			icon next to their name have left a note regarding this particular event.
+			To view the note, simply hover over the icon. To assign an employee to a
+			call time, hover over an employee&#39;s name and click and hold the mouse
+			left click button. Then drag them over to a call time column and release
+			the left mouse click button to drop and assign them to that call time
+			slot. Once the event has been completely scheduled, click the
 		</InfoText>
 		&nbsp;
 		<Button
@@ -131,9 +148,9 @@ const SchedulingEvents = () => (
 		<br />
 		<InfoText>
 			According to the <strong>Event Date</strong>, email reminders will be
-			automatically sent to all scheduled members, 48 hours before the event
-			date, notifying them that they&#39;re scheduled to work that particular
-			event at their assigned call time slot.
+			automatically sent to all scheduled members, 1 day before the event date,
+			notifying them that they&#39;re scheduled to work that particular event at
+			their assigned call time slot.
 		</InfoText>
 	</TextContainer>
 );

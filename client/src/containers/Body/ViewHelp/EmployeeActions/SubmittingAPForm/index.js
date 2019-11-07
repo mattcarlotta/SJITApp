@@ -32,22 +32,7 @@ const SubmittingAPForm = () => (
 		</Button>
 		&nbsp;
 		<InfoText>
-			button located next to the <strong>Forms</strong> tab, or click on the
-		</InfoText>
-		&nbsp;
-		<Button
-			primary
-			width="300px"
-			padding="0px"
-			marginRight="0px"
-			style={btnStyle}
-			onClick={null}
-		>
-			Sharks & Barracuda A/P Form
-		</Button>
-		&nbsp;
-		<InfoText>
-			button located underneath the <strong>Forms</strong> tab. For each game
+			button located next to the <strong>Forms</strong> tab. For each game
 			within the <strong>Sharks & Barracuda A/P Form</strong>, select one of the
 			four available options: <strong>I want to work.</strong>,{" "}
 			<strong>Available to work.</strong>, <strong>Prefer not to work.</strong>,

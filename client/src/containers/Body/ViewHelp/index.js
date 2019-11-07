@@ -201,7 +201,7 @@ const Help = ({ role }) => (
 										<ViewingAllForms />
 									</Panel>
 									<Panel
-										header="How do I create monthly A/P forms?"
+										header="How do I send monthly A/P forms?"
 										key="SendingForms"
 									>
 										<SendingForms />

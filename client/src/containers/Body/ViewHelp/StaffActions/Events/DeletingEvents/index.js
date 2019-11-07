@@ -1,5 +1,5 @@
 import React from "react";
-import { FaTrash } from "react-icons/fa";
+import { FaTrash, FaTools } from "react-icons/fa";
 import { Button, InfoText, TextContainer } from "components/Body";
 import { Link } from "components/Navigation";
 
@@ -24,29 +24,42 @@ const DeletingEvents = () => (
 			<Link
 				blue
 				style={linkStyle}
-				to="/employee/events/viewall"
+				to="/employee/events/viewall?page=1"
 				target="_blank"
 			>
 				View Events
 			</Link>{" "}
-			page and click on one of the
+			page, underneath the <strong>Table Actions</strong> column, click on one
+			of the
 		</InfoText>
 		&nbsp;
 		<Button
-			primary
 			width="50px"
+			padding="3px"
+			marginRight="0px"
+			style={btnStyle}
+			onClick={null}
+		>
+			<FaTools style={iconStyle} />
+		</Button>
+		&nbsp;
+		<InfoText>table actions buttons to open a menu, then click on the</InfoText>
+		&nbsp;
+		<Button
+			danger
+			width="100px"
 			padding="0px"
 			marginRight="0px"
 			style={btnStyle}
 			onClick={null}
 		>
-			<FaTrash style={iconStyle} />
+			<FaTrash style={{ ...iconStyle, marginRight: 5 }} />
+			<span>Delete</span>
 		</Button>
 		&nbsp;
 		<InfoText>
-			(Delete) buttons located under the <strong>Table Actions</strong> column.
-			A pop up will confirm your selection and will remove the event upon
-			confirmation.
+			(Delete) button. A pop up will confirm your selection and will remove the
+			event upon confirmation.
 		</InfoText>
 	</TextContainer>
 );

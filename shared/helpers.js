@@ -4,7 +4,10 @@ import random from "lodash/random";
 import sortBy from "lodash/sortBy";
 import { Types } from "mongoose";
 import { Event, User } from "models";
-import { newAuthorizationKeyTemplate } from "services/templates";
+import {
+  newAuthorizationKeyTemplate,
+  newStaffTemplate,
+} from "services/templates";
 
 const { ObjectId } = Types;
 const { CLIENT } = process.env;
@@ -29,15 +32,22 @@ const toAverage = (num, total) =>
  * @param authorizedEmail
  * @param token
  * @param expiration
+ * @param role
  * @returns {object}
  */
-const createAuthMail = (authorizedEmail, token, expiration) => ({
-  sendTo: `${authorizedEmail}`,
-  sendFrom: "San Jose Sharks Ice Team <noreply@sjsiceteam.com>",
-  subject:
-    "Congratulations, you have been selected to join the San Jose Sharks Ice Team!",
-  message: newAuthorizationKeyTemplate(CLIENT, token, expiration.calendar()),
-});
+const createAuthMail = (authorizedEmail, token, expiration, role) => {
+  const isEmployee = role === "employee";
+  return {
+    sendTo: `${authorizedEmail}`,
+    sendFrom: "San Jose Sharks Ice Team <noreply@sjsiceteam.com>",
+    subject: `${
+      isEmployee ? "Congratulations" : "Welcome"
+    }, you have been invited to join the San Jose Sharks Ice Team!`,
+    message: isEmployee
+      ? newAuthorizationKeyTemplate(CLIENT, token, expiration.calendar())
+      : newStaffTemplate(CLIENT, token, expiration.calendar()),
+  };
+};
 
 /**
  * Helper function to generate a user event availability based upon their responses.

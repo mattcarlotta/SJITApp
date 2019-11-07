@@ -14,7 +14,7 @@ const ViewingAllEvents = () => (
 			<Link
 				blue
 				style={linkStyle}
-				to="/employee/events/viewall"
+				to="/employee/events/viewall?page=1"
 				target="_blank"
 			>
 				View Events

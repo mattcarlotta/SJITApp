@@ -35,7 +35,7 @@ const createToken = async (req, res) => {
       role,
     });
 
-    await Mail.create(createAuthMail(authorizedEmail, token, expiration));
+    await Mail.create(createAuthMail(authorizedEmail, token, expiration, role));
 
     res.status(201).json({
       message: `Succesfully created and sent an authorization key to ${authorizedEmail}.`,
@@ -124,7 +124,7 @@ const updateToken = async (req, res) => {
       token,
     });
 
-    await Mail.create(createAuthMail(authorizedEmail, token, expiration));
+    await Mail.create(createAuthMail(authorizedEmail, token, expiration, role));
 
     res.status(201).json({
       message: `Succesfully updated and sent a new authorization key to ${authorizedEmail}.`,

@@ -29,33 +29,50 @@ const AutomatedServices = () => (
 		<br />
 		<InfoText>
 			Here&#39;s an example breakdown of how the automated services will
-			function for the month of October/November:
+			function for the month of October and November:
 		</InfoText>
 		<List>
 			<ListItem style={listItemStyle}>
-				- On October <strong>20th</strong>, Sharks home games for the month of
-				December will be created; as well as, an A/P form for December 1st -
-				December 31st.
+				- On October <strong>1st</strong>, an A/P form for November 1st -
+				November 29th will be emailed to all active members.
 			</ListItem>
 			<ListItem style={listItemStyle}>
-				- On October <strong>26th</strong>, schedules for the month of November
-				will be emailed to all active members.
+				- On October <strong>7th</strong>, the November A/P form will expire and
+				availability responses will no longer be accepted.
+			</ListItem>
+			<ListItem style={listItemStyle}>
+				- On October <strong>15th @ 6:00pm</strong>, schedules for the month of
+				November will be sent out.
+			</ListItem>
+			<ListItem style={listItemStyle}>
+				- On October <strong>16th</strong>, Sharks home games for the month of
+				December will be created; as well as, an A/P form for December 1st -
+				December 31st.
 			</ListItem>
 			<ListItem style={listItemStyle}>
 				- On November <strong>1st</strong>, the December A/P form will be
 				emailed to all active members.
 			</ListItem>
 			<ListItem style={listItemStyle}>
-				- On November <strong>15th</strong>, the December A/P form will expire
+				- On November <strong>7th</strong>, the December A/P form will expire
 				and availability responses will no longer be accepted.
+			</ListItem>
+			<ListItem style={listItemStyle}>
+				- On November <strong>15th @ 6:00pm</strong>, schedules for the month of
+				December will be sent out.
+			</ListItem>
+			<ListItem style={listItemStyle}>
+				- On November <strong>16th</strong>, Sharks home games for the month of
+				January will be created; as well as, an A/P form for January 1st -
+				January 31st.
 			</ListItem>
 		</List>
 		<WarningText>
-			Be advised that these services are automated and expect: The schedule to
-			completed by the 25th of each month -- missing this deadline may result in
-			missing/incomplete schedules being emailed. And, currently only supports
-			creating Sharks home games -- Barracuda home games will need to be
-			manually created before the 1st of each prior month.
+			Be advised that these services are automated and expect the schedule to
+			completed by the 15th of each month -- missing this deadline may result in
+			missing/incomplete schedules being emailed. And, currently this service
+			only supports creating Sharks home games -- Barracuda home games will need
+			to be manually created before the 15th deadline of each month.
 		</WarningText>
 	</TextContainer>
 );

@@ -1,5 +1,5 @@
 import React from "react";
-import { FaClipboardCheck } from "react-icons/fa";
+import { FaClipboardCheck, FaTools } from "react-icons/fa";
 import {
 	Button,
 	InfoText,
@@ -175,33 +175,51 @@ const GettingStarted = () => (
 						<Link
 							blue
 							style={linkStyle}
-							to="/employee/events/viewall"
+							to="/employee/events/viewall?page=1"
 							target="_blank"
 						>
 							View Events
 						</Link>{" "}
-						page and clicking on one of the
+						page, underneath the <strong>Table Actions</strong> column, clicking
+						on one of the
+					</InfoText>
+					&nbsp;
+					<Button
+						width="50px"
+						padding="3px"
+						marginRight="0px"
+						style={btnStyle}
+						onClick={null}
+					>
+						<FaTools style={iconStyle} />
+					</Button>
+					&nbsp;
+					<InfoText>
+						table actions buttons to open a menu, then clicking on the
 					</InfoText>
 					&nbsp;
 					<Button
 						primary
-						width="50px"
+						width="125px"
 						padding="0px"
 						marginRight="0px"
 						style={btnStyle}
 						onClick={null}
 					>
-						<FaClipboardCheck style={{ ...iconStyle, fontSize: 17 }} />
+						<FaClipboardCheck
+							style={{ ...iconStyle, fontSize: 17, marginRight: 5 }}
+						/>
+						<span>Schedule</span>
 					</Button>
 					&nbsp;
 					<InfoText>
-						(View & Assign) buttons located under the{" "}
-						<strong>Table Actions</strong> column. Scroll down the page until
-						you see an <strong>Employees</strong> column followed by one or many
-						call time columns. To assign an employee to a call time, mouse click
-						and hold the employee&#39;s name, drag it over to a call time column
-						and release the mouse click to assign them to that call time slot.
-						Once the event has been scheduled, click the
+						(View & Assign Schedule) button. When the{" "}
+						<strong>Event Scheduling</strong> form has loaded, scroll down the
+						page until you see an <strong>Employees</strong> column followed by
+						one or many call time columns. To assign an employee to a call time,
+						left mouse click and hold the employee&#39;s name, drag it over to a
+						call time column and release the left mouse click to assign them to
+						that call time slot. Once the event has been scheduled, click the
 					</InfoText>
 					&nbsp;
 					<Button
@@ -217,8 +235,8 @@ const GettingStarted = () => (
 					&nbsp;
 					<InfoText>
 						button to save the event. According to the{" "}
-						<strong>Event Date</strong>, email reminders will automatically be
-						sent to all scheduled members, 2 days before the event date,
+						<strong>Event Date</strong>, email reminders will be automatically
+						sent to all scheduled members, 1 day before the event date,
 						notifying them that they&#39;re scheduled to work that particular
 						event at their assigned call time slot.
 					</InfoText>

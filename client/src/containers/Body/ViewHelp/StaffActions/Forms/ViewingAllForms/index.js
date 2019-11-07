@@ -11,7 +11,12 @@ const ViewingAllForms = () => (
 	<TextContainer>
 		<InfoText>
 			To view all available forms (A/P forms), go to the{" "}
-			<Link blue style={linkStyle} to="/employee/forms/viewall" target="_blank">
+			<Link
+				blue
+				style={linkStyle}
+				to="/employee/forms/viewall?page=1"
+				target="_blank"
+			>
 				View Forms
 			</Link>{" "}
 			page.

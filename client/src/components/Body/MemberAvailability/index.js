@@ -6,9 +6,25 @@ import moment from "moment";
 import { Empty } from "antd";
 import { ResponsivePie } from "@nivo/pie";
 import { ResponsiveBar } from "@nivo/bar";
-import { Center, FlexCenter, ScheduleHeader } from "components/Body"; // Badge
+import { Center, FlexCenter, ScheduleHeader } from "components/Body";
 
 const COLORS = ["#247BA0", "#2A9D8F", "#F4A261", "#FF8060", "#BFBFBF"];
+
+const styles = {
+	position: "absolute",
+	top: "-35px",
+	left: "50px",
+	right: 0,
+	bottom: 0,
+	display: "flex",
+	flexDirection: "column",
+	alignItems: "center",
+	justifyContent: "center",
+	fontSize: 16,
+	color: "#025f6d",
+	textAlign: "center",
+	pointerEvents: "none",
+};
 
 class MemberAvailability extends Component {
 	state = {
@@ -55,12 +71,12 @@ class MemberAvailability extends Component {
 				/>
 				{!isEmpty(memberAvailability) ? (
 					<Fragment>
-						<div css="height: 400px;width: 100%; max-width: 700px; margin-left: auto; margin-right: auto; margin-bottom: 30px;">
+						<div css="height: 400px;width: 100%; max-width: 700px; margin-left: auto; margin-right: auto; margin-bottom: 30px;position: relative;">
 							<ResponsivePie
 								indexBy="id"
 								colors={COLORS}
 								data={memberAvailability.memberResponseCount}
-								innerRadius={0.6}
+								innerRadius={0.7}
 								radialLabelsSkipAngle={10}
 								radialLabelsTextXOffset={6}
 								radialLabelsTextColor="#333333"
@@ -95,6 +111,10 @@ class MemberAvailability extends Component {
 									},
 								]}
 							/>
+							<div style={styles}>
+								<span>{memberAvailability.eventAvailability[0].value}%</span>
+								<span>Availability</span>
+							</div>
 							<Center
 								style={{
 									color: "rgb(187, 187, 187)",
@@ -164,6 +184,13 @@ MemberAvailability.propTypes = {
 	id: PropTypes.string,
 	fetchAction: PropTypes.func.isRequired,
 	memberAvailability: PropTypes.shape({
+		eventAvailability: PropTypes.arrayOf(
+			PropTypes.shape({
+				id: PropTypes.string,
+				label: PropTypes.string,
+				value: PropTypes.number,
+			}),
+		),
 		memberScheduleEvents: PropTypes.arrayOf(
 			PropTypes.shape({
 				id: PropTypes.string,

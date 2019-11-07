@@ -2,6 +2,7 @@ import get from "lodash/get";
 import isEmpty from "lodash/isEmpty";
 import { Event, Token, User } from "models";
 import {
+  createMemberAvailabilityAverage,
   createMemberEventCount,
   createMemberResponseCount,
   findEventById,
@@ -72,9 +73,9 @@ const findMemberEvents = async (existingMember, selectedDate) => {
 const findMemberAvailabilty = async (existingMember, selectedDate, res) => {
   const { startOfMonth, endOfMonth } = getMonthDateRange(selectedDate);
 
-  const eventCount = await getEventCounts(startOfMonth, endOfMonth);
+  const eventCounts = await getEventCounts(startOfMonth, endOfMonth);
   /* instanbul ignore next */
-  if (eventCount === 0) return res.status(200).send({});
+  if (eventCounts === 0) return res.status(200).send({});
 
   const eventResponses = await Event.aggregate([
     {
@@ -134,6 +135,10 @@ const findMemberAvailabilty = async (existingMember, selectedDate, res) => {
   });
 
   return res.status(200).json({
+    eventAvailability: createMemberAvailabilityAverage({
+      eventCounts,
+      eventResponses,
+    }),
     memberResponseCount: createMemberResponseCount(eventResponses),
     memberScheduleEvents: [
       {
@@ -142,7 +147,7 @@ const findMemberAvailabilty = async (existingMember, selectedDate, res) => {
       },
       {
         id: "available",
-        events: eventCount,
+        events: eventCounts,
       },
     ],
   });

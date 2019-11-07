@@ -32,25 +32,10 @@ const ViewingForms = () => (
 		</Button>
 		&nbsp;
 		<InfoText>
-			button located next to the <strong>Forms</strong> tab, or click on the
-		</InfoText>
-		&nbsp;
-		<Button
-			primary
-			width="300px"
-			padding="0px"
-			marginRight="0px"
-			style={btnStyle}
-			onClick={null}
-		>
-			Sharks & Barracuda A/P Form
-		</Button>
-		&nbsp;
-		<InfoText>
-			button located underneath the <strong>Forms</strong> tab.
+			button located next to the <strong>Forms</strong> tab.
 		</InfoText>
 		<WarningText>
-			Be advised that these buttons will be deactivated if the form has expired.
+			Be advised that this button will disappear once the form has expired.
 		</WarningText>
 	</TextContainer>
 );

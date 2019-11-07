@@ -185,6 +185,13 @@ ViewMemberProfile.propTypes = {
 		}),
 	}),
 	memberAvailability: PropTypes.shape({
+		eventAvailability: PropTypes.arrayOf(
+			PropTypes.shape({
+				id: PropTypes.string,
+				label: PropTypes.string,
+				value: PropTypes.number,
+			}),
+		),
 		memberScheduleEvents: PropTypes.arrayOf(
 			PropTypes.shape({
 				id: PropTypes.string,

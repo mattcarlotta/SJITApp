@@ -62,7 +62,7 @@ const ChangingPassword = () => (
 		&nbsp;
 		<Button
 			primary
-			width="165px"
+			width="175px"
 			padding="0px"
 			marginRight="0px"
 			style={btnStyle}

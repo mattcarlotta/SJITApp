@@ -6,10 +6,10 @@ import { Button, DisplayTeam, FadeIn, List, ListItem } from "components/Body";
 
 const iconStyle = {
 	position: "relative",
-	top: 0,
-	left: "10px",
+	verticalAlign: "middle",
+	right: "10px",
 	color: "#fff",
-	fontSize: 12,
+	fontSize: 16,
 };
 
 const ScheduleList = ({
@@ -35,6 +35,16 @@ const ScheduleList = ({
 						onClick={() => handleShowModal(item)}
 					>
 						<ListItem style={{ margin: 0, ...listStyle }}>
+							{!isEmpty(item.schedule) &&
+								item.schedule.map(({ employeeIds }) =>
+									!isEmpty(employeeIds) &&
+									employeeIds.some(({ _id }) => _id === loggedinUserId) ? (
+										<FaCalendarCheck
+											key={loggedinUserId}
+											style={{ ...iconStyle, ...scheduleIconStyle }}
+										/>
+									) : null,
+								)}
 							<DisplayTeam
 								folder={folder || "calendar"}
 								height={height}
@@ -58,16 +68,6 @@ const ScheduleList = ({
 									/>
 								</Fragment>
 							)}
-							{!isEmpty(item.schedule) &&
-								item.schedule.map(({ employeeIds }) =>
-									!isEmpty(employeeIds) &&
-									employeeIds.some(({ _id }) => _id === loggedinUserId) ? (
-										<FaCalendarCheck
-											key={loggedinUserId}
-											style={{ ...iconStyle, ...scheduleIconStyle }}
-										/>
-									) : null,
-								)}
 						</ListItem>
 					</Button>
 				</FadeIn>

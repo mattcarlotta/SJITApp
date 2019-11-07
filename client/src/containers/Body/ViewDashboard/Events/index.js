@@ -124,9 +124,9 @@ export class Events extends Component {
 													handleShowModal={this.handleShowModal}
 													loggedinUserId={this.props.loggedinUserId}
 													scheduleIconStyle={{
-														fontSize: 17,
+														fontSize: 19,
 														verticalAlign: "middle",
-														left: "20px",
+														right: "20px",
 													}}
 												/>
 											) : null,

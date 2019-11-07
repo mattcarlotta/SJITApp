@@ -14,7 +14,7 @@ const ViewingAllSeasons = () => (
 			<Link
 				blue
 				style={linkStyle}
-				to="/employee/seasons/viewall"
+				to="/employee/seasons/viewall?page=1"
 				target="_blank"
 			>
 				View Seasons
