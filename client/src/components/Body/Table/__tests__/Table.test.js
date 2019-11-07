@@ -105,7 +105,9 @@ describe("Custom Table", () => {
 
 	afterEach(() => {
 		fetchData.mockClear();
+		deleteAction.mockClear();
 		push.mockClear();
+		sendMail.mockClear();
 		jest.runAllTimers();
 	});
 
@@ -157,7 +159,6 @@ describe("Custom Table", () => {
 			const selectedKeys = ["test"];
 			wrapper.instance().handleSearch(selectedKeys, confirm);
 
-			// expect(wrapper.state("searchText")).toEqual("test");
 			expect(confirm).toHaveBeenCalledTimes(1);
 		});
 
@@ -165,7 +166,6 @@ describe("Custom Table", () => {
 			const clearFilters = jest.fn();
 			wrapper.instance().handleReset(clearFilters);
 
-			// expect(wrapper.state("searchText")).toEqual("");
 			expect(clearFilters).toHaveBeenCalledTimes(1);
 		});
 
@@ -215,14 +215,12 @@ describe("Custom Table", () => {
 				.at(1)
 				.simulate("click");
 
-			// expect(wrapper.state("searchText")).toEqual("");
 			expect(wrapper.find("div.ant-empty-image").exists()).toBeFalsy();
 
 			clickSearchIcon();
 			updateInput();
 			searchBar.find(".ant-input").simulate("keydown", { keyCode: 13 });
 
-			// expect(wrapper.state("searchText")).toEqual(value);
 			expect(wrapper.find("div.ant-empty-image").exists()).toBeTruthy();
 
 			const setSelectedKeys = jest.fn();
@@ -234,70 +232,22 @@ describe("Custom Table", () => {
 			expect(setSelectedKeys).toHaveBeenCalledWith([]);
 		});
 
-		// it("views and assigns the selected record", () => {
-		// 	wrapper
-		// 		.find("td")
-		// 		.at(5)
-		// 		.find("button")
-		// 		.first()
-		// 		.simulate("click");
-		//
-		// 	expect(push).toHaveBeenCalledWith(
-		// 		"/employee/seasons/assign/5d323ee2b02dee15483e5d9f",
-		// 	);
-		// });
-		//
-		// it("views the selected record", () => {
-		// 	wrapper
-		// 		.find("td")
-		// 		.at(5)
-		// 		.find("button")
-		// 		.at(1)
-		// 		.simulate("click");
-		//
-		// 	expect(push).toHaveBeenCalledWith(
-		// 		"/employee/seasons/view/5d323ee2b02dee15483e5d9f",
-		// 	);
-		// });
-		//
-		// it("edits the selected record", () => {
-		// 	wrapper
-		// 		.find("td")
-		// 		.at(5)
-		// 		.find("button")
-		// 		.at(2)
-		// 		.simulate("click");
-		//
-		// 	expect(push).toHaveBeenCalledWith(
-		// 		"/employee/seasons/edit/5d323ee2b02dee15483e5d9f",
-		// 	);
-		// });
-		//
-		// it("sends an email according to the selected record", () => {
-		// 	wrapper
-		// 		.find("td")
-		// 		.at(5)
-		// 		.find("button")
-		// 		.at(3)
-		// 		.simulate("click");
-		//
-		// 	expect(sendMail).toHaveBeenCalledWith("5d323ee2b02dee15483e5d9f");
-		// });
-		//
-		// it("deletes the selected record", () => {
-		// 	wrapper
-		// 		.find("td")
-		// 		.at(5)
-		// 		.find("button")
-		// 		.at(4)
-		// 		.simulate("click");
-		//
-		// 	wrapper
-		// 		.find("div.ant-popover-buttons")
-		// 		.find("button.ant-btn-primary")
-		// 		.simulate("click");
-		//
-		// 	expect(deleteAction).toHaveBeenCalledTimes(1);
-		// });
+		it("handles missing page numbers", () => {
+			wrapper.setProps({ location: { search: "" } });
+
+			expect(wrapper.state("currentPage")).toEqual(1);
+		});
+
+		it("handles and calls delete item or send mail actions", () => {
+			wrapper.instance().handleClickAction(deleteAction, data[0]);
+
+			expect(deleteAction).toHaveBeenCalledWith(data[0]._id, 2);
+		});
+
+		it("calls fetchData when the page query has been updated", () => {
+			wrapper.setProps({ location: { search: "?page=3" } });
+
+			expect(fetchData).toHaveBeenCalledTimes(3);
+		});
 	});
 });

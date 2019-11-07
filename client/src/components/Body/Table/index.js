@@ -171,7 +171,9 @@ class CustomTable extends Component {
 						position: "both",
 						current: this.state.currentPage,
 						hideOnSinglePage: true,
-						showTotal: total => <span>{total}&nbsp;items</span>,
+						showTotal: /* istanbul ignore next */ total => (
+							<span>{total}&nbsp;items</span>
+						),
 						total: this.props.totalDocs,
 					}}
 					bordered={true}
