@@ -1,5 +1,7 @@
 /* istanbul ignore file */
 
+// staff only pages
+
 // dashboard
 export { default as Dashboard } from "./Dashboard";
 

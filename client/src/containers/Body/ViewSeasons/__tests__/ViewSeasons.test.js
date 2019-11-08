@@ -17,7 +17,11 @@ const initProps = {
 	data: [],
 	deleteSeason,
 	fetchSeasons,
-	isLoading: false,
+	isLoading: true,
+	location: {
+		search: "?page=1",
+	},
+	totalDocs: 0,
 	push,
 };
 
@@ -45,7 +49,7 @@ describe("View All Seasons", () => {
 	});
 
 	it("renders FormatDate", () => {
-		wrapper.setProps({ data });
+		wrapper.setProps({ data, isLoading: false, totalDocs: 1 });
 		wrapper.update();
 
 		expect(wrapper.find("FormatDate").exists()).toBeTruthy();

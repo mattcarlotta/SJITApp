@@ -7,7 +7,9 @@ jest.mock("controllers/auth", () => ({
   signout: jest.fn((req, res, done) => done()),
 }));
 
-jest.mock("services/strategies/requireAuth", () => jest.fn((req, res, done) => done()));
+jest.mock("services/strategies/requireAuth", () =>
+  jest.fn((req, res, done) => done()),
+);
 
 describe("Signout User Route", () => {
   it("routes requests to the signout controller", async () => {

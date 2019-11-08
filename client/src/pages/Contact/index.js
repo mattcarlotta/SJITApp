@@ -1,5 +1,18 @@
-import React from "react";
+import React, { Fragment } from "react";
+import Helmet from "react-helmet";
+import { Header } from "components/Navigation";
+import { Center, Container, Title } from "components/Body";
 
-const ContactUs = () => <h1>Contact</h1>;
+const Contact = () => (
+	<Fragment>
+		<Header />
+		<Helmet title="Contact" />
+		<Container>
+			<Center>
+				<Title>Contact</Title>
+			</Center>
+		</Container>
+	</Fragment>
+);
 
-export default ContactUs;
+export default Contact;

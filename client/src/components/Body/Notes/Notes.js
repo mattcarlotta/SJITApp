@@ -3,7 +3,8 @@ import PropTypes from "prop-types";
 
 const Notes = ({ className, notes, style }) => (
 	<div className={className} style={style}>
-		<i>Special Notes: </i> {notes}
+		<i style={{ marginRight: 5 }}>Special Notes: </i>
+		<span>{notes}</span>
 	</div>
 );
 

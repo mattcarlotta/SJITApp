@@ -77,9 +77,12 @@ describe("UpdateFormFields", () => {
 				errors: "",
 				placeholder:
 					"(Optional) Include any special notes for the event above...",
+				className: "ap-form-notes",
 				required: false,
 				disabled: false,
 				width: "350px",
+				minHeight: "125px",
+				maxLength: 200,
 				rows: 3,
 			},
 		]);
@@ -128,9 +131,12 @@ describe("UpdateFormFields", () => {
 				errors: "",
 				placeholder:
 					"(Optional) Include any special notes for the event above...",
+				className: "ap-form-notes",
 				required: false,
 				disabled: false,
 				width: "350px",
+				minHeight: "125px",
+				maxLength: 200,
 				rows: 3,
 			},
 		]);

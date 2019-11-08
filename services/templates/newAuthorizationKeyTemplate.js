@@ -1,8 +1,8 @@
 export default (CLIENT, token, expiration) =>
-  `<h1 style="margin: 0; text-align: center; font-size: 40px; color: #006d75;">
+  `<h1 style="margin: 0; text-align: center; font-size: 40px; color: #025f6d;">
     Congratulations!
   </h1>
-  <h2 style="margin-bottom: 30px; font-size: 20px; text-align: center; color: #006d75;">
+  <h2 style="margin-bottom: 30px; font-size: 20px; text-align: center; color: #025f6d;">
     You have been selected to join the San Jose Sharks Ice Team!
   </h2>
   <p style="font-size: 16px; color: #000000;">
@@ -22,7 +22,7 @@ export default (CLIENT, token, expiration) =>
     <span style="font-style: italic;">The San Jose Sharks Ice Team</span>
   </p>
   <div style="margin-bottom: 20px; text-align: center">
-    <a style="font-size: 18px; text-decoration: none; line-height: 40px; width: 200px; color: #FFFFFF; background-color: #006d75; display: inline-block;" href="${CLIENT}/employee/signup/verify?token=${token}" target="_blank" rel="noopener noreferrer">Sign Up</a>
+    <a style="font-size: 18px; text-decoration: none; line-height: 40px; width: 200px; color: #FFFFFF; background-color: #025f6d; display: inline-block;" href="${CLIENT}/employee/signup/verify?token=${token}" target="_blank" rel="noopener noreferrer">Sign Up</a>
   </div>
   <div style="color:#999999;font-size:11px;text-align:center;margin-top: 10px;">
     Or click on this link:

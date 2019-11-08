@@ -1,6 +1,6 @@
 import { User } from "models";
 import { requireAuth } from "services/strategies";
-import { badCredentials } from "shared/authErrors";
+import { badCredentials, invalidSession } from "shared/authErrors";
 
 const next = jest.fn();
 
@@ -23,8 +23,11 @@ describe("Require Authentication Middleware", () => {
     const req = mockRequest();
 
     await requireAuth(req, res, next);
-    expect(res.status).toHaveBeenCalledWith(400);
-    expect(res.json).toHaveBeenCalledWith({ err: badCredentials });
+    expect(res.status).toHaveBeenCalledWith(404);
+    expect(res.json).toHaveBeenCalledWith({
+      role: "guest",
+      err: badCredentials,
+    });
     done();
   });
 
@@ -36,14 +39,18 @@ describe("Require Authentication Middleware", () => {
     const session = {
       user: {
         id: existingUser._id,
+        email: existingUser.email,
       },
     };
 
     const req = mockRequest(null, session);
 
     await requireAuth(req, res, next);
-    expect(res.status).toHaveBeenCalledWith(400);
-    expect(res.json).toHaveBeenCalledWith({ err: badCredentials });
+    expect(res.status).toHaveBeenCalledWith(404);
+    expect(res.json).toHaveBeenCalledWith({
+      role: "guest",
+      err: invalidSession,
+    });
     done();
   });
 
@@ -51,14 +58,18 @@ describe("Require Authentication Middleware", () => {
     const session = {
       user: {
         id: "5d5b5e952871780ef474807d",
+        email: "invalid@email.com",
       },
     };
 
     const req = mockRequest(null, session);
 
     await requireAuth(req, res, next);
-    expect(res.status).toHaveBeenCalledWith(400);
-    expect(res.json).toHaveBeenCalledWith({ err: badCredentials });
+    expect(res.status).toHaveBeenCalledWith(404);
+    expect(res.json).toHaveBeenCalledWith({
+      role: "guest",
+      err: invalidSession,
+    });
     done();
   });
 
@@ -69,6 +80,7 @@ describe("Require Authentication Middleware", () => {
     const session = {
       user: {
         id: existingUser._id,
+        email: existingUser.email,
       },
     };
 

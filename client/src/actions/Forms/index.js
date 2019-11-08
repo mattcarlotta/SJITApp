@@ -18,11 +18,13 @@ export const createForm = props => ({
  *
  * @function deleteForm
  * @param {string} formId
+ * @params {string} currentPage
  * @returns {object}
  */
-export const deleteForm = formId => ({
+export const deleteForm = (formId, currentPage) => ({
 	type: types.FORMS_DELETE,
 	formId,
+	currentPage,
 });
 
 /**
@@ -53,10 +55,12 @@ export const fetchFormAp = formId => ({
  * Fetches all forms.
  *
  * @function fetchForms
+ * @params {string} currentPage
  * @returns {object}
  */
-export const fetchForms = () => ({
+export const fetchForms = currentPage => ({
 	type: types.FORMS_FETCH,
+	currentPage,
 });
 
 /**
@@ -64,11 +68,23 @@ export const fetchForms = () => ({
  *
  * @function resendMail
  * @params {formId}
+ * @params {string} currentPage
  * @returns {object}
  */
-export const resendMail = formId => ({
+export const resendMail = (formId, currentPage) => ({
 	type: types.FORMS_RESEND_MAIL,
 	formId,
+	currentPage,
+});
+
+/**
+ * Reset AP responses to ensure 1:1.
+ *
+ * @function resetApForm
+ * @returns {object}
+ */
+export const resetApForm = () => ({
+	type: types.FORMS_RESET_AP,
 });
 
 /**

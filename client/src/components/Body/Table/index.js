@@ -1,67 +1,74 @@
 /* eslint-disable react/forbid-prop-types, react/jsx-boolean-value */
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
-// import isEmpty from "lodash/isEmpty";
-import { Divider, Icon, Input, Popconfirm, Table, Tooltip } from "antd";
+import qs from "qs";
+import isEmpty from "lodash/isEmpty";
+import { Icon, Input, Popover, Table } from "antd";
+import { FaSearch, FaTools } from "react-icons/fa";
 import {
-	FaEdit,
-	FaShareSquare,
-	FaSearch,
-	FaTrash,
-	FaSearchPlus,
-	FaClipboardCheck,
-} from "react-icons/fa";
-import { GoStop } from "react-icons/go";
-import { Button, FadeIn, FlexCenter, LoadingTable } from "components/Body";
+	Button,
+	FadeIn,
+	FlexCenter,
+	LoadingTable,
+	TableActions,
+} from "components/Body";
+
+const iconStyle = {
+	position: "relative",
+	top: 2,
+};
+
+const getPageNumber = query => {
+	const { page } = qs.parse(query, {
+		ignoreQueryPrefix: true,
+	});
+
+	return parseInt(page || 1, 10);
+};
 
 class CustomTable extends Component {
 	state = {
-		isLoading: true,
+		currentPage: getPageNumber(this.props.location.search),
 	};
 
+	static getDerivedStateFromProps({ location }) {
+		return {
+			currentPage: getPageNumber(location.search),
+		};
+	}
+
 	componentDidMount = () => {
-		this.props.fetchData();
-		this.setTimer();
+		const { currentPage } = this.state;
+		this.props.fetchData(currentPage);
 	};
 
 	shouldComponentUpdate = (nextProps, nextState) =>
-		nextProps.data !== this.props.data ||
-		nextState.isLoading !== this.state.isLoading;
+		nextProps.isLoading !== this.props.isLoading ||
+		nextState.currentPage !== this.state.currentPage;
 
-	componentDidUpdate = prevProps => {
-		if (this.props.data !== prevProps.data && this.state.isLoading)
-			this.clearTimer();
+	componentDidUpdate = (prevProps, prevState) => {
+		const { currentPage } = this.state;
+		const { totalDocs, data, location, push, isLoading } = this.props;
+
+		if (currentPage !== prevState.currentPage)
+			this.props.fetchData(currentPage);
+
+		if (totalDocs > 0 && isEmpty(data) && !isLoading)
+			push(`${location.pathname}?page=${Math.ceil(totalDocs / 10)}`);
 	};
 
-	/* istanbul ignore next */
-	componentWillUnmount = () => {
-		this.cancelClearTimer = true;
-		clearTimeout(this.timeout);
-	};
+	handleClickAction = (action, record) =>
+		action(record._id, this.state.currentPage);
 
-	handleClickAction = (action, record) => {
-		this.setState({ isLoading: true }, () => action(record._id));
-	};
+	handleSearch = (_, confirm) => confirm();
 
-	/* istanbul ignore next */
-	clearTimer = () => {
-		if (!this.cancelClearTimer)
-			this.setState({ isLoading: false }, () => clearTimeout(this.timeout));
-	};
+	handleReset = clearFilters => clearFilters();
 
-	setTimer = () => (this.timeout = setTimeout(this.clearTimer, 3000));
-
-	handleSearch = (_, confirm) => {
-		confirm();
-	};
-
-	handleReset = clearFilters => {
-		clearFilters();
-	};
-
-	handleSelectKeys = (value, setSelectedKeys) => {
+	handleSelectKeys = (value, setSelectedKeys) =>
 		setSelectedKeys(value ? [value] : []);
-	};
+
+	handlePageChange = ({ current: currentPage }) =>
+		this.props.push(`${this.props.location.pathname}?page=${currentPage}`);
 
 	/* istanbul ignore next */
 	getColumnSearchProps = dataIndex => ({
@@ -123,18 +130,7 @@ class CustomTable extends Component {
 	});
 
 	createTableColumns = () => {
-		const {
-			assignLocation,
-			columns,
-			deleteAction,
-			editLocation,
-			push,
-			role,
-			sendMail,
-			viewLocation,
-		} = this.props;
-
-		const notEmployee = role !== "employee";
+		const { columns } = this.props;
 
 		const tableColumns = columns.map(props => ({
 			...props,
@@ -145,123 +141,51 @@ class CustomTable extends Component {
 			title: "Actions",
 			key: "action",
 			render: (_, record) => (
-				<FlexCenter>
-					{assignLocation && notEmployee && (
-						<Fragment>
-							<Tooltip placement="top" title={<span>View & Assign</span>}>
-								<Button
-									primary
-									display="inline-block"
-									width="50px"
-									padding="3px 0 0 0"
-									marginRight="0px"
-									onClick={() =>
-										push(`/employee/${assignLocation}/assign/${record._id}`)
-									}
-								>
-									<FaClipboardCheck style={{ fontSize: 17 }} />
-								</Button>
-							</Tooltip>
-							<Divider type="vertical" />
-						</Fragment>
-					)}
-					{viewLocation && (
-						<Fragment>
-							<Tooltip placement="top" title={<span>View</span>}>
-								<Button
-									primary
-									display="inline-block"
-									width="50px"
-									padding="3px 0 0 0"
-									marginRight="0px"
-									onClick={() =>
-										push(`/employee/${viewLocation}/view/${record._id}`)
-									}
-								>
-									<FaSearchPlus style={{ fontSize: 16 }} />
-								</Button>
-							</Tooltip>
-							{notEmployee && <Divider type="vertical" />}
-						</Fragment>
-					)}
-					{editLocation && notEmployee && (
-						<Fragment>
-							<Tooltip placement="top" title={<span>Edit</span>}>
-								<Button
-									primary
-									display="inline-block"
-									width="50px"
-									padding="3px 0px 0 3px"
-									marginRight="0px"
-									onClick={() =>
-										push(`/employee/${editLocation}/edit/${record._id}`)
-									}
-								>
-									<FaEdit />
-								</Button>
-							</Tooltip>
-							<Divider type="vertical" />
-						</Fragment>
-					)}
-					{sendMail && notEmployee && (
-						<Fragment>
-							<Tooltip placement="top" title={<span>Send/Resend Mail</span>}>
-								<Button
-									primary
-									display="inline-block"
-									width="50px"
-									padding="3px 0 0 0"
-									marginRight="0px"
-									onClick={() => this.handleClickAction(sendMail, record)}
-								>
-									<FaShareSquare style={{ fontSize: 18 }} />
-								</Button>
-							</Tooltip>
-							<Divider type="vertical" />
-						</Fragment>
-					)}
-					{deleteAction && notEmployee && (
-						<Tooltip placement="top" title={<span>Delete</span>}>
-							<Popconfirm
-								placement="top"
-								title="Are you sure? This action is irreversible."
-								icon={<Icon component={GoStop} style={{ color: "red" }} />}
-								onConfirm={() => this.handleClickAction(deleteAction, record)}
-							>
-								<Button
-									danger
-									display="inline-block"
-									width="50px"
-									padding="5px 0 1px 0"
-									marginRight="0px"
-									style={{ fontSize: "16px" }}
-								>
-									<FaTrash />
-								</Button>
-							</Popconfirm>
-						</Tooltip>
-					)}
-				</FlexCenter>
+				<Popover
+					placement="bottom"
+					title={<FlexCenter>Available Actions</FlexCenter>}
+					content={
+						<TableActions
+							{...this.props}
+							record={record}
+							handleClickAction={this.handleClickAction}
+						/>
+					}
+					trigger="click"
+				>
+					<Button padding="3px" marginRight="0px" onClick={null}>
+						<FaTools style={iconStyle} />
+					</Button>
+				</Popover>
 			),
 			fixed: "right",
-			width: 100,
+			width: 50,
 		});
 
 		return tableColumns;
 	};
 
 	render = () =>
-		this.state.isLoading ? (
+		this.props.isLoading ? (
 			<LoadingTable />
 		) : (
-			<FadeIn>
+			<FadeIn timing="0.4s">
 				<Table
 					columns={this.createTableColumns()}
 					dataSource={this.props.data}
-					pagination={false}
+					pagination={{
+						position: "both",
+						current: this.state.currentPage,
+						hideOnSinglePage: true,
+						showTotal: /* istanbul ignore next */ total => (
+							<span>{total}&nbsp;items</span>
+						),
+						total: this.props.totalDocs,
+					}}
 					bordered={true}
 					rowKey="_id"
 					scroll={{ x: 1300 }}
+					onChange={this.handlePageChange}
 				/>
 			</FadeIn>
 		);
@@ -278,12 +202,14 @@ CustomTable.propTypes = {
 		}),
 	).isRequired,
 	data: PropTypes.any.isRequired,
+	isLoading: PropTypes.bool.isRequired,
+	location: PropTypes.any,
 	deleteAction: PropTypes.func,
 	editLocation: PropTypes.string,
 	fetchData: PropTypes.func.isRequired,
 	push: PropTypes.func.isRequired,
-	role: PropTypes.string,
 	sendMail: PropTypes.func,
+	totalDocs: PropTypes.number,
 	viewLocation: PropTypes.string,
 };
 

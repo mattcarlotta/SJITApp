@@ -4,6 +4,7 @@ import * as mocks from "reducers/__mocks__/reducers.mocks";
 
 const mailData = {
 	mail: mocks.mailData,
+	totalDocs: 1,
 };
 
 describe("Mail Reducer", () => {
@@ -22,6 +23,8 @@ describe("Mail Reducer", () => {
 		expect(state).toEqual({
 			data: mocks.mailData,
 			editMail: {},
+			isLoading: false,
+			totalDocs: 1,
 		});
 	});
 
@@ -60,6 +63,8 @@ describe("Mail Reducer", () => {
 		expect(state).toEqual({
 			data: [],
 			editMail: mocks.mailData[0],
+			isLoading: true,
+			totalDocs: 0,
 		});
 	});
 });

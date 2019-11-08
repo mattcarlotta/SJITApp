@@ -2,6 +2,7 @@ import { createEvent } from "controllers/event";
 import {
   invalidCreateEventRequest,
   invalidEventDate,
+  mustContainUniqueCallTimes,
   unableToLocateSeason,
 } from "shared/authErrors";
 
@@ -39,6 +40,30 @@ describe("Create Event Controller", () => {
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith({
       err: invalidCreateEventRequest,
+    });
+  });
+
+  it("handles duplicate callTimes", async () => {
+    const seasonId = "19992000";
+    const newEvent = {
+      callTimes: ["1999-10-09T19:00:38-07:00", "1999-10-09T19:00:38-07:00"],
+      eventDate: "1999-10-11T02:30:30.036+00:00",
+      eventType: "Game",
+      team: "San Jose Barracuda",
+      opponent: "San Diego Gulls",
+      location: "SAP Center at San Jose",
+      notes: "",
+      seasonId,
+      uniform: "Barracuda Jersey",
+    };
+
+    const req = mockRequest(null, null, newEvent);
+
+    await createEvent(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.json).toHaveBeenCalledWith({
+      err: mustContainUniqueCallTimes,
     });
   });
 

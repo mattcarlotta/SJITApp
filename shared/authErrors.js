@@ -17,13 +17,19 @@ const emptyPassword =
   "You must supply a new password in order to reset the old. Please try again.";
 
 const expiredForm = expirationDate =>
-  `The window to view and update this form was closed after ${expirationDate}.`;
+  `The window to view and update this form was closed on ${expirationDate}.`;
 
 const expiredToken =
   "The authorization key that was provided has expired. Please contact the staff supervisor to issue a new key.";
 
+const formAlreadyExists =
+  "The selected Enrollment Month dates have already been assigned to another A/P form. Please choose different dates.";
+
 const invalidAuthTokenRequest =
   "You must supply an email, a role, and a season before you can create an authorization key.";
+
+const invalidContactUsRequest =
+  "Unable to send your message. You must supply a message, subject, and a sendTo address in order to contact us.";
 
 const invalidCreateEventRequest =
   "You must include all required fields to create a new event.";
@@ -46,6 +52,9 @@ const invalidSendDate =
 const invalidSendEmailNoteDate =
   "The selected 'Send Email Notifications Date' has already past. Please select a later date.";
 
+const invalidSession =
+  "Your login session has expired. Please log into your account again.";
+
 const invalidSignupEmail =
   "There was a problem authenticating your request. The authorized key that was supplied does not match the staff approved email.";
 
@@ -58,13 +67,15 @@ const invalidSeason =
 const invalidSeasonId = "Invalid season. The selected season does not exist.";
 
 const invalidStatus =
-  "There was a problem authenticating your request. The account you're trying to log into has been suspended.";
+  "Your access has been denied. The account you're trying to log into has been suspended.";
 
 const invalidToken =
   "There was a problem authenticating your request. The authorized key and/or email that was supplied was invalid.";
 
 const invalidUpdateEventRequest =
   "You must inclide all fields to update an exisiting event.";
+
+const missingDates = "You must supply a start date and end date.";
 
 const missingEmailCreds =
   "That email is not associated with an active account. Please make sure the email address is spelled correctly.";
@@ -97,6 +108,9 @@ const missingUpdateMemberStatusParams =
 
 const missingUpdateTokenParams =
   "You must supply a token id, an authorized email, a role, and a season id before you can update an existing authorization key.";
+
+const mustContainUniqueCallTimes =
+  "One or more of the 'Scheduling Call Times' is a duplicate. Please remove the duplicate(s) before submitting the form again.";
 
 const needToCreateSeasonFirst =
   "You must create a season before you can start adding events and forms.";
@@ -140,11 +154,14 @@ const unableToDeleteSeason =
 const unableToDeleteMember =
   "Unable to delete that member. That member doesn't exist.";
 
+const unableToLocateContacts =
+  "Unable to locate staff or admin contacts. Please try again later.";
+
 const unableToLocateEvent =
   "Unable to locate that event. That event doesn't exist.";
 
 const unableToLocateEvents = (startMonth, endMonth) =>
-  `Unable to locate any events. Make sure to create events between ${startMonth}-${endMonth} before trying again.`;
+  `Unable to locate any events. There doesn't appear to be any events between ${startMonth}-${endMonth}.`;
 
 const unableToLocateForm =
   "Unable to locate that form. That form doesn't exist.";
@@ -188,7 +205,9 @@ export {
   emptyPassword,
   expiredForm,
   expiredToken,
+  formAlreadyExists,
   invalidAuthTokenRequest,
+  invalidContactUsRequest,
   invalidCreateEventRequest,
   invalidDeleteTokenRequest,
   invalidEmail,
@@ -199,10 +218,12 @@ export {
   invalidSeasonId,
   invalidSendDate,
   invalidSendEmailNoteDate,
+  invalidSession,
   invalidSignupEmail,
   invalidStatus,
   invalidToken,
   invalidUpdateEventRequest,
+  missingDates,
   missingEmailCreds,
   missingEventId,
   missingFormId,
@@ -216,6 +237,7 @@ export {
   missingUpdateMemberParams,
   missingUpdateMemberStatusParams,
   missingUpdateTokenParams,
+  mustContainUniqueCallTimes,
   needToCreateSeasonFirst,
   notUniquePassword,
   seasonAlreadyExists,
@@ -231,6 +253,7 @@ export {
   unableToDeleteMember,
   unableToLocateMembers,
   unableToDeleteSeason,
+  unableToLocateContacts,
   unableToLocateEvent,
   unableToLocateEvents,
   unableToLocateForm,

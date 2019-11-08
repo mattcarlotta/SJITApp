@@ -140,6 +140,17 @@ export const eventsData = [
 	},
 ];
 
+export const eventDistribution = [
+	{
+		name: "Matthew Carlotta",
+		"Event Count": 1,
+	},
+	{
+		name: "Bob Dole",
+		"Event Count": 1,
+	},
+];
+
 export const formData = [
 	{
 		_id: "0123456789",
@@ -190,6 +201,17 @@ export const memberNamesData = [
 	{
 		_id: "5d83d5b32bff0853d6539cb6",
 		email: "Bobby Axelrod <member10@example.com>",
+	},
+];
+
+export const membersAvailability = [
+	{
+		id: "Matthew Carlotta",
+		availability: 72,
+	},
+	{
+		id: "Bob Dole",
+		availability: 66,
 	},
 ];
 

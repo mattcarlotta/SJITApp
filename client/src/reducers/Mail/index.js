@@ -3,6 +3,8 @@ import * as types from "types";
 export const initialState = {
 	data: [],
 	editMail: {},
+	isLoading: true,
+	totalDocs: 0,
 };
 
 /**
@@ -18,7 +20,12 @@ const mailReducer = (state = initialState, { payload, type }) => {
 			return initialState;
 		}
 		case types.MAIL_SET: {
-			return { ...state, data: payload.mail };
+			return {
+				...state,
+				data: payload.mail,
+				totalDocs: payload.totalDocs,
+				isLoading: false,
+			};
 		}
 		case types.MAIL_SET_EDIT: {
 			return { ...state, editMail: payload };

@@ -4,6 +4,7 @@ import isEmpty from "lodash/isEmpty";
 import { Card } from "antd";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
+import { FaCalendarPlus } from "react-icons/fa";
 import { BackButton, FormContainer, SubmitButton } from "components/Body";
 import {
 	AddField,
@@ -16,7 +17,12 @@ import { fieldValidator, fieldUpdater, parseFields } from "utils";
 import updateFormFields from "./UpdateFormFields";
 import fields from "./Fields";
 
-const title = "New Event Form";
+const title = "New Event";
+const iconStyle = {
+	verticalAlign: "middle",
+	marginRight: 10,
+	fontSize: 18,
+};
 
 export class NewEventForm extends Component {
 	state = {
@@ -90,10 +96,15 @@ export class NewEventForm extends Component {
 			extra={
 				<BackButton
 					push={this.props.push}
-					location="/employee/events/viewall"
+					location="/employee/events/viewall?page=1"
 				/>
 			}
-			title={title}
+			title={
+				<Fragment>
+					<FaCalendarPlus style={iconStyle} />
+					<span css="vertical-align: middle;">{title}</span>
+				</Fragment>
+			}
 		>
 			<FormContainer>
 				<FormTitle

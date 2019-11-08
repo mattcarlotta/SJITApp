@@ -70,7 +70,7 @@ describe("Get Member Availability Controller", () => {
     await getMemberAvailability(req, res);
 
     expect(res.status).toHaveBeenCalledWith(200);
-    expect(res.send).toHaveBeenCalledWith(null);
+    expect(res.send).toHaveBeenCalledWith({});
   });
 
   it("handles valid get member events counts requests", async () => {
@@ -85,6 +85,13 @@ describe("Get Member Availability Controller", () => {
 
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.json).toHaveBeenCalledWith({
+      eventAvailability: expect.arrayContaining([
+        expect.objectContaining({
+          id: expect.any(String),
+          label: expect.any(String),
+          value: expect.any(Number),
+        }),
+      ]),
       memberResponseCount: expect.arrayContaining([
         expect.objectContaining({
           color: expect.any(String),

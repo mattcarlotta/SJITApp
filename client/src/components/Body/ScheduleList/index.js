@@ -1,36 +1,76 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
-import { Button, DisplayTeam, List, ListItem } from "components/Body";
+import { FaCalendarCheck } from "react-icons/fa";
+import { Button, DisplayTeam, FadeIn, List, ListItem } from "components/Body";
 
-const ScheduleList = ({ content, handleShowModal }) => (
+const iconStyle = {
+	position: "relative",
+	verticalAlign: "middle",
+	right: "10px",
+	color: "#fff",
+	fontSize: 16,
+};
+
+const ScheduleList = ({
+	content,
+	folder,
+	handleShowModal,
+	height,
+	width,
+	listStyle,
+	loggedinUserId,
+	scheduleIconStyle,
+	spacing,
+}) => (
 	<List>
 		{!isEmpty(content) &&
 			content.map(item => (
-				<Button
-					key={item._id}
-					primary={item.team === "San Jose Sharks"}
-					danger={item.team === "San Jose Barracuda"}
-					padding="2px 0"
-					style={{ margin: "2px 0" }}
-					onClick={() => handleShowModal(item)}
-				>
-					<ListItem style={{ margin: 0 }}>
-						<DisplayTeam folder="calendar" team={item.team} />
-						{item.opponent && (
-							<Fragment>
-								<span
-									css={`
-										margin: 0 5px;
-									`}
-								>
-									vs.
-								</span>
-								<DisplayTeam folder="calendar" team={item.opponent} />
-							</Fragment>
-						)}
-					</ListItem>
-				</Button>
+				<FadeIn key={item._id} timing="0.4s">
+					<Button
+						primary={item.team === "San Jose Sharks"}
+						danger={item.team === "San Jose Barracuda"}
+						padding="2px 0"
+						style={{ margin: "2px 0" }}
+						onClick={() => handleShowModal(item)}
+					>
+						<ListItem style={{ margin: 0, ...listStyle }}>
+							{!isEmpty(item.schedule) &&
+								item.schedule.map(({ employeeIds }) =>
+									!isEmpty(employeeIds) &&
+									employeeIds.some(({ _id }) => _id === loggedinUserId) ? (
+										<FaCalendarCheck
+											key={loggedinUserId}
+											style={{ ...iconStyle, ...scheduleIconStyle }}
+										/>
+									) : null,
+								)}
+							<DisplayTeam
+								folder={folder || "calendar"}
+								height={height}
+								width={width}
+								team={item.team}
+							/>
+							{item.opponent && (
+								<Fragment>
+									<span
+										css={`
+											margin: 0 ${spacing || 5}px;
+										`}
+									>
+										vs.
+									</span>
+									<DisplayTeam
+										height={height}
+										width={width}
+										folder={folder || "calendar"}
+										team={item.opponent}
+									/>
+								</Fragment>
+							)}
+						</ListItem>
+					</Button>
+				</FadeIn>
 			))}
 	</List>
 );
@@ -61,7 +101,18 @@ ScheduleList.propTypes = {
 			),
 		}),
 	),
+	folder: PropTypes.string,
 	handleShowModal: PropTypes.func.isRequired,
+	height: PropTypes.string,
+	listStyle: PropTypes.objectOf(
+		PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+	),
+	loggedinUserId: PropTypes.string,
+	spacing: PropTypes.number,
+	scheduleIconStyle: PropTypes.objectOf(
+		PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+	),
+	width: PropTypes.string,
 };
 
 export default ScheduleList;

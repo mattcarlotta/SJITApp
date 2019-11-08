@@ -8,6 +8,7 @@ export default styled(Button)`
 	background-color: ${props => {
 		if (props.primary) return "#025f6d";
 		if (props.danger) return "#f56342";
+		if (props.tertiary) return "#fff";
 		return "transparent";
 	}};
 	text-transform: ${props => {
@@ -25,6 +26,7 @@ export default styled(Button)`
 		${props => {
 			if (props.primary) return "#025f6d";
 			if (props.danger) return "#f56342";
+			if (props.tertiary) return "#fff";
 			return "transparent";
 		}};
 	width: ${({ width }) => width || "100%"};
@@ -46,6 +48,7 @@ export default styled(Button)`
 			${props => {
 				if (props.primary) return "#04515d";
 				if (props.danger) return "#d24b2e";
+				if (props.tertiary) return "#d8d8d8";
 				return "transparent";
 			}};
 	}

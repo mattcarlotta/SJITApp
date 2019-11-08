@@ -38,7 +38,7 @@ export default [
 		required: true,
 		disabled: true,
 		format: "MM/DD/YYYY h:mm a",
-		showTime: { format: "h:mm a", use12Hours: true, minuteStep: 15 },
+		showTime: { format: "h:mm a", use12Hours: true },
 		style: { width: "100%" },
 	},
 	{
@@ -60,6 +60,8 @@ export default [
 		name: "notes",
 		type: "textarea",
 		label: "Notes",
+		tooltip:
+			"Any notes provided below will be added to the A/P form email notifications.",
 		placeholder: "(Optional) Include any special notes to add to the form...",
 		value: "",
 		errors: "",

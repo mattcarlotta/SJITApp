@@ -53,7 +53,7 @@ describe("Update AP Form", () => {
 
   it("handles valid update/create AP form responses requests", async () => {
     const existingUser = await User.findOne({
-      email: "carlotta.matt@gmail.com",
+      email: "scheduledmember@test.com",
     });
 
     const existingForm = await Form.findOne({ notes: "Form 5" });

@@ -12,7 +12,7 @@ describe("Get All Members Controller", () => {
 
   it("handles valid get all members requests", async () => {
     const res = mockResponse();
-    const req = mockRequest();
+    const req = mockRequest(null, null, null, { page: "1" });
 
     await getAllMembers(req, res);
 
@@ -29,6 +29,7 @@ describe("Get All Members Controller", () => {
           status: expect.any(String),
         }),
       ]),
+      totalDocs: expect.any(Number),
     });
   });
 });

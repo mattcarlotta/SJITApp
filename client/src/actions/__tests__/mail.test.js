@@ -24,7 +24,18 @@ const props = {
 	subject: "Test",
 };
 
+const currentPage = 1;
+
 describe("Mail Actions", () => {
+	it("returns MAIL_CONTACT_US with props", () => {
+		const value = actions.contactUs(props);
+
+		expect(value).toEqual({
+			type: types.MAIL_CONTACT_US,
+			props,
+		});
+	});
+
 	it("returns MAIL_CREATE with props", () => {
 		const value = actions.createMail(props);
 
@@ -35,11 +46,12 @@ describe("Mail Actions", () => {
 	});
 
 	it("returns MAIL_DELETE with mailId", () => {
-		const value = actions.deleteMail(mailId);
+		const value = actions.deleteMail(mailId, currentPage);
 
 		expect(value).toEqual({
 			type: types.MAIL_DELETE,
 			mailId,
+			currentPage,
 		});
 	});
 
@@ -53,19 +65,21 @@ describe("Mail Actions", () => {
 	});
 
 	it("returns MAIL_FETCH", () => {
-		const value = actions.fetchMails();
+		const value = actions.fetchMails(currentPage);
 
 		expect(value).toEqual({
 			type: types.MAIL_FETCH,
+			currentPage,
 		});
 	});
 
 	it("returns MAIL_RESEND with mailId", () => {
-		const value = actions.resendMail(mailId);
+		const value = actions.resendMail(mailId, currentPage);
 
 		expect(value).toEqual({
 			type: types.MAIL_RESEND,
 			mailId,
+			currentPage,
 		});
 	});
 

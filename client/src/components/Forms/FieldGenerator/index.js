@@ -24,13 +24,34 @@ const removeIconStyle = {
 	right: "15px",
 };
 
+const radioLabelStyle = {
+	height: 60,
+	backgroundColor: "#025f6d",
+	color: "#fff",
+	padding: 10,
+	marginBottom: 25,
+};
+
 const radioStyle = {
 	display: "block",
 	width: "100%",
-	height: "30px",
+	height: 30,
 	lineHeight: "30px",
-	fontSize: "20px",
+	fontSize: 20,
 	margin: "10px 0",
+	color: "#000",
+};
+
+const radioContainerStyle = {
+	backgroundColor: "#ebebeb",
+	borderLeft: "1px solid",
+	borderRight: "1px solid",
+	borderTop: "1px solid",
+	borderColor: "#9e9e9e",
+	marginBottom: 0,
+	paddingBottom: 10,
+	borderTopLeftRadius: 3,
+	borderTopRightRadius: 3,
 };
 
 const FieldGenerator = ({ fields, onChange }) =>
@@ -38,7 +59,6 @@ const FieldGenerator = ({ fields, onChange }) =>
 		switch (props.type) {
 			case "text":
 			case "email":
-			case "input":
 			case "password": {
 				return <Input {...props} key={props.name} onChange={onChange} />;
 			}
@@ -129,9 +149,9 @@ const FieldGenerator = ({ fields, onChange }) =>
 			}
 			case "radiogroup": {
 				return (
-					<Form.Item key={props.name}>
-						<Label style={{ marginBottom: 25 }} {...props} />
-						{props.notes && <Notes {...props} />}
+					<Form.Item style={radioContainerStyle} key={props.name}>
+						<Label style={radioLabelStyle} {...props} />
+						{props.notes && <Notes className="ap-form-note" {...props} />}
 						<RadioGroup {...props} onChange={onChange}>
 							{!isEmpty(props.selectOptions) &&
 								props.selectOptions.map(value => (
@@ -172,14 +192,20 @@ const FieldGenerator = ({ fields, onChange }) =>
 				return (
 					<Form.Item
 						key={props.name}
-						style={{ minHeight: 105, marginBottom: props.label ? 20 : 40 }}
+						className={props.className}
+						style={{ minHeight: props.minHeight || 212 }}
 					>
 						{props.label && <Label {...props} />}
 						<TextArea
-							{...props}
+							name={props.name}
+							className={props.errors ? "has-error" : ""}
+							disabled={props.disabled}
+							maxLength={props.maxLength}
+							placeholder={props.placeholder}
 							style={{ width: props.width || "100%" }}
 							onChange={onChange}
 							rows={props.rows || 4}
+							value={props.value}
 						/>
 						{props.errors && <Errors>{props.errors}</Errors>}
 					</Form.Item>

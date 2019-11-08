@@ -68,7 +68,11 @@ const RenderEmailDetails = ({ sendDate, sendFrom, sendTo, subject }) => (
 				date:&nbsp;
 			</Text>
 			<Text>
-				<FormatDate date={sendDate} format="MMM DD, YYYY, hh:mm a" />
+				<FormatDate
+					style={{ display: "inline" }}
+					date={sendDate}
+					format="MMM DD, YYYY, hh:mm a"
+				/>
 			</Text>
 		</Flex>
 		<Flex>

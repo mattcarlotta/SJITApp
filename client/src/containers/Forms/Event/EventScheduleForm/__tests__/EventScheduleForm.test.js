@@ -61,7 +61,7 @@ const schedule = {
 
 const fetchEventForScheduling = jest.fn();
 const updateEventSchedule = jest.fn();
-const push = jest.fn();
+const goBack = jest.fn();
 const id = "0123456789";
 const match = {
 	params: {
@@ -69,10 +69,21 @@ const match = {
 	},
 };
 
+const members = [
+	{
+		name: "Matt Carlotta",
+		"Event Count": 3,
+	},
+	{
+		name: "Bob Dole",
+		"Event Count": 1,
+	},
+];
+
 const initProps = {
 	fetchEventForScheduling,
 	match,
-	push,
+	goBack,
 	schedule: {},
 	serverMessage: "",
 	updateEventSchedule,
@@ -81,7 +92,7 @@ const initProps = {
 describe("Event Schedule Form", () => {
 	let wrapper;
 	beforeEach(() => {
-		wrapper = mount(<EventScheduleForm {...initProps} />);
+		wrapper = HOCWrap(EventScheduleForm, initProps);
 	});
 
 	afterEach(() => {
@@ -103,12 +114,28 @@ describe("Event Schedule Form", () => {
 
 	describe("Form Initialized", () => {
 		beforeEach(() => {
-			wrapper.setProps({ schedule });
+			wrapper.setProps({ schedule, members });
 			wrapper.update();
 		});
 
+		it("shows and hides a modal", () => {
+			wrapper
+				.find("#event-distribution")
+				.first()
+				.simulate("click");
+			expect(wrapper.find("EventScheduleForm").state("isVisible")).toBeTruthy();
+			expect(wrapper.find("Modal").exists()).toBeTruthy();
+
+			wrapper
+				.find("#close-modal")
+				.first()
+				.simulate("click");
+			expect(wrapper.find("EventScheduleForm").state("isVisible")).toBeFalsy();
+			expect(wrapper.find("Modal").exists()).toBeFalsy();
+		});
+
 		it("initializes the form and sets isLoading to false", () => {
-			expect(wrapper.state("isLoading")).toBeFalsy();
+			expect(wrapper.find("EventScheduleForm").state("isLoading")).toBeFalsy();
 			expect(wrapper.find("Schedule").exists()).toBeTruthy();
 		});
 
@@ -120,10 +147,13 @@ describe("Event Schedule Form", () => {
 			};
 			const draggableId = "5d72dffe65ec39141ae78553";
 
-			wrapper.instance().onDragEnd({ source, destination, draggableId });
+			wrapper
+				.find("EventScheduleForm")
+				.instance()
+				.onDragEnd({ source, destination, draggableId });
 			wrapper.update();
 
-			expect(wrapper.state("columns")).toEqual([
+			expect(wrapper.find("EventScheduleForm").state("columns")).toEqual([
 				{
 					_id: "employees",
 					title: "Employees",
@@ -145,10 +175,13 @@ describe("Event Schedule Form", () => {
 			};
 			const draggableId = "5d72dffe65ec39141ae78554";
 
-			wrapper.instance().onDragEnd({ source, destination, draggableId });
+			wrapper
+				.find("EventScheduleForm")
+				.instance()
+				.onDragEnd({ source, destination, draggableId });
 			wrapper.update();
 
-			expect(wrapper.state("columns")).toEqual([
+			expect(wrapper.find("EventScheduleForm").state("columns")).toEqual([
 				{
 					_id: "employees",
 					title: "Employees",
@@ -169,11 +202,12 @@ describe("Event Schedule Form", () => {
 		it("doesn't update the employee position if an employee container was dropped outside of a drop container' slot", () => {
 			const draggableId = "5d72dffe65ec39141ae78553";
 			wrapper
+				.find("EventScheduleForm")
 				.instance()
 				.onDragEnd({ source: undefined, destination: undefined, draggableId });
 			wrapper.update();
 
-			expect(wrapper.state("columns")).toEqual([
+			expect(wrapper.find("EventScheduleForm").state("columns")).toEqual([
 				{
 					_id: "employees",
 					title: "Employees",
@@ -204,13 +238,21 @@ describe("Event Schedule Form", () => {
 				};
 				const draggableId = "5d72dffe65ec39141ae78553";
 
-				wrapper.instance().onDragEnd({ source, destination, draggableId });
-				wrapper.instance().handleSubmit({ preventDefault: () => {} });
+				wrapper
+					.find("EventScheduleForm")
+					.instance()
+					.onDragEnd({ source, destination, draggableId });
+				wrapper
+					.find("EventScheduleForm")
+					.instance()
+					.handleSubmit({ preventDefault: () => {} });
 				wrapper.update();
 			});
 
 			it("succesfully submits the form", () => {
-				expect(wrapper.state("isSubmitting")).toBeTruthy();
+				expect(
+					wrapper.find("EventScheduleForm").state("isSubmitting"),
+				).toBeTruthy();
 				expect(updateEventSchedule).toHaveBeenCalledWith({
 					_id: "5d72dffe65ec39141ae78561",
 					schedule: [
@@ -226,7 +268,9 @@ describe("Event Schedule Form", () => {
 			it("on submission error, enables the form submit button", () => {
 				wrapper.setProps({ serverMessage: "Example error message." });
 
-				expect(wrapper.state("isSubmitting")).toBeFalsy();
+				expect(
+					wrapper.find("EventScheduleForm").state("isSubmitting"),
+				).toBeFalsy();
 			});
 		});
 	});

@@ -36,15 +36,15 @@ export const showBadge = response => {
 };
 
 const Badge = ({ children, response, style }) => (
-	<p style={{ ...style, margin: 0 }}>
+	<div style={{ ...style, margin: 0 }}>
 		<FaCircle
 			style={{
 				...iconStyle,
 				color: showBadge(response),
 			}}
 		/>
-		{children}
-	</p>
+		<span style={{ position: "relative", top: "-2px" }}>{children}</span>
+	</div>
 );
 
 Badge.propTypes = {

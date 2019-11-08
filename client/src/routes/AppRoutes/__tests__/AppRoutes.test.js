@@ -1,6 +1,4 @@
-import { AppPageNotFound, Contact, Help, Settings } from "pages";
 import {
-	Dashboard,
 	EditAuthorization,
 	EditEvent,
 	EditForm,
@@ -21,9 +19,17 @@ import {
 	ViewSeasons,
 } from "pages/Staff";
 
-import { ViewApForm, ViewSchedule } from "pages/Shared";
-
-import { MemberDashboard, MemberForms } from "pages/Employee";
+import {
+	AppPageNotFound,
+	ViewApForm,
+	ViewContact,
+	ViewDashboard,
+	ViewHelp,
+	ViewLicense,
+	ViewPrivacy,
+	ViewSchedule,
+	ViewSettings,
+} from "pages/Shared";
 
 import AppRoutes from "../index";
 
@@ -41,16 +47,16 @@ describe("Application routes", () => {
 	});
 
 	describe("Staff and Admin routes", () => {
-		it("initially renders 25 routes", () => {
-			expect(wrapper.find("Route")).toHaveLength(25);
+		it("initially renders 27 routes", () => {
+			expect(wrapper.find("Route")).toHaveLength(27);
 		});
 
-		it("routes to Dashboard", () => {
+		it("routes to ViewDashboard", () => {
 			expect(
 				wrapper
 					.find("Route[exact=true][path='/employee/dashboard']")
 					.prop("component"),
-			).toBe(Dashboard);
+			).toBe(ViewDashboard);
 		});
 
 		it("routes to EventSchedule", () => {
@@ -209,35 +215,51 @@ describe("Application routes", () => {
 			).toBe(ViewSeasons);
 		});
 
-		it("routes to Settings", () => {
+		it("routes to ViewSettings", () => {
 			expect(
 				wrapper
 					.find("Route[exact=true][path='/employee/settings']")
 					.prop("component"),
-			).toBe(Settings);
+			).toBe(ViewSettings);
 		});
 
-		it("routes to Help", () => {
+		it("routes to ViewHelp", () => {
 			expect(
 				wrapper
 					.find("Route[exact=true][path='/employee/help']")
 					.prop("component"),
-			).toBe(Help);
+			).toBe(ViewHelp);
 		});
 
-		it("routes to Contact", () => {
+		it("routes to ViewContact", () => {
 			expect(
 				wrapper
-					.find("Route[exact=true][path='/employee/contact']")
+					.find("Route[exact=true][path='/employee/contact-us']")
 					.prop("component"),
-			).toBe(Contact);
+			).toBe(ViewContact);
+		});
+
+		it("routes to ViewLicense", () => {
+			expect(
+				wrapper
+					.find("Route[exact=true][path='/employee/licensing']")
+					.prop("component"),
+			).toBe(ViewLicense);
+		});
+
+		it("routes to ViewPrivacy", () => {
+			expect(
+				wrapper
+					.find("Route[exact=true][path='/employee/privacy']")
+					.prop("component"),
+			).toBe(ViewPrivacy);
 		});
 
 		it("routes to AppPageNotFound", () => {
 			expect(
 				wrapper
 					.find("Route")
-					.at(24)
+					.at(26)
 					.prop("component"),
 			).toBe(AppPageNotFound);
 		});
@@ -245,27 +267,19 @@ describe("Application routes", () => {
 
 	describe("Member Routes", () => {
 		beforeEach(() => {
-			wrapper.setProps({ role: "member" });
+			wrapper.setProps({ role: "employee" });
 		});
 
-		it("initially renders 8 routes", () => {
-			expect(wrapper.find("Route")).toHaveLength(8);
+		it("initially renders 9 routes", () => {
+			expect(wrapper.find("Route")).toHaveLength(9);
 		});
 
-		it("routes to MemberDashboard", () => {
+		it("routes to ViewDashboard", () => {
 			expect(
 				wrapper
 					.find("Route[exact=true][path='/employee/dashboard']")
 					.prop("component"),
-			).toBe(MemberDashboard);
-		});
-
-		it("routes to MemberForms", () => {
-			expect(
-				wrapper
-					.find("Route[exact=true][path='/employee/forms/viewall']")
-					.prop("component"),
-			).toBe(MemberForms);
+			).toBe(ViewDashboard);
 		});
 
 		it("routes to ViewApForm", () => {
@@ -284,35 +298,51 @@ describe("Application routes", () => {
 			).toBe(ViewSchedule);
 		});
 
-		it("routes to Settings", () => {
+		it("routes to ViewSettings", () => {
 			expect(
 				wrapper
 					.find("Route[exact=true][path='/employee/settings']")
 					.prop("component"),
-			).toBe(Settings);
+			).toBe(ViewSettings);
 		});
 
-		it("routes to Help", () => {
+		it("routes to ViewHelp", () => {
 			expect(
 				wrapper
 					.find("Route[exact=true][path='/employee/help']")
 					.prop("component"),
-			).toBe(Help);
+			).toBe(ViewHelp);
 		});
 
-		it("routes to Contact", () => {
+		it("routes to ViewContact", () => {
 			expect(
 				wrapper
-					.find("Route[exact=true][path='/employee/contact']")
+					.find("Route[exact=true][path='/employee/contact-us']")
 					.prop("component"),
-			).toBe(Contact);
+			).toBe(ViewContact);
+		});
+
+		it("routes to ViewLicense", () => {
+			expect(
+				wrapper
+					.find("Route[exact=true][path='/employee/licensing']")
+					.prop("component"),
+			).toBe(ViewLicense);
+		});
+
+		it("routes to ViewPrivacy", () => {
+			expect(
+				wrapper
+					.find("Route[exact=true][path='/employee/privacy']")
+					.prop("component"),
+			).toBe(ViewPrivacy);
 		});
 
 		it("routes to AppPageNotFound", () => {
 			expect(
 				wrapper
 					.find("Route")
-					.at(7)
+					.at(8)
 					.prop("component"),
 			).toBe(AppPageNotFound);
 		});

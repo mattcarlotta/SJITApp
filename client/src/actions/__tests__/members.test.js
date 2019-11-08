@@ -28,6 +28,8 @@ const memberData = { member: [data] };
 const tokensData = { tokens: [token] };
 const tokenData = { token: [token] };
 
+const currentPage = 1;
+
 const memberId = "1234567890";
 describe("Member Actions", () => {
 	it("returns MEMBERS_CREATE with props", () => {
@@ -46,20 +48,22 @@ describe("Member Actions", () => {
 	});
 
 	it("returns MEMBERS_DELETE with a memberId", () => {
-		const value = actions.deleteMember(memberId);
+		const value = actions.deleteMember(memberId, currentPage);
 
 		expect(value).toEqual({
 			type: types.MEMBERS_DELETE,
 			memberId,
+			currentPage,
 		});
 	});
 
 	it("returns MEMBERS_DELETE_TOKEN with a memberId", () => {
-		const value = actions.deleteToken(tokenId);
+		const value = actions.deleteToken(tokenId, currentPage);
 
 		expect(value).toEqual({
 			type: types.MEMBERS_DELETE_TOKEN,
 			tokenId,
+			currentPage,
 		});
 	});
 
@@ -73,10 +77,11 @@ describe("Member Actions", () => {
 	});
 
 	it("returns MEMBERS_FETCH", () => {
-		const value = actions.fetchMembers();
+		const value = actions.fetchMembers(currentPage);
 
 		expect(value).toEqual({
 			type: types.MEMBERS_FETCH,
+			currentPage,
 		});
 	});
 
@@ -106,6 +111,46 @@ describe("Member Actions", () => {
 		});
 	});
 
+	it("returns MEMBERS_FETCH_NAMES", () => {
+		const value = actions.fetchMemberNames();
+
+		expect(value).toEqual({
+			type: types.MEMBERS_FETCH_NAMES,
+		});
+	});
+
+	it("returns MEMBERS_FETCH_SETTINGS", () => {
+		const value = actions.fetchMemberSettings();
+
+		expect(value).toEqual({
+			type: types.MEMBERS_FETCH_SETTINGS,
+		});
+	});
+
+	it("returns MEMBERS_FETCH_SETTINGS_AVAILABILITY", () => {
+		const params = {
+			selectedDate: "2019-12-17T01:00:00-08:00",
+		};
+		const value = actions.fetchMemberSettingsAvailability(params);
+
+		expect(value).toEqual({
+			type: types.MEMBERS_FETCH_SETTINGS_AVAILABILITY,
+			params,
+		});
+	});
+
+	it("returns MEMBERS_FETCH_SETTINGS_EVENTS", () => {
+		const params = {
+			selectedDate: "2019-12-17T01:00:00-08:00",
+		};
+		const value = actions.fetchMemberSettingsEvents(params);
+
+		expect(value).toEqual({
+			type: types.MEMBERS_FETCH_SETTINGS_EVENTS,
+			params,
+		});
+	});
+
 	it("returns MEMBERS_FETCH_TOKEN", () => {
 		const value = actions.fetchToken(tokenId);
 
@@ -116,10 +161,11 @@ describe("Member Actions", () => {
 	});
 
 	it("returns MEMBERS_FETCH_TOKENS", () => {
-		const value = actions.fetchTokens();
+		const value = actions.fetchTokens(currentPage);
 
 		expect(value).toEqual({
 			type: types.MEMBERS_FETCH_TOKENS,
+			currentPage,
 		});
 	});
 
@@ -298,6 +344,20 @@ describe("Member Actions", () => {
 
 		expect(value).toEqual({
 			type: types.MEMBERS_UPDATE_TOKEN,
+			props,
+		});
+	});
+
+	it("returns MEMBERS_UPDATE_SETTINGS with props", () => {
+		const props = {
+			id: "1234567890",
+			status: "active",
+		};
+
+		const value = actions.updateSettings(props);
+
+		expect(value).toEqual({
+			type: types.MEMBERS_UPDATE_SETTINGS,
 			props,
 		});
 	});

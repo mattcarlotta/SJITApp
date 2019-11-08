@@ -51,6 +51,18 @@ const data = [
 	},
 ];
 
+const pathname = "/employees/seasons/viewall";
+
+const location = {
+	search: "?page=1",
+	pathname,
+};
+
+const nextLocation = {
+	search: "?page=2",
+	pathname,
+};
+
 const deleteAction = jest.fn();
 const fetchData = jest.fn();
 const push = jest.fn();
@@ -63,8 +75,11 @@ const initProps = {
 	deleteAction,
 	editLocation: "seasons",
 	fetchData,
+	isLoading: true,
+	location,
 	push,
 	sendMail,
+	totalDocs: 0,
 	role: "",
 	viewLocation: "seasons",
 };
@@ -75,9 +90,12 @@ const nextProps = {
 	data,
 	deleteAction,
 	editLocation: "seasons",
+	isLoading: false,
 	fetchData,
+	location: nextLocation,
 	push,
 	role: "",
+	totalDocs: 2,
 	viewLocation: "seasons",
 };
 
@@ -91,7 +109,9 @@ describe("Custom Table", () => {
 
 	afterEach(() => {
 		fetchData.mockClear();
+		deleteAction.mockClear();
 		push.mockClear();
+		sendMail.mockClear();
 		jest.runAllTimers();
 	});
 
@@ -103,14 +123,6 @@ describe("Custom Table", () => {
 		expect(fetchData).toHaveBeenCalledTimes(1);
 	});
 
-	it("sets isLoading to false after a 3s timeout and display an empty data table", () => {
-		jest.advanceTimersByTime(3100);
-		wrapper.update();
-
-		expect(wrapper.state("isLoading")).toBeFalsy();
-		expect(wrapper.find(".ant-empty-image").exists()).toBeTruthy();
-	});
-
 	describe("Ant Table With Data", () => {
 		beforeEach(() => {
 			wrapper.setProps({ ...nextProps });
@@ -120,10 +132,6 @@ describe("Custom Table", () => {
 		afterEach(() => {
 			deleteAction.mockClear();
 			push.mockClear();
-		});
-
-		it("when data is present, isLoading is false", () => {
-			expect(wrapper.state("isLoading")).toBeFalsy();
 		});
 
 		it("displays a 5 column Table component with data", () => {
@@ -155,7 +163,6 @@ describe("Custom Table", () => {
 			const selectedKeys = ["test"];
 			wrapper.instance().handleSearch(selectedKeys, confirm);
 
-			// expect(wrapper.state("searchText")).toEqual("test");
 			expect(confirm).toHaveBeenCalledTimes(1);
 		});
 
@@ -163,7 +170,6 @@ describe("Custom Table", () => {
 			const clearFilters = jest.fn();
 			wrapper.instance().handleReset(clearFilters);
 
-			// expect(wrapper.state("searchText")).toEqual("");
 			expect(clearFilters).toHaveBeenCalledTimes(1);
 		});
 
@@ -213,14 +219,12 @@ describe("Custom Table", () => {
 				.at(1)
 				.simulate("click");
 
-			// expect(wrapper.state("searchText")).toEqual("");
 			expect(wrapper.find("div.ant-empty-image").exists()).toBeFalsy();
 
 			clickSearchIcon();
 			updateInput();
 			searchBar.find(".ant-input").simulate("keydown", { keyCode: 13 });
 
-			// expect(wrapper.state("searchText")).toEqual(value);
 			expect(wrapper.find("div.ant-empty-image").exists()).toBeTruthy();
 
 			const setSelectedKeys = jest.fn();
@@ -232,70 +236,31 @@ describe("Custom Table", () => {
 			expect(setSelectedKeys).toHaveBeenCalledWith([]);
 		});
 
-		it("views and assigns the selected record", () => {
-			wrapper
-				.find("td")
-				.at(5)
-				.find("button")
-				.first()
-				.simulate("click");
+		it("handles invalid pages", () => {
+			wrapper.setProps({
+				data: [],
+				location: { pathname, search: "?page=500" },
+			});
 
-			expect(push).toHaveBeenCalledWith(
-				"/employee/seasons/assign/5d323ee2b02dee15483e5d9f",
-			);
+			expect(push).toHaveBeenCalledWith(`${pathname}?page=1`);
 		});
 
-		it("views the selected record", () => {
-			wrapper
-				.find("td")
-				.at(5)
-				.find("button")
-				.at(1)
-				.simulate("click");
+		it("handles missing page numbers", () => {
+			wrapper.setProps({ location: { pathname, search: "" } });
 
-			expect(push).toHaveBeenCalledWith(
-				"/employee/seasons/view/5d323ee2b02dee15483e5d9f",
-			);
+			expect(wrapper.state("currentPage")).toEqual(1);
 		});
 
-		it("edits the selected record", () => {
-			wrapper
-				.find("td")
-				.at(5)
-				.find("button")
-				.at(2)
-				.simulate("click");
+		it("handles and calls delete item or send mail actions", () => {
+			wrapper.instance().handleClickAction(deleteAction, data[0]);
 
-			expect(push).toHaveBeenCalledWith(
-				"/employee/seasons/edit/5d323ee2b02dee15483e5d9f",
-			);
+			expect(deleteAction).toHaveBeenCalledWith(data[0]._id, 2);
 		});
 
-		it("sends an email according to the selected record", () => {
-			wrapper
-				.find("td")
-				.at(5)
-				.find("button")
-				.at(3)
-				.simulate("click");
+		it("calls fetchData when the page query has been updated", () => {
+			wrapper.setProps({ location: { pathname, search: "?page=3" } });
 
-			expect(sendMail).toHaveBeenCalledWith("5d323ee2b02dee15483e5d9f");
-		});
-
-		it("deletes the selected record", () => {
-			wrapper
-				.find("td")
-				.at(5)
-				.find("button")
-				.at(4)
-				.simulate("click");
-
-			wrapper
-				.find("div.ant-popover-buttons")
-				.find("button.ant-btn-primary")
-				.simulate("click");
-
-			expect(deleteAction).toHaveBeenCalledTimes(1);
+			expect(fetchData).toHaveBeenCalledTimes(3);
 		});
 	});
 });

@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+import moment from "moment";
 import { connectDatabase } from "database";
 import {
   Event, Form, Mail, User, Season, Team, Token,
@@ -10,6 +11,7 @@ import {
   expirationDate,
 } from "shared/helpers";
 import config from "env";
+import teams from "./teams";
 
 const { NODE_ENV, SEED } = process.env;
 
@@ -23,96 +25,6 @@ const { admin, password } = config[NODE_ENV];
  * @returns {string} - displays a:  PASS  utils/seedDB.js message to console.
  * @throws {error} - displays a:  FAIL  utils/seedDB.js message to console with the error.
  */
-
-const teams = [
-  { team: "Anaheim Ducks", league: "NHL", name: "anaheim-ducks" },
-  { team: "Arizona Coyotes", league: "NHL", name: "arizona-coyotes" },
-  { team: "Bakersfield Condors", league: "AHL", name: "bakersfield-condors" },
-  { team: "Belleville Senators", league: "AHL", name: "belleville-senators" },
-  { team: "Binghamton Devils", league: "AHL", name: "binghamton-devils" },
-  { team: "Boston Bruins", league: "NHL", name: "boston-bruins" },
-  {
-    team: "Bridgeport Sound Tigers",
-    league: "AHL",
-    name: "bridgeport-sound-tigers",
-  },
-  { team: "Buffalo Sabres", league: "NHL", name: "buffalo-sabres" },
-  { team: "Calgary Flames", league: "NHL", name: "calgary-flames" },
-  { team: "Carolina Hurricanes", league: "NHL", name: "carolina-hurricanes" },
-  { team: "Charlotte Checkers", league: "AHL", name: "charlotte-checkers" },
-  { team: "Chicago Blackhawks", league: "NHL", name: "chicago-blackhawks" },
-  { team: "Chicago Wolves", league: "AHL", name: "chicago-wolves" },
-  { team: "Cleveland Monsters", league: "AHL", name: "cleveland-monsters" },
-  { team: "Colorado Avalanche", league: "NHL", name: "colorado-avalanche" },
-  { team: "Colorado Eagles", league: "AHL", name: "colorado-eagles" },
-  {
-    team: "Columbus Blue Jackets",
-    league: "NHL",
-    name: "columbus-blue-jackets",
-  },
-  { team: "Dallas Stars", league: "NHL", name: "dallas-stars" },
-  { team: "Detroit Red Wings", league: "NHL", name: "detroit-red-wings" },
-  { team: "Edmonton Oilers", league: "NHL", name: "edmonton-oilers" },
-  { team: "Florida Panthers", league: "NHL", name: "florida-panthers" },
-  {
-    team: "Grand Rapids Griffins",
-    league: "AHL",
-    name: "grand-rapids-griffins",
-  },
-  { team: "Hartford Wolf Pack", league: "AHL", name: "hartford-wolf-pack" },
-  { team: "Hershey Bears", league: "AHL", name: "hershey-bears" },
-  { team: "Iowa Wild", league: "AHL", name: "iowa-wild" },
-  { team: "Laval Rocket", league: "AHL", name: "laval-rocket" },
-  {
-    team: "Lehigh Valley Phantoms",
-    league: "AHL",
-    name: "lehigh-valley-phantoms",
-  },
-  { team: "Los Angeles Kings", league: "NHL", name: "los-angeles-kings" },
-  { team: "Manitoba Moose", league: "AHL", name: "manitoba-moose" },
-  { team: "Milwaukee Admirals", league: "AHL", name: "milwaukee-admirals" },
-  { team: "Minnesota Wild", league: "NHL", name: "minnesota-wild" },
-  { team: "Montreal Canadiens", league: "NHL", name: "montreal-canadiens" },
-  { team: "Nashville Predators", league: "NHL", name: "nashville-predators" },
-  { team: "New Jersey Devils", league: "NHL", name: "new-jersey-devils" },
-  { team: "New York Islanders", league: "NHL", name: "new-york-islanders" },
-  { team: "New York Rangers", league: "NHL", name: "new-york-tangers" },
-  { team: "Ontario Reign", league: "NHL", name: "ontario-reign" },
-  { team: "Ottawa Senators", league: "NHL", name: "ottawa-senators" },
-  { team: "Philadelphia Flyers", league: "NHL", name: "philadelphia-flyers" },
-  { team: "Pittsburgh Penguins", league: "NHL", name: "pittsburgh-penguins" },
-  { team: "Providence Bruins", league: "AHL", name: "providence-bruins" },
-  { team: "Rochester Americans", league: "AHL", name: "rochester-americans" },
-  { team: "Rockford Ice Hogs", league: "AHL", name: "rockford-ice-hogs" },
-  { team: "San Antonio Rampage", league: "AHL", name: "san-antonio-rampage" },
-  { team: "San Diego Gulls", league: "AHL", name: "san-diego-gulls" },
-  { team: "San Jose Barracuda", league: "AHL", name: "san-jose-barracuda" },
-  { team: "San Jose Sharks", league: "NHL", name: "san-jose-sharks" },
-  {
-    team: "Springfield Thunderbirds",
-    league: "AHL",
-    name: "springfield-thunderbirds",
-  },
-  { team: "St. Louis Blues", league: "NHL", name: "st-louis-blues" },
-  { team: "Stockton Heat", league: "AHL", name: "stockton-heat" },
-  { team: "Syracuse Crunch", league: "AHL", name: "syracuse-crunch" },
-  { team: "Tampa Bay Lightning", league: "NHL", name: "tampa-bay-lightning" },
-  { team: "Texas Stars", league: "AHL", name: "texas-stars" },
-  { team: "Toronto Maple Leafs", league: "NHL", name: "toronto-maple-leafs" },
-  { team: "Toronto Marlies", league: "AHL", name: "toronto-marlies" },
-  { team: "Tucson Roadrunners", league: "AHL", name: "tucson-roadrunners" },
-  { team: "Utica Comets", league: "AHL", name: "utica-comets" },
-  { team: "Vancouver Canucks", league: "NHL", name: "vancouver-canucks" },
-  { team: "Vegas Golden Knights", league: "NHL", name: "vegas-golden-knights" },
-  { team: "Washington Capitals", league: "NHL", name: "washington-capitals" },
-  {
-    team: "Wilkes Barre Scranton Penguins",
-    league: "AHL",
-    name: "wilkes-barre-scranton-penguins",
-  },
-  { team: "Winnipeg Jets", league: "NHL", name: "winnipeg-jets" },
-];
-
 const seedDB = async () => {
   const db = connectDatabase();
   try {
@@ -147,26 +59,102 @@ const seedDB = async () => {
       email: "carlotta.matt@gmail.com",
       role: "admin",
       token: createSignupToken(),
-      expiration: expirationDate().toDate(),
+      expiration: expirationDate().format(),
     };
 
     const newHire1 = {
       authorizedEmail: "member@example.com",
       email: "member@example.com",
-      role: "member",
+      role: "employee",
       token: createSignupToken(),
-      expiration: expirationDate().toDate(),
+      expiration: expirationDate().format(),
     };
 
     const newHire2 = {
       authorizedEmail: "member55@example.com",
       email: "",
-      role: "member",
+      role: "employee",
       token: createSignupToken(),
-      expiration: expirationDate().toDate(),
+      expiration: expirationDate().format(),
     };
 
-    await Token.insertMany([newHire, newHire1, newHire2]);
+    const newHire3 = {
+      authorizedEmail: "member66@example.com",
+      email: "",
+      role: "employee",
+      token: createSignupToken(),
+      expiration: expirationDate().format(),
+    };
+
+    const newHire4 = {
+      authorizedEmail: "member77@example.com",
+      email: "",
+      role: "employee",
+      token: createSignupToken(),
+      expiration: expirationDate().format(),
+    };
+
+    const newHire5 = {
+      authorizedEmail: "member8888@example.com",
+      email: "",
+      role: "employee",
+      token: createSignupToken(),
+      expiration: expirationDate().format(),
+    };
+
+    const newHire6 = {
+      authorizedEmail: "member9999@example.com",
+      email: "",
+      role: "employee",
+      token: createSignupToken(),
+      expiration: expirationDate().format(),
+    };
+
+    const newHire7 = {
+      authorizedEmail: "member1000@example.com",
+      email: "",
+      role: "employee",
+      token: createSignupToken(),
+      expiration: expirationDate().format(),
+    };
+
+    const newHire8 = {
+      authorizedEmail: "member1001@example.com",
+      email: "",
+      role: "employee",
+      token: createSignupToken(),
+      expiration: expirationDate().format(),
+    };
+
+    const newHire9 = {
+      authorizedEmail: "member1002@example.com",
+      email: "",
+      role: "employee",
+      token: createSignupToken(),
+      expiration: expirationDate().format(),
+    };
+
+    const newHire10 = {
+      authorizedEmail: "member1003@example.com",
+      email: "",
+      role: "employee",
+      token: createSignupToken(),
+      expiration: expirationDate().format(),
+    };
+
+    await Token.insertMany([
+      newHire,
+      newHire1,
+      newHire2,
+      newHire3,
+      newHire4,
+      newHire5,
+      newHire6,
+      newHire7,
+      newHire8,
+      newHire9,
+      newHire10,
+    ]);
 
     const adminPassword = await User.createPassword(password);
 
@@ -187,6 +175,24 @@ const seedDB = async () => {
       firstName: "Staff",
       lastName: "Member",
       role: "staff",
+      token: createRandomToken(),
+    };
+
+    const realMember = {
+      email: "carlotta.matthew@gmail.com",
+      password: memberPassword,
+      firstName: "Matthew",
+      lastName: "Carlotta",
+      role: "employee",
+      token: createRandomToken(),
+    };
+
+    const scheduledMember = {
+      email: "scheduledmember@test.com",
+      password: memberPassword,
+      firstName: "Scheduled",
+      lastName: "Member",
+      role: "employee",
       token: createRandomToken(),
     };
 
@@ -277,6 +283,36 @@ const seedDB = async () => {
       status: "active",
     };
 
+    const member299 = {
+      email: "member299@example.com",
+      password: memberPassword,
+      firstName: "Member299",
+      lastName: "Member299",
+      role: "employee",
+      token: createRandomToken(),
+      status: "active",
+    };
+
+    const member399 = {
+      email: "member399@example.com",
+      password: memberPassword,
+      firstName: "Member399",
+      lastName: "Member399",
+      role: "employee",
+      token: createRandomToken(),
+      status: "active",
+    };
+
+    const member499 = {
+      email: "member499@example.com",
+      password: memberPassword,
+      firstName: "Member499",
+      lastName: "Member499",
+      role: "employee",
+      token: createRandomToken(),
+      status: "active",
+    };
+
     const suspendedEmployee = {
       email: "suspended.employee@example.com",
       password: memberPassword,
@@ -289,7 +325,9 @@ const seedDB = async () => {
 
     await User.insertMany([
       administrator,
+      realMember,
       staffMember,
+      scheduledMember,
       member,
       member2,
       member3,
@@ -299,10 +337,13 @@ const seedDB = async () => {
       member7,
       member8,
       member9,
+      member299,
+      member399,
+      member499,
       suspendedEmployee,
     ]);
 
-    const adminAccount = await User.findOne({ email: administrator.email });
+    const scheduledUser = await User.findOne({ email: scheduledMember.email });
 
     const newEventCallTimes = [
       "2019-08-09T17:45:26-07:00",
@@ -313,15 +354,40 @@ const seedDB = async () => {
 
     const newEvent = {
       team: "San Jose Sharks",
-      opponent: "Los Angeles Kings",
+      opponent: "Winnipeg Jets",
       eventType: "Game",
       location: "Test Location",
       callTimes: newEventCallTimes,
       uniform: "Teal Jersey",
       seasonId: "20192020",
-      eventDate: "2019-08-10T02:30:31.834Z",
-      schedule: createSchedule(newEventCallTimes),
+      eventDate: "2019-02-10T02:30:31.834Z",
+      scheduledIds: [scheduledUser._id],
+      schedule: [
+        {
+          _id: "2019-02-09T17:45:26-07:00",
+          employeeIds: [scheduledUser._id],
+        },
+        {
+          _id: "2019-02-09T18:15:26-07:00",
+          employeeIds: [],
+        },
+        {
+          _id: "2019-02-09T18:30:26-07:00",
+          employeeIds: [],
+        },
+        {
+          _id: "2019-02-09T19:00:26-07:00",
+          employeeIds: [],
+        },
+      ],
       sentEmailReminders: false,
+      employeeResponses: [
+        {
+          _id: scheduledUser._id,
+          notes: "",
+          response: "I want to work.",
+        },
+      ],
     };
 
     const newEventCallTimes2 = ["2019-08-09T19:00:38-07:00"];
@@ -358,7 +424,7 @@ const seedDB = async () => {
       team: "San Jose Sharks",
       employeeResponses: [
         {
-          _id: adminAccount._id,
+          _id: scheduledUser._id,
           response: "I want to work.",
           notes: "",
         },
@@ -386,7 +452,7 @@ const seedDB = async () => {
       team: "San Jose Sharks",
       employeeResponses: [
         {
-          _id: adminAccount._id,
+          _id: scheduledUser._id,
           response: "I want to work.",
           notes: "",
         },
@@ -480,6 +546,42 @@ const seedDB = async () => {
       sentEmailReminders: true,
     };
 
+    const newEvent10 = {
+      eventType: "Game",
+      location: "SAP Center at San Jose",
+      callTimes: newEventCallTimes9,
+      uniform: "Barracuda Jacket",
+      eventDate: "2019-07-08T16:30:36.000Z",
+      notes: "Unscheduled game.",
+      opponent: "Colorado Eagles",
+      seasonId: "20192020",
+      team: "San Jose Barracuda",
+      schedule: createSchedule(newEventCallTimes9),
+      sentEmailReminders: true,
+    };
+
+    const newEvent11 = {
+      eventType: "Game",
+      location: "SAP Center at San Jose",
+      callTimes: newEventCallTimes9,
+      uniform: "Barracuda Jacket",
+      eventDate: moment().format(),
+      notes: "Unscheduled game.",
+      opponent: "Chicago Wolves",
+      seasonId: "20192020",
+      team: "San Jose Barracuda",
+      schedule: createSchedule(newEventCallTimes9),
+      scheduledIds: [scheduledUser._id],
+      sentEmailReminders: true,
+      employeeResponses: [
+        {
+          _id: scheduledUser._id,
+          response: "I want to work.",
+          notes: "",
+        },
+      ],
+    };
+
     await Event.insertMany([
       newEvent,
       newEvent2,
@@ -490,6 +592,8 @@ const seedDB = async () => {
       newEvent7,
       newEvent8,
       newEvent9,
+      newEvent10,
+      newEvent11,
     ]);
 
     await Team.insertMany(teams);
@@ -501,7 +605,7 @@ const seedDB = async () => {
       notes: "Form 1",
       seasonId: "20002001",
       sendEmailNotificationsDate: new Date("2000-08-31T07:00:00.000Z"),
-      sendEmails: false,
+      sentEmails: false,
     };
 
     const form2 = {
@@ -511,7 +615,7 @@ const seedDB = async () => {
       notes: "Form 2",
       seasonId: "20052006",
       sendEmailNotificationsDate: new Date("2005-08-31T07:00:00.000Z"),
-      sendEmails: false,
+      sentEmails: false,
     };
 
     const form3 = {
@@ -521,7 +625,7 @@ const seedDB = async () => {
       notes: "Form 3",
       seasonId: "20112012",
       sendEmailNotificationsDate: new Date("2011-08-31T07:00:00.000Z"),
-      sendEmails: false,
+      sentEmails: false,
     };
 
     const form4 = {
@@ -531,7 +635,7 @@ const seedDB = async () => {
       notes: "Form 4",
       seasonId: "20192020",
       sendEmailNotificationsDate: new Date("2019-08-31T07:00:00.000Z"),
-      sendEmails: false,
+      sentEmails: false,
     };
 
     const form5 = {
@@ -541,7 +645,7 @@ const seedDB = async () => {
       notes: "Form 5",
       seasonId: "20192020",
       sendEmailNotificationsDate: new Date("2019-09-31T07:00:00.000Z"),
-      sendEmails: false,
+      sentEmails: false,
     };
 
     const form6 = {
@@ -551,7 +655,7 @@ const seedDB = async () => {
       notes: "Form 6",
       seasonId: "20192020",
       sendEmailNotificationsDate: new Date("2019-10-31T07:00:00.000Z"),
-      sendEmails: false,
+      sentEmails: false,
     };
 
     const form7 = {
@@ -561,10 +665,33 @@ const seedDB = async () => {
       notes: "Form 7",
       seasonId: "20192020",
       sendEmailNotificationsDate: new Date("2019-11-31T07:00:00.000Z"),
-      sendEmails: true,
+      sentEmails: true,
     };
 
-    await Form.insertMany([form1, form2, form3, form4, form5, form6, form7]);
+    const form8 = {
+      expirationDate: new Date("2099-08-10T07:00:00.000Z"),
+      startMonth: moment()
+        .startOf("month")
+        .format(),
+      endMonth: moment()
+        .endOf("month")
+        .format(),
+      notes: "Todays Form",
+      seasonId: "20192020",
+      sendEmailNotificationsDate: new Date("2099-11-31T07:00:00.000Z"),
+      sentEmails: true,
+    };
+
+    await Form.insertMany([
+      form1,
+      form2,
+      form3,
+      form4,
+      form5,
+      form6,
+      form7,
+      form8,
+    ]);
 
     const newMail = {
       sendTo: ["test@test.com"],
@@ -602,7 +729,16 @@ const seedDB = async () => {
       subject: "Test 88",
     };
 
-    await Mail.insertMany([newMail, newMail2, newMail3, newMail4]);
+    const newMail5 = {
+      sendTo: ["test@test.com"],
+      sendFrom: "test@test.com",
+      sendDate: "2011-10-06T07:00:00.000+00:00",
+      message: "<span>Test 1199</span>",
+      status: "sent",
+      subject: "Test 1199",
+    };
+
+    await Mail.insertMany([newMail, newMail2, newMail3, newMail4, newMail5]);
 
     await db.close();
 

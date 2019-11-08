@@ -29,8 +29,12 @@ const initProps = {
 	data: [],
 	deleteMember,
 	fetchMembers,
-	isLoading: false,
+	isLoading: true,
+	location: {
+		search: "?page=1",
+	},
 	push,
+	totalDocs: 0,
 };
 
 const wrapper = mount(<ViewMembers {...initProps} />);
@@ -53,7 +57,7 @@ describe("View All Members", () => {
 	});
 
 	it("renders DisplayStatus and FormatDate", () => {
-		wrapper.setProps({ data });
+		wrapper.setProps({ data, isLoading: false, totalDocs: 1 });
 		wrapper.update();
 
 		expect(wrapper.find("DisplayStatus").exists()).toBeTruthy();

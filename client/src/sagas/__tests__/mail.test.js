@@ -1,4 +1,4 @@
-import { push } from "connected-react-router";
+import { goBack, push } from "connected-react-router";
 import { expectSaga, testSaga } from "redux-saga-test-plan";
 import { app } from "utils";
 import * as types from "types";
@@ -11,6 +11,7 @@ import mailReducer from "reducers/Mail";
 import { parseData, parseMessage } from "utils/parseResponse";
 
 const mailId = "0123456789";
+const currentPage = 1;
 
 describe("Mail Sagas", () => {
 	afterEach(() => {
@@ -19,6 +20,62 @@ describe("Mail Sagas", () => {
 
 	afterAll(() => {
 		mockApp.restore();
+	});
+
+	describe("Contact Us", () => {
+		let message;
+		let props;
+		beforeEach(() => {
+			message = "Successfully created a new contact us mail!";
+			props = mocks.contactUsMail;
+		});
+
+		it("logical flow matches pattern for a create contact us mail request", () => {
+			const res = { data: { message } };
+
+			testSaga(sagas.contactUs, { props })
+				.next()
+				.put(hideServerMessage())
+				.next()
+				.call(app.post, "mail/contact", { ...props })
+				.next(res)
+				.call(parseMessage, res)
+				.next(res.data.message)
+				.put(setServerMessage({ type: "success", message: res.data.message }))
+				.next()
+				.put(push("/employee/dashboard"))
+				.next()
+				.isDone();
+		});
+
+		it("successfully creates a new contact us mail", async () => {
+			mockApp.onPost("mail/contact").reply(200, { message });
+
+			return expectSaga(sagas.contactUs, { props })
+				.dispatch(actions.contactUs)
+				.withReducer(messageReducer)
+				.hasFinalState({
+					message,
+					show: true,
+					type: "success",
+				})
+				.run();
+		});
+
+		it("if API call fails, it displays a message", async () => {
+			const err = "Unable to create a new  contact us mail.";
+			mockApp.onPost("mail/contact").reply(404, { err });
+
+			return expectSaga(sagas.contactUs, { props })
+				.dispatch(actions.contactUs)
+				.withReducer(messageReducer)
+				.hasFinalState({
+					message: err,
+					show: true,
+					type: "error",
+				})
+				.run();
+		});
 	});
 
 	describe("Create Mail", () => {
@@ -42,7 +99,7 @@ describe("Mail Sagas", () => {
 				.next(res.data.message)
 				.put(setServerMessage({ type: "success", message: res.data.message }))
 				.next()
-				.put(push("/employee/mail/viewall"))
+				.put(push("/employee/mail/viewall?page=1"))
 				.next()
 				.isDone();
 		});
@@ -78,11 +135,11 @@ describe("Mail Sagas", () => {
 	});
 
 	describe("Delete Mail", () => {
-		it("logical flow matches pattern for delete mail requests", () => {
+		it("logical flow matches pattern for delete mail on page 1 requests", () => {
 			const message = "Successfully deleted the email.";
 			const res = { data: { message } };
 
-			testSaga(sagas.deleteMail, { mailId })
+			testSaga(sagas.deleteMail, { mailId, currentPage })
 				.next()
 				.put(hideServerMessage())
 				.next()
@@ -92,7 +149,26 @@ describe("Mail Sagas", () => {
 				.next(res.data.message)
 				.put(setServerMessage({ type: "success", message: res.data.message }))
 				.next()
-				.put({ type: types.MAIL_FETCH })
+				.put({ type: types.MAIL_FETCH, currentPage })
+				.next()
+				.isDone();
+		});
+
+		it("logical flow matches pattern for delete mail on page 1+ requests", () => {
+			const message = "Successfully deleted the email.";
+			const res = { data: { message } };
+
+			testSaga(sagas.deleteMail, { mailId, currentPage: 2 })
+				.next()
+				.put(hideServerMessage())
+				.next()
+				.call(app.delete, `mail/delete/${mailId}`)
+				.next(res)
+				.call(parseMessage, res)
+				.next(res.data.message)
+				.put(setServerMessage({ type: "success", message: res.data.message }))
+				.next()
+				.put(push("/employee/mail/viewall?page=1"))
 				.next()
 				.isDone();
 		});
@@ -101,7 +177,7 @@ describe("Mail Sagas", () => {
 			const message = "Successfully deleted the email.";
 			mockApp.onDelete(`mail/delete/${mailId}`).reply(200, { message });
 
-			return expectSaga(sagas.deleteMail, { mailId })
+			return expectSaga(sagas.deleteMail, { mailId, currentPage })
 				.dispatch(actions.deleteMail)
 				.withReducer(messageReducer)
 				.hasFinalState({
@@ -175,6 +251,8 @@ describe("Mail Sagas", () => {
 						...mailData.email,
 						dataSource: memberNamesData.members,
 					},
+					isLoading: true,
+					totalDocs: 0,
 				})
 				.run();
 		});
@@ -199,15 +277,15 @@ describe("Mail Sagas", () => {
 	describe("Fetch Mails", () => {
 		let mailData;
 		beforeEach(() => {
-			mailData = { mails: mocks.mailsData };
+			mailData = { mails: mocks.mailsData, totalDocs: 1 };
 		});
 
 		it("logical flow matches pattern for fetch mails requests", () => {
 			const res = { mailData };
 
-			testSaga(sagas.fetchMails)
+			testSaga(sagas.fetchMails, { currentPage })
 				.next()
-				.call(app.get, "mail/all")
+				.call(app.get, `mail/all?page=${currentPage}`)
 				.next(res)
 				.call(parseData, res)
 				.next(res.mailData)
@@ -217,23 +295,25 @@ describe("Mail Sagas", () => {
 		});
 
 		it("successfully fetches all mails", async () => {
-			mockApp.onGet("mail/all").reply(200, mailData);
+			mockApp.onGet(`mail/all?page=${currentPage}`).reply(200, mailData);
 
-			return expectSaga(sagas.fetchMails)
+			return expectSaga(sagas.fetchMails, { currentPage })
 				.dispatch(actions.fetchMails)
 				.withReducer(mailReducer)
 				.hasFinalState({
 					data: mocks.mailsData,
 					editMail: {},
+					isLoading: false,
+					totalDocs: 1,
 				})
 				.run();
 		});
 
 		it("if API call fails, it displays a message", async () => {
 			const err = "Unable to fetch mails.";
-			mockApp.onGet("mail/all").reply(404, { err });
+			mockApp.onGet(`mail/all?page=${currentPage}`).reply(404, { err });
 
-			return expectSaga(sagas.fetchMails)
+			return expectSaga(sagas.fetchMails, { currentPage })
 				.dispatch(actions.fetchMails)
 				.withReducer(messageReducer)
 				.hasFinalState({
@@ -250,7 +330,7 @@ describe("Mail Sagas", () => {
 			const message = "Successfully resent mail.";
 			const res = { data: { message } };
 
-			testSaga(sagas.resendMail, { mailId })
+			testSaga(sagas.resendMail, { mailId, currentPage })
 				.next()
 				.put(hideServerMessage())
 				.next()
@@ -260,7 +340,7 @@ describe("Mail Sagas", () => {
 				.next(res.data.message)
 				.put(setServerMessage({ type: "info", message: res.data.message }))
 				.next()
-				.put({ type: types.MAIL_FETCH })
+				.put({ type: types.MAIL_FETCH, currentPage })
 				.next()
 				.isDone();
 		});
@@ -269,7 +349,7 @@ describe("Mail Sagas", () => {
 			const message = "Successfully resent the mail.";
 			mockApp.onPut(`mail/resend/${mailId}`).reply(200, { message });
 
-			return expectSaga(sagas.resendMail, { mailId })
+			return expectSaga(sagas.resendMail, { mailId, currentPage })
 				.dispatch(actions.resendMail)
 				.withReducer(messageReducer)
 				.hasFinalState({
@@ -284,7 +364,7 @@ describe("Mail Sagas", () => {
 			const err = "Unable to resend the mail.";
 			mockApp.onPut(`mail/resend/${mailId}`).reply(404, { err });
 
-			return expectSaga(sagas.resendMail, { mailId })
+			return expectSaga(sagas.resendMail, { mailId, currentPage })
 				.dispatch(actions.resendMail)
 				.withReducer(messageReducer)
 				.hasFinalState({
@@ -317,7 +397,7 @@ describe("Mail Sagas", () => {
 				.next(res.data.message)
 				.put(setServerMessage({ type: "success", message: res.data.message }))
 				.next()
-				.put(push("/employee/mail/viewall"))
+				.put(goBack())
 				.next()
 				.isDone();
 		});

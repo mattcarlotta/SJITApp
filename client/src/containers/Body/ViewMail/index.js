@@ -4,20 +4,23 @@ import Helmet from "react-helmet";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import { Card } from "antd";
-import { FaPaperPlane, FaSync } from "react-icons/fa";
+import { FaMailBulk, FaPaperPlane } from "react-icons/fa";
 import {
 	Button,
 	DisplaySendToList,
 	EmailStatus,
 	FormatDate,
-	Flex,
 	FlexEnd,
-	FlexStart,
 	Table,
 } from "components/Body";
 import { deleteMail, fetchMails, resendMail } from "actions/Mail";
 
-const title = "View Mail";
+const title = "Mail";
+const titleIconStyle = {
+	verticalAlign: "middle",
+	marginRight: 10,
+	fontSize: 20,
+};
 
 const iconStyle = { position: "relative", top: 2 };
 
@@ -58,39 +61,33 @@ export const ViewMail = ({
 	fetchMails,
 	push,
 	resendMail,
+	...rest
 }) => (
 	<Fragment>
 		<Helmet title={title} />
-		<Card title={title}>
-			<Flex>
-				<FlexStart>
-					<Button
-						primary
-						width="180px"
-						marginRight="0px"
-						padding="5px 10px"
-						style={{ marginBottom: 20 }}
-						onClick={() => fetchMails()}
-					>
-						<FaSync style={iconStyle} />
-						&nbsp; Refresh
-					</Button>
-				</FlexStart>
-				<FlexEnd>
-					<Button
-						primary
-						width="180px"
-						marginRight="0px"
-						padding="5px 10px"
-						style={{ marginBottom: 20 }}
-						onClick={() => push("/employee/mail/create")}
-					>
-						<FaPaperPlane style={iconStyle} />
-						&nbsp; Send Mail
-					</Button>
-				</FlexEnd>
-			</Flex>
+		<Card
+			title={
+				<Fragment>
+					<FaMailBulk style={titleIconStyle} />
+					<span css="vertical-align: middle;">{title}</span>
+				</Fragment>
+			}
+		>
+			<FlexEnd>
+				<Button
+					primary
+					width="180px"
+					marginRight="0px"
+					padding="5px 10px"
+					style={{ marginBottom: 20 }}
+					onClick={() => push("/employee/mail/create")}
+				>
+					<FaPaperPlane style={iconStyle} />
+					&nbsp; Send Mail
+				</Button>
+			</FlexEnd>
 			<Table
+				{...rest}
 				columns={columns}
 				data={data}
 				deleteAction={deleteMail}
@@ -117,12 +114,16 @@ ViewMail.propTypes = {
 	),
 	deleteMail: PropTypes.func,
 	fetchMails: PropTypes.func.isRequired,
+	isLoading: PropTypes.bool.isRequired,
 	push: PropTypes.func,
 	resendMail: PropTypes.func.isRequired,
+	totalDocs: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = state => ({
 	data: state.mail.data,
+	isLoading: state.mail.isLoading,
+	totalDocs: state.mail.totalDocs,
 });
 
 const mapDispatchToProps = {

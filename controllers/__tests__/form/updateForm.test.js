@@ -2,6 +2,7 @@ import moment from "moment";
 import { Form } from "models";
 import { updateForm } from "controllers/form";
 import {
+  formAlreadyExists,
   invalidExpirationDate,
   invalidSendDate,
   unableToLocateForm,
@@ -61,6 +62,32 @@ describe("Update Form Controller", () => {
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith({
       err: unableToUpdateForm,
+    });
+  });
+
+  it("handles form already exists requests", async () => {
+    const existingForm = await Form.findOne({ notes: "Form 1" });
+
+    const updatedForm = {
+      _id: existingForm._id,
+      expirationDate: new Date(""),
+      enrollMonth: [
+        new Date("2005-08-01T07:00:00.000Z"),
+        new Date("2005-08-31T07:00:00.000Z"),
+      ],
+      notes: "Form 1",
+      seasonId: "20002001",
+      sendEmailNotificationsDate: new Date(),
+      sentEmails: false,
+    };
+
+    const req = mockRequest(null, null, updatedForm);
+
+    await updateForm(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.json).toHaveBeenCalledWith({
+      err: formAlreadyExists,
     });
   });
 
@@ -141,8 +168,8 @@ describe("Update Form Controller", () => {
     const updatedFormDetails = {
       ...newForm,
       enrollMonth: [
-        "2019-08-01T07:00:00.000+00:00",
-        "2019-08-31T07:00:00.000+00:00",
+        "2021-08-01T07:00:00.000+00:00",
+        "2021-08-31T07:00:00.000+00:00",
       ],
     };
 

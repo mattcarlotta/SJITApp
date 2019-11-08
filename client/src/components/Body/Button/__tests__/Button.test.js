@@ -91,6 +91,27 @@ describe("Styled Button", () => {
 		});
 	});
 
+	it("displays a tertiary button when passed a 'tertiary' prop", () => {
+		wrapper.setProps({ tertiary: true });
+		const StyledButton = findStyledButton();
+
+		expect(StyledButton).toHaveStyleRule("cursor", "pointer");
+		expect(StyledButton).toHaveStyleRule("color", "#025f6d");
+		expect(StyledButton).toHaveStyleRule("background-color", "#fff");
+		expect(StyledButton).toHaveStyleRule("text-transform", "none");
+		expect(StyledButton).toHaveStyleRule("border", "2px solid #fff");
+
+		expect(StyledButton).toHaveStyleRule("color", "#04515d", {
+			modifier: ":hover",
+		});
+		expect(StyledButton).toHaveStyleRule("background-color", "#d8d8d8", {
+			modifier: ":hover",
+		});
+		expect(StyledButton).toHaveStyleRule("border", "2px solid #d8d8d8", {
+			modifier: ":hover",
+		});
+	});
+
 	it("disables the button when passed a 'disabled' prop", () => {
 		wrapper.setProps({ disabled: true });
 		const StyledButton = findStyledButton();

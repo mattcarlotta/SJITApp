@@ -1,13 +1,58 @@
-import { Mail } from "models";
-import { createDate, getStartOfDay, sendError } from "shared/helpers";
+import get from "lodash/get";
+import isEmpty from "lodash/isEmpty";
+import { Mail, User } from "models";
+import { createDate, getStartOfDay, getUsers, sendError } from "shared/helpers";
 import {
+  invalidContactUsRequest,
   invalidSendDate,
   missingMailId,
   unableToCreateNewMail,
   unableToDeleteMail,
+  unableToLocateContacts,
+  unableToLocateMembers,
   unableToLocateMail,
   unableToUpdateMail,
 } from "shared/authErrors";
+
+const contactUs = async (req, res) => {
+  try {
+    const { message, sendTo, subject } = req.body;
+    if (!message || !sendTo || !subject) throw invalidContactUsRequest;
+
+    const role = sendTo.toLowerCase();
+
+    const members = await getUsers({
+      match: {
+        role: { $eq: role },
+      },
+      project: {
+        id: 1,
+        email: {
+          $concat: ["$firstName", " ", "$lastName", " ", "<", "$email", ">"],
+        },
+      },
+    });
+    /* istanbul ignore next */
+    if (isEmpty(members)) throw unableToLocateMembers;
+
+    const mailingAddresses = members.map(({ email }) => email);
+    const { firstName, lastName, email } = req.session.user;
+
+    await Mail.create({
+      sendTo: mailingAddresses,
+      sendFrom: `${firstName} ${lastName} <${email}>`,
+      sendDate: createDate().format(),
+      subject,
+      message: `<span>${message}</span>`,
+    });
+
+    res.status(201).json({
+      message: `Thank you for contacting us. The ${role} has received your message. Expect a response within 24 hours.`,
+    });
+  } catch (err) {
+    return sendError(err, res);
+  }
+};
 
 const createMail = async (req, res) => {
   try {
@@ -24,7 +69,7 @@ const createMail = async (req, res) => {
       ? sendEmailDate.format("MMMM Do YYYY @ hh:mm a")
       : "shortly";
 
-    const newMail = await Mail.create({
+    await Mail.create({
       message,
       sendDate: sendEmailDate.format(),
       sendFrom,
@@ -56,10 +101,23 @@ const deleteMail = async (req, res) => {
   }
 };
 
-const getAllMail = async (_, res) => {
-  const mail = await Mail.find({}, { __v: 0 }).sort("-sendDate");
+const getAllMail = async (req, res) => {
+  try {
+    const { page } = req.query;
 
-  res.status(200).json({ mail });
+    const results = await Mail.paginate(
+      {},
+      { sort: { sendDate: -1 }, page, limit: 10, select: "-notes -__v" },
+    );
+
+    const mail = get(results, ["docs"]);
+    const totalDocs = get(results, ["totalDocs"]);
+
+    res.status(200).json({ mail, totalDocs });
+  } catch (err) {
+    /* istanbul ignore next */
+    return sendError(err, res);
+  }
 };
 
 const getMail = async (req, res) => {
@@ -131,4 +189,12 @@ const updateMail = async (req, res) => {
   }
 };
 
-export { createMail, deleteMail, getAllMail, getMail, resendMail, updateMail };
+export {
+  contactUs,
+  createMail,
+  deleteMail,
+  getAllMail,
+  getMail,
+  resendMail,
+  updateMail,
+};

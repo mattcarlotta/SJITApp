@@ -9,7 +9,7 @@ describe("Auth Errors", () => {
     const expirationDate = "August 27th, 2019";
     const message = expiredForm(expirationDate);
     expect(message).toEqual(
-      `The window to view and update this form was closed after ${expirationDate}.`,
+      `The window to view and update this form was closed on ${expirationDate}.`,
     );
   });
 
@@ -30,7 +30,7 @@ describe("Auth Errors", () => {
     const message = unableToLocateEvents(startMonth, endMonth);
 
     expect(message).toEqual(
-      `Unable to locate any events. Make sure to create events between ${startMonth}-${endMonth} before trying again.`,
+      `Unable to locate any events. There doesn't appear to be any events between ${startMonth}-${endMonth}.`,
     );
   });
 });

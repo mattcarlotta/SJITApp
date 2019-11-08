@@ -12,7 +12,7 @@ describe("Get All Forms Controller", () => {
 
   it("handles valid get all forms requests", async () => {
     const res = mockResponse();
-    const req = mockRequest();
+    const req = mockRequest(null, null, null, { page: "1" });
 
     await getAllForms(req, res);
 
@@ -21,13 +21,15 @@ describe("Get All Forms Controller", () => {
       forms: expect.arrayContaining([
         expect.objectContaining({
           _id: expect.any(ObjectId),
-          expirationDate: expect.any(Date),
-          startMonth: expect.any(Date),
           endMonth: expect.any(Date),
-          notes: expect.any(String),
+          expirationDate: expect.any(Date),
           seasonId: expect.any(String),
+          sendEmailNotificationsDate: expect.any(Date),
+          sentEmails: expect.any(Boolean),
+          startMonth: expect.any(Date),
         }),
       ]),
+      totalDocs: expect.any(Number),
     });
   });
 });

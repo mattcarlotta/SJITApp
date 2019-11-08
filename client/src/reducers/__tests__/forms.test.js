@@ -4,6 +4,7 @@ import * as mocks from "reducers/__mocks__/reducers.mocks";
 
 const formsData = {
 	forms: mocks.formData,
+	totalDocs: 1,
 };
 
 const apformData = {
@@ -26,6 +27,8 @@ describe("Form Reducer", () => {
 
 		expect(state).toEqual({
 			data: mocks.formData,
+			isLoading: false,
+			totalDocs: 1,
 			editForm: {},
 			events: [],
 			viewForm: {},
@@ -43,6 +46,8 @@ describe("Form Reducer", () => {
 			editForm: {},
 			events: mocks.eventsApData,
 			viewForm: mocks.formData,
+			isLoading: true,
+			totalDocs: 0,
 		});
 	});
 
@@ -83,6 +88,8 @@ describe("Form Reducer", () => {
 			editForm: { ...mocks.formData },
 			events: [],
 			viewForm: {},
+			isLoading: true,
+			totalDocs: 0,
 		});
 	});
 });

@@ -1,4 +1,4 @@
-import { push } from "connected-react-router";
+import { goBack, push } from "connected-react-router";
 import { expectSaga, testSaga } from "redux-saga-test-plan";
 import { app } from "utils";
 import * as types from "types";
@@ -11,6 +11,7 @@ import formReducer from "reducers/Forms";
 import { parseData, parseMessage } from "utils/parseResponse";
 
 const formId = "0123456789";
+const currentPage = 1;
 
 describe("Form Sagas", () => {
 	afterEach(() => {
@@ -21,7 +22,7 @@ describe("Form Sagas", () => {
 		mockApp.restore();
 	});
 
-	describe("Create Member", () => {
+	describe("Create Form", () => {
 		let message;
 		let props;
 		beforeEach(() => {
@@ -42,7 +43,7 @@ describe("Form Sagas", () => {
 				.next(res.data.message)
 				.put(setServerMessage({ type: "success", message: res.data.message }))
 				.next()
-				.put(push("/employee/forms/viewall"))
+				.put(push("/employee/forms/viewall?page=1"))
 				.next()
 				.isDone();
 		});
@@ -78,11 +79,11 @@ describe("Form Sagas", () => {
 	});
 
 	describe("Delete Form", () => {
-		it("logical flow matches pattern for delete form requests", () => {
+		it("logical flow matches pattern for delete form on page 1 requests", () => {
 			const message = "Successfully deleted form.";
 			const res = { data: { message } };
 
-			testSaga(sagas.deleteForm, { formId })
+			testSaga(sagas.deleteForm, { formId, currentPage })
 				.next()
 				.put(hideServerMessage())
 				.next()
@@ -92,7 +93,26 @@ describe("Form Sagas", () => {
 				.next(res.data.message)
 				.put(setServerMessage({ type: "success", message: res.data.message }))
 				.next()
-				.put({ type: types.FORMS_FETCH })
+				.put({ type: types.FORMS_FETCH, currentPage })
+				.next()
+				.isDone();
+		});
+
+		it("logical flow matches pattern for delete form on page 1+ requests", () => {
+			const message = "Successfully deleted form.";
+			const res = { data: { message } };
+
+			testSaga(sagas.deleteForm, { formId, currentPage: 2 })
+				.next()
+				.put(hideServerMessage())
+				.next()
+				.call(app.delete, `form/delete/${formId}`)
+				.next(res)
+				.call(parseMessage, res)
+				.next(res.data.message)
+				.put(setServerMessage({ type: "success", message: res.data.message }))
+				.next()
+				.put(push("/employee/forms/viewall?page=1"))
 				.next()
 				.isDone();
 		});
@@ -101,7 +121,7 @@ describe("Form Sagas", () => {
 			const message = "Successfully deleted the form.";
 			mockApp.onDelete(`form/delete/${formId}`).reply(200, { message });
 
-			return expectSaga(sagas.deleteForm, { formId })
+			return expectSaga(sagas.deleteForm, { formId, currentPage })
 				.dispatch(actions.deleteForm)
 				.withReducer(messageReducer)
 				.hasFinalState({
@@ -116,7 +136,7 @@ describe("Form Sagas", () => {
 			const err = "Unable to delete the form.";
 			mockApp.onDelete(`form/delete/${formId}`).reply(404, { err });
 
-			return expectSaga(sagas.deleteForm, { formId })
+			return expectSaga(sagas.deleteForm, { formId, currentPage })
 				.dispatch(actions.deleteForm)
 				.withReducer(messageReducer)
 				.hasFinalState({
@@ -162,7 +182,7 @@ describe("Form Sagas", () => {
 				.isDone();
 		});
 
-		it("successfully fetches a fetch form for editing", async () => {
+		it("successfully fetches a form for editing", async () => {
 			mockApp.onGet(`form/edit/${formId}`).reply(200, data);
 
 			mockApp
@@ -180,6 +200,8 @@ describe("Form Sagas", () => {
 					},
 					events: [],
 					viewForm: {},
+					isLoading: true,
+					totalDocs: 0,
 				})
 				.run();
 		});
@@ -229,7 +251,7 @@ describe("Form Sagas", () => {
 				.isDone();
 		});
 
-		it("successfully fetches a fetch AP form for editing", async () => {
+		it("successfully fetches an AP form for editing", async () => {
 			mockApp.onGet(`form/view/${formId}`).reply(200, data);
 
 			return expectSaga(sagas.fetchFormAp, { formId })
@@ -240,6 +262,8 @@ describe("Form Sagas", () => {
 					editForm: {},
 					events: mocks.eventsData,
 					viewForm: mocks.formsData,
+					isLoading: true,
+					totalDocs: 0,
 				})
 				.run();
 		});
@@ -263,15 +287,15 @@ describe("Form Sagas", () => {
 	describe("Fetch Forms", () => {
 		let data;
 		beforeEach(() => {
-			data = { forms: mocks.formsData };
+			data = { forms: mocks.formsData, totalDocs: 1 };
 		});
 
 		it("logical flow matches pattern for fetch forms requests", () => {
 			const res = { data };
 
-			testSaga(sagas.fetchForms)
+			testSaga(sagas.fetchForms, { formId, currentPage })
 				.next()
-				.call(app.get, "forms/all")
+				.call(app.get, `forms/all?page=${currentPage}`)
 				.next(res)
 				.call(parseData, res)
 				.next(res.data)
@@ -281,13 +305,15 @@ describe("Form Sagas", () => {
 		});
 
 		it("successfully fetches all forms", async () => {
-			mockApp.onGet("forms/all").reply(200, data);
+			mockApp.onGet(`forms/all?page=${currentPage}`).reply(200, data);
 
-			return expectSaga(sagas.fetchForms)
+			return expectSaga(sagas.fetchForms, { currentPage })
 				.dispatch(actions.fetchForms)
 				.withReducer(formReducer)
 				.hasFinalState({
 					data: mocks.formsData,
+					isLoading: false,
+					totalDocs: 1,
 					editForm: {},
 					events: [],
 					viewForm: {},
@@ -297,9 +323,9 @@ describe("Form Sagas", () => {
 
 		it("if API call fails, it displays a message", async () => {
 			const err = "Unable to fetch forms.";
-			mockApp.onGet("forms/all").reply(404, { err });
+			mockApp.onGet(`forms/all?page=${currentPage}`).reply(404, { err });
 
-			return expectSaga(sagas.fetchForms)
+			return expectSaga(sagas.fetchForms, { currentPage })
 				.dispatch(actions.fetchForms)
 				.withReducer(messageReducer)
 				.hasFinalState({
@@ -316,7 +342,7 @@ describe("Form Sagas", () => {
 			const message = "Successfully resent mail.";
 			const res = { data: { message } };
 
-			testSaga(sagas.resendFormEmails, { formId })
+			testSaga(sagas.resendFormEmails, { formId, currentPage })
 				.next()
 				.put(hideServerMessage())
 				.next()
@@ -326,7 +352,7 @@ describe("Form Sagas", () => {
 				.next(res.data.message)
 				.put(setServerMessage({ type: "info", message: res.data.message }))
 				.next()
-				.put({ type: types.FORMS_FETCH })
+				.put({ type: types.FORMS_FETCH, currentPage })
 				.next()
 				.isDone();
 		});
@@ -335,7 +361,7 @@ describe("Form Sagas", () => {
 			const message = "Successfully resent the form mail.";
 			mockApp.onPut(`form/resend-email/${formId}`).reply(200, { message });
 
-			return expectSaga(sagas.resendFormEmails, { formId })
+			return expectSaga(sagas.resendFormEmails, { formId, currentPage })
 				.dispatch(actions.resendFormEmails)
 				.withReducer(messageReducer)
 				.hasFinalState({
@@ -350,7 +376,7 @@ describe("Form Sagas", () => {
 			const err = "Unable to resend the form mail.";
 			mockApp.onPut(`form/resend-email/${formId}`).reply(404, { err });
 
-			return expectSaga(sagas.resendFormEmails, { formId })
+			return expectSaga(sagas.resendFormEmails, { formId, currentPage })
 				.dispatch(actions.resendFormEmails)
 				.withReducer(messageReducer)
 				.hasFinalState({
@@ -383,7 +409,7 @@ describe("Form Sagas", () => {
 				.next(res.data.message)
 				.put(setServerMessage({ type: "success", message: res.data.message }))
 				.next()
-				.put(push("/employee/forms/viewall"))
+				.put(goBack())
 				.next()
 				.isDone();
 		});
@@ -439,7 +465,7 @@ describe("Form Sagas", () => {
 				.next(res.data.message)
 				.put(setServerMessage({ type: "success", message: res.data.message }))
 				.next()
-				.put(push("/employee/forms/viewall"))
+				.put(push("/employee/dashboard"))
 				.next()
 				.isDone();
 		});

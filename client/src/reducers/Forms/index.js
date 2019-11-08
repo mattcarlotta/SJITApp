@@ -4,6 +4,8 @@ export const initialState = {
 	data: [],
 	editForm: {},
 	events: [],
+	isLoading: true,
+	totalDocs: 0,
 	viewForm: {},
 };
 
@@ -17,9 +19,16 @@ const formReducer = (state = initialState, { payload, type }) => {
 	switch (type) {
 		case types.FORMS_EDIT:
 		case types.FORMS_FETCH:
+		case types.FORMS_FETCH_AP:
+		case types.FORMS_RESET_AP:
 			return initialState;
 		case types.FORMS_SET: {
-			return { ...state, data: payload.forms };
+			return {
+				...state,
+				data: payload.forms,
+				totalDocs: payload.totalDocs,
+				isLoading: false,
+			};
 		}
 		case types.FORMS_SET_AP: {
 			return {

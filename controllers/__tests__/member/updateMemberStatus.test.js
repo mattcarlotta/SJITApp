@@ -53,7 +53,7 @@ describe("Update Member Status Controller", () => {
   });
 
   it("handles valid reactivate/suspend member requests", async () => {
-    const email = "member8@example.com";
+    const email = "member299@example.com";
     let existingMember = await findExistingMember(email);
 
     let req = mockRequest(null, null, {

@@ -4,7 +4,7 @@ const handleShowModal = jest.fn();
 
 const content = [
 	{
-		_id: "0123456789",
+		_id: "012345678949823222332233232195",
 		eventDate: "2019-08-03T00:30:00.00+00:00",
 		eventNotes: "Sharks Fan Fest",
 		eventType: "Promotional",
@@ -12,13 +12,25 @@ const content = [
 		opponent: "",
 		response: "",
 		team: "San Jose Sharks",
-		schedule: [],
+		schedule: [
+			{
+				_id: "2019-08-02T00:30:00.00+00:00",
+				title: "12:30 am",
+				employeeIds: [
+					{
+						_id: "88",
+						firstName: "Bob",
+						lastName: "Dole",
+					},
+				],
+			},
+		],
 	},
 ];
 
 const game = [
 	{
-		_id: "0123456789",
+		_id: "01234567894151595",
 		eventDate: "2019-08-03T00:30:00.00+00:00",
 		eventNotes: "",
 		eventType: "Game",
@@ -38,7 +50,7 @@ const initProps = {
 describe("Schedule List", () => {
 	let wrapper;
 	beforeEach(() => {
-		wrapper = shallow(<ScheduleList {...initProps} />);
+		wrapper = mount(<ScheduleList {...initProps} />);
 	});
 
 	it("renders without errors", () => {
@@ -52,6 +64,11 @@ describe("Schedule List", () => {
 	it("renders a Button when 'content' is present", () => {
 		wrapper.setProps({ content });
 		expect(wrapper.find("Button").exists()).toBeTruthy();
+	});
+
+	it("highlights the loggedinUserId when present", () => {
+		wrapper.setProps({ content, loggedinUserId: "88" });
+		expect(wrapper.find("FaCalendarCheck").exists()).toBeTruthy();
 	});
 
 	it("renders an opponent image when an 'opponent' props is present", () => {

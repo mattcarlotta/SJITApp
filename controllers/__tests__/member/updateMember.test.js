@@ -113,7 +113,11 @@ describe("Update Member Controller", () => {
     const updatedMember = await User.findOne(
       { email: changedMember.email },
       {
-        _id: 0, email: 1, firstName: 1, lastName: 1, role: 1,
+        _id: 0,
+        email: 1,
+        firstName: 1,
+        lastName: 1,
+        role: 1,
       },
     ).lean();
 

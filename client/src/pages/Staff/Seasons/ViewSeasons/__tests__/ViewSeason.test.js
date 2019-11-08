@@ -1,6 +1,12 @@
 import ViewSeasonForm from "../index";
 
-const wrapper = HOCWrap(ViewSeasonForm);
+const initProps = {
+	location: {
+		search: "?page=1",
+	},
+};
+
+const wrapper = HOCWrap(ViewSeasonForm, initProps);
 
 describe("View Season Form", () => {
 	it("renders the page without errors", () => {

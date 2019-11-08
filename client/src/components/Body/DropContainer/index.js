@@ -1,9 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
+import { Tooltip } from "antd";
+import { FaFileAlt } from "react-icons/fa";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 import {
-	Badge,
 	Column,
 	ColumnTitle,
 	Footer,
@@ -35,21 +36,23 @@ const DropContainer = ({ id, title, users, width }) => (
 											{...draggableProps}
 											{...eventHandlers}
 											isDragging={isDragging}
+											response={response}
 										>
-											<Badge response={response} style={{ margin: 0 }}>
+											<div>
 												{firstName} {lastName}
-											</Badge>
-											{notes && (
-												<p
-													css={`
-														margin: 0;
-														padding-left: 25px;
-														font-style: italic;
-													`}
-												>
-													({notes})
-												</p>
-											)}
+												{notes && (
+													<Tooltip trigger="hover" title={notes}>
+														<FaFileAlt
+															style={{
+																marginLeft: 5,
+																fontSize: 14,
+																position: "relative",
+																top: 2,
+															}}
+														/>
+													</Tooltip>
+												)}
+											</div>
 										</User>
 									)}
 								</Draggable>

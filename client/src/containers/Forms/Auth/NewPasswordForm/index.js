@@ -5,6 +5,7 @@ import { Modal, SubmitButton } from "components/Body";
 import { FieldGenerator, FormTitle } from "components/Forms";
 import { fieldValidator, fieldUpdater, parseFields, parseToken } from "utils";
 import { updateUserPassword } from "actions/Auth";
+import fields from "./Fields";
 
 export class NewPasswordForm extends Component {
 	constructor(props) {
@@ -14,17 +15,7 @@ export class NewPasswordForm extends Component {
 		if (!token) props.push("/employee/login");
 
 		this.state = {
-			fields: [
-				{
-					name: "password",
-					type: "password",
-					label: "New Password",
-					icon: "lock",
-					value: "",
-					errors: "",
-					required: true,
-				},
-			],
+			fields,
 			token,
 			isSubmitting: false,
 		};
@@ -44,14 +35,17 @@ export class NewPasswordForm extends Component {
 		e.preventDefault();
 		const { validatedFields, errors } = fieldValidator(this.state.fields);
 
-		this.setState({ fields: validatedFields, isSubmitting: !errors }, () => {
-			if (!errors) {
-				const { token } = this.state;
-				const parsedFields = parseFields(validatedFields);
+		this.setState(
+			{ fields: !errors ? fields : validatedFields, isSubmitting: !errors },
+			() => {
+				if (!errors) {
+					const { token } = this.state;
+					const parsedFields = parseFields(validatedFields);
 
-				this.props.updateUserPassword({ ...parsedFields, token });
-			}
-		});
+					this.props.updateUserPassword({ ...parsedFields, token });
+				}
+			},
+		);
 	};
 
 	render = () => (

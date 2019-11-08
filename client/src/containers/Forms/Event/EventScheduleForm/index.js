@@ -3,18 +3,26 @@ import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
 import { Card } from "antd";
 import { connect } from "react-redux";
-import { push } from "connected-react-router";
+import { goBack } from "connected-react-router";
+import { FaChartBar, FaClipboardCheck } from "react-icons/fa";
 import {
+	Button,
 	BackButton,
 	Center,
 	MemberEventCountChart,
+	Modal,
 	SubmitButton,
 } from "components/Body";
 import { FormTitle, LoadingScheduleForm } from "components/Forms";
 import { fetchEventForScheduling, updateEventSchedule } from "actions/Events";
 import Schedule from "./Schedule";
 
-const title = "Event Schedule Form";
+const title = "Event Scheduling";
+const iconStyle = {
+	verticalAlign: "middle",
+	marginRight: 10,
+	fontSize: 20,
+};
 
 export class EventScheduleForm extends Component {
 	state = {
@@ -23,6 +31,7 @@ export class EventScheduleForm extends Component {
 		columns: [],
 		isLoading: true,
 		isSubmitting: false,
+		isVisible: false,
 	};
 
 	static getDerivedStateFromProps = ({ schedule, serverMessage }, state) => {
@@ -116,6 +125,9 @@ export class EventScheduleForm extends Component {
 		}
 	};
 
+	handleToggleModal = () =>
+		this.setState(prevState => ({ isVisible: !prevState.isVisible }));
+
 	handleSubmit = e => {
 		e.preventDefault();
 		const { event, columns } = this.state;
@@ -129,13 +141,13 @@ export class EventScheduleForm extends Component {
 
 	render = () => (
 		<Card
-			extra={
-				<BackButton
-					push={this.props.push}
-					location="/employee/events/viewall"
-				/>
+			extra={<BackButton push={this.props.goBack} />}
+			title={
+				<Fragment>
+					<FaClipboardCheck style={iconStyle} />
+					<span css="vertical-align: middle;">{title}</span>
+				</Fragment>
 			}
-			title={title}
 		>
 			<Center>
 				<FormTitle
@@ -149,7 +161,19 @@ export class EventScheduleForm extends Component {
 					<LoadingScheduleForm />
 				) : (
 					<Fragment>
-						<MemberEventCountChart {...this.props} />
+						<Button
+							id="event-distribution"
+							primary
+							padding="8px"
+							width="335px"
+							style={{ margin: "0 auto" }}
+							onClick={this.handleToggleModal}
+						>
+							<FaChartBar
+								style={{ position: "relative", top: 4, marginRight: 5 }}
+							/>{" "}
+							Monthly Event Distribution
+						</Button>
 						<Schedule {...this.state} handleDrag={this.onDragEnd} />
 					</Fragment>
 				)}
@@ -160,6 +184,15 @@ export class EventScheduleForm extends Component {
 					isSubmitting={this.state.isSubmitting}
 				/>
 			</form>
+			{this.state.isVisible && (
+				<Modal maxWidth="100%" onClick={this.handleToggleModal}>
+					<MemberEventCountChart
+						height="600px"
+						style={{ marginTop: 20 }}
+						{...this.props}
+					/>
+				</Modal>
+			)}
 		</Card>
 	);
 }
@@ -214,7 +247,7 @@ EventScheduleForm.propTypes = {
 			id: PropTypes.string,
 		}),
 	}).isRequired,
-	push: PropTypes.func.isRequired,
+	goBack: PropTypes.func.isRequired,
 	serverMessage: PropTypes.string,
 	updateEventSchedule: PropTypes.func.isRequired,
 };
@@ -227,7 +260,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
 	fetchEventForScheduling,
-	push,
+	goBack,
 	updateEventSchedule,
 };
 

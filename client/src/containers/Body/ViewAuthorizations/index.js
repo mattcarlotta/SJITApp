@@ -4,7 +4,7 @@ import Helmet from "react-helmet";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import { Card } from "antd";
-import { FaUserPlus } from "react-icons/fa";
+import { FaKey, FaUserPlus } from "react-icons/fa";
 import {
 	Button,
 	FormatDate,
@@ -14,7 +14,12 @@ import {
 } from "components/Body";
 import { deleteToken, fetchTokens } from "actions/Members";
 
-const title = "View Authorizations";
+const title = "Authorizations";
+const iconStyle = {
+	verticalAlign: "middle",
+	marginRight: 10,
+	fontSize: 20,
+};
 
 const columns = [
 	{
@@ -29,7 +34,7 @@ const columns = [
 		key: "authorizedEmail",
 	},
 	{ title: "Role", dataIndex: "role", key: "role" },
-	{ title: "Token", dataIndex: "token", key: "token" },
+	{ title: "Authorization Key", dataIndex: "token", key: "token" },
 	{
 		title: "Expiration Date",
 		dataIndex: "expiration",
@@ -44,10 +49,18 @@ export const ViewAuthorizations = ({
 	fetchTokens,
 	push,
 	tokens,
+	...rest
 }) => (
 	<Fragment>
 		<Helmet title={title} />
-		<Card title={title}>
+		<Card
+			title={
+				<Fragment>
+					<FaKey style={iconStyle} />
+					<span css="vertical-align: middle;">{title}</span>
+				</Fragment>
+			}
+		>
 			<FlexEnd>
 				<Button
 					primary
@@ -62,6 +75,7 @@ export const ViewAuthorizations = ({
 				</Button>
 			</FlexEnd>
 			<Table
+				{...rest}
 				columns={columns}
 				data={tokens}
 				deleteAction={deleteToken}
@@ -76,6 +90,7 @@ export const ViewAuthorizations = ({
 ViewAuthorizations.propTypes = {
 	deleteToken: PropTypes.func,
 	fetchTokens: PropTypes.func.isRequired,
+	isLoading: PropTypes.bool.isRequired,
 	push: PropTypes.func,
 	tokens: PropTypes.arrayOf(
 		PropTypes.shape({
@@ -86,10 +101,13 @@ ViewAuthorizations.propTypes = {
 			token: PropTypes.string,
 		}),
 	),
+	totalDocs: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = state => ({
 	tokens: state.members.tokens,
+	isLoading: state.members.isLoading,
+	totalDocs: state.members.totalDocs,
 });
 
 const mapDispatchToProps = {

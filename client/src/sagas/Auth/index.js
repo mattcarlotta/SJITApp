@@ -7,6 +7,27 @@ import { parseData, parseMessage } from "utils/parseResponse";
 import * as types from "types";
 
 /**
+ * Removes the current user from a session.
+ *
+ * @generator
+ * @function signoutUser
+ * @yields {object} - A redux action to remove the current user from state.
+ * @yields {action} - A redux action to push to a URL.
+ * @throws {action} - A redux action to display a server message by type.
+ */
+export function* signoutUserSession() {
+	try {
+		yield call(app.get, "signout");
+
+		yield put(signout());
+
+		yield put(push("/employee/login"));
+	} catch (e) {
+		yield put(setServerMessage({ type: "error", message: e.toString() }));
+	}
+}
+
+/**
  * Attempts to automatically sign user in via a session.
  *
  * @generator
@@ -53,7 +74,7 @@ export function* resetPassword({ props }) {
 			}),
 		);
 
-		yield put(push("/employee/login"));
+		yield call(signoutUserSession);
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
@@ -78,27 +99,6 @@ export function* signinUser({ props }) {
 		const data = yield call(parseData, res);
 
 		yield put(signin(data));
-	} catch (e) {
-		yield put(setServerMessage({ type: "error", message: e.toString() }));
-	}
-}
-
-/**
- * Removes the current user from a session.
- *
- * @generator
- * @function signoutUser
- * @yields {object} - A redux action to remove the current user from state.
- * @yields {action} - A redux action to push to a URL.
- * @throws {action} - A redux action to display a server message by type.
- */
-export function* signoutUser() {
-	try {
-		yield call(app.get, "signout");
-
-		yield put(signout());
-
-		yield put(push("/employee/login"));
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
@@ -162,7 +162,7 @@ export function* updateUserPassword({ props }) {
 			}),
 		);
 
-		yield put(push("/employee/login"));
+		yield call(signoutUserSession);
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
@@ -180,7 +180,7 @@ export default function* authSagas() {
 		takeLatest(types.USER_SIGNIN_SESSION, authenticateUser),
 		takeLatest(types.USER_PASSWORD_RESET, resetPassword),
 		takeLatest(types.USER_SIGNIN_ATTEMPT, signinUser),
-		takeLatest(types.USER_SIGNOUT_SESSION, signoutUser),
+		takeLatest(types.USER_SIGNOUT_SESSION, signoutUserSession),
 		takeLatest(types.USER_SIGNUP, signupUser),
 		takeLatest(types.USER_PASSWORD_UPDATE, updateUserPassword),
 	]);

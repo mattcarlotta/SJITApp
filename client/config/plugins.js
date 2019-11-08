@@ -5,7 +5,8 @@ const { DefinePlugin, HotModuleReplacementPlugin } = require("webpack");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const FriendlyErrorsWebpackPlugin = require("friendly-errors-webpack-plugin");
 const WebpackBar = require("webpackbar");
-const { cssFolder, faviconPath, templatePath } = require("./paths");
+const ManifestPlugin = require("webpack-manifest-plugin");
+const { cssFolder, faviconPath, publicPath, templatePath } = require("./paths");
 const { APIPORT, inDevelopment, NODE_ENV, PORT } = require("./envs");
 
 // =============================================================== //
@@ -53,6 +54,21 @@ module.exports = () => {
 			"process.env.NODE_ENV": JSON.stringify(NODE_ENV),
 			"process.env.PORT": JSON.stringify(PORT),
 		}),
+		/* generates an manifest for all assets */
+		new ManifestPlugin({
+			fileName: "asset-manifest.json",
+			publicPath,
+			generate: (seed, files) => {
+				const manifestFiles = files.reduce(function(manifest, file) {
+					manifest[file.name] = file.path;
+					return manifest;
+				}, seed);
+
+				return {
+					files: manifestFiles,
+				};
+			},
+		}),
 	];
 
 	/* development webpack plugins */
@@ -69,7 +85,7 @@ module.exports = () => {
 			/* compiles SCSS to a single CSS file */
 			new MiniCssExtractPlugin({
 				filename: `${cssFolder}/[name].[contenthash:8].css`,
-				chunkFilename: `[id].[contenthash:8].css`,
+				chunkFilename: `${cssFolder}/[id].[contenthash:8].css`,
 			}),
 			/* removes old build folder for each new compile */
 			new CleanWebpackPlugin(),

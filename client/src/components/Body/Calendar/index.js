@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
+import get from "lodash/get";
 import moment from "moment";
 import { Calendar } from "antd";
 import { ScheduleList, ScheduleHeader, ScheduleModal } from "components/Body";
@@ -14,7 +15,7 @@ class CustomCalendar extends Component {
 	constructor(props) {
 		super(props);
 
-		const { id } = props.match.params;
+		const id = get(props, ["match", "params", "id"]);
 
 		this.state = {
 			id: props.id || id,
@@ -96,6 +97,7 @@ class CustomCalendar extends Component {
 		<ScheduleHeader
 			{...this.state}
 			{...props}
+			role={this.props.role}
 			handleSelection={this.handleSelection}
 		/>
 	);
@@ -113,7 +115,13 @@ class CustomCalendar extends Component {
 			: [];
 
 		return (
-			<ScheduleList content={content} handleShowModal={this.handleShowModal} />
+			<ScheduleList
+				loggedinUserId={this.props.loggedinUserId}
+				content={content}
+				handleShowModal={this.handleShowModal}
+				height="20px"
+				width="20px"
+			/>
 		);
 	};
 
@@ -144,7 +152,8 @@ CustomCalendar.propTypes = {
 		params: PropTypes.shape({
 			id: PropTypes.string,
 		}),
-	}).isRequired,
+	}),
+	role: PropTypes.string,
 	scheduleEvents: PropTypes.arrayOf(
 		PropTypes.shape({
 			_id: PropTypes.string,

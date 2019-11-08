@@ -47,7 +47,7 @@ describe("Resend Email Controller", () => {
   });
 
   it("handles valid resend form email notifications requests", async () => {
-    const subject = "Test 2";
+    const subject = "Test 1199";
     let exisitingMail = await Mail.findOne({
       subject,
     });

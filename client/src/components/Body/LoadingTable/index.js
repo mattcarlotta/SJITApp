@@ -3,7 +3,6 @@ import styled from "styled-components";
 import LoadingTable from "./LoadingTable";
 
 export default styled(LoadingTable)`
-	height: 290px;
 	width: 100%;
 	border: 1px solid #e8e8e8;
 	margin-bottom: 40px;
@@ -15,7 +14,7 @@ export default styled(LoadingTable)`
 	}
 
 	& .tbody {
-		height: 230px;
+		height: 600px;
 		width: 100%;
 		-webkit-animation: pulse 1.2s infinite;
 		animation: pulse 1.2s infinite;

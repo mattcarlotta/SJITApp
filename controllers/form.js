@@ -1,14 +1,17 @@
 import moment from "moment";
+import get from "lodash/get";
 import isEmpty from "lodash/isEmpty";
 import { Event, Form, Season } from "models";
 import {
   convertId,
   createDate,
+  getMonthDateRange,
   getStartOfDay,
   sendError,
 } from "shared/helpers";
 import {
   expiredForm,
+  formAlreadyExists,
   invalidExpirationDate,
   invalidSendDate,
   invalidSendEmailNoteDate,
@@ -39,6 +42,12 @@ const createForm = async (req, res) => {
     if (!seasonExists) throw unableToLocateSeason;
 
     const [startMonth, endMonth] = enrollMonth;
+    const existingForms = await Form.find({
+      startMonth: { $gte: startMonth },
+      endMonth: { $lte: endMonth },
+    });
+    if (!isEmpty(existingForms)) throw formAlreadyExists;
+
     const sendEmailsDate = createDate(sendEmailNotificationsDate).format();
     const currentDay = getStartOfDay();
 
@@ -65,10 +74,10 @@ const deleteForm = async (req, res) => {
     const { id: _id } = req.params;
     if (!_id) throw missingFormId;
 
-    const existingEvent = await Form.findOne({ _id });
-    if (!existingEvent) throw unableToDeleteForm;
+    const existingForm = await Form.findOne({ _id });
+    if (!existingForm) throw unableToDeleteForm;
 
-    await existingEvent.delete();
+    await existingForm.delete();
 
     res.status(200).json({ message: "Successfully deleted the form." });
   } catch (err) {
@@ -76,23 +85,23 @@ const deleteForm = async (req, res) => {
   }
 };
 
-const getAllForms = async (_, res) => {
-  const forms = await Form.aggregate([
-    { $sort: { startMonth: -1 } },
-    {
-      $project: {
-        seasonId: 1,
-        startMonth: 1,
-        endMonth: 1,
-        expirationDate: 1,
-        notes: 1,
-        sendEmailNotificationsDate: 1,
-        sentEmails: 1,
-      },
-    },
-  ]);
+const getAllForms = async (req, res) => {
+  try {
+    const { page } = req.query;
 
-  res.status(200).json({ forms });
+    const results = await Form.paginate(
+      {},
+      { sort: { startMonth: -1 }, page, limit: 10, select: "-notes -__v" },
+    );
+
+    const forms = get(results, ["docs"]);
+    const totalDocs = get(results, ["totalDocs"]);
+
+    res.status(200).json({ forms, totalDocs });
+  } catch (err) {
+    /* istanbul ignore next */
+    return sendError(err, res);
+  }
 };
 
 const getForm = async (req, res) => {
@@ -151,6 +160,12 @@ const updateForm = async (req, res) => {
     if (!formExists) throw unableToLocateForm;
 
     const [startMonth, endMonth] = enrollMonth;
+    const existingForms = await Form.find({
+      _id: { $ne: formExists._id },
+      startMonth: { $gte: startMonth },
+      endMonth: { $lte: endMonth },
+    });
+    if (!isEmpty(existingForms)) throw formAlreadyExists;
 
     const currentDay = getStartOfDay();
     const sendEmailsDate = createDate(sendEmailNotificationsDate).format();
@@ -183,10 +198,11 @@ const updateApForm = async (req, res) => {
     const formExists = await Form.findOne({ _id });
     if (!formExists) throw unableToLocateForm;
 
+    const { id: userId } = req.session.user;
+
     await Event.bulkWrite(
       responses.map(response => {
         const { id: eventId, value, notes, updateEvent } = response;
-        const { id: userId } = req.session.user;
 
         const filter = updateEvent
           ? {

@@ -84,7 +84,7 @@ describe("UpdateFormFields", () => {
 			icon: "puck",
 			value: "",
 			errors: "",
-			required: true,
+			required: false,
 			disabled: true,
 			selectOptions: ["Anaheim Ducks"],
 		};

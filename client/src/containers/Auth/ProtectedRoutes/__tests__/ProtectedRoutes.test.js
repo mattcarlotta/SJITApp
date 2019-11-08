@@ -4,12 +4,9 @@ import {
 	ResetPasswordForm,
 	SignupForm,
 } from "containers/Forms";
-import { ProtectedRoutes } from "../index";
+import { ProtectedRoutes, authError, sessionError } from "../index";
 
 const signin = jest.fn();
-
-const authError =
-	"There was a problem with your login credentials. Please make sure your username and password are correct.";
 
 const initProps = {
 	firstName: "",
@@ -48,6 +45,11 @@ describe("Protected Routes Middleware", () => {
 
 		it("logs the user out if an authError was returned from the API", () => {
 			wrapper.setProps({ serverMessage: authError });
+			expect(signin).toHaveBeenCalledTimes(1);
+		});
+
+		it("logs the user out if an sessionError was returned from the API", () => {
+			wrapper.setProps({ serverMessage: sessionError });
 			expect(signin).toHaveBeenCalledTimes(1);
 		});
 

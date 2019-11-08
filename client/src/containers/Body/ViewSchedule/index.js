@@ -2,16 +2,29 @@ import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import Helmet from "react-helmet";
 import { connect } from "react-redux";
+import { FaCalendar } from "react-icons/fa";
 import { Card } from "antd";
 import { Calendar } from "components/Body";
 import { fetchScheduleEvents } from "actions/Events";
 
-const title = "View Schedule";
+const title = "Schedule";
+const iconStyle = {
+	verticalAlign: "middle",
+	marginRight: 10,
+	fontSize: 20,
+};
 
 export const ViewSchedule = ({ fetchScheduleEvents, ...rest }) => (
 	<Fragment>
 		<Helmet title={title} />
-		<Card title={title}>
+		<Card
+			title={
+				<Fragment>
+					<FaCalendar style={iconStyle} />
+					<span css="vertical-align: middle;">{title}</span>
+				</Fragment>
+			}
+		>
 			<Calendar {...rest} fetchAction={fetchScheduleEvents} />
 		</Card>
 	</Fragment>
@@ -20,6 +33,7 @@ export const ViewSchedule = ({ fetchScheduleEvents, ...rest }) => (
 ViewSchedule.propTypes = {
 	fetchScheduleEvents: PropTypes.func.isRequired,
 	loggedinUserId: PropTypes.string.isRequired,
+	role: PropTypes.string.isRequired,
 	scheduleEvents: PropTypes.arrayOf(
 		PropTypes.shape({
 			_id: PropTypes.string,
@@ -51,6 +65,7 @@ ViewSchedule.propTypes = {
 const mapStateToProps = state => ({
 	loggedinUserId: state.auth.id,
 	scheduleEvents: state.events.scheduleEvents,
+	role: state.auth.role,
 });
 
 /* istanbul ignore next */

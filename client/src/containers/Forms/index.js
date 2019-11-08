@@ -17,6 +17,7 @@ export { default as NewForm } from "./Form/NewForm";
 export { default as ViewApForm } from "./Form/ViewApForm";
 
 // mail
+export { default as ContactForm } from "./Mail/ContactForm";
 export { default as EditMailForm } from "./Mail/EditMailForm";
 export { default as SendMailForm } from "./Mail/SendMailForm";
 
@@ -26,6 +27,7 @@ export {
 } from "./Member/EditAuthorizationForm";
 export { default as EditMemberForm } from "./Member/EditMemberForm";
 export { default as NewMemberForm } from "./Member/NewMemberForm";
+export { default as UpdateSettingsForm } from "./Member/UpdateSettingsForm";
 
 // season
 export { default as EditSeasonForm } from "./Season/EditSeasonForm";

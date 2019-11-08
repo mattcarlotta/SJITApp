@@ -4,7 +4,7 @@ import Helmet from "react-helmet";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import { Card } from "antd";
-import { FaUserPlus } from "react-icons/fa";
+import { FaUserPlus, FaUsers } from "react-icons/fa";
 import {
 	Button,
 	DisplayStatus,
@@ -14,7 +14,12 @@ import {
 } from "components/Body";
 import { deleteMember, fetchMembers } from "actions/Members";
 
-const title = "View Members";
+const title = "Members";
+const iconStyle = {
+	verticalAlign: "middle",
+	marginRight: 10,
+	fontSize: 20,
+};
 
 const columns = [
 	{
@@ -31,14 +36,27 @@ const columns = [
 		title: "Registered",
 		dataIndex: "registered",
 		key: "registered",
-		render: date => <FormatDate format="MM/DD/YYYY" date={date} />,
+		render: date => <FormatDate format="MM/DD/YYYY @ hh:mm a" date={date} />,
 	},
 ];
 
-export const ViewMembers = ({ data, deleteMember, fetchMembers, push }) => (
+export const ViewMembers = ({
+	data,
+	deleteMember,
+	fetchMembers,
+	push,
+	...rest
+}) => (
 	<Fragment>
 		<Helmet title={title} />
-		<Card title={title}>
+		<Card
+			title={
+				<Fragment>
+					<FaUsers style={iconStyle} />
+					<span css="vertical-align: middle;">{title}</span>
+				</Fragment>
+			}
+		>
 			<FlexEnd>
 				<Button
 					primary
@@ -53,6 +71,7 @@ export const ViewMembers = ({ data, deleteMember, fetchMembers, push }) => (
 				</Button>
 			</FlexEnd>
 			<Table
+				{...rest}
 				columns={columns}
 				data={data}
 				deleteAction={deleteMember}
@@ -78,11 +97,15 @@ ViewMembers.propTypes = {
 	),
 	deleteMember: PropTypes.func,
 	fetchMembers: PropTypes.func.isRequired,
+	isLoading: PropTypes.bool.isRequired,
 	push: PropTypes.func,
+	totalDocs: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = state => ({
 	data: state.members.data,
+	isLoading: state.members.isLoading,
+	totalDocs: state.members.totalDocs,
 });
 
 const mapDispatchToProps = {

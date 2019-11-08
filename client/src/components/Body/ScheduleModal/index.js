@@ -90,20 +90,24 @@ const ScheduleModal = ({
 											<Bold style={{ paddingLeft: 10 }}>
 												<FaClock
 													style={{
-														marginRight: 5,
-														fontSize: 15,
+														marginRight: 7,
+														fontSize: 14,
 														position: "relative",
 														top: 1,
 													}}
 												/>
-												<FormatDate format="hh:mm a" date={_id} />
+												<FormatDate
+													style={{ display: "inline" }}
+													format="hh:mm a"
+													date={_id}
+												/>
 											</Bold>
 											{!isEmpty(employeeIds) ? (
 												employeeIds.map(({ _id, firstName, lastName }) => (
 													<ListItem
 														className="employee"
 														style={{
-															marginLeft: 20,
+															marginLeft: 15,
 															paddingLeft: 10,
 															backgroundColor:
 																_id === id || _id === loggedinUserId
@@ -113,12 +117,23 @@ const ScheduleModal = ({
 																_id === id || _id === loggedinUserId
 																	? "#fff"
 																	: "rgba(0,0,0,0.65)",
+															fontWeight:
+																_id === id || _id === loggedinUserId
+																	? "bold"
+																	: "normal",
 														}}
 														key={_id}
 													>
-														<FaCalendarCheck
-															style={{ fontSize: 14, marginRight: 8 }}
-														/>
+														<span css="margin-right: 5px;">&#9900;</span>
+														{(_id === id || _id === loggedinUserId) && (
+															<span css="margin-right: 5px;">
+																<FaCalendarCheck
+																	style={{
+																		fontSize: 14,
+																	}}
+																/>
+															</span>
+														)}
 														<span>
 															{firstName} {lastName}
 														</span>

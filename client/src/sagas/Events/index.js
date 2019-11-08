@@ -1,4 +1,4 @@
-import { push } from "connected-react-router";
+import { goBack, push } from "connected-react-router";
 import { all, put, call, takeLatest } from "redux-saga/effects";
 import { app } from "utils";
 import { hideServerMessage, setServerMessage } from "actions/Messages";
@@ -39,7 +39,7 @@ export function* createEvent({ props }) {
 			}),
 		);
 
-		yield put(push("/employee/events/viewall"));
+		yield put(push("/employee/events/viewall?page=1"));
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
@@ -50,7 +50,7 @@ export function* createEvent({ props }) {
  *
  * @generator
  * @function deleteEvent
- * @param {object} eventId
+ * @params {object} - eventId and currentPage
  * @yields {object} - A response from a call to the API.
  * @function parseMessage - Returns a parsed res.data.message.
  * @yields {action} - A redux action to display a server message by type.
@@ -58,7 +58,7 @@ export function* createEvent({ props }) {
  * @throws {action} - A redux action to display a server message by type.
  */
 
-export function* deleteEvent({ eventId }) {
+export function* deleteEvent({ eventId, currentPage }) {
 	try {
 		yield put(hideServerMessage());
 
@@ -72,7 +72,11 @@ export function* deleteEvent({ eventId }) {
 			}),
 		);
 
-		yield put({ type: types.EVENTS_FETCH });
+		if (currentPage > 1) {
+			yield put(push("/employee/events/viewall?page=1"));
+		} else {
+			yield put({ type: types.EVENTS_FETCH, currentPage: 1 });
+		}
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
@@ -148,15 +152,16 @@ export function* fetchEventForScheduling({ eventId }) {
  *
  * @generator
  * @function fetchEvents
+ * @param {string} currentPage
  * @yields {object} - A response from a call to the API.
  * @function parseData - Returns a parsed res.data.
  * @yields {action} - A redux action to set events data to redux state.
  * @throws {action} - A redux action to display a server message by type.
  */
 
-export function* fetchEvents() {
+export function* fetchEvents({ currentPage }) {
 	try {
-		const res = yield call(app.get, "events/all");
+		const res = yield call(app.get, `events/all?page=${currentPage}`);
 		const data = yield call(parseData, res);
 
 		yield put(setEvents(data));
@@ -228,13 +233,14 @@ export function* initializeNewEvent() {
  *
  * @generator
  * @function resendEventEmails
+ * @params {object} - eventId and currentPage
  * @yields {object} - A response from a call to the API.
  * @function parseData - Returns a parsed res.data.
  * @yields {action} - A redux action to set forms data to redux state.
  * @throws {action} - A redux action to display a server message by type.
  */
 
-export function* resendEventEmails({ eventId }) {
+export function* resendEventEmails({ eventId, currentPage }) {
 	try {
 		yield put(hideServerMessage());
 
@@ -248,7 +254,7 @@ export function* resendEventEmails({ eventId }) {
 			}),
 		);
 
-		yield put({ type: types.EVENTS_FETCH });
+		yield put({ type: types.EVENTS_FETCH, currentPage });
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
@@ -281,7 +287,7 @@ export function* updateEvent({ props }) {
 			}),
 		);
 
-		yield put(push("/employee/events/viewall"));
+		yield put(goBack());
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
@@ -314,7 +320,7 @@ export function* updateEventSchedule({ props }) {
 			}),
 		);
 
-		yield put(push("/employee/events/viewall"));
+		yield put(goBack());
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}

@@ -12,7 +12,10 @@ export const AccountButton = ({ firstName, lastName, push, signoutUser }) => {
 	const options = (
 		<Menu style={{ padding: 0 }}>
 			<MenuItem>
-				<MenuButton height="30px" onClick={() => push("/employee/settings")}>
+				<MenuButton
+					style={{ width: "100%" }}
+					onClick={() => push("/employee/settings")}
+				>
 					<MenuItemContainer>
 						<FaCogs />
 						<MenuItemTitle>Settings</MenuItemTitle>
@@ -20,7 +23,7 @@ export const AccountButton = ({ firstName, lastName, push, signoutUser }) => {
 				</MenuButton>
 			</MenuItem>
 			<MenuItem>
-				<MenuButton height="30px" onClick={signoutUser}>
+				<MenuButton style={{ width: "100%" }} onClick={signoutUser}>
 					<MenuItemContainer>
 						<FaSignOutAlt />
 						<MenuItemTitle>Logout</MenuItemTitle>
@@ -31,10 +34,13 @@ export const AccountButton = ({ firstName, lastName, push, signoutUser }) => {
 	);
 
 	return (
-		<Dropdown overlay={options} trigger={["click"]} placement="bottomRight">
-			<MenuButton hoverable style={{ padding: "0 20px", marginRight: 0 }}>
-				<FaUserCircle style={{ position: "relative", top: 3 }} />
-				<MenuItemTitle>
+		<Dropdown overlay={options} trigger={["click"]} placement="bottomCenter">
+			<MenuButton
+				hoverable
+				style={{ padding: "0 20px", marginRight: 0, height: 64 }}
+			>
+				<FaUserCircle style={{ verticalAlign: "middle" }} />
+				<MenuItemTitle style={{ verticalAlign: "middle" }}>
 					{firstName} {lastName}
 				</MenuItemTitle>
 			</MenuButton>

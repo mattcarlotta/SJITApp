@@ -3,15 +3,21 @@ import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
 import moment from "moment";
 import { connect } from "react-redux";
-import { push } from "connected-react-router";
+import { goBack } from "connected-react-router";
 import { Card } from "antd";
+import { FaEdit } from "react-icons/fa";
 import { BackButton, FormContainer, SubmitButton } from "components/Body";
 import { FieldGenerator, FormTitle, LoadingForm } from "components/Forms";
 import { fetchSeason, updateSeason } from "actions/Seasons";
 import { fieldUpdater, parseFields } from "utils";
 import fields from "./Fields";
 
-const title = "Edit Season Form";
+const title = "Edit Season";
+const iconStyle = {
+	verticalAlign: "middle",
+	marginRight: 10,
+	fontSize: 20,
+};
 
 export class EditSeasonForm extends Component {
 	state = {
@@ -89,13 +95,13 @@ export class EditSeasonForm extends Component {
 
 	render = () => (
 		<Card
-			extra={
-				<BackButton
-					push={this.props.push}
-					location="/employee/seasons/viewall"
-				/>
+			extra={<BackButton push={this.props.goBack} />}
+			title={
+				<Fragment>
+					<FaEdit style={iconStyle} />
+					<span css="vertical-align: middle;">{title}</span>
+				</Fragment>
 			}
-			title={title}
 		>
 			<FormContainer>
 				<FormTitle
@@ -144,7 +150,7 @@ EditSeasonForm.propTypes = {
 			id: PropTypes.string.isRequired,
 		}).isRequired,
 	}).isRequired,
-	push: PropTypes.func.isRequired,
+	goBack: PropTypes.func.isRequired,
 	serverMessage: PropTypes.string,
 	updateSeason: PropTypes.func.isRequired,
 };
@@ -160,7 +166,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
 	fetchSeason,
-	push,
+	goBack,
 	updateSeason,
 };
 

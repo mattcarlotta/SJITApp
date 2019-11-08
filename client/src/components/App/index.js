@@ -24,7 +24,9 @@ const TABS = [
 	"mail/viewall",
 	"settings",
 	"help",
-	"contact",
+	"contact-us",
+	"privacy",
+	"licensing",
 ];
 
 const ROOTTABS = ["events", "forms", "mail", "members", "seasons"];
@@ -47,6 +49,7 @@ class App extends Component {
 
 		this.state = {
 			isCollapsed: false,
+			hideSideBar: false,
 			openKeys: openedKey(pathname),
 			storedKeys: openedKey(pathname),
 			selectedKey: selectedTab(pathname),
@@ -71,6 +74,15 @@ class App extends Component {
 		}
 	};
 
+	handleBreakpoint = isBroken => {
+		this.setState(prevState => ({
+			...prevState,
+			isCollapsed: isBroken,
+			hideSideBar: isBroken,
+			openKeys: isBroken ? [] : prevState.storedKeys,
+		}));
+	};
+
 	handleOpenMenuChange = openKeys => {
 		const latestOpenKey = openKeys.find(
 			key => this.state.openKeys.indexOf(key) === -1,
@@ -81,9 +93,14 @@ class App extends Component {
 		this.setState({ openKeys: containsLatestKey ? openKeys : [latestOpenKey] });
 	};
 
-	handleTabClick = ({ key }) => {
+	handleTabClick = ({
+		key,
+		item: {
+			props: { value },
+		},
+	}) => {
 		this.setState(() => {
-			this.props.push(`/employee/${key}`);
+			this.props.push(`/employee/${value}`);
 			const openKeys = ROOTTABS.find(tab => key.includes(tab));
 
 			return {
@@ -104,12 +121,15 @@ class App extends Component {
 				<SideMenu
 					{...this.state}
 					role={this.props.role}
+					onHandleBreakpoint={this.handleBreakpoint}
 					onHandleTabClick={this.handleTabClick}
 					onHandleOpenMenuChange={this.handleOpenMenuChange}
 				/>
 				<Layout>
 					<Header>
-						<LeftMenu toggleSideMenu={this.toggleSideMenu} />
+						{!this.state.hideSideBar && (
+							<LeftMenu toggleSideMenu={this.toggleSideMenu} />
+						)}
 						<RightMenu {...this.props} />
 					</Header>
 					<Content>

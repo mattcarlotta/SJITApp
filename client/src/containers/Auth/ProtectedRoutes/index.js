@@ -12,8 +12,11 @@ import {
 } from "containers/Forms";
 import { signin } from "actions/Auth";
 
-const authError =
+export const authError =
 	"There was a problem with your login credentials. Please make sure your username and password are correct.";
+
+export const sessionError =
+	"Your login session has expired. Please log into your account again.";
 
 export class ProtectedRoutes extends PureComponent {
 	componentDidUpdate = prevProps => {
@@ -21,32 +24,38 @@ export class ProtectedRoutes extends PureComponent {
 
 		if (
 			prevProps.serverMessage !== serverMessage &&
-			serverMessage === authError &&
+			(serverMessage === authError || serverMessage === sessionError) &&
 			role !== "guest"
 		) {
 			signin({ role: "guest" });
 		}
 	};
 
-	render = () =>
-		!this.props.role || this.props.role === "guest" ? (
+	render = () => {
+		const { url } = this.props.match;
+		return (
 			<Switch>
 				<Route
 					exact
-					path={`${this.props.match.url}/newpassword/:id`}
+					path={`${url}/newpassword/:id`}
 					component={NewPasswordForm}
 				/>
 				<Route
 					exact
-					path={`${this.props.match.url}/resetpassword`}
+					path={`${url}/resetpassword`}
 					component={ResetPasswordForm}
 				/>
-				<Route path={`${this.props.match.url}/signup`} component={SignupForm} />
-				<Route path={`${this.props.match.url}`} component={AppLoader} />
+				<Route path={`${url}/signup`} component={SignupForm} />
+				{!this.props.role || this.props.role === "guest" ? (
+					<Route path={`${url}`} component={AppLoader} />
+				) : (
+					<Route
+						render={/* istanbul ignore next */ () => <App {...this.props} />}
+					/>
+				)}
 			</Switch>
-		) : (
-			<App {...this.props} />
 		);
+	};
 }
 
 ProtectedRoutes.propTypes = {

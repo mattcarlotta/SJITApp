@@ -1,3 +1,4 @@
+import get from "lodash/get";
 import isEmpty from "lodash/isEmpty";
 import { Event, Form, Season } from "models";
 import { sendError } from "shared/helpers";
@@ -46,18 +47,28 @@ const deleteSeason = async (req, res) => {
   }
 };
 
-const getAllSeasons = async (_, res) => {
-  const seasons = await Season.aggregate([
-    {
-      $project: {
-        seasonId: 1,
-        startDate: 1,
-        endDate: 1,
-      },
-    },
-  ]);
+const getAllSeasons = async (req, res) => {
+  try {
+    const { page } = req.query;
 
-  res.status(200).json({ seasons });
+    const results = await Season.paginate(
+      {},
+      {
+        sort: { startDate: -1 },
+        page,
+        limit: 10,
+        select: "seasonId startDate endDate",
+      },
+    );
+
+    const seasons = get(results, ["docs"]);
+    const totalDocs = get(results, ["totalDocs"]);
+
+    res.status(200).json({ seasons, totalDocs });
+  } catch (err) {
+    /* istanbul ignore next */
+    return sendError(err, res);
+  }
 };
 
 const getAllSeasonIds = async (_, res) => {

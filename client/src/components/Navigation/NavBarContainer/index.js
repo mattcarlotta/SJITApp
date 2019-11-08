@@ -7,7 +7,6 @@ export default styled.header`
 	-webkit-box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.4);
 	-moz-box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.4);
 	box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.4);
-	position: fixed;
 	top: 0;
 	z-index: 1000;
 

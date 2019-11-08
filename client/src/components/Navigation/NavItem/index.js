@@ -2,13 +2,11 @@
 import styled from "styled-components";
 
 export default styled.li`
-	@media (max-width: 725px) {
+	@media (max-width: 980px) {
 		display: block;
 		width: 100%;
-		margin-bottom: 20px;
 	}
 
-	display: inline-block;
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;

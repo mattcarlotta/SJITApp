@@ -1,4 +1,5 @@
 import moment from "moment";
+import get from "lodash/get";
 import isEmpty from "lodash/isEmpty";
 import { Event, Season } from "models";
 import {
@@ -6,18 +7,23 @@ import {
   createColumnSchedule,
   createUserSchedule,
   createSchedule,
+  findEventById,
   getMonthDateRange,
   getUsers,
   sendError,
+  sortScheduledUsersByLastName,
   updateScheduleIds,
+  uniqueArray,
 } from "shared/helpers";
 import {
   invalidCreateEventRequest,
   invalidEventDate,
   invalidUpdateEventRequest,
   missingEventId,
+  mustContainUniqueCallTimes,
   unableToDeleteEvent,
   unableToLocateEvent,
+  unableToLocateMembers,
   unableToLocateSeason,
 } from "shared/authErrors";
 
@@ -35,14 +41,18 @@ const createEvent = async (req, res) => {
       uniform,
     } = req.body;
     if (
-      !callTimes
-      || !eventDate
-      || !eventType
-      || !location
-      || !seasonId
-      || !team
-      || !uniform
-    ) throw invalidCreateEventRequest;
+      isEmpty(callTimes) ||
+      !eventDate ||
+      !eventType ||
+      !location ||
+      !seasonId ||
+      !team ||
+      !uniform
+    )
+      throw invalidCreateEventRequest;
+
+    const uniqueCallTimes = uniqueArray(callTimes);
+    if (!uniqueCallTimes) throw mustContainUniqueCallTimes;
 
     const existingSeason = await Season.findOne({ seasonId });
     if (!existingSeason) throw unableToLocateSeason;
@@ -84,8 +94,8 @@ const deleteEvent = async (req, res) => {
     const { id: _id } = req.params;
     if (!_id) throw missingEventId;
 
-    const existingEvent = await Event.findOne({ _id });
-    if (!existingEvent) throw unableToDeleteEvent;
+    const existingEvent = await findEventById(_id);
+    if (!existingEvent) throw unableToLocateEvent;
 
     await existingEvent.delete();
 
@@ -95,37 +105,35 @@ const deleteEvent = async (req, res) => {
   }
 };
 
-const getAllEvents = async (_, res) => {
-  const events = await Event.aggregate([
-    {
-      $project: {
-        seasonId: 1,
-        eventDate: 1,
-        team: 1,
-        opponent: 1,
-        eventType: 1,
-        location: 1,
-        callTimes: 1,
-        uniform: 1,
-        sentEmailReminders: 1,
-        employeeResponses: { $size: "$employeeResponses" },
-        schedule: {
-          $sum: {
-            $map: {
-              input: "$schedule",
-              as: "result",
-              in: {
-                $size: "$$result.employeeIds",
-              },
-            },
-          },
+const getAllEvents = async (req, res) => {
+  try {
+    const { page } = req.query;
+
+    const results = await Event.paginate(
+      {},
+      {
+        lean: true,
+        sort: { eventDate: -1 },
+        page,
+        limit: 10,
+        select: "-schedule -__v",
+        populate: {
+          path: "scheduledIds",
+          select: "firstName lastName",
         },
       },
-    },
-    { $sort: { eventDate: -1 } },
-  ]);
+    );
 
-  res.status(200).json({ events });
+    const events = get(results, ["docs"]);
+    const totalDocs = get(results, ["totalDocs"]);
+
+    res
+      .status(200)
+      .json({ events: sortScheduledUsersByLastName(events), totalDocs });
+  } catch (err) {
+    /* istanbul ignore next */
+    return sendError(err, res);
+  }
 };
 
 const getEvent = async (req, res) => {
@@ -133,13 +141,10 @@ const getEvent = async (req, res) => {
     const { id: _id } = req.params;
     if (!_id) throw missingEventId;
 
-    const event = await Event.findOne(
-      { _id },
-      { employeeResponses: 0, scheduledEmployees: 0, __v: 0 },
-    );
-    if (!event) throw unableToLocateEvent;
+    const existingEvent = await findEventById(_id);
+    if (!existingEvent) throw unableToLocateEvent;
 
-    res.status(200).json({ event });
+    res.status(200).json({ event: existingEvent });
   } catch (err) {
     return sendError(err, res);
   }
@@ -150,14 +155,15 @@ const getEventForScheduling = async (req, res) => {
     const { id: _id } = req.params;
     if (!_id) throw missingEventId;
 
-    const event = await Event.findOne({ _id }, { __v: 0 }).lean();
+    const event = await findEventById(_id);
     if (!event) throw unableToLocateEvent;
 
-    /* istanbul ignore next */
     const members = await getUsers({
-      match: { role: { $nin: ["admin", "staff"] } },
+      match: { role: { $eq: "employee" }, status: "active" },
       project: { firstName: 1, lastName: 1 },
     });
+    /* istanbul ignore next */
+    if (isEmpty(members)) throw unableToLocateMembers;
 
     res.status(200).json({
       schedule: {
@@ -181,22 +187,23 @@ const getScheduledEvents = async (req, res) => {
 
     const { startOfMonth, endOfMonth } = getMonthDateRange(selectedDate);
 
-    const filters = selected === "All Games"
-      ? {
-        eventDate: {
-          $gte: startOfMonth,
-          $lte: endOfMonth,
-        },
-      }
-      : {
-        eventDate: {
-          $gte: startOfMonth,
-          $lte: endOfMonth,
-        },
-        scheduledIds: {
-          $in: [convertId(selectedId)],
-        },
-      };
+    const filters =
+      selected === "All Games"
+        ? {
+            eventDate: {
+              $gte: startOfMonth,
+              $lte: endOfMonth,
+            },
+          }
+        : {
+            eventDate: {
+              $gte: startOfMonth,
+              $lte: endOfMonth,
+            },
+            scheduledIds: {
+              $in: [convertId(selectedId)],
+            },
+          };
 
     const events = await Event.find(
       {
@@ -226,7 +233,7 @@ const resendEventEmail = async (req, res) => {
     const { id: _id } = req.params;
     if (!_id) throw missingEventId;
 
-    const existingEvent = await Event.findOne({ _id }, { __v: 0 });
+    const existingEvent = await findEventById(_id);
     if (!existingEvent) throw unableToLocateEvent;
 
     await existingEvent.updateOne({
@@ -257,17 +264,21 @@ const updateEvent = async (req, res) => {
       uniform,
     } = req.body;
     if (
-      !_id
-      || !callTimes
-      || !eventDate
-      || !eventType
-      || !location
-      || !seasonId
-      || !team
-      || !uniform
-    ) throw invalidUpdateEventRequest;
+      !_id ||
+      isEmpty(callTimes) ||
+      !eventDate ||
+      !eventType ||
+      !location ||
+      !seasonId ||
+      !team ||
+      !uniform
+    )
+      throw invalidUpdateEventRequest;
 
-    const existingEvent = await Event.findOne({ _id });
+    const uniqueCallTimes = uniqueArray(callTimes);
+    if (!uniqueCallTimes) throw mustContainUniqueCallTimes;
+
+    const existingEvent = await findEventById(_id);
     if (!existingEvent) throw unableToLocateEvent;
 
     const schedule = createSchedule(callTimes);
@@ -298,7 +309,7 @@ const updateEventSchedule = async (req, res) => {
     const { _id, schedule } = req.body;
     if (!_id || isEmpty(schedule)) throw invalidUpdateEventRequest;
 
-    const existingEvent = await Event.findOne({ _id });
+    const existingEvent = await findEventById(_id);
     if (!existingEvent) throw unableToLocateEvent;
 
     const scheduledIds = updateScheduleIds(schedule);

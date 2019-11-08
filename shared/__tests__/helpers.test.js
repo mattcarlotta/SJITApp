@@ -4,6 +4,7 @@ import {
   clearSession,
   createDate,
   createColumnSchedule,
+  createMemberAvailabilityAverage,
   createMemberEventCount,
   createMemberResponseCount,
   createRandomToken,
@@ -13,6 +14,7 @@ import {
   convertId,
   getUsers,
   sendError,
+  sortScheduledUsersByLastName,
 } from "shared/helpers";
 
 describe("Helpers", () => {
@@ -35,13 +37,14 @@ describe("Helpers", () => {
       return res;
     };
 
+    const err = "Invalid credentials";
     const res = mockResponse();
 
-    clearSession(res);
+    clearSession(res, 400, err);
 
-    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.status).toHaveBeenCalledWith(400);
     expect(res.clearCookie).toHaveBeenCalledWith("SJSITApp", { path: "/" });
-    expect(res.json).toHaveBeenCalledWith({ role: "guest" });
+    expect(res.json).toHaveBeenCalledWith({ role: "guest", err });
   });
 
   it("builds a column for scheduling", async () => {
@@ -124,6 +127,33 @@ describe("Helpers", () => {
         lastName: staff.lastName,
         response: "No response.",
         notes: "",
+      },
+    ]);
+  });
+
+  it("creates a member availability average", () => {
+    const eventCounts = 3;
+    const eventResponses = [
+      {
+        responses: ["I want to work.", "Available to work.", "Not available."],
+      },
+    ];
+
+    const averages = createMemberAvailabilityAverage({
+      eventCounts,
+      eventResponses,
+    });
+
+    expect(averages).toEqual([
+      {
+        id: "available",
+        label: "available",
+        value: 66,
+      },
+      {
+        id: "unavailable",
+        label: "unavailable",
+        value: 33,
       },
     ]);
   });
@@ -219,7 +249,7 @@ describe("Helpers", () => {
   it("creates a random 32 character string", () => {
     const signupToken = createSignupToken();
     expect(signupToken).toEqual(expect.any(String));
-    expect(signupToken.length).toEqual(32);
+    expect(signupToken.length).toEqual(64);
   });
 
   it("creates a unique snake-cased template string", () => {
@@ -264,5 +294,46 @@ describe("Helpers", () => {
 
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith({ err });
+  });
+
+  it("sorts users by last name", () => {
+    const unsortedUsers = [
+      {
+        scheduledIds: [
+          {
+            _id: "88",
+            firstName: "Matt",
+            lastName: "Zebra",
+          },
+          {
+            _id: "99",
+            firstName: "Bob",
+            lastName: "Aardvark",
+          },
+        ],
+      },
+    ];
+
+    const sortedUsers = sortScheduledUsersByLastName(unsortedUsers);
+    expect(sortedUsers).toEqual([
+      {
+        scheduledIds: [
+          {
+            _id: "99",
+            firstName: "Bob",
+            lastName: "Aardvark",
+          },
+          {
+            _id: "88",
+            firstName: "Matt",
+            lastName: "Zebra",
+          },
+        ],
+      },
+    ]);
+
+    const noScheduledUsers = [];
+    const noSortedUsers = sortScheduledUsersByLastName(noScheduledUsers);
+    expect(noSortedUsers).toEqual(noScheduledUsers);
   });
 });

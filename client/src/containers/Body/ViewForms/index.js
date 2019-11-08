@@ -4,6 +4,7 @@ import Helmet from "react-helmet";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import { Card } from "antd";
+import { FaFileSignature } from "react-icons/fa";
 import { MdNoteAdd } from "react-icons/md";
 import {
 	Button,
@@ -14,7 +15,12 @@ import {
 } from "components/Body";
 import { deleteForm, fetchForms, resendMail } from "actions/Forms";
 
-const title = "View Forms";
+const title = "Forms";
+const iconStyle = {
+	verticalAlign: "middle",
+	marginRight: 10,
+	fontSize: 20,
+};
 
 const columns = [
 	{ title: "Season Id", dataIndex: "seasonId", key: "seasonId" },
@@ -61,27 +67,33 @@ export const ViewForms = ({
 	fetchForms,
 	push,
 	resendMail,
-	role,
+	...rest
 }) => (
 	<Fragment>
 		<Helmet title={title} />
-		<Card title={title}>
-			{role !== "employee" && (
-				<FlexEnd>
-					<Button
-						primary
-						width="200px"
-						marginRight="0px"
-						padding="5px 10px"
-						style={{ marginBottom: 20 }}
-						onClick={() => push("/employee/forms/create")}
-					>
-						<MdNoteAdd style={{ position: "relative", top: 4, fontSize: 20 }} />
-						&nbsp; Create AP Form
-					</Button>
-				</FlexEnd>
-			)}
+		<Card
+			title={
+				<Fragment>
+					<FaFileSignature style={iconStyle} />
+					<span css="vertical-align: middle;">{title}</span>
+				</Fragment>
+			}
+		>
+			<FlexEnd>
+				<Button
+					primary
+					width="200px"
+					marginRight="0px"
+					padding="5px 10px"
+					style={{ marginBottom: 20 }}
+					onClick={() => push("/employee/forms/create")}
+				>
+					<MdNoteAdd style={{ position: "relative", top: 3, fontSize: 20 }} />
+					&nbsp; Create AP Form
+				</Button>
+			</FlexEnd>
 			<Table
+				{...rest}
 				columns={columns}
 				data={data}
 				deleteAction={deleteForm}
@@ -90,7 +102,6 @@ export const ViewForms = ({
 				editLocation="forms"
 				viewLocation="forms"
 				sendMail={resendMail}
-				role={role}
 			/>
 		</Card>
 	</Fragment>
@@ -111,13 +122,14 @@ ViewForms.propTypes = {
 			sentEmails: PropTypes.bool,
 		}),
 	),
+	isLoading: PropTypes.bool.isRequired,
 	resendMail: PropTypes.func.isRequired,
-	role: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => ({
 	data: state.forms.data,
-	role: state.auth.role,
+	isLoading: state.forms.isLoading,
+	totalDocs: state.forms.totalDocs,
 });
 
 const mapDispatchToProps = {

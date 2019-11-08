@@ -1,5 +1,5 @@
 export default (CLIENT, firstName, lastName) =>
-  `<h2 style="margin-bottom: 30px; color: #006d75;">
+  `<h2 style="margin-bottom: 30px; color: #025f6d;">
     Welcome to the San Jose Sharks Ice Team, ${firstName} ${lastName}!
   </h2>
   <p style="font-size: 16px; margin-bottom: 30px; color: #000000;">
@@ -11,7 +11,7 @@ export default (CLIENT, firstName, lastName) =>
     <span style="font-style: italic;">The San Jose Sharks Ice Team</span>
   </p>
   <div style="margin-bottom: 20px; text-align: center;">
-    <a style="font-size: 18px; text-decoration: none; line-height: 40px; width: 200px; color: #FFFFFF; background-color: #006d75; display: inline-block;" href="${CLIENT}/employee/login" target="_blank" rel="noopener noreferrer">Employee Login</a>
+    <a style="font-size: 18px; text-decoration: none; line-height: 40px; width: 200px; color: #FFFFFF; background-color: #025f6d; display: inline-block;" href="${CLIENT}/employee/login" target="_blank" rel="noopener noreferrer">Employee Login</a>
   </div>
   <div style="color:#999999;font-size:11px;text-align:center;margin-top: 10px;">
     Or click on this link:

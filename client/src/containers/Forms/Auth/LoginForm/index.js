@@ -7,29 +7,11 @@ import { FieldGenerator, FormTitle } from "components/Forms";
 import { Link } from "components/Navigation";
 import { fieldValidator, fieldUpdater, parseFields } from "utils";
 import { signinUser } from "actions/Auth";
+import fields from "./Fields";
 
 export class LoginForm extends Component {
 	state = {
-		fields: [
-			{
-				name: "email",
-				type: "text",
-				label: "Email",
-				icon: "mail",
-				value: "",
-				errors: "",
-				required: true,
-			},
-			{
-				name: "password",
-				type: "password",
-				label: "Password",
-				icon: "lock",
-				value: "",
-				errors: "",
-				required: true,
-			},
-		],
+		fields,
 		isSubmitting: false,
 	};
 
@@ -47,9 +29,12 @@ export class LoginForm extends Component {
 		e.preventDefault();
 		const { validatedFields, errors } = fieldValidator(this.state.fields);
 
-		this.setState({ fields: validatedFields, isSubmitting: !errors }, () => {
-			if (!errors) this.props.signinUser(parseFields(validatedFields));
-		});
+		this.setState(
+			{ fields: !errors ? fields : validatedFields, isSubmitting: !errors },
+			() => {
+				if (!errors) this.props.signinUser(parseFields(validatedFields));
+			},
+		);
 	};
 
 	render = () => (

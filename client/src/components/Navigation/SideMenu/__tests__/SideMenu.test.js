@@ -1,10 +1,12 @@
 import SideMenu from "../index";
 
+const onHandleBreakpoint = jest.fn();
 const onHandleTabClick = jest.fn();
 const onHandleOpenMenuChange = jest.fn();
 
 const initProps = {
 	isCollapsed: false,
+	onHandleBreakpoint,
 	onHandleTabClick,
 	onHandleOpenMenuChange,
 	selectedKey: ["/dashboard"],
@@ -24,7 +26,7 @@ describe("SideMenu", () => {
 
 	it("renders without errors", () => {
 		expect(wrapper.find("Sider").exists()).toBeTruthy();
-		expect(wrapper.find("Title").text()).toEqual("Sharks Ice Team");
+		expect(wrapper.find("Title").text()).toEqual("Ice Team");
 		expect(wrapper.find("Legal").exists()).toBeTruthy();
 	});
 
@@ -122,12 +124,6 @@ describe("SideMenu", () => {
 			wrapper
 				.find("Tab")
 				.at(1)
-				.text(),
-		).toEqual("forms");
-		expect(
-			wrapper
-				.find("Tab")
-				.at(2)
 				.text(),
 		).toEqual("schedule");
 	});

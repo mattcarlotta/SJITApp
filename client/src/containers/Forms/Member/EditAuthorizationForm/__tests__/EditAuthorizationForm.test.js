@@ -1,7 +1,7 @@
 import { EditAuthorizationForm } from "../index";
 
 const fetchToken = jest.fn();
-const push = jest.fn();
+const goBack = jest.fn();
 const updateMemberToken = jest.fn();
 
 const initProps = {
@@ -11,7 +11,7 @@ const initProps = {
 			id: "5d44a76ad49a24023e0af7dc",
 		},
 	},
-	push,
+	goBack,
 	serverMessage: "",
 	updateMemberToken,
 };

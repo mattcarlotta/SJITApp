@@ -1,4 +1,4 @@
-import { push } from "connected-react-router";
+import { goBack, push } from "connected-react-router";
 import { all, put, call, takeLatest } from "redux-saga/effects";
 import { app } from "utils";
 import { hideServerMessage, setServerMessage } from "actions/Messages";
@@ -33,7 +33,7 @@ export function* createForm({ props }) {
 			}),
 		);
 
-		yield put(push("/employee/forms/viewall"));
+		yield put(push("/employee/forms/viewall?page=1"));
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
@@ -44,7 +44,7 @@ export function* createForm({ props }) {
  *
  * @generator
  * @function deleteForm
- * @param {object} formId
+ * @params {object} - formId and currentPage
  * @yields {object} - A response from a call to the API.
  * @function parseMessage - Returns a parsed res.data.message.
  * @yields {action} - A redux action to display a server message by type.
@@ -52,7 +52,7 @@ export function* createForm({ props }) {
  * @throws {action} - A redux action to display a server message by type.
  */
 
-export function* deleteForm({ formId }) {
+export function* deleteForm({ formId, currentPage }) {
 	try {
 		yield put(hideServerMessage());
 
@@ -66,7 +66,11 @@ export function* deleteForm({ formId }) {
 			}),
 		);
 
-		yield put({ type: types.FORMS_FETCH });
+		if (currentPage > 1) {
+			yield put(push("/employee/forms/viewall?page=1"));
+		} else {
+			yield put({ type: types.FORMS_FETCH, currentPage: 1 });
+		}
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
@@ -132,7 +136,7 @@ export function* fetchFormAp({ formId }) {
 			}),
 		);
 	} catch (e) {
-		yield put(push("/employee/forms/viewall"));
+		yield put(goBack());
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
 }
@@ -142,15 +146,16 @@ export function* fetchFormAp({ formId }) {
  *
  * @generator
  * @function fetchForms
+ * @param {string} currentPage
  * @yields {object} - A response from a call to the API.
  * @function parseData - Returns a parsed res.data.
  * @yields {action} - A redux action to set forms data to redux state.
  * @throws {action} - A redux action to display a server message by type.
  */
 
-export function* fetchForms() {
+export function* fetchForms({ currentPage }) {
 	try {
-		const res = yield call(app.get, "forms/all");
+		const res = yield call(app.get, `forms/all?page=${currentPage}`);
 		const data = yield call(parseData, res);
 
 		yield put(setForms(data));
@@ -164,13 +169,14 @@ export function* fetchForms() {
  *
  * @generator
  * @function resendFormEmails
+ * @params {object} - eventId and currentPage
  * @yields {object} - A response from a call to the API.
  * @function parseData - Returns a parsed res.data.
  * @yields {action} - A redux action to set forms data to redux state.
  * @throws {action} - A redux action to display a server message by type.
  */
 
-export function* resendFormEmails({ formId }) {
+export function* resendFormEmails({ formId, currentPage }) {
 	try {
 		yield put(hideServerMessage());
 
@@ -184,7 +190,7 @@ export function* resendFormEmails({ formId }) {
 			}),
 		);
 
-		yield put({ type: types.FORMS_FETCH });
+		yield put({ type: types.FORMS_FETCH, currentPage });
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
@@ -217,7 +223,7 @@ export function* updateForm({ props }) {
 			}),
 		);
 
-		yield put(push("/employee/forms/viewall"));
+		yield put(goBack());
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
@@ -250,7 +256,7 @@ export function* updateFormAp({ props }) {
 			}),
 		);
 
-		yield put(push("/employee/forms/viewall"));
+		yield put(push("/employee/dashboard"));
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}

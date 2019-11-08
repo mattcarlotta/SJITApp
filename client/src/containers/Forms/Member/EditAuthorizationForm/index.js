@@ -3,7 +3,8 @@ import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
 import { Card } from "antd";
 import { connect } from "react-redux";
-import { push } from "connected-react-router";
+import { goBack } from "connected-react-router";
+import { FaEdit } from "react-icons/fa";
 import { BackButton, FormContainer, SubmitButton } from "components/Body";
 import { FieldGenerator, FormTitle, LoadingForm } from "components/Forms";
 import { fetchToken, updateMemberToken } from "actions/Members";
@@ -11,7 +12,12 @@ import { fieldValidator, fieldUpdater, parseFields } from "utils";
 import fields from "./Fields";
 import updateFormFields from "./UpdateFormFields";
 
-const title = "Edit Authorization Form";
+const title = "Edit Authorization";
+const iconStyle = {
+	verticalAlign: "middle",
+	marginRight: 10,
+	fontSize: 20,
+};
 
 export class EditAuthorizationForm extends Component {
 	state = {
@@ -65,13 +71,13 @@ export class EditAuthorizationForm extends Component {
 
 	render = () => (
 		<Card
-			extra={
-				<BackButton
-					push={this.props.push}
-					location="/employee/members/authorizations/viewall"
-				/>
+			extra={<BackButton push={this.props.goBack} />}
+			title={
+				<Fragment>
+					<FaEdit style={iconStyle} />
+					<span css="vertical-align: middle;">{title}</span>
+				</Fragment>
 			}
-			title={title}
 		>
 			<FormContainer>
 				<FormTitle
@@ -112,7 +118,7 @@ EditAuthorizationForm.propTypes = {
 			id: PropTypes.string,
 		}),
 	}).isRequired,
-	push: PropTypes.func.isRequired,
+	goBack: PropTypes.func.isRequired,
 	serverMessage: PropTypes.string,
 	updateMemberToken: PropTypes.func.isRequired,
 };
@@ -124,7 +130,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
 	fetchToken,
-	push,
+	goBack,
 	updateMemberToken,
 };
 

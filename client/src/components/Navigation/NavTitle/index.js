@@ -2,7 +2,7 @@
 import styled from "styled-components";
 
 export default styled.div`
-	@media (max-width: 725px) {
+	@media (max-width: 980px) {
 		display: block;
 		width: 100%;
 		margin-bottom: 20px;

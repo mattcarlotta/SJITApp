@@ -107,19 +107,49 @@ describe("Employee App", () => {
 	it("handles tab clicks and closes any unneccessary sub menus", () => {
 		wrapper.find(App).setState({ openKeys: ["forms"] });
 
+		const value = "forms/viewall?page=1";
+
 		wrapper
 			.find("App")
 			.instance()
-			.handleTabClick({ key: "forms/viewall" });
-		expect(push).toHaveBeenCalledWith("/employee/forms/viewall");
+			.handleTabClick({
+				key: "forms/viewall",
+				item: { props: { value } },
+			});
+		expect(push).toHaveBeenCalledWith(`/employee/${value}`);
 
 		expect(wrapper.find("App").state("openKeys")).toEqual(["forms"]);
 
 		wrapper
 			.find("App")
 			.instance()
-			.handleTabClick({ key: "schedule" });
+			.handleTabClick({
+				key: "schedule",
+				item: { props: { value: "schedule" } },
+			});
 
+		expect(wrapper.find("App").state("openKeys")).toEqual([]);
+	});
+
+	it("collapses the SideMenu when the breakpoint is triggered", () => {
+		wrapper.find(App).setState({ storedKeys: ["forms"] });
+
+		wrapper
+			.find("App")
+			.instance()
+			.handleBreakpoint(false);
+
+		expect(wrapper.find("App").state("isCollapsed")).toBeFalsy();
+		expect(wrapper.find("App").state("hideSideBar")).toBeFalsy();
+		expect(wrapper.find("App").state("openKeys")).toEqual(["forms"]);
+
+		wrapper
+			.find("App")
+			.instance()
+			.handleBreakpoint(true);
+
+		expect(wrapper.find("App").state("isCollapsed")).toBeTruthy();
+		expect(wrapper.find("App").state("hideSideBar")).toBeTruthy();
 		expect(wrapper.find("App").state("openKeys")).toEqual([]);
 	});
 

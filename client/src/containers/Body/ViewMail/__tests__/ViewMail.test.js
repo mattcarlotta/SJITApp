@@ -9,8 +9,12 @@ const initProps = {
 	data: [],
 	deleteMail,
 	fetchMails,
-	isLoading: false,
+	isLoading: true,
+	location: {
+		search: "?page=1",
+	},
 	push,
+	totalDocs: 0,
 	resendMail,
 };
 
@@ -36,21 +40,10 @@ describe("View Mail", () => {
 		expect(wrapper.find("Card").exists()).toBeTruthy();
 	});
 
-	it("clicking on the 'Refresh' button, calls fetchMails", () => {
-		fetchMails.mockClear();
-
-		wrapper
-			.find("Button")
-			.first()
-			.simulate("click");
-
-		expect(fetchMails).toHaveBeenCalledTimes(1);
-	});
-
 	it("clicking on the 'Send Mail' button, moves the user to the Send Mail Form page", () => {
 		wrapper
 			.find("Button")
-			.at(1)
+			.first()
 			.simulate("click");
 
 		expect(push).toHaveBeenCalledWith("/employee/mail/create");
@@ -61,7 +54,7 @@ describe("View Mail", () => {
 	});
 
 	it("renders an EmailStatus, DisplaySendToList, and FormatDate", () => {
-		wrapper.setProps({ data });
+		wrapper.setProps({ data, isLoading: false, totalDocs: 1 });
 		wrapper.update();
 
 		expect(wrapper.find("EmailStatus").exists()).toBeTruthy();

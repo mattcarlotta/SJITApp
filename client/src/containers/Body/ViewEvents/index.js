@@ -4,10 +4,12 @@ import Helmet from "react-helmet";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import { Card } from "antd";
-import { FaUserPlus } from "react-icons/fa";
+import { MdEventNote } from "react-icons/md";
+import { FaCalendarPlus } from "react-icons/fa";
 import {
 	Button,
 	DisplayEmailReminder,
+	DisplayScheduledEmployees,
 	DisplayTime,
 	DisplayTeam,
 	FlexEnd,
@@ -16,7 +18,12 @@ import {
 } from "components/Body";
 import { deleteEvent, fetchEvents, resendMail } from "actions/Events";
 
-const title = "View Events";
+const title = "Events";
+const iconStyle = {
+	verticalAlign: "middle",
+	marginRight: 10,
+	fontSize: 22,
+};
 
 const columns = [
 	{ title: "Season Id", dataIndex: "seasonId", key: "seasonId" },
@@ -39,10 +46,9 @@ const columns = [
 		title: "Event Date",
 		dataIndex: "eventDate",
 		key: "eventDate",
-		width: 200,
 		render: date => (
 			<FormatDate
-				style={{ wordWrap: "break-word", wordBreak: "break-word" }}
+				style={{ wordWrap: "break-word", wordBreak: "break-word", width: 175 }}
 				format="MMM Do @ h:mm a"
 				date={date}
 			/>
@@ -58,11 +64,13 @@ const columns = [
 		title: "Employee Responses",
 		dataIndex: "employeeResponses",
 		key: "employeeResponses",
+		render: responses => <span css="cursor: default;">{responses.length}</span>,
 	},
 	{
 		title: "Scheduled Employees",
-		dataIndex: "schedule",
-		key: "schedule",
+		dataIndex: "scheduledIds",
+		key: "scheduledIds",
+		render: employees => <DisplayScheduledEmployees employees={employees} />,
 	},
 	{
 		title: "Sent Email Reminders",
@@ -78,10 +86,18 @@ export const ViewEvents = ({
 	fetchEvents,
 	push,
 	resendMail,
+	...rest
 }) => (
 	<Fragment>
 		<Helmet title={title} />
-		<Card title={title}>
+		<Card
+			title={
+				<Fragment>
+					<MdEventNote style={iconStyle} />
+					<span css="vertical-align: middle;">{title}</span>
+				</Fragment>
+			}
+		>
 			<FlexEnd>
 				<Button
 					primary
@@ -91,11 +107,14 @@ export const ViewEvents = ({
 					style={{ marginBottom: 20 }}
 					onClick={() => push("/employee/events/create")}
 				>
-					<FaUserPlus style={{ position: "relative", top: 2 }} />
+					<FaCalendarPlus
+						style={{ position: "relative", top: 1, fontSize: 16 }}
+					/>
 					&nbsp; Add Event
 				</Button>
 			</FlexEnd>
 			<Table
+				{...rest}
 				columns={columns}
 				data={data}
 				deleteAction={deleteEvent}
@@ -123,16 +142,33 @@ ViewEvents.propTypes = {
 			callTimes: PropTypes.arrayOf(PropTypes.string),
 			seasonId: PropTypes.string,
 			eventDate: PropTypes.string,
-			employeeResponses: PropTypes.number,
+			employeeResponses: PropTypes.arrayOf(
+				PropTypes.shape({
+					_id: PropTypes.string,
+					response: PropTypes.string,
+					notes: PropTypes.string,
+				}),
+			),
+			scheduledIds: PropTypes.arrayOf(
+				PropTypes.shape({
+					_id: PropTypes.string,
+					firstName: PropTypes.string,
+					lastName: PropTypes.string,
+				}),
+			),
 			schedule: PropTypes.number,
 			sentEmailReminders: PropTypes.bool,
 		}),
 	),
+	isLoading: PropTypes.bool.isRequired,
 	resendMail: PropTypes.func.isRequired,
+	totalDocs: PropTypes.number,
 };
 
 const mapStateToProps = state => ({
 	data: state.events.data,
+	isLoading: state.events.isLoading,
+	totalDocs: state.events.totalDocs,
 });
 
 const mapDispatchToProps = {

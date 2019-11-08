@@ -1,4 +1,5 @@
 import authRoutes from "./auth";
+import dashboardRoutes from "./dashboard";
 import eventRoutes from "./event";
 import formRoutes from "./form";
 import mailRoutes from "./mail";
@@ -10,6 +11,7 @@ import tokenRoutes from "./token";
 
 export default app => {
   authRoutes(app);
+  dashboardRoutes(app);
   eventRoutes(app);
   formRoutes(app);
   mailRoutes(app);

@@ -6,20 +6,11 @@ import { FieldGenerator, FormTitle } from "components/Forms";
 import { Link } from "components/Navigation";
 import { fieldValidator, fieldUpdater, parseFields } from "utils";
 import { resetPassword } from "actions/Auth";
+import fields from "./Fields";
 
 export class ResetPasswordForm extends Component {
 	state = {
-		fields: [
-			{
-				name: "email",
-				type: "text",
-				label: "Email",
-				icon: "mail",
-				value: "",
-				errors: "",
-				required: true,
-			},
-		],
+		fields,
 		isSubmitting: false,
 	};
 
@@ -37,9 +28,12 @@ export class ResetPasswordForm extends Component {
 		e.preventDefault();
 		const { validatedFields, errors } = fieldValidator(this.state.fields);
 
-		this.setState({ fields: validatedFields, isSubmitting: !errors }, () => {
-			if (!errors) this.props.resetPassword(parseFields(validatedFields));
-		});
+		this.setState(
+			{ fields: !errors ? fields : validatedFields, isSubmitting: !errors },
+			() => {
+				if (!errors) this.props.resetPassword(parseFields(validatedFields));
+			},
+		);
 	};
 
 	render = () => (

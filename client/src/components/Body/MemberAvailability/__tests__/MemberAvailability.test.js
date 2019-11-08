@@ -46,8 +46,21 @@ const memberScheduleEvents = [
 		events: 5,
 	},
 ];
+const eventAvailability = [
+	{
+		id: "available",
+		label: "available",
+		value: 100,
+	},
+	{
+		id: "unavailable",
+		label: "unavailable",
+		value: 0,
+	},
+];
 
 const memberAvailability = {
+	eventAvailability,
 	memberResponseCount,
 	memberScheduleEvents,
 };

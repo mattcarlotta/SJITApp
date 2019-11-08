@@ -5,21 +5,28 @@ import moment from "moment";
 import { Card } from "antd";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
+import { FaFileSignature } from "react-icons/fa";
 import {
 	BackButton,
 	FormContainer,
+	LoadingPanel,
 	SubmitButton,
 	Notes,
 	Title,
 } from "components/Body";
 import { FieldGenerator, FormTitle, LoadingForm } from "components/Forms";
-import { fetchFormAp, updateFormAp } from "actions/Forms";
+import { fetchFormAp, resetApForm, updateFormAp } from "actions/Forms";
 import { fieldValidator, fieldUpdater, parseFields } from "utils";
 import updateFormFields from "./UpdateFormFields";
 import condenseFormFields from "./CondenseFormFields";
 import fields from "./Fields";
 
 const title = "Sharks & Barracuda A/P Form";
+const iconStyle = {
+	verticalAlign: "middle",
+	marginRight: 10,
+	fontSize: 20,
+};
 
 export class ViewApForm extends Component {
 	state = {
@@ -50,6 +57,10 @@ export class ViewApForm extends Component {
 	componentDidMount = () => {
 		const { id } = this.props.match.params;
 		this.props.fetchFormAp(id);
+	};
+
+	componentWillUnmount = () => {
+		this.props.resetApForm();
 	};
 
 	handleChange = ({ target: { name, value } }) => {
@@ -84,8 +95,13 @@ export class ViewApForm extends Component {
 
 		return (
 			<Card
-				extra={<BackButton push={push} location="/employee/forms/viewall" />}
-				title={title}
+				extra={<BackButton push={push} location="/employee/dashboard" />}
+				title={
+					<Fragment>
+						<FaFileSignature style={iconStyle} />
+						<span css="vertical-align: middle;">{title}</span>
+					</Fragment>
+				}
 			>
 				<FormContainer>
 					<FormTitle
@@ -95,7 +111,16 @@ export class ViewApForm extends Component {
 					/>
 					<form style={{ textAlign: "center" }} onSubmit={this.handleSubmit}>
 						{isLoading ? (
-							<LoadingForm rows={9} />
+							<Fragment>
+								<LoadingForm rows={1} minHeight="92px" />
+								{[0, 1, 2].map(num => (
+									<LoadingPanel
+										key={num}
+										height="400px"
+										style={{ marginBottom: 20 }}
+									/>
+								))}
+							</Fragment>
 						) : (
 							<Fragment>
 								<Title style={{ color: "#025f6d" }}>
@@ -106,7 +131,7 @@ export class ViewApForm extends Component {
 								<Title
 									style={{ color: "#025f6d", fontSize: 16, marginBottom: 40 }}
 								>
-									This form will expire after:{" "}
+									This form will expire on:{" "}
 									<span style={{ color: "#f56342" }}>
 										{moment(viewForm.expirationDate).format(
 											"MMMM Do YYYY @ hh:mm a",
@@ -152,6 +177,7 @@ ViewApForm.propTypes = {
 		}),
 	}).isRequired,
 	push: PropTypes.func.isRequired,
+	resetApForm: PropTypes.func.isRequired,
 	serverMessage: PropTypes.string,
 	updateFormAp: PropTypes.func.isRequired,
 	viewForm: PropTypes.shape({
@@ -172,6 +198,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
 	fetchFormAp,
 	push,
+	resetApForm,
 	updateFormAp,
 };
 

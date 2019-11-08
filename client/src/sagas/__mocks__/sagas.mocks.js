@@ -12,6 +12,12 @@ export const userSession = {
 	role: "staff",
 };
 
+export const contactUsMail = {
+	sendTo: "staff",
+	message: "<span>Test</span>",
+	subject: "Test",
+};
+
 export const mailData = {
 	sendTo: ["test@test.com"],
 	sendFrom: "test@test.com",
@@ -114,6 +120,39 @@ export const eventsData = [
 	},
 ];
 
+export const memberAvailabilityGraph = [
+	{
+		id: "available",
+		events: 66,
+	},
+	{
+		id: "unavailable",
+		events: 33,
+	},
+];
+
+export const membersAvailability = [
+	{
+		id: "Matt Carlotta",
+		availability: 72,
+	},
+	{
+		id: "Bob Dole",
+		availability: 66,
+	},
+];
+
+export const memberEventDistributionCounts = [
+	{
+		id: "Matt Carlotta",
+		"Event Count": 1,
+	},
+	{
+		id: "Bob Dole",
+		"Event Count": 1,
+	},
+];
+
 export const teamNamesData = [
 	"Anaheim Ducks",
 	"Arizona Coyotes",
@@ -130,6 +169,14 @@ export const formsData = [
 		notes: "Test",
 	},
 ];
+
+export const memberSettings = {
+	id: "0123456789",
+	email: "test@test.com",
+	firstName: "Bob",
+	lastName: "Dole",
+	role: "employee",
+};
 
 export const eventResponseData = [
 	{

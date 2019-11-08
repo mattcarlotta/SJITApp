@@ -1,16 +1,20 @@
 /* istanbul ignore file */
 import {
-	FaClock,
+	FaBalanceScale,
+	FaCalendar,
+	FaCalendarPlus,
+	FaCopyright,
 	FaFileSignature,
 	FaCogs,
 	FaUsers,
 	FaEnvelope,
 	FaMailBulk,
+	FaPaperPlane,
 	FaQuestionCircle,
 	FaConciergeBell,
 	FaUserPlus,
 	FaUserFriends,
-	FaListAlt,
+	FaFileAlt,
 	FaKey,
 	FaFolder,
 	FaFolderOpen,
@@ -19,14 +23,29 @@ import {
 import { MdEvent, MdNoteAdd, MdEventNote, MdDashboard } from "react-icons/md";
 
 export const StaffRoutes = [
-	{ component: MdDashboard, key: "dashboard", tab: "dashboard" },
+	{
+		component: MdDashboard,
+		key: "dashboard",
+		value: "dashboard",
+		tab: "dashboard",
+	},
 	{
 		component: MdEvent,
 		key: "events",
 		tab: "events",
 		submenu: [
-			{ key: "events/create", component: MdNoteAdd, tab: "Create Event" },
-			{ key: "events/viewall", component: MdEventNote, tab: "View Events" },
+			{
+				key: "events/create",
+				value: "events/create",
+				component: FaCalendarPlus,
+				tab: "Create Event",
+			},
+			{
+				key: "events/viewall",
+				value: "events/viewall?page=1",
+				component: MdEventNote,
+				tab: "View Events",
+			},
 		],
 	},
 	{
@@ -34,8 +53,18 @@ export const StaffRoutes = [
 		key: "forms",
 		tab: "forms",
 		submenu: [
-			{ key: "forms/create", component: MdNoteAdd, tab: "Create Form" },
-			{ key: "forms/viewall", component: FaListAlt, tab: "View Forms" },
+			{
+				key: "forms/create",
+				value: "forms/create",
+				component: MdNoteAdd,
+				tab: "Create Form",
+			},
+			{
+				key: "forms/viewall",
+				value: "forms/viewall?page=1",
+				component: FaFileAlt,
+				tab: "View Forms",
+			},
 		],
 	},
 	{
@@ -43,9 +72,15 @@ export const StaffRoutes = [
 		key: "mail",
 		tab: "mail",
 		submenu: [
-			{ key: "mail/create", component: MdNoteAdd, tab: "Send Mail" },
+			{
+				key: "mail/create",
+				value: "mail/create",
+				component: FaPaperPlane,
+				tab: "Send Mail",
+			},
 			{
 				key: "mail/viewall",
+				value: "mail/viewall?page=1",
 				component: FaMailBulk,
 				tab: "View Mail",
 			},
@@ -56,17 +91,28 @@ export const StaffRoutes = [
 		key: "members",
 		tab: "members",
 		submenu: [
-			{ key: "members/create", component: FaUserPlus, tab: "Create Member" },
+			{
+				key: "members/create",
+				value: "members/create",
+				component: FaUserPlus,
+				tab: "Create Member",
+			},
 			{
 				key: "members/authorizations/viewall",
+				value: "members/authorizations/viewall?page=1",
 				component: FaKey,
 				tab: "View Authorizations",
 			},
-			{ key: "members/viewall", component: FaUsers, tab: "View Members" },
+			{
+				key: "members/viewall",
+				value: "members/viewall?page=1",
+				component: FaUsers,
+				tab: "View Members",
+			},
 		],
 	},
 	{
-		component: FaClock,
+		component: FaCalendar,
 		key: "schedule",
 		tab: "schedule",
 	},
@@ -77,32 +123,52 @@ export const StaffRoutes = [
 		submenu: [
 			{
 				key: "seasons/create",
+				value: "seasons/create",
 				component: FaFolderPlus,
 				tab: "Create Season",
 			},
-			{ key: "seasons/viewall", component: FaFolderOpen, tab: "View Seasons" },
+			{
+				key: "seasons/viewall",
+				value: "seasons/viewall?page=1",
+				component: FaFolderOpen,
+				tab: "View Seasons",
+			},
 		],
 	},
 	{ divider: true, key: "accounting" },
-	{ component: FaCogs, key: "settings", tab: "settings" },
-	{ component: FaQuestionCircle, key: "help", tab: "help" },
-	{ component: FaConciergeBell, key: "contact", tab: "contact us" },
+	{ component: FaCogs, key: "settings", value: "settings", tab: "settings" },
+	{ component: FaQuestionCircle, key: "help", value: "help", tab: "help" },
+	{
+		component: FaConciergeBell,
+		key: "contact-us",
+		value: "contact-us",
+		tab: "contact us",
+	},
+	{
+		component: FaBalanceScale,
+		key: "privacy",
+		value: "privacy",
+		tab: "privacy policy",
+	},
+	{
+		component: FaCopyright,
+		key: "licensing",
+		value: "licensing",
+		tab: "licensing",
+	},
 ];
 
 export const EmployeeRoutes = [
 	{ component: MdDashboard, key: "dashboard", tab: "dashboard" },
 	{
-		component: FaFileSignature,
-		key: "forms/viewall",
-		tab: "forms",
-	},
-	{
-		component: FaClock,
+		component: FaCalendar,
 		key: "schedule",
 		tab: "schedule",
 	},
 	{ divider: true, key: "accounting" },
 	{ component: FaCogs, key: "settings", tab: "settings" },
 	{ component: FaQuestionCircle, key: "help", tab: "help" },
-	{ component: FaConciergeBell, key: "contact", tab: "contact us" },
+	{ component: FaConciergeBell, key: "contact-us", tab: "contact us" },
+	{ component: FaBalanceScale, key: "privacy", tab: "privacy policy" },
+	{ component: FaCopyright, key: "licensing", tab: "licensing" },
 ];

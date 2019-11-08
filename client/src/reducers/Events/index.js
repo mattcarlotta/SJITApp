@@ -7,6 +7,8 @@ export const initialState = {
 	schedule: {},
 	members: [],
 	scheduleEvents: [],
+	totalDocs: 0,
+	isLoading: true,
 };
 
 /**
@@ -24,7 +26,12 @@ const eventReducer = (state = initialState, { payload, type }) => {
 			return initialState;
 		}
 		case types.EVENTS_SET: {
-			return { ...state, data: payload.events };
+			return {
+				...state,
+				data: payload.events,
+				totalDocs: payload.totalDocs,
+				isLoading: false,
+			};
 		}
 		case types.EVENTS_SET_EDIT: {
 			return { ...state, editEvent: payload };

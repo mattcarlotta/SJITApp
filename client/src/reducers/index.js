@@ -1,6 +1,10 @@
+/* istanbul ignore file */
 import { combineReducers } from "redux";
 import { connectRouter } from "connected-react-router";
+import { withReduxStateSync } from "redux-state-sync";
+import * as types from "types";
 import authReducer from "./Auth";
+import dashboardReducer from "./Dashboard";
 import eventReducer from "./Events";
 import formReducer from "./Forms";
 import mailReducer from "./Mail";
@@ -10,6 +14,7 @@ import serverMessageReducer from "./Messages";
 
 const reducers = {
 	auth: authReducer,
+	dashboard: dashboardReducer,
 	events: eventReducer,
 	forms: formReducer,
 	mail: mailReducer,
@@ -18,5 +23,15 @@ const reducers = {
 	server: serverMessageReducer,
 };
 
-export default history =>
-	combineReducers({ router: connectRouter(history), ...reducers });
+const appReducer = history =>
+	withReduxStateSync(
+		combineReducers({ router: connectRouter(history), ...reducers }),
+	);
+
+export default history => (state, action) =>
+	appReducer(history)(
+		action.type === types.USER_SIGNOUT
+			? { router: state.router, server: state.server }
+			: state,
+		action,
+	);
