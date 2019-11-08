@@ -14,6 +14,7 @@ import {
   convertId,
   getUsers,
   sendError,
+  sortScheduledUsersByLastName,
 } from "shared/helpers";
 
 describe("Helpers", () => {
@@ -36,13 +37,14 @@ describe("Helpers", () => {
       return res;
     };
 
+    const err = "Invalid credentials";
     const res = mockResponse();
 
-    clearSession(res);
+    clearSession(res, 400, err);
 
-    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.status).toHaveBeenCalledWith(400);
     expect(res.clearCookie).toHaveBeenCalledWith("SJSITApp", { path: "/" });
-    expect(res.json).toHaveBeenCalledWith({ role: "guest" });
+    expect(res.json).toHaveBeenCalledWith({ role: "guest", err });
   });
 
   it("builds a column for scheduling", async () => {
@@ -292,5 +294,46 @@ describe("Helpers", () => {
 
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith({ err });
+  });
+
+  it("sorts users by last name", () => {
+    const unsortedUsers = [
+      {
+        scheduledIds: [
+          {
+            _id: "88",
+            firstName: "Matt",
+            lastName: "Zebra",
+          },
+          {
+            _id: "99",
+            firstName: "Bob",
+            lastName: "Aardvark",
+          },
+        ],
+      },
+    ];
+
+    const sortedUsers = sortScheduledUsersByLastName(unsortedUsers);
+    expect(sortedUsers).toEqual([
+      {
+        scheduledIds: [
+          {
+            _id: "99",
+            firstName: "Bob",
+            lastName: "Aardvark",
+          },
+          {
+            _id: "88",
+            firstName: "Matt",
+            lastName: "Zebra",
+          },
+        ],
+      },
+    ]);
+
+    const noScheduledUsers = [];
+    const noSortedUsers = sortScheduledUsersByLastName(noScheduledUsers);
+    expect(noSortedUsers).toEqual(noScheduledUsers);
   });
 });

@@ -49,6 +49,7 @@ class CustomTable extends Component {
 	componentDidUpdate = (prevProps, prevState) => {
 		const { currentPage } = this.state;
 		const { totalDocs, data, location, push, isLoading } = this.props;
+
 		if (currentPage !== prevState.currentPage)
 			this.props.fetchData(currentPage);
 

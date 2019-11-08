@@ -39,6 +39,7 @@ describe("Require Authentication Middleware", () => {
     const session = {
       user: {
         id: existingUser._id,
+        email: existingUser.email,
       },
     };
 
@@ -57,6 +58,7 @@ describe("Require Authentication Middleware", () => {
     const session = {
       user: {
         id: "5d5b5e952871780ef474807d",
+        email: "invalid@email.com",
       },
     };
 
@@ -78,6 +80,7 @@ describe("Require Authentication Middleware", () => {
     const session = {
       user: {
         id: existingUser._id,
+        email: existingUser.email,
       },
     };
 

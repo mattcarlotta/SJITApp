@@ -1,7 +1,9 @@
 /* eslint-disable no-console */
 import moment from "moment";
 import { connectDatabase } from "database";
-import { Event, Form, Mail, User, Season, Team, Token } from "models";
+import {
+  Event, Form, Mail, User, Season, Team, Token,
+} from "models";
 import {
   createSchedule,
   createSignupToken,
@@ -57,7 +59,7 @@ const seedDB = async () => {
       email: "carlotta.matt@gmail.com",
       role: "admin",
       token: createSignupToken(),
-      expiration: expirationDate().toDate(),
+      expiration: expirationDate().format(),
     };
 
     const newHire1 = {
@@ -65,7 +67,7 @@ const seedDB = async () => {
       email: "member@example.com",
       role: "employee",
       token: createSignupToken(),
-      expiration: expirationDate().toDate(),
+      expiration: expirationDate().format(),
     };
 
     const newHire2 = {
@@ -73,7 +75,7 @@ const seedDB = async () => {
       email: "",
       role: "employee",
       token: createSignupToken(),
-      expiration: expirationDate().toDate(),
+      expiration: expirationDate().format(),
     };
 
     const newHire3 = {
@@ -81,63 +83,63 @@ const seedDB = async () => {
       email: "",
       role: "employee",
       token: createSignupToken(),
-      expiration: expirationDate().toDate(),
+      expiration: expirationDate().format(),
     };
 
     const newHire4 = {
-      authorizedEmail: "member66@example.com",
-      email: "",
-      role: "employee",
-      token: createSignupToken(),
-      expiration: expirationDate().toDate(),
-    };
-
-    const newHire5 = {
       authorizedEmail: "member77@example.com",
       email: "",
       role: "employee",
       token: createSignupToken(),
-      expiration: expirationDate().toDate(),
+      expiration: expirationDate().format(),
+    };
+
+    const newHire5 = {
+      authorizedEmail: "member8888@example.com",
+      email: "",
+      role: "employee",
+      token: createSignupToken(),
+      expiration: expirationDate().format(),
     };
 
     const newHire6 = {
-      authorizedEmail: "member888@example.com",
+      authorizedEmail: "member9999@example.com",
       email: "",
       role: "employee",
       token: createSignupToken(),
-      expiration: expirationDate().toDate(),
+      expiration: expirationDate().format(),
     };
 
     const newHire7 = {
-      authorizedEmail: "member999@example.com",
-      email: "",
-      role: "employee",
-      token: createSignupToken(),
-      expiration: expirationDate().toDate(),
-    };
-
-    const newHire8 = {
       authorizedEmail: "member1000@example.com",
       email: "",
       role: "employee",
       token: createSignupToken(),
-      expiration: expirationDate().toDate(),
+      expiration: expirationDate().format(),
     };
 
-    const newHire9 = {
+    const newHire8 = {
       authorizedEmail: "member1001@example.com",
       email: "",
       role: "employee",
       token: createSignupToken(),
-      expiration: expirationDate().toDate(),
+      expiration: expirationDate().format(),
     };
 
-    const newHire10 = {
+    const newHire9 = {
       authorizedEmail: "member1002@example.com",
       email: "",
       role: "employee",
       token: createSignupToken(),
-      expiration: expirationDate().toDate(),
+      expiration: expirationDate().format(),
+    };
+
+    const newHire10 = {
+      authorizedEmail: "member1003@example.com",
+      email: "",
+      role: "employee",
+      token: createSignupToken(),
+      expiration: expirationDate().format(),
     };
 
     await Token.insertMany([
