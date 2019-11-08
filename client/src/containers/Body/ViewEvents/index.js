@@ -149,7 +149,13 @@ ViewEvents.propTypes = {
 					notes: PropTypes.string,
 				}),
 			),
-			scheduledIds: PropTypes.arrayOf(PropTypes.string),
+			scheduledIds: PropTypes.arrayOf(
+				PropTypes.shape({
+					_id: PropTypes.string,
+					firstName: PropTypes.string,
+					lastName: PropTypes.string,
+				}),
+			),
 			schedule: PropTypes.number,
 			sentEmailReminders: PropTypes.bool,
 		}),
