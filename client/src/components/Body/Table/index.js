@@ -34,7 +34,7 @@ class CustomTable extends Component {
 			this.props.fetchData(queryString);
 	};
 
-	handleClickAction = (action, record) => action(record._id, null);
+	handleClickAction = (action, record) => action(record._id, record);
 
 	handleSearch = (_, confirm) => confirm();
 
@@ -42,11 +42,6 @@ class CustomTable extends Component {
 
 	handleSelectKeys = (value, setSelectedKeys) =>
 		setSelectedKeys(value ? [value] : []);
-
-	handlePageChange = () => {};
-
-	// handlePageChange = ({ current: currentPage }) => {};
-	// this.props.push(`${this.props.location.pathname}?page=${currentPage}`);
 
 	/* istanbul ignore next */
 	getColumnSearchProps = dataIndex => ({
@@ -162,7 +157,7 @@ class CustomTable extends Component {
 					bordered={true}
 					rowKey="_id"
 					scroll={{ x: 1300 }}
-					onChange={this.handlePageChange}
+					onChange={this.props.handlePageChange}
 				/>
 			</FadeIn>
 		);
@@ -179,6 +174,7 @@ CustomTable.propTypes = {
 		}),
 	).isRequired,
 	data: PropTypes.any.isRequired,
+	handlePageChange: PropTypes.func.isRequired,
 	isLoading: PropTypes.bool.isRequired,
 	queries: PropTypes.any,
 	queryString: PropTypes.string,

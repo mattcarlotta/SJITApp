@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
 import { Card } from "antd";
 import { connect } from "react-redux";
-import { push } from "connected-react-router";
+import { goBack } from "connected-react-router";
 import { FaChartBar, FaClipboardCheck } from "react-icons/fa";
 import {
 	Button,
@@ -141,12 +141,7 @@ export class EventScheduleForm extends Component {
 
 	render = () => (
 		<Card
-			extra={
-				<BackButton
-					push={this.props.push}
-					location="/employee/events/viewall?page=1"
-				/>
-			}
+			extra={<BackButton push={this.props.goBack} />}
 			title={
 				<Fragment>
 					<FaClipboardCheck style={iconStyle} />
@@ -252,7 +247,7 @@ EventScheduleForm.propTypes = {
 			id: PropTypes.string,
 		}),
 	}).isRequired,
-	push: PropTypes.func.isRequired,
+	goBack: PropTypes.func.isRequired,
 	serverMessage: PropTypes.string,
 	updateEventSchedule: PropTypes.func.isRequired,
 };
@@ -265,7 +260,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
 	fetchEventForScheduling,
-	push,
+	goBack,
 	updateEventSchedule,
 };
 

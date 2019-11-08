@@ -2,6 +2,7 @@ import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import Helmet from "react-helmet";
 import isEmpty from "lodash/isEmpty";
+import moment from "moment";
 import qs from "qs";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
@@ -107,18 +108,15 @@ export class ViewEvents extends Component {
 		queryString: this.props.location.search.replace(/[?]/g, ""),
 	};
 
-	componentDidUpdate = prevProps => {
-		const { location } = this.props;
-		if (location.search !== prevProps.location.search) {
-			const queries = parseQuery(this.props.location.search);
-			this.setState({
-				queries,
-				queryString: stringifyQuery(queries),
-			});
-		}
-	};
+	static getDerivedStateFromProps({ location }) {
+		const queries = parseQuery(location.search);
+		return {
+			queries,
+			queryString: stringifyQuery(queries),
+		};
+	}
 
-	handleQueries = query => {
+	getCurrentQueries = (query, page) => {
 		const {
 			location: { pathname, search },
 		} = this.props;
@@ -130,8 +128,20 @@ export class ViewEvents extends Component {
 		const queryString = stringifyQuery({
 			...currentQueries,
 			...query,
-			page: 1,
+			page,
 		});
+
+		return { queryString, pathname };
+	};
+
+	handleQueries = query => {
+		const { queryString, pathname } = this.getCurrentQueries(query, 1);
+
+		this.props.push(`${pathname}?${queryString}`);
+	};
+
+	handlePageChange = ({ current: page }) => {
+		const { queryString, pathname } = this.getCurrentQueries({}, page);
 
 		this.props.push(`${pathname}?${queryString}`);
 	};
@@ -145,6 +155,13 @@ export class ViewEvents extends Component {
 			resendMail,
 			...rest
 		} = this.props;
+
+		const { queries } = this.state;
+
+		const startDate = queries.startDate
+			? moment(queries.startDate, format)
+			: null;
+		const endDate = queries.endDate ? moment(queries.endDate, format) : null;
 
 		return (
 			<Fragment>
@@ -160,7 +177,10 @@ export class ViewEvents extends Component {
 					<Flex>
 						<FlexStart style={{ alignItems: "center" }}>
 							<div>Event Dates:</div>
+							&nbsp;
 							<RangePicker
+								className="dashboard-range-picker"
+								value={[startDate, endDate]}
 								format={format}
 								onChange={value =>
 									this.handleQueries({
@@ -168,7 +188,6 @@ export class ViewEvents extends Component {
 										endDate: !isEmpty(value) ? value[1].format(format) : null,
 									})
 								}
-								style={{ width: 500 }}
 							/>
 						</FlexStart>
 						<FlexEnd>
@@ -193,6 +212,7 @@ export class ViewEvents extends Component {
 						columns={columns}
 						data={data}
 						deleteAction={deleteEvent}
+						handlePageChange={this.handlePageChange}
 						fetchData={fetchEvents}
 						push={push}
 						editLocation="events"
