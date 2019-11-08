@@ -1,8 +1,6 @@
 /* eslint-disable react/forbid-prop-types, react/jsx-boolean-value */
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import qs from "qs";
-import isEmpty from "lodash/isEmpty";
 import { Icon, Input, Popover, Table } from "antd";
 import { FaSearch, FaTools } from "react-icons/fa";
 import {
@@ -18,46 +16,25 @@ const iconStyle = {
 	top: 2,
 };
 
-const getPageNumber = query => {
-	const { page } = qs.parse(query, {
-		ignoreQueryPrefix: true,
-	});
-
-	return parseInt(page || 1, 10);
-};
-
 class CustomTable extends Component {
-	state = {
-		currentPage: getPageNumber(this.props.location.search),
-	};
-
-	static getDerivedStateFromProps({ location }) {
-		return {
-			currentPage: getPageNumber(location.search),
-		};
-	}
-
 	componentDidMount = () => {
-		const { currentPage } = this.state;
-		this.props.fetchData(currentPage);
+		const { queryString } = this.props;
+		this.props.fetchData(queryString);
 	};
 
-	shouldComponentUpdate = (nextProps, nextState) =>
+	shouldComponentUpdate = nextProps =>
 		nextProps.isLoading !== this.props.isLoading ||
-		nextState.currentPage !== this.state.currentPage;
+		nextProps.queries !== this.props.queries ||
+		nextProps.queryString !== this.props.queryString;
 
-	componentDidUpdate = (prevProps, prevState) => {
-		const { currentPage } = this.state;
-		const { totalDocs, data, location, push, isLoading } = this.props;
-		if (currentPage !== prevState.currentPage)
-			this.props.fetchData(currentPage);
+	componentDidUpdate = prevProps => {
+		const { queryString } = this.props;
 
-		if (totalDocs > 0 && isEmpty(data) && !isLoading)
-			push(`${location.pathname}?page=${Math.ceil(totalDocs / 10)}`);
+		if (queryString !== prevProps.queryString)
+			this.props.fetchData(queryString);
 	};
 
-	handleClickAction = (action, record) =>
-		action(record._id, this.state.currentPage);
+	handleClickAction = (action, record) => action(record._id, null);
 
 	handleSearch = (_, confirm) => confirm();
 
@@ -66,8 +43,10 @@ class CustomTable extends Component {
 	handleSelectKeys = (value, setSelectedKeys) =>
 		setSelectedKeys(value ? [value] : []);
 
-	handlePageChange = ({ current: currentPage }) =>
-		this.props.push(`${this.props.location.pathname}?page=${currentPage}`);
+	handlePageChange = () => {};
+
+	// handlePageChange = ({ current: currentPage }) => {};
+	// this.props.push(`${this.props.location.pathname}?page=${currentPage}`);
 
 	/* istanbul ignore next */
 	getColumnSearchProps = dataIndex => ({
@@ -174,8 +153,7 @@ class CustomTable extends Component {
 					dataSource={this.props.data}
 					pagination={{
 						position: "both",
-						current: this.state.currentPage,
-						hideOnSinglePage: true,
+						current: this.props.queries.page,
 						showTotal: /* istanbul ignore next */ total => (
 							<span>{total}&nbsp;items</span>
 						),
@@ -202,6 +180,8 @@ CustomTable.propTypes = {
 	).isRequired,
 	data: PropTypes.any.isRequired,
 	isLoading: PropTypes.bool.isRequired,
+	queries: PropTypes.any,
+	queryString: PropTypes.string,
 	location: PropTypes.any,
 	deleteAction: PropTypes.func,
 	editLocation: PropTypes.string,

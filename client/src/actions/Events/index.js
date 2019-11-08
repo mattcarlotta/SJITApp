@@ -55,12 +55,12 @@ export const fetchEventForScheduling = eventId => ({
  * Fetches all events.
  *
  * @function fetchEvents
- * @param {string} currentPage
+ * @param {string} query
  * @returns {object}
  */
-export const fetchEvents = currentPage => ({
+export const fetchEvents = query => ({
 	type: types.EVENTS_FETCH,
-	currentPage,
+	query,
 });
 
 /**

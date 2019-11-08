@@ -106,11 +106,24 @@ const deleteEvent = async (req, res) => {
 };
 
 const getAllEvents = async (req, res) => {
+  const format = "MM-DD-YYYY";
   try {
-    const { page } = req.query;
+    const { page, startDate, endDate, team } = req.query;
+
+    const eventDate =
+      startDate && endDate
+        ? {
+            eventDate: {
+              $gte: moment(startDate, format).format(),
+              $lte: moment(endDate, format).format(),
+            },
+          }
+        : {};
+
+    const teamName = team ? { team: { $regex: team, $options: "i" } } : {};
 
     const results = await Event.paginate(
-      {},
+      { ...eventDate, ...teamName },
       {
         lean: true,
         sort: { eventDate: -1 },

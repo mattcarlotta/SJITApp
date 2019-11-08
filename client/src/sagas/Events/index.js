@@ -159,9 +159,9 @@ export function* fetchEventForScheduling({ eventId }) {
  * @throws {action} - A redux action to display a server message by type.
  */
 
-export function* fetchEvents({ currentPage }) {
+export function* fetchEvents({ query }) {
 	try {
-		const res = yield call(app.get, `events/all?page=${currentPage}`);
+		const res = yield call(app.get, `events/all?${query}`);
 		const data = yield call(parseData, res);
 
 		yield put(setEvents(data));
