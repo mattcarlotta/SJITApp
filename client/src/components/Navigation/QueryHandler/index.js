@@ -23,6 +23,7 @@ class QueryHandler extends PureComponent {
 		} = this.props;
 
 		const queryString = stringifyQuery({
+			...this.state.queries,
 			...nextQuery,
 		});
 

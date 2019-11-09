@@ -151,7 +151,7 @@ class CustomTable extends Component {
 					scroll={{ x: 1300 }}
 					onChange={
 						/* istanbul ignore next */ ({ current: page }) =>
-							this.props.updateQuery({ ...this.props.queries, page })
+							this.props.updateQuery({ page })
 					}
 				/>
 			</FadeIn>
