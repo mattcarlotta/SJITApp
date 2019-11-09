@@ -47,6 +47,27 @@ const EventFilters = ({ clearFilters, queries, push, teams, updateQuery }) => {
 					content={
 						<Select
 							allowClear
+							value={queries.type}
+							placeholder="Select an event type..."
+							style={{ width: 140 }}
+							onChange={value => updateQuery({ type: value })}
+						>
+							<Option value="game">Game</Option>
+							<Option value="promotional">Promotional</Option>
+							<Option value="other">Other</Option>
+						</Select>
+					}
+					trigger="click"
+				>
+					<AntButton style={{ marginRight: 5, height: 41 }} onClick={null}>
+						By Event Type
+					</AntButton>
+				</Popover>
+				<Popover
+					placement="bottom"
+					content={
+						<Select
+							allowClear
 							value={queries.team}
 							placeholder="Select a team..."
 							style={{ width: 140 }}
@@ -89,27 +110,6 @@ const EventFilters = ({ clearFilters, queries, push, teams, updateQuery }) => {
 				>
 					<AntButton style={{ marginRight: 5, height: 41 }} onClick={null}>
 						By Opponent
-					</AntButton>
-				</Popover>
-				<Popover
-					placement="bottom"
-					content={
-						<Select
-							allowClear
-							value={queries.type}
-							placeholder="Select an event type..."
-							style={{ width: 140 }}
-							onChange={value => updateQuery({ type: value })}
-						>
-							<Option value="game">Game</Option>
-							<Option value="promotional">Promotional</Option>
-							<Option value="other">Other</Option>
-						</Select>
-					}
-					trigger="click"
-				>
-					<AntButton style={{ marginRight: 5, height: 41 }} onClick={null}>
-						By Event Type
 					</AntButton>
 				</Popover>
 				<AntButton style={{ height: 41 }} onClick={clearFilters}>
