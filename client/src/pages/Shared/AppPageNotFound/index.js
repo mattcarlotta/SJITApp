@@ -24,7 +24,7 @@ export const NotFound = ({ goBack }) => (
 						/>{" "}
 						<span>404</span>
 					</div>
-					<div css="font-size: 32px;font-weight: bold;margin-top: -30px;margin-bottom: 20px;letter-spacing: 2px;">
+					<div css="font-size: 32px;font-weight: bold;margin-top: -30px;margin-bottom: 20px;letter-spacing: 2px; color: #025f6d;">
 						Page not found
 					</div>
 					<div css="font-size: 18px;margin-bottom: 60px;letter-spacing: 2px;">
