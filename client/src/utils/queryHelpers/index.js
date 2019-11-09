@@ -12,3 +12,10 @@ export const parseQuery = query => {
 		page: parseInt(queries.page || 1, 10),
 	};
 };
+
+export const setQuery = query => {
+	const queries = parseQuery(query);
+	const queryString = stringifyQuery(queries);
+
+	return { queries, queryString };
+};

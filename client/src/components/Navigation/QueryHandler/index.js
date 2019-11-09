@@ -1,18 +1,15 @@
 import { PureComponent } from "react";
 import PropTypes from "prop-types";
-import { parseQuery, stringifyQuery } from "utils/queryHelpers";
+import { setQuery, stringifyQuery } from "utils/queryHelpers";
 
 class QueryHandler extends PureComponent {
 	state = {
-		queries: parseQuery(this.props.location.search),
-		queryString: this.props.location.search.replace(/[?]/g, ""),
+		...setQuery(this.props.location.search),
 	};
 
 	static getDerivedStateFromProps({ location }) {
-		const queries = parseQuery(location.search);
 		return {
-			queries,
-			queryString: stringifyQuery(queries),
+			...setQuery(location.search),
 		};
 	}
 
@@ -22,12 +19,12 @@ class QueryHandler extends PureComponent {
 			push,
 		} = this.props;
 
-		const queryString = stringifyQuery({
+		const query = stringifyQuery({
 			...this.state.queries,
 			...nextQuery,
 		});
 
-		push(`${pathname}?${queryString}`);
+		push(`${pathname}?${query}`);
 	};
 
 	clearFilters = () =>
