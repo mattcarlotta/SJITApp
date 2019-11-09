@@ -1,31 +1,22 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import Helmet from "react-helmet";
-import isEmpty from "lodash/isEmpty";
-import moment from "moment";
 import qs from "qs";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
-import { Card, Button as AntButton, DatePicker, Popover, Select } from "antd";
+import { Card } from "antd";
 import { MdEventNote } from "react-icons/md";
-import { FaCalendarPlus } from "react-icons/fa";
 import {
-	Button,
 	DisplayEmailReminder,
 	DisplayScheduledEmployees,
 	DisplayTime,
 	DisplayTeam,
-	Flex,
-	FlexEnd,
-	FlexStart,
 	FormatDate,
 	Table,
 } from "components/Body";
 import { deleteEvent, fetchEvents, resendMail } from "actions/Events";
 import { fetchTeamNames } from "actions/Teams";
-
-const RangePicker = DatePicker.RangePicker;
-const Option = Select.Option;
+import Filters from "./Filters";
 
 const title = "Events";
 const iconStyle = {
@@ -89,8 +80,6 @@ const columns = [
 	},
 ];
 
-const format = "MM-DD-YYYY";
-
 const stringifyQuery = query => qs.stringify(query, { skipNulls: true });
 
 const parseQuery = query => {
@@ -122,7 +111,7 @@ export class ViewEvents extends Component {
 		this.props.fetchTeamNames();
 	};
 
-	updateQuery = (nextQuery, page) => {
+	updateQuery = (nextQuery, page = 1) => {
 		const {
 			location: { pathname, search },
 		} = this.props;
@@ -138,6 +127,9 @@ export class ViewEvents extends Component {
 		this.props.push(`${pathname}?${queryString}`);
 	};
 
+	clearFilters = () =>
+		this.props.push(`${this.props.location.pathname}?page=1`);
+
 	handlePageChange = ({ current: page }) => this.updateQuery({}, page);
 
 	render = () => {
@@ -147,16 +139,8 @@ export class ViewEvents extends Component {
 			fetchEvents,
 			push,
 			resendMail,
-			teams,
 			...rest
 		} = this.props;
-
-		const { queries } = this.state;
-
-		const startDate = queries.startDate
-			? moment(queries.startDate, format)
-			: null;
-		const endDate = queries.endDate ? moment(queries.endDate, format) : null;
 
 		return (
 			<Fragment>
@@ -169,133 +153,12 @@ export class ViewEvents extends Component {
 						</Fragment>
 					}
 				>
-					<Flex style={{ marginBottom: 20 }}>
-						<FlexStart>
-							<Popover
-								placement="bottom"
-								content={
-									<RangePicker
-										className="filter-range-picker"
-										value={[startDate, endDate]}
-										format={format}
-										onChange={value =>
-											this.updateQuery(
-												{
-													startDate: !isEmpty(value)
-														? value[0].format(format)
-														: null,
-													endDate: !isEmpty(value)
-														? value[1].format(format)
-														: null,
-												},
-												1,
-											)
-										}
-									/>
-								}
-								trigger="click"
-							>
-								<AntButton
-									style={{ marginRight: 5, height: 41 }}
-									onClick={null}
-								>
-									Filter By Event Date
-								</AntButton>
-							</Popover>
-							<Popover
-								placement="bottom"
-								content={
-									<Select
-										allowClear
-										value={queries.team}
-										placeholder="Select a team..."
-										style={{ width: 140 }}
-										onChange={value => this.updateQuery({ team: value }, 1)}
-									>
-										<Option value="Sharks">Sharks</Option>
-										<Option value="Barracuda">Barracuda</Option>
-									</Select>
-								}
-								trigger="click"
-							>
-								<AntButton
-									style={{ marginRight: 5, height: 41 }}
-									onClick={null}
-								>
-									Filter By Team
-								</AntButton>
-							</Popover>
-							<Popover
-								placement="bottom"
-								content={
-									<Select
-										allowClear
-										value={queries.opponent}
-										placeholder="Select an opponent..."
-										style={{ width: 200 }}
-										onChange={value =>
-											this.updateQuery({ opponent: value || null }, 1)
-										}
-									>
-										{!isEmpty(teams) ? (
-											teams.map(team => (
-												<Option key={team} value={team}>
-													{team}
-												</Option>
-											))
-										) : (
-											<Option value="disabled" disabled>
-												(none found)
-											</Option>
-										)}
-									</Select>
-								}
-								trigger="click"
-							>
-								<AntButton
-									style={{ marginRight: 5, height: 41 }}
-									onClick={null}
-								>
-									Filter By Opponent
-								</AntButton>
-							</Popover>
-							<Popover
-								placement="bottom"
-								content={
-									<Select
-										allowClear
-										value={queries.type}
-										placeholder="Select an event type..."
-										style={{ width: 140 }}
-										onChange={value => this.updateQuery({ type: value }, 1)}
-									>
-										<Option value="game">Game</Option>
-										<Option value="promotional">Promotional</Option>
-										<Option value="other">Other</Option>
-									</Select>
-								}
-								trigger="click"
-							>
-								<AntButton style={{ height: 41 }} onClick={null}>
-									Filter By Event Type
-								</AntButton>
-							</Popover>
-						</FlexStart>
-						<FlexEnd>
-							<Button
-								primary
-								width="180px"
-								marginRight="0px"
-								padding="5px 10px"
-								onClick={() => push("/employee/events/create")}
-							>
-								<FaCalendarPlus
-									style={{ position: "relative", top: 1, fontSize: 16 }}
-								/>
-								&nbsp; Add Event
-							</Button>
-						</FlexEnd>
-					</Flex>
+					<Filters
+						{...this.state}
+						{...this.props}
+						clearFilters={this.clearFilters}
+						updateQuery={this.updateQuery}
+					/>
 					<Table
 						{...this.state}
 						{...rest}

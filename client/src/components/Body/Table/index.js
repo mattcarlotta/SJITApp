@@ -31,7 +31,7 @@ class CustomTable extends Component {
 		const { queryString } = this.props;
 
 		if (queryString !== prevProps.queryString)
-			this.props.fetchData(this.props.queryString);
+			this.props.fetchData(queryString);
 	};
 
 	handleClickAction = (action, record) => action(record._id, record);
