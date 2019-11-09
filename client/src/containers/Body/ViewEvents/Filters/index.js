@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
 import moment from "moment";
 import { Button as AntButton, DatePicker, Popover, Select } from "antd";
-import { FaCalendarPlus, FaCheckCircle, FaRegCircle } from "react-icons/fa";
+import { FaCalendarPlus, FaCircle, FaRegCircle } from "react-icons/fa";
 import { Button, Flex, FlexEnd, FlexStart } from "components/Body";
 
 const RangePicker = DatePicker.RangePicker;
@@ -45,7 +45,7 @@ const EventFilters = ({ clearFilters, queries, push, teams, updateQuery }) => {
 					<AntButton style={{ marginRight: 5, height: 41 }} onClick={null}>
 						<span css="margin-right: 5px;">By Event Date</span>{" "}
 						{startDate ? (
-							<FaCheckCircle style={iconStyle} />
+							<FaCircle style={iconStyle} />
 						) : (
 							<FaRegCircle style={iconStyle} />
 						)}
@@ -71,7 +71,7 @@ const EventFilters = ({ clearFilters, queries, push, teams, updateQuery }) => {
 					<AntButton style={{ marginRight: 5, height: 41 }} onClick={null}>
 						<span css="margin-right: 5px;">By Event Type</span>{" "}
 						{queries.type ? (
-							<FaCheckCircle style={iconStyle} />
+							<FaCircle style={iconStyle} />
 						) : (
 							<FaRegCircle style={iconStyle} />
 						)}
@@ -96,7 +96,7 @@ const EventFilters = ({ clearFilters, queries, push, teams, updateQuery }) => {
 					<AntButton style={{ marginRight: 5, height: 41 }} onClick={null}>
 						<span css="margin-right: 5px;">By Team</span>{" "}
 						{queries.team ? (
-							<FaCheckCircle style={iconStyle} />
+							<FaCircle style={iconStyle} />
 						) : (
 							<FaRegCircle style={iconStyle} />
 						)}
@@ -130,7 +130,7 @@ const EventFilters = ({ clearFilters, queries, push, teams, updateQuery }) => {
 					<AntButton style={{ marginRight: 5, height: 41 }} onClick={null}>
 						<span css="margin-right: 5px;">By Opponent</span>{" "}
 						{queries.opponent ? (
-							<FaCheckCircle style={iconStyle} />
+							<FaCircle style={iconStyle} />
 						) : (
 							<FaRegCircle style={iconStyle} />
 						)}
