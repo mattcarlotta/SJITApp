@@ -103,6 +103,10 @@ export const SEASONS_FETCH_IDS = "SEASONS/FETCH_IDS";
 export const SEASONS_SET = "SEASONS/SET";
 export const SEASONS_SET_IDS = "SEASONS/SET_IDS";
 
+// teams
+export const TEAMS_FETCH_NAMES = "TEAMS/FETCH_NAMES";
+export const TEAMS_SET_NAMES = "TEAMS/SET_NAMES";
+
 // user authethenication
 export const USER_PASSWORD_UPDATE = "USER/PASSWORD_UPDATE";
 export const USER_PASSWORD_RESET = "USER/PASSWORD_RESET";

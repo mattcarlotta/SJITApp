@@ -6,6 +6,7 @@ import formsSagas from "./Forms";
 import mailSagas from "./Mail";
 import membersSagas from "./Members";
 import seasonsSagas from "./Seasons";
+import teamsSagas from "./Teams";
 
 export default function* rootSaga() {
 	yield all([
@@ -16,5 +17,6 @@ export default function* rootSaga() {
 		mailSagas(),
 		membersSagas(),
 		seasonsSagas(),
+		teamsSagas(),
 	]);
 }

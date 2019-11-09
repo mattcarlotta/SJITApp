@@ -6,7 +6,7 @@ import moment from "moment";
 import qs from "qs";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
-import { Card, DatePicker } from "antd";
+import { Card, Button as AntButton, DatePicker, Popover, Select } from "antd";
 import { MdEventNote } from "react-icons/md";
 import { FaCalendarPlus } from "react-icons/fa";
 import {
@@ -22,8 +22,10 @@ import {
 	Table,
 } from "components/Body";
 import { deleteEvent, fetchEvents, resendMail } from "actions/Events";
+import { fetchTeamNames } from "actions/Teams";
 
 const RangePicker = DatePicker.RangePicker;
+const Option = Select.Option;
 
 const title = "Events";
 const iconStyle = {
@@ -116,35 +118,27 @@ export class ViewEvents extends Component {
 		};
 	}
 
-	getCurrentQueries = (query, page) => {
+	componentDidMount = () => {
+		this.props.fetchTeamNames();
+	};
+
+	updateQuery = (nextQuery, page) => {
 		const {
 			location: { pathname, search },
 		} = this.props;
 
-		const currentQueries = qs.parse(search, {
-			ignoreQueryPrefix: true,
-		});
+		const currentQueries = parseQuery(search);
 
 		const queryString = stringifyQuery({
 			...currentQueries,
-			...query,
+			...nextQuery,
 			page,
 		});
 
-		return { queryString, pathname };
-	};
-
-	handleQueries = query => {
-		const { queryString, pathname } = this.getCurrentQueries(query, 1);
-
 		this.props.push(`${pathname}?${queryString}`);
 	};
 
-	handlePageChange = ({ current: page }) => {
-		const { queryString, pathname } = this.getCurrentQueries({}, page);
-
-		this.props.push(`${pathname}?${queryString}`);
-	};
+	handlePageChange = ({ current: page }) => this.updateQuery({}, page);
 
 	render = () => {
 		const {
@@ -153,6 +147,7 @@ export class ViewEvents extends Component {
 			fetchEvents,
 			push,
 			resendMail,
+			teams,
 			...rest
 		} = this.props;
 
@@ -174,21 +169,117 @@ export class ViewEvents extends Component {
 						</Fragment>
 					}
 				>
-					<Flex>
-						<FlexStart style={{ alignItems: "center" }}>
-							<div>Event Dates:</div>
-							&nbsp;
-							<RangePicker
-								className="dashboard-range-picker"
-								value={[startDate, endDate]}
-								format={format}
-								onChange={value =>
-									this.handleQueries({
-										startDate: !isEmpty(value) ? value[0].format(format) : null,
-										endDate: !isEmpty(value) ? value[1].format(format) : null,
-									})
+					<Flex style={{ marginBottom: 20 }}>
+						<FlexStart>
+							<Popover
+								placement="bottom"
+								content={
+									<RangePicker
+										className="filter-range-picker"
+										value={[startDate, endDate]}
+										format={format}
+										onChange={value =>
+											this.updateQuery(
+												{
+													startDate: !isEmpty(value)
+														? value[0].format(format)
+														: null,
+													endDate: !isEmpty(value)
+														? value[1].format(format)
+														: null,
+												},
+												1,
+											)
+										}
+									/>
 								}
-							/>
+								trigger="click"
+							>
+								<AntButton
+									style={{ marginRight: 5, height: 41 }}
+									onClick={null}
+								>
+									Filter By Event Date
+								</AntButton>
+							</Popover>
+							<Popover
+								placement="bottom"
+								content={
+									<Select
+										allowClear
+										value={queries.team}
+										placeholder="Select a team..."
+										style={{ width: 140 }}
+										onChange={value => this.updateQuery({ team: value }, 1)}
+									>
+										<Option value="Sharks">Sharks</Option>
+										<Option value="Barracuda">Barracuda</Option>
+									</Select>
+								}
+								trigger="click"
+							>
+								<AntButton
+									style={{ marginRight: 5, height: 41 }}
+									onClick={null}
+								>
+									Filter By Team
+								</AntButton>
+							</Popover>
+							<Popover
+								placement="bottom"
+								content={
+									<Select
+										allowClear
+										value={queries.opponent}
+										placeholder="Select an opponent..."
+										style={{ width: 200 }}
+										onChange={value =>
+											this.updateQuery({ opponent: value || null }, 1)
+										}
+									>
+										{!isEmpty(teams) ? (
+											teams.map(team => (
+												<Option key={team} value={team}>
+													{team}
+												</Option>
+											))
+										) : (
+											<Option value="disabled" disabled>
+												(none found)
+											</Option>
+										)}
+									</Select>
+								}
+								trigger="click"
+							>
+								<AntButton
+									style={{ marginRight: 5, height: 41 }}
+									onClick={null}
+								>
+									Filter By Opponent
+								</AntButton>
+							</Popover>
+							<Popover
+								placement="bottom"
+								content={
+									<Select
+										allowClear
+										value={queries.type}
+										placeholder="Select an event type..."
+										style={{ width: 140 }}
+										onChange={value => this.updateQuery({ type: value }, 1)}
+									>
+										<Option value="game">Game</Option>
+										<Option value="promotional">Promotional</Option>
+										<Option value="other">Other</Option>
+									</Select>
+								}
+								trigger="click"
+							>
+								<AntButton style={{ height: 41 }} onClick={null}>
+									Filter By Event Type
+								</AntButton>
+							</Popover>
 						</FlexStart>
 						<FlexEnd>
 							<Button
@@ -196,7 +287,6 @@ export class ViewEvents extends Component {
 								width="180px"
 								marginRight="0px"
 								padding="5px 10px"
-								style={{ marginBottom: 20 }}
 								onClick={() => push("/employee/events/create")}
 							>
 								<FaCalendarPlus
@@ -258,11 +348,13 @@ ViewEvents.propTypes = {
 		}),
 	),
 	isLoading: PropTypes.bool.isRequired,
+	fetchTeamNames: PropTypes.func.isRequired,
 	location: PropTypes.shape({
 		pathname: PropTypes.string,
 		search: PropTypes.string,
 	}),
 	resendMail: PropTypes.func.isRequired,
+	teams: PropTypes.arrayOf(PropTypes.string),
 	totalDocs: PropTypes.number,
 };
 
@@ -270,11 +362,13 @@ const mapStateToProps = state => ({
 	data: state.events.data,
 	isLoading: state.events.isLoading,
 	totalDocs: state.events.totalDocs,
+	teams: state.teams.data,
 });
 
 const mapDispatchToProps = {
 	deleteEvent,
 	fetchEvents,
+	fetchTeamNames,
 	push,
 	resendMail,
 };

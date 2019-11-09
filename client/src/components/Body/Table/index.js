@@ -31,7 +31,7 @@ class CustomTable extends Component {
 		const { queryString } = this.props;
 
 		if (queryString !== prevProps.queryString)
-			this.props.fetchData(queryString);
+			this.props.fetchData(this.props.queryString);
 	};
 
 	handleClickAction = (action, record) => action(record._id, record);
@@ -147,7 +147,7 @@ class CustomTable extends Component {
 					columns={this.createTableColumns()}
 					dataSource={this.props.data}
 					pagination={{
-						position: "both",
+						position: "bottom",
 						current: this.props.queries.page,
 						showTotal: /* istanbul ignore next */ total => (
 							<span>{total}&nbsp;items</span>
