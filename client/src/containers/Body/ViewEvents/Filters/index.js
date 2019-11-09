@@ -3,13 +3,17 @@ import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
 import moment from "moment";
 import { Button as AntButton, DatePicker, Popover, Select } from "antd";
-import { FaCalendarPlus } from "react-icons/fa";
+import { FaCalendarPlus, FaCheckCircle, FaRegCircle } from "react-icons/fa";
 import { Button, Flex, FlexEnd, FlexStart } from "components/Body";
 
 const RangePicker = DatePicker.RangePicker;
 const Option = Select.Option;
-
 const format = "MM-DD-YYYY";
+const iconStyle = {
+	position: "relative",
+	top: 1,
+	fontSize: 12,
+};
 
 const EventFilters = ({ clearFilters, queries, push, teams, updateQuery }) => {
 	const startDate = queries.startDate
@@ -39,7 +43,12 @@ const EventFilters = ({ clearFilters, queries, push, teams, updateQuery }) => {
 					trigger="click"
 				>
 					<AntButton style={{ marginRight: 5, height: 41 }} onClick={null}>
-						By Event Date
+						<span css="margin-right: 5px;">By Event Date</span>{" "}
+						{startDate ? (
+							<FaCheckCircle style={iconStyle} />
+						) : (
+							<FaRegCircle style={iconStyle} />
+						)}
 					</AntButton>
 				</Popover>
 				<Popover
@@ -60,7 +69,12 @@ const EventFilters = ({ clearFilters, queries, push, teams, updateQuery }) => {
 					trigger="click"
 				>
 					<AntButton style={{ marginRight: 5, height: 41 }} onClick={null}>
-						By Event Type
+						<span css="margin-right: 5px;">By Event Type</span>{" "}
+						{queries.type ? (
+							<FaCheckCircle style={iconStyle} />
+						) : (
+							<FaRegCircle style={iconStyle} />
+						)}
 					</AntButton>
 				</Popover>
 				<Popover
@@ -80,7 +94,12 @@ const EventFilters = ({ clearFilters, queries, push, teams, updateQuery }) => {
 					trigger="click"
 				>
 					<AntButton style={{ marginRight: 5, height: 41 }} onClick={null}>
-						By Team
+						<span css="margin-right: 5px;">By Team</span>{" "}
+						{queries.team ? (
+							<FaCheckCircle style={iconStyle} />
+						) : (
+							<FaRegCircle style={iconStyle} />
+						)}
 					</AntButton>
 				</Popover>
 				<Popover
@@ -109,11 +128,16 @@ const EventFilters = ({ clearFilters, queries, push, teams, updateQuery }) => {
 					trigger="click"
 				>
 					<AntButton style={{ marginRight: 5, height: 41 }} onClick={null}>
-						By Opponent
+						<span css="margin-right: 5px;">By Opponent</span>{" "}
+						{queries.opponent ? (
+							<FaCheckCircle style={iconStyle} />
+						) : (
+							<FaRegCircle style={iconStyle} />
+						)}
 					</AntButton>
 				</Popover>
 				<AntButton style={{ height: 41 }} onClick={clearFilters}>
-					Clear
+					Clear All
 				</AntButton>
 			</FlexStart>
 			<FlexEnd>

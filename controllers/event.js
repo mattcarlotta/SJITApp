@@ -8,6 +8,7 @@ import {
   createUserSchedule,
   createSchedule,
   findEventById,
+  generateFilters,
   getMonthDateRange,
   getUsers,
   sendError,
@@ -106,32 +107,13 @@ const deleteEvent = async (req, res) => {
 };
 
 const getAllEvents = async (req, res) => {
-  const format = "MM-DD-YYYY";
   try {
-    const { page, startDate, endDate, team, opponent, type } = req.query;
+    const { page } = req.query;
 
-    const eventDate =
-      startDate && endDate
-        ? {
-            eventDate: {
-              $gte: moment(startDate, format).format(),
-              $lte: moment(endDate, format).format(),
-            },
-          }
-        : {};
-
-    const teamName = team ? { team: { $regex: team, $options: "i" } } : {};
-
-    const opponentName = opponent
-      ? { opponent: { $regex: opponent, $options: "i" } }
-      : {};
-
-    const eventType = type
-      ? { eventType: { $regex: type, $options: "i" } }
-      : {};
+    const filters = generateFilters(req.query);
 
     const results = await Event.paginate(
-      { ...eventDate, ...teamName, ...opponentName, ...eventType },
+      { ...filters },
       {
         lean: true,
         sort: { eventDate: -1 },

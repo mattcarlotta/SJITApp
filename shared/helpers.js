@@ -309,6 +309,56 @@ const expirationDate = () =>
     .endOf("day");
 
 /**
+ * Helper function to generate table filters.
+ *
+ * @function generateFilters
+ * @param {object} - query
+ * @returns {object}
+ */
+const format = "MM-DD-YYYY";
+const generateFilters = query =>
+  !isEmpty(query)
+    ? Object.keys(query).reduce((acc, item) => {
+        switch (item) {
+          case "startDate": {
+            acc.eventDate = {
+              ...acc.eventDate,
+              $gte: moment(query[item], format)
+                .startOf("day")
+                .format(),
+            };
+            break;
+          }
+          case "endDate": {
+            acc.eventDate = {
+              ...acc.eventDate,
+              $lte: moment(query[item], format)
+                .endOf("day")
+                .format(),
+            };
+            break;
+          }
+          case "team": {
+            acc.team = { $regex: query[item], $options: "i" };
+            break;
+          }
+          case "opponent": {
+            acc.opponent = { $regex: query[item], $options: "i" };
+            break;
+          }
+          case "type": {
+            acc.eventType = { $regex: query[item], $options: "i" };
+            break;
+          }
+          default: {
+            break;
+          }
+        }
+        return acc;
+      }, {})
+    : {};
+
+/**
  * Helper function to generate a date.
  *
  * @function getEndOfDay
@@ -465,6 +515,7 @@ export {
   createUniqueName,
   expirationDate,
   findEventById,
+  generateFilters,
   getEndOfDay,
   getEventCounts,
   getMonthDateRange,

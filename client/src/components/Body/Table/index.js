@@ -157,7 +157,7 @@ class CustomTable extends Component {
 					bordered={true}
 					rowKey="_id"
 					scroll={{ x: 1300 }}
-					onChange={this.props.handlePageChange}
+					onChange={({ current: page }) => this.props.updateQuery({}, page)}
 				/>
 			</FadeIn>
 		);
@@ -174,7 +174,6 @@ CustomTable.propTypes = {
 		}),
 	).isRequired,
 	data: PropTypes.any.isRequired,
-	handlePageChange: PropTypes.func.isRequired,
 	isLoading: PropTypes.bool.isRequired,
 	queries: PropTypes.any,
 	queryString: PropTypes.string,
@@ -186,6 +185,7 @@ CustomTable.propTypes = {
 	sendMail: PropTypes.func,
 	totalDocs: PropTypes.number,
 	viewLocation: PropTypes.string,
+	updateQuery: PropTypes.func.isRequired,
 };
 
 export default CustomTable;

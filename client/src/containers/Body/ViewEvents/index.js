@@ -1,7 +1,6 @@
-import React, { Component, Fragment } from "react";
+import React, { Fragment, PureComponent } from "react";
 import PropTypes from "prop-types";
 import Helmet from "react-helmet";
-import qs from "qs";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import { Card } from "antd";
@@ -14,6 +13,7 @@ import {
 	FormatDate,
 	Table,
 } from "components/Body";
+import { QueryHandler } from "components/Navigation";
 import { deleteEvent, fetchEvents, resendMail } from "actions/Events";
 import { fetchTeamNames } from "actions/Teams";
 import Filters from "./Filters";
@@ -80,57 +80,10 @@ const columns = [
 	},
 ];
 
-const stringifyQuery = query => qs.stringify(query, { skipNulls: true });
-
-const parseQuery = query => {
-	const queries = qs.parse(query, {
-		ignoreQueryPrefix: true,
-	});
-
-	return {
-		...queries,
-		page: parseInt(queries.page || 1, 10),
-	};
-};
-
-export class ViewEvents extends Component {
-	state = {
-		queries: parseQuery(this.props.location.search),
-		queryString: this.props.location.search.replace(/[?]/g, ""),
-	};
-
-	static getDerivedStateFromProps({ location }) {
-		const queries = parseQuery(location.search);
-		return {
-			queries,
-			queryString: stringifyQuery(queries),
-		};
-	}
-
+export class ViewEvents extends PureComponent {
 	componentDidMount = () => {
 		this.props.fetchTeamNames();
 	};
-
-	updateQuery = (nextQuery, page = 1) => {
-		const {
-			location: { pathname, search },
-		} = this.props;
-
-		const currentQueries = parseQuery(search);
-
-		const queryString = stringifyQuery({
-			...currentQueries,
-			...nextQuery,
-			page,
-		});
-
-		this.props.push(`${pathname}?${queryString}`);
-	};
-
-	clearFilters = () =>
-		this.props.push(`${this.props.location.pathname}?page=1`);
-
-	handlePageChange = ({ current: page }) => this.updateQuery({}, page);
 
 	render = () => {
 		const {
@@ -153,25 +106,25 @@ export class ViewEvents extends Component {
 						</Fragment>
 					}
 				>
-					<Filters
-						{...this.state}
-						{...this.props}
-						clearFilters={this.clearFilters}
-						updateQuery={this.updateQuery}
-					/>
-					<Table
-						{...this.state}
-						{...rest}
-						columns={columns}
-						data={data}
-						deleteAction={deleteEvent}
-						handlePageChange={this.handlePageChange}
-						fetchData={fetchEvents}
-						push={push}
-						editLocation="events"
-						assignLocation="events"
-						sendMail={resendMail}
-					/>
+					<QueryHandler {...this.props}>
+						{props => (
+							<Fragment>
+								<Filters {...props} {...this.props} />
+								<Table
+									{...props}
+									{...rest}
+									columns={columns}
+									data={data}
+									deleteAction={deleteEvent}
+									fetchData={fetchEvents}
+									push={push}
+									editLocation="events"
+									assignLocation="events"
+									sendMail={resendMail}
+								/>
+							</Fragment>
+						)}
+					</QueryHandler>
 				</Card>
 			</Fragment>
 		);
