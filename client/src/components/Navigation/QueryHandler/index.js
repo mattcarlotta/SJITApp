@@ -16,20 +16,17 @@ class QueryHandler extends PureComponent {
 		};
 	}
 
-	updateQuery = (nextQuery, page = 1) => {
+	updateQuery = nextQuery => {
 		const {
-			location: { pathname, search },
+			location: { pathname },
+			push,
 		} = this.props;
 
-		const currentQueries = parseQuery(search);
-
 		const queryString = stringifyQuery({
-			...currentQueries,
 			...nextQuery,
-			page,
 		});
 
-		this.props.push(`${pathname}?${queryString}`);
+		push(`${pathname}?${queryString}`);
 	};
 
 	clearFilters = () =>

@@ -18,8 +18,8 @@ const iconStyle = {
 
 class CustomTable extends Component {
 	componentDidMount = () => {
-		const { queryString } = this.props;
-		this.props.fetchData(queryString);
+		const { fetchData, queryString } = this.props;
+		fetchData(queryString);
 	};
 
 	shouldComponentUpdate = nextProps =>
@@ -28,20 +28,12 @@ class CustomTable extends Component {
 		nextProps.queryString !== this.props.queryString;
 
 	componentDidUpdate = prevProps => {
-		const { queryString } = this.props;
+		const { fetchData, queryString } = this.props;
 
-		if (queryString !== prevProps.queryString)
-			this.props.fetchData(queryString);
+		if (queryString !== prevProps.queryString) fetchData(queryString);
 	};
 
 	handleClickAction = (action, record) => action(record._id, record);
-
-	handleSearch = (_, confirm) => confirm();
-
-	handleReset = clearFilters => clearFilters();
-
-	handleSelectKeys = (value, setSelectedKeys) =>
-		setSelectedKeys(value ? [value] : []);
 
 	/* istanbul ignore next */
 	getColumnSearchProps = dataIndex => ({
@@ -57,9 +49,9 @@ class CustomTable extends Component {
 					placeholder={`Search ${dataIndex}`}
 					value={selectedKeys[0]}
 					onChange={({ target: { value } }) =>
-						this.handleSelectKeys(value, setSelectedKeys)
+						setSelectedKeys(value ? [value] : [])
 					}
-					onPressEnter={() => this.handleSearch(selectedKeys, confirm)}
+					onPressEnter={() => confirm()}
 					style={{ marginBottom: 8, display: "block" }}
 				/>
 				<Button
@@ -68,7 +60,7 @@ class CustomTable extends Component {
 					padding="2px 0"
 					display="inline-block"
 					marginRight="5px"
-					onClick={() => this.handleSearch(selectedKeys, confirm)}
+					onClick={() => confirm()}
 				>
 					Search
 				</Button>
@@ -78,7 +70,7 @@ class CustomTable extends Component {
 					width="100px"
 					padding="2px 0"
 					marginRight="0px"
-					onClick={() => this.handleReset(clearFilters)}
+					onClick={() => clearFilters()}
 				>
 					Reset
 				</Button>
@@ -157,7 +149,10 @@ class CustomTable extends Component {
 					bordered={true}
 					rowKey="_id"
 					scroll={{ x: 1300 }}
-					onChange={({ current: page }) => this.props.updateQuery({}, page)}
+					onChange={
+						/* istanbul ignore next */ ({ current: page }) =>
+							this.props.updateQuery({ ...this.props.queries, page })
+					}
 				/>
 			</FadeIn>
 		);

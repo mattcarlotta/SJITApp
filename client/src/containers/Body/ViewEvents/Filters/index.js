@@ -34,6 +34,8 @@ const EventFilters = ({ clearFilters, queries, push, teams, updateQuery }) => {
 							format={format}
 							onChange={value =>
 								updateQuery({
+									...queries,
+									page: 1,
 									startDate: !isEmpty(value) ? value[0].format(format) : null,
 									endDate: !isEmpty(value) ? value[1].format(format) : null,
 								})
@@ -50,7 +52,9 @@ const EventFilters = ({ clearFilters, queries, push, teams, updateQuery }) => {
 							value={queries.type}
 							placeholder="Select an event type..."
 							style={{ width: 140 }}
-							onChange={value => updateQuery({ type: value })}
+							onChange={value =>
+								updateQuery({ ...queries, page: 1, type: value })
+							}
 						>
 							<Option value="game">Game</Option>
 							<Option value="promotional">Promotional</Option>
@@ -67,7 +71,9 @@ const EventFilters = ({ clearFilters, queries, push, teams, updateQuery }) => {
 							value={queries.team}
 							placeholder="Select a team..."
 							style={{ width: 140 }}
-							onChange={value => updateQuery({ team: value }, 1)}
+							onChange={value =>
+								updateQuery({ ...queries, page: 1, team: value }, 1)
+							}
 						>
 							<Option value="sharks">Sharks</Option>
 							<Option value="barracuda">Barracuda</Option>
@@ -83,7 +89,9 @@ const EventFilters = ({ clearFilters, queries, push, teams, updateQuery }) => {
 							value={queries.opponent}
 							placeholder="Select an opponent..."
 							style={{ width: 250 }}
-							onChange={value => updateQuery({ opponent: value || null })}
+							onChange={value =>
+								updateQuery({ ...queries, page: 1, opponent: value || null })
+							}
 						>
 							{!isEmpty(teams) ? (
 								teams.map(team => (
