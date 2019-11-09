@@ -90,7 +90,7 @@ const EventFilters = ({ clearFilters, queries, push, teams, updateQuery }) => {
 							allowClear
 							value={queries.opponent}
 							placeholder="Select an opponent..."
-							style={{ width: 200 }}
+							style={{ width: 250 }}
 							onChange={value => updateQuery({ opponent: value || null })}
 						>
 							{!isEmpty(teams) ? (
