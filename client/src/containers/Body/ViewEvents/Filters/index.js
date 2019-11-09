@@ -2,18 +2,19 @@ import React from "react";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
 import moment from "moment";
-import { Button as AntButton, DatePicker, Popover, Select } from "antd";
-import { FaCalendarPlus, FaCircle, FaRegCircle } from "react-icons/fa";
-import { Button, Flex, FlexEnd, FlexStart } from "components/Body";
+import { Button as AntButton, DatePicker, Select } from "antd";
+import { FaCalendarPlus } from "react-icons/fa";
+import {
+	Button,
+	FilterButton,
+	Flex,
+	FlexEnd,
+	FlexStart,
+} from "components/Body";
 
 const RangePicker = DatePicker.RangePicker;
 const Option = Select.Option;
 const format = "MM-DD-YYYY";
-const iconStyle = {
-	position: "relative",
-	top: 1,
-	fontSize: 12,
-};
 
 const EventFilters = ({ clearFilters, queries, push, teams, updateQuery }) => {
 	const startDate = queries.startDate
@@ -25,8 +26,7 @@ const EventFilters = ({ clearFilters, queries, push, teams, updateQuery }) => {
 		<Flex style={{ marginBottom: 20 }}>
 			<FlexStart style={{ alignItems: "center" }}>
 				<div css="margin-right: 5px;font-size: 15px;">Filter:</div>
-				<Popover
-					placement="bottom"
+				<FilterButton
 					content={
 						<RangePicker
 							className="filter-range-picker"
@@ -40,19 +40,10 @@ const EventFilters = ({ clearFilters, queries, push, teams, updateQuery }) => {
 							}
 						/>
 					}
-					trigger="click"
-				>
-					<AntButton style={{ marginRight: 5, height: 41 }} onClick={null}>
-						<span css="margin-right: 5px;">By Event Date</span>{" "}
-						{startDate ? (
-							<FaCircle style={iconStyle} />
-						) : (
-							<FaRegCircle style={iconStyle} />
-						)}
-					</AntButton>
-				</Popover>
-				<Popover
-					placement="bottom"
+					title="By Event Date"
+					value={startDate}
+				/>
+				<FilterButton
 					content={
 						<Select
 							allowClear
@@ -66,19 +57,10 @@ const EventFilters = ({ clearFilters, queries, push, teams, updateQuery }) => {
 							<Option value="other">Other</Option>
 						</Select>
 					}
-					trigger="click"
-				>
-					<AntButton style={{ marginRight: 5, height: 41 }} onClick={null}>
-						<span css="margin-right: 5px;">By Event Type</span>{" "}
-						{queries.type ? (
-							<FaCircle style={iconStyle} />
-						) : (
-							<FaRegCircle style={iconStyle} />
-						)}
-					</AntButton>
-				</Popover>
-				<Popover
-					placement="bottom"
+					title="By Event Type"
+					value={queries.type}
+				/>
+				<FilterButton
 					content={
 						<Select
 							allowClear
@@ -91,19 +73,10 @@ const EventFilters = ({ clearFilters, queries, push, teams, updateQuery }) => {
 							<Option value="barracuda">Barracuda</Option>
 						</Select>
 					}
-					trigger="click"
-				>
-					<AntButton style={{ marginRight: 5, height: 41 }} onClick={null}>
-						<span css="margin-right: 5px;">By Team</span>{" "}
-						{queries.team ? (
-							<FaCircle style={iconStyle} />
-						) : (
-							<FaRegCircle style={iconStyle} />
-						)}
-					</AntButton>
-				</Popover>
-				<Popover
-					placement="bottom"
+					title="By Team"
+					value={queries.team}
+				/>
+				<FilterButton
 					content={
 						<Select
 							allowClear
@@ -125,17 +98,9 @@ const EventFilters = ({ clearFilters, queries, push, teams, updateQuery }) => {
 							)}
 						</Select>
 					}
-					trigger="click"
-				>
-					<AntButton style={{ marginRight: 5, height: 41 }} onClick={null}>
-						<span css="margin-right: 5px;">By Opponent</span>{" "}
-						{queries.opponent ? (
-							<FaCircle style={iconStyle} />
-						) : (
-							<FaRegCircle style={iconStyle} />
-						)}
-					</AntButton>
-				</Popover>
+					title="By Opponent"
+					value={queries.opponent}
+				/>
 				<AntButton style={{ height: 41 }} onClick={clearFilters}>
 					Clear All
 				</AntButton>

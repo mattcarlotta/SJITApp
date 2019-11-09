@@ -25,6 +25,7 @@ export { default as EmailPreview } from "./EmailPreview";
 export { default as EmailStatus } from "./EmailStatus";
 export { default as EventLabel } from "./EventLabel";
 export { default as FadeIn } from "./FadeIn";
+export { default as FilterButton } from "./FilterButton";
 export { default as Flex } from "./Flex";
 export { default as FlexCenter } from "./FlexCenter";
 export { default as FlexEnd } from "./FlexEnd";
