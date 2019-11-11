@@ -320,6 +320,14 @@ const generateFilters = query =>
   !isEmpty(query)
     ? Object.keys(query).reduce((acc, item) => {
         switch (item) {
+          case "authorizedEmail": {
+            acc.authorizedEmail = { $regex: query[item], $options: "i" };
+            break;
+          }
+          case "email": {
+            acc.email = { $regex: query[item], $options: "i" };
+            break;
+          }
           case "endDate": {
             acc.eventDate = {
               ...acc.eventDate,
@@ -348,8 +356,31 @@ const generateFilters = query =>
             };
             break;
           }
+          case "firstName": {
+            acc.firstName = { $regex: query[item], $options: "i" };
+            break;
+          }
+          case "lastName": {
+            acc.lastName = { $regex: query[item], $options: "i" };
+            break;
+          }
           case "opponent": {
             acc.opponent = { $regex: query[item], $options: "i" };
+            break;
+          }
+          case "seasonId": {
+            acc.seasonId = { $regex: query[item], $options: "i" };
+            break;
+          }
+          case "sendDate": {
+            acc.sendDate = {
+              $gte: moment(query[item], format)
+                .startOf("day")
+                .format(),
+              $lte: moment(query[item], format)
+                .endOf("day")
+                .format(),
+            };
             break;
           }
           case "sentEmails": {
@@ -371,6 +402,10 @@ const generateFilters = query =>
                 .startOf("day")
                 .format(),
             };
+            break;
+          }
+          case "status": {
+            acc.status = { $eq: query[item] };
             break;
           }
           case "team": {

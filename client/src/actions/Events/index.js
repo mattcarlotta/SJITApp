@@ -18,13 +18,11 @@ export const createEvent = props => ({
  *
  * @function deleteEvent
  * @param {string} eventId
- * @param {string} query
  * @returns {object}
  */
-export const deleteEvent = (eventId, query) => ({
+export const deleteEvent = eventId => ({
 	type: types.EVENTS_DELETE,
 	eventId,
-	query,
 });
 
 /**
@@ -55,12 +53,10 @@ export const fetchEventForScheduling = eventId => ({
  * Fetches all events.
  *
  * @function fetchEvents
- * @param {string} query
  * @returns {object}
  */
-export const fetchEvents = query => ({
+export const fetchEvents = () => ({
 	type: types.EVENTS_FETCH,
-	query,
 });
 
 /**
@@ -90,13 +86,11 @@ export const initializeNewEvent = () => ({
  *
  * @function resendMail
  * @param {string} eventId
- * @param {string} query
  * @returns {object}
  */
-export const resendMail = (eventId, query) => ({
+export const resendMail = eventId => ({
 	type: types.EVENTS_RESEND_MAIL,
 	eventId,
-	query,
 });
 
 /**

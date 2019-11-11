@@ -4,62 +4,19 @@ import Helmet from "react-helmet";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import { Card } from "antd";
-import { FaMailBulk, FaPaperPlane } from "react-icons/fa";
-import {
-	Button,
-	DisplaySendToList,
-	EmailStatus,
-	FormatDate,
-	FlexEnd,
-	Table,
-} from "components/Body";
+import { FaMailBulk } from "react-icons/fa";
+import { Table } from "components/Body";
+import { QueryHandler } from "components/Navigation";
 import { deleteMail, fetchMails, resendMail } from "actions/Mail";
+import Filters from "./Filters";
+import columns from "./Columns";
 
 const title = "Mail";
-const titleIconStyle = {
-	verticalAlign: "middle",
-	marginRight: 10,
-	fontSize: 20,
-};
-
-const iconStyle = { position: "relative", top: 2 };
-
-const columns = [
-	{
-		title: "Status",
-		dataIndex: "status",
-		key: "status",
-		render: status => <EmailStatus status={status} />,
-	},
-	{
-		title: "Send To",
-		dataIndex: "sendTo",
-		key: "sendTo",
-		render: emails => <DisplaySendToList emails={emails} />,
-	},
-	{
-		title: "Send From",
-		dataIndex: "sendFrom",
-		key: "sendFrom",
-	},
-	{
-		title: "Send Date",
-		dataIndex: "sendDate",
-		key: "sendDate",
-		render: date => <FormatDate format="MM/DD/YYYY @ hh:mm a" date={date} />,
-	},
-	{
-		title: "Subject",
-		dataIndex: "subject",
-		key: "subject",
-	},
-];
 
 export const ViewMail = ({
 	data,
 	deleteMail,
 	fetchMails,
-	push,
 	resendMail,
 	...rest
 }) => (
@@ -68,34 +25,34 @@ export const ViewMail = ({
 		<Card
 			title={
 				<Fragment>
-					<FaMailBulk style={titleIconStyle} />
+					<FaMailBulk
+						style={{
+							verticalAlign: "middle",
+							marginRight: 10,
+							fontSize: 20,
+						}}
+					/>
 					<span css="vertical-align: middle;">{title}</span>
 				</Fragment>
 			}
 		>
-			<FlexEnd>
-				<Button
-					primary
-					width="180px"
-					marginRight="0px"
-					padding="5px 10px"
-					style={{ marginBottom: 20 }}
-					onClick={() => push("/employee/mail/create")}
-				>
-					<FaPaperPlane style={iconStyle} />
-					&nbsp; Send Mail
-				</Button>
-			</FlexEnd>
-			<Table
-				{...rest}
-				columns={columns}
-				data={data}
-				deleteAction={deleteMail}
-				editLocation="mail"
-				fetchData={fetchMails}
-				push={push}
-				sendMail={resendMail}
-			/>
+			<QueryHandler {...rest}>
+				{props => (
+					<Fragment>
+						<Filters {...props} {...rest} />
+						<Table
+							{...rest}
+							{...props}
+							columns={columns}
+							data={data}
+							deleteAction={deleteMail}
+							editLocation="mail"
+							fetchData={fetchMails}
+							sendMail={resendMail}
+						/>
+					</Fragment>
+				)}
+			</QueryHandler>
 		</Card>
 	</Fragment>
 );

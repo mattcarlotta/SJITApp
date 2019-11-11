@@ -158,21 +158,6 @@ describe("Custom Table", () => {
 			).toEqual("08/06/2001");
 		});
 
-		it("handles searches", () => {
-			const confirm = jest.fn();
-			const selectedKeys = ["test"];
-			wrapper.instance().handleSearch(selectedKeys, confirm);
-
-			expect(confirm).toHaveBeenCalledTimes(1);
-		});
-
-		it("clears filters", () => {
-			const clearFilters = jest.fn();
-			wrapper.instance().handleReset(clearFilters);
-
-			expect(clearFilters).toHaveBeenCalledTimes(1);
-		});
-
 		it("handles setting selected keys", () => {
 			const value = "test";
 			const setSelectedKeys = jest.fn();
@@ -182,57 +167,6 @@ describe("Custom Table", () => {
 
 			wrapper.instance().handleSelectKeys("", setSelectedKeys);
 
-			expect(setSelectedKeys).toHaveBeenCalledWith([]);
-		});
-
-		it("filters the table by searchText, as well as clears the table filters", () => {
-			const clickSearchIcon = () => {
-				wrapper
-					.find(".ant-dropdown-trigger")
-					.first()
-					.simulate("click");
-			};
-
-			clickSearchIcon();
-
-			const searchBar = wrapper.find("div.ant-table-filter-dropdown").first();
-
-			const value = "1000";
-			const updateInput = () => {
-				searchBar.find(".ant-input").simulate("change", { target: { value } });
-			};
-
-			updateInput();
-
-			searchBar
-				.find("button")
-				.first()
-				.simulate("click");
-
-			// expect(wrapper.state("searchText")).toEqual(value);
-			expect(wrapper.find("div.ant-empty-image").exists()).toBeTruthy();
-
-			clickSearchIcon();
-
-			searchBar
-				.find("button")
-				.at(1)
-				.simulate("click");
-
-			expect(wrapper.find("div.ant-empty-image").exists()).toBeFalsy();
-
-			clickSearchIcon();
-			updateInput();
-			searchBar.find(".ant-input").simulate("keydown", { keyCode: 13 });
-
-			expect(wrapper.find("div.ant-empty-image").exists()).toBeTruthy();
-
-			const setSelectedKeys = jest.fn();
-			wrapper.instance().handleSelectKeys(value, setSelectedKeys);
-			expect(setSelectedKeys).toHaveBeenCalledWith([value]);
-
-			setSelectedKeys.mockClear();
-			wrapper.instance().handleSelectKeys("", setSelectedKeys);
 			expect(setSelectedKeys).toHaveBeenCalledWith([]);
 		});
 

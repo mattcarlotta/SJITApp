@@ -6,6 +6,7 @@ import {
   createMemberEventCount,
   createMemberResponseCount,
   findEventById,
+  generateFilters,
   getEventCounts,
   getMonthDateRange,
   getUsers,
@@ -183,10 +184,16 @@ const deleteMember = async (req, res) => {
 
 const getAllMembers = async (req, res) => {
   try {
-    const { page } = req.query;
+    const { page, role } = req.query;
+
+    const filters = generateFilters(req.query);
+
+    const roleFilter = role
+      ? { $regex: role, $options: "i" }
+      : { $ne: "admin" };
 
     const results = await User.paginate(
-      { role: { $eq: "employee" } },
+      { ...filters, role: roleFilter },
       {
         sort: { lastName: 1 },
         page,

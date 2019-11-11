@@ -70,7 +70,6 @@ const seedDB = async () => {
 
     const newHire2 = {
       authorizedEmail: "member55@example.com",
-      email: "",
       role: "employee",
       token: createSignupToken(),
       expiration: expirationDate().toDate(),
@@ -78,7 +77,6 @@ const seedDB = async () => {
 
     const newHire3 = {
       authorizedEmail: "member66@example.com",
-      email: "",
       role: "employee",
       token: createSignupToken(),
       expiration: expirationDate().toDate(),
@@ -86,7 +84,6 @@ const seedDB = async () => {
 
     const newHire4 = {
       authorizedEmail: "member66@example.com",
-      email: "",
       role: "employee",
       token: createSignupToken(),
       expiration: expirationDate().toDate(),
@@ -94,7 +91,6 @@ const seedDB = async () => {
 
     const newHire5 = {
       authorizedEmail: "member77@example.com",
-      email: "",
       role: "employee",
       token: createSignupToken(),
       expiration: expirationDate().toDate(),
@@ -102,7 +98,6 @@ const seedDB = async () => {
 
     const newHire6 = {
       authorizedEmail: "member888@example.com",
-      email: "",
       role: "employee",
       token: createSignupToken(),
       expiration: expirationDate().toDate(),
@@ -110,7 +105,6 @@ const seedDB = async () => {
 
     const newHire7 = {
       authorizedEmail: "member999@example.com",
-      email: "",
       role: "employee",
       token: createSignupToken(),
       expiration: expirationDate().toDate(),
@@ -118,7 +112,6 @@ const seedDB = async () => {
 
     const newHire8 = {
       authorizedEmail: "member1000@example.com",
-      email: "",
       role: "employee",
       token: createSignupToken(),
       expiration: expirationDate().toDate(),
@@ -126,7 +119,6 @@ const seedDB = async () => {
 
     const newHire9 = {
       authorizedEmail: "member1001@example.com",
-      email: "",
       role: "employee",
       token: createSignupToken(),
       expiration: expirationDate().toDate(),
@@ -134,8 +126,15 @@ const seedDB = async () => {
 
     const newHire10 = {
       authorizedEmail: "member1002@example.com",
-      email: "",
       role: "employee",
+      token: createSignupToken(),
+      expiration: expirationDate().toDate(),
+    };
+
+    const newHire11 = {
+      authorizedEmail: "csusi@sapcenter.com",
+      email: "csusi@sapcenter.com",
+      role: "staff",
       token: createSignupToken(),
       expiration: expirationDate().toDate(),
     };
@@ -152,6 +151,7 @@ const seedDB = async () => {
       newHire8,
       newHire9,
       newHire10,
+      newHire11,
     ]);
 
     const adminPassword = await User.createPassword(password);

@@ -1,18 +1,9 @@
 import { goBack, push } from "connected-react-router";
-import { all, put, call, takeLatest } from "redux-saga/effects";
+import { all, put, call, select, takeLatest } from "redux-saga/effects";
 import { app } from "utils";
 import { hideServerMessage, setServerMessage } from "actions/Messages";
 import { signoutUser } from "actions/Auth";
-import {
-	fetchMember,
-	setMemberAvailability,
-	setMemberEventsByDate,
-	setMemberNames,
-	setMemberToReview,
-	setMembers,
-	setToken,
-	setTokens,
-} from "actions/Members";
+import * as actions from "actions/Members";
 import { parseData, parseMessage } from "utils/parseResponse";
 import * as types from "types";
 
@@ -54,7 +45,7 @@ export function* createMember({ props }) {
  *
  * @generator
  * @function deleteMember
- * @param {object} - memberId and currentPage
+ * @param {object} - memberId
  * @yields {object} - A response from a call to the API.
  * @function parseMessage - Returns a parsed res.data.message.
  * @yields {action} - A redux action to display a server message by type.
@@ -62,7 +53,7 @@ export function* createMember({ props }) {
  * @throws {action} - A redux action to display a server message by type.
  */
 
-export function* deleteMember({ memberId, currentPage }) {
+export function* deleteMember({ memberId }) {
 	try {
 		yield put(hideServerMessage());
 
@@ -76,11 +67,7 @@ export function* deleteMember({ memberId, currentPage }) {
 			}),
 		);
 
-		if (currentPage > 1) {
-			yield put(push("/employee/members/viewall?page=1"));
-		} else {
-			yield put({ type: types.MEMBERS_FETCH, currentPage: 1 });
-		}
+		yield put(actions.fetchMembers());
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
@@ -91,7 +78,7 @@ export function* deleteMember({ memberId, currentPage }) {
  *
  * @generator
  * @function deleteToken
- * @param {object} - tokenId and currentPage
+ * @param {object} - tokenId
  * @yields {object} - A response from a call to the API.
  * @function parseMessage - Returns a parsed res.data.message.
  * @yields {action} - A redux action to display a server message by type.
@@ -99,7 +86,7 @@ export function* deleteMember({ memberId, currentPage }) {
  * @throws {action} - A redux action to display a server message by type.
  */
 
-export function* deleteToken({ tokenId, currentPage }) {
+export function* deleteToken({ tokenId }) {
 	try {
 		yield put(hideServerMessage());
 
@@ -113,11 +100,7 @@ export function* deleteToken({ tokenId, currentPage }) {
 			}),
 		);
 
-		if (currentPage > 1) {
-			yield put(push("/employee/members/authorizations/viewall?page=1"));
-		} else {
-			yield put({ type: types.MEMBERS_FETCH_TOKENS, currentPage: 1 });
-		}
+		yield put(actions.fetchTokens());
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
@@ -142,7 +125,7 @@ export function* fetchAvailability({ params }) {
 		});
 		const data = yield call(parseData, res);
 
-		yield put(setMemberAvailability(data));
+		yield put(actions.setMemberAvailability(data));
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
@@ -166,7 +149,7 @@ export function* fetchMemberNames() {
 		const res = yield call(app.get, "members/names");
 		const data = yield call(parseData, res);
 
-		yield put(setMemberNames(data));
+		yield put(actions.setMemberNames(data));
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
@@ -197,7 +180,7 @@ export function* fetchProfile({ memberId }) {
 		const memberAvailability = yield call(parseData, res);
 
 		yield put(
-			setMemberToReview({
+			actions.setMemberToReview({
 				...basicMemberInfo,
 				memberAvailability,
 			}),
@@ -225,7 +208,7 @@ export function* fetchMemberEvents({ params }) {
 		const res = yield call(app.get, "member/events", { params });
 		const data = yield call(parseData, res);
 
-		yield put(setMemberEventsByDate(data));
+		yield put(actions.setMemberEventsByDate(data));
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
@@ -236,19 +219,20 @@ export function* fetchMemberEvents({ params }) {
  *
  * @generator
  * @function fetchMembers
- * @param {string} currentPage
  * @yields {object} - A response from a call to the API.
  * @function parseData - Returns a parsed res.data.
  * @yields {action} - A redux action to set members data to redux state.
  * @throws {action} - A redux action to display a server message by type.
  */
 
-export function* fetchMembers({ currentPage }) {
+export function* fetchMembers() {
 	try {
-		const res = yield call(app.get, `members/all?page=${currentPage}`);
+		const query = yield select(state => state.router.location.search);
+
+		const res = yield call(app.get, `members/all${query}`);
 		const data = yield call(parseData, res);
 
-		yield put(setMembers(data));
+		yield put(actions.setMembers(data));
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
@@ -276,7 +260,7 @@ export function* fetchSettings() {
 		const memberAvailability = yield call(parseData, res);
 
 		yield put(
-			setMemberToReview({
+			actions.setMemberToReview({
 				...basicMemberInfo,
 				memberAvailability,
 			}),
@@ -306,7 +290,7 @@ export function* fetchSettingsAvailability({ params }) {
 		});
 		const data = yield call(parseData, res);
 
-		yield put(setMemberAvailability(data));
+		yield put(actions.setMemberAvailability(data));
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
@@ -329,7 +313,7 @@ export function* fetchMemberSettingsEvents({ params }) {
 		const res = yield call(app.get, "member/settings/events", { params });
 		const data = yield call(parseData, res);
 
-		yield put(setMemberEventsByDate(data));
+		yield put(actions.setMemberEventsByDate(data));
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
@@ -357,9 +341,10 @@ export function* fetchToken({ tokenId }) {
 		const seasonData = yield call(parseData, res);
 
 		yield put(
-			setToken({ ...tokenData.token, seasonIds: seasonData.seasonIds }),
+			actions.setToken({ ...tokenData.token, seasonIds: seasonData.seasonIds }),
 		);
 	} catch (e) {
+		yield put(goBack());
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
 }
@@ -369,19 +354,20 @@ export function* fetchToken({ tokenId }) {
  *
  * @generator
  * @function fetchTokens
- * @param {string} currentPage
  * @yields {object} - A response from a call to the API.
  * @function parseData - Returns a parsed res.data.
  * @yields {action} - A redux action to set tokens data to redux state.
  * @throws {action} - A redux action to display a server message by type.
  */
 
-export function* fetchTokens({ currentPage }) {
+export function* fetchTokens() {
 	try {
-		const res = yield call(app.get, `tokens/all?page=${currentPage}`);
+		const query = yield select(state => state.router.location.search);
+
+		const res = yield call(app.get, `tokens/all${query}`);
 		const data = yield call(parseData, res);
 
-		yield put(setTokens(data));
+		yield put(actions.setTokens(data));
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
@@ -414,7 +400,7 @@ export function* updateMember({ props }) {
 			}),
 		);
 
-		yield put(fetchMember(props._id));
+		yield put(actions.fetchMember(props._id));
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
@@ -447,7 +433,7 @@ export function* updateMemberStatus({ props }) {
 			}),
 		);
 
-		yield put(fetchMember(props._id));
+		yield put(actions.fetchMember(props._id));
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
@@ -516,7 +502,7 @@ export function* updateSettings({ props }) {
 		if (message !== "Successfully updated your settings.") {
 			yield put(signoutUser());
 		} else {
-			yield put({ type: types.MEMBERS_FETCH_SETTINGS });
+			yield put(actions.fetchMemberSettings());
 		}
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));

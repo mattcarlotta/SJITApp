@@ -2,8 +2,8 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
-import { Icon, Input, Popover, Table } from "antd";
-import { FaSearch, FaTools } from "react-icons/fa";
+import { Popover, Table } from "antd";
+import { FaTools } from "react-icons/fa";
 import {
 	Button,
 	FadeIn,
@@ -14,8 +14,7 @@ import {
 
 class CustomTable extends Component {
 	componentDidMount = () => {
-		const { fetchData, queryString } = this.props;
-		fetchData(queryString);
+		this.props.fetchData();
 	};
 
 	shouldComponentUpdate = nextProps =>
@@ -24,87 +23,19 @@ class CustomTable extends Component {
 		nextProps.queryString !== this.props.queryString;
 
 	componentDidUpdate = prevProps => {
-		const {
-			data,
-			fetchData,
-			isLoading,
-			queryString,
-			totalDocs,
-			updateQuery,
-		} = this.props;
+		const { data, isLoading, queryString, totalDocs } = this.props;
 
-		if (queryString !== prevProps.queryString) fetchData(queryString);
+		if (queryString !== prevProps.queryString) this.props.fetchData();
 
 		if (isEmpty(data) && totalDocs > 0 && !isLoading)
-			updateQuery({ page: Math.ceil(totalDocs / 10) });
+			this.props.updateQuery({ page: Math.ceil(totalDocs / 10) });
 	};
 
-	handleClickAction = (action, record) =>
-		action(record._id, this.props.queryString);
-
-	/* istanbul ignore next */
-	getColumnSearchProps = dataIndex => ({
-		filterDropdown: ({
-			setSelectedKeys,
-			selectedKeys,
-			confirm,
-			clearFilters,
-		}) => (
-			<div style={{ padding: 8 }}>
-				<Input
-					ref={node => (this.searchInput = node)}
-					placeholder={`Search ${dataIndex}`}
-					value={selectedKeys[0]}
-					onChange={({ target: { value } }) =>
-						setSelectedKeys(value ? [value] : [])
-					}
-					onPressEnter={confirm}
-					style={{ marginBottom: 8, display: "block" }}
-				/>
-				<Button
-					primary
-					width="100px"
-					padding="2px 0"
-					display="inline-block"
-					marginRight="5px"
-					onClick={confirm}
-				>
-					Search
-				</Button>
-				<Button
-					danger
-					display="inline-block"
-					width="100px"
-					padding="2px 0"
-					marginRight="0px"
-					onClick={clearFilters}
-				>
-					Reset
-				</Button>
-			</div>
-		),
-		filterIcon: filtered => (
-			<Icon
-				component={FaSearch}
-				style={{ color: filtered ? "#1890ff" : undefined }}
-			/>
-		),
-		onFilter: (value, record) =>
-			record[dataIndex]
-				.toString()
-				.toLowerCase()
-				.includes(value.toLowerCase()),
-		onFilterDropdownVisibleChange: visible => {
-			if (visible) {
-				setTimeout(() => this.searchInput.select());
-			}
-		},
-	});
+	handleClickAction = (action, record) => action(record._id);
 
 	createTableColumns = () => {
 		const tableColumns = this.props.columns.map(props => ({
 			...props,
-			...this.getColumnSearchProps(props.dataIndex),
 		}));
 
 		tableColumns.push({

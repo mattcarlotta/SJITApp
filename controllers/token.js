@@ -2,6 +2,7 @@ import get from "lodash/get";
 import {
   createAuthMail,
   createSignupToken,
+  generateFilters,
   expirationDate,
   sendError,
 } from "shared/helpers";
@@ -66,10 +67,20 @@ const deleteToken = async (req, res) => {
 
 const getAllTokens = async (req, res) => {
   try {
-    const { page } = req.query;
+    const { email, page, role } = req.query;
+
+    const filters = generateFilters(req.query);
+
+    const emailFilter = email
+      ? { email: { $exists: email === "registered" } }
+      : {};
+
+    const roleFilter = role
+      ? { $regex: role, $options: "i" }
+      : { $ne: "admin" };
 
     const results = await Token.paginate(
-      {},
+      { ...filters, ...emailFilter, role: roleFilter },
       {
         sort: { expiration: -1 },
         page,
@@ -95,6 +106,7 @@ const getToken = async (req, res) => {
 
     const existingToken = await Token.findOne({ _id }, { __v: 0, token: 0 });
     if (!existingToken) throw unableToLocateToken;
+    if (existingToken.email) throw unableToUpdateToken;
 
     res.status(200).json({ token: existingToken });
   } catch (err) {

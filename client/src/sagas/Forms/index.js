@@ -1,5 +1,5 @@
 import { goBack, push } from "connected-react-router";
-import { all, put, call, takeLatest } from "redux-saga/effects";
+import { all, put, call, select, takeLatest } from "redux-saga/effects";
 import { app } from "utils";
 import { hideServerMessage, setServerMessage } from "actions/Messages";
 import * as actions from "actions/Forms";
@@ -44,7 +44,7 @@ export function* createForm({ props }) {
  *
  * @generator
  * @function deleteForm
- * @params {object} - formId and query
+ * @params {object} - formId
  * @yields {object} - A response from a call to the API.
  * @function parseMessage - Returns a parsed res.data.message.
  * @yields {action} - A redux action to display a server message by type.
@@ -52,7 +52,7 @@ export function* createForm({ props }) {
  * @throws {action} - A redux action to display a server message by type.
  */
 
-export function* deleteForm({ formId, query }) {
+export function* deleteForm({ formId }) {
 	try {
 		yield put(hideServerMessage());
 
@@ -66,7 +66,7 @@ export function* deleteForm({ formId, query }) {
 			}),
 		);
 
-		yield put(actions.fetchForms(query));
+		yield put(actions.fetchForms());
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
@@ -142,16 +142,17 @@ export function* fetchFormAp({ formId }) {
  *
  * @generator
  * @function fetchForms
- * @param {string} query
  * @yields {object} - A response from a call to the API.
  * @function parseData - Returns a parsed res.data.
  * @yields {action} - A redux action to set forms data to redux state.
  * @throws {action} - A redux action to display a server message by type.
  */
 
-export function* fetchForms({ query }) {
+export function* fetchForms() {
 	try {
-		const res = yield call(app.get, `forms/all?${query}`);
+		const query = yield select(state => state.router.location.search);
+
+		const res = yield call(app.get, `forms/all${query}`);
 		const data = yield call(parseData, res);
 
 		yield put(actions.setForms(data));
@@ -165,14 +166,14 @@ export function* fetchForms({ query }) {
  *
  * @generator
  * @function resendFormEmails
- * @params {object} - eventId and query
+ * @params {object} - eventId
  * @yields {object} - A response from a call to the API.
  * @function parseData - Returns a parsed res.data.
  * @yields {action} - A redux action to set forms data to redux state.
  * @throws {action} - A redux action to display a server message by type.
  */
 
-export function* resendFormEmails({ formId, query }) {
+export function* resendFormEmails({ formId }) {
 	try {
 		yield put(hideServerMessage());
 
@@ -186,7 +187,7 @@ export function* resendFormEmails({ formId, query }) {
 			}),
 		);
 
-		yield put(actions.fetchForms(query));
+		yield put(actions.fetchForms());
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}

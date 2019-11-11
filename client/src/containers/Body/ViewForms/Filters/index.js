@@ -8,6 +8,7 @@ import {
 	Button,
 	CollapseFlex,
 	FilterButton,
+	FilterInput,
 	FlexEnd,
 	FlexStart,
 } from "components/Body";
@@ -32,6 +33,18 @@ const FormFilters = ({ clearFilters, queries, push, updateQuery }) => {
 				<div css="margin-right: 5px;font-size: 15px; width: 65px;">
 					Filter by:
 				</div>
+				<FilterButton
+					content={
+						<FilterInput
+							name="seasonId"
+							placeholder="season id"
+							value={queries.seasonId}
+							updateQuery={updateQuery}
+						/>
+					}
+					title="Season Id"
+					value={queries.seasonId}
+				/>
 				<FilterButton
 					content={
 						<RangePicker
@@ -111,6 +124,7 @@ FormFilters.propTypes = {
 	queries: PropTypes.shape({
 		endMonth: PropTypes.string,
 		expirationDate: PropTypes.string,
+		seasonId: PropTypes.string,
 		sentEmails: PropTypes.string,
 		startMonth: PropTypes.string,
 	}),

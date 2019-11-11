@@ -4,15 +4,12 @@ import Helmet from "react-helmet";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import { Card } from "antd";
-import { FaUserPlus, FaUsers } from "react-icons/fa";
-import {
-	Button,
-	DisplayStatus,
-	FlexEnd,
-	FormatDate,
-	Table,
-} from "components/Body";
+import { FaUsers } from "react-icons/fa";
+import { Table } from "components/Body";
+import { QueryHandler } from "components/Navigation";
 import { deleteMember, fetchMembers } from "actions/Members";
+import Filters from "./Filters";
+import columns from "./Columns";
 
 const title = "Members";
 const iconStyle = {
@@ -21,32 +18,7 @@ const iconStyle = {
 	fontSize: 20,
 };
 
-const columns = [
-	{
-		title: "Account Status",
-		dataIndex: "status",
-		key: "status",
-		render: status => <DisplayStatus status={status} />,
-	},
-	{ title: "First Name", dataIndex: "firstName", key: "firstName" },
-	{ title: "Last Name", dataIndex: "lastName", key: "lastName" },
-	{ title: "Role", dataIndex: "role", key: "role" },
-	{ title: "Email", dataIndex: "email", key: "email" },
-	{
-		title: "Registered",
-		dataIndex: "registered",
-		key: "registered",
-		render: date => <FormatDate format="MM/DD/YYYY @ hh:mm a" date={date} />,
-	},
-];
-
-export const ViewMembers = ({
-	data,
-	deleteMember,
-	fetchMembers,
-	push,
-	...rest
-}) => (
+export const ViewMembers = ({ data, deleteMember, fetchMembers, ...rest }) => (
 	<Fragment>
 		<Helmet title={title} />
 		<Card
@@ -57,28 +29,22 @@ export const ViewMembers = ({
 				</Fragment>
 			}
 		>
-			<FlexEnd>
-				<Button
-					primary
-					width="180px"
-					marginRight="0px"
-					padding="5px 10px"
-					style={{ marginBottom: 20 }}
-					onClick={() => push("/employee/members/create")}
-				>
-					<FaUserPlus style={{ position: "relative", top: 2 }} />
-					&nbsp; Add Member
-				</Button>
-			</FlexEnd>
-			<Table
-				{...rest}
-				columns={columns}
-				data={data}
-				deleteAction={deleteMember}
-				fetchData={fetchMembers}
-				push={push}
-				viewLocation="members"
-			/>
+			<QueryHandler {...rest}>
+				{props => (
+					<Fragment>
+						<Filters {...props} {...rest} />
+						<Table
+							{...props}
+							{...rest}
+							columns={columns}
+							data={data}
+							deleteAction={deleteMember}
+							fetchData={fetchMembers}
+							viewLocation="members"
+						/>
+					</Fragment>
+				)}
+			</QueryHandler>
 		</Card>
 	</Fragment>
 );

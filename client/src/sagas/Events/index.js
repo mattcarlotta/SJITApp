@@ -1,5 +1,5 @@
 import { goBack, push } from "connected-react-router";
-import { all, put, call, takeLatest } from "redux-saga/effects";
+import { all, put, call, select, takeLatest } from "redux-saga/effects";
 import { app } from "utils";
 import { hideServerMessage, setServerMessage } from "actions/Messages";
 import * as actions from "actions/Events";
@@ -44,7 +44,7 @@ export function* createEvent({ props }) {
  *
  * @generator
  * @function deleteEvent
- * @params {object} - eventId and queryString
+ * @params {object} - eventId
  * @yields {object} - A response from a call to the API.
  * @function parseMessage - Returns a parsed res.data.message.
  * @yields {action} - A redux action to display a server message by type.
@@ -52,7 +52,7 @@ export function* createEvent({ props }) {
  * @throws {action} - A redux action to display a server message by type.
  */
 
-export function* deleteEvent({ eventId, query }) {
+export function* deleteEvent({ eventId }) {
 	try {
 		yield put(hideServerMessage());
 
@@ -66,7 +66,7 @@ export function* deleteEvent({ eventId, query }) {
 			}),
 		);
 
-		yield put(actions.fetchEvents(query));
+		yield put(actions.fetchEvents());
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
@@ -144,16 +144,17 @@ export function* fetchEventForScheduling({ eventId }) {
  *
  * @generator
  * @function fetchEvents
- * @param {string} currentPage
  * @yields {object} - A response from a call to the API.
  * @function parseData - Returns a parsed res.data.
  * @yields {action} - A redux action to set events data to redux state.
  * @throws {action} - A redux action to display a server message by type.
  */
 
-export function* fetchEvents({ query }) {
+export function* fetchEvents() {
 	try {
-		const res = yield call(app.get, `events/all?${query}`);
+		const query = yield select(state => state.router.location.search);
+
+		const res = yield call(app.get, `events/all${query}`);
 		const data = yield call(parseData, res);
 
 		yield put(actions.setEvents(data));
@@ -225,14 +226,14 @@ export function* initializeNewEvent() {
  *
  * @generator
  * @function resendEventEmails
- * @params {object} - eventId and query
+ * @params {object} - eventId
  * @yields {object} - A response from a call to the API.
  * @function parseData - Returns a parsed res.data.
  * @yields {action} - A redux action to set forms data to redux state.
  * @throws {action} - A redux action to display a server message by type.
  */
 
-export function* resendEventEmails({ eventId, query }) {
+export function* resendEventEmails({ eventId }) {
 	try {
 		yield put(hideServerMessage());
 
@@ -246,7 +247,7 @@ export function* resendEventEmails({ eventId, query }) {
 			}),
 		);
 
-		yield put(actions.fetchEvents(query));
+		yield put(actions.fetchEvents());
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
