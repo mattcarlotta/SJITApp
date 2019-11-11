@@ -2,7 +2,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Popover, Button } from "antd";
-import { FaCircle, FaRegCircle } from "react-icons/fa";
+import { FaCheckSquare, FaRegSquare } from "react-icons/fa";
 
 const iconStyle = {
 	position: "relative",
@@ -13,11 +13,12 @@ const iconStyle = {
 const FilterButton = ({ content, title, value }) => (
 	<Popover placement="bottom" trigger="click" content={content}>
 		<Button style={{ marginRight: 5, height: 41 }} onClick={null}>
-			<span css="margin-right: 5px;">{title}</span>{" "}
+			<span css="margin-right: 5px;">{title}</span>
+			&nbsp;
 			{value ? (
-				<FaCircle style={iconStyle} />
+				<FaCheckSquare style={iconStyle} />
 			) : (
-				<FaRegCircle style={iconStyle} />
+				<FaRegSquare style={iconStyle} />
 			)}
 		</Button>
 	</Popover>

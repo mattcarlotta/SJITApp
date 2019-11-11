@@ -320,15 +320,6 @@ const generateFilters = query =>
   !isEmpty(query)
     ? Object.keys(query).reduce((acc, item) => {
         switch (item) {
-          case "startDate": {
-            acc.eventDate = {
-              ...acc.eventDate,
-              $gte: moment(query[item], format)
-                .startOf("day")
-                .format(),
-            };
-            break;
-          }
           case "endDate": {
             acc.eventDate = {
               ...acc.eventDate,
@@ -338,12 +329,52 @@ const generateFilters = query =>
             };
             break;
           }
-          case "team": {
-            acc.team = { $regex: query[item], $options: "i" };
+          case "endMonth": {
+            acc.endMonth = {
+              $lte: moment(query[item], format)
+                .endOf("day")
+                .format(),
+            };
+            break;
+          }
+          case "expirationDate": {
+            acc.expirationDate = {
+              $gte: moment(query[item], format)
+                .startOf("day")
+                .format(),
+              $lte: moment(query[item], format)
+                .endOf("day")
+                .format(),
+            };
             break;
           }
           case "opponent": {
             acc.opponent = { $regex: query[item], $options: "i" };
+            break;
+          }
+          case "sentEmails": {
+            acc.sentEmails = { $eq: query[item] === "sent" };
+            break;
+          }
+          case "startDate": {
+            acc.eventDate = {
+              ...acc.eventDate,
+              $gte: moment(query[item], format)
+                .startOf("day")
+                .format(),
+            };
+            break;
+          }
+          case "startMonth": {
+            acc.startMonth = {
+              $gte: moment(query[item], format)
+                .startOf("day")
+                .format(),
+            };
+            break;
+          }
+          case "team": {
+            acc.team = { $regex: query[item], $options: "i" };
             break;
           }
           case "type": {

@@ -3,32 +3,22 @@ import PropTypes from "prop-types";
 import { setQuery, stringifyQuery } from "utils/queryHelpers";
 
 class QueryHandler extends PureComponent {
-	state = {
-		...setQuery(this.props.location.search),
-	};
+	state = setQuery(this.props.location.search);
 
-	static getDerivedStateFromProps({ location }) {
-		return {
-			...setQuery(location.search),
-		};
-	}
+	static getDerivedStateFromProps = ({ location }) => setQuery(location.search);
 
-	updateQuery = nextQuery => {
-		const {
-			location: { pathname },
-			push,
-		} = this.props;
+	pushToLocation = query =>
+		this.props.push(`${this.props.location.pathname}?${query}`);
 
-		const query = stringifyQuery({
-			...this.state.queries,
-			...nextQuery,
-		});
+	updateQuery = nextQuery =>
+		this.pushToLocation(
+			stringifyQuery({
+				...this.state.queries,
+				...nextQuery,
+			}),
+		);
 
-		push(`${pathname}?${query}`);
-	};
-
-	clearFilters = () =>
-		this.props.push(`${this.props.location.pathname}?page=1`);
+	clearFilters = () => this.pushToLocation("page=1");
 
 	render = () =>
 		this.props.children({

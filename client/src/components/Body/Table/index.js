@@ -1,6 +1,7 @@
 /* eslint-disable react/forbid-prop-types, react/jsx-boolean-value */
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import isEmpty from "lodash/isEmpty";
 import { Icon, Input, Popover, Table } from "antd";
 import { FaSearch, FaTools } from "react-icons/fa";
 import {
@@ -10,11 +11,6 @@ import {
 	LoadingTable,
 	TableActions,
 } from "components/Body";
-
-const iconStyle = {
-	position: "relative",
-	top: 2,
-};
 
 class CustomTable extends Component {
 	componentDidMount = () => {
@@ -28,12 +24,23 @@ class CustomTable extends Component {
 		nextProps.queryString !== this.props.queryString;
 
 	componentDidUpdate = prevProps => {
-		const { fetchData, queryString } = this.props;
+		const {
+			data,
+			fetchData,
+			isLoading,
+			queryString,
+			totalDocs,
+			updateQuery,
+		} = this.props;
 
 		if (queryString !== prevProps.queryString) fetchData(queryString);
+
+		if (isEmpty(data) && totalDocs > 0 && !isLoading)
+			updateQuery({ page: Math.ceil(totalDocs / 10) });
 	};
 
-	handleClickAction = (action, record) => action(record._id, record);
+	handleClickAction = (action, record) =>
+		action(record._id, this.props.queryString);
 
 	/* istanbul ignore next */
 	getColumnSearchProps = dataIndex => ({
@@ -51,7 +58,7 @@ class CustomTable extends Component {
 					onChange={({ target: { value } }) =>
 						setSelectedKeys(value ? [value] : [])
 					}
-					onPressEnter={() => confirm()}
+					onPressEnter={confirm}
 					style={{ marginBottom: 8, display: "block" }}
 				/>
 				<Button
@@ -60,7 +67,7 @@ class CustomTable extends Component {
 					padding="2px 0"
 					display="inline-block"
 					marginRight="5px"
-					onClick={() => confirm()}
+					onClick={confirm}
 				>
 					Search
 				</Button>
@@ -70,7 +77,7 @@ class CustomTable extends Component {
 					width="100px"
 					padding="2px 0"
 					marginRight="0px"
-					onClick={() => clearFilters()}
+					onClick={clearFilters}
 				>
 					Reset
 				</Button>
@@ -95,9 +102,7 @@ class CustomTable extends Component {
 	});
 
 	createTableColumns = () => {
-		const { columns } = this.props;
-
-		const tableColumns = columns.map(props => ({
+		const tableColumns = this.props.columns.map(props => ({
 			...props,
 			...this.getColumnSearchProps(props.dataIndex),
 		}));
@@ -119,7 +124,7 @@ class CustomTable extends Component {
 					trigger="click"
 				>
 					<Button padding="3px" marginRight="0px" onClick={null}>
-						<FaTools style={iconStyle} />
+						<FaTools style={{ position: "relative", top: 2 }} />
 					</Button>
 				</Popover>
 			),

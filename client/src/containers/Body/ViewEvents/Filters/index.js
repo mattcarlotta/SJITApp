@@ -6,8 +6,8 @@ import { Button as AntButton, DatePicker, Select } from "antd";
 import { FaCalendarPlus } from "react-icons/fa";
 import {
 	Button,
+	CollapseFlex,
 	FilterButton,
-	Flex,
 	FlexEnd,
 	FlexStart,
 } from "components/Body";
@@ -23,9 +23,11 @@ const EventFilters = ({ clearFilters, queries, push, teams, updateQuery }) => {
 	const endDate = queries.endDate ? moment(queries.endDate, format) : null;
 
 	return (
-		<Flex style={{ marginBottom: 20 }}>
-			<FlexStart style={{ alignItems: "center" }}>
-				<div css="margin-right: 5px;font-size: 15px;">Filter:</div>
+		<CollapseFlex>
+			<FlexStart>
+				<div css="margin-right: 5px;font-size: 15px;width: 65px;">
+					Filter by:
+				</div>
 				<FilterButton
 					content={
 						<RangePicker
@@ -41,8 +43,8 @@ const EventFilters = ({ clearFilters, queries, push, teams, updateQuery }) => {
 							}
 						/>
 					}
-					title="By Event Date"
-					value={startDate}
+					title="Event Date"
+					value={!!startDate}
 				/>
 				<FilterButton
 					content={
@@ -58,7 +60,7 @@ const EventFilters = ({ clearFilters, queries, push, teams, updateQuery }) => {
 							<Option value="other">Other</Option>
 						</Select>
 					}
-					title="By Event Type"
+					title="Event Type"
 					value={queries.type}
 				/>
 				<FilterButton
@@ -74,7 +76,7 @@ const EventFilters = ({ clearFilters, queries, push, teams, updateQuery }) => {
 							<Option value="barracuda">Barracuda</Option>
 						</Select>
 					}
-					title="By Team"
+					title="Team"
 					value={queries.team}
 				/>
 				<FilterButton
@@ -101,7 +103,7 @@ const EventFilters = ({ clearFilters, queries, push, teams, updateQuery }) => {
 							)}
 						</Select>
 					}
-					title="By Opponent"
+					title="Opponent"
 					value={queries.opponent}
 				/>
 				<AntButton style={{ height: 41 }} onClick={clearFilters}>
@@ -122,7 +124,7 @@ const EventFilters = ({ clearFilters, queries, push, teams, updateQuery }) => {
 					&nbsp; Add Event
 				</Button>
 			</FlexEnd>
-		</Flex>
+		</CollapseFlex>
 	);
 };
 

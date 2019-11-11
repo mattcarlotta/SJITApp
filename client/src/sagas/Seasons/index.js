@@ -2,7 +2,7 @@ import { goBack, push } from "connected-react-router";
 import { all, put, call, takeLatest } from "redux-saga/effects";
 import { app } from "utils";
 import { hideServerMessage, setServerMessage } from "actions/Messages";
-import { setSeasonToEdit, setSeasons, setSeasonsIds } from "actions/Seasons";
+import * as actions from "actions/Seasons";
 import { parseData, parseMessage } from "utils/parseResponse";
 import * as types from "types";
 
@@ -44,7 +44,7 @@ export function* createSeason({ props }) {
  *
  * @generator
  * @function deleteSeason
- * @param {object} - seasonId and currentPage
+ * @param {object} - seasonId and query
  * @yields {object} - A response from a call to the API.
  * @function parseMessage - Returns a parsed res.data.message.
  * @yields {action} - A redux action to display a server message by type.
@@ -52,7 +52,7 @@ export function* createSeason({ props }) {
  * @throws {action} - A redux action to display a server message by type.
  */
 
-export function* deleteSeason({ seasonId, currentPage }) {
+export function* deleteSeason({ seasonId, query }) {
 	try {
 		yield put(hideServerMessage());
 
@@ -66,11 +66,7 @@ export function* deleteSeason({ seasonId, currentPage }) {
 			}),
 		);
 
-		if (currentPage > 1) {
-			yield put(push("/employee/seasons/viewall?page=1"));
-		} else {
-			yield put({ type: types.SEASONS_FETCH, currentPage: 1 });
-		}
+		yield put(actions.fetchSeasons(query));
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
@@ -94,7 +90,7 @@ export function* fetchSeason({ seasonId }) {
 		const res = yield call(app.get, `season/edit/${seasonId}`);
 		const data = yield call(parseData, res);
 
-		yield put(setSeasonToEdit(data));
+		yield put(actions.setSeasonToEdit(data));
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
@@ -105,19 +101,19 @@ export function* fetchSeason({ seasonId }) {
  *
  * @generator
  * @function fetchSeasons
- * @param {string} currentPage
+ * @param {string} query
  * @yields {object} - A response from a call to the API.
  * @function parseData - Returns a parsed res.data.
  * @yields {action} - A redux action to set season data to redux state.
  * @throws {action} - A redux action to display a server message by type.
  */
 
-export function* fetchSeasons({ currentPage }) {
+export function* fetchSeasons({ query }) {
 	try {
-		const res = yield call(app.get, `seasons/all?page=${currentPage}`);
+		const res = yield call(app.get, `seasons/all?${query}`);
 		const data = yield call(parseData, res);
 
-		yield put(setSeasons(data));
+		yield put(actions.setSeasons(data));
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
@@ -141,7 +137,7 @@ export function* fetchSeasonsIds() {
 		const res = yield call(app.get, "seasons/all/ids");
 		const data = yield call(parseData, res);
 
-		yield put(setSeasonsIds(data));
+		yield put(actions.setSeasonsIds(data));
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}

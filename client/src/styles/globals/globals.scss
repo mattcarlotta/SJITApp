@@ -100,7 +100,32 @@
 }
 
 .filter-range-picker {
-	width: 250px;
+	width: 260px;
+	height: 32px;
+
+	& .ant-calendar-range-picker-input {
+		font-size: 16px;
+	}
+
+	& .ant-input {
+		padding: 0 0 0 35px;
+		font-size: 14px;
+	}
+
+	& svg {
+		font-size: 15px;
+	}
+
+	& i {
+		font-size: 14px;
+		vertical-align: middle;
+		left: 12px;
+		background: transparent;
+	}
+}
+
+.filter-date-picker {
+	width: 220px;
 	height: 32px;
 
 	& .ant-calendar-range-picker-input {

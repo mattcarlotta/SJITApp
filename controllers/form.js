@@ -5,6 +5,7 @@ import { Event, Form, Season } from "models";
 import {
   convertId,
   createDate,
+  generateFilters,
   getMonthDateRange,
   getStartOfDay,
   sendError,
@@ -89,8 +90,10 @@ const getAllForms = async (req, res) => {
   try {
     const { page } = req.query;
 
+    const filters = generateFilters(req.query);
+
     const results = await Form.paginate(
-      {},
+      { ...filters },
       { sort: { startMonth: -1 }, page, limit: 10, select: "-notes -__v" },
     );
 

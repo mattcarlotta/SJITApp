@@ -5,67 +5,18 @@ import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import { Card } from "antd";
 import { FaFileSignature } from "react-icons/fa";
-import { MdNoteAdd } from "react-icons/md";
-import {
-	Button,
-	DisplayEmailReminder,
-	FormatDate,
-	FlexEnd,
-	Table,
-} from "components/Body";
+import { Table } from "components/Body";
+import { QueryHandler } from "components/Navigation";
 import { deleteForm, fetchForms, resendMail } from "actions/Forms";
+import Filters from "./Filters";
+import columns from "./Columns";
 
 const title = "Forms";
-const iconStyle = {
-	verticalAlign: "middle",
-	marginRight: 10,
-	fontSize: 20,
-};
-
-const columns = [
-	{ title: "Season Id", dataIndex: "seasonId", key: "seasonId" },
-	{
-		title: "Start Month",
-		dataIndex: "startMonth",
-		key: "startMonth",
-		render: date => <FormatDate format="MM/DD/YYYY" date={date} />,
-	},
-	{
-		title: "End Month",
-		dataIndex: "endMonth",
-		key: "endMonth",
-		render: date => <FormatDate format="MM/DD/YYYY" date={date} />,
-	},
-	{
-		title: "Expiration Date",
-		dataIndex: "expirationDate",
-		key: "expirationDate",
-		render: date => <FormatDate format="MM/DD/YY @ hh:mm a" date={date} />,
-	},
-	{
-		title: "Form Id",
-		dataIndex: "_id",
-		key: "_id",
-	},
-	{
-		title: "Send Email Notifications",
-		dataIndex: "sendEmailNotificationsDate",
-		key: "sendEmailNotificationsDate",
-		render: date => <FormatDate format="MMMM Do, YYYY" date={date} />,
-	},
-	{
-		title: "Sent Emails",
-		dataIndex: "sentEmails",
-		key: "sentEmails",
-		render: reminder => <DisplayEmailReminder reminder={reminder} />,
-	},
-];
 
 export const ViewForms = ({
 	data,
 	deleteForm,
 	fetchForms,
-	push,
 	resendMail,
 	...rest
 }) => (
@@ -74,35 +25,35 @@ export const ViewForms = ({
 		<Card
 			title={
 				<Fragment>
-					<FaFileSignature style={iconStyle} />
+					<FaFileSignature
+						style={{
+							verticalAlign: "middle",
+							marginRight: 10,
+							fontSize: 20,
+						}}
+					/>
 					<span css="vertical-align: middle;">{title}</span>
 				</Fragment>
 			}
 		>
-			<FlexEnd>
-				<Button
-					primary
-					width="200px"
-					marginRight="0px"
-					padding="5px 10px"
-					style={{ marginBottom: 20 }}
-					onClick={() => push("/employee/forms/create")}
-				>
-					<MdNoteAdd style={{ position: "relative", top: 3, fontSize: 20 }} />
-					&nbsp; Create AP Form
-				</Button>
-			</FlexEnd>
-			<Table
-				{...rest}
-				columns={columns}
-				data={data}
-				deleteAction={deleteForm}
-				fetchData={fetchForms}
-				push={push}
-				editLocation="forms"
-				viewLocation="forms"
-				sendMail={resendMail}
-			/>
+			<QueryHandler {...rest}>
+				{props => (
+					<Fragment>
+						<Filters {...props} {...rest} />
+						<Table
+							{...rest}
+							{...props}
+							columns={columns}
+							data={data}
+							deleteAction={deleteForm}
+							fetchData={fetchForms}
+							editLocation="forms"
+							viewLocation="forms"
+							sendMail={resendMail}
+						/>
+					</Fragment>
+				)}
+			</QueryHandler>
 		</Card>
 	</Fragment>
 );

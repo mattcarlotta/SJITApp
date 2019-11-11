@@ -18,13 +18,13 @@ export const createEvent = props => ({
  *
  * @function deleteEvent
  * @param {string} eventId
- * @param {string} currentPage
+ * @param {string} query
  * @returns {object}
  */
-export const deleteEvent = (eventId, currentPage) => ({
+export const deleteEvent = (eventId, query) => ({
 	type: types.EVENTS_DELETE,
 	eventId,
-	currentPage,
+	query,
 });
 
 /**
@@ -90,13 +90,13 @@ export const initializeNewEvent = () => ({
  *
  * @function resendMail
  * @param {string} eventId
- * @param {string} currentPage
+ * @param {string} query
  * @returns {object}
  */
-export const resendMail = (eventId, currentPage) => ({
+export const resendMail = (eventId, query) => ({
 	type: types.EVENTS_RESEND_MAIL,
 	eventId,
-	currentPage,
+	query,
 });
 
 /**

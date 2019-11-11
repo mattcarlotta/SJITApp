@@ -74,7 +74,8 @@ const getAllSeasons = async (req, res) => {
 const getAllSeasonIds = async (_, res) => {
   try {
     const seasons = await Season.aggregate([
-      { $group: { _id: null, seasonIds: { $addToSet: "$seasonId" } } },
+      { $sort: { startDate: -1 } },
+      { $group: { _id: null, seasonIds: { $push: "$seasonId" } } },
       { $project: { _id: 0, seasonIds: 1 } },
     ]);
     /* istanbul ignore next */

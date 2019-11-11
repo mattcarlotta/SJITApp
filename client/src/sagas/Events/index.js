@@ -2,13 +2,7 @@ import { goBack, push } from "connected-react-router";
 import { all, put, call, takeLatest } from "redux-saga/effects";
 import { app } from "utils";
 import { hideServerMessage, setServerMessage } from "actions/Messages";
-import {
-	setEventForScheduling,
-	setEvents,
-	setEventToEdit,
-	setNewEvent,
-	setScheduleEvents,
-} from "actions/Events";
+import * as actions from "actions/Events";
 import { parseData, parseMessage } from "utils/parseResponse";
 import * as types from "types";
 
@@ -50,7 +44,7 @@ export function* createEvent({ props }) {
  *
  * @generator
  * @function deleteEvent
- * @params {object} - eventId and currentPage
+ * @params {object} - eventId and queryString
  * @yields {object} - A response from a call to the API.
  * @function parseMessage - Returns a parsed res.data.message.
  * @yields {action} - A redux action to display a server message by type.
@@ -58,7 +52,7 @@ export function* createEvent({ props }) {
  * @throws {action} - A redux action to display a server message by type.
  */
 
-export function* deleteEvent({ eventId, currentPage }) {
+export function* deleteEvent({ eventId, query }) {
 	try {
 		yield put(hideServerMessage());
 
@@ -72,11 +66,7 @@ export function* deleteEvent({ eventId, currentPage }) {
 			}),
 		);
 
-		if (currentPage > 1) {
-			yield put(push("/employee/events/viewall?page=1"));
-		} else {
-			yield put({ type: types.EVENTS_FETCH, currentPage: 1 });
-		}
+		yield put(actions.fetchEvents(query));
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
@@ -108,7 +98,7 @@ export function* fetchEvent({ eventId }) {
 		const teams = yield call(parseData, res);
 
 		yield put(
-			setEventToEdit({
+			actions.setEventToEdit({
 				...events.event,
 				seasonIds: seasons.seasonIds,
 				teams: teams.names,
@@ -141,7 +131,9 @@ export function* fetchEventForScheduling({ eventId }) {
 		res = yield call(app.get, `members/eventcounts`, { params: { eventId } });
 		const memberCountData = yield call(parseData, res);
 
-		yield put(setEventForScheduling({ ...scheduleData, ...memberCountData }));
+		yield put(
+			actions.setEventForScheduling({ ...scheduleData, ...memberCountData }),
+		);
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
@@ -164,7 +156,7 @@ export function* fetchEvents({ query }) {
 		const res = yield call(app.get, `events/all?${query}`);
 		const data = yield call(parseData, res);
 
-		yield put(setEvents(data));
+		yield put(actions.setEvents(data));
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
@@ -187,7 +179,7 @@ export function* fetchScheduleEvents({ params }) {
 		const res = yield call(app.get, "events/schedule", { params });
 		const data = yield call(parseData, res);
 
-		yield put(setScheduleEvents(data));
+		yield put(actions.setScheduleEvents(data));
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
@@ -218,7 +210,7 @@ export function* initializeNewEvent() {
 		const teams = yield call(parseData, res);
 
 		yield put(
-			setNewEvent({
+			actions.setNewEvent({
 				seasonIds: seasons.seasonIds,
 				teams: teams.names,
 			}),
@@ -233,14 +225,14 @@ export function* initializeNewEvent() {
  *
  * @generator
  * @function resendEventEmails
- * @params {object} - eventId and currentPage
+ * @params {object} - eventId and query
  * @yields {object} - A response from a call to the API.
  * @function parseData - Returns a parsed res.data.
  * @yields {action} - A redux action to set forms data to redux state.
  * @throws {action} - A redux action to display a server message by type.
  */
 
-export function* resendEventEmails({ eventId, currentPage }) {
+export function* resendEventEmails({ eventId, query }) {
 	try {
 		yield put(hideServerMessage());
 
@@ -254,7 +246,7 @@ export function* resendEventEmails({ eventId, currentPage }) {
 			}),
 		);
 
-		yield put({ type: types.EVENTS_FETCH, currentPage });
+		yield put(actions.fetchEvents(query));
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
