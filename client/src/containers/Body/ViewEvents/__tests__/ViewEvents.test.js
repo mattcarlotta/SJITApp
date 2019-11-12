@@ -19,6 +19,7 @@ const initProps = {
 	push,
 	resendMail,
 	totalDocs: 0,
+	teams: [],
 };
 
 const data = [
@@ -64,18 +65,27 @@ describe("View All Events", () => {
 		wrapper = mount(<ViewEvents {...initProps} />);
 	});
 
+	afterEach(() => {
+		fetchTeamNames.mockClear();
+	});
+
 	it("renders without errors", () => {
 		expect(wrapper.find("Card").exists()).toBeTruthy();
 	});
 
-	// it("clicking on the 'Add Event' button, moves the user to the New Event Form page", () => {
-	// 	wrapper
-	// 		.find("Button")
-	// 		.at(0)
-	// 		.simulate("click");
-	//
-	// 	expect(push).toHaveBeenCalledWith("/employee/events/create");
-	// });
+	it("initially calls fetchTeamNames", () => {
+		expect(fetchTeamNames).toHaveBeenCalledTimes(1);
+	});
+
+	it("doesn't call fetchTeamNames if teams prop isn't empty", () => {
+		const props = {
+			...initProps,
+			teams: ["San Jose Sharks", "San Jose Barracuda"],
+		};
+
+		wrapper = mount(<ViewEvents {...props} />);
+		expect(fetchTeamNames).toHaveBeenCalledTimes(1);
+	});
 
 	it("renders a LoadingTable", () => {
 		expect(wrapper.find("LoadingTable").exists()).toBeTruthy();

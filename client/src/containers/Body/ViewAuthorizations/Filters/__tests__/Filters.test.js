@@ -18,6 +18,7 @@ describe("Authorization Filters", () => {
 	});
 
 	afterEach(() => {
+		clearFilters.mockClear();
 		push.mockClear();
 		updateQuery.mockClear();
 	});
@@ -71,6 +72,15 @@ describe("Authorization Filters", () => {
 			.simulate("click");
 
 		expect(updateQuery).toHaveBeenCalledWith({ page: 1, role: "staff" });
+	});
+
+	it("handles clearing filters", () => {
+		wrapper
+			.find("#clear-filters")
+			.first()
+			.simulate("click");
+
+		expect(clearFilters).toHaveBeenCalledTimes(1);
 	});
 
 	it("clicking on the 'Add Member' button, moves the user to the New Member Form page", () => {

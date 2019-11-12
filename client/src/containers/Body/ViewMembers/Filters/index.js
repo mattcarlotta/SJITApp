@@ -20,6 +20,7 @@ const MembersFilters = ({ clearFilters, queries, push, updateQuery }) => (
 				Filter by:
 			</div>
 			<FilterButton
+				id="status"
 				content={
 					<Select
 						allowClear
@@ -36,6 +37,7 @@ const MembersFilters = ({ clearFilters, queries, push, updateQuery }) => (
 				value={queries.status}
 			/>
 			<FilterButton
+				id="role"
 				content={
 					<Select
 						allowClear
@@ -52,6 +54,7 @@ const MembersFilters = ({ clearFilters, queries, push, updateQuery }) => (
 				value={queries.role}
 			/>
 			<FilterButton
+				id="email"
 				content={
 					<FilterInput
 						name="email"
@@ -64,6 +67,7 @@ const MembersFilters = ({ clearFilters, queries, push, updateQuery }) => (
 				value={queries.email}
 			/>
 			<FilterButton
+				id="first-name"
 				content={
 					<FilterInput
 						name="firstName"
@@ -76,6 +80,7 @@ const MembersFilters = ({ clearFilters, queries, push, updateQuery }) => (
 				value={queries.firstName}
 			/>
 			<FilterButton
+				id="last-name"
 				content={
 					<FilterInput
 						name="lastName"
@@ -87,13 +92,18 @@ const MembersFilters = ({ clearFilters, queries, push, updateQuery }) => (
 				title="Last Name"
 				value={queries.lastName}
 			/>
-			<AntButton style={{ height: 41 }} onClick={clearFilters}>
+			<AntButton
+				id="clear-filters"
+				style={{ height: 41 }}
+				onClick={clearFilters}
+			>
 				Clear All
 			</AntButton>
 		</FlexStart>
 		<FlexEnd>
 			<Button
 				primary
+				className="add-member"
 				width="180px"
 				marginRight="0px"
 				padding="5px 10px"

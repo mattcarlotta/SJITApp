@@ -24,6 +24,7 @@ const MailFilters = ({ clearFilters, queries, push, updateQuery }) => {
 					Filter by:
 				</div>
 				<FilterButton
+					id="send-date"
 					content={
 						<DatePicker
 							allowClear
@@ -43,6 +44,7 @@ const MailFilters = ({ clearFilters, queries, push, updateQuery }) => {
 					value={sendDate}
 				/>
 				<FilterButton
+					id="status"
 					content={
 						<Select
 							allowClear
@@ -58,13 +60,18 @@ const MailFilters = ({ clearFilters, queries, push, updateQuery }) => {
 					title="Email Status"
 					value={queries.status}
 				/>
-				<AntButton style={{ height: 41 }} onClick={clearFilters}>
+				<AntButton
+					id="clear-filters"
+					style={{ height: 41 }}
+					onClick={clearFilters}
+				>
 					Clear All
 				</AntButton>
 			</FlexStart>
 			<FlexEnd>
 				<Button
 					primary
+					className="send-mail"
 					width="180px"
 					marginRight="0px"
 					padding="5px 10px"

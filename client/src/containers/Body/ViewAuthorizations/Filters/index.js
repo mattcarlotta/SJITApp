@@ -66,7 +66,11 @@ const AuthorizationFilters = ({ clearFilters, queries, push, updateQuery }) => (
 				title="Role"
 				value={queries.role}
 			/>
-			<AntButton style={{ height: 41 }} onClick={clearFilters}>
+			<AntButton
+				id="clear-filters"
+				style={{ height: 41 }}
+				onClick={clearFilters}
+			>
 				Clear All
 			</AntButton>
 		</FlexStart>

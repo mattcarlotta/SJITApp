@@ -34,6 +34,7 @@ const FormFilters = ({ clearFilters, queries, push, updateQuery }) => {
 					Filter by:
 				</div>
 				<FilterButton
+					id="seasonid"
 					content={
 						<FilterInput
 							name="seasonId"
@@ -46,6 +47,7 @@ const FormFilters = ({ clearFilters, queries, push, updateQuery }) => {
 					value={queries.seasonId}
 				/>
 				<FilterButton
+					id="month-dates"
 					content={
 						<RangePicker
 							className="filter-range-picker"
@@ -65,6 +67,7 @@ const FormFilters = ({ clearFilters, queries, push, updateQuery }) => {
 					value={!!startMonth}
 				/>
 				<FilterButton
+					id="expiration-date"
 					content={
 						<DatePicker
 							allowClear
@@ -84,6 +87,7 @@ const FormFilters = ({ clearFilters, queries, push, updateQuery }) => {
 					value={expirationDate}
 				/>
 				<FilterButton
+					id="sent-emails"
 					content={
 						<Select
 							allowClear
@@ -99,13 +103,18 @@ const FormFilters = ({ clearFilters, queries, push, updateQuery }) => {
 					title="Email Status"
 					value={queries.sentEmails}
 				/>
-				<AntButton style={{ height: 41 }} onClick={clearFilters}>
+				<AntButton
+					id="clear-filters"
+					style={{ height: 41 }}
+					onClick={clearFilters}
+				>
 					Clear All
 				</AntButton>
 			</FlexStart>
 			<FlexEnd>
 				<Button
 					primary
+					className="create-ap-form"
 					width="200px"
 					marginRight="0px"
 					padding="5px 10px"

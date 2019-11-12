@@ -29,6 +29,7 @@ const EventFilters = ({ clearFilters, queries, push, teams, updateQuery }) => {
 					Filter by:
 				</div>
 				<FilterButton
+					id="event-date"
 					content={
 						<RangePicker
 							className="filter-range-picker"
@@ -47,6 +48,7 @@ const EventFilters = ({ clearFilters, queries, push, teams, updateQuery }) => {
 					value={startDate}
 				/>
 				<FilterButton
+					id="event-type"
 					content={
 						<Select
 							allowClear
@@ -64,13 +66,14 @@ const EventFilters = ({ clearFilters, queries, push, teams, updateQuery }) => {
 					value={queries.type}
 				/>
 				<FilterButton
+					id="team"
 					content={
 						<Select
 							allowClear
 							value={queries.team}
 							placeholder="Select a team..."
 							style={{ width: 140 }}
-							onChange={value => updateQuery({ page: 1, team: value }, 1)}
+							onChange={value => updateQuery({ page: 1, team: value })}
 						>
 							<Option value="sharks">Sharks</Option>
 							<Option value="barracuda">Barracuda</Option>
@@ -80,6 +83,7 @@ const EventFilters = ({ clearFilters, queries, push, teams, updateQuery }) => {
 					value={queries.team}
 				/>
 				<FilterButton
+					id="opponent"
 					content={
 						<Select
 							allowClear
@@ -107,6 +111,7 @@ const EventFilters = ({ clearFilters, queries, push, teams, updateQuery }) => {
 					value={queries.opponent}
 				/>
 				<FilterButton
+					id="sent-emails"
 					content={
 						<Select
 							allowClear
@@ -124,13 +129,18 @@ const EventFilters = ({ clearFilters, queries, push, teams, updateQuery }) => {
 					title="Email Status"
 					value={queries.sentEmailReminders}
 				/>
-				<AntButton style={{ height: 41 }} onClick={clearFilters}>
+				<AntButton
+					id="clear-filters"
+					style={{ height: 41 }}
+					onClick={clearFilters}
+				>
 					Clear All
 				</AntButton>
 			</FlexStart>
 			<FlexEnd>
 				<Button
 					primary
+					className="add-event"
 					width="180px"
 					marginRight="0px"
 					padding="5px 10px"
