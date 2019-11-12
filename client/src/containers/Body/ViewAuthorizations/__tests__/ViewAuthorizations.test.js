@@ -49,15 +49,6 @@ describe("View Member Profile", () => {
 		expect(wrapper.find("Card").exists()).toBeTruthy();
 	});
 
-	// it("clicking on the 'Add Member' button, moves the user to the New Member Form page", () => {
-	// 	wrapper
-	// 		.find("Button")
-	// 		.at(0)
-	// 		.simulate("click");
-	//
-	// 	expect(push).toHaveBeenCalledWith("/employee/members/create");
-	// });
-
 	it("renders a LoadingTable", () => {
 		expect(wrapper.find("LoadingTable").exists()).toBeTruthy();
 	});

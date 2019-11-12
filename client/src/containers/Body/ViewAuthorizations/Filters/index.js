@@ -20,6 +20,7 @@ const AuthorizationFilters = ({ clearFilters, queries, push, updateQuery }) => (
 				Filter by:
 			</div>
 			<FilterButton
+				id="email-registration"
 				content={
 					<Select
 						allowClear
@@ -36,6 +37,7 @@ const AuthorizationFilters = ({ clearFilters, queries, push, updateQuery }) => (
 				value={queries.email}
 			/>
 			<FilterButton
+				id="authorized-email"
 				content={
 					<FilterInput
 						name="authorizedEmail"
@@ -48,6 +50,7 @@ const AuthorizationFilters = ({ clearFilters, queries, push, updateQuery }) => (
 				value={queries.authorizedEmail}
 			/>
 			<FilterButton
+				id="role"
 				content={
 					<Select
 						allowClear
@@ -69,6 +72,7 @@ const AuthorizationFilters = ({ clearFilters, queries, push, updateQuery }) => (
 		</FlexStart>
 		<FlexEnd>
 			<Button
+				className="add-member"
 				primary
 				width="180px"
 				marginRight="0px"

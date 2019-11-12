@@ -10,9 +10,9 @@ const iconStyle = {
 	fontSize: 12,
 };
 
-const FilterButton = ({ content, title, value }) => (
+const FilterButton = ({ id, content, title, value }) => (
 	<Popover placement="bottom" trigger="click" content={content}>
-		<Button style={{ marginRight: 5, height: 41 }} onClick={null}>
+		<Button id={id} style={{ marginRight: 5, height: 41 }} onClick={null}>
 			<span css="margin-right: 5px;">{title}</span>
 			&nbsp;
 			{value ? (
@@ -25,6 +25,7 @@ const FilterButton = ({ content, title, value }) => (
 );
 
 FilterButton.propTypes = {
+	id: PropTypes.string,
 	content: PropTypes.node.isRequired,
 	title: PropTypes.string.isRequired,
 	value: PropTypes.any,
