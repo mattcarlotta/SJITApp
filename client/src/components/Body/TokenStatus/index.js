@@ -26,7 +26,7 @@ const TokenStatus = ({ email }) => {
 };
 
 TokenStatus.propTypes = {
-	email: PropTypes.string.isRequired,
+	email: PropTypes.string,
 };
 
 export default TokenStatus;

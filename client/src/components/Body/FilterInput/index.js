@@ -37,6 +37,7 @@ class FilterInput extends Component {
 		return (
 			<form onSubmit={this.handleSearch}>
 				<Input
+					className="search-field"
 					value={this.state[name]}
 					name={name}
 					placeholder={`Search by ${placeholder}...`}
@@ -45,6 +46,7 @@ class FilterInput extends Component {
 				/>
 				<Button
 					primary
+					className="search"
 					width="100px"
 					padding="2px 0"
 					display="inline-block"
@@ -55,6 +57,7 @@ class FilterInput extends Component {
 				</Button>
 				<Button
 					danger
+					className="clear"
 					display="inline-block"
 					width="100px"
 					padding="2px 0"
