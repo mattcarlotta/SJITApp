@@ -17,11 +17,12 @@ const wrapper = mount(
 			<>
 				<button
 					className="update"
+					type="button"
 					onClick={() => props.updateQuery({ page: 2 })}
 				>
 					Update
 				</button>
-				<button className="clear" onClick={props.clearFilters}>
+				<button className="clear" type="button" onClick={props.clearFilters}>
 					Clear
 				</button>
 			</>

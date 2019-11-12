@@ -9,6 +9,7 @@ export const parseQuery = query => {
 		ignoreQueryPrefix: true,
 	});
 
+	/* istanbul ignore next */
 	return {
 		...queries,
 		page: parseInt(queries.page || 1, 10),

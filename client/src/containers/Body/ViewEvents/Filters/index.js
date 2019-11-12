@@ -90,9 +90,7 @@ const EventFilters = ({ clearFilters, queries, push, teams, updateQuery }) => {
 							value={queries.opponent}
 							placeholder="Select an opponent..."
 							style={{ width: 250 }}
-							onChange={value =>
-								updateQuery({ page: 1, opponent: value || null })
-							}
+							onChange={value => updateQuery({ page: 1, opponent: value })}
 						>
 							{!isEmpty(teams) ? (
 								teams.map(team => (

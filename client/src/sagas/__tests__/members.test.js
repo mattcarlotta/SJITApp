@@ -2,7 +2,6 @@ import { goBack, push } from "connected-react-router";
 import { expectSaga, testSaga } from "redux-saga-test-plan";
 import * as matchers from "redux-saga-test-plan/matchers";
 import { app } from "utils";
-import * as types from "types";
 import * as actions from "actions/Members";
 import { hideServerMessage, setServerMessage } from "actions/Messages";
 import { signoutUser } from "actions/Auth";
@@ -1025,7 +1024,7 @@ describe("Member Sagas", () => {
 				.next(res.data.message)
 				.put(setServerMessage({ type: "success", message: res.data.message }))
 				.next(res.data.message)
-				.put({ type: types.MEMBERS_FETCH_SETTINGS })
+				.put(actions.fetchMemberSettings())
 				.next()
 				.isDone();
 		});

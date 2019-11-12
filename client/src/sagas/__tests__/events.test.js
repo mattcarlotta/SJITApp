@@ -2,7 +2,6 @@ import { goBack, push } from "connected-react-router";
 import { expectSaga, testSaga } from "redux-saga-test-plan";
 import * as matchers from "redux-saga-test-plan/matchers";
 import { app } from "utils";
-import * as types from "types";
 import * as actions from "actions/Events";
 import { hideServerMessage, setServerMessage } from "actions/Messages";
 import * as sagas from "sagas/Events";
@@ -13,7 +12,6 @@ import { parseData, parseMessage } from "utils/parseResponse";
 import { selectQuery } from "utils/queryHelpers";
 
 const eventId = "0123456789";
-const totalDocs = 1;
 
 describe("Event Sagas", () => {
 	afterEach(() => {

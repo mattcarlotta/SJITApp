@@ -6,6 +6,8 @@ export const userSession = {
 	role: "staff",
 };
 
+export const teams = ["sharks", "barracuda"];
+
 export const serverMessage = {
 	type: "success",
 	show: true,

@@ -4,6 +4,8 @@ export const newSeason = {
 	endDate: new Date(2001, 7, 6),
 };
 
+export const teams = ["sharks", "barracuda"];
+
 export const userSession = {
 	id: "88",
 	email: "test@example.com",

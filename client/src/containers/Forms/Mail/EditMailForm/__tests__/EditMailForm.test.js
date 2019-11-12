@@ -1,4 +1,3 @@
-import moment from "moment";
 import { EditMailForm } from "../index";
 
 const id = "0123456789";

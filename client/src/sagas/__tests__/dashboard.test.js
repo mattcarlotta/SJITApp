@@ -1,13 +1,11 @@
-import { push } from "connected-react-router";
 import { expectSaga, testSaga } from "redux-saga-test-plan";
 import { app } from "utils";
-import * as types from "types";
 import * as actions from "actions/Dashboard";
 import * as sagas from "sagas/Dashboard";
 import * as mocks from "sagas/__mocks__/sagas.mocks";
 import messageReducer from "reducers/Messages";
 import dashboardReducer from "reducers/Dashboard";
-import { parseData, parseMessage } from "utils/parseResponse";
+import { parseData } from "utils/parseResponse";
 
 const months = [
 	"2000-10-06T07:00:00.000+00:00",

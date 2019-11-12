@@ -20,12 +20,12 @@ const initProps = {
 const wrapper = mount(<DisplayScheduledEmployees {...initProps} />);
 
 describe("Display Scheduled Employees", () => {
-	it("renders an array length", () => {
+	it("renders an array length with 0", () => {
 		expect(wrapper.find("span").exists()).toBeTruthy();
 		expect(wrapper.find("span").text()).toEqual("0");
 	});
 
-	it("renders an array length", () => {
+	it("renders an array length with 2", () => {
 		wrapper.setProps({ employees });
 		expect(wrapper.find("span").exists()).toBeTruthy();
 		expect(wrapper.find("span").text()).toEqual("2");

@@ -13,7 +13,7 @@ describe("Display Email SendTo List", () => {
 		expect(wrapper.find("span").text()).toEqual(emails[0]);
 	});
 
-	it("initally displays a single email address", () => {
+	it("initally displays a multiple email address", () => {
 		wrapper.setProps({ emails });
 		expect(wrapper.find("span").text()).toEqual("multiple email addresses");
 	});

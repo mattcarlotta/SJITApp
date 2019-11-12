@@ -132,9 +132,4 @@ describe("Name of the group", () => {
 			value: 2014,
 		});
 	});
-
-	it("renders 2 Select components when an 'id' is present", () => {
-		wrapper.setProps({ id: "123456789" });
-		expect(wrapper.find(Select)).toHaveLength(2);
-	});
 });

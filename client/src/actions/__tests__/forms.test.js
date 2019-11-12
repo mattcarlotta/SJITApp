@@ -75,7 +75,7 @@ describe("Forms Actions", () => {
 		});
 	});
 
-	it("returns FORMS_SET with data", () => {
+	it("returns FORMS_SET_AP with data", () => {
 		const value = actions.setFormAp(data);
 
 		expect(value).toEqual({
