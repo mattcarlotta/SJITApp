@@ -4,6 +4,7 @@ import { app } from "utils";
 import { hideServerMessage, setServerMessage } from "actions/Messages";
 import * as actions from "actions/Seasons";
 import { parseData, parseMessage } from "utils/parseResponse";
+import { selectQuery } from "utils/queryHelpers";
 import * as types from "types";
 
 /**
@@ -109,9 +110,9 @@ export function* fetchSeason({ seasonId }) {
 
 export function* fetchSeasons() {
 	try {
-		const query = yield select(state => state.router.location.search);
+		const query = yield select(selectQuery);
 
-		const res = yield call(app.get, `seasons/all?${query}`);
+		const res = yield call(app.get, `seasons/all${query}`);
 		const data = yield call(parseData, res);
 
 		yield put(actions.setSeasons(data));

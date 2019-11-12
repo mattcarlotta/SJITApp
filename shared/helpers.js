@@ -387,6 +387,10 @@ const generateFilters = query =>
             acc.sentEmails = { $eq: query[item] === "sent" };
             break;
           }
+          case "sentEmailReminders": {
+            acc.sentEmailReminders = { $eq: query[item] === "sent" };
+            break;
+          }
           case "startDate": {
             acc.eventDate = {
               ...acc.eventDate,

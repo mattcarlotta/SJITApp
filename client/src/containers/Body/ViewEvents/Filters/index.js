@@ -44,7 +44,7 @@ const EventFilters = ({ clearFilters, queries, push, teams, updateQuery }) => {
 						/>
 					}
 					title="Event Date"
-					value={!!startDate}
+					value={startDate}
 				/>
 				<FilterButton
 					content={
@@ -106,6 +106,24 @@ const EventFilters = ({ clearFilters, queries, push, teams, updateQuery }) => {
 					title="Opponent"
 					value={queries.opponent}
 				/>
+				<FilterButton
+					content={
+						<Select
+							allowClear
+							value={queries.sentEmailReminders}
+							placeholder="Select an email status..."
+							style={{ width: 140 }}
+							onChange={value =>
+								updateQuery({ page: 1, sentEmailReminders: value })
+							}
+						>
+							<Option value="sent">Sent</Option>
+							<Option value="unsent">Unsent</Option>
+						</Select>
+					}
+					title="Email Status"
+					value={queries.sentEmailReminders}
+				/>
 				<AntButton style={{ height: 41 }} onClick={clearFilters}>
 					Clear All
 				</AntButton>
@@ -133,6 +151,7 @@ EventFilters.propTypes = {
 	queries: PropTypes.shape({
 		endDate: PropTypes.string,
 		opponent: PropTypes.string,
+		sentEmailReminders: PropTypes.string,
 		startDate: PropTypes.string,
 		team: PropTypes.string,
 		type: PropTypes.string,

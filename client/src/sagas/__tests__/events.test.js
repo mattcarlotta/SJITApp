@@ -1,5 +1,6 @@
 import { goBack, push } from "connected-react-router";
 import { expectSaga, testSaga } from "redux-saga-test-plan";
+import * as matchers from "redux-saga-test-plan/matchers";
 import { app } from "utils";
 import * as types from "types";
 import * as actions from "actions/Events";
@@ -9,10 +10,10 @@ import * as mocks from "sagas/__mocks__/sagas.mocks";
 import messageReducer from "reducers/Messages";
 import eventReducer from "reducers/Events";
 import { parseData, parseMessage } from "utils/parseResponse";
+import { selectQuery } from "utils/queryHelpers";
 
 const eventId = "0123456789";
 const totalDocs = 1;
-const currentPage = 1;
 
 describe("Event Sagas", () => {
 	afterEach(() => {
@@ -80,11 +81,11 @@ describe("Event Sagas", () => {
 	});
 
 	describe("Delete Event", () => {
-		it("logical flow matches pattern for delete event on page 1 requests", () => {
+		it("logical flow matches pattern for delete event requests", () => {
 			const message = "Successfully deleted event.";
 			const res = { data: { message } };
 
-			testSaga(sagas.deleteEvent, { eventId, currentPage })
+			testSaga(sagas.deleteEvent, { eventId })
 				.next()
 				.put(hideServerMessage())
 				.next()
@@ -94,26 +95,7 @@ describe("Event Sagas", () => {
 				.next(res.data.message)
 				.put(setServerMessage({ type: "success", message: res.data.message }))
 				.next()
-				.put({ type: types.EVENTS_FETCH, currentPage })
-				.next()
-				.isDone();
-		});
-
-		it("logical flow matches pattern for delete event on page 1+ requests", () => {
-			const message = "Successfully deleted event.";
-			const res = { data: { message } };
-
-			testSaga(sagas.deleteEvent, { eventId, currentPage: 2 })
-				.next()
-				.put(hideServerMessage())
-				.next()
-				.call(app.delete, `event/delete/${eventId}`)
-				.next(res)
-				.call(parseMessage, res)
-				.next(res.data.message)
-				.put(setServerMessage({ type: "success", message: res.data.message }))
-				.next()
-				.put(push("/employee/events/viewall?page=1"))
+				.put(actions.fetchEvents())
 				.next()
 				.isDone();
 		});
@@ -312,16 +294,20 @@ describe("Event Sagas", () => {
 
 	describe("Fetch Events", () => {
 		let data;
+		let query;
 		beforeEach(() => {
 			data = { events: mocks.eventsData, totalDocs: 1 };
+			query = "?page=1";
 		});
 
 		it("logical flow matches pattern for fetch events requests", () => {
 			const res = { data };
 
-			testSaga(sagas.fetchEvents, { currentPage })
+			testSaga(sagas.fetchEvents)
 				.next()
-				.call(app.get, `events/all?page=${currentPage}`)
+				.select(selectQuery)
+				.next()
+				.call(app.get, `events/allundefined`)
 				.next(res)
 				.call(parseData, res)
 				.next(res.data)
@@ -331,9 +317,10 @@ describe("Event Sagas", () => {
 		});
 
 		it("successfully fetches all events", async () => {
-			mockApp.onGet(`events/all?page=${currentPage}`).reply(200, data);
+			mockApp.onGet(`events/all${query}`).reply(200, data);
 
-			return expectSaga(sagas.fetchEvents, { currentPage })
+			return expectSaga(sagas.fetchEvents)
+				.provide([[matchers.select.selector(selectQuery), query]])
 				.dispatch(actions.fetchEvents)
 				.withReducer(eventReducer)
 				.hasFinalState({
@@ -351,9 +338,10 @@ describe("Event Sagas", () => {
 
 		it("if API call fails, it displays a message", async () => {
 			const err = "Unable to fetch events.";
-			mockApp.onGet(`events/all?page=${currentPage}`).reply(404, { err });
+			mockApp.onGet(`events/all${query}`).reply(404, { err });
 
-			return expectSaga(sagas.fetchEvents, { currentPage })
+			return expectSaga(sagas.fetchEvents)
+				.provide([[matchers.select.selector(selectQuery), query]])
 				.dispatch(actions.fetchEvents)
 				.withReducer(messageReducer)
 				.hasFinalState({
@@ -504,11 +492,11 @@ describe("Event Sagas", () => {
 	});
 
 	describe("Resend Event Mail", () => {
-		it("logical flow matches pattern for resend event on page 1 requests", () => {
+		it("logical flow matches pattern for resend event requests", () => {
 			const message = "Successfully resent mail.";
 			const res = { data: { message } };
 
-			testSaga(sagas.resendEventEmails, { eventId, currentPage })
+			testSaga(sagas.resendEventEmails, { eventId })
 				.next()
 				.put(hideServerMessage())
 				.next()
@@ -518,7 +506,7 @@ describe("Event Sagas", () => {
 				.next(res.data.message)
 				.put(setServerMessage({ type: "info", message: res.data.message }))
 				.next()
-				.put({ type: types.EVENTS_FETCH, currentPage })
+				.put(actions.fetchEvents())
 				.next()
 				.isDone();
 		});
@@ -527,7 +515,7 @@ describe("Event Sagas", () => {
 			const message = "Successfully resent the event mail.";
 			mockApp.onPut(`event/resend-email/${eventId}`).reply(200, { message });
 
-			return expectSaga(sagas.resendEventEmails, { eventId, currentPage })
+			return expectSaga(sagas.resendEventEmails, { eventId })
 				.dispatch(actions.resendEventEmails)
 				.withReducer(messageReducer)
 				.hasFinalState({
@@ -542,7 +530,7 @@ describe("Event Sagas", () => {
 			const err = "Unable to resend the event mail.";
 			mockApp.onPut(`event/resend-email/${eventId}`).reply(404, { err });
 
-			return expectSaga(sagas.resendEventEmails, { eventId, currentPage })
+			return expectSaga(sagas.resendEventEmails, { eventId })
 				.dispatch(actions.resendEventEmails)
 				.withReducer(messageReducer)
 				.hasFinalState({

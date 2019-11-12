@@ -1,5 +1,7 @@
 import qs from "qs";
 
+export const selectQuery = state => state.router.location.search;
+
 export const stringifyQuery = query => qs.stringify(query, { skipNulls: true });
 
 export const parseQuery = query => {

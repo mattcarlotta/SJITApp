@@ -33,7 +33,7 @@ export default [
 		render: date => <FormatDate format="MMMM Do, YYYY" date={date} />,
 	},
 	{
-		title: "Sent Emails",
+		title: "Email Notifications",
 		dataIndex: "sentEmails",
 		key: "sentEmails",
 		render: reminder => <DisplayEmailReminder reminder={reminder} />,

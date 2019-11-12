@@ -55,7 +55,7 @@ export default [
 		render: employees => <DisplayScheduledEmployees employees={employees} />,
 	},
 	{
-		title: "Sent Email Reminders",
+		title: "Email Reminders",
 		dataIndex: "sentEmailReminders",
 		key: "sentEmailReminders",
 		render: reminder => <DisplayEmailReminder reminder={reminder} />,

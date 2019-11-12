@@ -35,14 +35,14 @@ describe("View All Seasons", () => {
 		expect(wrapper.find("Card").exists()).toBeTruthy();
 	});
 
-	it("clicking on the 'New Season' button, moves the user to the New Season Form page", () => {
-		wrapper
-			.find("Button")
-			.at(0)
-			.simulate("click");
-
-		expect(push).toHaveBeenCalledWith("/employee/seasons/create");
-	});
+	// it("clicking on the 'New Season' button, moves the user to the New Season Form page", () => {
+	// 	wrapper
+	// 		.find("Button")
+	// 		.at(0)
+	// 		.simulate("click");
+	//
+	// 	expect(push).toHaveBeenCalledWith("/employee/seasons/create");
+	// });
 
 	it("renders a LoadingTable", () => {
 		expect(wrapper.find("LoadingTable").exists()).toBeTruthy();

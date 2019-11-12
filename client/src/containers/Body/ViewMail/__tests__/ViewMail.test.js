@@ -40,14 +40,14 @@ describe("View Mail", () => {
 		expect(wrapper.find("Card").exists()).toBeTruthy();
 	});
 
-	it("clicking on the 'Send Mail' button, moves the user to the Send Mail Form page", () => {
-		wrapper
-			.find("Button")
-			.first()
-			.simulate("click");
-
-		expect(push).toHaveBeenCalledWith("/employee/mail/create");
-	});
+	// it("clicking on the 'Send Mail' button, moves the user to the Send Mail Form page", () => {
+	// 	wrapper
+	// 		.find("Button")
+	// 		.first()
+	// 		.simulate("click");
+	//
+	// 	expect(push).toHaveBeenCalledWith("/employee/mail/create");
+	// });
 
 	it("renders a LoadingTable", () => {
 		expect(wrapper.find("LoadingTable").exists()).toBeTruthy();

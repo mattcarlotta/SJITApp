@@ -4,6 +4,7 @@ import { app } from "utils";
 import { hideServerMessage, setServerMessage } from "actions/Messages";
 import * as actions from "actions/Forms";
 import { parseData, parseMessage } from "utils/parseResponse";
+import { selectQuery } from "utils/queryHelpers";
 import * as types from "types";
 
 /**
@@ -150,7 +151,7 @@ export function* fetchFormAp({ formId }) {
 
 export function* fetchForms() {
 	try {
-		const query = yield select(state => state.router.location.search);
+		const query = yield select(selectQuery);
 
 		const res = yield call(app.get, `forms/all${query}`);
 		const data = yield call(parseData, res);

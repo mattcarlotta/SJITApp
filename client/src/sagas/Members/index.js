@@ -5,6 +5,7 @@ import { hideServerMessage, setServerMessage } from "actions/Messages";
 import { signoutUser } from "actions/Auth";
 import * as actions from "actions/Members";
 import { parseData, parseMessage } from "utils/parseResponse";
+import { selectQuery } from "utils/queryHelpers";
 import * as types from "types";
 
 /**
@@ -227,7 +228,7 @@ export function* fetchMemberEvents({ params }) {
 
 export function* fetchMembers() {
 	try {
-		const query = yield select(state => state.router.location.search);
+		const query = yield select(selectQuery);
 
 		const res = yield call(app.get, `members/all${query}`);
 		const data = yield call(parseData, res);
@@ -362,7 +363,7 @@ export function* fetchToken({ tokenId }) {
 
 export function* fetchTokens() {
 	try {
-		const query = yield select(state => state.router.location.search);
+		const query = yield select(selectQuery);
 
 		const res = yield call(app.get, `tokens/all${query}`);
 		const data = yield call(parseData, res);

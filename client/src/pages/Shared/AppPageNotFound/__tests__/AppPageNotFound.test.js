@@ -6,7 +6,7 @@ const initProps = {
 	goBack,
 };
 
-const wrapper = mount(<NotFound {...initProps} />);
+const wrapper = HOCWrap(NotFound, initProps);
 
 describe("AppPageNotFound Page", () => {
 	it("renders without errors", () => {

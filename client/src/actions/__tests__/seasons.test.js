@@ -15,8 +15,6 @@ const seasonData = { season: [data] };
 
 const seasonIdsData = { seasonIds: ["20002001", "20012002", "20022003"] };
 
-const currentPage = 1;
-
 describe("Season Actions", () => {
 	it("returns SEASONS_CREATE with props", () => {
 		const props = { seasonId: "1234", startDate: "1234", endDate: "1234" };
@@ -32,12 +30,11 @@ describe("Season Actions", () => {
 	it("returns SEASONS_DELETE with a seasonId", () => {
 		const seasonId = "20052006";
 
-		const value = actions.deleteSeason(seasonId, currentPage);
+		const value = actions.deleteSeason(seasonId);
 
 		expect(value).toEqual({
 			type: types.SEASONS_DELETE,
 			seasonId,
-			currentPage,
 		});
 	});
 
@@ -53,11 +50,10 @@ describe("Season Actions", () => {
 	});
 
 	it("returns SEASONS_FETCH", () => {
-		const value = actions.fetchSeasons(currentPage);
+		const value = actions.fetchSeasons();
 
 		expect(value).toEqual({
 			type: types.SEASONS_FETCH,
-			currentPage,
 		});
 	});
 
