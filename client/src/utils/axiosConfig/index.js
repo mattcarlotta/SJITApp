@@ -2,13 +2,14 @@
 /* eslint-disable no-unneeded-ternary */
 import get from "lodash/get";
 import axios from "axios";
-import { inDevelopment, APIPORT } from "../../../config/envs";
+import { inDevelopment, inStaging, APIPORT } from "../../../config/envs";
 
 const app = axios.create({
 	/* eslint-disable-next  */
-	baseURL: inDevelopment
-		? `http://localhost:${APIPORT}/api/`
-		: "http://localhost:8080/api/",
+	baseURL:
+		inDevelopment || inStaging
+			? `http://localhost:${APIPORT}/api/`
+			: "https//sjsiceteam.com/api/",
 	withCredentials: true,
 });
 
