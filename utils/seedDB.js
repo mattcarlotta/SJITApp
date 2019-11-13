@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import moment from "moment";
+import moment from "moment-timezone";
 import { connectDatabase } from "database";
 import {
   Event, Form, Mail, User, Season, Team, Token,
@@ -390,6 +390,46 @@ const seedDB = async () => {
       ],
     };
 
+    const gameTomorrow = {
+      team: "San Jose Sharks",
+      opponent: "Detriot Red Wings",
+      eventType: "Game",
+      location: "Test Location",
+      callTimes: newEventCallTimes,
+      uniform: "Teal Jersey",
+      seasonId: "20192020",
+      eventDate: moment()
+        .add(1, "day")
+        .format(),
+      scheduledIds: [scheduledUser._id],
+      schedule: [
+        {
+          _id: "2019-02-09T17:45:26-07:00",
+          employeeIds: [scheduledUser._id],
+        },
+        {
+          _id: "2019-02-09T18:15:26-07:00",
+          employeeIds: [],
+        },
+        {
+          _id: "2019-02-09T18:30:26-07:00",
+          employeeIds: [],
+        },
+        {
+          _id: "2019-02-09T19:00:26-07:00",
+          employeeIds: [],
+        },
+      ],
+      sentEmailReminders: false,
+      employeeResponses: [
+        {
+          _id: scheduledUser._id,
+          notes: "",
+          response: "I want to work.",
+        },
+      ],
+    };
+
     const newEventCallTimes2 = ["2019-08-09T19:00:38-07:00"];
 
     const newEvent2 = {
@@ -584,6 +624,7 @@ const seedDB = async () => {
 
     await Event.insertMany([
       newEvent,
+      gameTomorrow,
       newEvent2,
       newEvent3,
       newEvent4,

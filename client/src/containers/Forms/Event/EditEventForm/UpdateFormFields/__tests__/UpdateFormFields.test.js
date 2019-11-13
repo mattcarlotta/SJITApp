@@ -1,4 +1,4 @@
-import moment from "moment";
+import moment from "moment-timezone";
 import updateFormFields from "../index";
 
 const onFieldRemove = jest.fn();

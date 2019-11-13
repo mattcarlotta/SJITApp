@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
-import moment from "moment";
+import moment from "moment-timezone";
 import { Button as AntButton, DatePicker, Select } from "antd";
 import { MdNoteAdd } from "react-icons/md";
 import {

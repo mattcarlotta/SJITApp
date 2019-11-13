@@ -1,4 +1,4 @@
-import moment from "moment";
+import moment from "moment-timezone";
 import isEmpty from "lodash/isEmpty";
 import { Event, Form, User } from "models";
 import {
@@ -316,7 +316,7 @@ const getEvents = async (req, res) => {
     const withinAWeek = moment()
       .add(7, "days")
       .endOf("day")
-      .toDate();
+      .format();
 
     const filters = isEventToday
       ? {

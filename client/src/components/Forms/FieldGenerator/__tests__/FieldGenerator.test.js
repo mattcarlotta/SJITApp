@@ -1,4 +1,4 @@
-import moment from "moment";
+import moment from "moment-timezone";
 import { DatePicker, TimePicker, Transfer } from "antd";
 import FroalaEditor from "react-froala-wysiwyg";
 import FieldGenerator from "../index";

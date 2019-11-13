@@ -1,4 +1,4 @@
-import moment from "moment";
+import moment from "moment-timezone";
 import { getEventDistribution } from "controllers/dashboard";
 import { missingDates } from "shared/authErrors";
 

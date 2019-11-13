@@ -1,6 +1,8 @@
+import moment from "moment-timezone";
 import { connectDatabase } from "database";
 import { Types } from "mongoose";
 
+moment.tz.setDefault("America/Los_Angeles");
 const mockRequest = (user, session, body, query, params) => ({
   user,
   session,

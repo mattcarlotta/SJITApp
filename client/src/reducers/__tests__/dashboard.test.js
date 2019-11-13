@@ -1,4 +1,4 @@
-import moment from "moment";
+import moment from "moment-timezone";
 import * as types from "types";
 import dashboardReducer, { initialState } from "reducers/Dashboard";
 import * as mocks from "reducers/__mocks__/reducers.mocks";

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import isEmpty from "lodash/isEmpty";
 import get from "lodash/get";
-import moment from "moment";
+import moment from "moment-timezone";
 import { Card, Col, Select } from "antd";
 import { MdEvent } from "react-icons/md";
 import {
@@ -61,10 +61,7 @@ export class Events extends Component {
 		const { selectedEvent } = this.state;
 		const { events, isLoading, role } = this.props;
 		const eventDate = get(events[0], ["eventDate"]);
-		const endOfDay = moment
-			.utc(eventDate)
-			.endOf("day")
-			.format();
+		const endOfDay = moment(eventDate).endOf("day");
 		const selectedToday = selectedEvent === "Today";
 		const currentDate = moment(eventDate).format("MMM DD");
 
@@ -112,7 +109,7 @@ export class Events extends Component {
 								<div css="padding: 30px 20px;">
 									{!isEmpty(events) ? (
 										events.map(props =>
-											moment.utc(props.eventDate).format() < endOfDay ? (
+											moment(props.eventDate) < endOfDay ? (
 												<ScheduleList
 													key={props._id}
 													content={[props]}

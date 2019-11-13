@@ -1,6 +1,6 @@
 import mongoosePaginate from "mongoose-paginate-v2";
 import { Schema, model } from "mongoose";
-import moment from "moment";
+import moment from "moment-timezone";
 import bcrypt from "bcryptjs";
 
 const userSchema = new Schema({
@@ -16,9 +16,7 @@ const userSchema = new Schema({
   password: { type: String, required: true },
   registered: {
     type: Date,
-    default: moment(Date.now())
-      .utcOffset(-7)
-      .toISOString(true),
+    default: moment().toDate(),
   },
   token: { type: String, unique: true },
   timesAvailable: Number,

@@ -1,5 +1,5 @@
 import isEmpty from "lodash/isEmpty";
-import moment from "moment";
+import moment from "moment-timezone";
 import random from "lodash/random";
 import sortBy from "lodash/sortBy";
 import { Types } from "mongoose";
@@ -22,8 +22,7 @@ const responseTypes = [
 
 const COLORS = ["#247BA0", "#2A9D8F", "#F4A261", "#FF8060", "#BFBFBF"];
 
-const toAverage = (num, total) =>
-  parseInt(((num / total) * 100).toFixed(2), 10);
+const toAverage = (num, total) => parseInt(((num / total) * 100).toFixed(2), 10);
 
 /**
  * Helper function to generate an auth token email.
@@ -57,31 +56,30 @@ const createAuthMail = (authorizedEmail, token, expiration, role) => {
  * @returns {array}
  */
 const available = Array.from(responseTypes).splice(0, 2);
-const createMemberAvailabilityAverage = ({ eventCounts, eventResponses }) =>
-  eventResponses.reduce((acc, { responses }) => {
-    let avail = 0;
-    let unavail = 0;
-    responses.forEach(response => {
-      if (available.includes(response)) {
-        avail += 1;
-      } else {
-        unavail += 1;
-      }
-    });
+const createMemberAvailabilityAverage = ({ eventCounts, eventResponses }) => eventResponses.reduce((acc, { responses }) => {
+  let avail = 0;
+  let unavail = 0;
+  responses.forEach(response => {
+    if (available.includes(response)) {
+      avail += 1;
+    } else {
+      unavail += 1;
+    }
+  });
 
-    return [
-      {
-        id: "available",
-        label: "available",
-        value: toAverage(avail, eventCounts),
-      },
-      {
-        id: "unavailable",
-        label: "unavailable",
-        value: toAverage(unavail, eventCounts),
-      },
-    ];
-  }, []);
+  return [
+    {
+      id: "available",
+      label: "available",
+      value: toAverage(avail, eventCounts),
+    },
+    {
+      id: "unavailable",
+      label: "unavailable",
+      value: toAverage(unavail, eventCounts),
+    },
+  ];
+}, []);
 
 /**
  * Helper function to generate all user event availability based upon their responses.
@@ -94,22 +92,20 @@ const createMemberAvailabilityAverages = ({
   eventCounts,
   eventResponses,
   members,
-}) =>
-  members.reduce((acc, member) => {
-    const hasResponse =
-      !isEmpty(eventResponses) &&
-      eventResponses.find(doc => doc._id.equals(member._id));
+}) => members.reduce((acc, member) => {
+  const hasResponse = !isEmpty(eventResponses)
+      && eventResponses.find(doc => doc._id.equals(member._id));
 
-    return [
-      ...acc,
-      {
-        id: member.name,
-        availability: hasResponse
-          ? toAverage(hasResponse.availability, eventCounts)
-          : 0,
-      },
-    ];
-  }, []);
+  return [
+    ...acc,
+    {
+      id: member.name,
+      availability: hasResponse
+        ? toAverage(hasResponse.availability, eventCounts)
+        : 0,
+    },
+  ];
+}, []);
 
 /**
  * Helper function to generate a unique token.
@@ -137,11 +133,10 @@ const tokenGenerator = (str, tlen) => {
  * @param {string} err
  * @returns {response}
  */
-const clearSession = (res, status, err) =>
-  res
-    .status(status)
-    .clearCookie("SJSITApp", { path: "/" })
-    .json({ role: "guest", err });
+const clearSession = (res, status, err) => res
+  .status(status)
+  .clearCookie("SJSITApp", { path: "/" })
+  .json({ role: "guest", err });
 
 /**
  * Helper function to generate a schedule based upon calltimes.
@@ -184,17 +179,15 @@ const createDate = date => moment(date || Date.now());
  * @param memberEventCounts - an array of members and their eventCount
  * @returns {array}
  */
-const createMemberEventCount = ({ members, memberEventCounts }) =>
-  members.map(member => {
-    const hasEventCount =
-      !isEmpty(memberEventCounts) &&
-      memberEventCounts.find(doc => doc._id.equals(member._id));
+const createMemberEventCount = ({ members, memberEventCounts }) => members.map(member => {
+  const hasEventCount = !isEmpty(memberEventCounts)
+      && memberEventCounts.find(doc => doc._id.equals(member._id));
 
-    return {
-      name: member.name,
-      "Event Count": hasEventCount ? hasEventCount.eventCount : 0,
-    };
-  });
+  return {
+    name: member.name,
+    "Event Count": hasEventCount ? hasEventCount.eventCount : 0,
+  };
+});
 
 /**
  * Helper function to generate a user event count based upon their scheduled events.
@@ -203,19 +196,18 @@ const createMemberEventCount = ({ members, memberEventCounts }) =>
  * @param eventResponses - an array of responses
  * @returns {array}
  */
-const createMemberResponseCount = eventResponses =>
-  eventResponses.reduce((acc, { responses }) => {
-    responseTypes.forEach((rspType, index) => {
-      acc.push({
-        id: rspType,
-        label: rspType,
-        color: COLORS[index],
-        value: responses.filter(rsp => rsp === rspType).length,
-      });
+const createMemberResponseCount = eventResponses => eventResponses.reduce((acc, { responses }) => {
+  responseTypes.forEach((rspType, index) => {
+    acc.push({
+      id: rspType,
+      label: rspType,
+      color: COLORS[index],
+      value: responses.filter(rsp => rsp === rspType).length,
     });
+  });
 
-    return acc;
-  }, []);
+  return acc;
+}, []);
 
 /**
  * Helper function to create a 64 length random string.
@@ -223,11 +215,10 @@ const createMemberResponseCount = eventResponses =>
  * @function createRandomToken
  * @returns {String}
  */
-const createRandomToken = () =>
-  tokenGenerator(
-    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$/.",
-    64,
-  );
+const createRandomToken = () => tokenGenerator(
+  "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$/.",
+  64,
+);
 
 /**
  * Helper function to generate a schedule based upon calltimes.
@@ -236,11 +227,10 @@ const createRandomToken = () =>
  * @param callTimes - an array of dates
  * @returns {object}
  */
-const createSchedule = callTimes =>
-  callTimes.map(time => ({
-    _id: time,
-    employeeIds: [],
-  }));
+const createSchedule = callTimes => callTimes.map(time => ({
+  _id: time,
+  employeeIds: [],
+}));
 
 /**
  * Helper function to generate a schedule based upon calltimes.
@@ -252,9 +242,7 @@ const createSchedule = callTimes =>
  */
 const createUserSchedule = ({ event, members }) => [
   ...members.map(member => {
-    const eventResponse = event.employeeResponses.find(response =>
-      response._id.equals(member._id),
-    );
+    const eventResponse = event.employeeResponses.find(response => response._id.equals(member._id));
 
     return {
       ...member,
@@ -278,12 +266,11 @@ const convertId = id => ObjectId(id);
  * @function
  * @returns {String}
  */
-const createUniqueName = name =>
-  name
-    .trim()
-    .toLowerCase()
-    .replace(/[^\w\s]/gi, "")
-    .replace(/ /g, "-");
+const createUniqueName = name => name
+  .trim()
+  .toLowerCase()
+  .replace(/[^\w\s]/gi, "")
+  .replace(/ /g, "-");
 
 /**
  * Helper function to create a 64 length random string.
@@ -291,11 +278,10 @@ const createUniqueName = name =>
  * @function createSignupToken
  * @returns {String}
  */
-const createSignupToken = () =>
-  tokenGenerator(
-    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
-    64,
-  );
+const createSignupToken = () => tokenGenerator(
+  "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+  64,
+);
 
 /**
  * Helper function to get 90 days date from current date.
@@ -303,10 +289,9 @@ const createSignupToken = () =>
  * @function
  * @returns {month}
  */
-const expirationDate = () =>
-  moment(Date.now())
-    .add(90, "days")
-    .endOf("day");
+const expirationDate = () => moment()
+  .add(90, "days")
+  .endOf("day");
 
 /**
  * Helper function to generate table filters.
@@ -316,117 +301,116 @@ const expirationDate = () =>
  * @returns {object}
  */
 const format = "MM-DD-YYYY";
-const generateFilters = query =>
-  !isEmpty(query)
-    ? Object.keys(query).reduce((acc, item) => {
-        switch (item) {
-          case "authorizedEmail": {
-            acc.authorizedEmail = { $regex: query[item], $options: "i" };
-            break;
-          }
-          case "email": {
-            acc.email = { $regex: query[item], $options: "i" };
-            break;
-          }
-          case "endDate": {
-            acc.eventDate = {
-              ...acc.eventDate,
-              $lte: moment(query[item], format)
-                .endOf("day")
-                .format(),
-            };
-            break;
-          }
-          case "endMonth": {
-            acc.endMonth = {
-              $lte: moment(query[item], format)
-                .endOf("day")
-                .format(),
-            };
-            break;
-          }
-          case "expirationDate": {
-            acc.expirationDate = {
-              $gte: moment(query[item], format)
-                .startOf("day")
-                .format(),
-              $lte: moment(query[item], format)
-                .endOf("day")
-                .format(),
-            };
-            break;
-          }
-          case "firstName": {
-            acc.firstName = { $regex: query[item], $options: "i" };
-            break;
-          }
-          case "lastName": {
-            acc.lastName = { $regex: query[item], $options: "i" };
-            break;
-          }
-          case "opponent": {
-            acc.opponent = { $regex: query[item], $options: "i" };
-            break;
-          }
-          case "seasonId": {
-            acc.seasonId = { $regex: query[item], $options: "i" };
-            break;
-          }
-          case "sendDate": {
-            acc.sendDate = {
-              $gte: moment(query[item], format)
-                .startOf("day")
-                .format(),
-              $lte: moment(query[item], format)
-                .endOf("day")
-                .format(),
-            };
-            break;
-          }
-          case "sentEmails": {
-            acc.sentEmails = { $eq: query[item] === "sent" };
-            break;
-          }
-          case "sentEmailReminders": {
-            acc.sentEmailReminders = { $eq: query[item] === "sent" };
-            break;
-          }
-          case "startDate": {
-            acc.eventDate = {
-              ...acc.eventDate,
-              $gte: moment(query[item], format)
-                .startOf("day")
-                .format(),
-            };
-            break;
-          }
-          case "startMonth": {
-            acc.startMonth = {
-              $gte: moment(query[item], format)
-                .startOf("day")
-                .format(),
-            };
-            break;
-          }
-          case "status": {
-            acc.status = { $eq: query[item] };
-            break;
-          }
-          case "team": {
-            acc.team = { $regex: query[item], $options: "i" };
-            break;
-          }
-          case "type": {
-            acc.eventType = { $regex: query[item], $options: "i" };
-            break;
-          }
-          default: {
-            break;
-          }
-        }
-        return acc;
-      }, {})
-    : {};
+const generateFilters = query => (!isEmpty(query)
+  ? Object.keys(query).reduce((acc, item) => {
+    switch (item) {
+      case "authorizedEmail": {
+        acc.authorizedEmail = { $regex: query[item], $options: "i" };
+        break;
+      }
+      case "email": {
+        acc.email = { $regex: query[item], $options: "i" };
+        break;
+      }
+      case "endDate": {
+        acc.eventDate = {
+          ...acc.eventDate,
+          $lte: moment(query[item], format)
+            .endOf("day")
+            .format(),
+        };
+        break;
+      }
+      case "endMonth": {
+        acc.endMonth = {
+          $lte: moment(query[item], format)
+            .endOf("day")
+            .format(),
+        };
+        break;
+      }
+      case "expirationDate": {
+        acc.expirationDate = {
+          $gte: moment(query[item], format)
+            .startOf("day")
+            .format(),
+          $lte: moment(query[item], format)
+            .endOf("day")
+            .format(),
+        };
+        break;
+      }
+      case "firstName": {
+        acc.firstName = { $regex: query[item], $options: "i" };
+        break;
+      }
+      case "lastName": {
+        acc.lastName = { $regex: query[item], $options: "i" };
+        break;
+      }
+      case "opponent": {
+        acc.opponent = { $regex: query[item], $options: "i" };
+        break;
+      }
+      case "seasonId": {
+        acc.seasonId = { $regex: query[item], $options: "i" };
+        break;
+      }
+      case "sendDate": {
+        acc.sendDate = {
+          $gte: moment(query[item], format)
+            .startOf("day")
+            .format(),
+          $lte: moment(query[item], format)
+            .endOf("day")
+            .format(),
+        };
+        break;
+      }
+      case "sentEmails": {
+        acc.sentEmails = { $eq: query[item] === "sent" };
+        break;
+      }
+      case "sentEmailReminders": {
+        acc.sentEmailReminders = { $eq: query[item] === "sent" };
+        break;
+      }
+      case "startDate": {
+        acc.eventDate = {
+          ...acc.eventDate,
+          $gte: moment(query[item], format)
+            .startOf("day")
+            .format(),
+        };
+        break;
+      }
+      case "startMonth": {
+        acc.startMonth = {
+          $gte: moment(query[item], format)
+            .startOf("day")
+            .format(),
+        };
+        break;
+      }
+      case "status": {
+        acc.status = { $eq: query[item] };
+        break;
+      }
+      case "team": {
+        acc.team = { $regex: query[item], $options: "i" };
+        break;
+      }
+      case "type": {
+        acc.eventType = { $regex: query[item], $options: "i" };
+        break;
+      }
+      default: {
+        break;
+      }
+    }
+    return acc;
+  }, {})
+  : {});
 
 /**
  * Helper function to generate a date.
@@ -435,10 +419,9 @@ const generateFilters = query =>
  * @param date
  * @returns {object}
  */
-const getEndOfDay = () =>
-  moment(Date.now())
-    .endOf("day")
-    .format();
+const getEndOfDay = () => moment()
+  .endOf("day")
+  .format();
 
 /**
  * Helper function to get event counts.
@@ -448,13 +431,12 @@ const getEndOfDay = () =>
  * @param endMonth
  * @returns {object}
  */
-const getEventCounts = (startMonth, endMonth) =>
-  Event.countDocuments({
-    eventDate: {
-      $gte: moment(startMonth).toDate(),
-      $lte: moment(endMonth).toDate(),
-    },
-  });
+const getEventCounts = (startMonth, endMonth) => Event.countDocuments({
+  eventDate: {
+    $gte: moment(startMonth).toDate(),
+    $lte: moment(endMonth).toDate(),
+  },
+});
 
 /**
  * Helper function to generate a date range.
@@ -464,12 +446,10 @@ const getEventCounts = (startMonth, endMonth) =>
  * @returns {object}
  */
 const getMonthDateRange = date => {
-  /* istanbul ignore next */
-  const newDate = date || Date.now();
-  const startOfMonth = moment(newDate)
+  const startOfMonth = moment(date)
     .startOf("month")
     .toDate();
-  const endOfMonth = moment(newDate)
+  const endOfMonth = moment(date)
     .endOf("month")
     .toDate();
 
@@ -483,10 +463,9 @@ const getMonthDateRange = date => {
  * @param date
  * @returns {object}
  */
-const getStartOfDay = () =>
-  moment(Date.now())
-    .startOf("day")
-    .format();
+const getStartOfDay = () => moment()
+  .startOf("day")
+  .format();
 
 /**
  * Helper function to generate a date range.
@@ -536,13 +515,12 @@ const sendError = (err, res) => res.status(400).json({ err: err.toString() });
  * @param event - an object containing event details
  * @returns {array}
  */
-const sortScheduledUsersByLastName = events =>
-  !isEmpty(events)
-    ? events.map(({ scheduledIds, ...rest }) => ({
-        ...rest,
-        scheduledIds: sortBy(scheduledIds, "lastName"),
-      }))
-    : [];
+const sortScheduledUsersByLastName = events => (!isEmpty(events)
+  ? events.map(({ scheduledIds, ...rest }) => ({
+    ...rest,
+    scheduledIds: sortBy(scheduledIds, "lastName"),
+  }))
+  : []);
 
 /**
  * Helper function to check if an array contains duplicate values.
@@ -559,14 +537,13 @@ const uniqueArray = arr => arr.length === new Set(arr).size;
  * @param schedule - an array of ids
  * @returns {array}
  */
-const updateScheduleIds = schedule =>
-  schedule.reduce(
-    (result, { employeeIds }) => [
-      ...result,
-      ...employeeIds.map(id => ObjectId(id)),
-    ],
-    [],
-  );
+const updateScheduleIds = schedule => schedule.reduce(
+  (result, { employeeIds }) => [
+    ...result,
+    ...employeeIds.map(id => ObjectId(id)),
+  ],
+  [],
+);
 
 export {
   clearSession,

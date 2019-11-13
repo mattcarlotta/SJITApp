@@ -1,3 +1,4 @@
+import moment from "moment-timezone";
 import { User, Form } from "models";
 import { viewApForm } from "controllers/form";
 import {
@@ -88,14 +89,15 @@ describe("View AP Form", () => {
   });
 
   it("handles empty events within AP form requests", async () => {
+    const format = "YYYY-MM-DD";
     const existingUser = await User.findOne({
       email: "carlotta.matt@gmail.com",
     });
 
     const form = {
       expirationDate: new Date("2099-08-10T07:00:00.000Z"),
-      startMonth: new Date("2099-11-01T07:00:00.000Z"),
-      endMonth: new Date("2099-11-30T07:00:00.000Z"),
+      startMonth: moment("2099-11-01", format).startOf("month"),
+      endMonth: moment("2099-11-01", format).endOf("month"),
       notes: "Form 99",
       seasonId: "20192020",
     };
@@ -118,7 +120,7 @@ describe("View AP Form", () => {
 
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith({
-      err: unableToLocateEvents("11/01/2099", "11/29/2099"),
+      err: unableToLocateEvents("11/01/2099", "11/30/2099"),
     });
   });
 

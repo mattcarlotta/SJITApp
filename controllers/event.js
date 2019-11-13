@@ -1,4 +1,4 @@
-import moment from "moment";
+import moment from "moment-timezone";
 import get from "lodash/get";
 import isEmpty from "lodash/isEmpty";
 import { Event, Season } from "models";
@@ -22,7 +22,6 @@ import {
   invalidUpdateEventRequest,
   missingEventId,
   mustContainUniqueCallTimes,
-  unableToDeleteEvent,
   unableToLocateEvent,
   unableToLocateMembers,
   unableToLocateSeason,
@@ -42,15 +41,14 @@ const createEvent = async (req, res) => {
       uniform,
     } = req.body;
     if (
-      isEmpty(callTimes) ||
-      !eventDate ||
-      !eventType ||
-      !location ||
-      !seasonId ||
-      !team ||
-      !uniform
-    )
-      throw invalidCreateEventRequest;
+      isEmpty(callTimes)
+      || !eventDate
+      || !eventType
+      || !location
+      || !seasonId
+      || !team
+      || !uniform
+    ) throw invalidCreateEventRequest;
 
     const uniqueCallTimes = uniqueArray(callTimes);
     if (!uniqueCallTimes) throw mustContainUniqueCallTimes;
@@ -190,23 +188,22 @@ const getScheduledEvents = async (req, res) => {
 
     const { startOfMonth, endOfMonth } = getMonthDateRange(selectedDate);
 
-    const filters =
-      selected === "All Games"
-        ? {
-            eventDate: {
-              $gte: startOfMonth,
-              $lte: endOfMonth,
-            },
-          }
-        : {
-            eventDate: {
-              $gte: startOfMonth,
-              $lte: endOfMonth,
-            },
-            scheduledIds: {
-              $in: [convertId(selectedId)],
-            },
-          };
+    const filters = selected === "All Games"
+      ? {
+        eventDate: {
+          $gte: startOfMonth,
+          $lte: endOfMonth,
+        },
+      }
+      : {
+        eventDate: {
+          $gte: startOfMonth,
+          $lte: endOfMonth,
+        },
+        scheduledIds: {
+          $in: [convertId(selectedId)],
+        },
+      };
 
     const events = await Event.find(
       {
@@ -267,16 +264,15 @@ const updateEvent = async (req, res) => {
       uniform,
     } = req.body;
     if (
-      !_id ||
-      isEmpty(callTimes) ||
-      !eventDate ||
-      !eventType ||
-      !location ||
-      !seasonId ||
-      !team ||
-      !uniform
-    )
-      throw invalidUpdateEventRequest;
+      !_id
+      || isEmpty(callTimes)
+      || !eventDate
+      || !eventType
+      || !location
+      || !seasonId
+      || !team
+      || !uniform
+    ) throw invalidUpdateEventRequest;
 
     const uniqueCallTimes = uniqueArray(callTimes);
     if (!uniqueCallTimes) throw mustContainUniqueCallTimes;

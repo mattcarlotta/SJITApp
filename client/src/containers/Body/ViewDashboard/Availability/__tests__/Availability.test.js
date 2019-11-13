@@ -1,4 +1,4 @@
-import moment from "moment";
+import moment from "moment-timezone";
 import { Availability } from "../index";
 
 const fetchAvailability = jest.fn();

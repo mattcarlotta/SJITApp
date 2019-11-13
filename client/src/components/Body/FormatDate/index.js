@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import moment from "moment";
+import moment from "moment-timezone";
 
 const FormatDate = ({ date, format, style }) => (
 	<p style={style}>{moment(date || Date.now()).format(format)}</p>

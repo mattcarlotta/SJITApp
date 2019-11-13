@@ -50,6 +50,7 @@ describe("Get Dashboard Events Controller", () => {
         expect.objectContaining({
           _id: expect.any(ObjectId),
           eventDate: expect.any(Date),
+          eventType: expect.any(String),
           location: expect.any(String),
           notes: expect.any(String),
           opponent: expect.any(String),
@@ -73,7 +74,18 @@ describe("Get Dashboard Events Controller", () => {
 
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.json).toHaveBeenCalledWith({
-      events: expect.any(Array),
+      events: expect.arrayContaining([
+        expect.objectContaining({
+          _id: expect.any(ObjectId),
+          eventDate: expect.any(Date),
+          eventType: expect.any(String),
+          location: expect.any(String),
+          opponent: expect.any(String),
+          schedule: expect.any(Array),
+          team: expect.any(String),
+          uniform: expect.any(String),
+        }),
+      ]),
     });
   });
 });

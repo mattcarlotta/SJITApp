@@ -1,6 +1,6 @@
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
-import moment from "moment";
+import moment from "moment-timezone";
 import {
   expiredToken,
   invalidSignupEmail,
