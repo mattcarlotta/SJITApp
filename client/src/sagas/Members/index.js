@@ -5,7 +5,7 @@ import { hideServerMessage, setServerMessage } from "actions/Messages";
 import { signoutUser } from "actions/Auth";
 import * as actions from "actions/Members";
 import { parseData, parseMessage } from "utils/parseResponse";
-import { selectQuery } from "utils/queryHelpers";
+import { selectQuery } from "utils/selectors";
 import * as types from "types";
 
 /**

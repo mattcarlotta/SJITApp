@@ -1,5 +1,4 @@
-export default (CLIENT, token, expiration) =>
-  `<h1 style="margin: 0; text-align: center; font-size: 40px; color: #025f6d;">
+export default (CLIENT, token, expiration) => `<h1 style="margin: 0; text-align: center; font-size: 26px; color: #025f6d;">
     Welcome!
   </h1>
   <h2 style="margin-bottom: 30px; font-size: 20px; text-align: center; color: #025f6d;">

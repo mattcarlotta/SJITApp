@@ -9,7 +9,7 @@ import * as mocks from "sagas/__mocks__/sagas.mocks";
 import messageReducer from "reducers/Messages";
 import formReducer from "reducers/Forms";
 import { parseData, parseMessage } from "utils/parseResponse";
-import { selectQuery } from "utils/queryHelpers";
+import { selectQuery } from "utils/selectors";
 
 const formId = "0123456789";
 

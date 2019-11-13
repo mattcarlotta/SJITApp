@@ -4,7 +4,7 @@ import { app } from "utils";
 import { hideServerMessage, setServerMessage } from "actions/Messages";
 import * as actions from "actions/Seasons";
 import { parseData, parseMessage } from "utils/parseResponse";
-import { selectQuery } from "utils/queryHelpers";
+import { selectQuery } from "utils/selectors";
 import * as types from "types";
 
 /**

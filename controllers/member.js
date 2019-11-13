@@ -392,7 +392,11 @@ const updateMember = async (req, res) => {
       if (emailInUse) throw emailAlreadyTaken;
     }
 
-    const existingUser = await User.findOne({ firstName, lastName });
+    const existingUser = await User.findOne({
+      _id: { $ne: existingMember._id },
+      firstName,
+      lastName,
+    });
     if (existingUser) throw usernameAlreadyTaken;
 
     if (role === "staff") {
@@ -440,7 +444,11 @@ const updateMemberSettings = async (req, res) => {
       if (emailInUse) throw emailAlreadyTaken;
     }
 
-    const existingUser = await User.findOne({ firstName, lastName });
+    const existingUser = await User.findOne({
+      _id: { $ne: existingMember._id },
+      firstName,
+      lastName,
+    });
     if (existingUser) throw usernameAlreadyTaken;
 
     await existingMember.updateOne({

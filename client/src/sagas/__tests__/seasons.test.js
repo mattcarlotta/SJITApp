@@ -9,7 +9,7 @@ import * as mocks from "sagas/__mocks__/sagas.mocks";
 import messageReducer from "reducers/Messages";
 import seasonReducer from "reducers/Seasons";
 import { parseData, parseMessage } from "utils/parseResponse";
-import { selectQuery } from "utils/queryHelpers";
+import { selectQuery } from "utils/selectors";
 
 const seasonId = "124567890";
 

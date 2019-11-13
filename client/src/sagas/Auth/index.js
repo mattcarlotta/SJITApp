@@ -137,7 +137,7 @@ export function* signupUser({ props }) {
 }
 
 /**
- * Attempts to create a new new user password.
+ * Attempts to create a new user password.
  *
  * @generator
  * @function updateUserPassword

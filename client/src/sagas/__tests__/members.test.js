@@ -10,7 +10,7 @@ import * as mocks from "sagas/__mocks__/sagas.mocks";
 import messageReducer from "reducers/Messages";
 import memberReducer from "reducers/Members";
 import { parseData, parseMessage } from "utils/parseResponse";
-import { selectQuery } from "utils/queryHelpers";
+import { selectQuery } from "utils/selectors";
 
 const memberId = "124567890";
 const tokenId = "0123456789";
