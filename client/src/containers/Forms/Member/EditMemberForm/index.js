@@ -109,7 +109,4 @@ const mapDispatchToProps = {
 	updateMember,
 };
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps,
-)(EditMemberForm);
+export default connect(mapStateToProps, mapDispatchToProps)(EditMemberForm);

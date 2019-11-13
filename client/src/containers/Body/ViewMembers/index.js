@@ -80,7 +80,4 @@ const mapDispatchToProps = {
 	push,
 };
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps,
-)(ViewMembers);
+export default connect(mapStateToProps, mapDispatchToProps)(ViewMembers);

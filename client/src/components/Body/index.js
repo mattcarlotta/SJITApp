@@ -14,9 +14,7 @@ export { default as Column } from "./Column";
 export { default as ColumnTitle } from "./ColumnTitle";
 export { default as Container } from "./Container";
 export { default as DisplayEmailReminder } from "./DisplayEmailReminder";
-export {
-	default as DisplayScheduledEmployees,
-} from "./DisplayScheduledEmployees";
+export { default as DisplayScheduledEmployees } from "./DisplayScheduledEmployees";
 export { default as DisplaySendToList } from "./DisplaySendToList";
 export { default as DisplayStatus } from "./DisplayStatus";
 export { default as DisplayTime } from "./DisplayTime";
@@ -49,9 +47,7 @@ export { default as ListItem } from "./ListItem";
 export { default as LoadingPanel } from "./LoadingPanel";
 export { default as LoadingTable } from "./LoadingTable";
 export { default as MemberAvailability } from "./MemberAvailability";
-export {
-	default as MemberAvailabilityAverage,
-} from "./MemberAvailabilityAverage";
+export { default as MemberAvailabilityAverage } from "./MemberAvailabilityAverage";
 export { default as MemberEventCountChart } from "./MemberEventCountChart";
 export { default as MenuButton } from "./MenuButton";
 export { default as MenuItemContainer } from "./MenuItemContainer";

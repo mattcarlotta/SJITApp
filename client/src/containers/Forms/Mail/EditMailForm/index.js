@@ -160,7 +160,4 @@ const mapDispatchToProps = {
 	updateMail,
 };
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps,
-)(EditMailForm);
+export default connect(mapStateToProps, mapDispatchToProps)(EditMailForm);

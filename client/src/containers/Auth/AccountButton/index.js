@@ -55,7 +55,8 @@ AccountButton.propTypes = {
 	signoutUser: PropTypes.func.isRequired,
 };
 
-export default connect(
-	null,
-	{ signoutUser },
-)(AccountButton);
+const mapDispatchToProps = {
+	signoutUser,
+};
+
+export default connect(null, mapDispatchToProps)(AccountButton);

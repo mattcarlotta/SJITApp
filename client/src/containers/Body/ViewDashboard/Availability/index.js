@@ -80,7 +80,4 @@ const mapDispatchToProps = {
 	fetchAvailability,
 };
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps,
-)(Availability);
+export default connect(mapStateToProps, mapDispatchToProps)(Availability);

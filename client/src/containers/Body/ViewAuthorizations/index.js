@@ -84,7 +84,4 @@ const mapDispatchToProps = {
 	push,
 };
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps,
-)(ViewAuthorizations);
+export default connect(mapStateToProps, mapDispatchToProps)(ViewAuthorizations);

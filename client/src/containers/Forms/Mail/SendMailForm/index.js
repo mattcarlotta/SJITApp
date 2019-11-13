@@ -145,7 +145,4 @@ const mapDispatchToProps = {
 	push,
 };
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps,
-)(SendMailForm);
+export default connect(mapStateToProps, mapDispatchToProps)(SendMailForm);

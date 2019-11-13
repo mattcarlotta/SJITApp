@@ -93,7 +93,4 @@ const mapDispatchToProps = {
 	push,
 };
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps,
-)(NewMemberForm);
+export default connect(mapStateToProps, mapDispatchToProps)(NewMemberForm);

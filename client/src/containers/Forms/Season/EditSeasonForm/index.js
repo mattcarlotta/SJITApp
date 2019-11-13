@@ -170,7 +170,4 @@ const mapDispatchToProps = {
 	updateSeason,
 };
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps,
-)(EditSeasonForm);
+export default connect(mapStateToProps, mapDispatchToProps)(EditSeasonForm);

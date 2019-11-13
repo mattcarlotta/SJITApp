@@ -28,20 +28,12 @@ export { default as ViewingAllMail } from "./Mail/ViewingAllMail";
 // members
 export { default as CreatingMembers } from "./Members/CreatingMembers";
 export { default as DeletingMembers } from "./Members/DeletingMembers";
-export {
-	default as EditingMemberAuthorizations,
-} from "./Members/EditingMemberAuthorizations";
+export { default as EditingMemberAuthorizations } from "./Members/EditingMemberAuthorizations";
 export { default as EditingMembers } from "./Members/EditingMembers";
-export {
-	default as ViewMemberAuthorizations,
-} from "./Members/ViewMemberAuthorizations";
-export {
-	default as ViewingMemberProfile,
-} from "./Members/ViewingMemberProfile";
+export { default as ViewMemberAuthorizations } from "./Members/ViewMemberAuthorizations";
+export { default as ViewingMemberProfile } from "./Members/ViewingMemberProfile";
 export { default as ViewingAllMembers } from "./Members/ViewingAllMembers";
-export {
-	default as ViewingMembersAvailability,
-} from "./Members/ViewingMembersAvailability";
+export { default as ViewingMembersAvailability } from "./Members/ViewingMembersAvailability";
 
 // seasons
 export { default as CreatingSeasons } from "./Seasons/CreatingSeasons";
@@ -54,7 +46,5 @@ export { default as AutomatedServices } from "./Services/AutomatedServices";
 
 // schedule
 export { default as SendingSchedules } from "./Schedule/SendingSchedules";
-export {
-	default as ViewingMonthlyMemberSchedule,
-} from "./Schedule/ViewingMonthlyMemberSchedule";
+export { default as ViewingMonthlyMemberSchedule } from "./Schedule/ViewingMonthlyMemberSchedule";
 export { default as ViewingSchedules } from "./Schedule/ViewingSchedules";

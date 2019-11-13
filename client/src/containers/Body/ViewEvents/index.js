@@ -121,7 +121,4 @@ const mapDispatchToProps = {
 	resendMail,
 };
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps,
-)(ViewEvents);
+export default connect(mapStateToProps, mapDispatchToProps)(ViewEvents);

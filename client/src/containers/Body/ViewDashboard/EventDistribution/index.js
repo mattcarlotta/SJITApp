@@ -93,7 +93,4 @@ const mapDispatchToProps = {
 	fetchEventDistribution,
 };
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps,
-)(EventDistribution);
+export default connect(mapStateToProps, mapDispatchToProps)(EventDistribution);

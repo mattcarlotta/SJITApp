@@ -90,7 +90,4 @@ const mapDispatchToProps = {
 	resendMail,
 };
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps,
-)(ViewForms);
+export default connect(mapStateToProps, mapDispatchToProps)(ViewForms);

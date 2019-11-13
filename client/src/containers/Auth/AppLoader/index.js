@@ -33,7 +33,4 @@ const mapDispatchToProps = {
 	authenticateUser,
 };
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps,
-)(AppLoader);
+export default connect(mapStateToProps, mapDispatchToProps)(AppLoader);

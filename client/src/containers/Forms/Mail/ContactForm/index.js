@@ -93,7 +93,4 @@ const mapDispatchToProps = {
 	contactUs,
 };
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps,
-)(ContactForm);
+export default connect(mapStateToProps, mapDispatchToProps)(ContactForm);

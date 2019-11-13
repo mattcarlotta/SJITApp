@@ -84,7 +84,4 @@ const mapDispatchToProps = {
 	signinUser,
 };
 
-export default connect(
-	mapStateTopProps,
-	mapDispatchToProps,
-)(LoginForm);
+export default connect(mapStateTopProps, mapDispatchToProps)(LoginForm);

@@ -54,7 +54,8 @@ NotFound.propTypes = {
 	goBack: PropTypes.func.isRequired,
 };
 
-export default connect(
-	null,
-	{ goBack },
-)(NotFound);
+const mapDispatchToProps = {
+	goBack,
+};
+
+export default connect(null, mapDispatchToProps)(NotFound);

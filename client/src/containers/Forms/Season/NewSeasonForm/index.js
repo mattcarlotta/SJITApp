@@ -114,7 +114,4 @@ const mapDispatchToProps = {
 	push,
 };
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps,
-)(NewSeasonForm);
+export default connect(mapStateToProps, mapDispatchToProps)(NewSeasonForm);

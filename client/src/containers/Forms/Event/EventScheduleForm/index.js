@@ -264,7 +264,4 @@ const mapDispatchToProps = {
 	updateEventSchedule,
 };
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps,
-)(EventScheduleForm);
+export default connect(mapStateToProps, mapDispatchToProps)(EventScheduleForm);

@@ -86,7 +86,4 @@ const mapDispatchToProps = {
 	push,
 };
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps,
-)(ViewSeasons);
+export default connect(mapStateToProps, mapDispatchToProps)(ViewSeasons);

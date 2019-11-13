@@ -181,7 +181,4 @@ const mapDispatchToProps = {
 	updateMemberStatus,
 };
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps,
-)(Settings);
+export default connect(mapStateToProps, mapDispatchToProps)(Settings);

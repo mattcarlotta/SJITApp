@@ -160,7 +160,4 @@ const mapDispatchToProps = {
 	push,
 };
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps,
-)(NewEventForm);
+export default connect(mapStateToProps, mapDispatchToProps)(NewEventForm);
