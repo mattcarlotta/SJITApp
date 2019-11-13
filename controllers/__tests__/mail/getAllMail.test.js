@@ -11,8 +11,8 @@ describe("Get All Mail Controller", () => {
   });
 
   it("handles valid get all mail requests", async () => {
+    const req = mockRequest(null, null, null, {});
     const res = mockResponse();
-    const req = mockRequest();
 
     await getAllMail(req, res);
 
@@ -29,6 +29,7 @@ describe("Get All Mail Controller", () => {
           message: expect.any(String),
         }),
       ]),
+      totalDocs: expect.any(Number),
     });
   });
 });

@@ -78,6 +78,7 @@ describe("Require Authentication Middleware", () => {
     const session = {
       user: {
         id: existingUser._id,
+        email: existingUser.email,
       },
     };
 

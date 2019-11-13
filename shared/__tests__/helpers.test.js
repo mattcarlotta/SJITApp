@@ -12,9 +12,11 @@ import {
   createUniqueName,
   createUserSchedule,
   convertId,
+  generateFilters,
   getUsers,
-  sendError,
+  sortScheduledUsersByLastName,
 } from "shared/helpers";
+import { badCredentials } from "shared/authErrors";
 
 describe("Helpers", () => {
   let db;
@@ -38,11 +40,14 @@ describe("Helpers", () => {
 
     const res = mockResponse();
 
-    clearSession(res);
+    clearSession(res, 400, badCredentials);
 
-    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.status).toHaveBeenCalledWith(400);
     expect(res.clearCookie).toHaveBeenCalledWith("SJSITApp", { path: "/" });
-    expect(res.json).toHaveBeenCalledWith({ role: "guest" });
+    expect(res.json).toHaveBeenCalledWith({
+      role: "guest",
+      err: badCredentials,
+    });
   });
 
   it("builds a column for scheduling", async () => {
@@ -261,6 +266,76 @@ describe("Helpers", () => {
     expect(createDate(date)).toEqual(expect.any(moment));
   });
 
+  it("generates a list of mongo filters", () => {
+    const format = "MM-DD-YYYY";
+    const date = "11-05-2020";
+    const startOfDay = moment(date, format)
+      .startOf("day")
+      .format();
+    const endOfDay = moment(date, format)
+      .endOf("day")
+      .format();
+
+    const authorizedEmail = "test@test.com";
+    const firstName = "bob";
+    const lastName = "smith";
+    const opponent = "ducks";
+    const seasonId = "20202021";
+    const sentEmails = "sent";
+    const sentEmailReminders = "sent";
+    const status = "active";
+    const team = "sharks";
+    const type = "game";
+
+    const query = {
+      authorizedEmail,
+      endDate: date,
+      endMonth: date,
+      expirationDate: date,
+      firstName,
+      lastName,
+      opponent,
+      seasonId,
+      sendDate: date,
+      sentEmails,
+      sentEmailReminders,
+      startDate: date,
+      startMonth: date,
+      status,
+      team,
+      type,
+    };
+
+    const filters = generateFilters(query);
+
+    expect(filters).toEqual({
+      authorizedEmail: { $regex: "test@test.com", $options: "i" },
+      eventDate: {
+        $lte: endOfDay,
+        $gte: startOfDay,
+      },
+      endMonth: { $lte: endOfDay },
+      expirationDate: {
+        $gte: startOfDay,
+        $lte: endOfDay,
+      },
+      firstName: { $regex: "bob", $options: "i" },
+      lastName: { $regex: "smith", $options: "i" },
+      opponent: { $regex: "ducks", $options: "i" },
+      seasonId: { $regex: "20202021", $options: "i" },
+      sendDate: {
+        $gte: startOfDay,
+        $lte: endOfDay,
+      },
+      sentEmails: { $eq: true },
+      sentEmailReminders: { $eq: true },
+      startMonth: { $gte: startOfDay },
+      status: { $eq: "active" },
+      team: { $regex: "sharks", $options: "i" },
+      eventType: { $regex: "game", $options: "i" },
+    });
+  });
+
   it("grabs all members from the database and projects accordingly", async () => {
     const members = await getUsers({
       match: {
@@ -284,13 +359,44 @@ describe("Helpers", () => {
     );
   });
 
-  it("sends an error to the client", () => {
-    const res = mockResponse();
-    const err = "Invalid request.";
+  it("sorts users by last name", () => {
+    const unsortedUsers = [
+      {
+        scheduledIds: [
+          {
+            _id: "88",
+            firstName: "Matt",
+            lastName: "Zebra",
+          },
+          {
+            _id: "99",
+            firstName: "Bob",
+            lastName: "Aardvark",
+          },
+        ],
+      },
+    ];
 
-    sendError(err, res);
+    const sortedUsers = sortScheduledUsersByLastName(unsortedUsers);
+    expect(sortedUsers).toEqual([
+      {
+        scheduledIds: [
+          {
+            _id: "99",
+            firstName: "Bob",
+            lastName: "Aardvark",
+          },
+          {
+            _id: "88",
+            firstName: "Matt",
+            lastName: "Zebra",
+          },
+        ],
+      },
+    ]);
 
-    expect(res.status).toHaveBeenCalledWith(400);
-    expect(res.json).toHaveBeenCalledWith({ err });
+    const noScheduledUsers = [];
+    const noSortedUsers = sortScheduledUsersByLastName(noScheduledUsers);
+    expect(noSortedUsers).toEqual(noScheduledUsers);
   });
 });

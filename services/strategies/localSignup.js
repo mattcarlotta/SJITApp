@@ -1,6 +1,5 @@
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
-// import mailer from "@sendgrid/mail";
 import moment from "moment";
 import {
   expiredToken,
@@ -8,6 +7,7 @@ import {
   invalidToken,
   missingSignupCreds,
   tokenAlreadyUsed,
+  usernameAlreadyTaken,
 } from "shared/authErrors";
 import { createRandomToken, sendError } from "shared/helpers";
 import { newUserTemplate } from "services/templates";
@@ -25,7 +25,7 @@ passport.use(
     },
     async (req, email, password, done) => {
       try {
-        const { token } = req.body;
+        const { firstName, lastName, token } = req.body;
 
         const newToken = createRandomToken(); // a token used for email verification
 
@@ -34,6 +34,9 @@ passport.use(
         if (!validToken) throw invalidToken;
         if (validToken.authorizedEmail !== email) throw invalidSignupEmail;
         if (validToken.email) throw tokenAlreadyUsed;
+
+        const existingUser = await User.findOne({ firstName, lastName });
+        if (existingUser) throw usernameAlreadyTaken;
 
         // see if the token has expired
         const todaysDate = moment(Date.now()).utcOffset(-7);
@@ -71,15 +74,14 @@ passport.use(
 
 export const localSignup = async (req, res, next) => {
   try {
-    const { email, firstName, lastName, password, token } = req.body;
+    const {
+      email, firstName, lastName, password, token,
+    } = req.body;
 
-    if (!email || !firstName || !lastName || !password || !token)
-      throw missingSignupCreds;
+    if (!email || !firstName || !lastName || !password || !token) throw missingSignupCreds;
 
     const newUser = await new Promise((resolve, reject) => {
-      passport.authenticate("local-signup", (err, user) =>
-        err ? reject(err) : resolve(user),
-      )(req, res, next);
+      passport.authenticate("local-signup", (err, user) => (err ? reject(err) : resolve(user)))(req, res, next);
     });
 
     req.user = {

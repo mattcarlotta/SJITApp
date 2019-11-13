@@ -69,6 +69,13 @@ describe("Get Member Settings Availability Controller", () => {
 
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.json).toHaveBeenCalledWith({
+      eventAvailability: expect.arrayContaining([
+        expect.objectContaining({
+          id: expect.any(String),
+          label: expect.any(String),
+          value: expect.any(Number),
+        }),
+      ]),
       memberResponseCount: expect.arrayContaining([
         expect.objectContaining({
           color: expect.any(String),

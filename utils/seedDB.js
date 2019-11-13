@@ -1,7 +1,9 @@
 /* eslint-disable no-console */
 import moment from "moment";
 import { connectDatabase } from "database";
-import { Event, Form, Mail, User, Season, Team, Token } from "models";
+import {
+  Event, Form, Mail, User, Season, Team, Token,
+} from "models";
 import {
   createSchedule,
   createSignupToken,
@@ -83,7 +85,7 @@ const seedDB = async () => {
     };
 
     const newHire4 = {
-      authorizedEmail: "member66@example.com",
+      authorizedEmail: "member667@example.com",
       role: "employee",
       token: createSignupToken(),
       expiration: expirationDate().toDate(),

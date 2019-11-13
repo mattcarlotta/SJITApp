@@ -2,8 +2,8 @@ import { getAllEvents } from "controllers/event";
 
 describe("Get All Events Controller", () => {
   it("handles valid get all events requests", async () => {
+    const req = mockRequest(null, null, null, {});
     const res = mockResponse();
-    const req = mockRequest();
 
     await getAllEvents(req, res);
 
@@ -22,6 +22,7 @@ describe("Get All Events Controller", () => {
           eventDate: expect.any(Date),
         }),
       ]),
+      totalDocs: expect.any(Number),
     });
   });
 });

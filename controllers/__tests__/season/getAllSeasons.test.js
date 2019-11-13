@@ -11,8 +11,8 @@ describe("Get All Seasons Controller", () => {
   });
 
   it("handles valid get all seasons requests", async () => {
+    const req = mockRequest(null, null, null, {});
     const res = mockResponse();
-    const req = mockRequest();
 
     await getAllSeasons(req, res);
 
@@ -26,6 +26,7 @@ describe("Get All Seasons Controller", () => {
           startDate: expect.any(Date),
         }),
       ]),
+      totalDocs: expect.any(Number),
     });
   });
 });

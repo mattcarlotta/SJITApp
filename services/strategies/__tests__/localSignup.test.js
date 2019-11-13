@@ -6,6 +6,7 @@ import {
   invalidToken,
   missingSignupCreds,
   tokenAlreadyUsed,
+  usernameAlreadyTaken,
 } from "shared/authErrors";
 import { createSignupToken } from "shared/helpers";
 import { Season, Token } from "models";
@@ -156,6 +157,26 @@ describe("Local Signup Middleware", () => {
 
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith({ err: expiredToken });
+    done();
+  });
+
+  it("handles invalid first and last name requests", async done => {
+    const invalidUsernameSignup = {
+      email: "signuptoken@example.com",
+      firstName: "Matt",
+      lastName: "Carlotta",
+      password: "password",
+      token: signupToken.token,
+    };
+
+    const req = mockRequest({}, {}, invalidUsernameSignup);
+
+    await localSignup(req, res, next);
+
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.json).toHaveBeenCalledWith({
+      err: usernameAlreadyTaken,
+    });
     done();
   });
 
