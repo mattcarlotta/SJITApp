@@ -14,7 +14,7 @@ const iconStyle = {
 
 const initBtnStyle = {
 	minWidth: 125,
-	margin: "0 auto",
+	margin: "3px auto 0",
 };
 
 const ScheduleList = ({
