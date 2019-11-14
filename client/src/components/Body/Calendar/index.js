@@ -119,6 +119,9 @@ class CustomCalendar extends Component {
 				loggedinUserId={this.props.loggedinUserId}
 				content={content}
 				handleShowModal={this.handleShowModal}
+				padding="0 6%"
+				btnStyle={{ maxWidth: 185 }}
+				innerStyle={{ padding: "3px 0" }}
 				height="20px"
 				width="20px"
 			/>

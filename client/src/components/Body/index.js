@@ -29,6 +29,7 @@ export { default as FilterInput } from "./FilterInput";
 export { default as Flex } from "./Flex";
 export { default as FlexCenter } from "./FlexCenter";
 export { default as FlexEnd } from "./FlexEnd";
+export { default as FlexSpaceAround } from "./FlexSpaceAround";
 export { default as FlexStart } from "./FlexStart";
 export { default as Float } from "./Float";
 export { default as Footer } from "./Footer";

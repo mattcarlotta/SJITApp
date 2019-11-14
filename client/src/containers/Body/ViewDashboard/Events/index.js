@@ -63,7 +63,6 @@ export class Events extends Component {
 		const eventDate = get(events[0], ["eventDate"]);
 		const endOfDay = moment(eventDate).endOf("day");
 		const selectedToday = selectedEvent === "Today";
-		const currentDate = moment(eventDate).format("MMM DD");
 
 		return (
 			<Fragment>
@@ -95,7 +94,7 @@ export class Events extends Component {
 						}
 					>
 						<CalendarContainer>
-							<CalendarDate>{currentDate}</CalendarDate>
+							<CalendarDate>{moment(eventDate).format("MMM DD")}</CalendarDate>
 							{isLoading ? (
 								<LoadingPanel
 									style={{
@@ -113,8 +112,10 @@ export class Events extends Component {
 												<ScheduleList
 													key={props._id}
 													content={[props]}
-													listStyle={{ padding: 3 }}
+													innerStyle={{ padding: "5px 0" }}
+													btnStyle={{ maxWidth: 585 }}
 													spacing={20}
+													padding="0 20.5%"
 													height="45px"
 													width="45px"
 													folder="lowres"
@@ -122,8 +123,7 @@ export class Events extends Component {
 													loggedinUserId={this.props.loggedinUserId}
 													scheduleIconStyle={{
 														fontSize: 19,
-														verticalAlign: "middle",
-														right: "20px",
+														margin: "0 10px",
 													}}
 												/>
 											) : null,
