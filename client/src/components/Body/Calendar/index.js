@@ -120,7 +120,7 @@ class CustomCalendar extends Component {
 				content={content}
 				handleShowModal={this.handleShowModal}
 				padding="0 6%"
-				btnStyle={{ maxWidth: 185 }}
+				btnStyle={{ maxWidth: 165 }}
 				innerStyle={{ padding: "3px 0" }}
 				height="20px"
 				width="20px"
