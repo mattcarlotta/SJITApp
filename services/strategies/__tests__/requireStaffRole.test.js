@@ -1,6 +1,6 @@
 import { User } from "models";
 import { requireStaffRole } from "services/strategies";
-import { badCredentials } from "shared/authErrors";
+import { accessDenied, badCredentials } from "shared/authErrors";
 
 const next = jest.fn();
 
@@ -25,7 +25,7 @@ describe("Require Staff Role Authentication Middleware", () => {
     await requireStaffRole(req, res, next);
 
     expect(res.status).toHaveBeenCalledWith(400);
-    expect(res.json).toHaveBeenCalledWith({ err: badCredentials });
+    expect(res.json).toHaveBeenCalledWith({ err: accessDenied });
     done();
   });
 

@@ -12,6 +12,10 @@ import {
 	Modal,
 } from "components/Body";
 
+const listStyle = {
+	paddingLeft: 10,
+};
+
 const ScheduleModal = ({
 	id,
 	handleCloseModal,
@@ -33,10 +37,27 @@ const ScheduleModal = ({
 					opponent,
 					schedule,
 				}) => (
-					<Fragment key="modal-content">
-						<List style={{ padding: 10 }}>
-							<ListItem>
-								<Bold>Event: </Bold>
+					<List
+						key="modal-content"
+						style={{
+							backgroundColor: "#ebebeb",
+							borderRadius: "3px",
+							border: "1px solid #9e9e9e",
+							marginTop: 10,
+						}}
+					>
+						<ListItem
+							className="team"
+							style={{
+								backgroundColor:
+									team === "San Jose Sharks" ? "#025f6d" : "#f56342",
+								marginTop: 0,
+								color: "#fff",
+								textAlign: "center",
+								padding: 10,
+							}}
+						>
+							<Bold>
 								{team}
 								{opponent && (
 									<Fragment>
@@ -50,109 +71,110 @@ const ScheduleModal = ({
 										{opponent}
 									</Fragment>
 								)}
+							</Bold>
+						</ListItem>
+						<ListItem style={listStyle}>
+							<Bold>Event Type: </Bold> {eventType}
+						</ListItem>
+						<ListItem style={listStyle}>
+							<Bold>Date: </Bold>{" "}
+							{moment(eventDate).format("MMMM Do, YYYY @ h:mm a")}
+						</ListItem>
+						{notes && (
+							<ListItem style={listStyle}>
+								<Bold>Event Notes: </Bold> {notes}
 							</ListItem>
-							<ListItem>
-								<Bold>Date: </Bold>{" "}
-								{moment(eventDate).format("MMMM Do, YYYY @ h:mm a")}
+						)}
+						<ListItem style={listStyle}>
+							<Bold>Location: </Bold> {location}
+						</ListItem>
+						{employeeResponse && (
+							<ListItem style={listStyle}>
+								<Bold>Employee Response:</Bold>
+								<Badge
+									style={{ display: "inline-block" }}
+									response={employeeResponse}
+								>
+									{employeeResponse}
+								</Badge>
 							</ListItem>
-							<ListItem>
-								<Bold>Event Type: </Bold> {eventType}
+						)}
+						{employeeNotes && (
+							<ListItem style={listStyle}>
+								<Bold>Employee Notes:</Bold> {employeeNotes}
 							</ListItem>
-							{notes && (
-								<ListItem>
-									<Bold>Event Notes: </Bold> {notes}
-								</ListItem>
-							)}
-							<ListItem>
-								<Bold>Location: </Bold> {location}
-							</ListItem>
-							{employeeResponse && (
-								<ListItem>
-									<Bold>Employee Response:</Bold>
-									<Badge
-										style={{ display: "inline-block" }}
-										response={employeeResponse}
-									>
-										{employeeResponse}
-									</Badge>
-								</ListItem>
-							)}
-							{employeeNotes && (
-								<ListItem>
-									<Bold>Employee Notes:</Bold> {employeeNotes}
-								</ListItem>
-							)}
-							{!isEmpty(schedule) && (
-								<ListItem>
-									<Bold>Scheduled Employees</Bold>
-									{schedule.map(({ _id, employeeIds }) => (
-										<List style={{ marginTop: 5 }} key={_id}>
-											<Bold style={{ paddingLeft: 10 }}>
-												<FaClock
-													style={{
-														marginRight: 7,
-														fontSize: 14,
-														position: "relative",
-														top: 1,
-													}}
-												/>
-												<FormatDate
-													style={{ display: "inline" }}
-													format="hh:mm a"
-													date={_id}
-												/>
-											</Bold>
-											{!isEmpty(employeeIds) ? (
-												employeeIds.map(({ _id, firstName, lastName }) => (
-													<ListItem
-														className="employee"
-														style={{
-															marginLeft: 15,
-															paddingLeft: 10,
-															backgroundColor:
-																_id === id || _id === loggedinUserId
-																	? "#006d75"
-																	: "",
-															color:
-																_id === id || _id === loggedinUserId
-																	? "#fff"
-																	: "rgba(0,0,0,0.65)",
-															fontWeight:
-																_id === id || _id === loggedinUserId
-																	? "bold"
-																	: "normal",
-														}}
-														key={_id}
-													>
-														<span css="margin-right: 5px;">&#9900;</span>
-														{(_id === id || _id === loggedinUserId) && (
-															<span css="margin-right: 5px;">
-																<FaCalendarCheck
-																	style={{
-																		fontSize: 14,
-																	}}
-																/>
-															</span>
-														)}
-														<span>
-															{firstName} {lastName}
-														</span>
-													</ListItem>
-												))
-											) : (
+						)}
+						{!isEmpty(schedule) && (
+							<ListItem style={listStyle}>
+								<Bold>Scheduled Employees</Bold>
+								{schedule.map(({ _id, employeeIds }) => (
+									<List style={{ marginTop: 5 }} key={_id}>
+										<Bold style={{ paddingLeft: 10 }}>
+											<FaClock
+												style={{
+													marginRight: 7,
+													fontSize: 14,
+													position: "relative",
+													top: 1,
+												}}
+											/>
+											<FormatDate
+												style={{ display: "inline" }}
+												format="hh:mm a"
+												date={_id}
+											/>
+										</Bold>
+										{!isEmpty(employeeIds) ? (
+											employeeIds.map(({ _id, firstName, lastName }) => (
 												<ListItem
-													className="none-scheduled"
-													style={{ marginLeft: 20, paddingLeft: 10 }}
+													className="employee"
+													style={{
+														marginLeft: 15,
+														paddingLeft: 10,
+														backgroundColor:
+															_id === id || _id === loggedinUserId
+																? "#006d75"
+																: "",
+														color:
+															_id === id || _id === loggedinUserId
+																? "#fff"
+																: "rgba(0,0,0,0.65)",
+														fontWeight:
+															_id === id || _id === loggedinUserId
+																? "bold"
+																: "normal",
+													}}
+													key={_id}
 												>
-													&#40;none&#41;
+													<span css="margin-right: 5px;">&#9900;</span>
+													{(_id === id || _id === loggedinUserId) && (
+														<span css="margin-right: 5px;">
+															<FaCalendarCheck
+																style={{
+																	fontSize: 14,
+																}}
+															/>
+														</span>
+													)}
+													<span>
+														{firstName} {lastName}
+													</span>
 												</ListItem>
-											)}
-										</List>
-									))}
-								</ListItem>
-							)}
-						</List>
-					</Fragment>
+											))
+										) : (
+											<ListItem
+												className="none-scheduled"
+												style={{ marginLeft: 20, paddingLeft: 10 }}
+											>
+												<span css="margin-right: 5px;">&#9900;</span>
+												&#40;none&#41;
+											</ListItem>
+										)}
+									</List>
+								))}
+							</ListItem>
+						)}
+					</List>
 				),
 			)}
 		</Modal>
