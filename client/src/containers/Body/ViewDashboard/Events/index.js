@@ -112,7 +112,11 @@ export class Events extends Component {
 												<ScheduleList
 													key={props._id}
 													content={[props]}
-													innerStyle={{ padding: "5px 0" }}
+													innerStyle={{
+														padding: "5px 0",
+														maxWidth: 225,
+														margin: "0 auto",
+													}}
 													btnStyle={{ maxWidth: 585 }}
 													spacing={20}
 													padding="0 20.5%"

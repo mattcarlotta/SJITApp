@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import { FaTimes } from "react-icons/fa";
 import BackgroundOverlay from "../BackgroundOverlay";
+import Center from "./Center";
 import CloseModalButton from "./CloseModalButton";
 import ClickHandler from "./ClickHandler";
 import ModalContent from "./ModalContent";
@@ -20,17 +21,19 @@ export const Modal = ({
 		<BackgroundOverlay />
 		<WindowContainer>
 			<ModalContainer>
-				<ClickHandler closeModal={!disableClickHandler ? onClick : null}>
-					<ModalContent maxWidth={maxWidth}>
-						<CloseModalButton
-							id="close-modal"
-							onClick={() => (onClick ? onClick() : history.push("/"))}
-						>
-							<FaTimes />
-						</CloseModalButton>
-						{children}
-					</ModalContent>
-				</ClickHandler>
+				<Center maxWidth={maxWidth}>
+					<ClickHandler closeModal={!disableClickHandler ? onClick : null}>
+						<ModalContent maxWidth={maxWidth}>
+							<CloseModalButton
+								id="close-modal"
+								onClick={() => (onClick ? onClick() : history.push("/"))}
+							>
+								<FaTimes />
+							</CloseModalButton>
+							{children}
+						</ModalContent>
+					</ClickHandler>
+				</Center>
 			</ModalContainer>
 		</WindowContainer>
 	</Fragment>
