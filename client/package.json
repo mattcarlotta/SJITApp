@@ -30,6 +30,7 @@
 			"command": "webpack-dev-server",
 			"env": {
 				"APIPORT": 5000,
+				"BASEURL": "http://localhost:8080/api/",
 				"NODE_ENV": "development",
 				"PORT": 3000
 			}
@@ -38,6 +39,7 @@
 			"command": "webpack",
 			"env": {
 				"APIPORT": 8080,
+				"BASEURL": "http://sjsiceteam/api/",
 				"NODE_ENV": "production"
 			}
 		},
@@ -45,7 +47,9 @@
 			"command": "webpack",
 			"env": {
 				"APIPORT": 8080,
-				"NODE_ENV": "staging"
+				"BASEURL": "http://localhost:8080/api/",
+				"NODE_ENV": "production",
+				"NODE_ENV_DEV": "staging"
 			}
 		},
 		"test": {
@@ -179,6 +183,7 @@
 		"npm-run-all": "^4.1.5",
 		"optimize-css-assets-webpack-plugin": "^5.0.3",
 		"prettier": "^1.19.1",
+		"react-dev-utils": "^9.1.0",
 		"redux-devtools-extension": "^2.13.8",
 		"redux-saga-test-plan": "^4.0.0-rc.3",
 		"sass-loader": "^8.0.0",
@@ -192,6 +197,7 @@
 		"webpack-dev-server": "^3.9.0",
 		"webpack-manifest-plugin": "^2.2.0",
 		"webpack-merge": "^4.2.2",
-		"webpackbar": "^4.0.0"
+		"webpackbar": "^4.0.0",
+		"workbox-webpack-plugin": "^4.3.1"
 	}
 }

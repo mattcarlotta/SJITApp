@@ -1,15 +1,11 @@
 /* istanbul ignore file */
-/* eslint-disable no-unneeded-ternary */
 import get from "lodash/get";
 import axios from "axios";
-import { inDevelopment, inStaging, APIPORT } from "../../../config/envs";
+
+const { baseURL } = process.env;
 
 const app = axios.create({
-	/* eslint-disable-next  */
-	baseURL:
-		inDevelopment || inStaging
-			? `http://localhost:${APIPORT}/api/`
-			: "https//sjsiceteam.com/api/",
+	baseURL,
 	withCredentials: true,
 });
 
@@ -18,9 +14,8 @@ app.interceptors.response.use(
 	error => {
 		const err = get(error, ["response", "data", "err"]);
 
-		return Promise.reject(err ? err : error.message);
+		return Promise.reject(err || error.message);
 	},
 );
 
 export default app;
-/* eslint-enable no-unneeded-ternary */

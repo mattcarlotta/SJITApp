@@ -1,13 +1,15 @@
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const { DefinePlugin, HotModuleReplacementPlugin } = require("webpack");
+const { GenerateSW } = require("workbox-webpack-plugin");
+const InlineChunkHtmlPlugin = require("react-dev-utils/InlineChunkHtmlPlugin");
 const ErrorOverlayPlugin = require("error-overlay-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const { DefinePlugin, HotModuleReplacementPlugin } = require("webpack");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const FriendlyErrorsWebpackPlugin = require("friendly-errors-webpack-plugin");
 const WebpackBar = require("webpackbar");
 const ManifestPlugin = require("webpack-manifest-plugin");
 const { cssFolder, faviconPath, publicPath, templatePath } = require("./paths");
-const { APIPORT, inDevelopment, NODE_ENV, PORT } = require("./envs");
+const { APIPORT, baseURL, inDevelopment, NODE_ENV, PORT } = require("./envs");
 
 // =============================================================== //
 // WEBPACK PLUGINS                                                 //
@@ -53,6 +55,7 @@ module.exports = () => {
 			"process.env.APIPORT": JSON.stringify(APIPORT),
 			"process.env.NODE_ENV": JSON.stringify(NODE_ENV),
 			"process.env.PORT": JSON.stringify(PORT),
+			"process.env.baseURL": JSON.stringify(baseURL),
 		}),
 		/* generates an manifest for all assets */
 		new ManifestPlugin({
@@ -83,6 +86,23 @@ module.exports = () => {
 		/* production webpack plugins */
 		plugins.push(
 			/* compiles SCSS to a single CSS file */
+			new InlineChunkHtmlPlugin(HtmlWebpackPlugin, [/runtime/]),
+			new GenerateSW({
+				swDest: "sw.js",
+				clientsClaim: true,
+				exclude: [/\.map$/, /asset-manifest\.json$/],
+				importWorkboxFrom: "cdn",
+				navigateFallback: "/index.html",
+				navigateFallbackBlacklist: [
+					// Exclude URLs starting with /_, as they're likely an API call
+					new RegExp("^/_"),
+					// Exclude any URLs whose last part seems to be a file extension
+					// as they're likely a resource and not a SPA route.
+					// URLs containing a "?" character won't be blacklisted as they're likely
+					// a route with query params (e.g. auth callbacks).
+					new RegExp("/[^/?]+\\.[^/]+$"),
+				],
+			}),
 			new MiniCssExtractPlugin({
 				filename: `${cssFolder}/[name].[contenthash:8].css`,
 				chunkFilename: `${cssFolder}/[id].[contenthash:8].css`,
