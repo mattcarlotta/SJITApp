@@ -2,6 +2,7 @@ import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import { FaTimes } from "react-icons/fa";
+import { FlexEnd } from "components/Body";
 import BackgroundOverlay from "../BackgroundOverlay";
 import Center from "./Center";
 import CloseModalButton from "./CloseModalButton";
@@ -24,12 +25,14 @@ export const Modal = ({
 				<Center maxWidth={maxWidth}>
 					<ClickHandler closeModal={!disableClickHandler ? onClick : null}>
 						<ModalContent maxWidth={maxWidth}>
-							<CloseModalButton
-								id="close-modal"
-								onClick={() => (onClick ? onClick() : history.push("/"))}
-							>
-								<FaTimes />
-							</CloseModalButton>
+							<FlexEnd>
+								<CloseModalButton
+									id="close-modal"
+									onClick={() => (onClick ? onClick() : history.push("/"))}
+								>
+									<FaTimes />
+								</CloseModalButton>
+							</FlexEnd>
 							{children}
 						</ModalContent>
 					</ClickHandler>

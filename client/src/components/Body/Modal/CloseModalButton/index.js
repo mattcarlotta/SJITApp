@@ -3,9 +3,8 @@ import styled from "styled-components";
 
 export default styled.button`
 	cursor: pointer;
-	color: #f5222d;
+	color: #d2d2d2;
 	border: 0;
-	opacity: 0.4;
 	height: 25px;
 	width: 25px;
 	top: 12px;
@@ -13,11 +12,11 @@ export default styled.button`
 	position: absolute;
 	background-color: transparent;
 	-webkit-font-smoothing: auto;
-	transition: all 0.3s ease-in-out;
+	transition: all 0.2s ease-in-out;
 	font-size: 20px;
 
 	&:hover {
-		opacity: 1;
+		color: #f5222d;
 	}
 
 	&:focus {
