@@ -1,9 +1,7 @@
 /* eslint-disable no-console */
 import moment from "moment-timezone";
 import { connectDatabase } from "database";
-import {
-  Event, Form, Mail, User, Season, Team, Token,
-} from "models";
+import { Event, Form, Mail, User, Season, Team, Token } from "models";
 import {
   createSchedule,
   createSignupToken,
@@ -156,13 +154,11 @@ const seedDB = async () => {
       newHire11,
     ]);
 
-    const adminPassword = await User.createPassword(password);
+    const adminPassword = await User.createPassword(admin.password);
 
     const administrator = {
-      email: admin,
+      ...admin,
       password: adminPassword,
-      firstName: "Matt",
-      lastName: "Carlotta",
       role: "admin",
       token: createRandomToken(),
     };

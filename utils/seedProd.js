@@ -6,7 +6,7 @@ import teams from "./teams";
 
 const { NODE_ENV, SEED } = process.env;
 
-const { admin, password } = config[NODE_ENV];
+const { admin, staff } = config[NODE_ENV];
 
 /**
  * Function to seed the testing Mongo database.
@@ -19,25 +19,32 @@ const { admin, password } = config[NODE_ENV];
 (async () => {
   const db = connectDatabase();
   try {
-    const adminPassword = await User.createPassword(password);
+    const adminPassword = await User.createPassword(admin.password);
 
     const administrator = {
-      email: admin,
+      ...admin,
       password: adminPassword,
-      firstName: "Matt",
-      lastName: "Carlotta",
       role: "admin",
       token: createRandomToken(),
     };
 
-    await User.create(administrator);
+    const staffPassword = await User.createPassword(staff.password);
+
+    const staffMember = {
+      ...staff,
+      password: staffPassword,
+      role: "staff",
+      token: createRandomToken(),
+    };
+
+    await User.insertMany([administrator, staffMember]);
 
     await Team.insertMany(teams);
 
     await db.close();
 
     return console.log(
-      "\n\x1b[7m\x1b[32;1m PASS \x1b[0m \x1b[2mutils/\x1b[0m\x1b[1mseedDB.js",
+      "\n\x1b[7m\x1b[32;1m PASS \x1b[0m \x1b[2mutils/\x1b[0m\x1b[1mseedProd.js",
     );
   } catch (err) {
     return console.log(
