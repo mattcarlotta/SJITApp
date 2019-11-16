@@ -3,6 +3,7 @@ import { ViewAuthorizations } from "../index";
 const deleteToken = jest.fn();
 const push = jest.fn();
 const fetchTokens = jest.fn();
+const resendToken = jest.fn();
 
 const initProps = {
 	deleteToken,
@@ -11,6 +12,7 @@ const initProps = {
 		search: "?page=1",
 	},
 	isLoading: true,
+	resendToken,
 	tokens: [],
 	totalDocs: 0,
 	push,

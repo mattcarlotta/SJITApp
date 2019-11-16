@@ -7,7 +7,7 @@ import { Card } from "antd";
 import { FaKey } from "react-icons/fa";
 import { Table } from "components/Body";
 import { QueryHandler } from "components/Navigation";
-import { deleteToken, fetchTokens } from "actions/Members";
+import { deleteToken, fetchTokens, resendToken } from "actions/Members";
 import Filters from "./Filters";
 import columns from "./Columns";
 
@@ -16,6 +16,7 @@ const title = "Authorizations";
 export const ViewAuthorizations = ({
 	deleteToken,
 	fetchTokens,
+	resendToken,
 	tokens,
 	...rest
 }) => (
@@ -47,6 +48,7 @@ export const ViewAuthorizations = ({
 							deleteAction={deleteToken}
 							fetchData={fetchTokens}
 							editLocation="members/authorizations"
+							sendMail={resendToken}
 						/>
 					</Fragment>
 				)}
@@ -69,6 +71,7 @@ ViewAuthorizations.propTypes = {
 			token: PropTypes.string,
 		}),
 	),
+	resendToken: PropTypes.func.isRequired,
 	totalDocs: PropTypes.number.isRequired,
 };
 
@@ -82,6 +85,7 @@ const mapDispatchToProps = {
 	deleteToken,
 	fetchTokens,
 	push,
+	resendToken,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ViewAuthorizations);

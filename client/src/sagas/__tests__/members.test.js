@@ -816,6 +816,57 @@ describe("Member Sagas", () => {
 		});
 	});
 
+	describe("Resend Token", () => {
+		it("logical flow matches pattern for resend member token requests", () => {
+			const message = "Successfully sent another member authorization token.";
+			const res = { data: { message } };
+
+			testSaga(sagas.resendToken, { tokenId })
+				.next()
+				.put(hideServerMessage())
+				.next()
+				.call(app.put, `token/resend/${tokenId}`)
+				.next(res)
+				.call(parseMessage, res)
+				.next(res.data.message)
+				.put(setServerMessage({ type: "info", message: res.data.message }))
+				.next()
+				.put(actions.fetchTokens())
+				.next()
+				.isDone();
+		});
+
+		it("successfully resends a member token", async () => {
+			const message = "Successfully resent the member token.";
+			mockApp.onPut(`token/resend/${tokenId}`).reply(200, { message });
+
+			return expectSaga(sagas.resendToken, { tokenId })
+				.dispatch(actions.resendToken)
+				.withReducer(messageReducer)
+				.hasFinalState({
+					message,
+					show: true,
+					type: "info",
+				})
+				.run();
+		});
+
+		it("if API call fails, it displays a message", async () => {
+			const err = "Unable to delete the member.";
+			mockApp.onPut(`token/resend/${tokenId}`).reply(404, { err });
+
+			return expectSaga(sagas.resendToken, { tokenId })
+				.dispatch(actions.resendToken)
+				.withReducer(messageReducer)
+				.hasFinalState({
+					message: err,
+					show: true,
+					type: "error",
+				})
+				.run();
+		});
+	});
+
 	describe("Update Member", () => {
 		let message;
 		let props;

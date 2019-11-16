@@ -11,13 +11,14 @@ export default (field, editEmail) => {
 	} = editEmail;
 
 	switch (field.name) {
-		case "sendTo":
+		case "sendTo": {
 			return {
 				...field,
 				dataSource,
 				value: sendTo,
 				disabled: false,
 			};
+		}
 		case "sendFrom": {
 			return {
 				...field,

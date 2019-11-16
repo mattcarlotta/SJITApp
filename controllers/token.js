@@ -114,6 +114,35 @@ const getToken = async (req, res) => {
   }
 };
 
+const resendToken = async (req, res) => {
+  try {
+    const { id: _id } = req.params;
+    if (!_id) throw missingTokenId;
+
+    const existingToken = await Token.findOne({ _id }, { __v: 0, token: 0 });
+    if (!existingToken) throw unableToLocateToken;
+    if (existingToken.email) throw unableToUpdateToken;
+
+    const { authorizedEmail, role } = existingToken;
+
+    const token = createSignupToken();
+    const expiration = expirationDate();
+
+    await existingToken.updateOne({
+      expiration: expiration.toDate(),
+      token,
+    });
+
+    await Mail.create(createAuthMail(authorizedEmail, token, expiration, role));
+
+    res.status(201).json({
+      message: `An authorization key will be resent to ${authorizedEmail} shortly.`,
+    });
+  } catch (err) {
+    return sendError(err, res);
+  }
+};
+
 const updateToken = async (req, res) => {
   try {
     const { _id, authorizedEmail, role } = req.body;
@@ -146,4 +175,11 @@ const updateToken = async (req, res) => {
   }
 };
 
-export { createToken, deleteToken, getAllTokens, getToken, updateToken };
+export {
+  createToken,
+  deleteToken,
+  getAllTokens,
+  getToken,
+  resendToken,
+  updateToken,
+};

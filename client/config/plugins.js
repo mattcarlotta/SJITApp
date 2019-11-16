@@ -1,4 +1,3 @@
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const { DefinePlugin, HotModuleReplacementPlugin } = require("webpack");
 const { GenerateSW } = require("workbox-webpack-plugin");
 const InlineChunkHtmlPlugin = require("react-dev-utils/InlineChunkHtmlPlugin");
@@ -8,6 +7,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const FriendlyErrorsWebpackPlugin = require("friendly-errors-webpack-plugin");
 const WebpackBar = require("webpackbar");
 const ManifestPlugin = require("webpack-manifest-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 const { cssFolder, faviconPath, publicPath, templatePath } = require("./paths");
 const { APIPORT, baseURL, inDevelopment, NODE_ENV, PORT } = require("./envs");
 
@@ -107,8 +107,7 @@ module.exports = () => {
 				filename: `${cssFolder}/[name].[contenthash:8].css`,
 				chunkFilename: `${cssFolder}/[id].[contenthash:8].css`,
 			}),
-			/* removes old build folder for each new compile */
-			new CleanWebpackPlugin(),
+			new CopyWebpackPlugin([{ from: "public/robots.txt" }]),
 		);
 	}
 

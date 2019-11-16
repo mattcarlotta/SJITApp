@@ -378,6 +378,39 @@ export function* fetchTokens() {
  * Attempts to update an existing member.
  *
  * @generator
+ * @function resendToken
+ * @param {string} tokenId
+ * @yields {object} - A response from a call to the API.
+ * @function parseMessage - Returns a parsed res.data.message.
+ * @yields {action} - A redux action to display a server message by type.
+ * @yields {action} - A redux action to fetch member by id to update data..
+ * @throws {action} - A redux action to display a server message by type.
+ */
+
+export function* resendToken({ tokenId }) {
+	try {
+		yield put(hideServerMessage());
+
+		const res = yield call(app.put, `token/resend/${tokenId}`);
+		const message = yield call(parseMessage, res);
+
+		yield put(
+			setServerMessage({
+				type: "info",
+				message,
+			}),
+		);
+
+		yield put(actions.fetchTokens());
+	} catch (e) {
+		yield put(setServerMessage({ type: "error", message: e.toString() }));
+	}
+}
+
+/**
+ * Attempts to update an existing member.
+ *
+ * @generator
  * @function updateMember
  * @param {object} props - props contain id, email, firstName, lastName and role.
  * @yields {object} - A response from a call to the API.
@@ -536,6 +569,7 @@ export default function* membersSagas() {
 		takeLatest(types.MEMBERS_FETCH_TOKEN, fetchToken),
 		takeLatest(types.MEMBERS_FETCH_TOKENS, fetchTokens),
 		takeLatest(types.MEMBERS_UPDATE, updateMember),
+		takeLatest(types.MEMBERS_RESEND_TOKEN, resendToken),
 		takeLatest(types.MEMBERS_UPDATE_SETTINGS, updateSettings),
 		takeLatest(types.MEMBERS_UPDATE_STATUS, updateMemberStatus),
 		takeLatest(types.MEMBERS_UPDATE_TOKEN, updateMemberToken),

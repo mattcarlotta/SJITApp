@@ -163,6 +163,15 @@ describe("Member Actions", () => {
 		});
 	});
 
+	it("returns MEMBERS_RESEND_TOKEN", () => {
+		const value = actions.resendToken(tokenId);
+
+		expect(value).toEqual({
+			type: types.MEMBERS_RESEND_TOKEN,
+			tokenId,
+		});
+	});
+
 	it("returns MEMBERS_SET with an empty array if data is empty", () => {
 		const value = actions.setMembers([]);
 

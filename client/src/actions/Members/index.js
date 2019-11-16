@@ -150,6 +150,18 @@ export const fetchTokens = () => ({
 });
 
 /**
+ * Resends a single auth key by mail.
+ *
+ * @function resendToken
+ * @param {string} tokenId
+ * @returns {object}
+ */
+export const resendToken = tokenId => ({
+	type: types.MEMBERS_RESEND_TOKEN,
+	tokenId,
+});
+
+/**
  * Sets any members from API to redux state
  *
  * @function setMembers
