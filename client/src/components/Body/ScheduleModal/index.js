@@ -42,8 +42,10 @@ const ScheduleModal = ({
 						style={{
 							backgroundColor: "#ebebeb",
 							borderRadius: "3px",
-							border: "1px solid #9e9e9e",
 							marginTop: 10,
+							WebkitBoxShadow: "0px 1px 6px 1px rgba(0,0,0,0.25)",
+							MoxBoxShadow: "0px 1px 6px 1px rgba(0,0,0,0.25)",
+							boxShadow: "0px 1px 6px 1px rgba(0,0,0,0.25)",
 						}}
 					>
 						<ListItem
@@ -54,7 +56,7 @@ const ScheduleModal = ({
 								marginTop: 0,
 								color: "#fff",
 								textAlign: "center",
-								padding: 10,
+								padding: "15px 10px",
 							}}
 						>
 							<Bold>
