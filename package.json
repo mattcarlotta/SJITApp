@@ -16,6 +16,7 @@
     "db:drop": "better-npm-run db:drop",
     "db:droptestdb": "better-npm-run db:droptestdb",
     "db:seed": "better-npm-run db:seed",
+    "db:seedprod": "better-npm-run db:seedprod",
     "db:seedstage": "better-npm-run db:seedstage",
     "initialize": "yarn install && cd client && yarn install && cd ..",
     "pre-commit": "npm run lint && npm run test",
@@ -65,13 +66,20 @@
         "SEED": "true"
       }
     },
+    "db:seedprod": {
+      "command": "babel-node ./utils/seedProd.js",
+      "env": {
+        "CLIENT": "http://localhost:5000",
+        "DATABASE": "sjsitapp-prod-db",
+        "NODE_ENV": "production"
+      }
+    },
     "db:seedstage": {
-      "command": "babel-node ./utils/seedDB.js",
+      "command": "babel-node ./utils/seedProd.js",
       "env": {
         "CLIENT": "http://localhost:5000",
         "DATABASE": "sjsitapp-staging-db",
-        "NODE_ENV": "development",
-        "SEED": "true"
+        "NODE_ENV": "staging"
       }
     },
     "dev": {
