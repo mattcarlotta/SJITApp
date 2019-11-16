@@ -3,6 +3,7 @@ import { ViewAuthorizations } from "../index";
 const deleteToken = jest.fn();
 const push = jest.fn();
 const fetchTokens = jest.fn();
+const resendToken = jest.fn();
 
 const initProps = {
 	deleteToken,
@@ -11,6 +12,7 @@ const initProps = {
 		search: "?page=1",
 	},
 	isLoading: true,
+	resendToken,
 	tokens: [],
 	totalDocs: 0,
 	push,
@@ -47,15 +49,6 @@ describe("View Member Profile", () => {
 
 	it("renders without errors", () => {
 		expect(wrapper.find("Card").exists()).toBeTruthy();
-	});
-
-	it("clicking on the 'Add Member' button, moves the user to the New Member Form page", () => {
-		wrapper
-			.find("Button")
-			.at(0)
-			.simulate("click");
-
-		expect(push).toHaveBeenCalledWith("/employee/members/create");
 	});
 
 	it("renders a LoadingTable", () => {

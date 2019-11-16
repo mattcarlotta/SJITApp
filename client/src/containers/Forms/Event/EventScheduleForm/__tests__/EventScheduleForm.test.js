@@ -91,13 +91,23 @@ const initProps = {
 
 describe("Event Schedule Form", () => {
 	let wrapper;
+	let root;
 	beforeEach(() => {
-		wrapper = HOCWrap(EventScheduleForm, initProps);
+		root = document.createElement("div");
+		root.id = "root";
+		document.body.appendChild(root);
+		wrapper = HOCWrap(EventScheduleForm, initProps, null, ["/"], {
+			attachTo: root,
+		});
 	});
 
 	afterEach(() => {
 		fetchEventForScheduling.mockClear();
 		updateEventSchedule.mockClear();
+	});
+
+	afterAll(() => {
+		document.body.removeChild(root);
 	});
 
 	it("renders without errors", () => {

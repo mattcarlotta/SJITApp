@@ -1,8 +1,9 @@
-import moment from "moment";
+import moment from "moment-timezone";
 import { ViewEvents } from "../index";
 
 const deleteEvent = jest.fn();
 const fetchEvents = jest.fn();
+const fetchTeamNames = jest.fn();
 const resendMail = jest.fn();
 const push = jest.fn();
 
@@ -10,6 +11,7 @@ const initProps = {
 	data: [],
 	deleteEvent,
 	fetchEvents,
+	fetchTeamNames,
 	isLoading: true,
 	location: {
 		search: "?page=1",
@@ -17,6 +19,7 @@ const initProps = {
 	push,
 	resendMail,
 	totalDocs: 0,
+	teams: [],
 };
 
 const data = [
@@ -62,17 +65,26 @@ describe("View All Events", () => {
 		wrapper = mount(<ViewEvents {...initProps} />);
 	});
 
+	afterEach(() => {
+		fetchTeamNames.mockClear();
+	});
+
 	it("renders without errors", () => {
 		expect(wrapper.find("Card").exists()).toBeTruthy();
 	});
 
-	it("clicking on the 'Add Event' button, moves the user to the New Event Form page", () => {
-		wrapper
-			.find("Button")
-			.at(0)
-			.simulate("click");
+	it("initially calls fetchTeamNames", () => {
+		expect(fetchTeamNames).toHaveBeenCalledTimes(1);
+	});
 
-		expect(push).toHaveBeenCalledWith("/employee/events/create");
+	it("doesn't call fetchTeamNames if teams prop isn't empty", () => {
+		const props = {
+			...initProps,
+			teams: ["San Jose Sharks", "San Jose Barracuda"],
+		};
+
+		wrapper = mount(<ViewEvents {...props} />);
+		expect(fetchTeamNames).toHaveBeenCalledTimes(1);
 	});
 
 	it("renders a LoadingTable", () => {

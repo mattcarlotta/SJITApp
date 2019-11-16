@@ -1,4 +1,4 @@
-import moment from "moment";
+import moment from "moment-timezone";
 import { Select } from "antd";
 import ScheduleHeader from "../index";
 
@@ -131,10 +131,5 @@ describe("Name of the group", () => {
 			updateCalendarDate: onChange,
 			value: 2014,
 		});
-	});
-
-	it("renders 2 Select components when an 'id' is present", () => {
-		wrapper.setProps({ id: "123456789" });
-		expect(wrapper.find(Select)).toHaveLength(2);
 	});
 });

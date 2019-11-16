@@ -14,7 +14,7 @@ export default styled(LoadingTable)`
 	}
 
 	& .tbody {
-		height: 600px;
+		height: 167px;
 		width: 100%;
 		-webkit-animation: pulse 1.2s infinite;
 		animation: pulse 1.2s infinite;

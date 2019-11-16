@@ -1,7 +1,7 @@
 import React, { Fragment, PureComponent } from "react";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
-import moment from "moment";
+import moment from "moment-timezone";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import { Card, Col } from "antd";
@@ -142,7 +142,4 @@ const mapDispatchToProps = {
 	push,
 };
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps,
-)(Forms);
+export default connect(mapStateToProps, mapDispatchToProps)(Forms);

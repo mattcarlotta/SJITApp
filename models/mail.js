@@ -1,6 +1,6 @@
 import mongoosePaginate from "mongoose-paginate-v2";
 import { Schema, model } from "mongoose";
-import moment from "moment";
+import moment from "moment-timezone";
 
 // email
 const mailSchema = new Schema({
@@ -9,9 +9,7 @@ const mailSchema = new Schema({
   sendFrom: { type: String, required: true },
   sendDate: {
     type: Date,
-    default: moment(Date.now())
-      .utcOffset(-7)
-      .toISOString(true),
+    default: moment().toDate(),
   },
   status: { type: String, default: "unsent" },
   subject: { type: String, required: true },

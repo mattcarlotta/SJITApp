@@ -2,39 +2,46 @@ import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
 import { FaCalendarCheck } from "react-icons/fa";
-import { Button, DisplayTeam, FadeIn, List, ListItem } from "components/Body";
+import { Button, DisplayTeam, FadeIn, FlexSpaceAround } from "components/Body";
 
 const iconStyle = {
 	position: "relative",
 	verticalAlign: "middle",
-	right: "10px",
 	color: "#fff",
 	fontSize: 16,
+	margin: "0 5px",
+};
+
+const initBtnStyle = {
+	minWidth: 125,
+	margin: "3px auto 0",
 };
 
 const ScheduleList = ({
+	btnStyle,
 	content,
 	folder,
 	handleShowModal,
 	height,
-	width,
-	listStyle,
+	innerStyle,
+	padding,
 	loggedinUserId,
 	scheduleIconStyle,
 	spacing,
+	width,
 }) => (
-	<List>
+	<Fragment>
 		{!isEmpty(content) &&
 			content.map(item => (
 				<FadeIn key={item._id} timing="0.4s">
 					<Button
 						primary={item.team === "San Jose Sharks"}
 						danger={item.team === "San Jose Barracuda"}
-						padding="2px 0"
-						style={{ margin: "2px 0" }}
+						padding={padding}
+						style={{ ...initBtnStyle, ...btnStyle }}
 						onClick={() => handleShowModal(item)}
 					>
-						<ListItem style={{ margin: 0, ...listStyle }}>
+						<FlexSpaceAround style={{ ...innerStyle, minWidth: 125 }}>
 							{!isEmpty(item.schedule) &&
 								item.schedule.map(({ employeeIds }) =>
 									!isEmpty(employeeIds) &&
@@ -68,14 +75,17 @@ const ScheduleList = ({
 									/>
 								</Fragment>
 							)}
-						</ListItem>
+						</FlexSpaceAround>
 					</Button>
 				</FadeIn>
 			))}
-	</List>
+	</Fragment>
 );
 
 ScheduleList.propTypes = {
+	btnStyle: PropTypes.objectOf(
+		PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+	),
 	content: PropTypes.arrayOf(
 		PropTypes.shape({
 			_id: PropTypes.string,
@@ -104,10 +114,11 @@ ScheduleList.propTypes = {
 	folder: PropTypes.string,
 	handleShowModal: PropTypes.func.isRequired,
 	height: PropTypes.string,
-	listStyle: PropTypes.objectOf(
+	innerStyle: PropTypes.objectOf(
 		PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 	),
 	loggedinUserId: PropTypes.string,
+	padding: PropTypes.string,
 	spacing: PropTypes.number,
 	scheduleIconStyle: PropTypes.objectOf(
 		PropTypes.oneOfType([PropTypes.string, PropTypes.number]),

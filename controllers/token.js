@@ -2,6 +2,7 @@ import get from "lodash/get";
 import {
   createAuthMail,
   createSignupToken,
+  generateFilters,
   expirationDate,
   sendError,
 } from "shared/helpers";
@@ -66,10 +67,20 @@ const deleteToken = async (req, res) => {
 
 const getAllTokens = async (req, res) => {
   try {
-    const { page } = req.query;
+    const { email, page, role } = req.query;
+
+    const filters = generateFilters(req.query);
+
+    const emailFilter = email
+      ? { email: { $exists: email === "registered" } }
+      : {};
+
+    const roleFilter = role
+      ? { $regex: role, $options: "i" }
+      : { $ne: "admin" };
 
     const results = await Token.paginate(
-      {},
+      { ...filters, ...emailFilter, role: roleFilter },
       {
         sort: { expiration: -1 },
         page,
@@ -95,8 +106,38 @@ const getToken = async (req, res) => {
 
     const existingToken = await Token.findOne({ _id }, { __v: 0, token: 0 });
     if (!existingToken) throw unableToLocateToken;
+    if (existingToken.email) throw unableToUpdateToken;
 
     res.status(200).json({ token: existingToken });
+  } catch (err) {
+    return sendError(err, res);
+  }
+};
+
+const resendToken = async (req, res) => {
+  try {
+    const { id: _id } = req.params;
+    if (!_id) throw missingTokenId;
+
+    const existingToken = await Token.findOne({ _id }, { __v: 0, token: 0 });
+    if (!existingToken) throw unableToLocateToken;
+    if (existingToken.email) throw unableToUpdateToken;
+
+    const { authorizedEmail, role } = existingToken;
+
+    const token = createSignupToken();
+    const expiration = expirationDate();
+
+    await existingToken.updateOne({
+      expiration: expiration.toDate(),
+      token,
+    });
+
+    await Mail.create(createAuthMail(authorizedEmail, token, expiration, role));
+
+    res.status(201).json({
+      message: `An authorization key will be resent to ${authorizedEmail} shortly.`,
+    });
   } catch (err) {
     return sendError(err, res);
   }
@@ -134,4 +175,11 @@ const updateToken = async (req, res) => {
   }
 };
 
-export { createToken, deleteToken, getAllTokens, getToken, updateToken };
+export {
+  createToken,
+  deleteToken,
+  getAllTokens,
+  getToken,
+  resendToken,
+  updateToken,
+};

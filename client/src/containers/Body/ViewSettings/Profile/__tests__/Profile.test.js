@@ -1,8 +1,5 @@
-import moment from "moment";
+import moment from "moment-timezone";
 import Profile from "../index";
-
-const push = jest.fn();
-const updateMemberStatus = jest.fn();
 
 const initProps = {
 	firstName: "Beta",

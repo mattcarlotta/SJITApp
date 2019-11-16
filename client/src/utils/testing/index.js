@@ -29,6 +29,7 @@ export const shallowWrap = (Component, state = null) => {
  * @param {object} initialProps - Component props specific to this setup.
  * @param {object} state - Component initial state for setup.
  * @param {array} initialEntries - Initial route entries for MemoryRouter.
+ * @param {object} options - Options for mount
  * @returns {MountedRouterWrapper}
  */
 export const HOCWrap = (
@@ -36,6 +37,7 @@ export const HOCWrap = (
 	initialProps = {},
 	state = null,
 	initialEntries = ["/"],
+	options = {},
 ) => {
 	const wrapper = mount(
 		createElement(
@@ -48,6 +50,7 @@ export const HOCWrap = (
 			),
 			initialProps,
 		),
+		options,
 	);
 	if (state) wrapper.find(Component).setState(state);
 	return wrapper;

@@ -125,7 +125,4 @@ const mapDispatchToProps = {
 	push,
 };
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps,
-)(NewAPForm);
+export default connect(mapStateToProps, mapDispatchToProps)(NewAPForm);

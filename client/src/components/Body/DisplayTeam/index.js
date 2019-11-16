@@ -2,6 +2,7 @@
 /* eslint-disable no-console */
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { Tooltip } from "antd";
 import LoadingImage from "./LoadingImage";
 
 class DisplayTeam extends Component {
@@ -29,7 +30,9 @@ class DisplayTeam extends Component {
 
 	render = () =>
 		this.state.loadedFile ? (
-			<img src={this.state.loadedFile} alt={`${this.props.team}.png`} />
+			<Tooltip placement="top" title={this.props.team}>
+				<img src={this.state.loadedFile} alt={`${this.props.team}.png`} />
+			</Tooltip>
 		) : (
 			<LoadingImage {...this.props} />
 		);

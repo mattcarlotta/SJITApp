@@ -65,8 +65,12 @@ const nextLocation = {
 
 const deleteAction = jest.fn();
 const fetchData = jest.fn();
-const push = jest.fn();
 const sendMail = jest.fn();
+const updateQuery = jest.fn();
+const push = jest.fn();
+const queries = {
+	page: 1,
+};
 
 const initProps = {
 	assignLocation: "seasons",
@@ -77,10 +81,12 @@ const initProps = {
 	fetchData,
 	isLoading: true,
 	location,
-	push,
 	sendMail,
 	totalDocs: 0,
+	push,
+	queries,
 	role: "",
+	updateQuery,
 	viewLocation: "seasons",
 };
 
@@ -94,8 +100,10 @@ const nextProps = {
 	fetchData,
 	location: nextLocation,
 	push,
+	queries,
 	role: "",
 	totalDocs: 2,
+	updateQuery,
 	viewLocation: "seasons",
 };
 
@@ -110,8 +118,8 @@ describe("Custom Table", () => {
 	afterEach(() => {
 		fetchData.mockClear();
 		deleteAction.mockClear();
-		push.mockClear();
 		sendMail.mockClear();
+		updateQuery.mockClear();
 		jest.runAllTimers();
 	});
 
@@ -127,11 +135,6 @@ describe("Custom Table", () => {
 		beforeEach(() => {
 			wrapper.setProps({ ...nextProps });
 			wrapper.update();
-		});
-
-		afterEach(() => {
-			deleteAction.mockClear();
-			push.mockClear();
 		});
 
 		it("displays a 5 column Table component with data", () => {
@@ -158,109 +161,25 @@ describe("Custom Table", () => {
 			).toEqual("08/06/2001");
 		});
 
-		it("handles searches", () => {
-			const confirm = jest.fn();
-			const selectedKeys = ["test"];
-			wrapper.instance().handleSearch(selectedKeys, confirm);
-
-			expect(confirm).toHaveBeenCalledTimes(1);
-		});
-
-		it("clears filters", () => {
-			const clearFilters = jest.fn();
-			wrapper.instance().handleReset(clearFilters);
-
-			expect(clearFilters).toHaveBeenCalledTimes(1);
-		});
-
-		it("handles setting selected keys", () => {
-			const value = "test";
-			const setSelectedKeys = jest.fn();
-			wrapper.instance().handleSelectKeys(value, setSelectedKeys);
-
-			expect(setSelectedKeys).toHaveBeenCalledWith([value]);
-
-			wrapper.instance().handleSelectKeys("", setSelectedKeys);
-
-			expect(setSelectedKeys).toHaveBeenCalledWith([]);
-		});
-
-		it("filters the table by searchText, as well as clears the table filters", () => {
-			const clickSearchIcon = () => {
-				wrapper
-					.find(".ant-dropdown-trigger")
-					.first()
-					.simulate("click");
-			};
-
-			clickSearchIcon();
-
-			const searchBar = wrapper.find("div.ant-table-filter-dropdown").first();
-
-			const value = "1000";
-			const updateInput = () => {
-				searchBar.find(".ant-input").simulate("change", { target: { value } });
-			};
-
-			updateInput();
-
-			searchBar
-				.find("button")
-				.first()
-				.simulate("click");
-
-			// expect(wrapper.state("searchText")).toEqual(value);
-			expect(wrapper.find("div.ant-empty-image").exists()).toBeTruthy();
-
-			clickSearchIcon();
-
-			searchBar
-				.find("button")
-				.at(1)
-				.simulate("click");
-
-			expect(wrapper.find("div.ant-empty-image").exists()).toBeFalsy();
-
-			clickSearchIcon();
-			updateInput();
-			searchBar.find(".ant-input").simulate("keydown", { keyCode: 13 });
-
-			expect(wrapper.find("div.ant-empty-image").exists()).toBeTruthy();
-
-			const setSelectedKeys = jest.fn();
-			wrapper.instance().handleSelectKeys(value, setSelectedKeys);
-			expect(setSelectedKeys).toHaveBeenCalledWith([value]);
-
-			setSelectedKeys.mockClear();
-			wrapper.instance().handleSelectKeys("", setSelectedKeys);
-			expect(setSelectedKeys).toHaveBeenCalledWith([]);
-		});
-
 		it("handles invalid pages", () => {
 			wrapper.setProps({
 				data: [],
-				location: { pathname, search: "?page=500" },
+				queryString: "?page=500",
 			});
 
-			expect(push).toHaveBeenCalledWith(`${pathname}?page=1`);
-		});
-
-		it("handles missing page numbers", () => {
-			wrapper.setProps({ location: { pathname, search: "" } });
-
-			expect(wrapper.state("currentPage")).toEqual(1);
+			expect(updateQuery).toHaveBeenCalledWith({ page: 1 });
 		});
 
 		it("handles and calls delete item or send mail actions", () => {
 			wrapper.instance().handleClickAction(deleteAction, data[0]);
 
-			expect(deleteAction).toHaveBeenCalledWith(data[0]._id, 2);
+			expect(deleteAction).toHaveBeenCalledWith(data[0]._id);
 		});
 
 		it("calls fetchData when the page query has been updated", () => {
-			wrapper.setProps({ location: { pathname, search: "?page=3" } });
+			wrapper.setProps({ queryString: "?page=3" });
 
-			expect(fetchData).toHaveBeenCalledTimes(3);
+			expect(fetchData).toHaveBeenCalledTimes(2);
 		});
 	});
 });

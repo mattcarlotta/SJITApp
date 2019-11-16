@@ -16,8 +16,6 @@ const data = {
 
 const eventId = "1234567890";
 
-const currentPage = 1;
-
 describe("Events Actions", () => {
 	it("returns EVENTS_CREATE with data", () => {
 		const props = data;
@@ -30,12 +28,11 @@ describe("Events Actions", () => {
 	});
 
 	it("returns EVENTS_DELETE with a eventId", () => {
-		const value = actions.deleteEvent(eventId, currentPage);
+		const value = actions.deleteEvent(eventId);
 
 		expect(value).toEqual({
 			type: types.EVENTS_DELETE,
 			eventId,
-			currentPage,
 		});
 	});
 
@@ -58,11 +55,10 @@ describe("Events Actions", () => {
 	});
 
 	it("returns EVENTS_FETCH", () => {
-		const value = actions.fetchEvents(currentPage);
+		const value = actions.fetchEvents();
 
 		expect(value).toEqual({
 			type: types.EVENTS_FETCH,
-			currentPage,
 		});
 	});
 
@@ -97,12 +93,11 @@ describe("Events Actions", () => {
 	});
 
 	it("returns EVENTS_RESEND_MAIL", () => {
-		const value = actions.resendMail(eventId, currentPage);
+		const value = actions.resendMail(eventId);
 
 		expect(value).toEqual({
 			type: types.EVENTS_RESEND_MAIL,
 			eventId,
-			currentPage,
 		});
 	});
 

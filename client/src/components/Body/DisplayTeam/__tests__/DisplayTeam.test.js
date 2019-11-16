@@ -1,5 +1,5 @@
-import DisplayTeam from "../index";
 import SharksLogo from "images/lowres/San Jose Sharks.png";
+import DisplayTeam from "../index";
 
 const initProps = {
 	folder: "lowres",

@@ -4,7 +4,6 @@ export default styled.div`
 	max-width: ${({ maxWidth }) => maxWidth || "500px"};
 	width: 100%;
 	max-height: calc(100% - 96px);
-	margin: 0 auto;
 	padding: 35px;
 	display: flex;
 	position: relative;

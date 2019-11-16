@@ -14,7 +14,7 @@ const textStyle = {
 	paddingLeft: 5,
 };
 
-const BackButton = ({ push, location, style }) => (
+const BackButton = ({ push, location, style, title }) => (
 	<Button
 		primary
 		width="90px"
@@ -23,7 +23,7 @@ const BackButton = ({ push, location, style }) => (
 		onClick={() => push(location)}
 	>
 		<FaChevronLeft style={iconStyle} />
-		<span style={textStyle}>Back</span>
+		<span style={textStyle}>{title || "Back"}</span>
 	</Button>
 );
 
@@ -33,6 +33,7 @@ BackButton.propTypes = {
 	style: PropTypes.objectOf(
 		PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 	),
+	title: PropTypes.string,
 };
 
 BackButton.defaultProps = {

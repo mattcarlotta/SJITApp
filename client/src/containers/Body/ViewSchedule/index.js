@@ -73,7 +73,4 @@ const mapDispatchToProps = {
 	fetchScheduleEvents,
 };
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps,
-)(ViewSchedule);
+export default connect(mapStateToProps, mapDispatchToProps)(ViewSchedule);

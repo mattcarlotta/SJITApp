@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
-import moment from "moment";
+import moment from "moment-timezone";
 import { connect } from "react-redux";
 import { goBack } from "connected-react-router";
 import { Card } from "antd";
@@ -170,7 +170,4 @@ const mapDispatchToProps = {
 	updateSeason,
 };
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps,
-)(EditSeasonForm);
+export default connect(mapStateToProps, mapDispatchToProps)(EditSeasonForm);

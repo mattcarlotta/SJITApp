@@ -1,4 +1,4 @@
-import moment from "moment";
+import moment from "moment-timezone";
 import { Mail } from "models";
 import { updateMail } from "controllers/mail";
 import {

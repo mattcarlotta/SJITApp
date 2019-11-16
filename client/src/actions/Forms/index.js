@@ -18,13 +18,11 @@ export const createForm = props => ({
  *
  * @function deleteForm
  * @param {string} formId
- * @params {string} currentPage
  * @returns {object}
  */
-export const deleteForm = (formId, currentPage) => ({
+export const deleteForm = formId => ({
 	type: types.FORMS_DELETE,
 	formId,
-	currentPage,
 });
 
 /**
@@ -55,12 +53,10 @@ export const fetchFormAp = formId => ({
  * Fetches all forms.
  *
  * @function fetchForms
- * @params {string} currentPage
  * @returns {object}
  */
-export const fetchForms = currentPage => ({
+export const fetchForms = () => ({
 	type: types.FORMS_FETCH,
-	currentPage,
 });
 
 /**
@@ -68,13 +64,11 @@ export const fetchForms = currentPage => ({
  *
  * @function resendMail
  * @params {formId}
- * @params {string} currentPage
  * @returns {object}
  */
-export const resendMail = (formId, currentPage) => ({
+export const resendMail = formId => ({
 	type: types.FORMS_RESEND_MAIL,
 	formId,
-	currentPage,
 });
 
 /**

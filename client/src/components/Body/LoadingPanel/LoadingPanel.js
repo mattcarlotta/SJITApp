@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { FadeIn } from "components/Body";
 
 const LoadingPanel = ({ className, style }) => (
-	<FadeIn>
+	<FadeIn timing="0.6s">
 		<div className={className} style={style} />
 	</FadeIn>
 );

@@ -1,11 +1,11 @@
-import moment from "moment";
+import moment from "moment-timezone";
 import get from "lodash/get";
 import isEmpty from "lodash/isEmpty";
 import { Event, Form, Season } from "models";
 import {
   convertId,
   createDate,
-  getMonthDateRange,
+  generateFilters,
   getStartOfDay,
   sendError,
 } from "shared/helpers";
@@ -35,8 +35,7 @@ const createForm = async (req, res) => {
       seasonId,
     } = req.body;
 
-    if (!seasonId || !expirationDate || !enrollMonth)
-      throw unableToCreateNewForm;
+    if (!seasonId || !expirationDate || !enrollMonth) throw unableToCreateNewForm;
 
     const seasonExists = await Season.findOne({ seasonId });
     if (!seasonExists) throw unableToLocateSeason;
@@ -89,9 +88,16 @@ const getAllForms = async (req, res) => {
   try {
     const { page } = req.query;
 
+    const filters = generateFilters(req.query);
+
     const results = await Form.paginate(
-      {},
-      { sort: { startMonth: -1 }, page, limit: 10, select: "-notes -__v" },
+      { ...filters },
+      {
+        sort: { startMonth: -1 },
+        page,
+        limit: 10,
+        select: "-notes -__v",
+      },
     );
 
     const forms = get(results, ["docs"]);
@@ -150,8 +156,7 @@ const updateForm = async (req, res) => {
       sendEmailNotificationsDate,
     } = req.body;
 
-    if (!_id || !seasonId || !expirationDate || !enrollMonth)
-      throw unableToUpdateForm;
+    if (!_id || !seasonId || !expirationDate || !enrollMonth) throw unableToUpdateForm;
 
     const seasonExists = await Season.findOne({ seasonId });
     if (!seasonExists) throw unableToLocateSeason;
@@ -202,33 +207,35 @@ const updateApForm = async (req, res) => {
 
     await Event.bulkWrite(
       responses.map(response => {
-        const { id: eventId, value, notes, updateEvent } = response;
+        const {
+          id: eventId, value, notes, updateEvent,
+        } = response;
 
         const filter = updateEvent
           ? {
-              _id: eventId,
-              "employeeResponses._id": userId,
-            }
+            _id: eventId,
+            "employeeResponses._id": userId,
+          }
           : {
-              _id: eventId,
-            };
+            _id: eventId,
+          };
 
         const update = updateEvent
           ? {
-              $set: {
-                "employeeResponses.$.response": value,
-                "employeeResponses.$.notes": notes,
-              },
-            }
+            $set: {
+              "employeeResponses.$.response": value,
+              "employeeResponses.$.notes": notes,
+            },
+          }
           : {
-              $push: {
-                employeeResponses: {
-                  _id: userId,
-                  response: value,
-                  notes,
-                },
+            $push: {
+              employeeResponses: {
+                _id: userId,
+                response: value,
+                notes,
               },
-            };
+            },
+          };
 
         return {
           updateOne: {
@@ -257,7 +264,7 @@ const viewApForm = async (req, res) => {
     if (!existingForm) throw unableToLocateForm;
 
     const { expirationDate } = existingForm;
-    const currentDate = moment(Date.now()).toDate();
+    const currentDate = moment().toDate();
     const expiredDate = moment(expirationDate).toDate();
     if (currentDate >= expiredDate) {
       throw expiredForm(
@@ -297,8 +304,7 @@ const viewApForm = async (req, res) => {
       },
     ]);
 
-    if (isEmpty(events))
-      throw unableToLocateEvents(startMonth.format("L"), endMonth.format("L"));
+    if (isEmpty(events)) throw unableToLocateEvents(startMonth.format("L"), endMonth.format("L"));
 
     res.status(200).json({
       form: existingForm,

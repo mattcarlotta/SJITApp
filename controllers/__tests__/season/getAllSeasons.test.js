@@ -11,8 +11,8 @@ describe("Get All Seasons Controller", () => {
   });
 
   it("handles valid get all seasons requests", async () => {
+    const req = mockRequest(null, null, null, {});
     const res = mockResponse();
-    const req = mockRequest(null, null, null, { page: "1" });
 
     await getAllSeasons(req, res);
 

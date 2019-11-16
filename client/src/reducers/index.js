@@ -11,6 +11,7 @@ import mailReducer from "./Mail";
 import memberReducer from "./Members";
 import seasonReducer from "./Seasons";
 import serverMessageReducer from "./Messages";
+import teamsReducer from "./Teams";
 
 const reducers = {
 	auth: authReducer,
@@ -21,6 +22,7 @@ const reducers = {
 	members: memberReducer,
 	seasons: seasonReducer,
 	server: serverMessageReducer,
+	teams: teamsReducer,
 };
 
 const appReducer = history =>

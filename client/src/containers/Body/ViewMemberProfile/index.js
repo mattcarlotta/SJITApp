@@ -265,7 +265,4 @@ const mapDispatchToProps = {
 	updateMemberStatus,
 };
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps,
-)(ViewMemberProfile);
+export default connect(mapStateToProps, mapDispatchToProps)(ViewMemberProfile);

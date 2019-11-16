@@ -38,6 +38,34 @@ const gameSchedule = [
 	},
 ];
 
+const barracudaGame = [
+	{
+		_id: "0123456789",
+		eventDate: "2019-08-10T02:30:31.834+00:00",
+		eventNotes: "",
+		eventType: "Game",
+		employeeResponse: "",
+		employeeNotes: "",
+		location: "SAP Center at San Jose",
+		notes: "Parking will be crowded.",
+		opponent: "San Diego Gulls",
+		response: "",
+		team: "San Jose Barracuda",
+		schedule: [
+			{
+				_id: "2019-08-09T17:45:26-07:00",
+				employeeIds: [
+					{
+						_id: "88",
+						firstName: "John",
+						lastName: "Smith",
+					},
+				],
+			},
+		],
+	},
+];
+
 const unscheduledGame = [
 	{
 		_id: "0123456789",
@@ -121,6 +149,11 @@ describe("Schedule Modal", () => {
 			modalChildren: gameSchedule,
 		});
 
+		expect(wrapper.find(".team").prop("style")).toHaveProperty(
+			"backgroundColor",
+			"#025f6d",
+		);
+
 		expect(wrapper.find(".employee").prop("style")).toHaveProperty(
 			"backgroundColor",
 			"#006d75",
@@ -139,8 +172,13 @@ describe("Schedule Modal", () => {
 		wrapper.setProps({
 			isVisible: true,
 			loggedinUserId: "88",
-			modalChildren: gameSchedule,
+			modalChildren: barracudaGame,
 		});
+
+		expect(wrapper.find(".team").prop("style")).toHaveProperty(
+			"backgroundColor",
+			"#f56342",
+		);
 
 		expect(wrapper.find(".employee").prop("style")).toHaveProperty(
 			"backgroundColor",

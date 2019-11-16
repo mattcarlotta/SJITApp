@@ -102,7 +102,4 @@ const mapDispatchToProps = {
 	updateSettings,
 };
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps,
-)(UpdateSettingsForm);
+export default connect(mapStateToProps, mapDispatchToProps)(UpdateSettingsForm);

@@ -15,6 +15,7 @@
 		"dev": "better-npm-run dev",
 		"initialize": "yarn install",
 		"build": "better-npm-run build",
+		"stage": "better-npm-run stage",
 		"test": "better-npm-run test",
 		"test:watch": "better-npm-run test:watch",
 		"test:watchall": "better-npm-run test:watchall",
@@ -29,15 +30,26 @@
 			"command": "webpack-dev-server",
 			"env": {
 				"APIPORT": 5000,
+				"BASEURL": "http://localhost:8080/api/",
 				"NODE_ENV": "development",
 				"PORT": 3000
 			}
 		},
 		"build": {
-			"command": "webpack",
+			"command": "rimraf dist && webpack",
 			"env": {
 				"APIPORT": 8080,
+				"BASEURL": "http://sjsiceteam/api/",
 				"NODE_ENV": "production"
+			}
+		},
+		"stage": {
+			"command": "rimraf dist && webpack",
+			"env": {
+				"APIPORT": 8080,
+				"BASEURL": "http://localhost:8080/api/",
+				"NODE_ENV": "production",
+				"NODE_ENV_DEV": "staging"
 			}
 		},
 		"test": {
@@ -82,18 +94,18 @@
 	"dependencies": {
 		"@nivo/bar": "^0.59.2",
 		"@nivo/pie": "^0.59.1",
-		"antd": "^3.25.0",
+		"antd": "^3.25.1",
 		"axios": "^0.19.0",
 		"babel-plugin-import": "^1.12.2",
 		"better-npm-run": "^0.1.1",
 		"connected-react-router": "^6.5.2",
 		"history": "^4.10.1",
 		"lodash": "^4.17.15",
-		"moment": "^2.24.0",
+		"moment-timezone": "^0.5.27",
 		"prop-types": "^15.7.2",
 		"qs": "^6.9.1",
 		"react": "16.8.6",
-		"react-beautiful-dnd": "^11.0.5",
+		"react-beautiful-dnd": "^12.0.0",
 		"react-dom": "16.8.6",
 		"react-froala-wysiwyg": "^3.0.6",
 		"react-helmet": "^5.2.1",
@@ -138,7 +150,7 @@
 		"babel-plugin-styled-components": "^1.10.6",
 		"babel-preset-env": "^1.7.0",
 		"browserslist": "^4.7.2",
-		"clean-webpack-plugin": "^3.0.0",
+		"copy-webpack-plugin": "^5.0.5",
 		"css-loader": "^3.2.0",
 		"enzyme": "^3.10.0",
 		"enzyme-adapter-react-16": "^1.15.1",
@@ -156,23 +168,25 @@
 		"eslint-watch": "^6.0.1",
 		"file-loader": "^4.2.0",
 		"friendly-errors-webpack-plugin": "^1.7.0",
-		"html-webpack-plugin": "^3.2.0",
+		"html-webpack-plugin": "^4.0.0-beta.11",
 		"identity-obj-proxy": "^3.0.0",
 		"jest": "^24.8.0",
 		"jest-css-modules-transform": "^3.1.0",
 		"jest-enzyme": "^7.1.2",
 		"jest-haste-map": "^24.8.1",
 		"jest-resolve": "^24.8.0",
-		"jest-styled-components": "^6.3.3",
+		"jest-styled-components": "^6.3.4",
 		"jsdom": "^15.2.1",
 		"lint-staged": "^9.4.2",
 		"mini-css-extract-plugin": "^0.8.0",
 		"node-sass": "^4.13.0",
 		"npm-run-all": "^4.1.5",
 		"optimize-css-assets-webpack-plugin": "^5.0.3",
-		"prettier": "^1.18.2",
+		"prettier": "^1.19.1",
+		"react-dev-utils": "^9.1.0",
 		"redux-devtools-extension": "^2.13.8",
 		"redux-saga-test-plan": "^4.0.0-rc.3",
+		"rimraf": "^3.0.0",
 		"sass-loader": "^8.0.0",
 		"style-loader": "^1.0.0",
 		"stylelint": "^11.1.1",
@@ -184,6 +198,7 @@
 		"webpack-dev-server": "^3.9.0",
 		"webpack-manifest-plugin": "^2.2.0",
 		"webpack-merge": "^4.2.2",
-		"webpackbar": "^4.0.0"
+		"webpackbar": "^4.0.0",
+		"workbox-webpack-plugin": "^4.3.1"
 	}
 }

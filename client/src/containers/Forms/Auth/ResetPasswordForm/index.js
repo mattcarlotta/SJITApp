@@ -109,7 +109,4 @@ const mapDispatchToProps = {
 	resetPassword,
 };
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps,
-)(ResetPasswordForm);
+export default connect(mapStateToProps, mapDispatchToProps)(ResetPasswordForm);

@@ -22,9 +22,7 @@ export { default as EditMailForm } from "./Mail/EditMailForm";
 export { default as SendMailForm } from "./Mail/SendMailForm";
 
 // member
-export {
-	default as EditAuthorizationForm,
-} from "./Member/EditAuthorizationForm";
+export { default as EditAuthorizationForm } from "./Member/EditAuthorizationForm";
 export { default as EditMemberForm } from "./Member/EditMemberForm";
 export { default as NewMemberForm } from "./Member/NewMemberForm";
 export { default as UpdateSettingsForm } from "./Member/UpdateSettingsForm";

@@ -18,13 +18,11 @@ export const createMember = props => ({
  *
  * @function deleteMember
  * @param {string} memberId
- * @param {string} currentPage
  * @returns {object}
  */
-export const deleteMember = (memberId, currentPage) => ({
+export const deleteMember = memberId => ({
 	type: types.MEMBERS_DELETE,
 	memberId,
-	currentPage,
 });
 
 /**
@@ -32,13 +30,11 @@ export const deleteMember = (memberId, currentPage) => ({
  *
  * @function deleteToken
  * @param {string} tokenId
- * @param {string} currentPage
  * @returns {object}
  */
-export const deleteToken = (tokenId, currentPage) => ({
+export const deleteToken = tokenId => ({
 	type: types.MEMBERS_DELETE_TOKEN,
 	tokenId,
-	currentPage,
 });
 
 /**
@@ -57,12 +53,10 @@ export const fetchMember = memberId => ({
  * Fetches all members.
  *
  * @function fetchMembers
- * @param {string} currentPage
  * @returns {object}
  */
-export const fetchMembers = currentPage => ({
+export const fetchMembers = () => ({
 	type: types.MEMBERS_FETCH,
-	currentPage,
 });
 
 /**
@@ -149,12 +143,22 @@ export const fetchToken = tokenId => ({
  * Fetches all tokens.
  *
  * @function fetchTokens
- * @param {string} currentPage
  * @returns {object}
  */
-export const fetchTokens = currentPage => ({
+export const fetchTokens = () => ({
 	type: types.MEMBERS_FETCH_TOKENS,
-	currentPage,
+});
+
+/**
+ * Resends a single auth key by mail.
+ *
+ * @function resendToken
+ * @param {string} tokenId
+ * @returns {object}
+ */
+export const resendToken = tokenId => ({
+	type: types.MEMBERS_RESEND_TOKEN,
+	tokenId,
 });
 
 /**

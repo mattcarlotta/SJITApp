@@ -87,7 +87,4 @@ const mapDispatchToProps = {
 	signin,
 };
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps,
-)(ProtectedRoutes);
+export default connect(mapStateToProps, mapDispatchToProps)(ProtectedRoutes);

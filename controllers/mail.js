@@ -1,7 +1,13 @@
 import get from "lodash/get";
 import isEmpty from "lodash/isEmpty";
 import { Mail, User } from "models";
-import { createDate, getStartOfDay, getUsers, sendError } from "shared/helpers";
+import {
+  createDate,
+  generateFilters,
+  getStartOfDay,
+  getUsers,
+  sendError,
+} from "shared/helpers";
 import {
   invalidContactUsRequest,
   invalidSendDate,
@@ -105,8 +111,10 @@ const getAllMail = async (req, res) => {
   try {
     const { page } = req.query;
 
+    const filters = generateFilters(req.query);
+
     const results = await Mail.paginate(
-      {},
+      { ...filters },
       { sort: { sendDate: -1 }, page, limit: 10, select: "-notes -__v" },
     );
 

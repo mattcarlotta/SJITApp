@@ -1,132 +1,67 @@
-import React, { Fragment } from "react";
+import React, { Fragment, PureComponent } from "react";
 import PropTypes from "prop-types";
 import Helmet from "react-helmet";
+import isEmpty from "lodash/isEmpty";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import { Card } from "antd";
 import { MdEventNote } from "react-icons/md";
-import { FaCalendarPlus } from "react-icons/fa";
-import {
-	Button,
-	DisplayEmailReminder,
-	DisplayScheduledEmployees,
-	DisplayTime,
-	DisplayTeam,
-	FlexEnd,
-	FormatDate,
-	Table,
-} from "components/Body";
+import { Table } from "components/Body";
+import { QueryHandler } from "components/Navigation";
 import { deleteEvent, fetchEvents, resendMail } from "actions/Events";
+import { fetchTeamNames } from "actions/Teams";
+import Filters from "./Filters";
+import columns from "./Columns";
 
 const title = "Events";
-const iconStyle = {
-	verticalAlign: "middle",
-	marginRight: 10,
-	fontSize: 22,
-};
 
-const columns = [
-	{ title: "Season Id", dataIndex: "seasonId", key: "seasonId" },
-	{
-		title: "Team",
-		dataIndex: "team",
-		key: "team",
-		render: team => <DisplayTeam folder="lowres" team={team} />,
-	},
-	{
-		title: "Opponent",
-		dataIndex: "opponent",
-		key: "opponent",
-		render: team => (team ? <DisplayTeam folder="lowres" team={team} /> : "-"),
-	},
-	{ title: "Event Type", dataIndex: "eventType", key: "eventType" },
-	{ title: "Location", dataIndex: "location", key: "location" },
-	{ title: "Uniform", dataIndex: "uniform", key: "uniform" },
-	{
-		title: "Event Date",
-		dataIndex: "eventDate",
-		key: "eventDate",
-		render: date => (
-			<FormatDate
-				style={{ wordWrap: "break-word", wordBreak: "break-word", width: 175 }}
-				format="MMM Do @ h:mm a"
-				date={date}
-			/>
-		),
-	},
-	{
-		title: "Call Times",
-		dataIndex: "callTimes",
-		key: "callTimes",
-		render: times => <DisplayTime times={times} />,
-	},
-	{
-		title: "Employee Responses",
-		dataIndex: "employeeResponses",
-		key: "employeeResponses",
-		render: responses => <span css="cursor: default;">{responses.length}</span>,
-	},
-	{
-		title: "Scheduled Employees",
-		dataIndex: "scheduledIds",
-		key: "scheduledIds",
-		render: employees => <DisplayScheduledEmployees employees={employees} />,
-	},
-	{
-		title: "Sent Email Reminders",
-		dataIndex: "sentEmailReminders",
-		key: "sentEmailReminders",
-		render: reminder => <DisplayEmailReminder reminder={reminder} />,
-	},
-];
+export class ViewEvents extends PureComponent {
+	componentDidMount = () => {
+		if (isEmpty(this.props.teams)) this.props.fetchTeamNames();
+	};
 
-export const ViewEvents = ({
-	data,
-	deleteEvent,
-	fetchEvents,
-	push,
-	resendMail,
-	...rest
-}) => (
-	<Fragment>
-		<Helmet title={title} />
-		<Card
-			title={
-				<Fragment>
-					<MdEventNote style={iconStyle} />
-					<span css="vertical-align: middle;">{title}</span>
-				</Fragment>
-			}
-		>
-			<FlexEnd>
-				<Button
-					primary
-					width="180px"
-					marginRight="0px"
-					padding="5px 10px"
-					style={{ marginBottom: 20 }}
-					onClick={() => push("/employee/events/create")}
+	render = () => {
+		const { deleteEvent, fetchEvents, resendMail, ...rest } = this.props;
+
+		return (
+			<Fragment>
+				<Helmet title={title} />
+				<Card
+					title={
+						<Fragment>
+							<MdEventNote
+								style={{
+									verticalAlign: "middle",
+									marginRight: 10,
+									fontSize: 22,
+								}}
+							/>
+							<span css="vertical-align: middle;">{title}</span>
+						</Fragment>
+					}
 				>
-					<FaCalendarPlus
-						style={{ position: "relative", top: 1, fontSize: 16 }}
-					/>
-					&nbsp; Add Event
-				</Button>
-			</FlexEnd>
-			<Table
-				{...rest}
-				columns={columns}
-				data={data}
-				deleteAction={deleteEvent}
-				fetchData={fetchEvents}
-				push={push}
-				editLocation="events"
-				assignLocation="events"
-				sendMail={resendMail}
-			/>
-		</Card>
-	</Fragment>
-);
+					<QueryHandler {...this.props}>
+						{props => (
+							<Fragment>
+								<Filters {...props} {...rest} />
+								<Table
+									{...props}
+									{...rest}
+									columns={columns}
+									deleteAction={deleteEvent}
+									fetchData={fetchEvents}
+									editLocation="events"
+									assignLocation="events"
+									sendMail={resendMail}
+								/>
+							</Fragment>
+						)}
+					</QueryHandler>
+				</Card>
+			</Fragment>
+		);
+	};
+}
 
 ViewEvents.propTypes = {
 	deleteEvent: PropTypes.func,
@@ -161,7 +96,13 @@ ViewEvents.propTypes = {
 		}),
 	),
 	isLoading: PropTypes.bool.isRequired,
+	fetchTeamNames: PropTypes.func.isRequired,
+	location: PropTypes.shape({
+		pathname: PropTypes.string,
+		search: PropTypes.string,
+	}),
 	resendMail: PropTypes.func.isRequired,
+	teams: PropTypes.arrayOf(PropTypes.string),
 	totalDocs: PropTypes.number,
 };
 
@@ -169,16 +110,15 @@ const mapStateToProps = state => ({
 	data: state.events.data,
 	isLoading: state.events.isLoading,
 	totalDocs: state.events.totalDocs,
+	teams: state.teams.data,
 });
 
 const mapDispatchToProps = {
 	deleteEvent,
 	fetchEvents,
+	fetchTeamNames,
 	push,
 	resendMail,
 };
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps,
-)(ViewEvents);
+export default connect(mapStateToProps, mapDispatchToProps)(ViewEvents);

@@ -1,4 +1,4 @@
-import moment from "moment";
+import moment from "moment-timezone";
 import { NewEventForm } from "../index";
 
 const createEvent = jest.fn();

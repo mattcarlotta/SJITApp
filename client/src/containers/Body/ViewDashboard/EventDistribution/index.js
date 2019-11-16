@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
-import moment from "moment";
+import moment from "moment-timezone";
 import { connect } from "react-redux";
 import { Card, Col, DatePicker } from "antd";
 import { FaChartBar } from "react-icons/fa";
@@ -93,7 +93,4 @@ const mapDispatchToProps = {
 	fetchEventDistribution,
 };
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps,
-)(EventDistribution);
+export default connect(mapStateToProps, mapDispatchToProps)(EventDistribution);

@@ -1,6 +1,6 @@
 import mongoosePaginate from "mongoose-paginate-v2";
 import { Schema, model } from "mongoose";
-import moment from "moment";
+import moment from "moment-timezone";
 
 // monthly form
 const formSchema = new Schema({
@@ -10,9 +10,7 @@ const formSchema = new Schema({
   seasonId: { type: String, required: true },
   sendEmailNotificationsDate: {
     type: Date,
-    default: moment(Date.now())
-      .utcOffset(-7)
-      .toISOString(true),
+    default: moment().toDate(),
   },
   sentEmails: { type: Boolean, default: false },
   notes: String,

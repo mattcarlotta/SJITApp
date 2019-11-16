@@ -1,16 +1,17 @@
 import { goBack, push } from "connected-react-router";
-import { all, put, call, takeLatest } from "redux-saga/effects";
+import { all, put, call, select, takeLatest } from "redux-saga/effects";
 import { app } from "utils";
 import { hideServerMessage, setServerMessage } from "actions/Messages";
-import { setFormAp, setForms, setFormToEdit } from "actions/Forms";
+import * as actions from "actions/Forms";
 import { parseData, parseMessage } from "utils/parseResponse";
+import { selectQuery } from "utils/selectors";
 import * as types from "types";
 
 /**
  * Attempts to create a new member.
  *
  * @generator
- * @function createEvent
+ * @function createForm
  * @param {object} props - props contain league, formType, location, timeSlots, uniform, start/end dates and times, and seasonId.
  * @yields {object} - A response from a call to the API.
  * @function parseMessage - Returns a parsed res.data.message.
@@ -44,7 +45,7 @@ export function* createForm({ props }) {
  *
  * @generator
  * @function deleteForm
- * @params {object} - formId and currentPage
+ * @params {object} - formId
  * @yields {object} - A response from a call to the API.
  * @function parseMessage - Returns a parsed res.data.message.
  * @yields {action} - A redux action to display a server message by type.
@@ -52,7 +53,7 @@ export function* createForm({ props }) {
  * @throws {action} - A redux action to display a server message by type.
  */
 
-export function* deleteForm({ formId, currentPage }) {
+export function* deleteForm({ formId }) {
 	try {
 		yield put(hideServerMessage());
 
@@ -66,11 +67,7 @@ export function* deleteForm({ formId, currentPage }) {
 			}),
 		);
 
-		if (currentPage > 1) {
-			yield put(push("/employee/forms/viewall?page=1"));
-		} else {
-			yield put({ type: types.FORMS_FETCH, currentPage: 1 });
-		}
+		yield put(actions.fetchForms());
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
@@ -101,7 +98,7 @@ export function* fetchForm({ formId }) {
 		const seasons = yield call(parseData, res);
 
 		yield put(
-			setFormToEdit({
+			actions.setFormToEdit({
 				...forms.form,
 				seasonIds: seasons.seasonIds,
 			}),
@@ -131,7 +128,7 @@ export function* fetchFormAp({ formId }) {
 		const data = yield call(parseData, res);
 
 		yield put(
-			setFormAp({
+			actions.setFormAp({
 				...data,
 			}),
 		);
@@ -146,19 +143,20 @@ export function* fetchFormAp({ formId }) {
  *
  * @generator
  * @function fetchForms
- * @param {string} currentPage
  * @yields {object} - A response from a call to the API.
  * @function parseData - Returns a parsed res.data.
  * @yields {action} - A redux action to set forms data to redux state.
  * @throws {action} - A redux action to display a server message by type.
  */
 
-export function* fetchForms({ currentPage }) {
+export function* fetchForms() {
 	try {
-		const res = yield call(app.get, `forms/all?page=${currentPage}`);
+		const query = yield select(selectQuery);
+
+		const res = yield call(app.get, `forms/all${query}`);
 		const data = yield call(parseData, res);
 
-		yield put(setForms(data));
+		yield put(actions.setForms(data));
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}
@@ -169,14 +167,14 @@ export function* fetchForms({ currentPage }) {
  *
  * @generator
  * @function resendFormEmails
- * @params {object} - eventId and currentPage
+ * @params {object} - eventId
  * @yields {object} - A response from a call to the API.
  * @function parseData - Returns a parsed res.data.
  * @yields {action} - A redux action to set forms data to redux state.
  * @throws {action} - A redux action to display a server message by type.
  */
 
-export function* resendFormEmails({ formId, currentPage }) {
+export function* resendFormEmails({ formId }) {
 	try {
 		yield put(hideServerMessage());
 
@@ -190,7 +188,7 @@ export function* resendFormEmails({ formId, currentPage }) {
 			}),
 		);
 
-		yield put({ type: types.FORMS_FETCH, currentPage });
+		yield put(actions.fetchForms());
 	} catch (e) {
 		yield put(setServerMessage({ type: "error", message: e.toString() }));
 	}

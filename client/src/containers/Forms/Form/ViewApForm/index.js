@@ -202,7 +202,4 @@ const mapDispatchToProps = {
 	updateFormAp,
 };
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps,
-)(ViewApForm);
+export default connect(mapStateToProps, mapDispatchToProps)(ViewApForm);

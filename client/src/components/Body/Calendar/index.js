@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
 import get from "lodash/get";
-import moment from "moment";
+import moment from "moment-timezone";
 import { Calendar } from "antd";
 import { ScheduleList, ScheduleHeader, ScheduleModal } from "components/Body";
 
@@ -119,6 +119,9 @@ class CustomCalendar extends Component {
 				loggedinUserId={this.props.loggedinUserId}
 				content={content}
 				handleShowModal={this.handleShowModal}
+				padding="0 6%"
+				btnStyle={{ maxWidth: 165 }}
+				innerStyle={{ padding: "3px 0" }}
 				height="20px"
 				width="20px"
 			/>

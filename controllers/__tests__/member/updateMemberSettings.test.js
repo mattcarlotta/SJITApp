@@ -4,7 +4,7 @@ import {
   emailAlreadyTaken,
   missingMemberId,
   missingUpdateMemberParams,
-  unableToLocateMember,
+  usernameAlreadyTaken,
 } from "shared/authErrors";
 
 const findExistingMember = email => User.findOne({ email });
@@ -30,6 +30,7 @@ describe("Update Member Settings Controller", () => {
     const session = {
       user: { id: "" },
     };
+
     const emptyBody = {
       _id: "",
       email: "",
@@ -91,19 +92,42 @@ describe("Update Member Settings Controller", () => {
     });
   });
 
+  it("handles invalid first and last name requests", async () => {
+    const session = {
+      user: { id: existingMember._id },
+    };
+
+    const invalidUsername = {
+      _id: existingMember._id,
+      email: "placedholdernewemail@test.com",
+      firstName: "Matt",
+      lastName: "Carlotta",
+      role: "employee",
+    };
+
+    const req = mockRequest(null, session, invalidUsername);
+
+    await updateMemberSettings(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.json).toHaveBeenCalledWith({
+      err: usernameAlreadyTaken,
+    });
+  });
+
   it("handles valid email update requests", async () => {
     const session = {
       user: { id: existingMember._id },
     };
 
-    const emptyBody = {
+    const updatedUser = {
       _id: existingMember._id,
       email: "placedholdernewemail@test.com",
-      firstName: "Updated",
-      lastName: "User",
+      firstName: "Updated232",
+      lastName: "User233",
       role: "employee",
     };
-    const req = mockRequest(null, session, emptyBody);
+    const req = mockRequest(null, session, updatedUser);
 
     await updateMemberSettings(req, res);
 
@@ -123,8 +147,8 @@ describe("Update Member Settings Controller", () => {
     const emptyBody = {
       _id: existingUser._id,
       email: existingUser.email,
-      firstName: "Updated",
-      lastName: "User",
+      firstName: "Updated99948",
+      lastName: "User478849",
       role: "employee",
     };
     const req = mockRequest(null, session, emptyBody);

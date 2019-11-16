@@ -11,7 +11,7 @@ describe("No Events", () => {
 		expect(wrapper.find("FlexCenter").text()).toContain("No events today");
 	});
 
-	it("renders a 'No events today' message", () => {
+	it("renders a 'No upcoming events' message", () => {
 		wrapper.setProps({ selectedToday: false });
 		expect(wrapper.find("FlexCenter").text()).toContain("No upcoming events");
 	});

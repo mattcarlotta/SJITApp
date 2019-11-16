@@ -154,7 +154,4 @@ const mapDispatchToProps = {
 	signupUser,
 };
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps,
-)(SignupForm);
+export default connect(mapStateToProps, mapDispatchToProps)(SignupForm);

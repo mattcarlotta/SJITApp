@@ -4,6 +4,7 @@ import {
   emailAlreadyTaken,
   missingUpdateMemberParams,
   unableToLocateMember,
+  usernameAlreadyTaken,
 } from "shared/authErrors";
 
 const findExistingMember = email => User.findOne({ email });
@@ -60,6 +61,27 @@ describe("Update Member Controller", () => {
     });
   });
 
+  it("handles invalid first and last name requests", async () => {
+    const existingMember = await findExistingMember("member9@example.com");
+
+    const invalidMember = {
+      _id: existingMember._id,
+      email: "sdfsd.sdfsd@sdfdfs.com",
+      firstName: "Matt",
+      lastName: "Carlotta",
+      role: "employee",
+    };
+
+    const req = mockRequest(null, null, invalidMember);
+
+    await updateMember(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.json).toHaveBeenCalledWith({
+      err: usernameAlreadyTaken,
+    });
+  });
+
   it("handles invalid email update member requests", async () => {
     const existingMember = await findExistingMember("member9@example.com");
 
@@ -82,6 +104,8 @@ describe("Update Member Controller", () => {
 
     const validMember = {
       ...invalidMember,
+      firstName: "fdknmdsfk",
+      lastName: "klfdfkmdf",
       email: "member33@gmail.com",
     };
 

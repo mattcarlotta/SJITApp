@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import moment from "moment";
+import moment from "moment-timezone";
 import { connectDatabase } from "database";
 import {
   Event, Form, Mail, User, Season, Team, Token,
@@ -59,7 +59,7 @@ const seedDB = async () => {
       email: "carlotta.matt@gmail.com",
       role: "admin",
       token: createSignupToken(),
-      expiration: expirationDate().format(),
+      expiration: expirationDate().toDate(),
     };
 
     const newHire1 = {
@@ -67,79 +67,78 @@ const seedDB = async () => {
       email: "member@example.com",
       role: "employee",
       token: createSignupToken(),
-      expiration: expirationDate().format(),
+      expiration: expirationDate().toDate(),
     };
 
     const newHire2 = {
       authorizedEmail: "member55@example.com",
-      email: "",
       role: "employee",
       token: createSignupToken(),
-      expiration: expirationDate().format(),
+      expiration: expirationDate().toDate(),
     };
 
     const newHire3 = {
       authorizedEmail: "member66@example.com",
-      email: "",
       role: "employee",
       token: createSignupToken(),
-      expiration: expirationDate().format(),
+      expiration: expirationDate().toDate(),
     };
 
     const newHire4 = {
-      authorizedEmail: "member77@example.com",
-      email: "",
+      authorizedEmail: "member667@example.com",
       role: "employee",
       token: createSignupToken(),
-      expiration: expirationDate().format(),
+      expiration: expirationDate().toDate(),
     };
 
     const newHire5 = {
-      authorizedEmail: "member8888@example.com",
-      email: "",
+      authorizedEmail: "member77@example.com",
       role: "employee",
       token: createSignupToken(),
-      expiration: expirationDate().format(),
+      expiration: expirationDate().toDate(),
     };
 
     const newHire6 = {
-      authorizedEmail: "member9999@example.com",
-      email: "",
+      authorizedEmail: "member888@example.com",
       role: "employee",
       token: createSignupToken(),
-      expiration: expirationDate().format(),
+      expiration: expirationDate().toDate(),
     };
 
     const newHire7 = {
-      authorizedEmail: "member1000@example.com",
-      email: "",
+      authorizedEmail: "member999@example.com",
       role: "employee",
       token: createSignupToken(),
-      expiration: expirationDate().format(),
+      expiration: expirationDate().toDate(),
     };
 
     const newHire8 = {
-      authorizedEmail: "member1001@example.com",
-      email: "",
+      authorizedEmail: "member1000@example.com",
       role: "employee",
       token: createSignupToken(),
-      expiration: expirationDate().format(),
+      expiration: expirationDate().toDate(),
     };
 
     const newHire9 = {
-      authorizedEmail: "member1002@example.com",
-      email: "",
+      authorizedEmail: "member1001@example.com",
       role: "employee",
       token: createSignupToken(),
-      expiration: expirationDate().format(),
+      expiration: expirationDate().toDate(),
     };
 
     const newHire10 = {
-      authorizedEmail: "member1003@example.com",
-      email: "",
+      authorizedEmail: "member1002@example.com",
       role: "employee",
       token: createSignupToken(),
-      expiration: expirationDate().format(),
+      expiration: expirationDate().toDate(),
+    };
+
+    const newHire11 = {
+      authorizedEmail: "csusi@sapcenter.com",
+      email: "csusi@sapcenter.com",
+      role: "staff",
+      token: createSignupToken(),
+      expiration: expirationDate().toDate(),
     };
 
     await Token.insertMany([
@@ -154,6 +153,7 @@ const seedDB = async () => {
       newHire8,
       newHire9,
       newHire10,
+      newHire11,
     ]);
 
     const adminPassword = await User.createPassword(password);
@@ -390,6 +390,46 @@ const seedDB = async () => {
       ],
     };
 
+    const gameTomorrow = {
+      team: "San Jose Sharks",
+      opponent: "Detriot Red Wings",
+      eventType: "Game",
+      location: "Test Location",
+      callTimes: newEventCallTimes,
+      uniform: "Teal Jersey",
+      seasonId: "20192020",
+      eventDate: moment()
+        .add(1, "day")
+        .format(),
+      scheduledIds: [scheduledUser._id],
+      schedule: [
+        {
+          _id: "2019-02-09T17:45:26-07:00",
+          employeeIds: [scheduledUser._id],
+        },
+        {
+          _id: "2019-02-09T18:15:26-07:00",
+          employeeIds: [],
+        },
+        {
+          _id: "2019-02-09T18:30:26-07:00",
+          employeeIds: [],
+        },
+        {
+          _id: "2019-02-09T19:00:26-07:00",
+          employeeIds: [],
+        },
+      ],
+      sentEmailReminders: false,
+      employeeResponses: [
+        {
+          _id: scheduledUser._id,
+          notes: "",
+          response: "I want to work.",
+        },
+      ],
+    };
+
     const newEventCallTimes2 = ["2019-08-09T19:00:38-07:00"];
 
     const newEvent2 = {
@@ -584,6 +624,7 @@ const seedDB = async () => {
 
     await Event.insertMany([
       newEvent,
+      gameTomorrow,
       newEvent2,
       newEvent3,
       newEvent4,

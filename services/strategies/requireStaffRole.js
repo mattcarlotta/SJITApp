@@ -1,5 +1,5 @@
 import get from "lodash/get";
-import { badCredentials } from "shared/authErrors";
+import { accessDenied, badCredentials } from "shared/authErrors";
 import { User } from "models";
 import { sendError } from "shared/helpers";
 
@@ -8,7 +8,7 @@ export default async (req, res, next) => {
   const role = get(user, ["role"]);
 
   if (!user || (role !== "admin" && role !== "staff"))
-    return sendError(badCredentials, res);
+    return sendError(accessDenied, res);
 
   const existingUser = await User.findOne({ _id: user.id });
   if (!existingUser || existingUser.status === "suspended")

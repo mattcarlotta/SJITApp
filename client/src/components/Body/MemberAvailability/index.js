@@ -2,7 +2,7 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
-import moment from "moment";
+import moment from "moment-timezone";
 import { Empty } from "antd";
 import { ResponsivePie } from "@nivo/pie";
 import { ResponsiveBar } from "@nivo/bar";
@@ -71,7 +71,7 @@ class MemberAvailability extends Component {
 				/>
 				{!isEmpty(memberAvailability) ? (
 					<Fragment>
-						<div css="height: 400px;width: 100%; max-width: 700px; margin-left: auto; margin-right: auto; margin-bottom: 30px;position: relative;">
+						<div css="height: 400px;width: 100%; max-width: 750px; margin-left: auto; margin-right: auto; margin-bottom: 30px;position: relative;">
 							<ResponsivePie
 								indexBy="id"
 								colors={COLORS}
@@ -95,7 +95,7 @@ class MemberAvailability extends Component {
 										direction: "row",
 										translateY: 75,
 										translateX: 0,
-										itemWidth: 150,
+										itemWidth: 160,
 										itemHeight: 28,
 										itemTextColor: "#999",
 										symbolSize: 18,
@@ -126,7 +126,7 @@ class MemberAvailability extends Component {
 								Responses
 							</Center>
 						</div>
-						<div css="height: 400px;width: 100%; max-width: 500px; margin: 0 auto;">
+						<div css="height: 450px;width: 100%; max-width: 500px; margin: 0 auto;">
 							<ResponsiveBar
 								borderColor={{ from: "color", modifiers: [["darker", 0.2]] }}
 								colors={["#247BA0", "#2A9D8F"]}
@@ -171,7 +171,7 @@ class MemberAvailability extends Component {
 						</div>
 					</Fragment>
 				) : (
-					<FlexCenter style={{ height: 830 }}>
+					<FlexCenter style={{ height: 880 }}>
 						<Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
 					</FlexCenter>
 				)}

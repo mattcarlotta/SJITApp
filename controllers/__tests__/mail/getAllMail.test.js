@@ -11,8 +11,8 @@ describe("Get All Mail Controller", () => {
   });
 
   it("handles valid get all mail requests", async () => {
+    const req = mockRequest(null, null, null, {});
     const res = mockResponse();
-    const req = mockRequest(null, null, null, { page: "1" });
 
     await getAllMail(req, res);
 
@@ -21,12 +21,12 @@ describe("Get All Mail Controller", () => {
       mail: expect.arrayContaining([
         expect.objectContaining({
           _id: expect.any(ObjectId),
-          message: expect.any(String),
-          sendDate: expect.any(Date),
-          sendFrom: expect.any(String),
           sendTo: expect.any(Array),
+          sendDate: expect.any(Date),
           status: expect.any(String),
+          sendFrom: expect.any(String),
           subject: expect.any(String),
+          message: expect.any(String),
         }),
       ]),
       totalDocs: expect.any(Number),

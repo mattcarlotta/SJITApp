@@ -53,10 +53,6 @@ describe("Schedule List", () => {
 		wrapper = mount(<ScheduleList {...initProps} />);
 	});
 
-	it("renders without errors", () => {
-		expect(wrapper.find("List").exists()).toBeTruthy();
-	});
-
 	it("initially doesn't show anything", () => {
 		expect(wrapper.find("Button").exists()).toBeFalsy();
 	});

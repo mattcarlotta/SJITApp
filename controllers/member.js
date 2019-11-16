@@ -6,6 +6,7 @@ import {
   createMemberEventCount,
   createMemberResponseCount,
   findEventById,
+  generateFilters,
   getEventCounts,
   getMonthDateRange,
   getUsers,
@@ -21,6 +22,7 @@ import {
   unableToLocateEvent,
   unableToLocateMember,
   unableToLocateMembers,
+  usernameAlreadyTaken,
 } from "shared/authErrors";
 
 const findMember = async _id => {
@@ -183,10 +185,16 @@ const deleteMember = async (req, res) => {
 
 const getAllMembers = async (req, res) => {
   try {
-    const { page } = req.query;
+    const { page, role } = req.query;
+
+    const filters = generateFilters(req.query);
+
+    const roleFilter = role
+      ? { $regex: role, $options: "i" }
+      : { $ne: "admin" };
 
     const results = await User.paginate(
-      { role: { $eq: "employee" } },
+      { ...filters, role: roleFilter },
       {
         sort: { lastName: 1 },
         page,
@@ -289,8 +297,7 @@ const getMemberEventCounts = async (req, res) => {
         },
       },
     ]);
-    if (isEmpty(memberEventCounts))
-      return res.status(200).json({ members: [] });
+    if (isEmpty(memberEventCounts)) return res.status(200).json({ members: [] });
 
     res.status(200).json({
       members: createMemberEventCount({
@@ -373,9 +380,10 @@ const getMemberSettingsEvents = async (req, res) => {
 
 const updateMember = async (req, res) => {
   try {
-    const { _id, email, firstName, lastName, role } = req.body;
-    if (!_id || !email || !firstName || !lastName || !role)
-      throw missingUpdateMemberParams;
+    const {
+      _id, email, firstName, lastName, role,
+    } = req.body;
+    if (!_id || !email || !firstName || !lastName || !role) throw missingUpdateMemberParams;
 
     const existingMember = await findMember(_id);
 
@@ -383,6 +391,13 @@ const updateMember = async (req, res) => {
       const emailInUse = await User.findOne({ email });
       if (emailInUse) throw emailAlreadyTaken;
     }
+
+    const existingUser = await User.findOne({
+      _id: { $ne: existingMember._id },
+      firstName,
+      lastName,
+    });
+    if (existingUser) throw usernameAlreadyTaken;
 
     if (role === "staff") {
       await Event.updateMany(
@@ -428,6 +443,13 @@ const updateMemberSettings = async (req, res) => {
       const emailInUse = await User.findOne({ email });
       if (emailInUse) throw emailAlreadyTaken;
     }
+
+    const existingUser = await User.findOne({
+      _id: { $ne: existingMember._id },
+      firstName,
+      lastName,
+    });
+    if (existingUser) throw usernameAlreadyTaken;
 
     await existingMember.updateOne({
       email,

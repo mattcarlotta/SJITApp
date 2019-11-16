@@ -191,7 +191,4 @@ const mapDispatchToProps = {
 	updateEvent,
 };
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps,
-)(EditEventForm);
+export default connect(mapStateToProps, mapDispatchToProps)(EditEventForm);

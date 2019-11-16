@@ -15,7 +15,6 @@ describe("Modal Click Handler", () => {
 					<div className="modal-content">
 						<h1>Modal Content</h1>
 					</div>
-					)}
 				</ClickHandler>
 				<div className="outside-content" />
 			</div>,

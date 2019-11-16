@@ -30,13 +30,11 @@ export const createMail = props => ({
  *
  * @function deleteMail
  * @param {string} eventId
- * @param {string} currentPage
  * @returns {object}
  */
-export const deleteMail = (mailId, currentPage) => ({
+export const deleteMail = mailId => ({
 	type: types.MAIL_DELETE,
 	mailId,
-	currentPage,
 });
 
 /**
@@ -55,12 +53,10 @@ export const fetchMail = mailId => ({
  * Fetches all mails.
  *
  * @function fetchMails
- * @param {string} currentPage
  * @returns {object}
  */
-export const fetchMails = currentPage => ({
+export const fetchMails = () => ({
 	type: types.MAIL_FETCH,
-	currentPage,
 });
 
 /**
@@ -68,13 +64,11 @@ export const fetchMails = currentPage => ({
  *
  * @function resendMail
  * @param {string} mailId
- * @param {string} currentPage
  * @returns {object}
  */
-export const resendMail = (mailId, currentPage) => ({
+export const resendMail = mailId => ({
 	type: types.MAIL_RESEND,
 	mailId,
-	currentPage,
 });
 
 /**

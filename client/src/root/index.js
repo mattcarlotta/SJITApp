@@ -6,6 +6,7 @@ import { composeWithDevTools } from "redux-devtools-extension/developmentOnly";
 import { createBrowserHistory } from "history";
 import createSagaMiddleware from "redux-saga";
 import { createStateSyncMiddleware } from "redux-state-sync";
+import moment from "moment-timezone";
 import { ConfigProvider } from "antd";
 import enUS from "antd/lib/locale-provider/en_US";
 import * as types from "types";
@@ -22,6 +23,7 @@ import createRootReducer from "reducers";
 import rootSagas from "sagas";
 import { MainRoutes } from "routes";
 
+moment.tz.setDefault("America/Los_Angeles");
 const inTesting = process.env.NODE_ENV === "testing";
 
 const history = createBrowserHistory();

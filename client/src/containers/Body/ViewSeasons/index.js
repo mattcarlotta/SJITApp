@@ -5,8 +5,10 @@ import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import { Card } from "antd";
 import { FaFolderPlus, FaFolderOpen } from "react-icons/fa";
-import { Button, FormatDate, FlexEnd, Table } from "components/Body";
+import { Button, FlexEnd, Table } from "components/Body";
+import { QueryHandler } from "components/Navigation";
 import { deleteSeason, fetchSeasons } from "actions/Seasons";
+import columns from "./Columns";
 
 const title = "Seasons";
 const iconStyle = {
@@ -15,41 +17,7 @@ const iconStyle = {
 	fontSize: 20,
 };
 
-const columns = [
-	{ title: "Season Id", dataIndex: "seasonId", key: "seasonId" },
-	{
-		title: "Start Date",
-		dataIndex: "startDate",
-		key: "startDate",
-		render: date => (
-			<FormatDate
-				format="MM/DD/YYYY"
-				style={{ padding: 0, margin: 0 }}
-				date={date}
-			/>
-		),
-	},
-	{
-		title: "End Date",
-		dataIndex: "endDate",
-		key: "endDate",
-		render: date => (
-			<FormatDate
-				format="MM/DD/YYYY"
-				style={{ padding: 0, margin: 0 }}
-				date={date}
-			/>
-		),
-	},
-];
-
-export const ViewSeasons = ({
-	data,
-	deleteSeason,
-	fetchSeasons,
-	push,
-	...rest
-}) => (
+export const ViewSeasons = ({ data, deleteSeason, fetchSeasons, ...rest }) => (
 	<Fragment>
 		<Helmet title={title} />
 		<Card
@@ -67,21 +35,25 @@ export const ViewSeasons = ({
 					marginRight="0px"
 					padding="5px 10px"
 					style={{ marginBottom: 20 }}
-					onClick={() => push("/employee/seasons/create")}
+					onClick={() => rest.push("/employee/seasons/create")}
 				>
 					<FaFolderPlus style={{ position: "relative", top: 2 }} />
 					&nbsp; New Season
 				</Button>
 			</FlexEnd>
-			<Table
-				{...rest}
-				columns={columns}
-				data={data}
-				deleteAction={deleteSeason}
-				editLocation="seasons"
-				fetchData={fetchSeasons}
-				push={push}
-			/>
+			<QueryHandler {...rest}>
+				{props => (
+					<Table
+						{...rest}
+						{...props}
+						columns={columns}
+						data={data}
+						deleteAction={deleteSeason}
+						editLocation="seasons"
+						fetchData={fetchSeasons}
+					/>
+				)}
+			</QueryHandler>
 		</Card>
 	</Fragment>
 );
@@ -114,7 +86,4 @@ const mapDispatchToProps = {
 	push,
 };
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps,
-)(ViewSeasons);
+export default connect(mapStateToProps, mapDispatchToProps)(ViewSeasons);

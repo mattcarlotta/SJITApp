@@ -94,8 +94,5 @@ const mapDispatchToProps = {
 	resetServerMessage,
 };
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps,
-)(ServerMessages);
+export default connect(mapStateToProps, mapDispatchToProps)(ServerMessages);
 /* eslint-enable react/jsx-handler-names */

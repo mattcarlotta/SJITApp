@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import isEmpty from "lodash/isEmpty";
 import get from "lodash/get";
-import moment from "moment";
+import moment from "moment-timezone";
 import { Card, Col, Select } from "antd";
 import { MdEvent } from "react-icons/md";
 import {
@@ -61,12 +61,8 @@ export class Events extends Component {
 		const { selectedEvent } = this.state;
 		const { events, isLoading, role } = this.props;
 		const eventDate = get(events[0], ["eventDate"]);
-		const endOfDay = moment
-			.utc(eventDate)
-			.endOf("day")
-			.format();
+		const endOfDay = moment(eventDate).endOf("day");
 		const selectedToday = selectedEvent === "Today";
-		const currentDate = moment(eventDate).format("MMM DD");
 
 		return (
 			<Fragment>
@@ -98,7 +94,7 @@ export class Events extends Component {
 						}
 					>
 						<CalendarContainer>
-							<CalendarDate>{currentDate}</CalendarDate>
+							<CalendarDate>{moment(eventDate).format("MMM DD")}</CalendarDate>
 							{isLoading ? (
 								<LoadingPanel
 									style={{
@@ -112,12 +108,18 @@ export class Events extends Component {
 								<div css="padding: 30px 20px;">
 									{!isEmpty(events) ? (
 										events.map(props =>
-											moment.utc(props.eventDate).format() < endOfDay ? (
+											moment(props.eventDate) < endOfDay ? (
 												<ScheduleList
 													key={props._id}
 													content={[props]}
-													listStyle={{ padding: 3 }}
+													innerStyle={{
+														padding: "5px 0",
+														maxWidth: 225,
+														margin: "0 auto",
+													}}
+													btnStyle={{ maxWidth: 585 }}
 													spacing={20}
+													padding="0 20.5%"
 													height="45px"
 													width="45px"
 													folder="lowres"
@@ -125,8 +127,7 @@ export class Events extends Component {
 													loggedinUserId={this.props.loggedinUserId}
 													scheduleIconStyle={{
 														fontSize: 19,
-														verticalAlign: "middle",
-														right: "20px",
+														margin: "0 10px",
 													}}
 												/>
 											) : null,
@@ -192,7 +193,4 @@ const mapDispatchToProps = {
 	fetchEvents,
 };
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps,
-)(Events);
+export default connect(mapStateToProps, mapDispatchToProps)(Events);

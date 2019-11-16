@@ -1,6 +1,6 @@
 import React, { Fragment, PureComponent } from "react";
 import PropTypes from "prop-types";
-import moment from "moment";
+import moment from "moment-timezone";
 import isEmpty from "lodash/isEmpty";
 import { connect } from "react-redux";
 import { Card, Col } from "antd";
@@ -80,7 +80,4 @@ const mapDispatchToProps = {
 	fetchAvailability,
 };
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps,
-)(Availability);
+export default connect(mapStateToProps, mapDispatchToProps)(Availability);

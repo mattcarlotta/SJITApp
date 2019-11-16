@@ -31,7 +31,7 @@ describe("Render Email SendTo", () => {
 		expect(wrapper.find("#singleemailaddress").exists()).toBeTruthy();
 	});
 
-	it("renders a single address", () => {
+	it("renders mutilple addresses", () => {
 		const sendTo = ["Test Test <test@test.com>", "Test2 Test <test2@test.com>"];
 		wrapper.setProps({
 			fields: {

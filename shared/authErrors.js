@@ -1,3 +1,6 @@
+const accessDenied =
+  "Access denied. You do not have permission to view this content.";
+
 const alreadyLoggedIn =
   "It looks like you are already logged in to another session. Please refresh your browser.";
 
@@ -196,7 +199,11 @@ const unableToUpdateSeason =
 const unableToUpdateToken =
   "Unable to update this authorization key. The key has already been used and is associated with an active account.";
 
+const usernameAlreadyTaken =
+  "The first and last name provided is already in use and is associated with an active account. In order to continue, please use a uniquely identifable name such as a first middle name initial or a nickname.";
+
 export {
+  accessDenied,
   alreadyLoggedIn,
   alreadyVerified,
   badCredentials,
@@ -266,4 +273,5 @@ export {
   unableToUpdateMail,
   unableToUpdateSeason,
   unableToUpdateToken,
+  usernameAlreadyTaken,
 };

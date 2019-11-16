@@ -6,7 +6,10 @@ import session from "express-session";
 import connectRedis from "connect-redis";
 import redis from "redis";
 import config from "env";
+import moment from "moment-timezone";
 import "database";
+
+moment.tz.setDefault("America/Los_Angeles");
 
 const { CLIENT, NODE_ENV } = process.env;
 const inTesting = NODE_ENV === "testing";

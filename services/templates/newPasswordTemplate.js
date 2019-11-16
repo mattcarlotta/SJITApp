@@ -1,12 +1,11 @@
-export default (CLIENT, firstName, lastName, token) =>
-  `<h2 style="margin-bottom: 30px; color: #025f6d;">
-    Forgot your password, ${firstName} ${lastName}?
+export default (CLIENT, firstName, lastName, token) => `<h2 style="margin-bottom: 30px; color: #025f6d;text-align: center;">
+    Forget your password, ${firstName} ${lastName}?
   </h2>
   <p style="font-size: 16px; margin-bottom: 30px; color: #000000;">
-    Please click the button below to set up a new password.
+    Not a problem. Please click the button below to set up a new password.
   </p>
   <p style="font-size: 16px; margin-bottom: 30px; color: #000000;">
-    If you did not initiate this request, please contact us immediately at <a href="mailto:carlotta.matt@gmail.com" target="_blank" rel="noopener noreferrer">carlotta.matt@gmail.com</a>
+    If you did not initiate this request, please contact us immediately at <a href="mailto:sjsitstaff@gmail.com" target="_blank" rel="noopener noreferrer">sjsitstaff@gmail.com</a>
   </p>
   <p style="font-size: 16px; margin-bottom: 30px; color: #000000;">
     Thank you,

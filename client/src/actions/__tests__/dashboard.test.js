@@ -37,12 +37,6 @@ describe("Dashboard Actions", () => {
 		});
 	});
 
-	it("returns DASHBOARD_FETCH_AVAILABILITY", () => {
-		const value = actions.fetchAvailability();
-
-		expect(value).toEqual({ type: types.DASHBOARD_FETCH_AVAILABILITY });
-	});
-
 	it("returns DASHBOARD_SET_APFORM with data", () => {
 		const data = {
 			_id: "0123456789",
