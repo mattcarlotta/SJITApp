@@ -15,7 +15,7 @@ const EmailPreview = ({
 	const { message, sendDate, sendFrom, subject } = fields;
 
 	return (
-		<Modal disableClickHandler maxWidth="100%" onClick={handleCloseModal}>
+		<Modal disableClickHandler maxWidth="1200px" onClick={handleCloseModal}>
 			<div css="width: 100%;margin-top: 20px;padding: 20px;border: 1px dashed #e4e2e2;background-color: #fdfdfd;">
 				<table css="width: 100%;">
 					<tbody>
