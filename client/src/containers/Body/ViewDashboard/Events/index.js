@@ -18,12 +18,11 @@ import NoEvents from "./NoEvents";
 import columns from "../Columns";
 
 const Option = Select.Option;
-// const format = "MM DD YYYY, hh:mm a";
 
 const iconStyle = {
 	verticalAlign: "middle",
 	marginRight: 10,
-	fontSize: 25,
+	fontSize: 24,
 };
 
 export class Events extends Component {

@@ -12,7 +12,7 @@ import EventDistribution from "./EventDistribution";
 export const ViewDashboard = ({ role }) => (
 	<Fragment>
 		<Helmet title="Dashboard" />
-		<Row gutter={[32, 32]}>
+		<Row gutter={[24, 24]}>
 			<Events />
 			<Forms />
 			{role !== "employee" ? <MembersAvailability /> : <Availability />}
