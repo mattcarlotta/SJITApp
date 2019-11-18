@@ -75,11 +75,10 @@ describe("SideMenu", () => {
 		).toEqual("seasons");
 	});
 
-	it("collapsing the menu, displays an title image and hides the legal info", () => {
+	it("collapsing the menu, displays an 'IT' title and hides the legal info", () => {
 		wrapper.setProps({ isCollapsed: true });
 
-		expect(wrapper.find("img").exists()).toBeTruthy();
-		expect(wrapper.find("Title").exists()).toBeFalsy();
+		expect(wrapper.find("Title").text()).toEqual("IT");
 		expect(wrapper.find("Legal").exists()).toBeFalsy();
 	});
 

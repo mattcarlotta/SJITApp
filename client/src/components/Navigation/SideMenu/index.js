@@ -1,7 +1,6 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { Layout, Menu, Icon } from "antd";
-import SharksLogo from "images/misc/sharksLogo.png";
 import { Center, FadeIn, Legal, Tab, Title } from "components/Body";
 import { Link } from "components/Navigation";
 import { StaffRoutes, EmployeeRoutes } from "./Tabs";
@@ -30,22 +29,43 @@ const SideMenu = ({
 			collapsible
 			collapsed={isCollapsed}
 		>
-			<Center style={{ height: 60 }}>
+			<Center
+				style={{
+					height: 64,
+					backgroundColor: "#025f6d",
+					borderBottom: "1px solid #3d8792",
+				}}
+			>
 				<Link to="/" style={{ padding: 0, margin: 0 }}>
-					{isCollapsed ? (
-						<FadeIn timing="0.4s">
-							<img
-								alt="sharksLogo.png"
-								src={SharksLogo}
-								width="50px"
-								style={{ paddingTop: 10 }}
-							/>
-						</FadeIn>
-					) : (
-						<Title style={{ color: "#fff", paddingTop: 20, margin: 0 }}>
-							Ice Team
-						</Title>
-					)}
+					<div css="text-align:center;padding: 12px 18px 0 18px;">
+						{isCollapsed ? (
+							<FadeIn timing="0.4s">
+								<div css="border: 1px solid #fff;">
+									<Title
+										style={{
+											color: "#fff",
+											margin: 0,
+											padding: "4px 0",
+											fontSize: 26,
+										}}
+									>
+										IT
+									</Title>
+								</div>
+							</FadeIn>
+						) : (
+							<Title
+								style={{
+									color: "#fff",
+									margin: 0,
+									padding: "4px 0",
+									fontSize: 26,
+								}}
+							>
+								Ice Team
+							</Title>
+						)}
+					</div>
 				</Link>
 			</Center>
 			<Menu

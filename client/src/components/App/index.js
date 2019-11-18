@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Layout } from "antd";
 import { AppRoutes } from "routes";
+import { BuildVersion } from "components/Body";
 import { LeftMenu, RightMenu, SideMenu } from "components/Navigation";
 
 const Header = Layout.Header;
@@ -134,6 +135,7 @@ class App extends Component {
 					</Header>
 					<Content>
 						<AppRoutes {...this.props} />
+						<BuildVersion />
 					</Content>
 				</Layout>
 			</Layout>
