@@ -1,11 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
-import moment from "moment-timezone";
+
+const { buildTimeStamp, buildVersion, commitCount, commitHash } = process.env;
 
 const BuildVersion = ({ className }) => (
 	<div className={className}>
-		<p>SJS Ice Team Scheduling Application</p>
-		<p>Build 0.0.1b-{moment().format()}</p>
+		<p>SJS Ice Team Scheduling App</p>
+		<p>
+			build {commitCount}.{commitHash}_{buildVersion}
+		</p>
+		<p>{buildTimeStamp}</p>
 	</div>
 );
 

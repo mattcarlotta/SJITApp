@@ -1,6 +1,5 @@
-// =============================================================== //
-// ENVS                                                            //
-// =============================================================== //
+const moment = require("moment-timezone");
+const { version } = require("../package.json");
 
 const { APIPORT, NODE_ENV, NODE_ENV_DEV, PORT } = process.env;
 
@@ -11,9 +10,13 @@ const baseURL =
 		? `http://localhost:${APIPORT}/api/`
 		: "https://sjsiceteam.com/api/";
 
+const buildTimeStamp = moment().format();
+
 module.exports = {
-	APIPORT,
-	baseURL,
+	APIPORT, // current API port
+	baseURL, // current API url
+	buildTimeStamp, // current build
+	buildVersion: version, // current version
 	currentDirectory: process.cwd(), // current working directory
 	inDevelopment, // current environment
 	localIdentName: "[local]___[hash:base64:5]", // how class names will be defined in the DOM

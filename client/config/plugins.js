@@ -8,8 +8,22 @@ const FriendlyErrorsWebpackPlugin = require("friendly-errors-webpack-plugin");
 const WebpackBar = require("webpackbar");
 const ManifestPlugin = require("webpack-manifest-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
+const GitRevisionPlugin = require("git-revision-webpack-plugin");
 const { cssFolder, faviconPath, publicPath, templatePath } = require("./paths");
-const { APIPORT, baseURL, inDevelopment, NODE_ENV, PORT } = require("./envs");
+const {
+	APIPORT,
+	baseURL,
+	buildTimeStamp,
+	buildVersion,
+	inDevelopment,
+	NODE_ENV,
+	PORT,
+} = require("./envs");
+
+const gitStatsPlugin = new GitRevisionPlugin({
+	commithashCommand: "rev-parse --short HEAD",
+	versionCommand: "rev-list HEAD --count",
+});
 
 // =============================================================== //
 // WEBPACK PLUGINS                                                 //
@@ -30,6 +44,8 @@ notes.push(
 module.exports = () => {
 	/* common webpack plugins */
 	const plugins = [
+		/* shows current build stats */
+		gitStatsPlugin,
 		/* shows a compilation bar instead of the default compile message */
 		new WebpackBar({
 			color: "#268bd2",
@@ -52,10 +68,16 @@ module.exports = () => {
 			clearConsole: true,
 		}),
 		new DefinePlugin({
-			"process.env.APIPORT": JSON.stringify(APIPORT),
-			"process.env.NODE_ENV": JSON.stringify(NODE_ENV),
-			"process.env.PORT": JSON.stringify(PORT),
-			"process.env.baseURL": JSON.stringify(baseURL),
+			"process.env": {
+				APIPORT: JSON.stringify(APIPORT),
+				NODE_ENV: JSON.stringify(NODE_ENV),
+				PORT: JSON.stringify(PORT),
+				baseURL: JSON.stringify(baseURL),
+				buildTimeStamp: JSON.stringify(buildTimeStamp),
+				buildVersion: JSON.stringify(buildVersion),
+				commitCount: JSON.stringify(gitStatsPlugin.version()),
+				commitHash: JSON.stringify(gitStatsPlugin.commithash()),
+			},
 		}),
 		/* generates an manifest for all assets */
 		new ManifestPlugin({

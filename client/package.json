@@ -1,6 +1,6 @@
 {
 	"name": "sjsitapp",
-	"version": "1.0.0",
+	"version": "0.0.1b",
 	"main": "app.js",
 	"description": "An application for the San Jose Sharks Ice Team.",
 	"repository": "https://github.com/mattcarlotta/SJSITApp",
@@ -150,6 +150,7 @@
 		"babel-plugin-styled-components": "^1.10.6",
 		"babel-preset-env": "^1.7.0",
 		"browserslist": "^4.7.2",
+		"child_process": "^1.0.2",
 		"copy-webpack-plugin": "^5.0.5",
 		"css-loader": "^3.2.0",
 		"enzyme": "^3.10.0",
