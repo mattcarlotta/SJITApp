@@ -87,6 +87,7 @@ export default [
 			"Sharks Teal Jersey",
 			"Sharks Black Jersey",
 			"Sharks Jacket",
+			"Barracuda Jersey",
 			"Barracuda Jacket",
 			"Other",
 		],
