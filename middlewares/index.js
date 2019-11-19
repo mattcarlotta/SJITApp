@@ -25,6 +25,7 @@ const client = redis.createClient({
 /* APP MIDDLEWARE */
 //= ===========================================================//
 export default app => {
+  app.set("trust proxy", true);
   app.use(
     session({
       secret: config[NODE_ENV].cookieKey,

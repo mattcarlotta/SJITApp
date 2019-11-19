@@ -96,7 +96,7 @@
       "command": "babel-node app.js",
       "env": {
         "HOST": "http://localhost:",
-        "CLIENT": "http://example.com",
+        "CLIENT": "https://sjsiceteam.com",
         "DATABASE": "sjsitapp-prod-db",
         "NODE_ENV": "production",
         "APIPORT": 8080
