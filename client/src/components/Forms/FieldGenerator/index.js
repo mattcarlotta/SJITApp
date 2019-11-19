@@ -25,21 +25,23 @@ const removeIconStyle = {
 };
 
 const radioLabelStyle = {
-	height: 60,
+	height: "auto",
+	paddingBottom: 10,
 	backgroundColor: "#025f6d",
 	color: "#fff",
-	padding: 10,
 	marginBottom: 25,
 };
 
 const radioStyle = {
-	display: "block",
+	// display: "block",
 	width: "100%",
 	height: 30,
 	lineHeight: "30px",
 	fontSize: 20,
+	padding: 10,
 	margin: "10px 0",
 	color: "#000",
+	// textAlign: "center",
 };
 
 const radioContainerStyle = {
@@ -152,11 +154,15 @@ const FieldGenerator = ({ fields, onChange }) =>
 					<Form.Item style={radioContainerStyle} key={props.name}>
 						<Label style={radioLabelStyle} {...props} />
 						{props.notes && <Notes className="ap-form-note" {...props} />}
-						<RadioGroup {...props} onChange={onChange}>
+						<RadioGroup
+							{...props}
+							onChange={onChange}
+							className="ap-form-radio"
+						>
 							{!isEmpty(props.selectOptions) &&
 								props.selectOptions.map(value => (
 									<Radio style={radioStyle} key={value} value={value}>
-										{value}
+										<span className="radio-value">{value}</span>
 									</Radio>
 								))}
 						</RadioGroup>
@@ -193,7 +199,7 @@ const FieldGenerator = ({ fields, onChange }) =>
 					<Form.Item
 						key={props.name}
 						className={props.className}
-						style={{ minHeight: props.minHeight || 212 }}
+						style={{ minHeight: props.minHeight || 212, ...props.style }}
 					>
 						{props.label && <Label {...props} />}
 						<TextArea
@@ -202,7 +208,7 @@ const FieldGenerator = ({ fields, onChange }) =>
 							disabled={props.disabled}
 							maxLength={props.maxLength}
 							placeholder={props.placeholder}
-							style={{ width: props.width || "100%" }}
+							style={props.innerStyle}
 							onChange={onChange}
 							rows={props.rows || 4}
 							value={props.value}

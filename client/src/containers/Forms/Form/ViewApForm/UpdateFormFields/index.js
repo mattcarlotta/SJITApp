@@ -50,6 +50,14 @@ export default (result, field, events) => {
 			className: "ap-form-notes",
 			maxLength: 200,
 			rows: 3,
+			style: {
+				width: "100%",
+				padding: "5px",
+			},
+			innerStyle: {
+				maxWidth: "350px",
+				minHeight: "101px",
+			},
 		};
 
 		return [...acc, radioFields, noteFields];

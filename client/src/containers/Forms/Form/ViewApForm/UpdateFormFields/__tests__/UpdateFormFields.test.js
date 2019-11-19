@@ -82,8 +82,17 @@ describe("UpdateFormFields", () => {
 				disabled: false,
 				width: "350px",
 				minHeight: "125px",
+				className: "ap-form-notes",
 				maxLength: 200,
 				rows: 3,
+				style: {
+					width: "100%",
+					padding: "5px",
+				},
+				innerStyle: {
+					maxWidth: "350px",
+					minHeight: "101px",
+				},
 			},
 		]);
 	});
@@ -136,8 +145,17 @@ describe("UpdateFormFields", () => {
 				disabled: false,
 				width: "350px",
 				minHeight: "125px",
+				className: "ap-form-notes",
 				maxLength: 200,
 				rows: 3,
+				style: {
+					width: "100%",
+					padding: "5px",
+				},
+				innerStyle: {
+					maxWidth: "350px",
+					minHeight: "101px",
+				},
 			},
 		]);
 	});
