@@ -3,6 +3,8 @@ const { version } = require("../package.json");
 
 const { APIPORT, NODE_ENV, NODE_ENV_DEV, PORT } = process.env;
 
+moment.tz.setDefault("America/Los_Angeles");
+
 const inDevelopment = NODE_ENV === "development";
 const inStaging = NODE_ENV_DEV === "staging";
 const baseURL =
