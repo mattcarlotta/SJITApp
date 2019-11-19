@@ -3,7 +3,12 @@ import PropTypes from "prop-types";
 import { Layout } from "antd";
 import { AppRoutes } from "routes";
 import { BuildVersion } from "components/Body";
-import { LeftMenu, RightMenu, SideMenu } from "components/Navigation";
+import {
+	LeftMenu,
+	RightMenu,
+	SideMenu,
+	DrawerMenu,
+} from "components/Navigation";
 
 const Header = Layout.Header;
 const Content = Layout.Content;
@@ -51,6 +56,7 @@ class App extends Component {
 		this.state = {
 			isCollapsed: false,
 			hideSideBar: false,
+			showDrawer: false,
 			openKeys: openedKey(pathname),
 			storedKeys: openedKey(pathname),
 			selectedKey: selectedTab(pathname),
@@ -59,16 +65,20 @@ class App extends Component {
 
 	componentDidUpdate = (prevProps, prevState) => {
 		const { pathname } = this.props.location;
-		const { isCollapsed } = this.state;
+		const { isCollapsed, hideSideBar, showDrawer } = this.state;
 
 		if (prevProps.location.pathname !== pathname) {
 			this.setState(prevState => ({
 				openKeys: !prevState.isCollapsed ? openedKey(pathname) : [],
 				selectedKey: selectedTab(pathname),
+				showDrawer: false,
 			}));
 		}
 
-		if (prevState.isCollapsed !== isCollapsed && !isCollapsed) {
+		if (
+			(prevState.isCollapsed !== isCollapsed && !isCollapsed && !hideSideBar) ||
+			(prevState.showDrawer !== showDrawer && showDrawer && hideSideBar)
+		) {
 			this.setState({
 				openKeys: openedKey(pathname),
 			});
@@ -81,6 +91,7 @@ class App extends Component {
 			isCollapsed: isBroken,
 			hideSideBar: isBroken,
 			openKeys: isBroken ? [] : prevState.storedKeys,
+			showDrawer: false,
 		}));
 	};
 
@@ -110,10 +121,17 @@ class App extends Component {
 		});
 	};
 
+	toggleDrawerMenu = () =>
+		this.setState(prevState => ({
+			openKeys: [],
+			showDrawer: !prevState.showDrawer,
+		}));
+
 	toggleSideMenu = () =>
 		this.setState(prevState => ({
 			openKeys: [],
 			isCollapsed: !prevState.isCollapsed,
+			showDrawer: !prevState.showDrawer,
 		}));
 
 	render = () => (
@@ -128,9 +146,7 @@ class App extends Component {
 				/>
 				<Layout>
 					<Header>
-						{!this.state.hideSideBar && (
-							<LeftMenu toggleSideMenu={this.toggleSideMenu} />
-						)}
+						<LeftMenu toggleSideMenu={this.toggleSideMenu} />
 						<RightMenu {...this.props} />
 					</Header>
 					<Content>
@@ -139,6 +155,15 @@ class App extends Component {
 					</Content>
 				</Layout>
 			</Layout>
+			{this.state.hideSideBar && (
+				<DrawerMenu
+					{...this.state}
+					role={this.props.role}
+					onHandleTabClick={this.handleTabClick}
+					onHandleToggleDrawer={this.toggleDrawerMenu}
+					onHandleOpenMenuChange={this.handleOpenMenuChange}
+				/>
+			)}
 		</div>
 	);
 }

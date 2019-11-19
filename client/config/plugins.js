@@ -112,7 +112,23 @@ module.exports = () => {
 			new GenerateSW({
 				swDest: "sw.js",
 				clientsClaim: true,
-				exclude: [/\.map$/, /asset-manifest\.json$/],
+				exclude: [/\.map$/, /asset-manifest\.json$/, /\.(?:png|jpg|jpeg|svg)$/],
+				runtimeCaching: [
+					{
+						urlPattern: /\.(?:png|jpg|jpeg|svg)$/,
+						handler: "CacheFirst",
+						options: {
+							cacheName: "images",
+							expiration: {
+								maxEntries: 65,
+							},
+						},
+					},
+					{
+						urlPattern: /\.(js|jsx)$/,
+						handler: "CacheFirst",
+					},
+				],
 				importWorkboxFrom: "cdn",
 				navigateFallback: "/index.html",
 				navigateFallbackBlacklist: [

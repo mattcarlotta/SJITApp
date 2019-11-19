@@ -31,7 +31,7 @@ const MemberAvailabilityAverage = ({ eventAvailability }) => {
 		<div css="height: 250px;width: 250px; margin-left: auto; margin-right: auto; position: relative;">
 			<ResponsivePie
 				indexBy="id"
-				colors={availabilityPercentage >= 66 ? VALIDCOLORS : INVALIDCOLORS}
+				colors={availabilityPercentage >= 75 ? VALIDCOLORS : INVALIDCOLORS}
 				data={eventAvailability}
 				innerRadius={0.8}
 				startAngle={360}
