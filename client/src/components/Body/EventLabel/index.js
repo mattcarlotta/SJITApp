@@ -4,7 +4,7 @@ import { FormatDate, DisplayTeam } from "components/Body";
 
 const EventLabel = ({ eventType, eventDate, opponent, style, team }) => (
 	<span style={style}>
-		<div css="padding: 5px 0;">
+		<div css="display: inline-block;margin-right: 10px;margin-top: 10px;">
 			<DisplayTeam folder="lowres" team={team} />{" "}
 			{opponent && (
 				<Fragment>
@@ -15,7 +15,8 @@ const EventLabel = ({ eventType, eventDate, opponent, style, team }) => (
 			)}
 			({eventType})
 		</div>
-		<div css="padding: 5px 0;">
+		<div css="display: inline-block;margin-right: 10px;">&#8212;</div>
+		<div css="display: inline-block;">
 			<FormatDate
 				style={{ display: "inline" }}
 				format="MMMM Do @ h:mm a"

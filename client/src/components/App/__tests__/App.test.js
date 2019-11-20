@@ -132,7 +132,6 @@ describe("Employee App", () => {
 	});
 
 	it("collapses the SideMenu when the breakpoint is triggered", () => {
-		// wrapper.find(App).setState({ storedKeys: ["forms"] });
 		wrapper.setProps({ location: { pathname: "/employee/forms/create" } });
 
 		wrapper
@@ -246,5 +245,15 @@ describe("Employee App", () => {
 		expect(wrapper.find("App").state("selectedKey")).toContain(
 			"events/viewall",
 		);
+	});
+
+	it("handles Drawer Menu open and closing", () => {
+		wrapper
+			.find("App")
+			.instance()
+			.toggleDrawerMenu();
+
+		expect(wrapper.find("App").state("openKeys")).toEqual([]);
+		expect(wrapper.find("App").state("showDrawer")).toBeTruthy();
 	});
 });
