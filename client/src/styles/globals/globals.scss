@@ -76,6 +76,17 @@
 	}
 }
 
+.ant-drawer-body {
+	padding: 0 !important;
+	font-size: 14px;
+	line-height: 1.5;
+	word-wrap: break-word;
+}
+
+.ant-drawer-content {
+	background-color: #025f6d !important;
+}
+
 .ant-dropdown-trigger {
 	cursor: pointer;
 }
