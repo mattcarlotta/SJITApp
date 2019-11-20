@@ -132,7 +132,8 @@ describe("Employee App", () => {
 	});
 
 	it("collapses the SideMenu when the breakpoint is triggered", () => {
-		wrapper.find(App).setState({ storedKeys: ["forms"] });
+		// wrapper.find(App).setState({ storedKeys: ["forms"] });
+		wrapper.setProps({ location: { pathname: "/employee/forms/create" } });
 
 		wrapper
 			.find("App")

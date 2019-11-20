@@ -58,7 +58,6 @@ class App extends Component {
 			hideSideBar: false,
 			showDrawer: false,
 			openKeys: openedKey(pathname),
-			storedKeys: openedKey(pathname),
 			selectedKey: selectedTab(pathname),
 		};
 	}
@@ -86,11 +85,12 @@ class App extends Component {
 	};
 
 	handleBreakpoint = isBroken => {
+		const { pathname } = this.props.location;
 		this.setState(prevState => ({
 			...prevState,
 			isCollapsed: isBroken,
 			hideSideBar: isBroken,
-			openKeys: isBroken ? [] : prevState.storedKeys,
+			openKeys: isBroken ? [] : openedKey(pathname),
 			showDrawer: false,
 		}));
 	};
