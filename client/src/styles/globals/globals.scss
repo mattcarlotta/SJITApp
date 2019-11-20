@@ -70,6 +70,7 @@
 	border-color: #9e9e9e;
 }
 
+/* stylelint-disable */
 .ap-form-radio {
 	max-width: 250px;
 	width: 100%;
@@ -87,6 +88,7 @@
 		}
 	}
 }
+/* stylelint-enable */
 
 .date-picker {
 	input {
@@ -170,6 +172,23 @@
 
 .fr-wrapper > div[style*="z-index:9999;width:100%;position:relative"] {
 	display: none;
+}
+
+.schedule-header {
+	@media (max-width: 615px) {
+		.ant-select-lg {
+			display: block;
+			margin-top: 5px;
+		}
+	}
+
+	padding: 8px 8px 20px 8px;
+}
+
+.event-date {
+	@media (max-width: 615px) {
+		max-width: 215px !important;
+	}
 }
 
 .selector {

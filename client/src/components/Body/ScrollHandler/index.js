@@ -1,4 +1,5 @@
-import { PureComponent } from "react";
+/* istanbul ignore file */
+import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 
@@ -12,14 +13,13 @@ export class ScrollHandler extends PureComponent {
 
 	handleScroll = () => {
 		setTimeout(() => {
-			window.scrollTo({
-				behavior: "auto",
-				top: 0,
-			});
-		});
+			this.wrapper.scrollIntoView();
+		}, 100);
 	};
 
-	render = () => this.props.children;
+	render = () => (
+		<div ref={node => (this.wrapper = node)}>{this.props.children}</div>
+	);
 }
 
 ScrollHandler.propTypes = {

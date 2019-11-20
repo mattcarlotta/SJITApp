@@ -21,7 +21,7 @@ const ScheduleHeader = ({
 	const gameOptions =
 		role === "employee" ? ["All Games", "My Games"] : ["All Games"];
 	return (
-		<FlexEnd style={{ padding: "8px 8px 20px 8px" }}>
+		<FlexEnd className="schedule-header">
 			{!id && (
 				<Select
 					size="large"

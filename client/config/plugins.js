@@ -112,7 +112,12 @@ module.exports = () => {
 			new GenerateSW({
 				swDest: "sw.js",
 				clientsClaim: true,
-				exclude: [/\.map$/, /asset-manifest\.json$/, /\.(?:png|jpg|jpeg|svg)$/],
+				exclude: [
+					/\.map$/,
+					/\.js$/,
+					/asset-manifest\.json$/,
+					/\.(?:png|jpg|jpeg|svg)$/,
+				],
 				runtimeCaching: [
 					{
 						urlPattern: /\.(?:png|jpg|jpeg|svg)$/,

@@ -8,7 +8,6 @@ export default styled.div`
 	right: 0;
 	bottom: 0;
 	left: 0;
-	z-index: 1;
 	overflow: auto;
 	outline: 0;
 	-webkit-animation: fadeIn 0.2s 0s ease-in-out forwards;

@@ -35,6 +35,7 @@ const ScheduleList = ({
 			content.map(item => (
 				<FadeIn key={item._id} timing="0.4s">
 					<Button
+						className="event-date"
 						primary={item.team === "San Jose Sharks"}
 						danger={item.team === "San Jose Barracuda"}
 						padding={padding}
