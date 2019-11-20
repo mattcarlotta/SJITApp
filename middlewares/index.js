@@ -25,7 +25,8 @@ const client = redis.createClient({
 /* APP MIDDLEWARE */
 //= ===========================================================//
 export default app => {
-  if (!inTesting) app.use(morgan("tiny")); // logging framework
+  morgan.token('date', () => moment().format("MMMM Do YYYY, h:mm:ss a"));
+  if (!inTesting) app.use(morgan(":remote-addr [:date] :referrer :method :url HTTP/:http-version :status :res[content-length]")); // logging framework
   app.set("trust proxy", true);
   app.use(
     session({
