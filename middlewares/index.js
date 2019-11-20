@@ -25,6 +25,7 @@ const client = redis.createClient({
 /* APP MIDDLEWARE */
 //= ===========================================================//
 export default app => {
+  if (!inTesting) app.use(morgan("tiny")); // logging framework
   app.set("trust proxy", true);
   app.use(
     session({
@@ -49,7 +50,6 @@ export default app => {
       origin: CLIENT,
     }),
   ); // allows receiving of cookies/tokens from front-end
-  if (!inTesting) app.use(morgan("tiny")); // logging framework
   app.use(bodyParser.json()); // parses header requests (req.body)
   app.use(bodyParser.urlencoded({ extended: true })); // allows objects and arrays to be URL-encoded
   app.use(passport.initialize()); // initialize passport routes to accept req/res/next
