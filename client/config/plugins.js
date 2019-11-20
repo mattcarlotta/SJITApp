@@ -109,26 +109,42 @@ module.exports = () => {
 		plugins.push(
 			/* compiles SCSS to a single CSS file */
 			new InlineChunkHtmlPlugin(HtmlWebpackPlugin, [/runtime/]),
+			// new GenerateSW({
+			// 	swDest: "sw.js",
+			// 	clientsClaim: true,
+			// 	exclude: [/\.map$/, /asset-manifest\.json$/, /\.(?:png|jpg|jpeg|svg)$/],
+			// 	runtimeCaching: [
+			// 		{
+			// 			urlPattern: /\.(?:png|jpg|jpeg|svg)$/,
+			// 			handler: "CacheFirst",
+			// 			options: {
+			// 				cacheName: "images",
+			// 				expiration: {
+			// 					maxEntries: 65,
+			// 				},
+			// 			},
+			// 		},
+			// 		{
+			// 			urlPattern: /\.(js|jsx)$/,
+			// 			handler: "CacheFirst",
+			// 		},
+			// 	],
+			// 	importWorkboxFrom: "cdn",
+			// 	navigateFallback: "/index.html",
+			// 	navigateFallbackBlacklist: [
+			// 		// Exclude URLs starting with /_, as they're likely an API call
+			// 		new RegExp("^/_"),
+			// 		// Exclude any URLs whose last part seems to be a file extension
+			// 		// as they're likely a resource and not a SPA route.
+			// 		// URLs containing a "?" character won't be blacklisted as they're likely
+			// 		// a route with query params (e.g. auth callbacks).
+			// 		new RegExp("/[^/?]+\\.[^/]+$"),
+			// 	],
+			// }),
 			new GenerateSW({
 				swDest: "sw.js",
 				clientsClaim: true,
-				exclude: [/\.map$/, /asset-manifest\.json$/, /\.(?:png|jpg|jpeg|svg)$/],
-				runtimeCaching: [
-					{
-						urlPattern: /\.(?:png|jpg|jpeg|svg)$/,
-						handler: "CacheFirst",
-						options: {
-							cacheName: "images",
-							expiration: {
-								maxEntries: 65,
-							},
-						},
-					},
-					{
-						urlPattern: /\.(js|jsx)$/,
-						handler: "CacheFirst",
-					},
-				],
+				exclude: [/\.map$/, /asset-manifest\.json$/],
 				importWorkboxFrom: "cdn",
 				navigateFallback: "/index.html",
 				navigateFallbackBlacklist: [
