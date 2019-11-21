@@ -7,6 +7,7 @@ import connectRedis from "connect-redis";
 import redis from "redis";
 import config from "env";
 import moment from "moment-timezone";
+import compression from "compression";
 import "database";
 
 moment.tz.setDefault("America/Los_Angeles");
@@ -21,12 +22,22 @@ const client = redis.createClient({
   port: 6379,
 });
 
+const shouldCompress = (req, res) => {
+  if (req.headers["x-no-compression"]) return false;
+  return compression.filter(req, res);
+};
+
 //= ===========================================================//
 /* APP MIDDLEWARE */
 //= ===========================================================//
 export default app => {
-  morgan.token('date', () => moment().format("MMMM Do YYYY, h:mm:ss a"));
-  if (!inTesting) app.use(morgan(":remote-addr [:date] :referrer :method :url HTTP/:http-version :status :res[content-length]")); // logging framework
+  morgan.token("date", () => moment().format("MMMM Do YYYY, h:mm:ss a"));
+  if (!inTesting)
+    app.use(
+      morgan(
+        ":remote-addr [:date] :referrer :method :url HTTP/:http-version :status :res[content-length]",
+      ),
+    ); // logging framework
   app.set("trust proxy", true);
   app.use(
     session({
@@ -51,6 +62,12 @@ export default app => {
       origin: CLIENT,
     }),
   ); // allows receiving of cookies/tokens from front-end
+  app.use(
+    compression({
+      level: 6, // set compression level from 1 to 9 (6 by default)
+      filter: shouldCompress, // set predicate to determine whether to compress
+    }),
+  );
   app.use(bodyParser.json()); // parses header requests (req.body)
   app.use(bodyParser.urlencoded({ extended: true })); // allows objects and arrays to be URL-encoded
   app.use(passport.initialize()); // initialize passport routes to accept req/res/next
