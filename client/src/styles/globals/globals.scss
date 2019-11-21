@@ -231,6 +231,16 @@
 	border-color: #f5222d;
 }
 
+.update-settings {
+	@media (max-width: 560px) {
+		width: 100% !important;
+	}
+
+	width: 400px;
+	margin-top: 50px;
+	margin-bottom: 60px;
+}
+
 // .date-picker > div > input {
 // 	padding: 14px 0 14px 48px !important;
 // }

@@ -8,12 +8,6 @@ import { updateSettings } from "actions/Members";
 import { fieldValidator, fieldUpdater, parseFields } from "utils";
 import fields from "./Fields";
 
-const formStyles = {
-	width: 400,
-	marginTop: 50,
-	marginBottom: 60,
-};
-
 export class UpdateSettingsForm extends Component {
 	state = {
 		fields,
@@ -56,7 +50,7 @@ export class UpdateSettingsForm extends Component {
 	};
 
 	render = () => (
-		<form style={formStyles} onSubmit={this.handleSubmit}>
+		<form className="update-settings" onSubmit={this.handleSubmit}>
 			{this.state.isLoading ? (
 				<LoadingForm rows={3} />
 			) : (
