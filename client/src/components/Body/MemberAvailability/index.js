@@ -36,11 +36,14 @@ class MemberAvailability extends Component {
 						) + key,
 				),
 		],
-		windowWidth: 0,
+		breakpoint: window.innerWidth <= 1410,
+		squishpoint: window.innerWidth >= 430,
+		windowWidth: window.innerWidth,
 	};
 
 	componentDidMount = () => {
 		window.addEventListener("resize", this.handleResize);
+		this.handleResize();
 	};
 
 	/* istanbul ignore next */
@@ -52,6 +55,8 @@ class MemberAvailability extends Component {
 	handleResize = debounce(
 		() =>
 			this.setState({
+				breakpoint: window.innerWidth <= 1410,
+				squishpoint: window.innerWidth >= 430,
 				windowWidth: window.innerWidth,
 			}),
 		100,
@@ -70,11 +75,9 @@ class MemberAvailability extends Component {
 	};
 
 	render = () => {
-		const { windowWidth } = this.state;
+		const { breakpoint, squishpoint } = this.state;
 		const { memberAvailability } = this.props;
 
-		const breakpoint = windowWidth <= 1410;
-		const squishPoint = windowWidth >= 430;
 		let bottom = 80;
 
 		let containerStyle = {
@@ -194,7 +197,7 @@ class MemberAvailability extends Component {
 						</div>
 						<br />
 						<Line centered width="600px" />
-						{!squishPoint && (
+						{!squishpoint && (
 							<BarLegend
 								style={{ maxWidth: 225, margin: "0 auto", marginTop: 20 }}
 							/>
@@ -223,7 +226,7 @@ class MemberAvailability extends Component {
 								data={memberAvailability.memberScheduleEvents}
 								margin={{ top: 20, right: 60, left: 60, bottom: 60 }}
 								axisBottom={
-									squishPoint
+									squishpoint
 										? {
 												legendPosition: "middle",
 												legendOffset: 50,

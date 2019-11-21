@@ -95,11 +95,19 @@ describe("MemberAvailability", () => {
 		});
 
 		it("handles break points", () => {
-			wrapper.setState({ windowWidth: 1500 });
+			wrapper.setState({
+				windowWidth: 1500,
+				breakpoint: true,
+				squishpoint: false,
+			});
 		});
 
-		it("handles break and squish points", () => {
-			wrapper.setState({ windowWidth: 300 });
+		it("handles squish points", () => {
+			wrapper.setState({
+				windowWidth: 300,
+				breakpoint: false,
+				squishpoint: true,
+			});
 		});
 
 		it("renders a pie and bar chart", () => {
