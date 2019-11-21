@@ -18,6 +18,7 @@ const {
 	buildTimeStamp,
 	buildVersion,
 	inDevelopment,
+	inStaging,
 	NODE_ENV,
 	PORT,
 } = require("./envs");
@@ -168,9 +169,9 @@ module.exports = () => {
 				{ from: "public/ITLogo_512x512.png" },
 				{ from: "public/ITLogo_192x192.png" },
 			]),
-			new BundleAnalyzerPlugin(),
+			inStaging && new BundleAnalyzerPlugin(),
 		);
 	}
 
-	return plugins;
+	return plugins.filter(Boolean);
 };

@@ -21,6 +21,7 @@ module.exports = {
 	buildVersion: version, // current version
 	currentDirectory: process.cwd(), // current working directory
 	inDevelopment, // current environment
+	inStaging,
 	localIdentName: "[local]___[hash:base64:5]", // how class names will be defined in the DOM
 	NODE_ENV,
 	PORT, // application's current port
