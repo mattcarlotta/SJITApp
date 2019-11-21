@@ -90,7 +90,7 @@ class MemberAvailability extends Component {
 		let styles = {
 			position: "absolute",
 			top: "-35px",
-			left: "25px",
+			left: "5px",
 			right: 0,
 			bottom: 0,
 			display: "flex",
