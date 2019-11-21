@@ -114,7 +114,7 @@ module.exports = () => {
 				clientsClaim: true,
 				exclude: [
 					/\.map$/,
-					/\.js$/,
+					// /\.js$/,
 					/asset-manifest\.json$/,
 					/\.(?:png|jpg|jpeg|svg)$/,
 				],
@@ -129,6 +129,20 @@ module.exports = () => {
 							},
 						},
 					},
+					// {
+					// 	urlPattern: /\.(?:css)$/,
+					// 	handler: "NetworkFirst",
+					// 	options: {
+					// 		cacheName: "assets",
+					// 		expiration: {
+					// 			maxEntries: 20,
+					// 		},
+					// 	},
+					// },
+					// {
+					// 	urlPattern: /\.(js|jsx)$/,
+					// 	handler: "NetworkFirst",
+					// },
 				],
 				importWorkboxFrom: "cdn",
 				navigateFallback: "/index.html",
