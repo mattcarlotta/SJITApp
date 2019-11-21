@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 /**
  * A helper function to delay an action.
  *

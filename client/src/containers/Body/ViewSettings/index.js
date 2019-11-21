@@ -1,6 +1,7 @@
-import React, { Fragment, PureComponent } from "react";
+import React, { Fragment, Component } from "react";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
+import debounce from "lodash/debounce";
 import Helmet from "react-helmet";
 import { connect } from "react-redux";
 import { Card, Icon, Tabs } from "antd";
@@ -51,10 +52,33 @@ const responses = (
 	</span>
 );
 
-export class Settings extends PureComponent {
-	componentDidMount = () => this.props.fetchMemberSettings();
+export class Settings extends Component {
+	/* istanbul ignore next */
+	state = {
+		windowWidth: window.innerWidth || 0,
+	};
+
+	componentDidMount = () => {
+		window.addEventListener("resize", this.handleResize);
+		this.props.fetchMemberSettings();
+	};
+
+	/* istanbul ignore next */
+	componentWillUnmount() {
+		window.removeEventListener("resize", this.handleResize);
+	}
+
+	/* istanbul ignore next */
+	handleResize = debounce(
+		() =>
+			this.setState({
+				windowWidth: window.innerWidth,
+			}),
+		100,
+	);
 
 	render = () => {
+		const { windowWidth } = this.state;
 		const {
 			eventResponses,
 			fetchMemberSettingsAvailability,
@@ -80,7 +104,7 @@ export class Settings extends PureComponent {
 					{isEmpty(viewMember) ? (
 						<LoadingPanel height="685px" />
 					) : (
-						<Tabs tabPosition="left">
+						<Tabs tabPosition={windowWidth >= 768 ? "left" : "top"}>
 							<Pane tab={profile} key="profile">
 								<Profile {...this.props.viewMember} />
 							</Pane>

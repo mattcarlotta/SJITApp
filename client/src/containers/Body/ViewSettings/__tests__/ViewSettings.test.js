@@ -31,7 +31,16 @@ const initProps = {
 		},
 	},
 	memberAvailability: {},
-	viewMember: {},
+	viewMember: {
+		_id: "10393489438",
+		email: "test@test.com",
+		firstName: "Bob",
+		lastName: "Smith",
+		registered: "2019-11-01T07:00:00.000+00:00",
+		role: "employee",
+		schedule: [],
+		status: "active",
+	},
 	updateMemberStatus,
 	serverMessage: "",
 };
@@ -40,6 +49,7 @@ describe("View Settings", () => {
 	let wrapper;
 	beforeEach(() => {
 		wrapper = shallow(<Settings {...initProps} />);
+		wrapper.setState({ windowWidth: 800 });
 	});
 
 	afterEach(() => {
@@ -47,11 +57,21 @@ describe("View Settings", () => {
 	});
 
 	it("initially renders a LoadingPanel", () => {
+		wrapper.setProps({ viewMember: {} });
 		expect(wrapper.find("LoadingPanel").exists()).toBeTruthy();
 	});
 
 	it("initially calls fetchMemberSettings on mount", () => {
 		expect(fetchMemberSettings).toHaveBeenCalledTimes(1);
+	});
+
+	it("initially renders tabs along the side", () => {
+		expect(wrapper.find("Tabs").props().tabPosition).toEqual("left");
+	});
+
+	it("renders tabs along the top if the windowWidth is less than 768", () => {
+		wrapper.setState({ windowWidth: 700 });
+		expect(wrapper.find("Tabs").props().tabPosition).toEqual("top");
 	});
 
 	it("renders 3 active tabs if the role is 'employee'", () => {
