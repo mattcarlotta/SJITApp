@@ -120,28 +120,14 @@ module.exports = () => {
 				],
 				runtimeCaching: [
 					{
-						urlPattern: /\.(?:png|jpg|jpeg|svg)$/,
+						urlPattern: /\.(?:png|jpg|jpeg|svg|tff)$/,
 						handler: "CacheFirst",
 						options: {
-							cacheName: "images",
+							cacheName: "media",
 							expiration: {
 								maxEntries: 65,
 							},
 						},
-					},
-					{
-						urlPattern: /\.(?:css|tff)$/,
-						handler: "CacheFirst",
-						options: {
-							cacheName: "assets",
-							expiration: {
-								maxEntries: 20,
-							},
-						},
-					},
-					{
-						urlPattern: /\.(js|jsx)$/,
-						handler: "CacheFirst",
 					},
 				],
 				importWorkboxFrom: "cdn",
