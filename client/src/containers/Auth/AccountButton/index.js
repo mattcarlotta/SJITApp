@@ -44,7 +44,8 @@ export const AccountButton = ({ firstName, lastName, push, signoutUser }) => {
 					className="loggedin-user"
 					style={{ verticalAlign: "middle" }}
 				>
-					{firstName} {lastName}
+					<span className="firstname">{firstName}</span>
+					<span className="lastname">&nbsp;{lastName}</span>
 				</MenuItemTitle>
 			</MenuButton>
 		</Dropdown>

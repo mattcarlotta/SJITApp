@@ -185,7 +185,7 @@ class MemberAvailability extends Component {
 								slicesLabelsSkipAngle={10}
 								slicesLabelsTextColor="#fff"
 								startAngle={-180}
-								margin={{ top: 40, right: 0, bottom, left: 20 }}
+								margin={{ top: 40, right: 0, bottom, left: 0 }}
 							/>
 							<div style={styles}>
 								<span>{memberAvailability.eventAvailability[0].value}%</span>

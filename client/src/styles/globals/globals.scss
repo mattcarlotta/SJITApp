@@ -174,7 +174,14 @@
 	display: none;
 }
 
-.loggedin-user {
+.loggedin-user,
+.firstname {
+	@media (max-width: 250px) {
+		display: none;
+	}
+}
+
+.lastname {
 	@media (max-width: 425px) {
 		display: none;
 	}
