@@ -104,7 +104,7 @@ export class Settings extends Component {
 					{isEmpty(viewMember) ? (
 						<LoadingPanel height="685px" />
 					) : (
-						<Tabs tabPosition={windowWidth >= 768 ? "left" : "top"}>
+						<Tabs tabPosition={windowWidth <= 900 ? "top" : "left"}>
 							<Pane tab={profile} key="profile">
 								<Profile {...this.props.viewMember} />
 							</Pane>

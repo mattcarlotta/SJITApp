@@ -2,29 +2,21 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
+import debounce from "lodash/debounce";
 import moment from "moment-timezone";
 import { Empty } from "antd";
 import { ResponsivePie } from "@nivo/pie";
 import { ResponsiveBar } from "@nivo/bar";
-import { Center, FlexCenter, ScheduleHeader } from "components/Body";
+import {
+	BarLegend,
+	Center,
+	FlexCenter,
+	Legend,
+	Line,
+	ScheduleHeader,
+} from "components/Body";
 
 const COLORS = ["#247BA0", "#2A9D8F", "#F4A261", "#FF8060", "#BFBFBF"];
-
-const styles = {
-	position: "absolute",
-	top: "-35px",
-	left: "50px",
-	right: 0,
-	bottom: 0,
-	display: "flex",
-	flexDirection: "column",
-	alignItems: "center",
-	justifyContent: "center",
-	fontSize: 16,
-	color: "#025f6d",
-	textAlign: "center",
-	pointerEvents: "none",
-};
 
 class MemberAvailability extends Component {
 	state = {
@@ -44,7 +36,26 @@ class MemberAvailability extends Component {
 						) + key,
 				),
 		],
+		windowWidth: 0,
 	};
+
+	componentDidMount = () => {
+		window.addEventListener("resize", this.handleResize);
+	};
+
+	/* istanbul ignore next */
+	componentWillUnmount() {
+		window.removeEventListener("resize", this.handleResize);
+	}
+
+	/* istanbul ignore next */
+	handleResize = debounce(
+		() =>
+			this.setState({
+				windowWidth: window.innerWidth,
+			}),
+		100,
+	);
 
 	handleSelection = ({ name, value }) => {
 		this.setState({ [name]: value }, () => {
@@ -59,7 +70,82 @@ class MemberAvailability extends Component {
 	};
 
 	render = () => {
+		const { windowWidth } = this.state;
 		const { memberAvailability } = this.props;
+
+		const breakpoint = windowWidth <= 1410;
+		const squishPoint = windowWidth >= 430;
+		let bottom = 80;
+
+		let containerStyle = {
+			height: "400px",
+			width: "100%",
+			maxWidth: "800px",
+			marginLeft: "auto",
+			marginRight: "auto",
+			marginBottom: "30px",
+			position: "relative",
+		};
+
+		let styles = {
+			position: "absolute",
+			top: "-35px",
+			left: "25px",
+			right: 0,
+			bottom: 0,
+			display: "flex",
+			flexDirection: "column",
+			alignItems: "center",
+			justifyContent: "center",
+			fontSize: 16,
+			color: "#025f6d",
+			textAlign: "center",
+			pointerEvents: "none",
+		};
+		let pieProps = {
+			legends: [
+				{
+					anchor: "bottom",
+					direction: "row",
+					translateY: 75,
+					translateX: 0,
+					itemWidth: 160,
+					itemHeight: 28,
+					itemTextColor: "#999",
+					symbolSize: 18,
+					symbolShape: "circle",
+					effects: [
+						{
+							on: "hover",
+							style: {
+								itemTextColor: "#000",
+							},
+						},
+					],
+				},
+			],
+			radialLabelsTextColor: "#333333",
+			radialLabelsLinkDiagonalLength: 16,
+			radialLabelsLinkHorizontalLength: 24,
+		};
+
+		if (breakpoint) {
+			styles = {
+				...styles,
+				top: 25,
+			};
+			pieProps = {
+				legends: [],
+				radialLabelsTextColor: "transparent",
+				radialLabelsLinkDiagonalLength: 0,
+				radialLabelsLinkHorizontalLength: 0,
+			};
+			bottom = 10;
+			containerStyle = {
+				...containerStyle,
+				height: "260px",
+			};
+		}
 
 		return (
 			<Fragment>
@@ -71,61 +157,58 @@ class MemberAvailability extends Component {
 				/>
 				{!isEmpty(memberAvailability) ? (
 					<Fragment>
-						<div css="height: 400px;width: 100%; max-width: 750px; margin-left: auto; margin-right: auto; margin-bottom: 30px;position: relative;">
+						{breakpoint && (
+							<Legend style={{ maxWidth: 225, margin: "0 auto" }} />
+						)}
+						<Center
+							style={{
+								color: "rgb(187, 187, 187)",
+								fontSize: 16,
+								marginTop: 15,
+								fontFamily: "sans-serif",
+							}}
+						>
+							Responses
+						</Center>
+						<div style={containerStyle}>
 							<ResponsivePie
 								indexBy="id"
+								{...pieProps}
 								colors={COLORS}
 								data={memberAvailability.memberResponseCount}
 								innerRadius={0.7}
 								radialLabelsSkipAngle={10}
 								radialLabelsTextXOffset={6}
-								radialLabelsTextColor="#333333"
 								radialLabelsLinkOffset={0}
-								radialLabelsLinkDiagonalLength={16}
-								radialLabelsLinkHorizontalLength={24}
 								radialLabelsLinkStrokeWidth={1}
 								radialLabelsLinkColor={{ from: "color" }}
 								slicesLabelsSkipAngle={10}
 								slicesLabelsTextColor="#fff"
 								startAngle={-180}
-								margin={{ top: 40, right: 0, bottom: 80, left: 50 }}
-								legends={[
-									{
-										anchor: "bottom",
-										direction: "row",
-										translateY: 75,
-										translateX: 0,
-										itemWidth: 160,
-										itemHeight: 28,
-										itemTextColor: "#999",
-										symbolSize: 18,
-										symbolShape: "circle",
-										effects: [
-											{
-												on: "hover",
-												style: {
-													itemTextColor: "#000",
-												},
-											},
-										],
-									},
-								]}
+								margin={{ top: 40, right: 0, bottom, left: 20 }}
 							/>
 							<div style={styles}>
 								<span>{memberAvailability.eventAvailability[0].value}%</span>
 								<span>Availability</span>
 							</div>
-							<Center
-								style={{
-									color: "rgb(187, 187, 187)",
-									fontSize: 16,
-									marginTop: 15,
-									fontFamily: "sans-serif",
-								}}
-							>
-								Responses
-							</Center>
 						</div>
+						<br />
+						<Line centered width="600px" />
+						{!squishPoint && (
+							<BarLegend
+								style={{ maxWidth: 225, margin: "0 auto", marginTop: 20 }}
+							/>
+						)}
+						<Center
+							style={{
+								color: "rgb(187, 187, 187)",
+								fontSize: 16,
+								marginTop: 30,
+								fontFamily: "sans-serif",
+							}}
+						>
+							Events
+						</Center>
 						<div css="height: 450px;width: 100%; max-width: 500px; margin: 0 auto;">
 							<ResponsiveBar
 								borderColor={{ from: "color", modifiers: [["darker", 0.2]] }}
@@ -138,12 +221,15 @@ class MemberAvailability extends Component {
 								motionDamping={13}
 								labelTextColor="#fefefe"
 								data={memberAvailability.memberScheduleEvents}
-								margin={{ top: 60, right: 60, left: 60, bottom: 60 }}
-								axisBottom={{
-									legend: "Events",
-									legendPosition: "middle",
-									legendOffset: 50,
-								}}
+								margin={{ top: 20, right: 60, left: 60, bottom: 60 }}
+								axisBottom={
+									squishPoint
+										? {
+												legendPosition: "middle",
+												legendOffset: 50,
+										  }
+										: null
+								}
 								theme={{
 									axis: {
 										legend: {

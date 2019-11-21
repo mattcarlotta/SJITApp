@@ -49,7 +49,7 @@ describe("View Settings", () => {
 	let wrapper;
 	beforeEach(() => {
 		wrapper = shallow(<Settings {...initProps} />);
-		wrapper.setState({ windowWidth: 800 });
+		wrapper.setState({ windowWidth: 1000 });
 	});
 
 	afterEach(() => {
@@ -69,8 +69,8 @@ describe("View Settings", () => {
 		expect(wrapper.find("Tabs").props().tabPosition).toEqual("left");
 	});
 
-	it("renders tabs along the top if the windowWidth is less than 768", () => {
-		wrapper.setState({ windowWidth: 700 });
+	it("renders tabs along the top if the windowWidth is less than 900", () => {
+		wrapper.setState({ windowWidth: 800 });
 		expect(wrapper.find("Tabs").props().tabPosition).toEqual("top");
 	});
 

@@ -40,7 +40,10 @@ export const AccountButton = ({ firstName, lastName, push, signoutUser }) => {
 				style={{ padding: "0 20px", marginRight: 0, height: 64 }}
 			>
 				<FaUserCircle style={{ verticalAlign: "middle" }} />
-				<MenuItemTitle style={{ verticalAlign: "middle" }}>
+				<MenuItemTitle
+					className="loggedin-user"
+					style={{ verticalAlign: "middle" }}
+				>
 					{firstName} {lastName}
 				</MenuItemTitle>
 			</MenuButton>

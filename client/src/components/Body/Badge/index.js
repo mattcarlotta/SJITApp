@@ -11,9 +11,11 @@ const iconStyle = {
 
 export const showBadge = response => {
 	switch (response) {
+		case "Scheduled Games":
 		case "I want to work.": {
 			return "#247BA0";
 		}
+		case "Available Games":
 		case "Available to work.": {
 			return "#2A9D8F";
 		}

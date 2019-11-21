@@ -2,16 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Badge, ColumnTitle } from "components/Body";
 
-const Legend = ({ className, style }) => (
+const BarLegend = ({ className, style }) => (
 	<div className={className} style={style}>
 		<ColumnTitle style={{ marginBottom: 5 }}>Legend</ColumnTitle>
-		{[
-			"I want to work.",
-			"Available to work.",
-			"Prefer not to work.",
-			"Not available to work.",
-			"No response.",
-		].map(response => (
+		{["Scheduled Games", "Available Games"].map(response => (
 			<Badge key={response} response={response} style={{ fontSize: 17 }}>
 				{response}
 			</Badge>
@@ -19,11 +13,11 @@ const Legend = ({ className, style }) => (
 	</div>
 );
 
-Legend.propTypes = {
+BarLegend.propTypes = {
 	className: PropTypes.string.isRequired,
 	style: PropTypes.objectOf(
 		PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 	),
 };
 
-export default Legend;
+export default BarLegend;

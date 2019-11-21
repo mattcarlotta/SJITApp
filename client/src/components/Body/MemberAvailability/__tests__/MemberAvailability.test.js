@@ -94,6 +94,14 @@ describe("MemberAvailability", () => {
 			wrapper.setProps({ memberAvailability });
 		});
 
+		it("handles break points", () => {
+			wrapper.setState({ windowWidth: 1500 });
+		});
+
+		it("handles break and squish points", () => {
+			wrapper.setState({ windowWidth: 300 });
+		});
+
 		it("renders a pie and bar chart", () => {
 			expect(wrapper.find("ResponsivePie").exists()).toBeTruthy();
 			expect(wrapper.find("ResponsiveBar").exists()).toBeTruthy();
