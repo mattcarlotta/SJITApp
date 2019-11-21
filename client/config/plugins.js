@@ -1,6 +1,5 @@
 const { DefinePlugin, HotModuleReplacementPlugin } = require("webpack");
 const { GenerateSW } = require("workbox-webpack-plugin");
-const CompressionPlugin = require("compression-webpack-plugin");
 const InlineChunkHtmlPlugin = require("react-dev-utils/InlineChunkHtmlPlugin");
 const ErrorOverlayPlugin = require("error-overlay-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
@@ -167,10 +166,6 @@ module.exports = () => {
 				{ from: "public/ITLogo_512x512.png" },
 				{ from: "public/ITLogo_192x192.png" },
 			]),
-			new CompressionPlugin({
-				// asset: "[path].gz[query]",
-				algorithm: "gzip",
-			}),
 		);
 	}
 
