@@ -41,10 +41,42 @@ const optimization = {
 		/* compile and optimize SCSS to CSS */
 		new OptimizeCSSAssetsPlugin(cssProcessorOptions),
 	],
+	runtimeChunk: "single",
 	splitChunks: {
 		chunks: "all",
+		maxInitialRequests: Infinity,
+		minSize: 0,
+		cacheGroups: {
+			reactVendor: {
+				test: /[\\/]node_modules[\\/](react|react-dom|connected-react-router|react-router-dom|react-helmet|react-redux|redux|redux-saga|redux-state-sync)[\\/]/,
+				name: "reactVendor",
+			},
+			reactDNDVendor: {
+				test: /[\\/]node_modules[\\/](react-beautiful-dnd)[\\/]/,
+				name: "reactDNDVendor",
+			},
+			reactFroalaVendor: {
+				test: /[\\/]node_modules[\\/](react-froala-wysiwyg|froala-editor)[\\/]/,
+				name: "reactFroalaVendor",
+			},
+			chartingVendor: {
+				test: /[\\/]node_modules[\\/](@nivo)[\\/]/,
+				name: "chartingVendor",
+			},
+			utilityVendor: {
+				test: /[\\/]node_modules[\\/](lodash|moment|moment-timezone)[\\/]/,
+				name: "utilityVendor",
+			},
+			antdVendor: {
+				test: /[\\/]node_modules[\\/](antd|@ant-design)[\\/]/,
+				name: "antdVendor",
+			},
+			vendor: {
+				test: /[\\/]node_modules[\\/](!lodash)(!moment)(!moment-timezone)[\\/]/,
+				name: "vendor",
+			},
+		},
 	},
-	runtimeChunk: true,
 };
 
 module.exports = optimization;

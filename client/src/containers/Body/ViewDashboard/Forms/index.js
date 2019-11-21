@@ -26,7 +26,9 @@ const iconStyle = {
 const warningStyle = {
 	verticalAlign: "middle",
 	marginTop: 15,
-	padding: "5px 0",
+	marginRight: 10,
+	marginLeft: 10,
+	padding: "5px 8px",
 	borderRadius: 3,
 };
 

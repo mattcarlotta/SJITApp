@@ -115,6 +115,12 @@
 	}
 }
 
+.event-distribution-panel {
+	@media (max-width: 600px) {
+		display: none;
+	}
+}
+
 .ant-calendar-picker:focus .ant-calendar-picker-input:not(.ant-input-disabled) {
 	border-color: #d9d9d9;
 	box-shadow: none;
@@ -266,28 +272,28 @@
 	font-family: "Karla Regular";
 	font-style: normal;
 	font-weight: normal;
-	font-display: auto;
+	font-display: fallback;
 	src: url("../assets/fonts/Karla-Regular.ttf") format("truetype");
 }
 @font-face {
 	font-family: "Karla Bold";
 	font-style: normal;
 	font-weight: normal;
-	font-display: auto;
+	font-display: fallback;
 	src: url("../assets/fonts/Karla-Bold.ttf") format("truetype");
 }
 @font-face {
 	font-family: "Karla Italic";
 	font-style: normal;
 	font-weight: normal;
-	font-display: auto;
+	font-display: fallback;
 	src: url("../assets/fonts/Karla-Italic.ttf") format("truetype");
 }
 @font-face {
 	font-family: "Karla Bold Italic";
 	font-style: normal;
 	font-weight: normal;
-	font-display: auto;
+	font-display: fallback;
 	src: url("../assets/fonts/Karla-BoldItalic.ttf") format("truetype");
 }
 

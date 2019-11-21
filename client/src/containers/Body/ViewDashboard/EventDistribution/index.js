@@ -47,7 +47,7 @@ export class EventDistribution extends Component {
 	};
 
 	render = () => (
-		<Col {...newcolumns}>
+		<Col className="event-distribution-panel" {...newcolumns}>
 			<Card
 				bodyStyle={{ minHeight: "500px" }}
 				title={

@@ -1,5 +1,7 @@
 const { DefinePlugin, HotModuleReplacementPlugin } = require("webpack");
 const { GenerateSW } = require("workbox-webpack-plugin");
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
+	.BundleAnalyzerPlugin;
 const InlineChunkHtmlPlugin = require("react-dev-utils/InlineChunkHtmlPlugin");
 const ErrorOverlayPlugin = require("error-overlay-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
@@ -166,6 +168,7 @@ module.exports = () => {
 				{ from: "public/ITLogo_512x512.png" },
 				{ from: "public/ITLogo_192x192.png" },
 			]),
+			new BundleAnalyzerPlugin(),
 		);
 	}
 
