@@ -143,7 +143,7 @@ class MemberAvailability extends Component {
 				radialLabelsLinkDiagonalLength: 0,
 				radialLabelsLinkHorizontalLength: 0,
 			};
-			bottom = 10;
+			bottom = 0;
 			containerStyle = {
 				...containerStyle,
 				height: "260px",
@@ -188,7 +188,7 @@ class MemberAvailability extends Component {
 								slicesLabelsSkipAngle={10}
 								slicesLabelsTextColor="#fff"
 								startAngle={-180}
-								margin={{ top: 40, right: 0, bottom, left: 0 }}
+								margin={{ top: 20, right: 0, bottom, left: 0 }}
 							/>
 							<div style={styles}>
 								<span>{memberAvailability.eventAvailability[0].value}%</span>
@@ -199,7 +199,7 @@ class MemberAvailability extends Component {
 						<Line centered width="600px" />
 						{!squishpoint && (
 							<BarLegend
-								style={{ maxWidth: 225, margin: "0 auto", marginTop: 20 }}
+								style={{ maxWidth: 225, margin: "0 auto", marginTop: 10 }}
 							/>
 						)}
 						<Center
