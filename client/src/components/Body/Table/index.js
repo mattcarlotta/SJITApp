@@ -60,7 +60,7 @@ class CustomTable extends Component {
 				</Popover>
 			),
 			fixed: "right",
-			width: 50,
+			width: 100,
 		});
 
 		return tableColumns;
