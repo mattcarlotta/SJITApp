@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Badge, ColumnTitle } from "components/Body";
+import Badge from "components/Body/Badge";
+import ColumnTitle from "components/Body/ColumnTitle";
 
 const BarLegend = ({ className, style }) => (
 	<div className={className} style={style}>

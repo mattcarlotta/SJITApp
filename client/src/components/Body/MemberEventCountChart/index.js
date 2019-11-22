@@ -4,7 +4,9 @@ import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
 import { ResponsiveBar } from "@nivo/bar";
 import { FaChartBar } from "react-icons/fa";
-import { CalendarContainer, FadeIn, FlexCenter } from "components/Body";
+import CalendarContainer from "components/Body/CalendarContainer";
+import FadeIn from "components/Body/FadeIn";
+import FlexCenter from "components/Body/FlexCenter";
 
 const MemberEventCountChart = ({ height, members, style }) =>
 	!isEmpty(members) ? (

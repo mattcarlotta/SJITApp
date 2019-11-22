@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import { FaTimes } from "react-icons/fa";
-import { FlexEnd } from "components/Body";
+import FlexEnd from "components/Body/FlexEnd";
 import BackgroundOverlay from "../BackgroundOverlay";
 import Center from "./Center";
 import CloseModalButton from "./CloseModalButton";

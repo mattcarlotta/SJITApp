@@ -1,5 +1,6 @@
 import React from "react";
-import { FormatDate, TokenStatus } from "components/Body";
+import FormatDate from "components/Body/FormatDate";
+import TokenStatus from "components/Body/TokenStatus";
 
 export default [
 	{

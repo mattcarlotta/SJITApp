@@ -1,4 +1,5 @@
-import { FormatDate, DisplayStatus } from "components/Body";
+import FormatDate from "components/Body/FormatDate";
+import DisplayStatus from "components/Body/DisplayStatus";
 import Table from "../index";
 
 const columns = [

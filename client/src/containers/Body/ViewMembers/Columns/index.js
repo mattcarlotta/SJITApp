@@ -1,5 +1,6 @@
 import React from "react";
-import { DisplayStatus, FormatDate } from "components/Body";
+import DisplayStatus from "components/Body/DisplayStatus";
+import FormatDate from "components/Body/FormatDate";
 
 export default [
 	{

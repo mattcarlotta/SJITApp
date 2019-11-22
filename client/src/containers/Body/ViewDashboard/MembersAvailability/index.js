@@ -5,18 +5,16 @@ import isEmpty from "lodash/isEmpty";
 import { connect } from "react-redux";
 import { Card, Col } from "antd";
 import { FaUserClock } from "react-icons/fa";
-import {
-	Bold,
-	CalendarContainer,
-	Flex,
-	FlexEnd,
-	FlexStart,
-	Float,
-	List,
-	ListItem,
-	LoadingPanel,
-	NoAvailability,
-} from "components/Body";
+import Bold from "components/Body/Bold";
+import CalendarContainer from "components/Body/CalendarContainer";
+import Flex from "components/Body/Flex";
+import FlexEnd from "components/Body/FlexEnd";
+import FlexStart from "components/Body/FlexStart";
+import Float from "components/Body/Float";
+import List from "components/Body/List";
+import ListItem from "components/Body/ListItem";
+import LoadingPanel from "components/Body/LoadingPanel";
+import NoAvailability from "components/Body/NoAvailability";
 import { fetchMembersAvailability } from "actions/Dashboard";
 import columns from "../Columns";
 

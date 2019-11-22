@@ -1,12 +1,10 @@
 import React from "react";
-import {
-	InfoText,
-	List,
-	ListItem,
-	TextContainer,
-	WarningText,
-} from "components/Body";
-import { Link } from "components/Navigation";
+import InfoText from "components/Body/InfoText";
+import List from "components/Body/List";
+import ListItem from "components/Body/ListItem";
+import TextContainer from "components/Body/TextContainer";
+import WarningText from "components/Body/WarningText";
+import Link from "components/Navigation/Link";
 
 const linkStyle = {
 	margin: 0,

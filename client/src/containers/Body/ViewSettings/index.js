@@ -12,14 +12,12 @@ import {
 	fetchMemberSettingsEvents,
 	updateMemberStatus,
 } from "actions/Members";
-import {
-	Calendar,
-	Line,
-	LoadingPanel,
-	MemberAvailability,
-	PaneBody,
-	Title,
-} from "components/Body";
+import Calendar from "components/Body/Calendar";
+import Line from "components/Body/Line";
+import LoadingPanel from "components/Body/LoadingPanel";
+import MemberAvailability from "components/Body/MemberAvailability";
+import PaneBody from "components/Body/PaneBody";
+import Title from "components/Body/Title";
 import Profile from "./Profile";
 
 const Pane = Tabs.TabPane;

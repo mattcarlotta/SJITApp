@@ -7,14 +7,12 @@ import moment from "moment-timezone";
 import { Empty } from "antd";
 import { ResponsivePie } from "@nivo/pie";
 import { ResponsiveBar } from "@nivo/bar";
-import {
-	BarLegend,
-	Center,
-	FlexCenter,
-	Legend,
-	Line,
-	ScheduleHeader,
-} from "components/Body";
+import BarLegend from "components/Body/BarLegend";
+import Center from "components/Body/Center";
+import FlexCenter from "components/Body/FlexCenter";
+import Legend from "components/Body/Legend";
+import Line from "components/Body/Line";
+import ScheduleHeader from "components/Body/ScheduleHeader";
 
 const COLORS = ["#247BA0", "#2A9D8F", "#F4A261", "#FF8060", "#BFBFBF"];
 

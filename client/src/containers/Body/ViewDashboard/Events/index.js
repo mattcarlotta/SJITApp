@@ -6,12 +6,10 @@ import get from "lodash/get";
 import moment from "moment-timezone";
 import { Card, Col, Select } from "antd";
 import { MdEvent } from "react-icons/md";
-import {
-	CalendarContainer,
-	LoadingPanel,
-	ScheduleModal,
-	ScheduleList,
-} from "components/Body";
+import CalendarContainer from "components/Body/CalendarContainer";
+import LoadingPanel from "components/Body/LoadingPanel";
+import ScheduleModal from "components/Body/ScheduleModal";
+import ScheduleList from "components/Body/ScheduleList";
 import { fetchEvents } from "actions/Dashboard";
 import CalendarDate from "./CalendarDate";
 import NoEvents from "./NoEvents";

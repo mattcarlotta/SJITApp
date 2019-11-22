@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Layout } from "antd";
-import { NavMenu } from "components/Navigation";
+import NavMenu from "components/Navigation/NavMenu";
 
 const Sider = Layout.Sider;
 

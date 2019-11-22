@@ -92,6 +92,7 @@
 		]
 	},
 	"dependencies": {
+		"@loadable/component": "^5.10.3",
 		"@nivo/bar": "^0.59.2",
 		"@nivo/pie": "^0.59.1",
 		"antd": "^3.25.1",

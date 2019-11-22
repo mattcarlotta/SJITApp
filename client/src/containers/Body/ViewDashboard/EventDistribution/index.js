@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { Card, Col, DatePicker } from "antd";
 import { FaChartBar } from "react-icons/fa";
 import { fetchEventDistribution } from "actions/Dashboard";
-import { MemberEventCountChart } from "components/Body";
+import MemberEventCountChart from "components/Body/MemberEventCountChart";
 import columns from "../Columns";
 
 const RangePicker = DatePicker.RangePicker;

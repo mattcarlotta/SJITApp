@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Icon } from "components/Body";
+import Icon from "components/Body/Icon";
 import ChevronIcon from "../ChevronIcon";
 import DisplayOption from "../DisplayOption";
 import Input from "../Input";

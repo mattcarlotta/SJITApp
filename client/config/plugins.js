@@ -118,6 +118,7 @@ module.exports = () => {
 				exclude: [
 					/\.map$/,
 					// /\.js$/,
+					/reactDNDVendor/,
 					/asset-manifest\.json$/,
 					/\.(?:png|jpg|jpeg|svg)$/,
 				],

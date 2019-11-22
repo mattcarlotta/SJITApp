@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Input } from "antd";
-import { Button } from "components/Body";
+import Button from "components/Body/Button";
 
 class FilterInput extends Component {
 	state = {

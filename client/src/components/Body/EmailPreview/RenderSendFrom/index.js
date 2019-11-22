@@ -1,7 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { FaEllipsisV, FaReply, FaStar } from "react-icons/fa";
-import { Bold, FormatDate } from "components/Body";
+import Bold from "components/Body/Bold";
+import FormatDate from "components/Body/FormatDate";
 
 const iconStyle = {
 	fontSize: 10,

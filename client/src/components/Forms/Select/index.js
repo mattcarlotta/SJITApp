@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Label } from "components/Body";
-import { Errors } from "components/Forms";
+import Label from "components/Body/Label";
+import Errors from "components/Forms/Errors";
 import Container from "./Container";
 import ClickHandler from "./ClickHandler";
 import Selection from "./Selection";

@@ -1,7 +1,9 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import Helmet from "react-helmet";
-import { Center, Title, Paragraph } from "components/Body";
+import Center from "components/Body/Center";
+import Title from "components/Body/Title";
+import Paragraph from "components/Body/Paragraph";
 
 const FormTitle = ({ description, header, title }) => (
 	<Fragment>

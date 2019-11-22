@@ -1,19 +1,17 @@
 import React from "react";
 import { Tooltip } from "antd";
 import { FaClipboardCheck, FaFileAlt, FaTools } from "react-icons/fa";
-import {
-	Button,
-	Column,
-	ColumnTitle,
-	InfoText,
-	Legend,
-	NoUsers,
-	Row,
-	TextContainer,
-	User,
-	UserContainer,
-} from "components/Body";
-import { Link } from "components/Navigation";
+import Button from "components/Body/Button";
+import Column from "components/Body/Column";
+import ColumnTitle from "components/Body/ColumnTitle";
+import InfoText from "components/Body/InfoText";
+import Legend from "components/Body/Legend";
+import NoUsers from "components/Body/NoUsers";
+import Row from "components/Body/Row";
+import TextContainer from "components/Body/TextContainer";
+import User from "components/Body/User";
+import UserContainer from "components/Body/UserContainer";
+import Link from "components/Navigation/Link";
 
 const btnStyle = {
 	display: "inline-block",

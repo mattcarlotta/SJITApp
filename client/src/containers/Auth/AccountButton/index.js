@@ -4,7 +4,9 @@ import { connect } from "react-redux";
 import { Menu, Dropdown } from "antd";
 import { FaUserCircle, FaSignOutAlt, FaCogs } from "react-icons/fa";
 import { signoutUser } from "actions/Auth";
-import { MenuButton, MenuItemContainer, MenuItemTitle } from "components/Body";
+import MenuButton from "components/Body/MenuButton";
+import MenuItemContainer from "components/Body/MenuItemContainer";
+import MenuItemTitle from "components/Body/MenuItemTitle";
 
 const MenuItem = Menu.Item;
 

@@ -2,7 +2,10 @@ import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
 import { FaCalendarCheck } from "react-icons/fa";
-import { Button, DisplayTeam, FadeIn, FlexSpaceAround } from "components/Body";
+import Button from "components/Body/Button";
+import DisplayTeam from "components/Body/DisplayTeam";
+import FadeIn from "components/Body/FadeIn";
+import FlexSpaceAround from "components/Body/FlexSpaceAround";
 
 const iconStyle = {
 	position: "relative",

@@ -10,7 +10,9 @@ import {
 	FaClipboardCheck,
 } from "react-icons/fa";
 import { GoStop } from "react-icons/go";
-import { Button, FlexCenter, Spacer } from "components/Body";
+import Button from "components/Body/Button";
+import FlexCenter from "components/Body/FlexCenter";
+import Spacer from "components/Body/Spacer";
 
 const iconStyle = {
 	position: "relative",

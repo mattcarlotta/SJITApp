@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { FaChevronLeft } from "react-icons/fa";
-import { Button } from "components/Body";
+import Button from "components/Body/Button";
 
 const iconStyle = {
 	position: "relative",

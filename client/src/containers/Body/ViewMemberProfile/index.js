@@ -20,16 +20,14 @@ import {
 	updateMemberStatus,
 } from "actions/Members";
 import { fetchScheduleEvents } from "actions/Events";
-import {
-	BackButton,
-	Calendar,
-	FadeIn,
-	Line,
-	LoadingPanel,
-	MemberAvailability,
-	PaneBody,
-	Title,
-} from "components/Body";
+import BackButton from "components/Body/BackButton";
+import Calendar from "components/Body/Calendar";
+import FadeIn from "components/Body/FadeIn";
+import Line from "components/Body/Line";
+import LoadingPanel from "components/Body/LoadingPanel";
+import MemberAvailability from "components/Body/MemberAvailability";
+import PaneBody from "components/Body/PaneBody";
+import Title from "components/Body/Title";
 import Profile from "./Profile";
 
 const Pane = Tabs.TabPane;

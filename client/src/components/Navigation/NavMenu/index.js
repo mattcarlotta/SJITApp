@@ -1,8 +1,12 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { Menu, Icon } from "antd";
-import { Center, FadeIn, Legal, Tab, Title } from "components/Body";
-import { Link } from "components/Navigation";
+import Center from "components/Body/Center";
+import FadeIn from "components/Body/FadeIn";
+import Legal from "components/Body/Legal";
+import Tab from "components/Body/Tab";
+import Title from "components/Body/Title";
+import Link from "components/Navigation/Link";
 import { StaffRoutes, EmployeeRoutes } from "./Tabs";
 
 const MenuItem = Menu.Item;

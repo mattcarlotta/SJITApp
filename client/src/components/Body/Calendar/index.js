@@ -4,7 +4,9 @@ import isEmpty from "lodash/isEmpty";
 import get from "lodash/get";
 import moment from "moment-timezone";
 import { Calendar } from "antd";
-import { ScheduleList, ScheduleHeader, ScheduleModal } from "components/Body";
+import ScheduleList from "components/Body/ScheduleList";
+import ScheduleHeader from "components/Body/ScheduleHeader";
+import ScheduleModal from "components/Body/ScheduleModal";
 
 export const setValidRange = date => [
 	moment(date).startOf("month"),

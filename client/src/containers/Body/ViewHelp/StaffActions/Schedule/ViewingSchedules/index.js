@@ -1,6 +1,7 @@
 import React from "react";
-import { InfoText, TextContainer } from "components/Body";
-import { Link } from "components/Navigation";
+import InfoText from "components/Body/InfoText";
+import TextContainer from "components/Body/TextContainer";
+import Link from "components/Navigation/Link";
 
 const linkStyle = {
 	margin: 0,

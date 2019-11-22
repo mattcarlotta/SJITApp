@@ -1,4 +1,4 @@
-/* istanbul ignore file */
+// /* istanbul ignore file */
 
 export { default as BackButton } from "./BackButton";
 export { default as BackgroundOverlay } from "./BackgroundOverlay";
@@ -22,6 +22,7 @@ export { default as DisplayStatus } from "./DisplayStatus";
 export { default as DisplayTime } from "./DisplayTime";
 export { default as DisplayTeam } from "./DisplayTeam";
 export { default as DropContainer } from "./DropContainer";
+export { default as DynamicImport } from "./DynamicImport";
 export { default as EmailPreview } from "./EmailPreview";
 export { default as EmailStatus } from "./EmailStatus";
 export { default as EventLabel } from "./EventLabel";

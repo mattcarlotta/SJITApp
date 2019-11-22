@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Tooltip } from "antd";
 import { GoQuestion } from "react-icons/go";
-import { Center } from "components/Body";
+import Center from "components/Body/Center";
 
 const Label = ({ className, name, label, style, tooltip }) => (
 	<label className={className} style={style} htmlFor={name}>

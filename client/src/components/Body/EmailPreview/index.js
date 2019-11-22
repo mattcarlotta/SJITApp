@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Modal, SubmitButton } from "components/Body";
+import Modal from "components/Body/Modal";
+import SubmitButton from "components/Body/SubmitButton";
 import RenderMessage from "./RenderMessage";
 import RenderSendFrom from "./RenderSendFrom";
 import RenderSendTo from "./RenderSendTo";

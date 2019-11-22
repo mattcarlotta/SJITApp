@@ -1,13 +1,11 @@
 import React from "react";
-import {
-	Link,
-	NavBar,
-	NavBarContainer,
-	NavContainer,
-	Nav,
-	NavItem,
-	NavTitle,
-} from "components/Navigation";
+import Link from "components/Navigation/Link";
+import NavBar from "components/Navigation/NavBar";
+import NavBarContainer from "components/Navigation/NavBarContainer";
+import NavContainer from "components/Navigation/NavContainer";
+import Nav from "components/Navigation/Nav";
+import NavItem from "components/Navigation/NavItem";
+import NavTitle from "components/Navigation/NavTitle";
 
 const navitems = [
 	{ to: "/", text: "Home" },

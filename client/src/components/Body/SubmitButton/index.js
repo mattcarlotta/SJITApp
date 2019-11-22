@@ -1,6 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Button, ButtonContainer, Submitting } from "components/Body";
+import Button from "components/Body/Button";
+import ButtonContainer from "components/Body/ButtonContainer";
+import Submitting from "components/Body/Submitting";
 
 const SubmitButton = ({ disabled, isSubmitting, title, style }) => (
 	<ButtonContainer style={{ marginTop: 5, minHeight: 63, ...style }} primary>

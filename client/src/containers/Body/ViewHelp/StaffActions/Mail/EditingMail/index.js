@@ -1,8 +1,10 @@
 import React from "react";
 import { FaEdit, FaTools } from "react-icons/fa";
 import { Icon } from "antd";
-import { Button, InfoText, TextContainer } from "components/Body";
-import { Link } from "components/Navigation";
+import Button from "components/Body/Button";
+import InfoText from "components/Body/InfoText";
+import TextContainer from "components/Body/TextContainer";
+import Link from "components/Navigation/Link";
 
 const iconStyle = {
 	position: "relative",

@@ -11,8 +11,12 @@ import {
 	Input as AntInput,
 } from "antd";
 import { FaCalendarPlus, FaClock } from "react-icons/fa";
-import { Icon, Label, Notes } from "components/Body";
-import { Errors, Input, Select } from "components/Forms";
+import Icon from "components/Body/Icon";
+import Label from "components/Body/Label";
+import Notes from "components/Body/Notes";
+import Errors from "components/Forms/Errors";
+import Input from "components/Forms/Input";
+import Select from "components/Forms/Select";
 
 const RangePicker = DatePicker.RangePicker;
 const TextArea = AntInput.TextArea;

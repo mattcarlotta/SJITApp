@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
-import { FormatDate, DisplayTeam } from "components/Body";
+import FormatDate from "components/Body/FormatDate";
+import DisplayTeam from "components/Body/DisplayTeam";
 
 const EventLabel = ({ eventType, eventDate, opponent, style, team }) => (
 	<span style={style}>

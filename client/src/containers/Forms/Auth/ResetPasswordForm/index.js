@@ -1,10 +1,15 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Center, Modal, SubmitButton } from "components/Body";
-import { FieldGenerator, FormTitle } from "components/Forms";
-import { Link } from "components/Navigation";
-import { fieldValidator, fieldUpdater, parseFields } from "utils";
+import Center from "components/Body/Center";
+import Modal from "components/Body/Modal";
+import SubmitButton from "components/Body/SubmitButton";
+import FieldGenerator from "components/Forms/FieldGenerator";
+import FormTitle from "components/Forms/FormTitle";
+import Link from "components/Navigation/Link";
+import fieldValidator from "utils/fieldValidator";
+import fieldUpdater from "utils/fieldUpdater";
+import parseFields from "utils/parseFields";
 import { resetPassword } from "actions/Auth";
 import fields from "./Fields";
 

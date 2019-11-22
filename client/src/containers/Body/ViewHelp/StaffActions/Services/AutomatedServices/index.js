@@ -1,11 +1,9 @@
 import React from "react";
-import {
-	InfoText,
-	List,
-	ListItem,
-	TextContainer,
-	WarningText,
-} from "components/Body";
+import InfoText from "components/Body/InfoText";
+import List from "components/Body/List";
+import ListItem from "components/Body/ListItem";
+import TextContainer from "components/Body/TextContainer";
+import WarningText from "components/Body/WarningText";
 
 const listItemStyle = {
 	paddingLeft: 5,

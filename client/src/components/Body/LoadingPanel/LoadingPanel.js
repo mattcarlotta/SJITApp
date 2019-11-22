@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { FadeIn } from "components/Body";
+import FadeIn from "components/Body/FadeIn";
 
 const LoadingPanel = ({ className, style }) => (
 	<FadeIn timing="0.6s">

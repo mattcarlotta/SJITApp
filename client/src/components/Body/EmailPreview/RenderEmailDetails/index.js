@@ -1,7 +1,9 @@
 import React from "react";
 import isEmpty from "lodash/isEmpty";
 import PropTypes from "prop-types";
-import { FormatDate, Flex, Text } from "components/Body";
+import FormatDate from "components/Body/FormatDate";
+import Flex from "components/Body/Flex";
+import Text from "components/Body/Text";
 
 const RenderEmailDetails = ({ sendDate, sendFrom, sendTo, subject }) => (
 	<div
