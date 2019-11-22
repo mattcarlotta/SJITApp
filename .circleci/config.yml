@@ -9,10 +9,12 @@ jobs:
       # specify the version you desire here
       - image: circleci/node:10.16.3
 
+    working_directory: ~/home/circleci
+
     steps:
       - checkout
 
-      - run: ssh -oStrictHostKeyChecking=no -v $DROPLET_USER@$DROPLET_IP “cd /home/circleci && ./deploy.sh”
+      - run: ssh -oStrictHostKeyChecking=no -v $DROPLET_USER@$DROPLET_IP "./deploy.sh”
 workflows:
   version: 2
   build-and-deploy:
