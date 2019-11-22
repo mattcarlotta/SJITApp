@@ -1,15 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
 import moment from "moment-timezone";
-import {
-	DisplayStatus,
-	LightText,
-	Line,
-	PaneBody,
-	Small,
-	Title,
-} from "components/Body";
-import { UpdateSettingsForm } from "containers/Forms";
+import DisplayStatus from "components/Body/DisplayStatus";
+import LightText from "components/Body/LightText";
+import Line from "components/Body/Line";
+import PaneBody from "components/Body/PaneBody";
+import Small from "components/Body/Small";
+import Title from "components/Body/Title";
+import UpdateSettingsForm from "containers/Forms/Member/UpdateSettingsForm";
 
 const Profile = ({ firstName, lastName, registered, role, status }) => (
 	<PaneBody>

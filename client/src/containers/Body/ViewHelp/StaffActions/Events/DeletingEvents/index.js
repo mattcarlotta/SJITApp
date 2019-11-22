@@ -1,7 +1,9 @@
 import React from "react";
 import { FaTrash, FaTools } from "react-icons/fa";
-import { Button, InfoText, TextContainer } from "components/Body";
-import { Link } from "components/Navigation";
+import Button from "components/Body/Button";
+import InfoText from "components/Body/InfoText";
+import TextContainer from "components/Body/TextContainer";
+import Link from "components/Navigation/Link";
 
 const iconStyle = {
 	position: "relative",

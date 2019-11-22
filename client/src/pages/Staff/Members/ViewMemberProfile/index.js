@@ -1,6 +1,8 @@
 import React from "react";
-import { ViewMemberProfile } from "containers/Body";
+import DynamicImport from "components/Body/DynamicImport";
 
-const ViewMemberProfilePage = props => <ViewMemberProfile {...props} />;
+const ViewMemberProfilePage = props => (
+	<DynamicImport {...props} file="Body/ViewMemberProfile" />
+);
 
 export default ViewMemberProfilePage;

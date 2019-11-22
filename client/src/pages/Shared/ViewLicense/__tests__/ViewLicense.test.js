@@ -1,6 +1,6 @@
 import ViewLicense from "../index";
 
-const wrapper = shallow(<ViewLicense />);
+const wrapper = HOCWrap(ViewLicense);
 
 describe("View License", () => {
 	it("renders without errors", () => {

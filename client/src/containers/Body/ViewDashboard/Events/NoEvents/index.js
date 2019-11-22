@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { MdEvent } from "react-icons/md";
-import { FlexCenter } from "components/Body";
+import FlexCenter from "components/Body/FlexCenter";
 
 const NoEvents = ({ selectedToday }) => (
 	<FlexCenter

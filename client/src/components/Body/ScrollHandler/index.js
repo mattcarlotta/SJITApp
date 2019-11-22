@@ -13,7 +13,7 @@ export class ScrollHandler extends PureComponent {
 
 	handleScroll = () => {
 		setTimeout(() => {
-			this.wrapper.scrollIntoView();
+			if (this.wrapper) this.wrapper.scrollIntoView();
 		}, 100);
 	};
 

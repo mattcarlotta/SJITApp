@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
 import get from "lodash/get";
 import { ResponsivePie } from "@nivo/pie";
-import { NoAvailability } from "components/Body";
+import NoAvailability from "components/Body/NoAvailability";
 
 const VALIDCOLORS = ["#2979FF", "#BBBBBB"];
 const INVALIDCOLORS = ["#F04D4D", "#BBBBBB"];

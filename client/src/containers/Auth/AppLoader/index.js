@@ -1,8 +1,8 @@
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Spinner } from "components/Body";
-import { LoginForm } from "containers/Forms";
+import Spinner from "components/Body/Spinner";
+import LoginForm from "containers/Forms/Auth/LoginForm";
 import { authenticateUser } from "actions/Auth";
 
 export class AppLoader extends PureComponent {

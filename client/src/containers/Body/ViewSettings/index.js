@@ -4,7 +4,7 @@ import isEmpty from "lodash/isEmpty";
 import debounce from "lodash/debounce";
 import Helmet from "react-helmet";
 import { connect } from "react-redux";
-import { Card, Icon, Tabs } from "antd";
+import { Card, Tabs } from "antd";
 import { FaCogs, FaUserCircle, FaChartBar, FaReply } from "react-icons/fa";
 import {
 	fetchMemberSettings,
@@ -12,14 +12,12 @@ import {
 	fetchMemberSettingsEvents,
 	updateMemberStatus,
 } from "actions/Members";
-import {
-	Calendar,
-	Line,
-	LoadingPanel,
-	MemberAvailability,
-	PaneBody,
-	Title,
-} from "components/Body";
+import Calendar from "components/Body/Calendar";
+import Line from "components/Body/Line";
+import LoadingPanel from "components/Body/LoadingPanel";
+import MemberAvailability from "components/Body/MemberAvailability";
+import PaneBody from "components/Body/PaneBody";
+import Title from "components/Body/Title";
 import Profile from "./Profile";
 
 const Pane = Tabs.TabPane;
@@ -33,21 +31,27 @@ const iconStyle = {
 
 const profile = (
 	<span>
-		<Icon component={FaUserCircle} />
+		<span className="anticon">
+			<FaUserCircle />
+		</span>
 		Profile
 	</span>
 );
 
 const availability = (
 	<span>
-		<Icon component={FaChartBar} />
+		<span className="anticon">
+			<FaChartBar />
+		</span>
 		Availability
 	</span>
 );
 
 const responses = (
 	<span>
-		<Icon component={FaReply} />
+		<span className="anticon">
+			<FaReply />
+		</span>
 		Responses
 	</span>
 );

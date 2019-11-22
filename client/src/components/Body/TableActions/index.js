@@ -1,16 +1,18 @@
 /* eslint-disable react/forbid-prop-types */
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
-import { Icon, Popconfirm } from "antd";
+import { Popconfirm } from "antd";
 import {
+	FaExclamationCircle,
 	FaEdit,
 	FaShareSquare,
 	FaTrash,
 	FaSearchPlus,
 	FaClipboardCheck,
 } from "react-icons/fa";
-import { GoStop } from "react-icons/go";
-import { Button, FlexCenter, Spacer } from "components/Body";
+import Button from "components/Body/Button";
+import FlexCenter from "components/Body/FlexCenter";
+import Spacer from "components/Body/Spacer";
 
 const iconStyle = {
 	position: "relative",
@@ -94,7 +96,11 @@ const TableActions = ({
 			<Popconfirm
 				placement="top"
 				title="Are you sure? This action is irreversible."
-				icon={<Icon component={GoStop} style={{ color: "red" }} />}
+				icon={
+					<span className="anticon">
+						<FaExclamationCircle style={{ color: "red" }} />
+					</span>
+				}
 				onConfirm={() => handleClickAction(deleteAction, record)}
 			>
 				<Button danger padding="5px 0 1px 0" marginRight="0px">

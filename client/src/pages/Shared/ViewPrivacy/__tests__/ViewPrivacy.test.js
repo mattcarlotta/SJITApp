@@ -1,6 +1,6 @@
 import ViewPrivacy from "../index";
 
-const wrapper = shallow(<ViewPrivacy />);
+const wrapper = HOCWrap(ViewPrivacy);
 
 describe("View License", () => {
 	it("renders without errors", () => {

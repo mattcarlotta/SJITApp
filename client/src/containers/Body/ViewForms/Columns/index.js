@@ -1,5 +1,6 @@
 import React from "react";
-import { DisplayEmailReminder, FormatDate } from "components/Body";
+import DisplayEmailReminder from "components/Body/DisplayEmailReminder";
+import FormatDate from "components/Body/FormatDate";
 
 export default [
 	{ title: "Season Id", dataIndex: "seasonId", key: "seasonId" },

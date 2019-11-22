@@ -1,6 +1,7 @@
 import React from "react";
 import { MdAccessTime } from "react-icons/md";
-import { CalendarContainer, FlexCenter } from "components/Body";
+import CalendarContainer from "components/Body/CalendarContainer";
+import FlexCenter from "components/Body/FlexCenter";
 
 const style = {
 	backgroundColor: "#f7f6f6",

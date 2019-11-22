@@ -1,6 +1,8 @@
 import React from "react";
-import { ViewSchedule } from "containers/Body";
+import DynamicImport from "components/Body/DynamicImport";
 
-const ViewSchedulePage = props => <ViewSchedule {...props} />;
+const ViewSchedulePage = props => (
+	<DynamicImport {...props} file="Body/ViewSchedule" />
+);
 
 export default ViewSchedulePage;

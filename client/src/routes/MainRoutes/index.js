@@ -2,11 +2,11 @@ import React, { Fragment } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import Helmet from "react-helmet";
 
-import { NotFound } from "pages";
+import NotFound from "pages/NotFound";
 // import { About, Contact, Home, NotFound } from "pages";
-import { ScrollHandler } from "components/Body";
-import { ProtectedRoutes } from "containers/Auth";
-import { ServerMessages } from "containers/App";
+import ScrollHandler from "components/Body/ScrollHandler";
+import ProtectedRoutes from "containers/Auth/ProtectedRoutes";
+import ServerMessages from "containers/App/ServerMessages";
 import GlobalStyles from "styles/theme/globalStyles";
 
 const config = {

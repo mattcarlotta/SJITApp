@@ -1,4 +1,5 @@
 /* istanbul ignore file */
+import React from "react";
 import {
 	FaBalanceScale,
 	FaCalendar,
@@ -24,134 +25,134 @@ import { MdEvent, MdNoteAdd, MdEventNote, MdDashboard } from "react-icons/md";
 
 export const StaffRoutes = [
 	{
-		component: MdDashboard,
+		icon: <MdDashboard />,
 		key: "dashboard",
 		value: "dashboard",
 		tab: "dashboard",
 	},
 	{
-		component: MdEvent,
+		icon: <MdEvent />,
 		key: "events",
 		tab: "events",
 		submenu: [
 			{
 				key: "events/create",
 				value: "events/create",
-				component: FaCalendarPlus,
+				icon: <FaCalendarPlus />,
 				tab: "Create Event",
 			},
 			{
 				key: "events/viewall",
 				value: "events/viewall?page=1",
-				component: MdEventNote,
+				icon: <MdEventNote />,
 				tab: "View Events",
 			},
 		],
 	},
 	{
-		component: FaFileSignature,
+		icon: <FaFileSignature />,
 		key: "forms",
 		tab: "forms",
 		submenu: [
 			{
 				key: "forms/create",
 				value: "forms/create",
-				component: MdNoteAdd,
+				icon: <MdNoteAdd />,
 				tab: "Create Form",
 			},
 			{
 				key: "forms/viewall",
 				value: "forms/viewall?page=1",
-				component: FaFileAlt,
+				icon: <FaFileAlt />,
 				tab: "View Forms",
 			},
 		],
 	},
 	{
-		component: FaEnvelope,
+		icon: <FaEnvelope />,
 		key: "mail",
 		tab: "mail",
 		submenu: [
 			{
 				key: "mail/create",
 				value: "mail/create",
-				component: FaPaperPlane,
+				icon: <FaPaperPlane />,
 				tab: "Send Mail",
 			},
 			{
 				key: "mail/viewall",
 				value: "mail/viewall?page=1",
-				component: FaMailBulk,
+				icon: <FaMailBulk />,
 				tab: "View Mail",
 			},
 		],
 	},
 	{
-		component: FaUserFriends,
+		icon: <FaUserFriends />,
 		key: "members",
 		tab: "members",
 		submenu: [
 			{
 				key: "members/create",
 				value: "members/create",
-				component: FaUserPlus,
+				icon: <FaUserPlus />,
 				tab: "Create Member",
 			},
 			{
 				key: "members/authorizations/viewall",
 				value: "members/authorizations/viewall?page=1",
-				component: FaKey,
+				icon: <FaKey />,
 				tab: "View Authorizations",
 			},
 			{
 				key: "members/viewall",
 				value: "members/viewall?page=1",
-				component: FaUsers,
+				icon: <FaUsers />,
 				tab: "View Members",
 			},
 		],
 	},
 	{
-		component: FaCalendar,
+		icon: <FaCalendar />,
 		key: "schedule",
 		tab: "schedule",
 	},
 	{
-		component: FaFolder,
+		icon: <FaFolder />,
 		key: "seasons",
 		tab: "seasons",
 		submenu: [
 			{
 				key: "seasons/create",
 				value: "seasons/create",
-				component: FaFolderPlus,
+				icon: <FaFolderPlus />,
 				tab: "Create Season",
 			},
 			{
 				key: "seasons/viewall",
 				value: "seasons/viewall?page=1",
-				component: FaFolderOpen,
+				icon: <FaFolderOpen />,
 				tab: "View Seasons",
 			},
 		],
 	},
 	{ divider: true, key: "accounting" },
-	{ component: FaCogs, key: "settings", value: "settings", tab: "settings" },
-	{ component: FaQuestionCircle, key: "help", value: "help", tab: "help" },
+	{ icon: <FaCogs />, key: "settings", value: "settings", tab: "settings" },
+	{ icon: <FaQuestionCircle />, key: "help", value: "help", tab: "help" },
 	{
-		component: FaConciergeBell,
+		icon: <FaConciergeBell />,
 		key: "contact-us",
 		value: "contact-us",
 		tab: "contact us",
 	},
 	{
-		component: FaBalanceScale,
+		icon: <FaBalanceScale />,
 		key: "privacy",
 		value: "privacy",
 		tab: "privacy policy",
 	},
 	{
-		component: FaCopyright,
+		icon: <FaCopyright />,
 		key: "licensing",
 		value: "licensing",
 		tab: "licensing",
@@ -159,16 +160,16 @@ export const StaffRoutes = [
 ];
 
 export const EmployeeRoutes = [
-	{ component: MdDashboard, key: "dashboard", tab: "dashboard" },
+	{ icon: <MdDashboard />, key: "dashboard", tab: "dashboard" },
 	{
-		component: FaCalendar,
+		icon: <FaCalendar />,
 		key: "schedule",
 		tab: "schedule",
 	},
 	{ divider: true, key: "accounting" },
-	{ component: FaCogs, key: "settings", tab: "settings" },
-	{ component: FaQuestionCircle, key: "help", tab: "help" },
-	{ component: FaConciergeBell, key: "contact-us", tab: "contact us" },
-	{ component: FaBalanceScale, key: "privacy", tab: "privacy policy" },
-	{ component: FaCopyright, key: "licensing", tab: "licensing" },
+	{ icon: <FaCogs />, key: "settings", tab: "settings" },
+	{ icon: <FaQuestionCircle />, key: "help", tab: "help" },
+	{ icon: <FaConciergeBell />, key: "contact-us", tab: "contact us" },
+	{ icon: <FaBalanceScale />, key: "privacy", tab: "privacy policy" },
+	{ icon: <FaCopyright />, key: "licensing", tab: "licensing" },
 ];

@@ -1,5 +1,6 @@
 import React from "react";
-import { InfoText, TextContainer } from "components/Body";
+import InfoText from "components/Body/InfoText";
+import TextContainer from "components/Body/TextContainer";
 
 const ViewingMonthlyMemberSchedule = () => (
 	<TextContainer>

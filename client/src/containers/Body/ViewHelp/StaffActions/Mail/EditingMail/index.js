@@ -1,8 +1,9 @@
 import React from "react";
-import { FaEdit, FaTools } from "react-icons/fa";
-import { Icon } from "antd";
-import { Button, InfoText, TextContainer } from "components/Body";
-import { Link } from "components/Navigation";
+import { FaEdit, FaRegTimesCircle, FaTools } from "react-icons/fa";
+import Button from "components/Body/Button";
+import InfoText from "components/Body/InfoText";
+import TextContainer from "components/Body/TextContainer";
+import Link from "components/Navigation/Link";
 
 const iconStyle = {
 	position: "relative",
@@ -96,10 +97,7 @@ const EditingMail = () => (
 			If a <strong>Send Date</strong> was provided and has already past, you can
 			either remove the date by hovering over the <strong>Send Date</strong>{" "}
 			field and clicking the{" "}
-			<Icon
-				style={{ ...iconStyle, color: "red", fontSize: 20 }}
-				type="close-circle"
-			/>{" "}
+			<FaRegTimesCircle style={{ ...iconStyle, color: "red", fontSize: 20 }} />{" "}
 			button or by selecting a later date. If the <strong>Send Date</strong> is
 			left empty, the email will be sent out immediately.
 		</InfoText>

@@ -1,6 +1,5 @@
 import moment from "moment-timezone";
 import { DatePicker, TimePicker, Transfer } from "antd";
-import FroalaEditor from "react-froala-wysiwyg";
 import FieldGenerator from "../index";
 
 const onChange = jest.fn();
@@ -208,7 +207,7 @@ describe("Field Generator", () => {
 	it("renders a FroalaEditor when type is 'editor'", () => {
 		wrapper.setProps({ fields: [editor] });
 
-		expect(wrapper.find(FroalaEditor).exists()).toBeTruthy();
+		expect(wrapper.find("LazyFroala").exists()).toBeTruthy();
 	});
 
 	it("returns a RangePicker when type is 'range'", () => {

@@ -1,20 +1,18 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import moment from "moment-timezone";
-import {
-	Button,
-	DisplayStatus,
-	Flex,
-	FlexEnd,
-	FlexStart,
-	LightText,
-	Line,
-	PaneBody,
-	Small,
-	Title,
-} from "components/Body";
-import { EditMemberForm } from "containers/Forms";
 import { FaBan, FaUserPlus } from "react-icons/fa";
+import Button from "components/Body/Button";
+import DisplayStatus from "components/Body/DisplayStatus";
+import Flex from "components/Body/Flex";
+import FlexEnd from "components/Body/FlexEnd";
+import FlexStart from "components/Body/FlexStart";
+import LightText from "components/Body/LightText";
+import Line from "components/Body/Line";
+import PaneBody from "components/Body/PaneBody";
+import Small from "components/Body/Small";
+import Title from "components/Body/Title";
+import EditMemberForm from "containers/Forms/Member/EditMemberForm";
 
 const iconStyle = {
 	position: "relative",

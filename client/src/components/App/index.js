@@ -1,14 +1,12 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Layout } from "antd";
-import { AppRoutes } from "routes";
-import { BuildVersion } from "components/Body";
-import {
-	LeftMenu,
-	RightMenu,
-	SideMenu,
-	DrawerMenu,
-} from "components/Navigation";
+import AppRoutes from "routes/AppRoutes";
+import BuildVersion from "components/Body/BuildVersion";
+import LeftMenu from "components/Navigation/LeftMenu";
+import RightMenu from "components/Navigation/RightMenu";
+import SideMenu from "components/Navigation/SideMenu";
+import DrawerMenu from "components/Navigation/DrawerMenu";
 
 const Header = Layout.Header;
 const Content = Layout.Content;

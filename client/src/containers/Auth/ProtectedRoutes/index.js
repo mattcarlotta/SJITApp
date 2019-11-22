@@ -4,12 +4,10 @@ import { push } from "connected-react-router";
 import { connect } from "react-redux";
 import { Route, Switch } from "react-router-dom";
 import App from "components/App";
-import { AppLoader } from "containers/Auth";
-import {
-	NewPasswordForm,
-	ResetPasswordForm,
-	SignupForm,
-} from "containers/Forms";
+import AppLoader from "containers/Auth/AppLoader";
+import NewPasswordForm from "containers/Forms/Auth/NewPasswordForm";
+import ResetPasswordForm from "containers/Forms/Auth/ResetPasswordForm";
+import SignupForm from "containers/Forms/Auth/SignupForm";
 import { signin } from "actions/Auth";
 
 export const authError =

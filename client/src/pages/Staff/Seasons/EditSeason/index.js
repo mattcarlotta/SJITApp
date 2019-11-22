@@ -1,6 +1,8 @@
 import React from "react";
-import { EditSeasonForm } from "containers/Forms";
+import DynamicImport from "components/Body/DynamicImport";
 
-const EditSeasonPage = props => <EditSeasonForm {...props} />;
+const EditSeasonPage = props => (
+	<DynamicImport {...props} file="Forms/Season/EditSeasonForm" />
+);
 
 export default EditSeasonPage;

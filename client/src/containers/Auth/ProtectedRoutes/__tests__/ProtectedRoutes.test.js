@@ -1,9 +1,7 @@
-import { AppLoader } from "containers/Auth";
-import {
-	NewPasswordForm,
-	ResetPasswordForm,
-	SignupForm,
-} from "containers/Forms";
+import AppLoader from "containers/Auth/AppLoader";
+import NewPasswordForm from "containers/Forms/Auth/NewPasswordForm";
+import ResetPasswordForm from "containers/Forms/Auth/ResetPasswordForm";
+import SignupForm from "containers/Forms/Auth/SignupForm";
 import { ProtectedRoutes, authError, sessionError } from "../index";
 
 const signin = jest.fn();

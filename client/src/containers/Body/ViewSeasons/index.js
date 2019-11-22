@@ -5,8 +5,10 @@ import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import { Card } from "antd";
 import { FaFolderPlus, FaFolderOpen } from "react-icons/fa";
-import { Button, FlexEnd, Table } from "components/Body";
-import { QueryHandler } from "components/Navigation";
+import Button from "components/Body/Button";
+import FlexEnd from "components/Body/FlexEnd";
+import Table from "components/Body/Table";
+import QueryHandler from "components/Navigation/QueryHandler";
 import { deleteSeason, fetchSeasons } from "actions/Seasons";
 import columns from "./Columns";
 

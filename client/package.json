@@ -1,6 +1,6 @@
 {
 	"name": "sjsitapp",
-	"version": "0.4.41b",
+	"version": "0.5.0b",
 	"main": "app.js",
 	"description": "An application for the San Jose Sharks Ice Team.",
 	"repository": "https://github.com/mattcarlotta/SJSITApp",
@@ -16,6 +16,7 @@
 		"initialize": "yarn install",
 		"build": "better-npm-run build",
 		"stage": "better-npm-run stage",
+		"analyze": "better-npm-run analyze",
 		"test": "better-npm-run test",
 		"test:watch": "better-npm-run test:watch",
 		"test:watchall": "better-npm-run test:watchall",
@@ -50,6 +51,16 @@
 				"BASEURL": "http://localhost:8080/api/",
 				"NODE_ENV": "production",
 				"NODE_ENV_DEV": "staging"
+			}
+		},
+		"analyze": {
+			"command": "rimraf dist && webpack",
+			"env": {
+				"APIPORT": 8080,
+				"BASEURL": "http://localhost:8080/api/",
+				"NODE_ENV": "production",
+				"NODE_ENV_DEV": "staging",
+				"ANALZYER": true
 			}
 		},
 		"test": {
@@ -92,6 +103,7 @@
 		]
 	},
 	"dependencies": {
+		"@loadable/component": "^5.10.3",
 		"@nivo/bar": "^0.59.2",
 		"@nivo/pie": "^0.59.1",
 		"antd": "^3.25.1",
@@ -199,7 +211,6 @@
 		"webpack-dev-server": "^3.9.0",
 		"webpack-manifest-plugin": "^2.2.0",
 		"webpack-merge": "^4.2.2",
-		"webpackbar": "^4.0.0",
-		"workbox-webpack-plugin": "^4.3.1"
+		"webpackbar": "^4.0.0"
 	}
 }

@@ -1,6 +1,8 @@
 import React from "react";
-import { ViewEvents } from "containers/Body";
+import DynamicImport from "components/Body/DynamicImport";
 
-const ViewEventsPage = props => <ViewEvents {...props} />;
+const ViewEventsPage = props => (
+	<DynamicImport {...props} file="Body/ViewEvents" />
+);
 
 export default ViewEventsPage;

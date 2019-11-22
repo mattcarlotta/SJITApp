@@ -1,11 +1,9 @@
 import React from "react";
-import {
-	DisplayEmailReminder,
-	DisplayScheduledEmployees,
-	DisplayTime,
-	DisplayTeam,
-	FormatDate,
-} from "components/Body";
+import DisplayEmailReminder from "components/Body/DisplayEmailReminder";
+import DisplayScheduledEmployees from "components/Body/DisplayScheduledEmployees";
+import DisplayTime from "components/Body/DisplayTime";
+import DisplayTeam from "components/Body/DisplayTeam";
+import FormatDate from "components/Body/FormatDate";
 
 export default [
 	{ title: "Season Id", dataIndex: "seasonId", key: "seasonId" },

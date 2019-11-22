@@ -1,6 +1,6 @@
 import React from "react";
-import { ViewMail } from "containers/Body";
+import DynamicImport from "components/Body/DynamicImport";
 
-const ViewMailPage = props => <ViewMail {...props} />;
+const ViewMailPage = props => <DynamicImport {...props} file="Body/ViewMail" />;
 
 export default ViewMailPage;

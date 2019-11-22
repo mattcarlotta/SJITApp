@@ -1,6 +1,8 @@
 import React from "react";
 import { FaUserCircle, FaSignOutAlt } from "react-icons/fa";
-import { Button, InfoText, TextContainer } from "components/Body";
+import Button from "components/Body/Button";
+import InfoText from "components/Body/InfoText";
+import TextContainer from "components/Body/TextContainer";
 
 const btnStyle = {
 	display: "inline-block",

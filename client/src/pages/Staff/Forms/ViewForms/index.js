@@ -1,6 +1,8 @@
 import React from "react";
-import { ViewForms } from "containers/Body";
+import DynamicImport from "components/Body/DynamicImport";
 
-const ViewFormsPage = props => <ViewForms {...props} />;
+const ViewFormsPage = props => (
+	<DynamicImport {...props} file="Body/ViewForms" />
+);
 
 export default ViewFormsPage;

@@ -4,7 +4,7 @@ import isEmpty from "lodash/isEmpty";
 import Helmet from "react-helmet";
 import { goBack } from "connected-react-router";
 import { connect } from "react-redux";
-import { Card, Icon, Tabs } from "antd";
+import { Card, Tabs } from "antd";
 import {
 	FaUserCircle,
 	FaChartBar,
@@ -20,16 +20,14 @@ import {
 	updateMemberStatus,
 } from "actions/Members";
 import { fetchScheduleEvents } from "actions/Events";
-import {
-	BackButton,
-	Calendar,
-	FadeIn,
-	Line,
-	LoadingPanel,
-	MemberAvailability,
-	PaneBody,
-	Title,
-} from "components/Body";
+import BackButton from "components/Body/BackButton";
+import Calendar from "components/Body/Calendar";
+import FadeIn from "components/Body/FadeIn";
+import Line from "components/Body/Line";
+import LoadingPanel from "components/Body/LoadingPanel";
+import MemberAvailability from "components/Body/MemberAvailability";
+import PaneBody from "components/Body/PaneBody";
+import Title from "components/Body/Title";
 import Profile from "./Profile";
 
 const Pane = Tabs.TabPane;
@@ -43,28 +41,36 @@ const iconStyle = {
 
 const profile = (
 	<span>
-		<Icon component={FaUserCircle} />
+		<span className="anticon">
+			<FaUserCircle />
+		</span>
 		Profile
 	</span>
 );
 
 const availability = (
 	<span>
-		<Icon component={FaChartBar} />
+		<span className="anticon">
+			<FaChartBar />
+		</span>
 		Availability
 	</span>
 );
 
 const responses = (
 	<span>
-		<Icon component={FaReply} />
+		<span className="anticon">
+			<FaReply />
+		</span>
 		Responses
 	</span>
 );
 
 const scheduling = (
 	<span>
-		<Icon component={FaClock} />
+		<span className="anticon">
+			<FaClock />
+		</span>
 		Schedule
 	</span>
 );

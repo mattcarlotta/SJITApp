@@ -1,5 +1,5 @@
 import React from "react";
-import { FormatDate } from "components/Body";
+import FormatDate from "components/Body/FormatDate";
 
 export default [
 	{ title: "Season Id", dataIndex: "seasonId", key: "seasonId" },

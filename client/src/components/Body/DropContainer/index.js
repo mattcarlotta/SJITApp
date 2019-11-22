@@ -4,14 +4,12 @@ import isEmpty from "lodash/isEmpty";
 import { Tooltip } from "antd";
 import { FaFileAlt } from "react-icons/fa";
 import { Droppable, Draggable } from "react-beautiful-dnd";
-import {
-	Column,
-	ColumnTitle,
-	Footer,
-	NoUsers,
-	User,
-	UserContainer,
-} from "components/Body";
+import Column from "components/Body/Column";
+import ColumnTitle from "components/Body/ColumnTitle";
+import Footer from "components/Body/Footer";
+import NoUsers from "components/Body/NoUsers";
+import User from "components/Body/User";
+import UserContainer from "components/Body/UserContainer";
 
 const DropContainer = ({ id, title, users, width }) => (
 	<Column width={width}>

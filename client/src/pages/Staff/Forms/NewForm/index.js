@@ -1,6 +1,8 @@
 import React from "react";
-import { NewForm } from "containers/Forms";
+import DynamicImport from "components/Body/DynamicImport";
 
-const NewFormPage = () => <NewForm />;
+const NewFormPage = props => (
+	<DynamicImport {...props} file="Forms/Form/NewForm" />
+);
 
 export default NewFormPage;

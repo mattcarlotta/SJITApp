@@ -4,7 +4,7 @@ import Helmet from "react-helmet";
 import { connect } from "react-redux";
 import { FaCalendar } from "react-icons/fa";
 import { Card } from "antd";
-import { Calendar } from "components/Body";
+import Calendar from "components/Body/Calendar";
 import { fetchScheduleEvents } from "actions/Events";
 
 const title = "Schedule";

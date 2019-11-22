@@ -1,7 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Icon, Label } from "components/Body";
-import { Errors } from "components/Forms";
+import Icon from "components/Body/Icon";
+import Label from "components/Body/Label";
+import Errors from "components/Forms/Errors";
 import ClickHandler from "./ClickHandler";
 
 const Input = ({

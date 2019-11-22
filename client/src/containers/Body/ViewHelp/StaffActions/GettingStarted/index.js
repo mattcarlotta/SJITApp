@@ -1,13 +1,11 @@
 import React from "react";
 import { FaClipboardCheck, FaTools } from "react-icons/fa";
-import {
-	Button,
-	InfoText,
-	List,
-	ListItem,
-	TextContainer,
-} from "components/Body";
-import { Link } from "components/Navigation";
+import Button from "components/Body/Button";
+import InfoText from "components/Body/InfoText";
+import List from "components/Body/List";
+import ListItem from "components/Body/ListItem";
+import TextContainer from "components/Body/TextContainer";
+import Link from "components/Navigation/Link";
 
 const iconStyle = {
 	position: "relative",

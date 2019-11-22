@@ -1,5 +1,5 @@
 const MiniCssExtractPlugin = require("mini-css-extract-plugin").loader;
-const { imagesFolder, fontsFolder, globalCSS, localCSS } = require("./paths");
+const { imagesFolder, fontsFolder, localCSS } = require("./paths");
 const { inDevelopment, localIdentName } = require("./envs");
 
 // =============================================================== //
@@ -29,8 +29,8 @@ const mediaRule = ({ test, outputPath }) => ({
 });
 
 /* defines a SCSS rule */
-const sassRule = ({ include, exclude, modules, sourceMap }) => ({
-	test: /\.s?css$/,
+const cssRule = ({ include, exclude, modules, sourceMap, test }) => ({
+	test,
 	include,
 	exclude,
 	use: [
@@ -49,6 +49,11 @@ const sassRule = ({ include, exclude, modules, sourceMap }) => ({
 		"sass-loader",
 	],
 });
+
+const cssRegex = /\.css$/;
+const cssModuleRegex = /\.module\.css$/;
+const sassRegex = /\.(scss|sass)$/;
+const sassModuleRegex = /\.module\.(scss|sass)$/;
 
 /* webpack module rules */
 const rules = [
@@ -78,14 +83,24 @@ const rules = [
 		test: /\.(woff2|ttf|woff|eot)$/,
 		outputPath: fontsFolder,
 	}),
-	/* handles SCSS imports that are component-level or partials */
-	sassRule({
+	cssRule({
+		test: cssRegex,
+		exclude: cssModuleRegex,
+	}),
+	cssRule({
+		test: cssModuleRegex,
 		include: [localCSS],
-		exclude: [globalCSS],
 		modules: true,
 	}),
-	/* handles SCSS imports that are global only */
-	sassRule({ include: [globalCSS] }),
+	cssRule({
+		test: sassRegex,
+		exclude: sassModuleRegex,
+	}),
+	cssRule({
+		test: sassModuleRegex,
+		include: [localCSS],
+		modules: true,
+	}),
 ];
 
 module.exports = rules;

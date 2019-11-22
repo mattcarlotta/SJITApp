@@ -1,8 +1,8 @@
 import React from "react";
-import { ViewAuthorizations } from "containers/Body";
+import DynamicImport from "components/Body/DynamicImport";
 
-export const ViewAuthorizationsPage = props => (
-	<ViewAuthorizations {...props} />
+const ViewAuthorizationsPage = props => (
+	<DynamicImport {...props} file="Body/ViewAuthorizations" />
 );
 
 export default ViewAuthorizationsPage;

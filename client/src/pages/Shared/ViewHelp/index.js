@@ -1,6 +1,6 @@
 import React from "react";
-import { ViewHelp } from "containers/Body";
+import DynamicImport from "components/Body/DynamicImport";
 
-const ViewHelpPage = () => <ViewHelp />;
+const ViewHelpPage = props => <DynamicImport {...props} file="Body/ViewHelp" />;
 
 export default ViewHelpPage;

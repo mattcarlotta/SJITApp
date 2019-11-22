@@ -15,6 +15,7 @@ module.exports = {
 	faviconPath: resolve(`${currentDirectory}/public/favicon.ico`), // path to favicon.ico (build/favicon.ico)
 	localCSS: resolve(`${currentDirectory}/src`), //  path to local styles (/src)
 	globalCSS: resolve(`${currentDirectory}/src/styles/globals`), // path to the globals.scss file (src/styles/globals/globals.scss)
+	icons: resolve(`${currentDirectory}/src/utils/icons/index.js`),
 	imagesFolder: "media", // compiled images build path (build/media)
 	fontsFolder: "assets", // compiled fonts build path (build/assets)
 	cssFolder: "css", // compiled CSS build path (build/css)

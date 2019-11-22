@@ -26,6 +26,7 @@
     "client": "npm run dev --prefix client",
     "build": "npm run build --prefix client",
     "stage": "npm run stage --prefix client",
+    "analyze": "npm run analyze --prefix client",
     "lint": "npm run lint:front --silent && npm run lint:back --silent",
     "lint:front": "npm run pre-commit --prefix client",
     "lint:back": "lint-staged",

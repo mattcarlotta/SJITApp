@@ -5,7 +5,8 @@ import isEmpty from "lodash/isEmpty";
 import { connect } from "react-redux";
 import { Card, Col } from "antd";
 import { FaUserClock } from "react-icons/fa";
-import { LoadingPanel, MemberAvailabilityAverage } from "components/Body";
+import LoadingPanel from "components/Body/LoadingPanel";
+import MemberAvailabilityAverage from "components/Body/MemberAvailabilityAverage";
 import { fetchAvailability } from "actions/Dashboard";
 import columns from "../Columns";
 

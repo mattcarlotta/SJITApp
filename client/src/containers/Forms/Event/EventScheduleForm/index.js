@@ -5,15 +5,14 @@ import { Card } from "antd";
 import { connect } from "react-redux";
 import { goBack } from "connected-react-router";
 import { FaChartBar, FaClipboardCheck } from "react-icons/fa";
-import {
-	Button,
-	BackButton,
-	Center,
-	MemberEventCountChart,
-	Modal,
-	SubmitButton,
-} from "components/Body";
-import { FormTitle, LoadingScheduleForm } from "components/Forms";
+import Button from "components/Body/Button";
+import BackButton from "components/Body/BackButton";
+import Center from "components/Body/Center";
+import MemberEventCountChart from "components/Body/MemberEventCountChart";
+import Modal from "components/Body/Modal";
+import SubmitButton from "components/Body/SubmitButton";
+import FormTitle from "components/Forms/FormTitle";
+import LoadingScheduleForm from "components/Forms/LoadingScheduleForm";
 import { fetchEventForScheduling, updateEventSchedule } from "actions/Events";
 import Schedule from "./Schedule";
 

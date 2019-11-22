@@ -3,13 +3,11 @@ import PropTypes from "prop-types";
 import moment from "moment-timezone";
 import { Button as AntButton, DatePicker, Select } from "antd";
 import { FaPaperPlane } from "react-icons/fa";
-import {
-	Button,
-	CollapseFlex,
-	FilterButton,
-	FlexEnd,
-	FlexStart,
-} from "components/Body";
+import Button from "components/Body/Button";
+import CollapseFlex from "components/Body/CollapseFlex";
+import FilterButton from "components/Body/FilterButton";
+import FlexEnd from "components/Body/FlexEnd";
+import FlexStart from "components/Body/FlexStart";
 
 const Option = Select.Option;
 const format = "MM-DD-YYYY";

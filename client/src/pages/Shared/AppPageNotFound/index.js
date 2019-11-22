@@ -5,8 +5,9 @@ import { connect } from "react-redux";
 import { goBack } from "connected-react-router";
 import { Card } from "antd";
 import { FaBug } from "react-icons/fa";
-import { Link } from "components/Navigation";
-import { BackButton, Center } from "components/Body";
+import Link from "components/Navigation/Link";
+import BackButton from "components/Body/BackButton";
+import Center from "components/Body/Center";
 
 export const NotFound = ({ goBack }) => (
 	<Fragment>

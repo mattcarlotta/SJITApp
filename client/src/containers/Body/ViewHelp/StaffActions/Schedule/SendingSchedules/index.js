@@ -1,5 +1,7 @@
 import React from "react";
-import { InfoText, TextContainer, WarningText } from "components/Body";
+import InfoText from "components/Body/InfoText";
+import TextContainer from "components/Body/TextContainer";
+import WarningText from "components/Body/WarningText";
 
 const SendingSchedules = () => (
 	<TextContainer>

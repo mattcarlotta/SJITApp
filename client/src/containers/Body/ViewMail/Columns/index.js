@@ -1,5 +1,7 @@
 import React from "react";
-import { DisplaySendToList, EmailStatus, FormatDate } from "components/Body";
+import DisplaySendToList from "components/Body/DisplaySendToList";
+import EmailStatus from "components/Body/EmailStatus";
+import FormatDate from "components/Body/FormatDate";
 
 export default [
 	{

@@ -6,13 +6,11 @@ import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import { Card, Col } from "antd";
 import { FaFileSignature } from "react-icons/fa";
-import {
-	Bold,
-	Button,
-	CalendarContainer,
-	LoadingPanel,
-	WarningText,
-} from "components/Body";
+import Bold from "components/Body/Bold";
+import Button from "components/Body/Button";
+import CalendarContainer from "components/Body/CalendarContainer";
+import LoadingPanel from "components/Body/LoadingPanel";
+import WarningText from "components/Body/WarningText";
 import { fetchAPForm } from "actions/Dashboard";
 import NoForms from "./NoForms";
 import columns from "../Columns";

@@ -3,14 +3,12 @@ import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
 import moment from "moment";
 import { FaCalendarCheck, FaClock } from "react-icons/fa";
-import {
-	Badge,
-	Bold,
-	FormatDate,
-	List,
-	ListItem,
-	Modal,
-} from "components/Body";
+import Badge from "components/Body/Badge";
+import Bold from "components/Body/Bold";
+import FormatDate from "components/Body/FormatDate";
+import List from "components/Body/List";
+import ListItem from "components/Body/ListItem";
+import Modal from "components/Body/Modal";
 
 const listStyle = {
 	paddingLeft: 10,

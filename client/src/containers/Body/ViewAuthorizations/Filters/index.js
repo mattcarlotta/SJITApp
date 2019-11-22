@@ -2,14 +2,12 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Button as AntButton, Select } from "antd";
 import { FaUserPlus } from "react-icons/fa";
-import {
-	Button,
-	CollapseFlex,
-	FilterButton,
-	FilterInput,
-	FlexEnd,
-	FlexStart,
-} from "components/Body";
+import Button from "components/Body/Button";
+import CollapseFlex from "components/Body/CollapseFlex";
+import FilterButton from "components/Body/FilterButton";
+import FilterInput from "components/Body/FilterInput";
+import FlexEnd from "components/Body/FlexEnd";
+import FlexStart from "components/Body/FlexStart";
 
 const Option = Select.Option;
 
