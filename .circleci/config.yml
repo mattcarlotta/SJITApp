@@ -9,7 +9,7 @@ jobs:
       # specify the version you desire here
       - image: circleci/node:10.16.3
 
-    working_directory: ~/home/circleci
+    working_directory: /home/circleci
 
     steps:
       - checkout
