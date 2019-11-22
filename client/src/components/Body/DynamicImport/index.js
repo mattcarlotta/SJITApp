@@ -1,7 +1,8 @@
+/* istanbul ignore file */
 /* eslint-disable no-console */
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import Spinner from "components/Body/Spinner";
+import LoadingCard from "components/Body/LoadingCard";
 
 class DynamicImport extends Component {
 	state = {
@@ -29,12 +30,11 @@ class DynamicImport extends Component {
 	render = () => {
 		const { Component } = this.state;
 
-		return Component ? <Component {...this.props} /> : <Spinner />;
+		return Component ? <Component {...this.props} /> : <LoadingCard />;
 	};
 }
 
 DynamicImport.propTypes = {
-	children: PropTypes.node,
 	file: PropTypes.string.isRequired,
 };
 

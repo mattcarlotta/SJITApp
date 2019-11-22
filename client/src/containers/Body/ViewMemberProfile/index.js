@@ -4,7 +4,7 @@ import isEmpty from "lodash/isEmpty";
 import Helmet from "react-helmet";
 import { goBack } from "connected-react-router";
 import { connect } from "react-redux";
-import { Card, Icon, Tabs } from "antd";
+import { Card, Tabs } from "antd";
 import {
 	FaUserCircle,
 	FaChartBar,
@@ -41,28 +41,36 @@ const iconStyle = {
 
 const profile = (
 	<span>
-		<Icon component={FaUserCircle} />
+		<span className="anticon">
+			<FaUserCircle />
+		</span>
 		Profile
 	</span>
 );
 
 const availability = (
 	<span>
-		<Icon component={FaChartBar} />
+		<span className="anticon">
+			<FaChartBar />
+		</span>
 		Availability
 	</span>
 );
 
 const responses = (
 	<span>
-		<Icon component={FaReply} />
+		<span className="anticon">
+			<FaReply />
+		</span>
 		Responses
 	</span>
 );
 
 const scheduling = (
 	<span>
-		<Icon component={FaClock} />
+		<span className="anticon">
+			<FaClock />
+		</span>
 		Schedule
 	</span>
 );

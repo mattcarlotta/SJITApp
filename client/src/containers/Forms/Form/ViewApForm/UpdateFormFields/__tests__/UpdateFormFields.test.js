@@ -1,4 +1,4 @@
-import { EventLabel } from "components/Body";
+import EventLabel from "components/Body/EventLabel";
 import updateFormFields from "../index";
 
 const eventsGame = [
@@ -82,7 +82,6 @@ describe("UpdateFormFields", () => {
 				disabled: false,
 				width: "350px",
 				minHeight: "125px",
-				className: "ap-form-notes",
 				maxLength: 200,
 				rows: 3,
 				style: {
@@ -145,7 +144,6 @@ describe("UpdateFormFields", () => {
 				disabled: false,
 				width: "350px",
 				minHeight: "125px",
-				className: "ap-form-notes",
 				maxLength: 200,
 				rows: 3,
 				style: {

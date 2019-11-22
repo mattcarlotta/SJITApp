@@ -1,6 +1,8 @@
 import React from "react";
-import { ViewDashboard } from "containers/Body";
+import DynamicImport from "components/Body/DynamicImport";
 
-const DashboardPage = () => <ViewDashboard />;
+const DashboardPage = props => (
+	<DynamicImport {...props} file="Body/ViewDashboard" />
+);
 
 export default DashboardPage;

@@ -2,9 +2,6 @@
 
 // staff only pages
 
-// dashboard
-export { default as Dashboard } from "./Dashboard";
-
 // events
 export { default as EditEvent } from "./Events/EditEvent";
 export { default as EventSchedule } from "./Events/EventSchedule";
@@ -27,9 +24,6 @@ export { default as NewMember } from "./Members/NewMember";
 export { default as ViewAuthorizations } from "./Members/ViewAuthorizations";
 export { default as ViewMemberProfile } from "./Members/ViewMemberProfile";
 export { default as ViewMembers } from "./Members/ViewMembers";
-
-// schedule
-export { default as Schedules } from "./Schedules";
 
 // seasons
 export { default as EditSeason } from "./Seasons/EditSeason";

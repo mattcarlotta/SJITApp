@@ -1,6 +1,5 @@
 import React from "react";
-// import { SendMailForm } from "containers/Forms";
-import { DynamicImport } from "components/Body";
+import DynamicImport from "components/Body/DynamicImport";
 
 const SendMailPage = props => (
 	<DynamicImport {...props} file="Forms/Mail/SendMailForm" />

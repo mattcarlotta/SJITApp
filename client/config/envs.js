@@ -1,7 +1,7 @@
 const moment = require("moment-timezone");
 const { version } = require("../package.json");
 
-const { APIPORT, NODE_ENV, NODE_ENV_DEV, PORT } = process.env;
+const { ANALZYER, APIPORT, NODE_ENV, NODE_ENV_DEV, PORT } = process.env;
 
 const inDevelopment = NODE_ENV === "development";
 const inStaging = NODE_ENV_DEV === "staging";
@@ -15,6 +15,7 @@ const buildTimeStamp = moment()
 	.format();
 
 module.exports = {
+	analzye: ANALZYER,
 	APIPORT, // current API port
 	baseURL, // current API url
 	buildTimeStamp, // current build

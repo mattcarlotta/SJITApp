@@ -6,17 +6,19 @@ import { Card } from "antd";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import { FaFileSignature } from "react-icons/fa";
-import {
-	BackButton,
-	FormContainer,
-	LoadingPanel,
-	SubmitButton,
-	Notes,
-	Title,
-} from "components/Body";
-import { FieldGenerator, FormTitle, LoadingForm } from "components/Forms";
 import { fetchFormAp, resetApForm, updateFormAp } from "actions/Forms";
-import { fieldValidator, fieldUpdater, parseFields } from "utils";
+import BackButton from "components/Body/BackButton";
+import FormContainer from "components/Body/FormContainer";
+import LoadingPanel from "components/Body/LoadingPanel";
+import Notes from "components/Body/Notes";
+import SubmitButton from "components/Body/SubmitButton";
+import Title from "components/Body/Title";
+import FieldGenerator from "components/Forms/FieldGenerator";
+import FormTitle from "components/Forms/FormTitle";
+import LoadingForm from "components/Forms/LoadingForm";
+import fieldValidator from "utils/fieldValidator";
+import fieldUpdater from "utils/fieldUpdater";
+import parseFields from "utils/parseFields";
 import updateFormFields from "./UpdateFormFields";
 import condenseFormFields from "./CondenseFormFields";
 import fields from "./Fields";

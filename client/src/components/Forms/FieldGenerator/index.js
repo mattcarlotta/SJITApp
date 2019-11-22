@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
-import FroalaEditor from "react-froala-wysiwyg";
 import {
 	Form,
 	DatePicker,
@@ -17,6 +16,7 @@ import Notes from "components/Body/Notes";
 import Errors from "components/Forms/Errors";
 import Input from "components/Forms/Input";
 import Select from "components/Forms/Select";
+import FroalaEditor from "components/Forms/LazyFroala";
 
 const RangePicker = DatePicker.RangePicker;
 const TextArea = AntInput.TextArea;

@@ -1,4 +1,4 @@
-import { AppLoader } from "containers/Auth";
+import AppLoader from "containers/Auth/AppLoader";
 import NewPasswordForm from "containers/Forms/Auth/NewPasswordForm";
 import ResetPasswordForm from "containers/Forms/Auth/ResetPasswordForm";
 import SignupForm from "containers/Forms/Auth/SignupForm";

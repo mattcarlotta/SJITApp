@@ -5,15 +5,17 @@ import { Card } from "antd";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import { FaCalendarPlus } from "react-icons/fa";
-import { BackButton, FormContainer, SubmitButton } from "components/Body";
-import {
-	AddField,
-	FieldGenerator,
-	FormTitle,
-	LoadingForm,
-} from "components/Forms";
 import { createEvent, initializeNewEvent } from "actions/Events";
-import { fieldValidator, fieldUpdater, parseFields } from "utils";
+import BackButton from "components/Body/BackButton";
+import SubmitButton from "components/Body/SubmitButton";
+import FormContainer from "components/Body/FormContainer";
+import AddField from "components/Forms/AddField";
+import FieldGenerator from "components/Forms/FieldGenerator";
+import FormTitle from "components/Forms/FormTitle";
+import LoadingForm from "components/Forms/LoadingForm";
+import fieldValidator from "utils/fieldValidator";
+import fieldUpdater from "utils/fieldUpdater";
+import parseFields from "utils/parseFields";
 import updateFormFields from "./UpdateFormFields";
 import fields from "./Fields";
 

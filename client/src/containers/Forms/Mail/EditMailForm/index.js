@@ -5,15 +5,17 @@ import { Card } from "antd";
 import { connect } from "react-redux";
 import { goBack } from "connected-react-router";
 import { FaEdit } from "react-icons/fa";
-import {
-	Button,
-	BackButton,
-	EmailPreview,
-	FormContainer,
-} from "components/Body";
-import { FieldGenerator, FormTitle, LoadingForm } from "components/Forms";
-import { fieldUpdater, fieldValidator, parseFields } from "utils";
 import { fetchMail, updateMail } from "actions/Mail";
+import Button from "components/Body/Button";
+import BackButton from "components/Body/BackButton";
+import EmailPreview from "components/Body/EmailPreview";
+import FormContainer from "components/Body/FormContainer";
+import FieldGenerator from "components/Forms/FieldGenerator";
+import FormTitle from "components/Forms/FormTitle";
+import LoadingForm from "components/Forms/LoadingForm";
+import fieldValidator from "utils/fieldValidator";
+import fieldUpdater from "utils/fieldUpdater";
+import parseFields from "utils/parseFields";
 import updateFormFields from "./UpdateFormFields";
 import fields from "./Fields";
 

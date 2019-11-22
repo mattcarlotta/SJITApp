@@ -6,10 +6,15 @@ import { connect } from "react-redux";
 import { goBack } from "connected-react-router";
 import { Card } from "antd";
 import { FaEdit } from "react-icons/fa";
-import { BackButton, FormContainer, SubmitButton } from "components/Body";
-import { FieldGenerator, FormTitle, LoadingForm } from "components/Forms";
 import { fetchSeason, updateSeason } from "actions/Seasons";
-import { fieldUpdater, parseFields } from "utils";
+import BackButton from "components/Body/BackButton";
+import FormContainer from "components/Body/FormContainer";
+import SubmitButton from "components/Body/SubmitButton";
+import FieldGenerator from "components/Forms/FieldGenerator";
+import FormTitle from "components/Forms/FormTitle";
+import LoadingForm from "components/Forms/LoadingForm";
+import fieldUpdater from "utils/fieldUpdater";
+import parseFields from "utils/parseFields";
 import fields from "./Fields";
 
 const title = "Edit Season";

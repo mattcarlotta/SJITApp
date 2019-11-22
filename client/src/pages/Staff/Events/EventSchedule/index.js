@@ -1,8 +1,5 @@
 import React from "react";
-// import { EventScheduleForm } from "containers/Forms";
-import { DynamicImport } from "components/Body";
-
-// const EventScheduleFormPage = props => <EventScheduleForm {...props} />;
+import DynamicImport from "components/Body/DynamicImport";
 
 const EventScheduleFormPage = props => (
 	<DynamicImport {...props} file="Forms/Event/EventScheduleForm" />

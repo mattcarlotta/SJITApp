@@ -1,6 +1,8 @@
 import React from "react";
-import { ViewSettings } from "containers/Body";
+import DynamicImport from "components/Body/DynamicImport";
 
-const ViewSettingsPage = () => <ViewSettings />;
+const ViewSettingsPage = props => (
+	<DynamicImport {...props} file="Body/ViewSettings" />
+);
 
 export default ViewSettingsPage;

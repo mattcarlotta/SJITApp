@@ -1,8 +1,5 @@
 import React from "react";
-import { DynamicImport } from "components/Body";
-// import { EditMailForm } from "containers/Forms";
-
-// const EditEmailPage = props => <EditMailForm {...props} />;
+import DynamicImport from "components/Body/DynamicImport";
 
 const EditEmailPage = props => (
 	<DynamicImport {...props} file="Forms/Mail/EditMailForm" />

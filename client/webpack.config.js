@@ -3,7 +3,7 @@ const getPlugins = require("./config/plugins");
 const optimization = require("./config/optimization");
 const output = require("./config/output");
 const rules = require("./config/rules");
-const { entryPath } = require("./config/paths");
+const { entryPath, icons } = require("./config/paths");
 const { inDevelopment } = require("./config/envs");
 
 // =============================================================== //
@@ -24,6 +24,9 @@ module.exports = {
 	resolve: {
 		modules: ["src", "node_modules"],
 		extensions: ["*", ".js", ".jsx", ".css", ".scss"],
+		alias: {
+			"@ant-design/icons/lib/dist$": icons,
+		},
 	},
 	plugins: getPlugins(),
 };

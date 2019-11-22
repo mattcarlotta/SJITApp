@@ -3,10 +3,14 @@ import PropTypes from "prop-types";
 import { Card } from "antd";
 import { connect } from "react-redux";
 import { FaConciergeBell } from "react-icons/fa";
-import { FormContainer, SubmitButton } from "components/Body";
-import { FieldGenerator, FormTitle } from "components/Forms";
 import { contactUs } from "actions/Mail";
-import { fieldValidator, fieldUpdater, parseFields } from "utils";
+import FormContainer from "components/Body/FormContainer";
+import SubmitButton from "components/Body/SubmitButton";
+import FieldGenerator from "components/Forms/FieldGenerator";
+import FormTitle from "components/Forms/FormTitle";
+import fieldValidator from "utils/fieldValidator";
+import fieldUpdater from "utils/fieldUpdater";
+import parseFields from "utils/parseFields";
 import fields from "./Fields";
 
 const title = "Contact Us";

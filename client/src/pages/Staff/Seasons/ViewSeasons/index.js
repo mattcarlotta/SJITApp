@@ -1,6 +1,8 @@
 import React from "react";
-import { ViewSeasons } from "containers/Body";
+import DynamicImport from "components/Body/DynamicImport";
 
-const ViewSeasonsPage = props => <ViewSeasons {...props} />;
+const ViewSeasonsPage = props => (
+	<DynamicImport {...props} file="Body/ViewSeasons" />
+);
 
 export default ViewSeasonsPage;

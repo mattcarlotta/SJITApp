@@ -1,5 +1,8 @@
-const { DefinePlugin, HotModuleReplacementPlugin } = require("webpack");
-const { GenerateSW } = require("workbox-webpack-plugin");
+const {
+	DefinePlugin,
+	HotModuleReplacementPlugin,
+	IgnorePlugin,
+} = require("webpack");
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
 	.BundleAnalyzerPlugin;
 const InlineChunkHtmlPlugin = require("react-dev-utils/InlineChunkHtmlPlugin");
@@ -13,6 +16,7 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 const GitRevisionPlugin = require("git-revision-webpack-plugin");
 const { cssFolder, faviconPath, publicPath, templatePath } = require("./paths");
 const {
+	analzye,
 	APIPORT,
 	baseURL,
 	buildTimeStamp,
@@ -112,54 +116,7 @@ module.exports = () => {
 		plugins.push(
 			/* compiles SCSS to a single CSS file */
 			new InlineChunkHtmlPlugin(HtmlWebpackPlugin, [/runtime/]),
-			new GenerateSW({
-				swDest: "sw.js",
-				clientsClaim: true,
-				exclude: [
-					/\.map$/,
-					// /\.js$/,
-					/reactDNDVendor/,
-					/asset-manifest\.json$/,
-					/\.(?:png|jpg|jpeg|svg)$/,
-				],
-				runtimeCaching: [
-					{
-						urlPattern: /\.(?:png|jpg|jpeg|svg|tff)$/,
-						handler: "CacheFirst",
-						options: {
-							cacheName: "media",
-							expiration: {
-								maxEntries: 65,
-							},
-						},
-					},
-					// {
-					// 	urlPattern: /\.(?:css)$/,
-					// 	handler: "NetworkFirst",
-					// 	options: {
-					// 		cacheName: "assets",
-					// 		expiration: {
-					// 			maxEntries: 20,
-					// 		},
-					// 	},
-					// },
-					// {
-					// 	urlPattern: /\.(js|jsx)$/,
-					// 	handler: "NetworkFirst",
-					// },
-				],
-				importWorkboxFrom: "cdn",
-				navigateFallback: "/index.html",
-				navigateFallbackBlacklist: [
-					// Exclude URLs starting with /_, as they're likely an API call
-					new RegExp("^/_"),
-					// Exclude any URLs whose last part seems to be a file extension
-					// as they're likely a resource and not a SPA route.
-					// URLs containing a "?" character won't be blacklisted as they're likely
-					// a route with query params (e.g. auth callbacks).
-					new RegExp("/[^/?]+\\.[^/]+$"),
-				],
-			}),
+			new IgnorePlugin(/^\.\/locale$/, /moment$/),
 			new MiniCssExtractPlugin({
 				filename: `${cssFolder}/[name].[contenthash:8].css`,
 				chunkFilename: `${cssFolder}/[id].[contenthash:8].css`,
@@ -170,7 +127,7 @@ module.exports = () => {
 				{ from: "public/ITLogo_512x512.png" },
 				{ from: "public/ITLogo_192x192.png" },
 			]),
-			inStaging && new BundleAnalyzerPlugin(),
+			analzye && inStaging && new BundleAnalyzerPlugin(),
 		);
 	}
 

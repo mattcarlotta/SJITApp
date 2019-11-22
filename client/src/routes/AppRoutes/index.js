@@ -2,38 +2,33 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Redirect, Route, Switch } from "react-router-dom";
 
-import {
-	EditAuthorization,
-	EditEvent,
-	EditForm,
-	EditMail,
-	EditSeason,
-	EventSchedule,
-	NewEvent,
-	NewForm,
-	NewMember,
-	NewSeason,
-	SendMail,
-	ViewAuthorizations,
-	ViewEvents,
-	ViewForms,
-	ViewMail,
-	ViewMemberProfile,
-	ViewMembers,
-	ViewSeasons,
-} from "pages/Staff";
-
-import {
-	AppPageNotFound,
-	ViewApForm,
-	ViewContact,
-	ViewDashboard,
-	ViewHelp,
-	ViewLicense,
-	ViewPrivacy,
-	ViewSchedule,
-	ViewSettings,
-} from "pages/Shared";
+import EditAuthorization from "pages/Staff/Members/EditAuthorization";
+import EditEvent from "pages/Staff/Events/EditEvent";
+import EditForm from "pages/Staff/Forms/EditForm";
+import EditMail from "pages/Staff/Mail/EditMail";
+import EditSeason from "pages/Staff/Seasons/EditSeason";
+import EventSchedule from "pages/Staff/Events/EventSchedule";
+import NewEvent from "pages/Staff/Events/NewEvent";
+import NewForm from "pages/Staff/Forms/NewForm";
+import NewMember from "pages/Staff/Members/NewMember";
+import NewSeason from "pages/Staff/Seasons/NewSeason";
+import SendMail from "pages/Staff/Mail/SendMail";
+import ViewAuthorizations from "pages/Staff/Members/ViewAuthorizations";
+import ViewEvents from "pages/Staff/Events/ViewEvents";
+import ViewForms from "pages/Staff/Forms/ViewForms";
+import ViewMail from "pages/Staff/Mail/ViewMail";
+import ViewMemberProfile from "pages/Staff/Members/ViewMemberProfile";
+import ViewMembers from "pages/Staff/Members/ViewMembers";
+import ViewSeasons from "pages/Staff/Seasons/ViewSeasons";
+import AppPageNotFound from "pages/Shared/AppPageNotFound";
+import ViewApForm from "pages/Shared/ViewApForm";
+import ViewContact from "pages/Shared/ViewContact";
+import ViewDashboard from "pages/Shared/ViewDashboard";
+import ViewHelp from "pages/Shared/ViewHelp";
+import ViewLicense from "pages/Shared/ViewLicense";
+import ViewPrivacy from "pages/Shared/ViewPrivacy";
+import ViewSchedule from "pages/Shared/ViewSchedule";
+import ViewSettings from "pages/Shared/ViewSettings";
 
 const AppRoutes = ({ match: { url }, role }) =>
 	role !== "employee" ? (

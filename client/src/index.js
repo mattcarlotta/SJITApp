@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./root";
-import * as serviceWorker from "./utils/serviceWorker";
+// import * as serviceWorker from "./utils/serviceWorker";
 import "./styles/globals/globals.scss";
 
 const render = Component => {
@@ -17,4 +17,4 @@ if (module.hot) {
 	});
 }
 
-serviceWorker.register();
+// serviceWorker.register();

@@ -1,6 +1,6 @@
 import React from "react";
 import get from "lodash/get";
-import { EventLabel } from "components/Body";
+import EventLabel from "components/Body/EventLabel";
 
 export default (result, field, events) => {
 	const initializedFields = events.reduce((acc, event) => {

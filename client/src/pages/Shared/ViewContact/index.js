@@ -1,6 +1,8 @@
 import React from "react";
-import { ContactForm } from "containers/Forms";
+import DynamicImport from "components/Body/DynamicImport";
 
-const ContactUsPage = () => <ContactForm />;
+const ContactUsPage = props => (
+	<DynamicImport {...props} file="Forms/Mail/ContactForm" />
+);
 
 export default ContactUsPage;

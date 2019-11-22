@@ -4,7 +4,7 @@ import isEmpty from "lodash/isEmpty";
 import debounce from "lodash/debounce";
 import Helmet from "react-helmet";
 import { connect } from "react-redux";
-import { Card, Icon, Tabs } from "antd";
+import { Card, Tabs } from "antd";
 import { FaCogs, FaUserCircle, FaChartBar, FaReply } from "react-icons/fa";
 import {
 	fetchMemberSettings,
@@ -31,21 +31,27 @@ const iconStyle = {
 
 const profile = (
 	<span>
-		<Icon component={FaUserCircle} />
+		<span className="anticon">
+			<FaUserCircle />
+		</span>
 		Profile
 	</span>
 );
 
 const availability = (
 	<span>
-		<Icon component={FaChartBar} />
+		<span className="anticon">
+			<FaChartBar />
+		</span>
 		Availability
 	</span>
 );
 
 const responses = (
 	<span>
-		<Icon component={FaReply} />
+		<span className="anticon">
+			<FaReply />
+		</span>
 		Responses
 	</span>
 );

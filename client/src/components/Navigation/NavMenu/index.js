@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
-import { Menu, Icon } from "antd";
+import { Menu } from "antd";
 import Center from "components/Body/Center";
 import FadeIn from "components/Body/FadeIn";
 import Legal from "components/Body/Legal";
@@ -72,7 +72,7 @@ const NavMenu = ({
 				onSelect={onHandleTabClick}
 				selectedKeys={selectedKey}
 			>
-				{TABS.map(({ component, divider, key, tab, submenu }) =>
+				{TABS.map(({ icon, divider, key, tab, submenu }) =>
 					divider ? (
 						<Divider
 							key={key}
@@ -80,7 +80,7 @@ const NavMenu = ({
 						/>
 					) : !submenu ? (
 						<MenuItem value={key} key={key}>
-							<Icon component={component} />
+							<i className="anticon">{icon}</i>
 							<Tab>{tab}</Tab>
 						</MenuItem>
 					) : (
@@ -88,14 +88,14 @@ const NavMenu = ({
 							key={key}
 							title={
 								<Fragment>
-									<Icon component={component} />
+									<i className="anticon">{icon}</i>
 									<Tab>{tab}</Tab>
 								</Fragment>
 							}
 						>
-							{submenu.map(({ component, disabled, tab, value, key }) => (
+							{submenu.map(({ icon, disabled, tab, value, key }) => (
 								<MenuItem disabled={disabled} value={value} key={key}>
-									<Icon component={component} />
+									<i className="anticon">{icon}</i>
 									<Tab>{tab}</Tab>
 								</MenuItem>
 							))}

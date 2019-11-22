@@ -6,9 +6,14 @@ import { push } from "connected-react-router";
 import { Card } from "antd";
 import { FaFolderPlus } from "react-icons/fa";
 import { createSeason } from "actions/Seasons";
-import { BackButton, FormContainer, SubmitButton } from "components/Body";
-import { FieldGenerator, FormTitle } from "components/Forms";
-import { fieldValidator, fieldUpdater, parseFields } from "utils";
+import BackButton from "components/Body/BackButton";
+import FormContainer from "components/Body/FormContainer";
+import SubmitButton from "components/Body/SubmitButton";
+import FieldGenerator from "components/Forms/FieldGenerator";
+import FormTitle from "components/Forms/FormTitle";
+import fieldValidator from "utils/fieldValidator";
+import fieldUpdater from "utils/fieldUpdater";
+import parseFields from "utils/parseFields";
 import fields from "./Fields";
 
 const title = "New Season";

@@ -6,7 +6,7 @@ import { push } from "connected-react-router";
 import { Card } from "antd";
 import { FaKey } from "react-icons/fa";
 import Table from "components/Body/Table";
-import { QueryHandler } from "components/Navigation";
+import QueryHandler from "components/Navigation/QueryHandler";
 import { deleteToken, fetchTokens, resendToken } from "actions/Members";
 import Filters from "./Filters";
 import columns from "./Columns";

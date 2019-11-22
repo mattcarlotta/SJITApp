@@ -9,7 +9,6 @@ import List from "components/Body/List";
 import ListItem from "components/Body/ListItem";
 import Row from "components/Body/Row";
 import ScheduleContainer from "components/Body/ScheduleContainer";
-
 import Container from "./Container";
 import GameDetailsContainer from "./GameDetailsContainer";
 

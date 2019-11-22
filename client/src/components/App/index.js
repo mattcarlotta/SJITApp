@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Layout } from "antd";
-import { AppRoutes } from "routes";
+import AppRoutes from "routes/AppRoutes";
 import BuildVersion from "components/Body/BuildVersion";
 import LeftMenu from "components/Navigation/LeftMenu";
 import RightMenu from "components/Navigation/RightMenu";

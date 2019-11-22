@@ -2,10 +2,13 @@ import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
 import { connect } from "react-redux";
-import { SubmitButton } from "components/Body";
-import { FieldGenerator, LoadingForm } from "components/Forms";
 import { updateSettings } from "actions/Members";
-import { fieldValidator, fieldUpdater, parseFields } from "utils";
+import SubmitButton from "components/Body/SubmitButton";
+import FieldGenerator from "components/Forms/FieldGenerator";
+import LoadingForm from "components/Forms/LoadingForm";
+import fieldValidator from "utils/fieldValidator";
+import fieldUpdater from "utils/fieldUpdater";
+import parseFields from "utils/parseFields";
 import fields from "./Fields";
 
 export class UpdateSettingsForm extends Component {
