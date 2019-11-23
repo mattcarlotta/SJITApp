@@ -176,10 +176,6 @@
 	}
 }
 
-.fr-wrapper > div[style*="z-index:9999;"] {
-	display: none !important;
-}
-
 .loggedin-user,
 .firstname {
 	@media (max-width: 250px) {
