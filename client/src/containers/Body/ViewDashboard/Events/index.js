@@ -114,7 +114,7 @@ export class Events extends Component {
 														maxWidth: 225,
 														margin: "0 auto",
 													}}
-													btnStyle={{ maxWidth: 585 }}
+													btnStyle={{ maxWidth: 585, minWidth: 225 }}
 													spacing={20}
 													padding="0 20.5%"
 													height="45px"

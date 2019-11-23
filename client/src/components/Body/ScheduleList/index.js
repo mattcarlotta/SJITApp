@@ -45,7 +45,7 @@ const ScheduleList = ({
 						style={{ ...initBtnStyle, ...btnStyle }}
 						onClick={() => handleShowModal(item)}
 					>
-						<FlexSpaceAround style={{ ...innerStyle, minWidth: 125 }}>
+						<FlexSpaceAround style={innerStyle}>
 							{!isEmpty(item.schedule) &&
 								item.schedule.map(({ employeeIds }) =>
 									!isEmpty(employeeIds) &&
