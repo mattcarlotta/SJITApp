@@ -11,13 +11,18 @@ class LazyFroala extends Component {
 
 	componentDidMount = () => this.importFile();
 
-	componentWillUnmount = () => (this.cancelImport = true);
+	componentWillUnmount = () => {
+		this.cancelImport = true;
+		clearTimeout(this.timer);
+	};
 
 	setTimer = () => {
-		const node = document.querySelector(".fr-wrapper > div");
-		if (node && node.style[0] === "z-index") {
-			node.style.display = "none";
-		}
+		this.timer = window.setTimeout(() => {
+			const node = document.querySelector(".fr-wrapper > div");
+			if (node && node.style[0] === "z-index") {
+				node.style.display = "none";
+			}
+		}, 500);
 	};
 
 	cancelImport = false;
