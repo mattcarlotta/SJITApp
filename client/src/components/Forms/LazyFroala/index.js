@@ -11,6 +11,13 @@ class LazyFroala extends Component {
 
 	componentDidMount = () => this.importFile();
 
+	componentDidUpdate = prevProps => {
+		const { model } = this.props;
+		if (model !== prevProps.model) {
+			this.removeNode();
+		}
+	};
+
 	componentWillUnmount = () => {
 		this.cancelImport = true;
 		clearTimeout(this.timer);
@@ -18,11 +25,15 @@ class LazyFroala extends Component {
 
 	setTimer = () => {
 		this.timer = window.setTimeout(() => {
-			const node = document.querySelector(".fr-wrapper > div");
-			if (node && node.style[0] === "z-index") {
-				node.style.display = "none";
-			}
-		}, 500);
+			this.removeNode();
+		}, 100);
+	};
+
+	removeNode = () => {
+		const node = document.querySelector(".fr-wrapper > div");
+		if (node && node.style[0] === "z-index") {
+			node.style.display = "none";
+		}
 	};
 
 	cancelImport = false;
@@ -53,6 +64,7 @@ class LazyFroala extends Component {
 }
 
 LazyFroala.propTypes = {
+	model: PropTypes.string,
 	children: PropTypes.node,
 };
 
