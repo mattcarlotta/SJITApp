@@ -13,12 +13,6 @@ jobs:
     steps:
       - checkout
       - run:
-          name: install-dependencies
-          command: yarn initialize
-      - run:
-          name: tests
-          command: yarn test
-      - run:
           name: redeploy-app
           command: ssh -o "StrictHostKeyChecking no" -v $DROPLET_USER@$DROPLET_IP “cd /var/www/sjsiceteam.com/app; git pull origin master; yarn initialize; yarn build; pm2 restart 0"
 
