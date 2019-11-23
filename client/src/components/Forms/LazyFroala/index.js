@@ -17,12 +17,10 @@ class LazyFroala extends Component {
 	};
 
 	setTimer = () => {
-		this.timer = window.setTimeout(() => {
-			const node = document.querySelector(".fr-wrapper > div");
-			if (node && node.style[0] === "z-index") {
-				node.style.display = "none";
-			}
-		}, 1000);
+		const node = document.querySelector(".fr-wrapper > div");
+		if (node && node.style[0] === "z-index") {
+			node.style.display = "none";
+		}
 	};
 
 	cancelImport = false;
