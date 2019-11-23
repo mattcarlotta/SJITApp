@@ -8,11 +8,20 @@ jobs:
     docker:
       # specify the version you desire here
       - image: circleci/node:10.16.3
-
-    working_directory: /home/circleci
-
+      - image: circleci/mongo:4.2.1
+      - image: circleci/redis:4.0.9
     steps:
-      - run: ssh -oStrictHostKeyChecking=no -v $DROPLET_USER@$DROPLET_IP “./deploy.sh”
+      - checkout
+      - run:
+          name: install-dependencies
+          command: yarn initialize
+      - run:
+          name: tests
+          command: yarn test
+      - run:
+          name: redeploy-app
+          command: ssh -o "StrictHostKeyChecking no" -v $DROPLET_USER@$DROPLET_IP “cd /var/www/sjsiceteam.com/app; git pull origin master; yarn initialize; yarn build; pm2 restart 0"
+
 workflows:
   version: 2
   build-and-deploy:
