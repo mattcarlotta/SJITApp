@@ -11,10 +11,7 @@ class LazyFroala extends Component {
 
 	componentDidMount = () => this.importFile();
 
-	componentWillUnmount = () => {
-		this.cancelImport = true;
-		clearTimeout(this.timer);
-	};
+	componentWillUnmount = () => (this.cancelImport = true);
 
 	setTimer = () => {
 		const node = document.querySelector(".fr-wrapper > div");
