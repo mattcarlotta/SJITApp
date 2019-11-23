@@ -34,6 +34,11 @@ class LazyFroala extends Component {
 		if (node && node.style[0] === "z-index") {
 			node.style.display = "none";
 		}
+
+		const placeholder = document.querySelector(".fr-placeholder");
+		if (placeholder) {
+			placeholder.style.marginTop = "15px";
+		}
 	};
 
 	cancelImport = false;
