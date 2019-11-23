@@ -15,16 +15,3 @@ jobs:
       - run:
           name: redeploy-app
           command: ssh -o "StrictHostKeyChecking no" -v $DROPLET_USER@$DROPLET_IP "cd /var/www/sjsiceteam.com/app; git pull origin master; yarn initialize; yarn build; pm2 restart 0"
-
-workflows:
-  version: 2
-  build-and-deploy:
-    jobs:
-      - build
-      - deploy-prod:
-          filters:
-            branches:
-              only:
-                - master
-          requires:
-            - build
