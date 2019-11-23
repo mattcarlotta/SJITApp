@@ -21,9 +21,7 @@ class LazyFroala extends Component {
 				/* webpackMode: "lazy" */ "react-froala-wysiwyg"
 			);
 
-			await import(
-				/* webpackMode: "lazy" */ "components/Body/FroalaSupportFiles"
-			);
+			await import(/* webpackMode: "lazy" */ "./styles.css");
 
 			if (!this.cancelImport) this.setState({ Component: file });
 		} catch (err) {

@@ -1,6 +1,6 @@
 {
 	"name": "sjsitapp",
-	"version": "0.5.131b",
+	"version": "0.5.132b",
 	"main": "app.js",
 	"description": "An application for the San Jose Sharks Ice Team.",
 	"repository": "https://github.com/mattcarlotta/SJSITApp",
