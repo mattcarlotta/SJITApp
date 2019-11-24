@@ -1,7 +1,14 @@
 const moment = require("moment-timezone");
 const { version } = require("../package.json");
 
-const { ANALZYER, APIPORT, NODE_ENV, NODE_ENV_DEV, PORT } = process.env;
+const {
+	ANALZYER,
+	APIPORT,
+	IMAGEAPI,
+	NODE_ENV,
+	NODE_ENV_DEV,
+	PORT,
+} = process.env;
 
 const inDevelopment = NODE_ENV === "development";
 const inStaging = NODE_ENV_DEV === "staging";
@@ -21,6 +28,7 @@ module.exports = {
 	buildTimeStamp, // current build
 	buildVersion: version, // current version
 	currentDirectory: process.cwd(), // current working directory
+	IMAGEAPI,
 	inDevelopment, // current environment
 	inStaging,
 	localIdentName: "[local]___[hash:base64:5]", // how class names will be defined in the DOM

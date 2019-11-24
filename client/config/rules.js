@@ -1,5 +1,5 @@
 const MiniCssExtractPlugin = require("mini-css-extract-plugin").loader;
-const { imagesFolder, fontsFolder, localCSS } = require("./paths");
+const { fontsFolder, localCSS } = require("./paths");
 const { inDevelopment, localIdentName } = require("./envs");
 
 // =============================================================== //
@@ -72,11 +72,6 @@ const rules = [
 			cacheDirectory: inDevelopment,
 			cacheCompression: false,
 		},
-	}),
-	/* handle image assets */
-	mediaRule({
-		test: /\.(png|jpg|gif|svg)$/,
-		outputPath: imagesFolder,
 	}),
 	/* handle font assets */
 	mediaRule({

@@ -2,9 +2,8 @@
 /* eslint-disable react/no-danger */
 import React from "react";
 import PropTypes from "prop-types";
-import sapLogo from "images/misc/sapLogoEmail.png";
-import sharksLogo from "images/misc/sharksLogoEmail.png";
-import barracudaLogo from "images/misc/barracudaLogoEmail.png";
+
+const { IMAGEAPI } = process.env;
 
 const RenderMessage = ({ message }) => (
 	<tr>
@@ -13,15 +12,19 @@ const RenderMessage = ({ message }) => (
 				<div css="font-size: 16px; padding: 30px; vertical-align: top; display: block; width: 675px; max-width: 675px; margin: 10px auto;">
 					<div css="margin-bottom: 30px; margin-top: 15px;">
 						<p css="color: #2E323B;">
-							<img css="margin-right:20px;" src={sapLogo} alt="sapLogo.png" />
+							<img
+								css="margin-right:20px;"
+								src={`${IMAGEAPI}/sapLogo.jpg`}
+								alt="sapLogo.jpg"
+							/>
 							<img
 								css="margin-right:20px;position: relative;top: -3px;"
-								src={sharksLogo}
+								src={`${IMAGEAPI}/sharksLogo.jpg`}
 								alt="sharksLogo.png"
 							/>
 							<img
 								css="position: relative;top: -1px;"
-								src={barracudaLogo}
+								src={`${IMAGEAPI}/barracudaLogo.jpg`}
 								alt="barracudaLogo.png"
 							/>
 						</p>

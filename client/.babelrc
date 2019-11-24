@@ -8,7 +8,6 @@
 					"actions": "./src/actions",
 					"components": "./src/components",
 					"containers": "./src/containers",
-					"images": "./src/images",
 					"pages": "./src/pages",
 					"reducers": "./src/reducers",
 					"root": "./src/root",

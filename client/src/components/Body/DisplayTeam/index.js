@@ -1,42 +1,15 @@
 /* istanbul ignore file */
-/* eslint-disable no-console */
-import React, { Component } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { Tooltip } from "antd";
-import LoadingImage from "./LoadingImage";
 
-class DisplayTeam extends Component {
-	state = {
-		loadedFile: "",
-	};
+const { IMAGEAPI } = process.env;
 
-	componentDidMount = () => this.importFile();
-
-	componentWillUnmount = () => (this.cancelImport = true);
-
-	cancelImport = false;
-
-	importFile = async () => {
-		try {
-			const { default: file } = await import(
-				/* webpackMode: "lazy" */ `images/${this.props.folder}/${this.props.team}.png`
-			);
-
-			if (!this.cancelImport) this.setState({ loadedFile: file });
-		} catch (err) {
-			console.error(err.toString());
-		}
-	};
-
-	render = () =>
-		this.state.loadedFile ? (
-			<Tooltip placement="top" title={this.props.team}>
-				<img src={this.state.loadedFile} alt={`${this.props.team}.png`} />
-			</Tooltip>
-		) : (
-			<LoadingImage {...this.props} />
-		);
-}
+const DisplayTeam = ({ folder, team }) => (
+	<Tooltip placement="top" title={team}>
+		<img src={`${IMAGEAPI}/${folder}/${team}.png`} alt={`${team}.png`} />
+	</Tooltip>
+);
 
 DisplayTeam.propTypes = {
 	folder: PropTypes.string.isRequired,
@@ -44,4 +17,3 @@ DisplayTeam.propTypes = {
 };
 
 export default DisplayTeam;
-/* eslint-enable no-console */
