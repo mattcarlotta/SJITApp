@@ -59,13 +59,13 @@ const optimization = {
 				test: /[\\/]node_modules[\\/](react|react-dom|connected-react-router|react-router-dom|react-helmet|react-redux|redux|@redux-saga|redux-state-sync|react-router)[\\/]/,
 				name: "react",
 			},
-			// 	reactDNDVendor: {
-			// 		test: /[\\/]node_modules[\\/](react-beautiful-dnd)[\\/]/,
-			// 		name: "reactDND",
-			// 	},
+			lodash: {
+				test: /[\\/]node_modules[\\/](lodash)[\\/]/,
+				name: "lodash",
+			},
 			froalaVendor: {
-				test: /[\\/]node_modules[\\/](react-froala-wysiwyg|froala-editor)[\\/]/,
-				name: "froala",
+				test: /[\\/]node_modules[\\/](react-quill)[\\/]/,
+				name: "quill",
 			},
 			chartingVendor: {
 				test: /[\\/]node_modules[\\/](@nivo|d3-color|d3-time-format|d3-scale|d3-time|d3-scale-chromatic|d3-format|d3-hierarchy|d3-array|d3-interpolate|d3-shape)[\\/]/,

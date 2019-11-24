@@ -9,14 +9,15 @@ import {
 	Radio,
 	Input as AntInput,
 } from "antd";
-import { FaCalendarPlus, FaClock } from "react-icons/fa";
+import { FaCalendarPlus, FaClock, FaEraser } from "react-icons/fa";
 import Icon from "components/Body/Icon";
 import Label from "components/Body/Label";
 import Notes from "components/Body/Notes";
 import Errors from "components/Forms/Errors";
 import Input from "components/Forms/Input";
 import Select from "components/Forms/Select";
-import FroalaEditor from "components/Forms/LazyFroala";
+import Quill from "components/Forms/LazyQuill";
+import Eraser from "components/Body/Eraser";
 
 const RangePicker = DatePicker.RangePicker;
 const TextArea = AntInput.TextArea;
@@ -98,57 +99,37 @@ const FieldGenerator = ({ fields, onChange }) =>
 				return (
 					<Form.Item key={props.name} style={{ height: 400 }}>
 						{props.label && <Label {...props} />}
-						<FroalaEditor
-							model={props.value}
-							config={{
-								placeholderText: props.placeholder,
-								toolbarButtons: {
-									moreText: {
-										buttons: [
-											"bold",
-											"italic",
-											"underline",
-											"strikeThrough",
-											"subscript",
-											"superscript",
-											"fontFamily",
-											"fontSize",
-											"textColor",
-											"backgroundColor",
-											"insertLink",
-											"quote",
-										],
-										buttonsVisible: 3,
-									},
-									moreParagraph: {
-										buttons: [
-											"alignLeft",
-											"alignCenter",
-											"alignRight",
-											"alignJustify",
-											"formatOLSimple",
-											"formatOL",
-											"formatUL",
-											"paragraphFormat",
-											"paragraphStyle",
-											"lineHeight",
-											"outdent",
-											"indent",
-											"insertHR",
-										],
-										buttonsVisible: 3,
-									},
-									moreMisc: {
-										buttons: ["undo", "redo", "selectAll", "clearFormatting"],
-										align: "right",
-										buttonsVisible: 2,
-									},
+						<Quill
+							className={props.errors ? "has-errors" : undefined}
+							placeholder="Type a message..."
+							value={props.value}
+							modules={{
+								toolbar: {
+									container: [
+										[{ font: [] }],
+										[{ header: [false, 6, 5, 4, 3, 2, 1] }],
+										["bold", "italic", "underline", "strike", "link"],
+										["blockquote", "code-block"],
+										[{ list: "ordered" }, { list: "bullet" }],
+										[{ script: "sub" }, { script: "super" }],
+										[{ indent: "-1" }, { indent: "+1" }],
+										[{ align: [] }],
+										[{ color: [] }, { background: [] }],
+									],
 								},
 							}}
-							onModelChange={value =>
+							onChange={value =>
 								onChange({ target: { name: props.name, value } })
 							}
 						/>
+						<Eraser
+							id="erase-message"
+							onClick={() =>
+								onChange({ target: { name: props.name, value: "" } })
+							}
+						>
+							<FaEraser style={{ fontSize: 18 }} />
+						</Eraser>
 						{props.errors && <Errors>{props.errors}</Errors>}
 					</Form.Item>
 				);
@@ -308,3 +289,63 @@ FieldGenerator.defaultProps = {
 };
 
 export default FieldGenerator;
+
+/*
+return (
+	<Form.Item key={props.name} style={{ height: 400 }}>
+		{props.label && <Label {...props} />}
+		<FroalaEditor
+			model={props.value}
+			config={{
+				placeholderText: props.placeholder,
+				toolbarButtons: {
+					moreText: {
+						buttons: [
+							"bold",
+							"italic",
+							"underline",
+							"strikeThrough",
+							"subscript",
+							"superscript",
+							"fontFamily",
+							"fontSize",
+							"textColor",
+							"backgroundColor",
+							"insertLink",
+							"quote",
+						],
+						buttonsVisible: 3,
+					},
+					moreParagraph: {
+						buttons: [
+							"alignLeft",
+							"alignCenter",
+							"alignRight",
+							"alignJustify",
+							"formatOLSimple",
+							"formatOL",
+							"formatUL",
+							"paragraphFormat",
+							"paragraphStyle",
+							"lineHeight",
+							"outdent",
+							"indent",
+							"insertHR",
+						],
+						buttonsVisible: 3,
+					},
+					moreMisc: {
+						buttons: ["undo", "redo", "selectAll", "clearFormatting"],
+						align: "right",
+						buttonsVisible: 2,
+					},
+				},
+			}}
+			onModelChange={value =>
+				onChange({ target: { name: props.name, value } })
+			}
+		/>
+		{props.errors && <Errors>{props.errors}</Errors>}
+	</Form.Item>
+);
+*/

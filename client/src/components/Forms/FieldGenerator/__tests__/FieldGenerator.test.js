@@ -60,18 +60,18 @@ const date = {
 	showTime: { format: "h:mm a", use12Hours: true, minuteStep: 15 },
 };
 
-const editor = {
-	type: "editor",
-	name: "message",
-	label: "Message",
-	value: "<span>Test</span>",
-	errors: "Required.",
-	placeholder: "Type a message...",
-	tooltip:
-		"The message created below will make up the body of a pre-defined email template. That said, you can still copy/paste, and/or create stylized and formatted text and links within the body.",
-	required: true,
-	disabled: true,
-};
+// const editor = {
+// 	type: "editor",
+// 	name: "message",
+// 	label: "Message",
+// 	value: "<span>Test</span>",
+// 	errors: "Required.",
+// 	placeholder: "Type a message...",
+// 	tooltip:
+// 		"The message created below will make up the body of a pre-defined email template. That said, you can still copy/paste, and/or create stylized and formatted text and links within the body.",
+// 	required: true,
+// 	disabled: true,
+// };
 
 const time = {
 	type: "time",
@@ -204,11 +204,19 @@ describe("Field Generator", () => {
 		});
 	});
 
-	it("renders a FroalaEditor when type is 'editor'", () => {
-		wrapper.setProps({ fields: [editor] });
-
-		expect(wrapper.find("LazyFroala").exists()).toBeTruthy();
-	});
+	// it("renders a QuillEditor when type is 'editor'", () => {
+	// 	wrapper.setProps({ fields: [editor] });
+	//
+	// 	wrapper
+	// 		.find("#erase-message")
+	// 		.first()
+	// 		.simulate("click");
+	// 	expect(onChange).toHaveBeenCalledWith({
+	// 		target: { name: "message", value: "" },
+	// 	});
+	//
+	// 	expect(wrapper.find("LazyQuill").exists()).toBeTruthy();
+	// });
 
 	it("returns a RangePicker when type is 'range'", () => {
 		wrapper.setProps({ fields: [range] });

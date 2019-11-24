@@ -38,6 +38,8 @@ const updatedValues = [
 	},
 ];
 
+Object.defineProperty(global.document, "getSelection", { value: jest.fn() });
+
 describe("Send Mail Form", () => {
 	let wrapper;
 	beforeEach(() => {
@@ -72,15 +74,20 @@ describe("Send Mail Form", () => {
 		});
 
 		it("updates a field value when changed", () => {
-			const name = "message";
-			const newValue = "<span>Test</span>";
+			const name = "subject";
+			const newValue = "Hello";
 			wrapper
 				.find("SendMailForm")
 				.instance()
 				.handleChange({ target: { name, value: newValue } });
 			wrapper.update();
 
-			expect(wrapper.find("t").props().model).toEqual(newValue);
+			expect(
+				wrapper
+					.find("input")
+					.at(6)
+					.props().value,
+			).toEqual(newValue);
 		});
 
 		it("opens and closes a preview email modal", () => {
@@ -118,7 +125,7 @@ describe("Send Mail Form", () => {
 					sendFrom: "San Jose Sharks Ice Team <noreply@sjsiceteam.com>",
 					sendDate: "",
 					subject: "Test",
-					message: "<span>Test</span>",
+					message: "<p>Test</p>",
 				});
 			});
 
