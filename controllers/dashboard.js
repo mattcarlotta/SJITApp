@@ -17,7 +17,9 @@ import { missingDates, missingMemberId } from "shared/authErrors";
 
 const getAPForm = async (req, res) => {
   try {
-    const currentDate = createDate().toDate();
+    const currentDate = createDate()
+      .add(1, "months")
+      .toDate();
 
     const existingForm = await Form.findOne(
       {

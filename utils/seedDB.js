@@ -1,7 +1,9 @@
 /* eslint-disable no-console */
 import moment from "moment-timezone";
 import { connectDatabase } from "database";
-import { Event, Form, Mail, User, Season, Team, Token } from "models";
+import {
+  Event, Form, Mail, User, Season, Team, Token,
+} from "models";
 import {
   createSchedule,
   createSignupToken,
@@ -618,6 +620,30 @@ const seedDB = async () => {
       ],
     };
 
+    const newEvent12 = {
+      eventType: "Game",
+      location: "SAP Center at San Jose",
+      callTimes: newEventCallTimes9,
+      uniform: "Barracuda Jacket",
+      eventDate: moment()
+        .add(1, "months")
+        .format(),
+      notes: "Unscheduled game.",
+      opponent: "Chicago Wolves",
+      seasonId: "20192020",
+      team: "San Jose Barracuda",
+      schedule: createSchedule(newEventCallTimes9),
+      scheduledIds: [scheduledUser._id],
+      sentEmailReminders: true,
+      employeeResponses: [
+        {
+          _id: scheduledUser._id,
+          response: "I want to work.",
+          notes: "",
+        },
+      ],
+    };
+
     await Event.insertMany([
       newEvent,
       gameTomorrow,
@@ -631,6 +657,7 @@ const seedDB = async () => {
       newEvent9,
       newEvent10,
       newEvent11,
+      newEvent12,
     ]);
 
     await Team.insertMany(teams);
@@ -719,6 +746,22 @@ const seedDB = async () => {
       sentEmails: true,
     };
 
+    const form9 = {
+      expirationDate: new Date("2099-08-10T07:00:00.000Z"),
+      startMonth: moment()
+        .add(1, "months")
+        .startOf("month")
+        .format(),
+      endMonth: moment()
+        .add(1, "months")
+        .endOf("month")
+        .format(),
+      notes: "Next Months Form",
+      seasonId: "20192020",
+      sendEmailNotificationsDate: new Date("2099-11-31T07:00:00.000Z"),
+      sentEmails: true,
+    };
+
     await Form.insertMany([
       form1,
       form2,
@@ -728,6 +771,7 @@ const seedDB = async () => {
       form6,
       form7,
       form8,
+      form9,
     ]);
 
     const newMail = {
