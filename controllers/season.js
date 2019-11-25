@@ -12,6 +12,13 @@ import {
   unableToUpdateSeason,
 } from "shared/authErrors";
 
+/**
+ * Creates a new season.
+ *
+ * @function createSeason
+ * @returns {string} - message
+ * @throws {string}
+ */
 const createSeason = async (req, res) => {
   try {
     const { seasonId, seasonDuration } = req.body;
@@ -29,6 +36,13 @@ const createSeason = async (req, res) => {
   }
 };
 
+/**
+ * Deletes a season.
+ *
+ * @function deleteSeason
+ * @returns {string} - message
+ * @throws {string}
+ */
 const deleteSeason = async (req, res) => {
   try {
     const { id: _id } = req.params;
@@ -47,6 +61,13 @@ const deleteSeason = async (req, res) => {
   }
 };
 
+/**
+ * Retrieves all seasons for ViewSeason page.
+ *
+ * @function getAllSeasons
+ * @returns {object} - seasons and total season documents
+ * @throws {string}
+ */
 const getAllSeasons = async (req, res) => {
   try {
     const { page } = req.query;
@@ -71,6 +92,13 @@ const getAllSeasons = async (req, res) => {
   }
 };
 
+/**
+ * Retrieves all seasonsIds.
+ *
+ * @function getAllSeasonIds
+ * @returns {object} - seasonsIds
+ * @throws {string}
+ */
 const getAllSeasonIds = async (_, res) => {
   try {
     const seasons = await Season.aggregate([
@@ -88,6 +116,13 @@ const getAllSeasonIds = async (_, res) => {
   }
 };
 
+/**
+ * Retrieves a single season for editing/viewing.
+ *
+ * @function getSeason
+ * @returns {object} - season
+ * @throws {string}
+ */
 const getSeason = async (req, res) => {
   try {
     const { id: _id } = req.params;
@@ -102,6 +137,13 @@ const getSeason = async (req, res) => {
   }
 };
 
+/**
+ * Updates an season's details.
+ *
+ * @function updateSeason
+ * @returns {string} - message
+ * @throws {string}
+ */
 const updateSeason = async (req, res) => {
   try {
     const { _id, seasonId, seasonDuration } = req.body;

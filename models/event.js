@@ -2,6 +2,7 @@ import mongoosePaginate from "mongoose-paginate-v2";
 import { Schema, model } from "mongoose";
 import { createSchedule } from "shared/helpers";
 
+// event
 const eventSchema = new Schema({
   eventType: { type: String, default: "Game", required: true },
   eventDate: { type: Date, required: true },
@@ -36,7 +37,7 @@ const eventSchema = new Schema({
 
 eventSchema.plugin(mongoosePaginate);
 
-eventSchema.pre("save", function(next) {
+eventSchema.pre("save", function (next) {
   this.schedule = createSchedule(this.callTimes);
   next();
 });

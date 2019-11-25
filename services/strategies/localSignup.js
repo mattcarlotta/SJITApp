@@ -72,6 +72,13 @@ passport.use(
   ),
 );
 
+/**
+ * Middleware function to register a user.
+ *
+ * @function localSignup
+ * @returns {function}
+ * @throws {string}
+ */
 export const localSignup = async (req, res, next) => {
   try {
     const {
@@ -90,7 +97,7 @@ export const localSignup = async (req, res, next) => {
       lastName: newUser.lastName,
     };
 
-    next();
+    return next();
   } catch (err) {
     return sendError(err, res);
   }

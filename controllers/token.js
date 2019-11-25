@@ -18,6 +18,13 @@ import {
 } from "shared/authErrors";
 import { Mail, Token, User } from "models";
 
+/**
+ * Creates a new token (authorization key).
+ *
+ * @function createToken
+ * @returns {string} - message
+ * @throws {string}
+ */
 const createToken = async (req, res) => {
   try {
     const { authorizedEmail, role } = req.body;
@@ -46,6 +53,13 @@ const createToken = async (req, res) => {
   }
 };
 
+/**
+ * Deletes an token (authorization key).
+ *
+ * @function deleteToken
+ * @returns {string} - message
+ * @throws {string}
+ */
 const deleteToken = async (req, res) => {
   try {
     const { id } = req.params;
@@ -65,6 +79,13 @@ const deleteToken = async (req, res) => {
   }
 };
 
+/**
+ * Retrieves all tokens (authorization keys) for ViewAuthorization page.
+ *
+ * @function getAllTokens
+ * @returns {object} - tokens and total token documents
+ * @throws {string}
+ */
 const getAllTokens = async (req, res) => {
   try {
     const { email, page, role } = req.query;
@@ -99,6 +120,13 @@ const getAllTokens = async (req, res) => {
   }
 };
 
+/**
+ * Retrieves a single token (authorization key) for editing/viewing.
+ *
+ * @function getToken
+ * @returns {object} - token
+ * @throws {string}
+ */
 const getToken = async (req, res) => {
   try {
     const { id: _id } = req.params;
@@ -114,6 +142,13 @@ const getToken = async (req, res) => {
   }
 };
 
+/**
+ * Resend token emails.
+ *
+ * @function resendToken
+ * @returns {string} - message
+ * @throws {string}
+ */
 const resendToken = async (req, res) => {
   try {
     const { id: _id } = req.params;
@@ -143,6 +178,13 @@ const resendToken = async (req, res) => {
   }
 };
 
+/**
+ * Updates an token's details.
+ *
+ * @function updateToken
+ * @returns {string} - message
+ * @throws {string}
+ */
 const updateToken = async (req, res) => {
   try {
     const { _id, authorizedEmail, role } = req.body;

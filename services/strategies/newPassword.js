@@ -42,6 +42,13 @@ passport.use(
   ),
 );
 
+/**
+ * Middleware function to update a user's password.
+ *
+ * @function updatePassword
+ * @returns {function}
+ * @throws {string}
+ */
 export const updatePassword = async (req, res, next) => {
   try {
     const { token, password } = req.body;
@@ -56,7 +63,7 @@ export const updatePassword = async (req, res, next) => {
 
     req.user = existingUser;
 
-    next();
+    return next();
   } catch (err) {
     return sendError(err, res);
   }

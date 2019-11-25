@@ -24,7 +24,13 @@ import {
   unableToUpdateApForm,
   unableToUpdateForm,
 } from "shared/authErrors";
-
+/**
+ * Creates a new form.
+ *
+ * @function createForm
+ * @returns {string} - message
+ * @throws {string}
+ */
 const createForm = async (req, res) => {
   try {
     const {
@@ -68,6 +74,13 @@ const createForm = async (req, res) => {
   }
 };
 
+/**
+ * Deletes a form.
+ *
+ * @function deleteForm
+ * @returns {string} - message
+ * @throws {string}
+ */
 const deleteForm = async (req, res) => {
   try {
     const { id: _id } = req.params;
@@ -84,6 +97,13 @@ const deleteForm = async (req, res) => {
   }
 };
 
+/**
+ * Retrieves all forms for ViewForms page.
+ *
+ * @function getAllForms
+ * @returns {object} - sorted forms and total form documents
+ * @throws {string}
+ */
 const getAllForms = async (req, res) => {
   try {
     const { page } = req.query;
@@ -110,6 +130,13 @@ const getAllForms = async (req, res) => {
   }
 };
 
+/**
+ * Retrieves a single form for editing/viewing.
+ *
+ * @function getForm
+ * @returns {object} - form
+ * @throws {string}
+ */
 const getForm = async (req, res) => {
   try {
     const { id: _id } = req.params;
@@ -124,6 +151,13 @@ const getForm = async (req, res) => {
   }
 };
 
+/**
+ * Resend all form reminder emails.
+ *
+ * @function resendFormEmail
+ * @returns {string} - message
+ * @throws {string}
+ */
 const resendFormEmail = async (req, res) => {
   try {
     const { id: _id } = req.params;
@@ -145,6 +179,13 @@ const resendFormEmail = async (req, res) => {
   }
 };
 
+/**
+ * Updates an form's details.
+ *
+ * @function updateForm
+ * @returns {string} - message
+ * @throws {string}
+ */
 const updateForm = async (req, res) => {
   try {
     const {
@@ -195,6 +236,13 @@ const updateForm = async (req, res) => {
   }
 };
 
+/**
+ * Updates an event's 'eventResponses'.
+ *
+ * @function updateApForm
+ * @returns {string} - message
+ * @throws {string}
+ */
 const updateApForm = async (req, res) => {
   try {
     const { _id, responses } = req.body;
@@ -254,6 +302,13 @@ const updateApForm = async (req, res) => {
   }
 };
 
+/**
+ * Retrieves an AP form and all events existing within its start and end months.
+ *
+ * @function viewApForm
+ * @returns {object} - form and events
+ * @throws {string}
+ */
 const viewApForm = async (req, res) => {
   try {
     const { id: userId } = req.session.user;
@@ -321,7 +376,7 @@ export {
   getAllForms,
   getForm,
   resendFormEmail,
-  viewApForm,
   updateForm,
   updateApForm,
+  viewApForm,
 };

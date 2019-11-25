@@ -34,6 +34,13 @@ passport.use(
   ),
 );
 
+/**
+ * Middleware function to login in a user (applies user to req.session).
+ *
+ * @function localLogin
+ * @returns {function}
+ * @throws {string}
+ */
 export const localLogin = async (req, res, next) => {
   const { email, password } = req.body;
 
@@ -41,9 +48,7 @@ export const localLogin = async (req, res, next) => {
 
   try {
     const existingUser = await new Promise((resolve, reject) => {
-      passport.authenticate("local-login", (err, user) =>
-        err ? reject(err) : resolve(user),
-      )(req, res, next);
+      passport.authenticate("local-login", (err, user) => (err ? reject(err) : resolve(user)))(req, res, next);
     });
 
     req.session.user = {
@@ -53,7 +58,8 @@ export const localLogin = async (req, res, next) => {
       lastName: existingUser.lastName,
       role: existingUser.role,
     };
-    next();
+
+    return next();
   } catch (err) {
     return sendError(err, res);
   }

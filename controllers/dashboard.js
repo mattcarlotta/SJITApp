@@ -15,6 +15,13 @@ import {
 } from "shared/helpers";
 import { missingDates, missingMemberId } from "shared/authErrors";
 
+/**
+ * Retrieves an existing A/P form for viewing/editing.
+ *
+ * @function getAPForm
+ * @returns {object} - apform: { existingForm, eventCounts }
+ * @throws {string}
+ */
 const getAPForm = async (req, res) => {
   try {
     const currentDate = createDate()
@@ -53,6 +60,13 @@ const getAPForm = async (req, res) => {
   }
 };
 
+/**
+ * Retrieves a members availabilty for a percentage chart.
+ *
+ * @function getAvailability
+ * @returns {object} - eventAvailability: { eventCounts, eventResponses }), months (start month, endmonth),
+ * @throws {string}
+ */
 const getAvailability = async (req, res) => {
   try {
     const { id: _id } = req.session.user;
@@ -149,6 +163,13 @@ const getAvailability = async (req, res) => {
   }
 };
 
+/**
+ * Retrieves all members availabilty for a percentage table.
+ *
+ * @function getAvailability
+ * @returns {object} - membersAvailability: { eventCounts, eventResponses, members }), months (start month, endmonth),
+ * @throws {string}
+ */
 const getAvailabilityForAllMembers = async (req, res) => {
   try {
     const membersAvailability = [];
@@ -252,6 +273,13 @@ const getAvailabilityForAllMembers = async (req, res) => {
   }
 };
 
+/**
+ * Retrieves all members event distribution for a bar chart.
+ *
+ * @function getEventDistribution
+ * @returns {object} - members: { members, memberEventCounts }
+ * @throws {string}
+ */
 const getEventDistribution = async (req, res) => {
   try {
     const { startDate, endDate } = req.query;
@@ -306,6 +334,13 @@ const getEventDistribution = async (req, res) => {
   }
 };
 
+/**
+ * Retrieves today or upcoming events.
+ *
+ * @function getEvents
+ * @returns {object} - events
+ * @throws {string}
+ */
 const getEvents = async (req, res) => {
   try {
     const { id: _id } = req.session.user;

@@ -46,6 +46,12 @@ passport.use(
   ),
 );
 
+/**
+ * Middleware function to send a new token (authorization key) to a user.
+ *
+ * @function resetToken
+ * @returns {function}
+ */
 export const resetToken = async (req, res, next) => {
   try {
     const { email } = req.body;
@@ -54,14 +60,12 @@ export const resetToken = async (req, res, next) => {
     if (!email) throw missingEmailCreds;
 
     const existingUser = await new Promise((resolve, reject) => {
-      passport.authenticate("reset-token", (err, existingEmail) =>
-        err ? reject(err) : resolve(existingEmail),
-      )(req, res, next);
+      passport.authenticate("reset-token", (err, existingEmail) => (err ? reject(err) : resolve(existingEmail)))(req, res, next);
     });
 
     req.user = existingUser;
 
-    next();
+    return next();
   } catch (err) {
     return sendError(err, res);
   }

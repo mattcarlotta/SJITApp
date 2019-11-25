@@ -19,9 +19,11 @@ export default app => {
   // PRODUCTION CONFIG                                           //
   //= ===========================================================//
   if (inProduction) {
-    app.use(express.static("client/dist")); // express will serve up production assets
+    /* express will serve up production assets */
+    app.use(express.static("client/dist"));
 
-    app.get("*", (req, res) => res.sendFile(resolve(`${currentDirectory}/client/dist/index.html`))); // express will serve up the front-end index.html file if it doesn't recognize the route
+    /* serve up the front-end index.html file if express doesn't recognize the route */
+    app.get("*", (req, res) => res.sendFile(resolve(`${currentDirectory}/client/dist/index.html`)));
   }
 
   app.listen(APIPORT, err => {

@@ -1,5 +1,6 @@
-const passwordResetSuccess = email =>
-  `The password has been reset for ${email}. Please sign into your account with your new password.`;
+// Success Messages //
+
+const passwordResetSuccess = email => `The password has been reset for ${email}. Please sign into your account with your new password.`;
 
 const passwordResetToken = email => ({
   message: `The password reset request has been accepted. Your request is being processed. Please check ${email} for a confirmation link to set up a new password.`,

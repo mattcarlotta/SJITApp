@@ -27,6 +27,13 @@ import {
   unableToLocateSeason,
 } from "shared/authErrors";
 
+/**
+ * Creates a new event.
+ *
+ * @function createEvent
+ * @returns {string} - message
+ * @throws {string}
+ */
 const createEvent = async (req, res) => {
   try {
     const {
@@ -88,6 +95,13 @@ const createEvent = async (req, res) => {
   }
 };
 
+/**
+ * Deletes an event.
+ *
+ * @function deleteEvent
+ * @returns {string} - message
+ * @throws {string}
+ */
 const deleteEvent = async (req, res) => {
   try {
     const { id: _id } = req.params;
@@ -104,6 +118,13 @@ const deleteEvent = async (req, res) => {
   }
 };
 
+/**
+ * Retrieves all events for ViewEvents page.
+ *
+ * @function getAllEvents
+ * @returns {object} - sorted events and total event documents
+ * @throws {string}
+ */
 const getAllEvents = async (req, res) => {
   try {
     const { page } = req.query;
@@ -137,6 +158,13 @@ const getAllEvents = async (req, res) => {
   }
 };
 
+/**
+ * Retrieves a single event for editing/viewing.
+ *
+ * @function getEvent
+ * @returns {object} - event
+ * @throws {string}
+ */
 const getEvent = async (req, res) => {
   try {
     const { id: _id } = req.params;
@@ -151,6 +179,13 @@ const getEvent = async (req, res) => {
   }
 };
 
+/**
+ * Retrieves a single event for scheduling form.
+ *
+ * @function getEventForScheduling
+ * @returns {object} -schedule: { columns, event, users })
+ * @throws {string}
+ */
 const getEventForScheduling = async (req, res) => {
   try {
     const { id: _id } = req.params;
@@ -178,6 +213,13 @@ const getEventForScheduling = async (req, res) => {
   }
 };
 
+/**
+ * Retrieves all events for Schedule page by filters.
+ *
+ * @function getScheduledEvents
+ * @returns {object} - events
+ * @throws {string}
+ */
 const getScheduledEvents = async (req, res) => {
   try {
     const { id, selectedDate, selectedGames } = req.query;
@@ -228,6 +270,13 @@ const getScheduledEvents = async (req, res) => {
   }
 };
 
+/**
+ * Resend event reminder emails.
+ *
+ * @function resendEventEmail
+ * @returns {string} - message
+ * @throws {string}
+ */
 const resendEventEmail = async (req, res) => {
   try {
     const { id: _id } = req.params;
@@ -249,6 +298,13 @@ const resendEventEmail = async (req, res) => {
   }
 };
 
+/**
+ * Updates an event's details.
+ *
+ * @function updateEvent
+ * @returns {string} - message
+ * @throws {string}
+ */
 const updateEvent = async (req, res) => {
   try {
     const {
@@ -303,6 +359,13 @@ const updateEvent = async (req, res) => {
   }
 };
 
+/**
+ * Updates an event's schedule.
+ *
+ * @function updateEventSchedule
+ * @returns {string} - message
+ * @throws {string}
+ */
 const updateEventSchedule = async (req, res) => {
   try {
     const { _id, schedule } = req.body;
@@ -311,10 +374,8 @@ const updateEventSchedule = async (req, res) => {
     const existingEvent = await findEventById(_id);
     if (!existingEvent) throw unableToLocateEvent;
 
-    const scheduledIds = updateScheduleIds(schedule);
-
     await existingEvent.updateOne({
-      $set: { schedule, scheduledIds },
+      $set: { schedule, scheduledIds: updateScheduleIds(schedule) },
     });
 
     res

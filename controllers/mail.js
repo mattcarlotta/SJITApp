@@ -1,6 +1,6 @@
 import get from "lodash/get";
 import isEmpty from "lodash/isEmpty";
-import { Mail, User } from "models";
+import { Mail } from "models";
 import {
   createDate,
   generateFilters,
@@ -14,12 +14,18 @@ import {
   missingMailId,
   unableToCreateNewMail,
   unableToDeleteMail,
-  unableToLocateContacts,
   unableToLocateMembers,
   unableToLocateMail,
   unableToUpdateMail,
 } from "shared/authErrors";
 
+/**
+ * Send an email to staff or admin.
+ *
+ * @function contactUs
+ * @returns {string} - message
+ * @throws {string}
+ */
 const contactUs = async (req, res) => {
   try {
     const { message, sendTo, subject } = req.body;
@@ -60,12 +66,20 @@ const contactUs = async (req, res) => {
   }
 };
 
+/**
+ * Creates a new mail.
+ *
+ * @function createMail
+ * @returns {string} - message
+ * @throws {string}
+ */
 const createMail = async (req, res) => {
   try {
-    const { message, sendDate, sendFrom, sendTo, subject } = req.body;
+    const {
+      message, sendDate, sendFrom, sendTo, subject,
+    } = req.body;
 
-    if (!message || !sendTo || !sendFrom || !subject)
-      throw unableToCreateNewMail;
+    if (!message || !sendTo || !sendFrom || !subject) throw unableToCreateNewMail;
 
     const currentDay = getStartOfDay();
     const sendEmailDate = createDate(sendDate);
@@ -91,6 +105,13 @@ const createMail = async (req, res) => {
   }
 };
 
+/**
+ * Deletes mail.
+ *
+ * @function deleteMail
+ * @returns {string} - message
+ * @throws {string}
+ */
 const deleteMail = async (req, res) => {
   try {
     const { id: _id } = req.params;
@@ -107,6 +128,13 @@ const deleteMail = async (req, res) => {
   }
 };
 
+/**
+ * Retrieves all events for ViewEvents page.
+ *
+ * @function getAllMail
+ * @returns {object} - mail and total mail documents
+ * @throws {string}
+ */
 const getAllMail = async (req, res) => {
   try {
     const { page } = req.query;
@@ -115,7 +143,12 @@ const getAllMail = async (req, res) => {
 
     const results = await Mail.paginate(
       { ...filters },
-      { sort: { sendDate: -1 }, page, limit: 10, select: "-notes -__v" },
+      {
+        sort: { sendDate: -1 },
+        page,
+        limit: 10,
+        select: "-notes -__v",
+      },
     );
 
     const mail = get(results, ["docs"]);
@@ -128,6 +161,13 @@ const getAllMail = async (req, res) => {
   }
 };
 
+/**
+ * Retrieves a single email for editing/viewing.
+ *
+ * @function getMail
+ * @returns {object} - email
+ * @throws {string}
+ */
 const getMail = async (req, res) => {
   try {
     const { id: _id } = req.params;
@@ -142,6 +182,13 @@ const getMail = async (req, res) => {
   }
 };
 
+/**
+ * Resends an email.
+ *
+ * @function resendEventEmail
+ * @returns {string} - message
+ * @throws {string}
+ */
 const resendMail = async (req, res) => {
   try {
     const { id: _id } = req.params;
@@ -161,12 +208,20 @@ const resendMail = async (req, res) => {
   }
 };
 
+/**
+ * Updates an email's details.
+ *
+ * @function updateMail
+ * @returns {string} - message
+ * @throws {string}
+ */
 const updateMail = async (req, res) => {
   try {
-    const { _id, message, sendDate, sendFrom, sendTo, subject } = req.body;
+    const {
+      _id, message, sendDate, sendFrom, sendTo, subject,
+    } = req.body;
 
-    if (!_id || !message || !sendFrom || !sendTo || !subject)
-      throw unableToUpdateMail;
+    if (!_id || !message || !sendFrom || !sendTo || !subject) throw unableToUpdateMail;
 
     const emailExists = await Mail.findOne({ _id });
     if (!emailExists) throw unableToLocateMail;

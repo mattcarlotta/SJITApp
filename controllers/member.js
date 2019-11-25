@@ -25,6 +25,13 @@ import {
   usernameAlreadyTaken,
 } from "shared/authErrors";
 
+/**
+ * Find a single member.
+ *
+ * @function findMember
+ * @returns {object} - existingMember
+ * @throws {string}
+ */
 const findMember = async _id => {
   const existingMember = await User.findOne(
     { _id },
@@ -34,6 +41,12 @@ const findMember = async _id => {
   return existingMember;
 };
 
+/**
+ * Find all events between a date range.
+ *
+ * @function findMemberEvents
+ * @returns {object} - events
+ */
 const findMemberEvents = async (existingMember, selectedDate) => {
   const { startOfMonth, endOfMonth } = getMonthDateRange(selectedDate);
 
@@ -72,6 +85,14 @@ const findMemberEvents = async (existingMember, selectedDate) => {
   return events;
 };
 
+/**
+ * Find all member availability between a date range.
+ *
+ * @function findMemberAvailabilty
+ * @returns {object} -
+    eventAvailability: { eventCounts, eventResponses }, memberResponseCount, memberScheduleEvents: [
+     { id: "scheduled", events: scheduledCount }, { id: "available", events: eventCounts }]
+ */
 const findMemberAvailabilty = async (existingMember, selectedDate, res) => {
   const { startOfMonth, endOfMonth } = getMonthDateRange(selectedDate);
 
@@ -155,6 +176,13 @@ const findMemberAvailabilty = async (existingMember, selectedDate, res) => {
   });
 };
 
+/**
+ * Deletes a member.
+ *
+ * @function deleteMember
+ * @returns {string} - message
+ * @throws {string}
+ */
 const deleteMember = async (req, res) => {
   try {
     const { id: _id } = req.params;
@@ -183,6 +211,13 @@ const deleteMember = async (req, res) => {
   }
 };
 
+/**
+ * Retrieves all members for ViewMembers page.
+ *
+ * @function getAllMembers
+ * @returns {object} - members and total members documents
+ * @throws {string}
+ */
 const getAllMembers = async (req, res) => {
   try {
     const { page, role } = req.query;
@@ -213,6 +248,13 @@ const getAllMembers = async (req, res) => {
   }
 };
 
+/**
+ * Retrieves all members names.
+ *
+ * @function getAllMemberNames
+ * @returns {object} - members
+ * @throws {string}
+ */
 const getAllMemberNames = async (_, res) => {
   try {
     const members = await getUsers({
@@ -237,6 +279,13 @@ const getAllMemberNames = async (_, res) => {
   }
 };
 
+/**
+ * Retrieves a single member for editing/viewing.
+ *
+ * @function getMember
+ * @returns {object} - member
+ * @throws {string}
+ */
 const getMember = async (req, res) => {
   try {
     const { id: _id } = req.params;
@@ -250,6 +299,13 @@ const getMember = async (req, res) => {
   }
 };
 
+/**
+ * Retrieves members' event counts.
+ *
+ * @function getMemberEventCounts
+ * @returns {object} - members
+ * @throws {string}
+ */
 const getMemberEventCounts = async (req, res) => {
   try {
     const { eventId } = req.query;
@@ -310,6 +366,13 @@ const getMemberEventCounts = async (req, res) => {
   }
 };
 
+/**
+ * Retrieves a single member's availability.
+ *
+ * @function getMemberEventCounts
+ * @returns {object} - memberAvailablity
+ * @throws {string}
+ */
 const getMemberAvailability = async (req, res) => {
   try {
     const { id: _id, selectedDate } = req.query;
@@ -322,6 +385,13 @@ const getMemberAvailability = async (req, res) => {
   }
 };
 
+/**
+ * Retrieves a single member's scheduled events.
+ *
+ * @function getMemberEvents
+ * @returns {object} - events
+ * @throws {string}
+ */
 const getMemberEvents = async (req, res) => {
   try {
     const { id: _id, selectedDate } = req.query;
@@ -336,6 +406,13 @@ const getMemberEvents = async (req, res) => {
   }
 };
 
+/**
+ * Retrieves a single member's settings.
+ *
+ * @function getMemberSettings
+ * @returns {object} - member
+ * @throws {string}
+ */
 const getMemberSettings = async (req, res) => {
   try {
     const { id: _id } = req.session.user;
@@ -349,6 +426,13 @@ const getMemberSettings = async (req, res) => {
   }
 };
 
+/**
+ * Retrieves a single member's settings availability.
+ *
+ * @function getMemberSettingsAvailability
+ * @returns {object} - memberAvailablity
+ * @throws {string}
+ */
 const getMemberSettingsAvailability = async (req, res) => {
   try {
     const { selectedDate } = req.query;
@@ -363,6 +447,13 @@ const getMemberSettingsAvailability = async (req, res) => {
   }
 };
 
+/**
+ * Retrieves a single member's settings events schedule.
+ *
+ * @function getMemberSettingsEvents
+ * @returns {object} - events
+ * @throws {string}
+ */
 const getMemberSettingsEvents = async (req, res) => {
   try {
     const { selectedDate } = req.query;
@@ -378,6 +469,13 @@ const getMemberSettingsEvents = async (req, res) => {
   }
 };
 
+/**
+ * Updates an member's details.
+ *
+ * @function updateMember
+ * @returns {string} - message
+ * @throws {string}
+ */
 const updateMember = async (req, res) => {
   try {
     const {
@@ -427,6 +525,13 @@ const updateMember = async (req, res) => {
   }
 };
 
+/**
+ * Updates an member's setting details.
+ *
+ * @function updateMemberSettings
+ * @returns {string} - message
+ * @throws {string}
+ */
 const updateMemberSettings = async (req, res) => {
   try {
     let updatedEmail = false;
@@ -467,6 +572,13 @@ const updateMemberSettings = async (req, res) => {
   }
 };
 
+/**
+ * Updates an member's status (active/suspended).
+ *
+ * @function updateMemberStatus
+ * @returns {string} - message
+ * @throws {string}
+ */
 const updateMemberStatus = async (req, res) => {
   try {
     const { _id, status } = req.body;

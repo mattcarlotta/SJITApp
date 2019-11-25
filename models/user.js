@@ -3,6 +3,7 @@ import { Schema, model } from "mongoose";
 import moment from "moment-timezone";
 import bcrypt from "bcryptjs";
 
+// admin, staff, employee
 const userSchema = new Schema({
   email: {
     type: String,

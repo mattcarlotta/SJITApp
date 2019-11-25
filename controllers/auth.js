@@ -8,7 +8,7 @@ import {
  * Creates a new user.
  *
  * @function createUser
- * @returns {string}
+ * @returns {string} - message
  */
 const createUser = (req, res) => {
   res
@@ -20,7 +20,7 @@ const createUser = (req, res) => {
  * Emails a user a new authorization key to reset their password.
  *
  * @function emailResetToken
- * @returns {string}
+ * @returns {string} - message
  */
 const emailResetToken = (req, res) => {
   res.status(200).json(passwordResetToken(req.user));
@@ -50,7 +50,7 @@ const signin = (req, res) => {
  * Allows a user to log out of the application (removes cookie).
  *
  * @function signout
- * @returns {object}
+ * @returns {string}
  */
 const signout = (req, res) => {
   req.session.destroy();
@@ -65,7 +65,7 @@ const signout = (req, res) => {
  * Allows a user to update their password with an authorization key.
  *
  * @function signout
- * @returns {string}
+ * @returns {string} - message
  */
 const updatePassword = (req, res) => {
   res.status(200).json({ message: passwordResetSuccess(req.user) });
