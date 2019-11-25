@@ -6,13 +6,13 @@ import { parseData } from "utils/parseResponse";
 import * as types from "types";
 
 /**
- * Attempts to get all forms.
+ * Attempts to get all team names.
  *
  * @generator
  * @function fetchTeamNames
  * @yields {object} - A response from a call to the API.
  * @function parseData - Returns a parsed res.data.
- * @yields {action} - A redux action to set forms data to redux state.
+ * @yields {action} - A redux action to set team data to redux state.
  * @throws {action} - A redux action to display a server message by type.
  */
 

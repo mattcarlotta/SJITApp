@@ -26,7 +26,7 @@ export const deleteMember = memberId => ({
 });
 
 /**
- * Deletes a new member.
+ * Deletes a new member token.
  *
  * @function deleteToken
  * @param {string} tokenId
@@ -38,7 +38,7 @@ export const deleteToken = tokenId => ({
 });
 
 /**
- * Fetches a single member.
+ * Fetches a single member for viewing/editing.
  *
  * @function fetchMember
  * @param {string} memberId
@@ -60,10 +60,10 @@ export const fetchMembers = () => ({
 });
 
 /**
- * Fetches all members.
+ * Fetches member profile availability.
  *
  * @function fetchMemberAvailability
- * @param id
+ * @param {object} params - params just contain id
  * @returns {object}
  */
 export const fetchMemberAvailability = params => ({
@@ -72,7 +72,7 @@ export const fetchMemberAvailability = params => ({
 });
 
 /**
- * Fetches a single member's events based upon a date.
+ * Fetches a single member's profile events based upon a date.
  *
  * @function fetchMemberEvents
  * @param {object} params - memberid and selectedDate
@@ -107,7 +107,7 @@ export const fetchMemberSettings = () => ({
  * Fetches a member's availability.
  *
  * @function fetchMemberSettingsAvailability
- * @param {object} params - selectedDate
+ * @param {object} params -  params just contain a selectedDate
  * @returns {object}
  */
 export const fetchMemberSettingsAvailability = params => ({
@@ -116,7 +116,7 @@ export const fetchMemberSettingsAvailability = params => ({
 });
 
 /**
- * Fetches a single member's events based upon a date.
+ * Fetches a single member's events for the settings page based upon a date.
  *
  * @function fetchMemberSettingsEvents
  * @param {object} params - selectedDate
@@ -150,7 +150,7 @@ export const fetchTokens = () => ({
 });
 
 /**
- * Resends a single auth key by mail.
+ * Resends a single token by mail.
  *
  * @function resendToken
  * @param {string} tokenId
@@ -162,10 +162,10 @@ export const resendToken = tokenId => ({
 });
 
 /**
- * Sets any members from API to redux state
+ * Sets any members for the ViewMembers page to redux state
  *
  * @function setMembers
- * @param {object} data - contains member data ([id, memberId, members, startDate, endDate]).
+ * @param {array} data - contains member data ([id, memberId, members, startDate, endDate]).
  * @returns {object}
  */
 export const setMembers = data => ({
@@ -174,10 +174,10 @@ export const setMembers = data => ({
 });
 
 /**
- * Sets a members availability stats to redux state
+ * Sets a members profile availability stats to redux state
  *
  * @function setMemberAvailability
- * @param {object} data - contains memberAvailiability ([memberScheduleEvents, memberResponseCount, percentAvailable]).
+ * @param {object} data - contains memberAvailiability ({memberScheduleEvents, memberResponseCount, percentAvailable}).
  * @returns {object}
  */
 export const setMemberAvailability = data => ({
@@ -186,10 +186,10 @@ export const setMemberAvailability = data => ({
 });
 
 /**
- * Sets a members events responses from API to redux state
+ * Sets a members profile events responses to redux state
  *
  * @function setMemberEventsByDate
- * @param {object} data - contains member event response data ([id, team, opponent, eventDate, response, notes]).
+ * @param {array} data - contains member event response data ([id, team, opponent, eventDate, response, notes]).
  * @returns {object}
  */
 export const setMemberEventsByDate = data => ({
@@ -198,10 +198,10 @@ export const setMemberEventsByDate = data => ({
 });
 
 /**
- * Sets a member's names to redux state
+ * Sets a members' names for emailing to redux state
  *
  * @function setMemberNames
- * @param {object} data - contains member event response data ([id, names, email]).
+ * @param {array} data - contains member event response data ([id, names, email]).
  * @returns {object}
  */
 export const setMemberNames = data => ({
@@ -222,7 +222,7 @@ export const setMemberToReview = data => ({
 });
 
 /**
- * Sets token from API to redux state.
+ * Sets token for viewing/editing to redux state.
  *
  * @function setToken
  * @param {object} data - contains token data ([id, authorizedEmail, role, seasonId, token]).
@@ -234,10 +234,10 @@ export const setToken = data => ({
 });
 
 /**
- * Sets all tokens from API to redux state.
+ * Sets all tokens for the ViewAuthorizations page to redux state.
  *
  * @function setTokens
- * @param {object} data - contains token data ([id, authorizedEmail, role, seasonId, token]).
+ * @param {array} data - contains token data ([id, authorizedEmail, role, seasonId, token]).
  * @returns {object}
  */
 export const setTokens = data => ({

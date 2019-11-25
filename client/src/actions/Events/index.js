@@ -2,7 +2,7 @@ import isEmpty from "lodash/isEmpty";
 import * as types from "types";
 
 /**
- * Creates a new member.
+ * Creates a new event.
  *
  * @function createEvent
  * @param {object} props - props contain league, eventType, location, timeSlots, uniform, start date and time, and seasonId.
@@ -26,7 +26,7 @@ export const deleteEvent = eventId => ({
 });
 
 /**
- * Fetches a single event.
+ * Fetches a single event for editing.
  *
  * @function fetchEvent
  * @param {string} eventId
@@ -60,10 +60,10 @@ export const fetchEvents = () => ({
 });
 
 /**
- * Fetches all scheduled events.
+ * Fetches all events for schedule page.
  *
  * @function fetchScheduleEvents
- * @param {params} - selectedDate and all games or user scheduled games
+ * @param {array} params - selectedDate and all games or user scheduled games
  * @returns {object}
  */
 export const fetchScheduleEvents = params => ({
@@ -72,7 +72,7 @@ export const fetchScheduleEvents = params => ({
 });
 
 /**
- * Fetches season ids and team names.
+ * Fetches season ids and team names for new event form.
  *
  * @function initializeNewEvent
  * @returns {object}
@@ -82,7 +82,7 @@ export const initializeNewEvent = () => ({
 });
 
 /**
- * Resend events emails.
+ * Resend an event's email reminders.
  *
  * @function resendMail
  * @param {string} eventId
@@ -142,10 +142,10 @@ export const setNewEvent = data => ({
 });
 
 /**
- * Sets scheduled events.
+ * Sets scheduled events for the schedule page.
  *
  * @function setScheduledEvents
- * @param {object} data - contains newEvent data ({eventType, eventDate, team, opponent, uniform, location, notes, scheduledEmployees}).
+ * @param {array} data - contains newEvent data ({eventType, eventDate, team, opponent, uniform, location, notes, scheduledEmployees}).
  * @returns {object}
  */
 export const setScheduleEvents = data => ({

@@ -30,6 +30,7 @@ export const shallowWrap = (Component, state = null) => {
  * @param {object} state - Component initial state for setup.
  * @param {array} initialEntries - Initial route entries for MemoryRouter.
  * @param {object} options - Options for mount
+ * @function createElement - Creates a wrapper around passed in component (now we can use wrapper.setProps on root)
  * @returns {MountedRouterWrapper}
  */
 export const HOCWrap = (

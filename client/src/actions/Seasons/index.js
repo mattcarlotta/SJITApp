@@ -50,7 +50,7 @@ export const fetchSeasons = () => ({
 /**
  * Fetches all seasons ids.
  *
- * @function fetchSeasons
+ * @function fetchSeasonsIds
  * @returns {object}
  */
 export const fetchSeasonsIds = () => ({
@@ -58,10 +58,10 @@ export const fetchSeasonsIds = () => ({
 });
 
 /**
- * Sets any seasons from API to redux state
+ * Sets seasons for ViewSeasons page to redux state
  *
  * @function setSeasons
- * @param {object} data - contains season data ([id, seasonId, members, startDate, endDate]).
+ * @param {array} data - contains season data ([id, seasonId, members, startDate, endDate]).
  * @returns {object}
  */
 export const setSeasons = data => ({
@@ -70,10 +70,10 @@ export const setSeasons = data => ({
 });
 
 /**
- * Sets any seasons ids from API to redux state
+ * Sets any seasons ids for event/Ap form creating/editing to redux state
  *
  * @function setSeasonsIds
- * @param {object} data - contains season data ([id]).
+ * @param {array} data - contains season data ([id]).
  * @returns {object}
  */
 export const setSeasonsIds = data => ({

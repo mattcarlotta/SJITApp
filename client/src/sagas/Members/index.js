@@ -14,6 +14,7 @@ import * as types from "types";
  * @generator
  * @function createMember
  * @param {object} props - props contain seasonId, role and authorized email fields.
+ * @yields {action} - A redux action to reset server messages.
  * @yields {object} - A response from a call to the API.
  * @function parseMessage - Returns a parsed res.data.message.
  * @yields {action} - A redux action to display a server message by type.
@@ -46,7 +47,8 @@ export function* createMember({ props }) {
  *
  * @generator
  * @function deleteMember
- * @param {object} - memberId
+ * @param {object} memberId
+ * @yields {action} - A redux action to reset server messages.
  * @yields {object} - A response from a call to the API.
  * @function parseMessage - Returns a parsed res.data.message.
  * @yields {action} - A redux action to display a server message by type.
@@ -79,7 +81,8 @@ export function* deleteMember({ memberId }) {
  *
  * @generator
  * @function deleteToken
- * @param {object} - tokenId
+ * @param {object} tokenId
+ * @yields {action} - A redux action to reset server messages.
  * @yields {object} - A response from a call to the API.
  * @function parseMessage - Returns a parsed res.data.message.
  * @yields {action} - A redux action to display a server message by type.
@@ -137,9 +140,10 @@ export function* fetchAvailability({ params }) {
  *
  * @generator
  * @function fetchMemberNames
+ * @yields {action} - A redux action to reset server messages.
  * @yields {object} - A response from a call to the API.
  * @function parseData - Returns a parsed res.data (members names info).
- * @yields {action} - A redux action to set member data to redux state.
+ * @yields {action} - A redux action to set member names data to redux state.
  * @throws {action} - A redux action to display a server message by type.
  */
 
@@ -167,7 +171,7 @@ export function* fetchMemberNames() {
  * @yields {object} - A response from a call to the API.
  * @function parseData - Returns a parsed res.data (member event response).
  * @yields {action} - A redux action to set member data to redux state.
- * @throws {action} - A redux action to display a server message by type.
+ * @throws {actions} - A redux action to go back to a previous URL and to display a server message by type.
  */
 
 export function* fetchProfile({ memberId }) {
@@ -193,14 +197,14 @@ export function* fetchProfile({ memberId }) {
 }
 
 /**
- * Attempts to get a single member profile for review/editing.
+ * Attempts to get a single member event profile for review/editing.
  *
  * @generator
  * @function fetchMemberEvents
  * @param {object} params
  * @yields {object} - A response from a call to the API.
  * @function parseData - Returns a parsed res.data.
- * @yields {action} - A redux action to set member data to redux state.
+ * @yields {action} - A redux action to set member event data to redux state.
  * @throws {action} - A redux action to display a server message by type.
  */
 
@@ -220,6 +224,7 @@ export function* fetchMemberEvents({ params }) {
  *
  * @generator
  * @function fetchMembers
+ * @yields {string} - A stringified location.search query.
  * @yields {object} - A response from a call to the API.
  * @function parseData - Returns a parsed res.data.
  * @yields {action} - A redux action to set members data to redux state.
@@ -249,7 +254,7 @@ export function* fetchMembers() {
  * @yields {object} - A response from a call to the API.
  * @function parseData - Returns a parsed res.data (member event response).
  * @yields {action} - A redux action to set member data to redux state.
- * @throws {action} - A redux action to display a server message by type.
+ * @throws {actions} - A redux action to push to a URL and to display a server message by type.
  */
 
 export function* fetchSettings() {
@@ -325,10 +330,11 @@ export function* fetchMemberSettingsEvents({ params }) {
  *
  * @generator
  * @function fetchToken
+ * @yields {action} - A redux action to reset server messages.
  * @yields {object} - A response from a call to the API.
  * @function parseData - Returns a parsed res.data.
  * @yields {action} - A redux action to set token data to redux state.
- * @throws {action} - A redux action to display a server message by type.
+ * @throws {actions} - A redux action to back to a previous URL and to display a server message by type.
  */
 
 export function* fetchToken({ tokenId }) {
@@ -355,6 +361,7 @@ export function* fetchToken({ tokenId }) {
  *
  * @generator
  * @function fetchTokens
+ * @yields {string} - A stringified location.search query.
  * @yields {object} - A response from a call to the API.
  * @function parseData - Returns a parsed res.data.
  * @yields {action} - A redux action to set tokens data to redux state.
@@ -375,15 +382,16 @@ export function* fetchTokens() {
 }
 
 /**
- * Attempts to update an existing member.
+ * Attempts to resend an authorization to a member.
  *
  * @generator
  * @function resendToken
  * @param {string} tokenId
+ * @yields {action} - A redux action to reset server messages.
  * @yields {object} - A response from a call to the API.
  * @function parseMessage - Returns a parsed res.data.message.
  * @yields {action} - A redux action to display a server message by type.
- * @yields {action} - A redux action to fetch member by id to update data..
+ * @yields {action} - A redux action to refetch authorizations.
  * @throws {action} - A redux action to display a server message by type.
  */
 
@@ -413,6 +421,7 @@ export function* resendToken({ tokenId }) {
  * @generator
  * @function updateMember
  * @param {object} props - props contain id, email, firstName, lastName and role.
+ * @yields {action} - A redux action to reset server messages.
  * @yields {object} - A response from a call to the API.
  * @function parseMessage - Returns a parsed res.data.message.
  * @yields {action} - A redux action to display a server message by type.
@@ -446,6 +455,7 @@ export function* updateMember({ props }) {
  * @generator
  * @function updateMemberStatus
  * @param {object} props - props contain id and status.
+ * @yields {action} - A redux action to reset server messages.
  * @yields {object} - A response from a call to the API.
  * @function parseMessage - Returns a parsed res.data.message.
  * @yields {action} - A redux action to display a server message by type.
@@ -479,6 +489,7 @@ export function* updateMemberStatus({ props }) {
  * @generator
  * @function updateMemberToken
  * @param {object} props - props contain id, seasonId, role and authorizedEmail.
+ * @yields {action} - A redux action to reset server messages.
  * @yields {object} - A response from a call to the API.
  * @function parseMessage - Returns a parsed res.data.message.
  * @yields {action} - A redux action to display a server message by type.
@@ -512,10 +523,11 @@ export function* updateMemberToken({ props }) {
  * @generator
  * @function updateSettings
  * @param {object} props - props contain id, email, firstName, lastName and role.
+ * @yields {action} - A redux action to reset server messages.
  * @yields {object} - A response from a call to the API.
  * @function parseMessage - Returns a parsed res.data.message.
  * @yields {action} - A redux action to display a server message by type.
- * @yields {action} - A redux action to fetch member by id to update data..
+ * @yields {action} - A redux action to to either refetch member data or sign user out if they reset password.
  * @throws {action} - A redux action to display a server message by type.
  */
 

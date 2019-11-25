@@ -13,8 +13,9 @@ import * as types from "types";
  * @generator
  * @function createSeason
  * @param {object} props - props contain seasonID and season fields.
+ * @yields {action} - A redux action to reset server messages.
  * @yields {object} - A response from a call to the API.
- * @function parseMessage - Returns a parsed res.data.message.
+ * @function parseMessage - returns a parsed res.data.message.
  * @yields {action} - A redux action to display a server message by type.
  * @yields {action} - A redux action to push to a URL.
  * @throws {action} - A redux action to display a server message by type.
@@ -41,15 +42,16 @@ export function* createSeason({ props }) {
 }
 
 /**
- * Attempts to create a new season.
+ * Attempts to delete a season (and any events forms attached to it).
  *
  * @generator
  * @function deleteSeason
- * @param {object} - seasonId
+ * @param {object} seasonId
+ * @yields {action} - A redux action to reset server messages.
  * @yields {object} - A response from a call to the API.
- * @function parseMessage - Returns a parsed res.data.message.
+ * @function parseMessage - returns a parsed res.data.message.
  * @yields {action} - A redux action to display a server message by type.
- * @yields {action} - A redux action to push to a URL.
+ * @yields {action} - A redux action to refetch seasons.
  * @throws {action} - A redux action to display a server message by type.
  */
 
@@ -78,8 +80,10 @@ export function* deleteSeason({ seasonId }) {
  *
  * @generator
  * @function fetchSeason
+ * @param {object} seasonId
+ * @yields {action} - A redux action to reset server messages.
  * @yields {object} - A response from a call to the API.
- * @function parseData - Returns a parsed res.data.
+ * @function parseData - returns a parsed res.data.
  * @yields {action} - A redux action to set season data to redux state.
  * @throws {action} - A redux action to display a server message by type.
  */
@@ -102,8 +106,9 @@ export function* fetchSeason({ seasonId }) {
  *
  * @generator
  * @function fetchSeasons
+ * @yields {string} - A stringified location.search query.
  * @yields {object} - A response from a call to the API.
- * @function parseData - Returns a parsed res.data.
+ * @function parseData - returns a parsed res.data.
  * @yields {action} - A redux action to set season data to redux state.
  * @throws {action} - A redux action to display a server message by type.
  */
@@ -126,8 +131,9 @@ export function* fetchSeasons() {
  *
  * @generator
  * @function fetchSeasonsIds
+ * @yields {action} - A redux action to reset server messages.
  * @yields {object} - A response from a call to the API.
- * @function parseData - Returns a parsed res.data.
+ * @function parseData - returns a parsed res.data.
  * @yields {action} - A redux action to set season data to redux state.
  * @throws {action} - A redux action to display a server message by type.
  */
@@ -151,10 +157,11 @@ export function* fetchSeasonsIds() {
  * @generator
  * @function updateSeason
  * @param {object} props - props contain seasonID and season fields.
+ * @yields {action} - A redux action to reset server messages.
  * @yields {object} - A response from a call to the API.
- * @function parseMessage - Returns a parsed res.data.message.
+ * @function parseMessage - returns a parsed res.data.message.
  * @yields {action} - A redux action to display a server message by type.
- * @yields {action} - A redux action to push to a URL.
+ * @yields {action} - A redux action to go back to a previous URL.
  * @throws {action} - A redux action to display a server message by type.
  */
 

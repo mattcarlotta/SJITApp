@@ -8,13 +8,14 @@ import { selectQuery } from "utils/selectors";
 import * as types from "types";
 
 /**
- * Attempts to create a new member.
+ * Attempts to create a new form.
  *
  * @generator
  * @function createForm
  * @param {object} props - props contain league, formType, location, timeSlots, uniform, start/end dates and times, and seasonId.
+ * @yields {action} - A redux action to reset server messages.
  * @yields {object} - A response from a call to the API.
- * @function parseMessage - Returns a parsed res.data.message.
+ * @function parseMessage - returns a parsed res.data.message.
  * @yields {action} - A redux action to display a server message by type.
  * @yields {action} - A redux action to push to a URL.
  * @throws {action} - A redux action to display a server message by type.
@@ -45,9 +46,10 @@ export function* createForm({ props }) {
  *
  * @generator
  * @function deleteForm
- * @params {object} - formId
+ * @param {object} formId
+ * @yields {action} - A redux action to reset server messages.
  * @yields {object} - A response from a call to the API.
- * @function parseMessage - Returns a parsed res.data.message.
+ * @function parseMessage - returns a parsed res.data.message.
  * @yields {action} - A redux action to display a server message by type.
  * @yields {action} - A redux action to fetch forms data again.
  * @throws {action} - A redux action to display a server message by type.
@@ -80,9 +82,9 @@ export function* deleteForm({ formId }) {
  * @function fetchForm
  * @param {object} formId
  * @yields {object} - A response from a call to the API.
- * @function parseData - Returns a parsed res.data (form data).
+ * @function parseData - returns a parsed res.data (form data).
  * @yields {object} - A response from a call to the API.
- * @function parseData - Returns a parsed res.data (seasonIds data).
+ * @function parseData - returns a parsed res.data (seasonIds data).
  * @yields {action} - A redux action to set form data to redux state.
  * @throws {action} - A redux action to display a server message by type.
  */
@@ -114,10 +116,11 @@ export function* fetchForm({ formId }) {
  * @generator
  * @function fetchFormAp
  * @param {object} formId
+ * @yields {action} - A redux action to reset server messages.
  * @yields {object} - A response from a call to the API.
- * @function parseData - Returns a parsed res.data (form and forms data).
- * @yields {action} - A redux action to set form data to redux state.
- * @throws {action} - A redux action to display a server message by type.
+ * @function parseData - returns a parsed res.data (form and forms data).
+ * @yields {action} - A redux action to set AP form data to redux state.
+ * @throws {actions} - A redux action to go back to previous URL and to display a server message by type.
  */
 
 export function* fetchFormAp({ formId }) {
@@ -143,8 +146,9 @@ export function* fetchFormAp({ formId }) {
  *
  * @generator
  * @function fetchForms
+ * @yields {string} - A stringified location.search query.
  * @yields {object} - A response from a call to the API.
- * @function parseData - Returns a parsed res.data.
+ * @function parseData - returns a parsed res.data.
  * @yields {action} - A redux action to set forms data to redux state.
  * @throws {action} - A redux action to display a server message by type.
  */
@@ -167,10 +171,11 @@ export function* fetchForms() {
  *
  * @generator
  * @function resendFormEmails
- * @params {object} - eventId
+ * @param {object} eventId
+ * @yields {action} - A redux action to reset server messages.
  * @yields {object} - A response from a call to the API.
- * @function parseData - Returns a parsed res.data.
- * @yields {action} - A redux action to set forms data to redux state.
+ * @function parseData - returns a parsed res.data.
+ * @yields {action} - A redux action to refetch forms data.
  * @throws {action} - A redux action to display a server message by type.
  */
 
@@ -200,10 +205,11 @@ export function* resendFormEmails({ formId }) {
  * @generator
  * @function updateForm
  * @param {object} props - contains form data ([_id, seasonId, startMonth, startDate, expirationDate]).
+ * @yields {action} - A redux action to reset server messages.
  * @yields {object} - A response from a call to the API.
- * @function parseMessage - Returns a parsed res.data.message.
+ * @function parseMessage - returns a parsed res.data.message.
  * @yields {action} - A redux action to display a server message by type.
- * @yields {action} - A redux action to push to a URL.
+ * @yields {action} - A redux action to go back to a previous URL.
  * @throws {action} - A redux action to display a server message by type.
  */
 
@@ -233,8 +239,9 @@ export function* updateForm({ props }) {
  * @generator
  * @function updateFormAp
  * @param {object} props - contains form data ({_id, responses, notes}).
+ * @yields {action} - A redux action to reset server messages.
  * @yields {object} - A response from a call to the API.
- * @function parseMessage - Returns a parsed res.data.message.
+ * @function parseMessage - returns a parsed res.data.message.
  * @yields {action} - A redux action to display a server message by type.
  * @yields {action} - A redux action to push to a URL.
  * @throws {action} - A redux action to display a server message by type.

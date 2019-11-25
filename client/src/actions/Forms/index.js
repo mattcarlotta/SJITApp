@@ -38,7 +38,7 @@ export const fetchForm = formId => ({
 });
 
 /**
- * Fetches an AP form.
+ * Fetches an AP form for viewing/editing.
  *
  * @function fetchFormAp
  * @param {string} formId
@@ -63,7 +63,7 @@ export const fetchForms = () => ({
  * Resend forms emails.
  *
  * @function resendMail
- * @params {formId}
+ * @param {string} formId
  * @returns {object}
  */
 export const resendMail = formId => ({
@@ -82,7 +82,7 @@ export const resetApForm = () => ({
 });
 
 /**
- * Sets any members from API to redux state
+ * Sets an A/P form for veiwing/editing to redux state
  *
  * @function setApForm
  * @param {array} data - contains form and events data
@@ -94,7 +94,7 @@ export const setFormAp = data => ({
 });
 
 /**
- * Sets any members from API to redux state
+ * Sets A/P forms to redux state for ViewForms page
  *
  * @function setForms
  * @param {array} data - contains forms data ([_id, seasonId, startMonth, startDate, expirationDate]).
@@ -106,7 +106,7 @@ export const setForms = data => ({
 });
 
 /**
- * Sets a single season to redux state for editing.
+ * Sets a single form to redux state for editing.
  *
  * @function setFormToEdit
  * @param {object} data - contains form data ([_id, seasonId, startMonth, startDate, expirationDate]).
@@ -130,7 +130,7 @@ export const updateForm = props => ({
 });
 
 /**
- * Updates a single form.
+ * Updates a single A/P form with user response.
  *
  * @function updateFormAp
  * @param {object} data - contains form data ([_id, value])

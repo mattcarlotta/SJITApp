@@ -2,7 +2,7 @@ import isEmpty from "lodash/isEmpty";
 import * as types from "types";
 
 /**
- * Sends a single mail to staff or admin
+ * Sends a single mail to staff or admin.
  *
  * @function contactUs
  * @param {object} props - contains mail data ([sendTo, message, subject]).
@@ -14,7 +14,7 @@ export const contactUs = props => ({
 });
 
 /**
- * Sends a single mail
+ * Sends a single mail.
  *
  * @function createMail
  * @param {object} props - contains mail data ([sendTo, sendFrom, sendDate, message, subject]).
@@ -38,7 +38,7 @@ export const deleteMail = mailId => ({
 });
 
 /**
- * Fetches a single mail.
+ * Fetches a single mail for viewing/editing.
  *
  * @function fetchMail
  * @param {string} mailId
@@ -72,10 +72,10 @@ export const resendMail = mailId => ({
 });
 
 /**
- * Sets any mails from API to redux state
+ * Sets any mails for ViewMail to redux state
  *
  * @function setMails
- * @param {object} data - contains mail data ([id, sendTo, sendFrom, sendDate, sent, message, subject]).
+ * @param {array} data - contains mail data ([id, sendTo, sendFrom, sendDate, sent, message, subject]).
  * @returns {object}
  */
 export const setMails = data => ({

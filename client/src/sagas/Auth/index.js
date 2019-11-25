@@ -7,10 +7,10 @@ import { parseData, parseMessage } from "utils/parseResponse";
 import * as types from "types";
 
 /**
- * Removes the current user from a session.
+ * Removes the current user from a express and redux session.
  *
  * @generator
- * @function signoutUser
+ * @function signoutUserSession
  * @yields {object} - A redux action to remove the current user from state.
  * @yields {action} - A redux action to push to a URL.
  * @throws {action} - A redux action to display a server message by type.
@@ -33,7 +33,7 @@ export function* signoutUserSession() {
  * @generator
  * @function authenticateUser
  * @yields {object} - A response from a call to the API.
- * @function parseData - Returns a parsed res.data.
+ * @function parseData - returns a parsed res.data.
  * @yields {action} - A redux action to set the current user.
  * @throws {action} - A redux action to display a server message by type.
  */
@@ -55,9 +55,9 @@ export function* authenticateUser() {
  * @function resetPassword
  * @param {object} props - props just contain an email field.
  * @yields {object} - A response from a call to the API.
- * @function parseMessage - Returns a parsed res.data.message.
+ * @function parseMessage - returns a parsed res.data.message.
  * @yields {action} - A redux action to display a server message by type.
- * @yields {action} - A redux action to push to a URL.
+ * @yields {action} - A redux action to sign the user of any sessions.
  * @throws {action} - A redux action to display a server message by type.
  */
 export function* resetPassword({ props }) {
@@ -87,8 +87,8 @@ export function* resetPassword({ props }) {
  * @function signinUser
  * @param {object} props - contains user credentials (email and password).
  * @yields {object} - A response from a call to the API.
- * @function parseData - Returns a parsed res.data.
- * @yields {action} -  A redux action to set the current user.
+ * @function parseData - returns a parsed res.data.
+ * @yields {action} -  A redux action to set the current user to redux state.
  * @throws {action} - A redux action to display a server message by type.
  */
 export function* signinUser({ props }) {
@@ -111,7 +111,7 @@ export function* signinUser({ props }) {
  * @function signupUser
  * @param {object} props - props contain a token, an email, first/last name, and a password.
  * @yields {object} - A response from a call to the API.
- * @function parseMessage - Returns a parsed res.data.message.
+ * @function parseMessage - returns a parsed res.data.message.
  * @yields {action} - A redux action to display a server message by type.
  * @yields {action} - A redux action to push to a URL.
  * @throws {action} - A redux action to display a server message by type.
@@ -141,11 +141,11 @@ export function* signupUser({ props }) {
  *
  * @generator
  * @function updateUserPassword
- * @params {object} props - props contain a token and (new) password fields.
+ * @param {object} props - props contain a token and (new) password fields.
  * @yields {object} - A response from a call to the API.
- * @function parseMessage - Returns a parsed res.data.message.
+ * @function parseMessage - returns a parsed res.data.message.
  * @yields {action} - A redux action to display a server message by type.
- * @yields {action} - A redux action to push to a URL.
+ * @yields {action} - A redux action to push to sign the user out of any sessions.
  * @throws {action} - A redux action to display a server message by type.
  */
 export function* updateUserPassword({ props }) {

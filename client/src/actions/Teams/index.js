@@ -12,10 +12,10 @@ export const fetchTeamNames = () => ({
 });
 
 /**
- * Sets scheduled events.
+ * Sets team names for event/ap form/table filtering.
  *
  * @function setTeamNames
- * @param {object} data - contains team names data ([names]).
+ * @param {array} data - contains team names data ([teamnames]).
  * @returns {object}
  */
 export const setTeamNames = data => ({

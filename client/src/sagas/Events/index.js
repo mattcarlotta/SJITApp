@@ -8,13 +8,13 @@ import { selectQuery } from "utils/selectors";
 import * as types from "types";
 
 /**
- * Attempts to create a new member.
+ * Attempts to create a new event.
  *
  * @generator
  * @function createEvent
  * @param {object} props - props contain league, eventType, location, timeSlots, uniform, start/end dates and times, and seasonId.
  * @yields {object} - A response from a call to the API.
- * @function parseMessage - Returns a parsed res.data.message.
+ * @function parseMessage - returns a parsed res.data.message.
  * @yields {action} - A redux action to display a server message by type.
  * @yields {action} - A redux action to push to a URL.
  * @throws {action} - A redux action to display a server message by type.
@@ -41,15 +41,15 @@ export function* createEvent({ props }) {
 }
 
 /**
- * Attempts to delete a token.
+ * Attempts to delete an event.
  *
  * @generator
  * @function deleteEvent
- * @params {object} - eventId
+ * @param {object} - eventId
  * @yields {object} - A response from a call to the API.
- * @function parseMessage - Returns a parsed res.data.message.
+ * @function parseMessage - returns a parsed res.data.message.
  * @yields {action} - A redux action to display a server message by type.
- * @yields {action} - A redux action to fetch tokens data again.
+ * @yields {action} - A redux action to fetch events data again.
  * @throws {action} - A redux action to display a server message by type.
  */
 
@@ -79,9 +79,14 @@ export function* deleteEvent({ eventId }) {
  * @generator
  * @function fetchEvent
  * @param {string} eventId
+ * @yields {action} - A redux action to reset server messages.
  * @yields {object} - A response from a call to the API.
- * @function parseData - Returns a parsed res.data.
- * @yields {action} - A redux action to set event data to redux state.
+ * @function parseData - returns a parsed res.data.
+ * @yields {object} - A response from a call to the API.
+ * @function parseData - returns a parsed res.data.
+ * @yields {object} - A response from a call to the API.
+ * @function parseData - returns a parsed res.data.
+ * @yields {action} - A redux action to set event data for editing to redux state.
  * @throws {action} - A redux action to display a server message by type.
  */
 
@@ -116,9 +121,12 @@ export function* fetchEvent({ eventId }) {
  * @generator
  * @function fetchEventForScheduling
  * @param {string} eventId
+ * @yields {action} - A redux action to reset server messages.
  * @yields {object} - A response from a call to the API.
- * @function parseData - Returns a parsed res.data.
- * @yields {action} - A redux action to set event data to redux state.
+ * @function parseData - returns a parsed res.data.
+ * @yields {object} - A response from a call to the API.
+ * @function parseData - returns a parsed res.data.
+ * @yields {action} - A redux action to set event data for scheduling to redux state.
  * @throws {action} - A redux action to display a server message by type.
  */
 
@@ -145,8 +153,9 @@ export function* fetchEventForScheduling({ eventId }) {
  *
  * @generator
  * @function fetchEvents
+ * @yields {string} - A stringified location.search query.
  * @yields {object} - A response from a call to the API.
- * @function parseData - Returns a parsed res.data.
+ * @function parseData - returns a parsed res.data.
  * @yields {action} - A redux action to set events data to redux state.
  * @throws {action} - A redux action to display a server message by type.
  */
@@ -165,14 +174,14 @@ export function* fetchEvents() {
 }
 
 /**
- * Attempts to get a single member profile for review/editing.
+ * Attempts to get all events within a month for ViewSchedule page.
  *
  * @generator
  * @function fetchScheduleEvents
- * @param {object} params
+ * @param {object} params - selectedDate and games (all or my)
  * @yields {object} - A response from a call to the API.
- * @function parseData - Returns a parsed res.data.
- * @yields {action} - A redux action to set member data to redux state.
+ * @function parseData - returns a parsed res.data.
+ * @yields {action} - A redux action to set schedule  data to redux state.
  * @throws {action} - A redux action to display a server message by type.
  */
 
@@ -188,16 +197,16 @@ export function* fetchScheduleEvents({ params }) {
 }
 
 /**
- * Attempts to get event for editing.
+ * Attempts to initialize an event form with season and team data.
  *
  * @generator
  * @function initializeNewEvent
- * @param {object}
- * @yields {object} - A response from a call to the API (season ids).
- * @function parseData - Returns a parsed res.data.
+ * @yields {action} - A redux action to reset server messages.
+ * @yields {object} - A response from a call to the API.
+ * @function parseData - returns a parsed res.data.
  * @yields {object} - A response from a call to the API (team names).
- * @function parseData - Returns a parsed res.data.
- * @yields {action} - A redux action to set event data to redux state.
+ * @function parseData - returns a parsed res.data.
+ * @yields {action} - A redux action to set event form data to redux state.
  * @throws {action} - A redux action to display a server message by type.
  */
 
@@ -227,10 +236,11 @@ export function* initializeNewEvent() {
  *
  * @generator
  * @function resendEventEmails
- * @params {object} - eventId
+ * @param {object} eventId
+ * @yields {action} - A redux action to reset server messages.
  * @yields {object} - A response from a call to the API.
- * @function parseData - Returns a parsed res.data.
- * @yields {action} - A redux action to set forms data to redux state.
+ * @function parseData - returns a parsed res.data.
+ * @yields {action} - A redux action to refetch events data.
  * @throws {action} - A redux action to display a server message by type.
  */
 
@@ -261,9 +271,9 @@ export function* resendEventEmails({ eventId }) {
  * @function updateEvent
  * @param {object} props - props contain league, eventType, location, timeSlots, uniform, start/end dates and times, and seasonId.
  * @yields {object} - A response from a call to the API.
- * @function parseMessage - Returns a parsed res.data.message.
+ * @function parseMessage - returns a parsed res.data.message.
  * @yields {action} - A redux action to display a server message by type.
- * @yields {action} - A redux action to push to a URL.
+ * @yields {action} - A redux action to go back to previous URL.
  * @throws {action} - A redux action to display a server message by type.
  */
 
@@ -288,15 +298,16 @@ export function* updateEvent({ props }) {
 }
 
 /**
- * Attempts to update an existing event.
+ * Attempts to update an existing event schedule.
  *
  * @generator
  * @function updateEventSchedule
  * @param {object} props - contains event schedule data ([{ callTime, userIds }]).
+ * @yields {action} - A redux action to reset server messages.
  * @yields {object} - A response from a call to the API.
- * @function parseMessage - Returns a parsed res.data.message.
+ * @function parseMessage - returns a parsed res.data.message.
  * @yields {action} - A redux action to display a server message by type.
- * @yields {action} - A redux action to push to a URL.
+ * @yields {action} - A redux action to go back to a previous URL.
  * @throws {action} - A redux action to display a server message by type.
  */
 

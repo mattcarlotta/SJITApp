@@ -4,29 +4,54 @@ import {
   passwordResetToken,
 } from "shared/authSuccess";
 
-// CREATES A NEW USER
+/**
+ * Creates a new user.
+ *
+ * @function createUser
+ * @returns {string}
+ */
 const createUser = (req, res) => {
   res
     .status(201)
     .json(thanksForReg(req.user.email, req.user.firstName, req.user.lastName));
 };
 
-// EMAILS A USER A TOKEN TO RESET THEIR PASSWORD
+/**
+ * Emails a user a new authorization key to reset their password.
+ *
+ * @function emailResetToken
+ * @returns {string}
+ */
 const emailResetToken = (req, res) => {
   res.status(200).json(passwordResetToken(req.user));
 };
 
-// ALLOWS A USER TO LOG INTO THE APP ON REFRESH
+/**
+ * Allows a user to log in to the application on refresh.
+ *
+ * @function signedin
+ * @returns {object}
+ */
 const signedin = (req, res) => {
   res.status(201).json({ ...req.session.user });
 };
 
-// ALLOWS A USER TO LOG INTO THE APP
+/**
+ * Allows a user to log in to the application.
+ *
+ * @function signin
+ * @returns {object}
+ */
 const signin = (req, res) => {
   res.status(201).json({ ...req.session.user });
 };
 
-// REMOVES USER FROM SESSION AND DELETES CLIENT COOKIE
+/**
+ * Allows a user to log out of the application (removes cookie).
+ *
+ * @function signout
+ * @returns {object}
+ */
 const signout = (req, res) => {
   req.session.destroy();
 
@@ -36,7 +61,12 @@ const signout = (req, res) => {
     .send("Session ended.");
 };
 
-// ALLOWS A USER TO UPDATE THEIR PASSWORD WITH A TOKEN
+/**
+ * Allows a user to update their password with an authorization key.
+ *
+ * @function signout
+ * @returns {string}
+ */
 const updatePassword = (req, res) => {
   res.status(200).json({ message: passwordResetSuccess(req.user) });
 };

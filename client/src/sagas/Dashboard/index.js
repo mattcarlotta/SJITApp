@@ -17,8 +17,8 @@ import * as types from "types";
  * @generator
  * @function fetchAPForm
  * @yields {object} - A response from a call to the API.
- * @function parseData - Returns a parsed res.data.
- * @yields {action} - A redux action to set event data to redux state.
+ * @function parseData - returns a parsed res.data.
+ * @yields {action} - A redux action to set AP form data to redux state.
  * @throws {action} - A redux action to display a server message by type.
  */
 
@@ -40,7 +40,7 @@ export function* fetchAPForm() {
  * @function fetchAvailability
  * @yields {object} - A response from a call to the API.
  * @function parseData - Returns a parsed res.data.
- * @yields {action} - A redux action to set event data to redux state.
+ * @yields {action} - A redux action to set availabity data to redux state.
  * @throws {action} - A redux action to display a server message by type.
  */
 
@@ -62,8 +62,8 @@ export function* fetchAvailability() {
  * @function fetchEventDistribution
  * @param {object} params - startDate and endDate
  * @yields {object} - A response from a call to the API.
- * @function parseData - Returns a parsed res.data.
- * @yields {action} - A redux action to set event data to redux state.
+ * @function parseData - returns a parsed res.data.
+ * @yields {action} - A redux action to set event distribution data to redux state.
  * @throws {action} - A redux action to display a server message by type.
  */
 
@@ -87,8 +87,8 @@ export function* fetchEventDistribution({ params }) {
  * @function fetchEvents
  * @param {string} eventId
  * @yields {object} - A response from a call to the API.
- * @function parseData - Returns a parsed res.data.
- * @yields {action} - A redux action to set event data to redux state.
+ * @function parseData - returns a parsed res.data.
+ * @yields {action} - A redux action to set today/upcoming event data to redux state.
  * @throws {action} - A redux action to display a server message by type.
  */
 
@@ -109,8 +109,8 @@ export function* fetchEvents({ selectedEvent }) {
  * @generator
  * @function fetchMembersAvailability
  * @yields {object} - A response from a call to the API.
- * @function parseData - Returns a parsed res.data.
- * @yields {action} - A redux action to set event data to redux state.
+ * @function parseData - returns a parsed res.data.
+ * @yields {action} - A redux action to set members' availabity data to redux state.
  * @throws {action} - A redux action to display a server message by type.
  */
 

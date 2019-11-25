@@ -7,33 +7,10 @@ import LeftMenu from "components/Navigation/LeftMenu";
 import RightMenu from "components/Navigation/RightMenu";
 import SideMenu from "components/Navigation/SideMenu";
 import DrawerMenu from "components/Navigation/DrawerMenu";
+import { TABS, ROOTTABS } from "./Tabs";
 
 const Header = Layout.Header;
 const Content = Layout.Content;
-
-const TABS = [
-	"dashboard",
-	"events/create",
-	"events/edit",
-	"events/viewall",
-	"forms/create",
-	"forms/viewall",
-	"members/authorizations/viewall",
-	"members/create",
-	"members/viewall",
-	"schedule",
-	"seasons/create",
-	"seasons/viewall",
-	"mail/create",
-	"mail/viewall",
-	"settings",
-	"help",
-	"contact-us",
-	"privacy",
-	"licensing",
-];
-
-const ROOTTABS = ["events", "forms", "mail", "members", "seasons"];
 
 const selectedTab = path => TABS.filter(tab => path.indexOf(tab) >= 1);
 

@@ -13,8 +13,9 @@ import * as types from "types";
  * @generator
  * @function contactUs
  * @param {object} props -contains mail data ([sendTo, message, subject]).
+ * @yields {action} - A redux action to reset server messages.
  * @yields {object} - A response from a call to the API.
- * @function parseMessage - Returns a parsed res.data.message.
+ * @function parseMessage - returns a parsed res.data.message.
  * @yields {action} - A redux action to display a server message by type.
  * @yields {action} - A redux action to push to a URL.
  * @throws {action} - A redux action to display a server message by type.
@@ -46,8 +47,9 @@ export function* contactUs({ props }) {
  * @generator
  * @function createMail
  * @param {object} props -contains mail data ([id, sendTo, sendFrom, sendDate, message, subject]).
+ * @yields {action} - A redux action to reset server messages.
  * @yields {object} - A response from a call to the API.
- * @function parseMessage - Returns a parsed res.data.message.
+ * @function parseMessage - returns a parsed res.data.message.
  * @yields {action} - A redux action to display a server message by type.
  * @yields {action} - A redux action to push to a URL.
  * @throws {action} - A redux action to display a server message by type.
@@ -78,11 +80,12 @@ export function* createMail({ props }) {
  *
  * @generator
  * @function deleteMail
- * @params {obect} - mailId
+ * @param {obect} mailId
+ * @yields {action} - A redux action to reset server messages.
  * @yields {object} - A response from a call to the API.
- * @function parseMessage - Returns a parsed res.data.message.
+ * @function parseMessage - returns a parsed res.data.message.
  * @yields {action} - A redux action to display a server message by type.
- * @yields {action} - A redux action to push to a URL.
+ * @yields {action} - A redux action to refetch mail.
  * @throws {action} - A redux action to display a server message by type.
  */
 
@@ -111,10 +114,13 @@ export function* deleteMail({ mailId }) {
  *
  * @generator
  * @function fetchMail
+ * @yields {action} - A redux action to reset server messages.
  * @yields {object} - A response from a call to the API.
- * @function parseData - Returns a parsed res.data.
+ * @function parseData - returns a parsed res.data.
+ * @yields {object} - A response from a call to the API.
+ * @function parseData - returns a parsed res.data.
  * @yields {action} - A redux action to set mail data to redux state.
- * @throws {action} - A redux action to display a server message by type.
+ * @throws {actions} - A redux action to go back to a previous URL and to display a server message by type.
  */
 
 export function* fetchMail({ mailId }) {
@@ -144,8 +150,9 @@ export function* fetchMail({ mailId }) {
  *
  * @generator
  * @function fetchMails
+ * @yields {string} - A stringified location.search query.
  * @yields {object} - A response from a call to the API.
- * @function parseData - Returns a parsed res.data.
+ * @function parseData - returns a parsed res.data.
  * @yields {action} - A redux action to set mail data to redux state.
  * @throws {action} - A redux action to display a server message by type.
  */
@@ -168,11 +175,12 @@ export function* fetchMails() {
  *
  * @generator
  * @function resendMail
- * @params {object} - mailId
+ * @param {object} mailId
+ * @yields {action} - A redux action to reset server messages.
  * @yields {object} - A response from a call to the API.
- * @function parseMessage - Returns a parsed res.data.message.
+ * @function parseMessage - returns a parsed res.data.message.
  * @yields {action} - A redux action to display a server message by type.
- * @yields {action} - A redux action to push to a URL.
+ * @yields {action} - A redux action to refetch mail.
  * @throws {action} - A redux action to display a server message by type.
  */
 
@@ -202,10 +210,11 @@ export function* resendMail({ mailId }) {
  * @generator
  * @function updateMail
  * @param {object} props - props contain mailID and mail fields.
+ * @yields {action} - A redux action to reset server messages.
  * @yields {object} - A response from a call to the API.
- * @function parseMessage - Returns a parsed res.data.message.
+ * @function parseMessage - returns a parsed res.data.message.
  * @yields {action} - A redux action to display a server message by type.
- * @yields {action} - A redux action to push to a URL.
+ * @yields {action} - A redux action to go back to a previous URL.
  * @throws {action} - A redux action to display a server message by type.
  */
 

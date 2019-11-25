@@ -75,6 +75,7 @@ module.exports = () => {
 			},
 			clearConsole: true,
 		}),
+		/* webpack ENV files */
 		new DefinePlugin({
 			"process.env": {
 				APIPORT: JSON.stringify(APIPORT),
@@ -88,7 +89,7 @@ module.exports = () => {
 				commitHash: JSON.stringify(gitStatsPlugin.commithash()),
 			},
 		}),
-		/* generates an manifest for all assets */
+		/* generates a manifest for all assets */
 		new ManifestPlugin({
 			fileName: "asset-manifest.json",
 			publicPath,
@@ -118,17 +119,20 @@ module.exports = () => {
 		plugins.push(
 			/* compiles SCSS to a single CSS file */
 			new InlineChunkHtmlPlugin(HtmlWebpackPlugin, [/runtime/]),
+			/* removes moment locales */
 			new IgnorePlugin(/^\.\/locale$/, /moment$/),
 			new MiniCssExtractPlugin({
 				filename: `${cssFolder}/[name].[contenthash:8].css`,
 				chunkFilename: `${cssFolder}/[id].[contenthash:8].css`,
 			}),
+			/* copies some files from public to dist on build */
 			new CopyWebpackPlugin([
 				{ from: "public/robots.txt" },
 				{ from: "public/manifest.json" },
 				{ from: "public/ITLogo_512x512.png" },
 				{ from: "public/ITLogo_192x192.png" },
 			]),
+			/* runs bundle analyzer if in staging */
 			analzye && inStaging && new BundleAnalyzerPlugin(),
 		);
 	}

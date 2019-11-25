@@ -24,7 +24,7 @@ export const fetchAvailability = () => ({
  * Fetches event distribution by month.
  *
  * @function fetchEventDistribution
- * @param {object} - startDate and endDate
+ * @param {object} params - startDate and endDate
  * @returns {object}
  */
 export const fetchEventDistribution = params => ({
@@ -33,10 +33,10 @@ export const fetchEventDistribution = params => ({
 });
 
 /**
- * Fetches current or upcoming event.
+ * Fetches current or upcoming event by string.
  *
  * @function fetchEvents
- * @param {string} selectedEvent
+ * @param {string} selectedEvent - string "today" or "upcoming"
  * @returns {object}
  */
 export const fetchEvents = selectedEvent => ({
@@ -55,10 +55,10 @@ export const fetchMembersAvailability = () => ({
 });
 
 /**
- * Sets event distribution to redux state
+ * Sets dashboard AP form data to redux state for viewing/editing
  *
  * @function setAPForm
- * @param {array} data - contains apform data ({_id, sendEmailNotificationsDate, startMonth, endMonth, expirationDate, notes, eventCounts}).
+ * @param {object} data - contains apform data ({_id, sendEmailNotificationsDate, startMonth, endMonth, expirationDate, notes, eventCounts}).
  * @returns {object}
  */
 export const setAPForm = data => ({
@@ -67,10 +67,10 @@ export const setAPForm = data => ({
 });
 
 /**
- * Sets availability to redux state
+ * Sets dashboard availability for an employee to redux state
  *
  * @function setAvailability
- * @param {array} data - contains availability data ({_id, label, value}).
+ * @param {object} data - contains availability data ({_id, label, value}).
  * @returns {object}
  */
 export const setAvailability = data => ({
@@ -79,10 +79,10 @@ export const setAvailability = data => ({
 });
 
 /**
- * Sets event distribution to redux state
+ * Sets dashboard event distribution to redux state
  *
  * @function setEventDistribution
- * @param {array} data - contains events data ([name, Event Count]).
+ * @param {array} data - contains events data ([{name, Event Count}]).
  * @returns {object}
  */
 export const setEventDistribution = data => ({
@@ -103,7 +103,7 @@ export const setEvents = data => ({
 });
 
 /**
- * Sets availability to redux state
+ * Sets members availability for staff reviewing to redux state
  *
  * @function setMembersAvailability
  * @param {array} data - contains availability data ([{eventCounts,membersAvailability, months}]).

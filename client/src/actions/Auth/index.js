@@ -70,7 +70,7 @@ export const signout = () => ({
 /**
  * Sign up user via signup form.
  *
- * @function authSagas
+ * @function signupUser
  * @param {object} props - contains a token, an email, first/last name, and a password.
  * @returns {object}
  */
@@ -82,7 +82,7 @@ export const signupUser = props => ({
 /**
  * Updates user password via newpassword form.
  *
- * @function authSagas
+ * @function updateUserPassword
  * @param {object} props - contains a token and new password fields.
  * @returns {object}
  */
