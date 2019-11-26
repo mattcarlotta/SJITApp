@@ -26,6 +26,18 @@ export const deleteForm = formId => ({
 });
 
 /**
+ * Deletes many forms.
+ *
+ * @function deleteManyForms
+ * @param {array} ids
+ * @returns {object}
+ */
+export const deleteManyForms = ids => ({
+	type: types.FORMS_DELETE_MANY,
+	ids,
+});
+
+/**
  * Fetches a single form.
  *
  * @function fetchForm

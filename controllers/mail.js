@@ -11,6 +11,7 @@ import {
 import {
   invalidContactUsRequest,
   invalidSendDate,
+  missingIds,
   missingMailId,
   unableToCreateNewMail,
   unableToDeleteMail,
@@ -123,6 +124,26 @@ const deleteMail = async (req, res) => {
     await existingMail.delete();
 
     res.status(200).json({ message: "Successfully deleted the email." });
+  } catch (err) {
+    return sendError(err, res);
+  }
+};
+
+/**
+ * Deletes many events.
+ *
+ * @function deleteManyMails
+ * @returns {string} - message
+ * @throws {string}
+ */
+const deleteManyMails = async (req, res) => {
+  try {
+    const { ids } = req.body;
+    if (isEmpty(ids)) throw missingIds;
+
+    await Mail.deleteMany({ _id: { $in: ids } });
+
+    res.status(200).json({ message: "Successfully deleted the mail." });
   } catch (err) {
     return sendError(err, res);
   }
@@ -256,6 +277,7 @@ export {
   contactUs,
   createMail,
   deleteMail,
+  deleteManyMails,
   getAllMail,
   getMail,
   resendMail,

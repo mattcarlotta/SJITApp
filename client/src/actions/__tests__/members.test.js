@@ -54,12 +54,32 @@ describe("Member Actions", () => {
 		});
 	});
 
+	it("returns MEMBERS_DELETE_MANY with ids", () => {
+		const ids = ["01", "02", "03"];
+		const value = actions.deleteManyMembers(ids);
+
+		expect(value).toEqual({
+			type: types.MEMBERS_DELETE_MANY,
+			ids,
+		});
+	});
+
 	it("returns MEMBERS_DELETE_TOKEN with a memberId", () => {
 		const value = actions.deleteToken(tokenId);
 
 		expect(value).toEqual({
 			type: types.MEMBERS_DELETE_TOKEN,
 			tokenId,
+		});
+	});
+
+	it("returns MEMBERS_DELETE_MANY_TOKENS with a memberId", () => {
+		const ids = ["01", "02", "03"];
+		const value = actions.deleteManyTokens(ids);
+
+		expect(value).toEqual({
+			type: types.MEMBERS_DELETE_MANY_TOKENS,
+			ids,
 		});
 	});
 

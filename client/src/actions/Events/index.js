@@ -26,6 +26,18 @@ export const deleteEvent = eventId => ({
 });
 
 /**
+ * Deletes many events.
+ *
+ * @function deleteManyEvents
+ * @param {array} ids
+ * @returns {object}
+ */
+export const deleteManyEvents = ids => ({
+	type: types.EVENTS_DELETE_MANY,
+	ids,
+});
+
+/**
  * Fetches a single event for editing.
  *
  * @function fetchEvent

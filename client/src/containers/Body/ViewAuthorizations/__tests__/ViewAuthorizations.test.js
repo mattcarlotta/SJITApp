@@ -1,5 +1,6 @@
 import { ViewAuthorizations } from "../index";
 
+const deleteManyTokens = jest.fn();
 const deleteToken = jest.fn();
 const push = jest.fn();
 const fetchTokens = jest.fn();
@@ -7,6 +8,7 @@ const resendToken = jest.fn();
 
 const initProps = {
 	deleteToken,
+	deleteManyTokens,
 	fetchTokens,
 	location: {
 		search: "?page=1",
@@ -63,7 +65,7 @@ describe("View Member Profile", () => {
 			.find("TableRow")
 			.first()
 			.find("td")
-			.at(4);
+			.at(5);
 
 		expect(emptyExpirationDate.text()).toContain("-");
 
@@ -71,7 +73,7 @@ describe("View Member Profile", () => {
 			.find("TableRow")
 			.at(1)
 			.find("td")
-			.at(4);
+			.at(5);
 
 		expect(expirationDate.text()).toContain("10/31/2019");
 	});

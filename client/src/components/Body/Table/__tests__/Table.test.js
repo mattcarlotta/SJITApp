@@ -65,6 +65,7 @@ const nextLocation = {
 };
 
 const deleteAction = jest.fn();
+const deleteManyRecords = jest.fn();
 const fetchData = jest.fn();
 const sendMail = jest.fn();
 const updateQuery = jest.fn();
@@ -78,6 +79,7 @@ const initProps = {
 	columns,
 	data: [],
 	deleteAction,
+	deleteManyRecords,
 	editLocation: "seasons",
 	fetchData,
 	isLoading: true,
@@ -96,6 +98,7 @@ const nextProps = {
 	columns,
 	data,
 	deleteAction,
+	deleteManyRecords,
 	editLocation: "seasons",
 	isLoading: false,
 	fetchData,
@@ -119,6 +122,7 @@ describe("Custom Table", () => {
 	afterEach(() => {
 		fetchData.mockClear();
 		deleteAction.mockClear();
+		deleteManyRecords.mockClear();
 		sendMail.mockClear();
 		updateQuery.mockClear();
 		jest.runAllTimers();
@@ -138,26 +142,26 @@ describe("Custom Table", () => {
 			wrapper.update();
 		});
 
-		it("displays a 5 column Table component with data", () => {
+		it("displays a 8 column and 16 row Table component with data", () => {
 			expect(wrapper.find("Table").exists()).toBeTruthy();
-			expect(wrapper.find("th")).toHaveLength(7);
-			expect(wrapper.find("td")).toHaveLength(14);
-			expect(
-				wrapper
-					.find("td")
-					.at(0)
-					.text(),
-			).toEqual(data[0].seasonId);
+			expect(wrapper.find("th")).toHaveLength(8);
+			expect(wrapper.find("td")).toHaveLength(16);
 			expect(
 				wrapper
 					.find("td")
 					.at(1)
 					.text(),
-			).toEqual("10/06/2000");
+			).toEqual(data[0].seasonId);
 			expect(
 				wrapper
 					.find("td")
 					.at(2)
+					.text(),
+			).toEqual("10/06/2000");
+			expect(
+				wrapper
+					.find("td")
+					.at(3)
 					.text(),
 			).toEqual("08/06/2001");
 		});
@@ -181,6 +185,23 @@ describe("Custom Table", () => {
 			wrapper.setProps({ queryString: "?page=3" });
 
 			expect(fetchData).toHaveBeenCalledTimes(2);
+		});
+
+		it("handles selected rows", () => {
+			const selectedRowKeys = ["5d323ee2b02dee15483e5d9f"];
+			wrapper.instance().handleSelectChange(selectedRowKeys);
+
+			expect(wrapper.state("selectedRowKeys")).toEqual(selectedRowKeys);
+		});
+
+		it("handles deleted selected rows", () => {
+			const selectedRowKeys = ["5d323ee2b02dee15483e5d9f"];
+			wrapper.setState({ selectedRowKeys });
+
+			wrapper.instance().handleDeleteRecords(selectedRowKeys);
+
+			expect(wrapper.state("selectedRowKeys")).toEqual([]);
+			expect(deleteManyRecords).toHaveBeenCalledWith(selectedRowKeys);
 		});
 	});
 });

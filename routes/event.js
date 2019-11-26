@@ -1,6 +1,7 @@
 import {
   createEvent,
   deleteEvent,
+  deleteManyEvents,
   getAllEvents,
   getEvent,
   getEventForScheduling,
@@ -14,6 +15,7 @@ import { requireAuth, requireStaffRole } from "services/strategies";
 export default app => {
   app.post("/api/event/create", requireStaffRole, createEvent);
   app.delete("/api/event/delete/:id", requireStaffRole, deleteEvent);
+  app.delete("/api/events/delete-many", requireStaffRole, deleteManyEvents);
   app.get("/api/events/all", requireStaffRole, getAllEvents);
   app.get("/api/event/edit/:id", requireStaffRole, getEvent);
   app.get("/api/event/review/:id", requireStaffRole, getEventForScheduling);

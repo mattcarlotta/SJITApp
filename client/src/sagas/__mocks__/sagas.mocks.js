@@ -6,6 +6,8 @@ export const newSeason = {
 
 export const teams = ["sharks", "barracuda"];
 
+export const ids = ["01", "02", "03"];
+
 export const userSession = {
 	id: "88",
 	email: "test@example.com",

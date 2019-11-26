@@ -12,6 +12,7 @@ import { parseData, parseMessage } from "utils/parseResponse";
 import { selectQuery } from "utils/selectors";
 
 const eventId = "0123456789";
+const ids = mocks.ids;
 
 describe("Event Sagas", () => {
 	afterEach(() => {
@@ -119,6 +120,57 @@ describe("Event Sagas", () => {
 
 			return expectSaga(sagas.deleteEvent, { eventId })
 				.dispatch(actions.deleteEvent)
+				.withReducer(messageReducer)
+				.hasFinalState({
+					message: err,
+					show: true,
+					type: "error",
+				})
+				.run();
+		});
+	});
+
+	describe("Delete Many Events", () => {
+		it("logical flow matches pattern for delete many events requests", () => {
+			const message = "Successfully deleted event.";
+			const res = { data: { message } };
+
+			testSaga(sagas.deleteManyEvents, { ids })
+				.next()
+				.put(hideServerMessage())
+				.next()
+				.call(app.delete, `events/delete-many`, { data: { ids } })
+				.next(res)
+				.call(parseMessage, res)
+				.next(res.data.message)
+				.put(setServerMessage({ type: "success", message: res.data.message }))
+				.next()
+				.put(actions.fetchEvents())
+				.next()
+				.isDone();
+		});
+
+		it("successfully deletes many events", async () => {
+			const message = "Successfully deleted the event.";
+			mockApp.onDelete(`events/delete-many`).reply(200, { message });
+
+			return expectSaga(sagas.deleteManyEvents, { ids })
+				.dispatch(actions.deleteManyEvents)
+				.withReducer(messageReducer)
+				.hasFinalState({
+					message,
+					show: true,
+					type: "success",
+				})
+				.run();
+		});
+
+		it("if API call fails, it displays a message", async () => {
+			const err = "Unable to delete the event.";
+			mockApp.onDelete(`events/delete-many`).reply(404, { err });
+
+			return expectSaga(sagas.deleteManyEvents, { ids })
+				.dispatch(actions.deleteManyEvents)
 				.withReducer(messageReducer)
 				.hasFinalState({
 					message: err,

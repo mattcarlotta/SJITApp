@@ -26,6 +26,30 @@ export const deleteMember = memberId => ({
 });
 
 /**
+ * Deletes many members.
+ *
+ * @function deleteManyMembers
+ * @param {array} ids
+ * @returns {object}
+ */
+export const deleteManyMembers = ids => ({
+	type: types.MEMBERS_DELETE_MANY,
+	ids,
+});
+
+/**
+ * Deletes many tokens.
+ *
+ * @function deleteManyTokens
+ * @param {array} ids
+ * @returns {object}
+ */
+export const deleteManyTokens = ids => ({
+	type: types.MEMBERS_DELETE_MANY_TOKENS,
+	ids,
+});
+
+/**
  * Deletes a new member token.
  *
  * @function deleteToken

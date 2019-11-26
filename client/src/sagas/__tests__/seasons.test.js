@@ -12,6 +12,7 @@ import { parseData, parseMessage } from "utils/parseResponse";
 import { selectQuery } from "utils/selectors";
 
 const seasonId = "124567890";
+const ids = mocks.ids;
 
 describe("Season Sagas", () => {
 	afterEach(() => {
@@ -119,6 +120,57 @@ describe("Season Sagas", () => {
 
 			return expectSaga(sagas.deleteSeason, { seasonId })
 				.dispatch(actions.deleteSeason)
+				.withReducer(messageReducer)
+				.hasFinalState({
+					message: err,
+					show: true,
+					type: "error",
+				})
+				.run();
+		});
+	});
+
+	describe("Delete Many Seasons", () => {
+		it("logical flow matches pattern for delete many seasons requests", () => {
+			const message = "Successfully deleted the seasons.";
+			const res = { data: { message } };
+
+			testSaga(sagas.deleteManySeasons, { ids })
+				.next()
+				.put(hideServerMessage())
+				.next()
+				.call(app.delete, `seasons/delete-many`, { data: { ids } })
+				.next(res)
+				.call(parseMessage, res)
+				.next(res.data.message)
+				.put(setServerMessage({ type: "success", message: res.data.message }))
+				.next()
+				.put(actions.fetchSeasons())
+				.next()
+				.isDone();
+		});
+
+		it("successfully deletes many seasons", async () => {
+			const message = "Successfully deleted the seasons.";
+			mockApp.onDelete(`seasons/delete-many`).reply(200, { message });
+
+			return expectSaga(sagas.deleteManySeasons, { ids })
+				.dispatch(actions.deleteManySeasons)
+				.withReducer(messageReducer)
+				.hasFinalState({
+					message,
+					show: true,
+					type: "success",
+				})
+				.run();
+		});
+
+		it("if API call fails, it displays a message", async () => {
+			const err = "Unable to delete the event.";
+			mockApp.onDelete(`seasons/delete-many`).reply(404, { err });
+
+			return expectSaga(sagas.deleteManySeasons, { ids })
+				.dispatch(actions.deleteManySeasons)
 				.withReducer(messageReducer)
 				.hasFinalState({
 					message: err,

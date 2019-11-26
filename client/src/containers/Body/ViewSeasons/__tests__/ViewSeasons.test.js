@@ -10,11 +10,13 @@ const data = [
 ];
 
 const deleteSeason = jest.fn();
+const deleteManySeasons = jest.fn();
 const fetchSeasons = jest.fn();
 const push = jest.fn();
 
 const initProps = {
 	data: [],
+	deleteManySeasons,
 	deleteSeason,
 	fetchSeasons,
 	isLoading: true,

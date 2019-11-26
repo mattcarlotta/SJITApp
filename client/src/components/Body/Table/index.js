@@ -11,14 +11,19 @@ import LoadingTable from "components/Body/LoadingTable";
 import TableActions from "components/Body/TableActions";
 
 class CustomTable extends Component {
+	state = {
+		selectedRowKeys: [],
+	};
+
 	componentDidMount = () => {
 		this.props.fetchData();
 	};
 
-	shouldComponentUpdate = nextProps =>
+	shouldComponentUpdate = (nextProps, nextState) =>
 		nextProps.isLoading !== this.props.isLoading ||
 		nextProps.queries !== this.props.queries ||
-		nextProps.queryString !== this.props.queryString;
+		nextProps.queryString !== this.props.queryString ||
+		nextState.selectedRowKeys !== this.state.selectedRowKeys;
 
 	componentDidUpdate = prevProps => {
 		const { data, isLoading, queryString, totalDocs } = this.props;
@@ -30,6 +35,16 @@ class CustomTable extends Component {
 	};
 
 	handleClickAction = (action, record) => action(record._id);
+
+	handleDeleteRecords = selectedRowKeys => {
+		this.setState({ selectedRowKeys: [] }, () => {
+			this.props.deleteManyRecords(selectedRowKeys);
+		});
+	};
+
+	handleSelectChange = selectedRowKeys => {
+		this.setState({ selectedRowKeys });
+	};
 
 	createTableColumns = () => {
 		const tableColumns = this.props.columns.map(props => ({
@@ -46,8 +61,10 @@ class CustomTable extends Component {
 					content={
 						<TableActions
 							{...this.props}
+							{...this.state}
 							record={record}
 							handleClickAction={this.handleClickAction}
+							handleDeleteRecords={this.handleDeleteRecords}
 						/>
 					}
 					trigger="click"
@@ -72,6 +89,10 @@ class CustomTable extends Component {
 				<Table
 					columns={this.createTableColumns()}
 					dataSource={this.props.data}
+					rowSelection={{
+						selectedRowKeys: this.state.selectedRowKeys,
+						onChange: this.handleSelectChange,
+					}}
 					pagination={{
 						position: "bottom",
 						current: this.props.queries.page,
@@ -108,6 +129,7 @@ CustomTable.propTypes = {
 	queryString: PropTypes.string,
 	location: PropTypes.any,
 	deleteAction: PropTypes.func,
+	deleteManyRecords: PropTypes.func.isRequired,
 	editLocation: PropTypes.string,
 	fetchData: PropTypes.func.isRequired,
 	push: PropTypes.func.isRequired,

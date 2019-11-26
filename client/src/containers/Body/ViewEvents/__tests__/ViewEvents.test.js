@@ -2,6 +2,7 @@ import moment from "moment-timezone";
 import { ViewEvents } from "../index";
 
 const deleteEvent = jest.fn();
+const deleteManyEvents = jest.fn();
 const fetchEvents = jest.fn();
 const fetchTeamNames = jest.fn();
 const resendMail = jest.fn();
@@ -10,6 +11,7 @@ const push = jest.fn();
 const initProps = {
 	data: [],
 	deleteEvent,
+	deleteManyEvents,
 	fetchEvents,
 	fetchTeamNames,
 	isLoading: true,

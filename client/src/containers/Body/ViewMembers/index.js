@@ -7,7 +7,7 @@ import { Card } from "antd";
 import { FaUsers } from "react-icons/fa";
 import Table from "components/Body/Table";
 import QueryHandler from "components/Navigation/QueryHandler";
-import { deleteMember, fetchMembers } from "actions/Members";
+import { deleteMember, deleteManyMembers, fetchMembers } from "actions/Members";
 import Filters from "./Filters";
 import columns from "./Columns";
 
@@ -18,7 +18,13 @@ const iconStyle = {
 	fontSize: 20,
 };
 
-export const ViewMembers = ({ data, deleteMember, fetchMembers, ...rest }) => (
+export const ViewMembers = ({
+	data,
+	deleteMember,
+	deleteManyMembers,
+	fetchMembers,
+	...rest
+}) => (
 	<Fragment>
 		<Helmet title={title} />
 		<Card
@@ -39,6 +45,7 @@ export const ViewMembers = ({ data, deleteMember, fetchMembers, ...rest }) => (
 							columns={columns}
 							data={data}
 							deleteAction={deleteMember}
+							deleteManyRecords={deleteManyMembers}
 							fetchData={fetchMembers}
 							viewLocation="members"
 						/>
@@ -61,7 +68,8 @@ ViewMembers.propTypes = {
 			lastName: PropTypes.string,
 		}),
 	),
-	deleteMember: PropTypes.func,
+	deleteMember: PropTypes.func.isRequired,
+	deleteManyMembers: PropTypes.func.isRequired,
 	fetchMembers: PropTypes.func.isRequired,
 	isLoading: PropTypes.bool.isRequired,
 	push: PropTypes.func,
@@ -76,6 +84,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
 	deleteMember,
+	deleteManyMembers,
 	fetchMembers,
 	push,
 };

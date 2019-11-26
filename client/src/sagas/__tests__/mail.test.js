@@ -12,6 +12,7 @@ import { parseData, parseMessage } from "utils/parseResponse";
 import { selectQuery } from "utils/selectors";
 
 const mailId = "0123456789";
+const ids = mocks.ids;
 
 describe("Mail Sagas", () => {
 	afterEach(() => {
@@ -175,6 +176,57 @@ describe("Mail Sagas", () => {
 
 			return expectSaga(sagas.deleteMail, { mailId })
 				.dispatch(actions.deleteMail)
+				.withReducer(messageReducer)
+				.hasFinalState({
+					message: err,
+					show: true,
+					type: "error",
+				})
+				.run();
+		});
+	});
+
+	describe("Delete Many Mails", () => {
+		it("logical flow matches pattern for delete many mails requests", () => {
+			const message = "Successfully deleted the mails.";
+			const res = { data: { message } };
+
+			testSaga(sagas.deleteManyMails, { ids })
+				.next()
+				.put(hideServerMessage())
+				.next()
+				.call(app.delete, `mails/delete-many`, { data: { ids } })
+				.next(res)
+				.call(parseMessage, res)
+				.next(res.data.message)
+				.put(setServerMessage({ type: "success", message: res.data.message }))
+				.next()
+				.put(actions.fetchMails())
+				.next()
+				.isDone();
+		});
+
+		it("successfully deletes many mails", async () => {
+			const message = "Successfully deleted the mails.";
+			mockApp.onDelete(`mails/delete-many`).reply(200, { message });
+
+			return expectSaga(sagas.deleteManyMails, { ids })
+				.dispatch(actions.deleteManyMails)
+				.withReducer(messageReducer)
+				.hasFinalState({
+					message,
+					show: true,
+					type: "success",
+				})
+				.run();
+		});
+
+		it("if API call fails, it displays a message", async () => {
+			const err = "Unable to delete the event.";
+			mockApp.onDelete(`mails/delete-many`).reply(404, { err });
+
+			return expectSaga(sagas.deleteManyMails, { ids })
+				.dispatch(actions.deleteManyMails)
 				.withReducer(messageReducer)
 				.hasFinalState({
 					message: err,

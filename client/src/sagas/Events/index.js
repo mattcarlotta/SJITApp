@@ -45,7 +45,7 @@ export function* createEvent({ props }) {
  *
  * @generator
  * @function deleteEvent
- * @param {object} - eventId
+ * @param {object} eventId
  * @yields {object} - A response from a call to the API.
  * @function parseMessage - returns a parsed res.data.message.
  * @yields {action} - A redux action to display a server message by type.
@@ -58,6 +58,39 @@ export function* deleteEvent({ eventId }) {
 		yield put(hideServerMessage());
 
 		const res = yield call(app.delete, `event/delete/${eventId}`);
+		const message = yield call(parseMessage, res);
+
+		yield put(
+			setServerMessage({
+				type: "success",
+				message,
+			}),
+		);
+
+		yield put(actions.fetchEvents());
+	} catch (e) {
+		yield put(setServerMessage({ type: "error", message: e.toString() }));
+	}
+}
+
+/**
+ * Attempts to delete an event.
+ *
+ * @generator
+ * @function deleteManyEvents
+ * @param {object} ids
+ * @yields {object} - A response from a call to the API.
+ * @function parseMessage - returns a parsed res.data.message.
+ * @yields {action} - A redux action to display a server message by type.
+ * @yields {action} - A redux action to fetch events data again.
+ * @throws {action} - A redux action to display a server message by type.
+ */
+
+export function* deleteManyEvents({ ids }) {
+	try {
+		yield put(hideServerMessage());
+
+		const res = yield call(app.delete, `events/delete-many`, { data: { ids } });
 		const message = yield call(parseMessage, res);
 
 		yield put(
@@ -342,6 +375,7 @@ export default function* eventsSagas() {
 	yield all([
 		takeLatest(types.EVENTS_CREATE, createEvent),
 		takeLatest(types.EVENTS_DELETE, deleteEvent),
+		takeLatest(types.EVENTS_DELETE_MANY, deleteManyEvents),
 		takeLatest(types.EVENTS_EDIT, fetchEvent),
 		takeLatest(types.EVENTS_FETCH, fetchEvents),
 		takeLatest(types.EVENTS_FETCH_SCHEDULE, fetchEventForScheduling),

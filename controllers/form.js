@@ -16,6 +16,7 @@ import {
   invalidSendDate,
   invalidSendEmailNoteDate,
   missingFormId,
+  missingIds,
   unableToCreateNewForm,
   unableToLocateEvents,
   unableToDeleteForm,
@@ -24,6 +25,7 @@ import {
   unableToUpdateApForm,
   unableToUpdateForm,
 } from "shared/authErrors";
+
 /**
  * Creates a new form.
  *
@@ -92,6 +94,26 @@ const deleteForm = async (req, res) => {
     await existingForm.delete();
 
     res.status(200).json({ message: "Successfully deleted the form." });
+  } catch (err) {
+    return sendError(err, res);
+  }
+};
+
+/**
+ * Deletes many events.
+ *
+ * @function deleteManyForms
+ * @returns {string} - message
+ * @throws {string}
+ */
+const deleteManyForms = async (req, res) => {
+  try {
+    const { ids } = req.body;
+    if (isEmpty(ids)) throw missingIds;
+
+    await Form.deleteMany({ _id: { $in: ids } });
+
+    res.status(200).json({ message: "Successfully deleted the forms." });
   } catch (err) {
     return sendError(err, res);
   }
@@ -373,6 +395,7 @@ const viewApForm = async (req, res) => {
 export {
   createForm,
   deleteForm,
+  deleteManyForms,
   getAllForms,
   getForm,
   resendFormEmail,

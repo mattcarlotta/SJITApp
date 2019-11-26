@@ -12,6 +12,7 @@ import { parseData, parseMessage } from "utils/parseResponse";
 import { selectQuery } from "utils/selectors";
 
 const formId = "0123456789";
+const ids = mocks.ids;
 
 describe("Form Sagas", () => {
 	afterEach(() => {
@@ -119,6 +120,57 @@ describe("Form Sagas", () => {
 
 			return expectSaga(sagas.deleteForm, { formId })
 				.dispatch(actions.deleteForm)
+				.withReducer(messageReducer)
+				.hasFinalState({
+					message: err,
+					show: true,
+					type: "error",
+				})
+				.run();
+		});
+	});
+
+	describe("Delete Many Forms", () => {
+		it("logical flow matches pattern for delete many forms requests", () => {
+			const message = "Successfully deleted forms.";
+			const res = { data: { message } };
+
+			testSaga(sagas.deleteManyForms, { ids })
+				.next()
+				.put(hideServerMessage())
+				.next()
+				.call(app.delete, `forms/delete-many`, { data: { ids } })
+				.next(res)
+				.call(parseMessage, res)
+				.next(res.data.message)
+				.put(setServerMessage({ type: "success", message: res.data.message }))
+				.next()
+				.put(actions.fetchForms())
+				.next()
+				.isDone();
+		});
+
+		it("successfully deletes many forms", async () => {
+			const message = "Successfully deleted the forms.";
+			mockApp.onDelete(`forms/delete-many`).reply(200, { message });
+
+			return expectSaga(sagas.deleteManyForms, { ids })
+				.dispatch(actions.deleteManyForms)
+				.withReducer(messageReducer)
+				.hasFinalState({
+					message,
+					show: true,
+					type: "success",
+				})
+				.run();
+		});
+
+		it("if API call fails, it displays a message", async () => {
+			const err = "Unable to delete the event.";
+			mockApp.onDelete(`forms/delete-many`).reply(404, { err });
+
+			return expectSaga(sagas.deleteManyForms, { ids })
+				.dispatch(actions.deleteManyForms)
 				.withReducer(messageReducer)
 				.hasFinalState({
 					message: err,

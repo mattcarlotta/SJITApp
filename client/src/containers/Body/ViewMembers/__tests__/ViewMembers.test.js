@@ -22,11 +22,13 @@ const data = [
 ];
 
 const deleteMember = jest.fn();
+const deleteManyMembers = jest.fn();
 const fetchMembers = jest.fn();
 const push = jest.fn();
 
 const initProps = {
 	data: [],
+	deleteManyMembers,
 	deleteMember,
 	fetchMembers,
 	isLoading: true,

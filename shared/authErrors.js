@@ -62,6 +62,8 @@ const missingEventId = "You must provide an event id.";
 
 const missingFormId = "You must provide a form id.";
 
+const missingIds = "Unable to delete the select documents. You must provide ids to remove.";
+
 const missingMailId = "You must provide a mail id.";
 
 const missingMemberId = "You must provide a member id.";
@@ -109,6 +111,8 @@ const unableToDeleteForm = "Unable to delete that form. That form doesn't exist.
 const unableToDeleteMail = "Unable to delete that email. That email doesn't exist.";
 
 const unableToDeleteSeason = "Unable to delete that season. That season doesn't exist.";
+
+const unableToDeleteSeasons = "Unable to delete those seasons. Those seasons don't exist.";
 
 const unableToDeleteMember = "Unable to delete that member. That member doesn't exist.";
 
@@ -174,6 +178,7 @@ export {
   missingEmailCreds,
   missingEventId,
   missingFormId,
+  missingIds,
   missingMailId,
   missingMemberId,
   missingPasswords,
@@ -200,6 +205,7 @@ export {
   unableToDeleteMember,
   unableToLocateMembers,
   unableToDeleteSeason,
+  unableToDeleteSeasons,
   unableToLocateContacts,
   unableToLocateEvent,
   unableToLocateEvents,

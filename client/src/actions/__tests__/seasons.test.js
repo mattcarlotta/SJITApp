@@ -38,6 +38,16 @@ describe("Season Actions", () => {
 		});
 	});
 
+	it("returns SEASONS_DELETE_MANY with ids", () => {
+		const ids = ["01", "02", "03"];
+		const value = actions.deleteManySeasons(ids);
+
+		expect(value).toEqual({
+			type: types.SEASONS_DELETE_MANY,
+			ids,
+		});
+	});
+
 	it("returns SEASONS_EDIT", () => {
 		const seasonId = "20052006";
 

@@ -15,6 +15,7 @@ import {
 import {
   emailAlreadyTaken,
   missingEventId,
+  missingIds,
   missingMemberId,
   missingUpdateMemberParams,
   missingUpdateMemberStatusParams,
@@ -206,6 +207,26 @@ const deleteMember = async (req, res) => {
     );
 
     res.status(200).json({ message: "Successfully deleted the member." });
+  } catch (err) {
+    return sendError(err, res);
+  }
+};
+
+/**
+ * Deletes many members.
+ *
+ * @function deleteManyMembers
+ * @returns {string} - message
+ * @throws {string}
+ */
+const deleteManyMembers = async (req, res) => {
+  try {
+    const { ids } = req.body;
+    if (isEmpty(ids)) throw missingIds;
+
+    await User.deleteMany({ _id: { $in: ids } });
+
+    res.status(200).json({ message: "Successfully deleted the members." });
   } catch (err) {
     return sendError(err, res);
   }
@@ -615,6 +636,7 @@ const updateMemberStatus = async (req, res) => {
 
 export {
   deleteMember,
+  deleteManyMembers,
   getAllMembers,
   getAllMemberNames,
   getMember,

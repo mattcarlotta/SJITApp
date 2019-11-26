@@ -38,6 +38,18 @@ export const deleteMail = mailId => ({
 });
 
 /**
+ * Deletes many mails.
+ *
+ * @function deleteManyMails
+ * @param {array} ids
+ * @returns {object}
+ */
+export const deleteManyMails = ids => ({
+	type: types.MAIL_DELETE_MANY,
+	ids,
+});
+
+/**
  * Fetches a single mail for viewing/editing.
  *
  * @function fetchMail

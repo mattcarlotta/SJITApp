@@ -32,6 +32,16 @@ describe("Forms Actions", () => {
 		});
 	});
 
+	it("returns FORMS_DELETE_MANY with ids", () => {
+		const ids = ["01", "02", "03"];
+		const value = actions.deleteManyForms(ids);
+
+		expect(value).toEqual({
+			type: types.FORMS_DELETE_MANY,
+			ids,
+		});
+	});
+
 	it("returns FORMS_EDIT", () => {
 		const value = actions.fetchForm(formId);
 

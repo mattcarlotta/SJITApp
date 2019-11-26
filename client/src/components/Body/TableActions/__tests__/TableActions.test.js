@@ -11,6 +11,7 @@ const record = {
 
 const assignLocation = "seasons";
 const deleteAction = jest.fn();
+const handleDeleteRecords = jest.fn();
 const editLocation = "seasons";
 const handleClickAction = jest.fn();
 const push = jest.fn();
@@ -22,17 +23,23 @@ const initProps = {
 	deleteAction,
 	editLocation,
 	handleClickAction,
+	handleDeleteRecords,
 	push,
 	record,
 	sendMail,
 	viewLocation,
 };
 
-const wrapper = mount(<TableActions {...initProps} />);
-
 describe("Table Actions", () => {
+	let wrapper;
+
+	beforeEach(() => {
+		wrapper = mount(<TableActions {...initProps} />);
+	});
+
 	afterEach(() => {
 		handleClickAction.mockClear();
+		handleDeleteRecords.mockClear();
 		push.mockClear();
 	});
 
@@ -90,5 +97,21 @@ describe("Table Actions", () => {
 			.simulate("click");
 
 		expect(handleClickAction).toHaveBeenCalledWith(deleteAction, record);
+	});
+
+	it("deletes all selected records", () => {
+		const selectedRowKeys = ["01", "02", "03"];
+		wrapper.setProps({ selectedRowKeys });
+		wrapper
+			.find("Button")
+			.at(5)
+			.simulate("click");
+
+		wrapper
+			.find("div.ant-popover-buttons")
+			.find("button.ant-btn-primary")
+			.simulate("click");
+
+		expect(handleDeleteRecords).toHaveBeenCalledWith(selectedRowKeys);
 	});
 });

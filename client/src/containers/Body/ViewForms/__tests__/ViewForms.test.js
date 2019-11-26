@@ -14,6 +14,7 @@ const data = [
 ];
 
 const deleteForm = jest.fn();
+const deleteManyForms = jest.fn();
 const fetchForms = jest.fn();
 const resendMail = jest.fn();
 const push = jest.fn();
@@ -21,6 +22,7 @@ const push = jest.fn();
 const initProps = {
 	data: [],
 	deleteForm,
+	deleteManyForms,
 	fetchForms,
 	isLoading: true,
 	location: {

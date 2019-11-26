@@ -21,6 +21,7 @@ import {
   invalidEventDate,
   invalidUpdateEventRequest,
   missingEventId,
+  missingIds,
   mustContainUniqueCallTimes,
   unableToLocateEvent,
   unableToLocateMembers,
@@ -113,6 +114,26 @@ const deleteEvent = async (req, res) => {
     await existingEvent.delete();
 
     res.status(200).json({ message: "Successfully deleted the event." });
+  } catch (err) {
+    return sendError(err, res);
+  }
+};
+
+/**
+ * Deletes many events.
+ *
+ * @function deleteManyEvents
+ * @returns {string} - message
+ * @throws {string}
+ */
+const deleteManyEvents = async (req, res) => {
+  try {
+    const { ids } = req.body;
+    if (isEmpty(ids)) throw missingIds;
+
+    await Event.deleteMany({ _id: { $in: ids } });
+
+    res.status(200).json({ message: "Successfully deleted the events." });
   } catch (err) {
     return sendError(err, res);
   }
@@ -389,6 +410,7 @@ const updateEventSchedule = async (req, res) => {
 export {
   createEvent,
   deleteEvent,
+  deleteManyEvents,
   getAllEvents,
   getEvent,
   getEventForScheduling,

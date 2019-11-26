@@ -8,7 +8,12 @@ import { Card } from "antd";
 import { MdEventNote } from "react-icons/md";
 import Table from "components/Body/Table";
 import QueryHandler from "components/Navigation/QueryHandler";
-import { deleteEvent, fetchEvents, resendMail } from "actions/Events";
+import {
+	deleteEvent,
+	deleteManyEvents,
+	fetchEvents,
+	resendMail,
+} from "actions/Events";
 import { fetchTeamNames } from "actions/Teams";
 import Filters from "./Filters";
 import columns from "./Columns";
@@ -21,7 +26,13 @@ export class ViewEvents extends PureComponent {
 	};
 
 	render = () => {
-		const { deleteEvent, fetchEvents, resendMail, ...rest } = this.props;
+		const {
+			deleteEvent,
+			deleteManyEvents,
+			fetchEvents,
+			resendMail,
+			...rest
+		} = this.props;
 
 		return (
 			<Fragment>
@@ -49,6 +60,7 @@ export class ViewEvents extends PureComponent {
 									{...rest}
 									columns={columns}
 									deleteAction={deleteEvent}
+									deleteManyRecords={deleteManyEvents}
 									fetchData={fetchEvents}
 									editLocation="events"
 									assignLocation="events"
@@ -64,7 +76,8 @@ export class ViewEvents extends PureComponent {
 }
 
 ViewEvents.propTypes = {
-	deleteEvent: PropTypes.func,
+	deleteEvent: PropTypes.func.isRequired,
+	deleteManyEvents: PropTypes.func.isRequired,
 	fetchEvents: PropTypes.func.isRequired,
 	push: PropTypes.func,
 	data: PropTypes.arrayOf(
@@ -115,6 +128,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
 	deleteEvent,
+	deleteManyEvents,
 	fetchEvents,
 	fetchTeamNames,
 	push,

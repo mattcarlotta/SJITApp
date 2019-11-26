@@ -36,6 +36,16 @@ describe("Events Actions", () => {
 		});
 	});
 
+	it("returns EVENTS_DELETE_MANY with ids", () => {
+		const ids = ["01", "02", "03"];
+		const value = actions.deleteManyEvents(ids);
+
+		expect(value).toEqual({
+			type: types.EVENTS_DELETE_MANY,
+			ids,
+		});
+	});
+
 	it("returns EVENTS_EDIT", () => {
 		const value = actions.fetchEvent(eventId);
 

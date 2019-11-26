@@ -1,4 +1,5 @@
 import get from "lodash/get";
+import isEmpty from "lodash/isEmpty";
 import {
   createAuthMail,
   createSignupToken,
@@ -11,6 +12,7 @@ import {
   emailAssociatedWithKey,
   invalidAuthTokenRequest,
   invalidDeleteTokenRequest,
+  missingIds,
   missingTokenId,
   missingUpdateTokenParams,
   unableToLocateToken,
@@ -48,6 +50,28 @@ const createToken = async (req, res) => {
     res.status(201).json({
       message: `Succesfully created and sent an authorization key to ${authorizedEmail}.`,
     });
+  } catch (err) {
+    return sendError(err, res);
+  }
+};
+
+/**
+ * Deletes many tokens.
+ *
+ * @function deleteManyTokens
+ * @returns {string} - message
+ * @throws {string}
+ */
+const deleteManyTokens = async (req, res) => {
+  try {
+    const { ids } = req.body;
+    if (isEmpty(ids)) throw missingIds;
+
+    await Token.deleteMany({ _id: { $in: ids } });
+
+    res
+      .status(200)
+      .json({ message: "Successfully deleted the authorization keys." });
   } catch (err) {
     return sendError(err, res);
   }
@@ -219,6 +243,7 @@ const updateToken = async (req, res) => {
 
 export {
   createToken,
+  deleteManyTokens,
   deleteToken,
   getAllTokens,
   getToken,

@@ -7,7 +7,12 @@ import { Card } from "antd";
 import { FaFileSignature } from "react-icons/fa";
 import Table from "components/Body/Table";
 import QueryHandler from "components/Navigation/QueryHandler";
-import { deleteForm, fetchForms, resendMail } from "actions/Forms";
+import {
+	deleteForm,
+	deleteManyForms,
+	fetchForms,
+	resendMail,
+} from "actions/Forms";
 import Filters from "./Filters";
 import columns from "./Columns";
 
@@ -16,6 +21,7 @@ const title = "Forms";
 export const ViewForms = ({
 	data,
 	deleteForm,
+	deleteManyForms,
 	fetchForms,
 	resendMail,
 	...rest
@@ -46,6 +52,7 @@ export const ViewForms = ({
 							columns={columns}
 							data={data}
 							deleteAction={deleteForm}
+							deleteManyRecords={deleteManyForms}
 							fetchData={fetchForms}
 							editLocation="forms"
 							viewLocation="forms"
@@ -59,7 +66,8 @@ export const ViewForms = ({
 );
 
 ViewForms.propTypes = {
-	deleteForm: PropTypes.func,
+	deleteForm: PropTypes.func.isRequired,
+	deleteManyForms: PropTypes.func.isRequired,
 	fetchForms: PropTypes.func.isRequired,
 	push: PropTypes.func,
 	data: PropTypes.arrayOf(
@@ -85,6 +93,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
 	deleteForm,
+	deleteManyForms,
 	fetchForms,
 	push,
 	resendMail,

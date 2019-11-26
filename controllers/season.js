@@ -3,11 +3,13 @@ import isEmpty from "lodash/isEmpty";
 import { Event, Form, Season } from "models";
 import { sendError } from "shared/helpers";
 import {
+  missingIds,
   missingSeasonId,
   needToCreateSeasonFirst,
   seasonAlreadyExists,
   unableToCreateNewSeason,
   unableToDeleteSeason,
+  unableToDeleteSeasons,
   unableToLocateSeason,
   unableToUpdateSeason,
 } from "shared/authErrors";
@@ -31,6 +33,33 @@ const createSeason = async (req, res) => {
     const [startDate, endDate] = seasonDuration;
     await Season.create({ seasonId, startDate, endDate });
     res.status(201).json({ message: "Successfully created a new season!" });
+  } catch (err) {
+    return sendError(err, res);
+  }
+};
+
+/**
+ * Deletes many seasons.
+ *
+ * @function deleteManySeasons
+ * @returns {string} - message
+ * @throws {string}
+ */
+const deleteManySeasons = async (req, res) => {
+  try {
+    const { ids } = req.body;
+    if (isEmpty(ids)) throw missingIds;
+
+    const existingSeasons = await Season.find({ _id: { $in: ids } });
+    if (isEmpty(existingSeasons)) throw unableToDeleteSeasons;
+
+    const seasonIds = existingSeasons.map(({ seasonId }) => seasonId);
+
+    await Season.deleteMany({ _id: { $in: ids } });
+    await Event.deleteMany({ seasonId: { $in: seasonIds } });
+    await Form.deleteMany({ seasonId: { $in: seasonIds } });
+
+    res.status(200).json({ message: "Successfully deleted the seasons." });
   } catch (err) {
     return sendError(err, res);
   }
@@ -171,6 +200,7 @@ const updateSeason = async (req, res) => {
 
 export {
   createSeason,
+  deleteManySeasons,
   deleteSeason,
   getAllSeasons,
   getAllSeasonIds,

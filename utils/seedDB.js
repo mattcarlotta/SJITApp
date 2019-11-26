@@ -52,7 +52,19 @@ const seedDB = async () => {
       endDate: new Date(2020, 5, 12),
     };
 
-    await Season.insertMany([newSeason, newSeason2, newSeason3, newSeason4]);
+    const newSeason5 = {
+      seasonId: "19801981",
+      startDate: new Date(1980, 8, 26),
+      endDate: new Date(1981, 5, 12),
+    };
+
+    await Season.insertMany([
+      newSeason,
+      newSeason2,
+      newSeason3,
+      newSeason4,
+      newSeason5,
+    ]);
 
     const newHire = {
       authorizedEmail: "carlotta.matt@gmail.com",
@@ -141,6 +153,14 @@ const seedDB = async () => {
       expiration: expirationDate().toDate(),
     };
 
+    const newHire12 = {
+      authorizedEmail: "deleteme@delete.com",
+      email: "deleteme@delete.com",
+      role: "employee",
+      token: createSignupToken(),
+      expiration: expirationDate().toDate(),
+    };
+
     await Token.insertMany([
       newHire,
       newHire1,
@@ -154,6 +174,7 @@ const seedDB = async () => {
       newHire9,
       newHire10,
       newHire11,
+      newHire12,
     ]);
 
     const adminPassword = await User.createPassword(admin.password);
@@ -321,6 +342,16 @@ const seedDB = async () => {
       status: "suspended",
     };
 
+    const deletedEmployee = {
+      email: "deleted.employee@delete.com",
+      password: memberPassword,
+      firstName: "Delete",
+      lastName: "Me",
+      role: "employee",
+      token: createRandomToken(),
+      status: "active",
+    };
+
     await User.insertMany([
       administrator,
       realMember,
@@ -339,6 +370,7 @@ const seedDB = async () => {
       member399,
       member499,
       suspendedEmployee,
+      deletedEmployee,
     ]);
 
     const scheduledUser = await User.findOne({ email: scheduledMember.email });
@@ -644,6 +676,54 @@ const seedDB = async () => {
       ],
     };
 
+    const newEvent13 = {
+      eventType: "Game",
+      location: "SAP Center at San Jose",
+      callTimes: newEventCallTimes9,
+      uniform: "Barracuda Jacket",
+      eventDate: moment()
+        .add(1, "months")
+        .format(),
+      notes: "Delete this game.",
+      opponent: "Chicago Wolves",
+      seasonId: "20192020",
+      team: "San Jose Barracuda",
+      schedule: createSchedule(newEventCallTimes9),
+      scheduledIds: [scheduledUser._id],
+      sentEmailReminders: true,
+      employeeResponses: [
+        {
+          _id: scheduledUser._id,
+          response: "I want to work.",
+          notes: "",
+        },
+      ],
+    };
+
+    const autoDeletedEvent = {
+      eventType: "Game",
+      location: "SAP Center at San Jose",
+      callTimes: newEventCallTimes9,
+      uniform: "Barracuda Jacket",
+      eventDate: moment()
+        .add(1, "months")
+        .format(),
+      notes: "Auto deleted event.",
+      opponent: "Chicago Wolves",
+      seasonId: "19801981",
+      team: "San Jose Barracuda",
+      schedule: createSchedule(newEventCallTimes9),
+      scheduledIds: [scheduledUser._id],
+      sentEmailReminders: true,
+      employeeResponses: [
+        {
+          _id: scheduledUser._id,
+          response: "I want to work.",
+          notes: "",
+        },
+      ],
+    };
+
     await Event.insertMany([
       newEvent,
       gameTomorrow,
@@ -658,6 +738,8 @@ const seedDB = async () => {
       newEvent10,
       newEvent11,
       newEvent12,
+      newEvent13,
+      autoDeletedEvent,
     ]);
 
     await Team.insertMany(teams);
@@ -762,6 +844,26 @@ const seedDB = async () => {
       sentEmails: true,
     };
 
+    const form10 = {
+      expirationDate: new Date("2099-08-10T07:00:00.000Z"),
+      startMonth: new Date("2019-11-01T07:00:00.000Z"),
+      endMonth: new Date("2019-11-31T07:00:00.000Z"),
+      notes: "Delete this form.",
+      seasonId: "20192020",
+      sendEmailNotificationsDate: new Date("2019-11-31T07:00:00.000Z"),
+      sentEmails: true,
+    };
+
+    const autoDeletedForm = {
+      expirationDate: new Date("2099-08-10T07:00:00.000Z"),
+      startMonth: new Date("2019-11-01T07:00:00.000Z"),
+      endMonth: new Date("2019-11-31T07:00:00.000Z"),
+      notes: "Auto deleted form.",
+      seasonId: "19801981",
+      sendEmailNotificationsDate: new Date("2019-11-31T07:00:00.000Z"),
+      sentEmails: true,
+    };
+
     await Form.insertMany([
       form1,
       form2,
@@ -772,6 +874,8 @@ const seedDB = async () => {
       form7,
       form8,
       form9,
+      form10,
+      autoDeletedForm,
     ]);
 
     const newMail = {
@@ -819,7 +923,23 @@ const seedDB = async () => {
       subject: "Test 1199",
     };
 
-    await Mail.insertMany([newMail, newMail2, newMail3, newMail4, newMail5]);
+    const newMail6 = {
+      sendTo: ["test@test.com"],
+      sendFrom: "test@test.com",
+      sendDate: "2011-10-06T07:00:00.000+00:00",
+      message: "<span>Delete this mail.</span>",
+      status: "sent",
+      subject: "Test 1199",
+    };
+
+    await Mail.insertMany([
+      newMail,
+      newMail2,
+      newMail3,
+      newMail4,
+      newMail5,
+      newMail6,
+    ]);
 
     await db.close();
 

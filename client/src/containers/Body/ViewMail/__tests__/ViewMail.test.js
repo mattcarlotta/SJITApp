@@ -1,6 +1,7 @@
 import { ViewMail } from "../index";
 
 const deleteMail = jest.fn();
+const deleteManyMails = jest.fn();
 const push = jest.fn();
 const fetchMails = jest.fn();
 const resendMail = jest.fn();
@@ -8,6 +9,7 @@ const resendMail = jest.fn();
 const initProps = {
 	data: [],
 	deleteMail,
+	deleteManyMails,
 	fetchMails,
 	isLoading: true,
 	location: {

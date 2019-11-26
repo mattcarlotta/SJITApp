@@ -9,7 +9,7 @@ import Button from "components/Body/Button";
 import FlexEnd from "components/Body/FlexEnd";
 import Table from "components/Body/Table";
 import QueryHandler from "components/Navigation/QueryHandler";
-import { deleteSeason, fetchSeasons } from "actions/Seasons";
+import { deleteManySeasons, deleteSeason, fetchSeasons } from "actions/Seasons";
 import columns from "./Columns";
 
 const title = "Seasons";
@@ -19,7 +19,13 @@ const iconStyle = {
 	fontSize: 20,
 };
 
-export const ViewSeasons = ({ data, deleteSeason, fetchSeasons, ...rest }) => (
+export const ViewSeasons = ({
+	data,
+	deleteManySeasons,
+	deleteSeason,
+	fetchSeasons,
+	...rest
+}) => (
 	<Fragment>
 		<Helmet title={title} />
 		<Card
@@ -51,6 +57,7 @@ export const ViewSeasons = ({ data, deleteSeason, fetchSeasons, ...rest }) => (
 						columns={columns}
 						data={data}
 						deleteAction={deleteSeason}
+						deleteManyRecords={deleteManySeasons}
 						editLocation="seasons"
 						fetchData={fetchSeasons}
 					/>
@@ -69,7 +76,8 @@ ViewSeasons.propTypes = {
 			endDate: PropTypes.string,
 		}),
 	),
-	deleteSeason: PropTypes.func,
+	deleteManySeasons: PropTypes.func.isRequired,
+	deleteSeason: PropTypes.func.isRequired,
 	fetchSeasons: PropTypes.func.isRequired,
 	isLoading: PropTypes.bool.isRequired,
 	push: PropTypes.func,
@@ -83,6 +91,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
+	deleteManySeasons,
 	deleteSeason,
 	fetchSeasons,
 	push,

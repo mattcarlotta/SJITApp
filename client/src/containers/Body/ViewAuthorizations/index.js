@@ -7,13 +7,19 @@ import { Card } from "antd";
 import { FaKey } from "react-icons/fa";
 import Table from "components/Body/Table";
 import QueryHandler from "components/Navigation/QueryHandler";
-import { deleteToken, fetchTokens, resendToken } from "actions/Members";
+import {
+	deleteToken,
+	deleteManyTokens,
+	fetchTokens,
+	resendToken,
+} from "actions/Members";
 import Filters from "./Filters";
 import columns from "./Columns";
 
 const title = "Authorizations";
 
 export const ViewAuthorizations = ({
+	deleteManyTokens,
 	deleteToken,
 	fetchTokens,
 	resendToken,
@@ -46,6 +52,7 @@ export const ViewAuthorizations = ({
 							columns={columns}
 							data={tokens}
 							deleteAction={deleteToken}
+							deleteManyRecords={deleteManyTokens}
 							fetchData={fetchTokens}
 							editLocation="members/authorizations"
 							sendMail={resendToken}
@@ -58,7 +65,8 @@ export const ViewAuthorizations = ({
 );
 
 ViewAuthorizations.propTypes = {
-	deleteToken: PropTypes.func,
+	deleteManyTokens: PropTypes.func.isRequired,
+	deleteToken: PropTypes.func.isRequired,
 	fetchTokens: PropTypes.func.isRequired,
 	isLoading: PropTypes.bool.isRequired,
 	push: PropTypes.func,
@@ -82,6 +90,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
+	deleteManyTokens,
 	deleteToken,
 	fetchTokens,
 	push,

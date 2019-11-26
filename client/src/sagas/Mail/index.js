@@ -110,6 +110,40 @@ export function* deleteMail({ mailId }) {
 }
 
 /**
+ * Attempts to delete many emails.
+ *
+ * @generator
+ * @function deleteManyMails
+ * @param {obect} ids
+ * @yields {action} - A redux action to reset server messages.
+ * @yields {object} - A response from a call to the API.
+ * @function parseMessage - returns a parsed res.data.message.
+ * @yields {action} - A redux action to display a server message by type.
+ * @yields {action} - A redux action to refetch mail.
+ * @throws {action} - A redux action to display a server message by type.
+ */
+
+export function* deleteManyMails({ ids }) {
+	try {
+		yield put(hideServerMessage());
+
+		const res = yield call(app.delete, `mails/delete-many`, { data: { ids } });
+		const message = yield call(parseMessage, res);
+
+		yield put(
+			setServerMessage({
+				type: "success",
+				message,
+			}),
+		);
+
+		yield put(actions.fetchMails());
+	} catch (e) {
+		yield put(setServerMessage({ type: "error", message: e.toString() }));
+	}
+}
+
+/**
  * Attempts to get a single mail for editing.
  *
  * @generator
@@ -250,6 +284,7 @@ export default function* mailsSagas() {
 		takeLatest(types.MAIL_CONTACT_US, contactUs),
 		takeLatest(types.MAIL_CREATE, createMail),
 		takeLatest(types.MAIL_DELETE, deleteMail),
+		takeLatest(types.MAIL_DELETE_MANY, deleteManyMails),
 		takeLatest(types.MAIL_EDIT, fetchMail),
 		takeLatest(types.MAIL_FETCH, fetchMails),
 		takeLatest(types.MAIL_RESEND, resendMail),

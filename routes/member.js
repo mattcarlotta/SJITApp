@@ -1,5 +1,6 @@
 import {
   deleteMember,
+  deleteManyMembers,
   getAllMemberNames,
   getAllMembers,
   getMember,
@@ -17,6 +18,7 @@ import { requireAuth, requireStaffRole } from "services/strategies";
 
 export default app => {
   app.delete("/api/member/delete/:id", requireStaffRole, deleteMember);
+  app.delete("/api/members/delete-many", requireStaffRole, deleteManyMembers);
   app.get("/api/members/names", requireStaffRole, getAllMemberNames);
   app.get("/api/members/all", requireStaffRole, getAllMembers);
   app.get("/api/member/review/:id", requireStaffRole, getMember);

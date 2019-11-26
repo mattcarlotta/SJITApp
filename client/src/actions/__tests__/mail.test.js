@@ -52,6 +52,16 @@ describe("Mail Actions", () => {
 		});
 	});
 
+	it("returns MAIL_DELETE_MANY with ids", () => {
+		const ids = ["01", "02", "03"];
+		const value = actions.deleteManyMails(ids);
+
+		expect(value).toEqual({
+			type: types.MAIL_DELETE_MANY,
+			ids,
+		});
+	});
+
 	it("returns MAIL_EDIT with mailId", () => {
 		const value = actions.fetchMail(mailId);
 

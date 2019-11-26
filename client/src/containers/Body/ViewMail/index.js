@@ -7,7 +7,12 @@ import { Card } from "antd";
 import { FaMailBulk } from "react-icons/fa";
 import Table from "components/Body/Table";
 import QueryHandler from "components/Navigation/QueryHandler";
-import { deleteMail, fetchMails, resendMail } from "actions/Mail";
+import {
+	deleteMail,
+	deleteManyMails,
+	fetchMails,
+	resendMail,
+} from "actions/Mail";
 import Filters from "./Filters";
 import columns from "./Columns";
 
@@ -16,6 +21,7 @@ const title = "Mail";
 export const ViewMail = ({
 	data,
 	deleteMail,
+	deleteManyMails,
 	fetchMails,
 	resendMail,
 	...rest
@@ -46,6 +52,7 @@ export const ViewMail = ({
 							columns={columns}
 							data={data}
 							deleteAction={deleteMail}
+							deleteManyRecords={deleteManyMails}
 							editLocation="mail"
 							fetchData={fetchMails}
 							sendMail={resendMail}
@@ -69,7 +76,8 @@ ViewMail.propTypes = {
 			subject: PropTypes.string,
 		}),
 	),
-	deleteMail: PropTypes.func,
+	deleteMail: PropTypes.func.isRequired,
+	deleteManyMails: PropTypes.func.isRequired,
 	fetchMails: PropTypes.func.isRequired,
 	isLoading: PropTypes.bool.isRequired,
 	push: PropTypes.func,
@@ -85,6 +93,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
 	deleteMail,
+	deleteManyMails,
 	fetchMails,
 	push,
 	resendMail,

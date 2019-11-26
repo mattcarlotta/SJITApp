@@ -1,8 +1,10 @@
 /* eslint-disable react/forbid-prop-types */
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
+import isEmpty from "lodash/isEmpty";
 import { Popconfirm } from "antd";
 import {
+	FaCheckSquare,
 	FaExclamationCircle,
 	FaEdit,
 	FaShareSquare,
@@ -11,7 +13,6 @@ import {
 	FaClipboardCheck,
 } from "react-icons/fa";
 import Button from "components/Body/Button";
-import FlexCenter from "components/Body/FlexCenter";
 import Spacer from "components/Body/Spacer";
 
 const iconStyle = {
@@ -24,12 +25,14 @@ const TableActions = ({
 	deleteAction,
 	editLocation,
 	handleClickAction,
+	handleDeleteRecords,
 	push,
 	record,
+	selectedRowKeys,
 	sendMail,
 	viewLocation,
 }) => (
-	<FlexCenter direction="column">
+	<Fragment>
 		{assignLocation && (
 			<Fragment>
 				<Button
@@ -93,6 +96,27 @@ const TableActions = ({
 			</Fragment>
 		)}
 		{deleteAction && (
+			<Fragment>
+				<Popconfirm
+					placement="top"
+					title="Are you sure? This action is irreversible."
+					icon={
+						<span className="anticon">
+							<FaExclamationCircle style={{ color: "red" }} />
+						</span>
+					}
+					onConfirm={() => handleClickAction(deleteAction, record)}
+				>
+					<Button danger padding="5px 0 1px 0" marginRight="0px">
+						<FaTrash style={{ ...iconStyle, fontSize: 16 }} />
+						&nbsp;
+						<span>Delete</span>
+					</Button>
+				</Popconfirm>
+				<Spacer />
+			</Fragment>
+		)}
+		{!isEmpty(selectedRowKeys) && (
 			<Popconfirm
 				placement="top"
 				title="Are you sure? This action is irreversible."
@@ -101,16 +125,18 @@ const TableActions = ({
 						<FaExclamationCircle style={{ color: "red" }} />
 					</span>
 				}
-				onConfirm={() => handleClickAction(deleteAction, record)}
+				onConfirm={() => handleDeleteRecords(selectedRowKeys)}
 			>
-				<Button danger padding="5px 0 1px 0" marginRight="0px">
-					<FaTrash style={{ ...iconStyle, fontSize: 16 }} />
+				<Button padding="5px 0 1px 0" marginRight="0px">
+					<FaCheckSquare
+						style={{ ...iconStyle, fontSize: 16, color: "#1890ff" }}
+					/>
 					&nbsp;
 					<span>Delete</span>
 				</Button>
 			</Popconfirm>
 		)}
-	</FlexCenter>
+	</Fragment>
 );
 
 TableActions.propTypes = {
@@ -118,8 +144,10 @@ TableActions.propTypes = {
 	deleteAction: PropTypes.func,
 	editLocation: PropTypes.string,
 	handleClickAction: PropTypes.func.isRequired,
+	handleDeleteRecords: PropTypes.func.isRequired,
 	push: PropTypes.func.isRequired,
 	record: PropTypes.any.isRequired,
+	selectedRowKeys: PropTypes.arrayOf(PropTypes.string),
 	sendMail: PropTypes.func,
 	viewLocation: PropTypes.string,
 };

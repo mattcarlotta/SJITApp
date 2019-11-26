@@ -76,6 +76,42 @@ export function* deleteSeason({ seasonId }) {
 }
 
 /**
+ * Attempts to delete many seasons (and any events forms attached to it).
+ *
+ * @generator
+ * @function deleteManySeasons
+ * @param {object} ids
+ * @yields {action} - A redux action to reset server messages.
+ * @yields {object} - A response from a call to the API.
+ * @function parseMessage - returns a parsed res.data.message.
+ * @yields {action} - A redux action to display a server message by type.
+ * @yields {action} - A redux action to refetch seasons.
+ * @throws {action} - A redux action to display a server message by type.
+ */
+
+export function* deleteManySeasons({ ids }) {
+	try {
+		yield put(hideServerMessage());
+
+		const res = yield call(app.delete, `seasons/delete-many`, {
+			data: { ids },
+		});
+		const message = yield call(parseMessage, res);
+
+		yield put(
+			setServerMessage({
+				type: "success",
+				message,
+			}),
+		);
+
+		yield put(actions.fetchSeasons());
+	} catch (e) {
+		yield put(setServerMessage({ type: "error", message: e.toString() }));
+	}
+}
+
+/**
  * Attempts to get a single season for editing.
  *
  * @generator
@@ -197,6 +233,7 @@ export default function* seasonsSagas() {
 		takeLatest(types.SEASONS_EDIT, fetchSeason),
 		takeLatest(types.SEASONS_CREATE, createSeason),
 		takeLatest(types.SEASONS_DELETE, deleteSeason),
+		takeLatest(types.SEASONS_DELETE_MANY, deleteManySeasons),
 		takeLatest(types.SEASONS_FETCH, fetchSeasons),
 		takeLatest(types.SEASONS_FETCH_IDS, fetchSeasonsIds),
 		takeLatest(types.SEASONS_UPDATE_EDIT, updateSeason),

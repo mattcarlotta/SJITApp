@@ -76,6 +76,40 @@ export function* deleteForm({ formId }) {
 }
 
 /**
+ * Attempts to delete many forms.
+ *
+ * @generator
+ * @function deleteManyForms
+ * @param {object} ids
+ * @yields {action} - A redux action to reset server messages.
+ * @yields {object} - A response from a call to the API.
+ * @function parseMessage - returns a parsed res.data.message.
+ * @yields {action} - A redux action to display a server message by type.
+ * @yields {action} - A redux action to fetch forms data again.
+ * @throws {action} - A redux action to display a server message by type.
+ */
+
+export function* deleteManyForms({ ids }) {
+	try {
+		yield put(hideServerMessage());
+
+		const res = yield call(app.delete, `forms/delete-many`, { data: { ids } });
+		const message = yield call(parseMessage, res);
+
+		yield put(
+			setServerMessage({
+				type: "success",
+				message,
+			}),
+		);
+
+		yield put(actions.fetchForms());
+	} catch (e) {
+		yield put(setServerMessage({ type: "error", message: e.toString() }));
+	}
+}
+
+/**
  * Attempts to get form for editing.
  *
  * @generator
@@ -278,6 +312,7 @@ export default function* formsSagas() {
 	yield all([
 		takeLatest(types.FORMS_CREATE, createForm),
 		takeLatest(types.FORMS_DELETE, deleteForm),
+		takeLatest(types.FORMS_DELETE_MANY, deleteManyForms),
 		takeLatest(types.FORMS_EDIT, fetchForm),
 		takeLatest(types.FORMS_FETCH_AP, fetchFormAp),
 		takeLatest(types.FORMS_FETCH, fetchForms),
