@@ -34,6 +34,29 @@ describe("Member Reducer", () => {
 		);
 	});
 
+	it("resets members data", () => {
+		let state = memberReducer(undefined, {
+			type: types.MEMBERS_SET_REVIEW,
+			payload: memberData,
+		});
+
+		state = memberReducer(state, {
+			type: types.MEMBERS_RESET,
+		});
+
+		expect(state).toEqual({
+			data: [],
+			editToken: {},
+			eventResponses: [],
+			memberAvailability: {},
+			names: [],
+			viewMember: {},
+			tokens: [],
+			isLoading: true,
+			totalDocs: 0,
+		});
+	});
+
 	it("sets members data", () => {
 		const state = memberReducer(undefined, {
 			type: types.MEMBERS_SET,

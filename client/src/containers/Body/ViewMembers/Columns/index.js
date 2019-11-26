@@ -1,6 +1,7 @@
 import React from "react";
 import DisplayStatus from "components/Body/DisplayStatus";
 import FormatDate from "components/Body/FormatDate";
+import EmailReminders from "components/Body/EmailReminders";
 
 export default [
 	{
@@ -18,5 +19,11 @@ export default [
 		dataIndex: "registered",
 		key: "registered",
 		render: date => <FormatDate format="MM/DD/YYYY @ hh:mm a" date={date} />,
+	},
+	{
+		title: "Email Reminders",
+		dataIndex: "emailReminders",
+		key: "emailReminders",
+		render: status => <EmailReminders status={status} />,
 	},
 ];

@@ -17,6 +17,7 @@ import {
 	fetchMember,
 	fetchMemberAvailability,
 	fetchMemberEvents,
+	resetMembers,
 	updateMemberStatus,
 } from "actions/Members";
 import { fetchScheduleEvents } from "actions/Events";
@@ -83,6 +84,10 @@ export class ViewMemberProfile extends PureComponent {
 		fetchMember(id);
 
 		if (serverMessage) hideServerMessage();
+	};
+
+	componentWillUnmount = () => {
+		this.props.resetMembers();
 	};
 
 	render = () => {
@@ -213,10 +218,12 @@ ViewMemberProfile.propTypes = {
 			}),
 		),
 	}),
+	resetMembers: PropTypes.func.isRequired,
 	goBack: PropTypes.func.isRequired,
 	viewMember: PropTypes.shape({
 		_id: PropTypes.string,
 		email: PropTypes.string,
+		emailReminders: PropTypes.bool,
 		firstName: PropTypes.string,
 		lastName: PropTypes.string,
 		registered: PropTypes.string,
@@ -268,6 +275,7 @@ const mapDispatchToProps = {
 	fetchScheduleEvents,
 	hideServerMessage,
 	goBack,
+	resetMembers,
 	updateMemberStatus,
 };
 

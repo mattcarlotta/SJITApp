@@ -78,6 +78,7 @@ describe("Delete Token Controller", () => {
       role: "employee",
       seasonId: newSeason.seasonId,
       token: createSignupToken(),
+      expiration: new Date(2080, 10, 6),
     };
 
     await Token.create(newHire);

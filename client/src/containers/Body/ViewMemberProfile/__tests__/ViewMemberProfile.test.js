@@ -6,6 +6,7 @@ const hideServerMessage = jest.fn();
 const fetchScheduleEvents = jest.fn();
 const fetchMemberAvailability = jest.fn();
 const goBack = jest.fn();
+const resetMembers = jest.fn();
 const updateMemberStatus = jest.fn();
 
 const initProps = {
@@ -21,6 +22,7 @@ const initProps = {
 		},
 	},
 	goBack,
+	resetMembers,
 	viewMember: {},
 	updateMemberStatus,
 	serverMessage: "This is a server message.",
@@ -47,11 +49,17 @@ describe("View Member Profile", () => {
 	afterEach(() => {
 		hideServerMessage.mockClear();
 		goBack.mockClear();
+		resetMembers.mockClear();
 		fetchMember.mockClear();
 	});
 
 	it("initially renders a LoadingPanel", () => {
 		expect(wrapper.find("LoadingPanel").exists()).toBeTruthy();
+	});
+
+	it("calls resetMembers on unmount", () => {
+		wrapper.unmount();
+		expect(resetMembers).toHaveBeenCalledTimes(1);
 	});
 
 	it("initially calls fetchMember on mount", () => {

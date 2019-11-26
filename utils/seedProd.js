@@ -4,7 +4,7 @@ import { createRandomToken } from "shared/helpers";
 import config from "env";
 import teams from "./teams";
 
-const { NODE_ENV, SEED } = process.env;
+const { NODE_ENV } = process.env;
 
 const { admin, staff } = config[NODE_ENV];
 
@@ -26,6 +26,7 @@ const { admin, staff } = config[NODE_ENV];
       password: adminPassword,
       role: "admin",
       token: createRandomToken(),
+      emailReminders: true,
     };
 
     const staffPassword = await User.createPassword(staff.password);
@@ -35,6 +36,7 @@ const { admin, staff } = config[NODE_ENV];
       password: staffPassword,
       role: "staff",
       token: createRandomToken(),
+      emailReminders: true,
     };
 
     await User.insertMany([administrator, staffMember]);

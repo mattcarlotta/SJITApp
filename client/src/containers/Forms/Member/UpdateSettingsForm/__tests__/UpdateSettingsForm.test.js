@@ -3,6 +3,7 @@ import { UpdateSettingsForm } from "../index";
 const updateSettings = jest.fn();
 const viewMember = {
 	email: "test@example.com",
+	emailReminders: true,
 	firstName: "Beta",
 	lastName: "Tester",
 	registered: "2019-09-13T16:44:27.649Z",
@@ -18,6 +19,10 @@ const initProps = {
 };
 
 const updatedValues = [
+	{
+		name: "emailReminders",
+		value: true,
+	},
 	{
 		name: "email",
 		value: "test2@example.com",
@@ -84,6 +89,7 @@ describe("Update Member Form", () => {
 		it("successful validation calls updateEvent with fields", () => {
 			expect(wrapper.state("isSubmitting")).toBeTruthy();
 			expect(updateSettings).toHaveBeenCalledWith({
+				emailReminders: true,
 				email: "test2@example.com",
 				firstName: "Test",
 				lastName: "Example",

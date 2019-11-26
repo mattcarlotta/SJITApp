@@ -34,6 +34,7 @@ describe("Update Member Settings Controller", () => {
     const emptyBody = {
       _id: "",
       email: "",
+      emailReminders: "",
       firstName: "",
       lastName: "",
       role: "",
@@ -56,6 +57,7 @@ describe("Update Member Settings Controller", () => {
     const emptyBody = {
       _id: "",
       email: "",
+      emailReminders: "",
       firstName: "",
       lastName: "",
       role: "",
@@ -78,6 +80,7 @@ describe("Update Member Settings Controller", () => {
     const emptyBody = {
       _id: existingMember._id,
       email: "carlotta.matt@gmail.com",
+      emailReminders: true,
       firstName: "Updated",
       lastName: "User",
       role: "employee",
@@ -100,6 +103,7 @@ describe("Update Member Settings Controller", () => {
     const invalidUsername = {
       _id: existingMember._id,
       email: "placedholdernewemail@test.com",
+      emailReminders: true,
       firstName: "Matt",
       lastName: "Carlotta",
       role: "employee",
@@ -123,6 +127,7 @@ describe("Update Member Settings Controller", () => {
     const updatedUser = {
       _id: existingMember._id,
       email: "placedholdernewemail@test.com",
+      emailReminders: true,
       firstName: "Updated232",
       lastName: "User233",
       role: "employee",
@@ -144,14 +149,15 @@ describe("Update Member Settings Controller", () => {
       user: { id: existingUser._id },
     };
 
-    const emptyBody = {
+    const updateUser = {
       _id: existingUser._id,
       email: existingUser.email,
+      emailReminders: true,
       firstName: "Updated99948",
       lastName: "User478849",
       role: "employee",
     };
-    const req = mockRequest(null, session, emptyBody);
+    const req = mockRequest(null, session, updateUser);
 
     await updateMemberSettings(req, res);
 

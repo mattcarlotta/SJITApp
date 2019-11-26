@@ -6,12 +6,14 @@ const newHire1 = {
   authorizedEmail: "test88@example.com",
   role: "employee",
   token: createSignupToken(),
+  expiration: Date.now(),
 };
 
 const newHire2 = {
   authorizedEmail: "test1884@example.com",
   role: "employee",
   token: createSignupToken(),
+  expiration: Date.now(),
 };
 
 describe("Get All Tokens Controller", () => {

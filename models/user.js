@@ -17,11 +17,10 @@ const userSchema = new Schema({
   password: { type: String, required: true },
   registered: {
     type: Date,
-    default: moment().toDate(),
+    default: moment.tz("America/Los_Angeles").toDate(),
   },
   token: { type: String, unique: true },
-  timesAvailable: Number,
-  timesUnavailable: Number,
+  emailReminders: { type: Boolean, default: true },
 });
 
 userSchema.plugin(mongoosePaginate);

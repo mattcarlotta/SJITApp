@@ -64,6 +64,7 @@ ViewMembers.propTypes = {
 			status: PropTypes.string,
 			registered: PropTypes.string,
 			email: PropTypes.string,
+			emailReminders: PropTypes.bool,
 			firstName: PropTypes.string,
 			lastName: PropTypes.string,
 		}),

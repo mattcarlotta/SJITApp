@@ -70,7 +70,7 @@ describe("Update Form Controller", () => {
 
     const updatedForm = {
       _id: existingForm._id,
-      expirationDate: new Date(""),
+      expirationDate: new Date("2099-08-01T07:00:00.000Z"),
       enrollMonth: [
         new Date("2005-08-01T07:00:00.000Z"),
         new Date("2005-08-31T07:00:00.000Z"),

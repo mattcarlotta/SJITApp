@@ -27,6 +27,13 @@ const memberReducer = (state = initialState, { payload, type }) => {
 		case types.MEMBERS_FETCH_TOKENS: {
 			return initialState;
 		}
+		case types.MEMBERS_RESET: {
+			return {
+				...state,
+				viewMember: {},
+				memberAvailability: {},
+			};
+		}
 		case types.MEMBERS_SET: {
 			return {
 				...state,

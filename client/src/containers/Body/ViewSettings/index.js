@@ -184,6 +184,7 @@ Settings.propTypes = {
 	viewMember: PropTypes.shape({
 		_id: PropTypes.string,
 		email: PropTypes.string,
+		emailReminders: PropTypes.bool,
 		firstName: PropTypes.string,
 		lastName: PropTypes.string,
 		registered: PropTypes.string,

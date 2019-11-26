@@ -91,6 +91,7 @@ EditMemberForm.propTypes = {
 	viewMember: PropTypes.shape({
 		_id: PropTypes.string,
 		email: PropTypes.string,
+		emailReminders: PropTypes.bool,
 		events: PropTypes.any,
 		firstName: PropTypes.string,
 		lastName: PropTypes.string,

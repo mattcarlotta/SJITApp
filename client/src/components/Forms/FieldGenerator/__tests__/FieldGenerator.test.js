@@ -16,6 +16,15 @@ const input = {
 	errors: "",
 };
 
+const switchField = {
+	name: "emailReminders",
+	type: "switch",
+	label: "Email Reminders",
+	value: true,
+	tooltip:
+		"This setting only affects scheduled events and A/P form email reminders. Monthly schedules will remain unaffected.",
+};
+
 const textarea = {
 	type: "textarea",
 	name: "notes",
@@ -188,6 +197,21 @@ describe("Field Generator", () => {
 		wrapper.setProps({ fields: [select] });
 
 		expect(wrapper.find("Select").exists()).toBeTruthy();
+	});
+
+	it("returns a Switch when type is 'switch'", () => {
+		wrapper.setProps({ fields: [switchField] });
+
+		expect(wrapper.find("Switch").exists()).toBeTruthy();
+
+		wrapper.find("button").simulate("click");
+
+		expect(onChange).toHaveBeenCalledWith({
+			target: {
+				name: "emailReminders",
+				value: false,
+			},
+		});
 	});
 
 	it("returns a DatePicker when type is 'date'", () => {

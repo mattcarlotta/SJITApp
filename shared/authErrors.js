@@ -78,7 +78,7 @@ const missingToken = "There was a problem authenticating your request.";
 
 const missingTokenId = "You must include a tokenId.";
 
-const missingUpdateMemberParams = "You must include an id, email, first name, last name and role.";
+const missingUpdateMemberParams = "You must include an id, email, email reminder, first name, last name and role fields.";
 
 const missingUpdateMemberStatusParams = "You must provide a member id and status.";
 

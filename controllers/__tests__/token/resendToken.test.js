@@ -81,7 +81,7 @@ describe("Resend Token Controller", () => {
       authorizedEmail: "newhirefortokens@example.com",
       role: "employee",
       seasonId: newSeason.seasonId,
-      expirationDate: new Date(2080, 10, 6),
+      expiration: new Date(2080, 10, 6),
       token: "hello",
     };
 

@@ -1,6 +1,14 @@
 /* istanbul ignore file */
 export default [
 	{
+		name: "emailReminders",
+		type: "switch",
+		label: "Email Reminders",
+		value: true,
+		tooltip:
+			"This setting only affects scheduled events and A/P form email reminders. Monthly schedules will remain unaffected.",
+	},
+	{
 		name: "email",
 		type: "email",
 		label: "Authorized Email",

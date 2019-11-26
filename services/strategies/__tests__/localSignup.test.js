@@ -24,6 +24,7 @@ const newHire = {
   role: "employee",
   seasonId: "20402041",
   token: createSignupToken(),
+  expiration: new Date(2080, 10, 6),
 };
 
 describe("Local Signup Middleware", () => {

@@ -192,6 +192,14 @@ describe("Member Actions", () => {
 		});
 	});
 
+	it("returns MEMBERS_RESET", () => {
+		const value = actions.resetMembers();
+
+		expect(value).toEqual({
+			type: types.MEMBERS_RESET,
+		});
+	});
+
 	it("returns MEMBERS_SET with an empty array if data is empty", () => {
 		const value = actions.setMembers([]);
 

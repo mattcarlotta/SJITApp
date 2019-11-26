@@ -51,6 +51,7 @@ passport.use(
           password: newPassword,
           role: validToken.role,
           token: newToken,
+          emailReminders: true,
         });
 
         // assign signup token to current user

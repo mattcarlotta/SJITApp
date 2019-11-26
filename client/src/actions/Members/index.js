@@ -186,6 +186,16 @@ export const resendToken = tokenId => ({
 });
 
 /**
+ * Resets member data back to inital state.
+ *
+ * @function resetMembers
+ * @returns {object}
+ */
+export const resetMembers = () => ({
+	type: types.MEMBERS_RESET,
+});
+
+/**
  * Sets any members for the ViewMembers page to redux state
  *
  * @function setMembers

@@ -5,6 +5,7 @@ const updateMember = jest.fn();
 const viewMember = {
 	_id: "0123456789",
 	email: "test@example.com",
+	emailReminders: true,
 	events: [],
 	firstName: "test",
 	lastName: "example",
@@ -107,6 +108,7 @@ describe("Edit Member Form", () => {
 				expect(updateMember).toHaveBeenCalledWith({
 					_id: viewMember._id,
 					email: viewMember.email,
+					emailReminders: viewMember.emailReminders,
 					firstName: viewMember.firstName,
 					lastName: viewMember.lastName,
 					role: viewMember.role,

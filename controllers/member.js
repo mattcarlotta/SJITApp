@@ -255,7 +255,8 @@ const getAllMembers = async (req, res) => {
         sort: { lastName: 1 },
         page,
         limit: 10,
-        select: "role status registered email firstName lastName",
+        select:
+          "role status registered email emailReminders firstName lastName",
       },
     );
 
@@ -500,9 +501,16 @@ const getMemberSettingsEvents = async (req, res) => {
 const updateMember = async (req, res) => {
   try {
     const {
-      _id, email, firstName, lastName, role,
+      _id, email, emailReminders, firstName, lastName, role,
     } = req.body;
-    if (!_id || !email || !firstName || !lastName || !role) throw missingUpdateMemberParams;
+    if (
+      !_id
+      || !email
+      || typeof emailReminders !== "boolean"
+      || !firstName
+      || !lastName
+      || !role
+    ) throw missingUpdateMemberParams;
 
     const existingMember = await findMember(_id);
 
@@ -533,6 +541,7 @@ const updateMember = async (req, res) => {
 
     await existingMember.updateOne({
       email,
+      emailReminders,
       firstName,
       lastName,
       role,
@@ -559,8 +568,15 @@ const updateMemberSettings = async (req, res) => {
     const { id: _id } = req.session.user;
     if (!_id) throw missingMemberId;
 
-    const { email, firstName, lastName } = req.body;
-    if (!email || !firstName || !lastName) throw missingUpdateMemberParams;
+    const {
+      email, emailReminders, firstName, lastName,
+    } = req.body;
+    if (
+      !email
+      || typeof emailReminders !== "boolean"
+      || !firstName
+      || !lastName
+    ) throw missingUpdateMemberParams;
 
     const existingMember = await findMember(req.session.user.id);
 
@@ -579,6 +595,7 @@ const updateMemberSettings = async (req, res) => {
 
     await existingMember.updateOne({
       email,
+      emailReminders,
       firstName,
       lastName,
     });

@@ -8,8 +8,15 @@ import {
 	Transfer,
 	Radio,
 	Input as AntInput,
+	Switch,
 } from "antd";
-import { FaCalendarPlus, FaClock, FaEraser } from "react-icons/fa";
+import {
+	FaCalendarPlus,
+	FaClock,
+	FaCheck,
+	FaEraser,
+	FaTimes,
+} from "react-icons/fa";
 import Icon from "components/Body/Icon";
 import Label from "components/Body/Label";
 import Notes from "components/Body/Notes";
@@ -22,6 +29,11 @@ import Eraser from "components/Body/Eraser";
 const RangePicker = DatePicker.RangePicker;
 const TextArea = AntInput.TextArea;
 const RadioGroup = Radio.Group;
+
+const switchIconStyle = {
+	position: "relative",
+	top: 2,
+};
 
 const removeIconStyle = {
 	cursor: "pointer",
@@ -72,9 +84,24 @@ const FieldGenerator = ({ fields, onChange }) =>
 			case "select": {
 				return <Select {...props} key={props.name} onChange={onChange} />;
 			}
+			case "switch": {
+				return (
+					<Form.Item key={props.name} style={{ height: 70 }}>
+						<Label {...props} style={{ marginBottom: 5 }} />
+						<Switch
+							checked={props.value}
+							checkedChildren={<FaCheck style={switchIconStyle} />}
+							unCheckedChildren={<FaTimes style={switchIconStyle} />}
+							onChange={value =>
+								onChange({ target: { name: props.name, value } })
+							}
+						/>
+					</Form.Item>
+				);
+			}
 			case "date": {
 				return (
-					<Form.Item key={props.name} style={{ height: 105 }}>
+					<Form.Item key={props.name} style={{ height: 117 }}>
 						<Label {...props} />
 						<DatePicker
 							{...props}
@@ -159,7 +186,7 @@ const FieldGenerator = ({ fields, onChange }) =>
 			}
 			case "range": {
 				return (
-					<Form.Item key={props.name} style={{ height: 105 }}>
+					<Form.Item key={props.name} style={{ height: 117 }}>
 						<Label {...props} />
 						<RangePicker
 							{...props}
@@ -206,7 +233,7 @@ const FieldGenerator = ({ fields, onChange }) =>
 				return (
 					<Form.Item
 						key={props.name}
-						style={{ height: props.height ? props.height : 105 }}
+						style={{ height: props.height ? props.height : 117 }}
 					>
 						{props.label && <Label {...props} />}
 						{props.onFieldRemove && (

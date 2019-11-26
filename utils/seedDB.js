@@ -184,6 +184,7 @@ const seedDB = async () => {
       password: adminPassword,
       role: "admin",
       token: createRandomToken(),
+      emailReminders: true,
     };
 
     const memberPassword = await User.createPassword(password);
@@ -195,6 +196,7 @@ const seedDB = async () => {
       lastName: "Member",
       role: "staff",
       token: createRandomToken(),
+      emailReminders: true,
     };
 
     const realMember = {
@@ -204,6 +206,7 @@ const seedDB = async () => {
       lastName: "Carlotta",
       role: "employee",
       token: createRandomToken(),
+      emailReminders: true,
     };
 
     const scheduledMember = {
@@ -213,6 +216,7 @@ const seedDB = async () => {
       lastName: "Member",
       role: "employee",
       token: createRandomToken(),
+      emailReminders: true,
     };
 
     const member = {
@@ -222,6 +226,7 @@ const seedDB = async () => {
       lastName: "Member",
       role: "employee",
       token: createRandomToken(),
+      emailReminders: true,
     };
 
     const member2 = {
@@ -231,6 +236,7 @@ const seedDB = async () => {
       lastName: "Member2",
       role: "employee",
       token: createRandomToken(),
+      emailReminders: true,
     };
 
     const member3 = {
@@ -240,6 +246,7 @@ const seedDB = async () => {
       lastName: "Member3",
       role: "employee",
       token: createRandomToken(),
+      emailReminders: true,
     };
 
     const member4 = {
@@ -249,6 +256,7 @@ const seedDB = async () => {
       lastName: "Member4",
       role: "employee",
       token: createRandomToken(),
+      emailReminders: true,
       status: "suspended",
     };
 
@@ -259,6 +267,7 @@ const seedDB = async () => {
       lastName: "Member5",
       role: "employee",
       token: createRandomToken(),
+      emailReminders: true,
       status: "suspended",
     };
 
@@ -269,6 +278,7 @@ const seedDB = async () => {
       lastName: "Member6",
       role: "employee",
       token: createRandomToken(),
+      emailReminders: true,
       status: "active",
     };
 
@@ -279,6 +289,7 @@ const seedDB = async () => {
       lastName: "Member7",
       role: "employee",
       token: createRandomToken(),
+      emailReminders: true,
       status: "active",
     };
 
@@ -289,6 +300,7 @@ const seedDB = async () => {
       lastName: "Member8",
       role: "employee",
       token: createRandomToken(),
+      emailReminders: true,
       status: "active",
     };
 
@@ -299,6 +311,7 @@ const seedDB = async () => {
       lastName: "Member9",
       role: "employee",
       token: createRandomToken(),
+      emailReminders: true,
       status: "active",
     };
 
@@ -309,6 +322,7 @@ const seedDB = async () => {
       lastName: "Member299",
       role: "employee",
       token: createRandomToken(),
+      emailReminders: true,
       status: "active",
     };
 
@@ -319,6 +333,7 @@ const seedDB = async () => {
       lastName: "Member399",
       role: "employee",
       token: createRandomToken(),
+      emailReminders: true,
       status: "active",
     };
 
@@ -329,6 +344,7 @@ const seedDB = async () => {
       lastName: "Member499",
       role: "employee",
       token: createRandomToken(),
+      emailReminders: true,
       status: "active",
     };
 
@@ -339,6 +355,7 @@ const seedDB = async () => {
       lastName: "Employee",
       role: "employee",
       token: createRandomToken(),
+      emailReminders: true,
       status: "suspended",
     };
 
@@ -349,6 +366,18 @@ const seedDB = async () => {
       lastName: "Me",
       role: "employee",
       token: createRandomToken(),
+      emailReminders: true,
+      status: "active",
+    };
+
+    const turnedOffReminders = {
+      email: "turned.off@reminders.com",
+      password: memberPassword,
+      firstName: "Turned Off",
+      lastName: "Reminders",
+      role: "employee",
+      token: createRandomToken(),
+      emailReminders: false,
       status: "active",
     };
 
@@ -371,6 +400,7 @@ const seedDB = async () => {
       member499,
       suspendedEmployee,
       deletedEmployee,
+      turnedOffReminders,
     ]);
 
     const scheduledUser = await User.findOne({ email: scheduledMember.email });
@@ -422,7 +452,7 @@ const seedDB = async () => {
 
     const gameTomorrow = {
       team: "San Jose Sharks",
-      opponent: "Detriot Red Wings",
+      opponent: "Detroit Red Wings",
       eventType: "Game",
       location: "Test Location",
       callTimes: newEventCallTimes,

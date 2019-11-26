@@ -27,6 +27,7 @@ describe("Update Member Controller", () => {
   it("handles empty body requests", async () => {
     const emptyBody = {
       _id: "",
+      emailReminders: "",
       email: "",
       firstName: "",
       lastName: "",
@@ -47,6 +48,7 @@ describe("Update Member Controller", () => {
     const invalidMember = {
       _id,
       email: "test@example.com",
+      emailReminders: true,
       firstName: "Beta",
       lastName: "Tester",
       role: "employee",
@@ -67,6 +69,7 @@ describe("Update Member Controller", () => {
     const invalidMember = {
       _id: existingMember._id,
       email: "sdfsd.sdfsd@sdfdfs.com",
+      emailReminders: true,
       firstName: "Matt",
       lastName: "Carlotta",
       role: "employee",
@@ -88,6 +91,7 @@ describe("Update Member Controller", () => {
     const invalidMember = {
       _id: existingMember._id,
       email: "carlotta.matt@gmail.com",
+      emailReminders: true,
       firstName: "Matt",
       lastName: "Carlotta",
       role: "employee",
@@ -125,6 +129,7 @@ describe("Update Member Controller", () => {
     const changedMember = {
       _id: existingMember._id,
       email: "member6@example.com",
+      emailReminders: true,
       firstName: "Updated",
       lastName: "Member",
       role: "staff",
@@ -139,6 +144,7 @@ describe("Update Member Controller", () => {
       {
         _id: 0,
         email: 1,
+        emailReminders: 1,
         firstName: 1,
         lastName: 1,
         role: 1,
@@ -147,6 +153,7 @@ describe("Update Member Controller", () => {
 
     expect(updatedMember).toEqual({
       email: updatedMember.email,
+      emailReminders: updatedMember.emailReminders,
       firstName: updatedMember.firstName,
       lastName: updatedMember.lastName,
       role: updatedMember.role,
