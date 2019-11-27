@@ -96,7 +96,8 @@ export class Events extends Component {
 								<LoadingPanel
 									style={{
 										margin: "30px auto 0",
-										width: "350px",
+										maxWidth: "350px",
+										width: "100%",
 										borderRadius: 3,
 									}}
 									height="140px"
