@@ -7,6 +7,7 @@ import { FaQuestionCircle } from "react-icons/fa";
 import { ViewingContact } from "./Other";
 import {
 	ChangingEmail,
+	ChangingEmailPreferences,
 	ChangingName,
 	ChangingPassword,
 	LogoutSession,
@@ -89,6 +90,13 @@ const Help = ({ role }) => (
 						<Panel header="How do I change my email?" key="ChangingEmail">
 							<ChangingEmail />
 						</Panel>
+						<Panel
+							header="How do I change my email preferences?"
+							key="ChangingEmailPreferences"
+						>
+							<ChangingEmailPreferences />
+						</Panel>
+
 						<Panel
 							header="How do I change my first or last name?"
 							key="ChangingName"
