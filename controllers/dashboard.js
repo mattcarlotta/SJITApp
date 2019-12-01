@@ -72,7 +72,7 @@ const getAvailability = async (req, res) => {
     const { id: _id } = req.session.user;
     if (!_id) throw missingMemberId;
 
-    const currentDate = createDate().toDate();
+    const currentDate = createDate().add(1, "months").toDate();
     const eventAvailability = [];
     let months = [];
 
@@ -195,7 +195,7 @@ const getAvailabilityForAllMembers = async (req, res) => {
     /* istanbul ignore next */
     if (isEmpty(members)) return res.status(200).json({ membersAvailability, months });
 
-    const currentDate = createDate().toDate();
+    const currentDate = createDate().add(1, "months").toDate();
 
     const existingForm = await Form.findOne(
       {
