@@ -98,7 +98,7 @@ describe("View Ap Form", () => {
 			wrapper.update();
 
 			expect(
-				wrapper.find("span.ant-radio-checked > input").props().value,
+				wrapper.find("span.ant-radio-button-checked > input").props().value,
 			).toEqual(newValue);
 		});
 

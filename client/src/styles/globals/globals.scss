@@ -47,6 +47,8 @@
 .ap-form-note {
 	line-height: normal;
 	padding: 0 10px;
+	max-width: 400px;
+	margin: 0 auto;
 }
 
 .ap-form-notes {
@@ -78,19 +80,7 @@
 .ap-form-radio {
 	max-width: 250px;
 	width: 100%;
-	margin: 0 auto;
-
-	@media (max-width: 550px) {
-		& .ant-radio-wrapper {
-			text-align: center;
-
-			& .ant-radio {
-				display: block;
-				margin: 0 auto;
-				width: 0px;
-			}
-		}
-	}
+	margin: 10px auto 0;
 }
 /* stylelint-enable */
 
@@ -191,6 +181,13 @@
 	@media (max-width: 425px) {
 		display: none;
 	}
+}
+
+.radio-value {
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
 
 .schedule-header {

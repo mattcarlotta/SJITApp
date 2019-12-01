@@ -51,13 +51,15 @@ const radioLabelStyle = {
 
 const radioStyle = {
 	// display: "block",
+	textAlign: "center",
+	cursor: "pointer",
 	width: "100%",
-	height: 30,
+	padding: 3,
 	lineHeight: "30px",
 	fontSize: 20,
-	padding: 10,
 	margin: "10px 0",
-	color: "#000",
+	height: "auto",
+	// color: "#000",
 	// textAlign: "center",
 };
 
@@ -173,9 +175,9 @@ const FieldGenerator = ({ fields, onChange }) =>
 						>
 							{!isEmpty(props.selectOptions) &&
 								props.selectOptions.map(value => (
-									<Radio style={radioStyle} key={value} value={value}>
+									<Radio.Button style={radioStyle} key={value} value={value}>
 										<span className="radio-value">{value}</span>
-									</Radio>
+									</Radio.Button>
 								))}
 						</RadioGroup>
 						{props.errors && (

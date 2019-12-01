@@ -109,7 +109,7 @@ export class ViewApForm extends Component {
 					<FormTitle
 						header={title}
 						title={title}
-						description="Please fill out all of the A/P form fields below."
+						description="Please select an availability response for all events below."
 					/>
 					<form style={{ textAlign: "center" }} onSubmit={this.handleSubmit}>
 						{isLoading ? (
