@@ -39,6 +39,7 @@ const createAuthMail = (authorizedEmail, token, expiration, role) => {
   return {
     sendTo: `${authorizedEmail}`,
     sendFrom: "San Jose Sharks Ice Team <noreply@sjsiceteam.com>",
+    sendDate: moment().tz("America/Los_Angeles").toDate(),
     subject: `${
       isEmployee ? "Congratulations" : "Welcome"
     }, you have been invited to join the San Jose Sharks Ice Team!`,
