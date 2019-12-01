@@ -1,6 +1,6 @@
 import { User } from "models";
 import { getMember } from "controllers/member";
-import { createSignupToken } from "shared/helpers";
+import { createDate, createSignupToken } from "shared/helpers";
 import { missingMemberId, unableToLocateMember } from "shared/authErrors";
 
 describe("Get Member Controller", () => {
@@ -51,6 +51,7 @@ describe("Get Member Controller", () => {
       firstName: "Hello",
       lastName: "Goodbye",
       password: "password",
+      registered: createDate().toDate(),
     });
 
     const req = mockRequest(null, null, null, null, { id: existingMember._id });

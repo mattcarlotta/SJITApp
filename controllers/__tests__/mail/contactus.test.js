@@ -46,7 +46,7 @@ describe("Contact Us Controller", () => {
     const newMail = {
       sendTo: "Staff",
       sendFrom: "test@test.com",
-      sendDate: "",
+      sendDate: "2019-12-15T23:59:59-08:00",
       message: "<span>Test 8182</span>",
       subject: "Test 628518",
     };

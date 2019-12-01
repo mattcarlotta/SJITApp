@@ -100,6 +100,7 @@ describe("View AP Form", () => {
       endMonth: moment("2099-11-01", format).endOf("month"),
       notes: "Form 99",
       seasonId: "20192020",
+      sendEmailNotificationsDate: moment().toDate(),
     };
 
     const existingForm = await Form.create(form);

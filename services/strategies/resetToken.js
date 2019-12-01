@@ -1,7 +1,7 @@
 import { Strategy as LocalStrategy } from "passport-local";
 import passport from "passport";
 import { missingEmailCreds } from "shared/authErrors";
-import { createRandomToken, sendError } from "shared/helpers";
+import { createDate, createRandomToken, sendError } from "shared/helpers";
 import { newPasswordTemplate } from "services/templates";
 import { Mail, User } from "models";
 
@@ -29,6 +29,7 @@ passport.use(
         await Mail.create({
           sendTo: `${existingUser.firstName} ${existingUser.lastName} <${existingUser.email}>`,
           sendFrom: "San Jose Sharks Ice Team <noreply@sjsiceteam.com>",
+          sendDate: createDate().toDate(),
           subject: "Password Reset Confirmation",
           message: newPasswordTemplate(
             CLIENT,

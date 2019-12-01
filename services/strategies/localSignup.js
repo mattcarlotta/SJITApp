@@ -1,6 +1,5 @@
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
-import moment from "moment-timezone";
 import {
   expiredToken,
   invalidSignupEmail,
@@ -9,7 +8,7 @@ import {
   tokenAlreadyUsed,
   usernameAlreadyTaken,
 } from "shared/authErrors";
-import { createRandomToken, sendError } from "shared/helpers";
+import { createDate, createRandomToken, sendError } from "shared/helpers";
 import { newUserTemplate } from "services/templates";
 import { User, Mail, Token } from "models";
 
@@ -39,7 +38,7 @@ passport.use(
         if (existingUser) throw usernameAlreadyTaken;
 
         // see if the token has expired
-        const todaysDate = moment(Date.now()).utcOffset(-7);
+        const todaysDate = createDate();
         if (todaysDate > validToken.expiration) throw expiredToken;
 
         // hash password before attempting to create the user
@@ -52,6 +51,7 @@ passport.use(
           role: validToken.role,
           token: newToken,
           emailReminders: true,
+          registered: createDate().toDate(),
         });
 
         // assign signup token to current user
@@ -61,6 +61,7 @@ passport.use(
         await Mail.create({
           sendTo: `${newUser.firstName} ${newUser.lastName} <${newUser.email}>`,
           sendFrom: "San Jose Sharks Ice Team <noreply@sjsiceteam.com>",
+          sendDate: createDate().toDate(),
           subject: "Welcome to the San Jose Sharks Ice Team!",
           message: newUserTemplate(CLIENT, newUser.firstName, newUser.lastName),
         });

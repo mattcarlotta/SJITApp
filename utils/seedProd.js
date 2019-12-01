@@ -1,6 +1,6 @@
 import { connectDatabase } from "database";
 import { User, Team } from "models";
-import { createRandomToken } from "shared/helpers";
+import { createDate, createRandomToken } from "shared/helpers";
 import config from "env";
 import teams from "./teams";
 
@@ -27,6 +27,7 @@ const { admin, staff } = config[NODE_ENV];
       role: "admin",
       token: createRandomToken(),
       emailReminders: true,
+      registered: createDate().toDate(),
     };
 
     const staffPassword = await User.createPassword(staff.password);
@@ -37,6 +38,7 @@ const { admin, staff } = config[NODE_ENV];
       role: "staff",
       token: createRandomToken(),
       emailReminders: true,
+      registered: createDate().toDate(),
     };
 
     await User.insertMany([administrator, staffMember]);

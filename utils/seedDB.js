@@ -5,6 +5,7 @@ import {
   Event, Form, Mail, User, Season, Team, Token,
 } from "models";
 import {
+  createDate,
   createSchedule,
   createSignupToken,
   createRandomToken,
@@ -177,6 +178,8 @@ const seedDB = async () => {
       newHire12,
     ]);
 
+    const registered = createDate().toDate();
+
     const adminPassword = await User.createPassword(admin.password);
 
     const administrator = {
@@ -185,6 +188,7 @@ const seedDB = async () => {
       role: "admin",
       token: createRandomToken(),
       emailReminders: true,
+      registered,
     };
 
     const memberPassword = await User.createPassword(password);
@@ -197,6 +201,7 @@ const seedDB = async () => {
       role: "staff",
       token: createRandomToken(),
       emailReminders: true,
+      registered,
     };
 
     const realMember = {
@@ -207,6 +212,7 @@ const seedDB = async () => {
       role: "employee",
       token: createRandomToken(),
       emailReminders: true,
+      registered,
     };
 
     const scheduledMember = {
@@ -217,6 +223,7 @@ const seedDB = async () => {
       role: "employee",
       token: createRandomToken(),
       emailReminders: true,
+      registered,
     };
 
     const member = {
@@ -227,6 +234,7 @@ const seedDB = async () => {
       role: "employee",
       token: createRandomToken(),
       emailReminders: true,
+      registered,
     };
 
     const member2 = {
@@ -237,6 +245,7 @@ const seedDB = async () => {
       role: "employee",
       token: createRandomToken(),
       emailReminders: true,
+      registered,
     };
 
     const member3 = {
@@ -247,6 +256,7 @@ const seedDB = async () => {
       role: "employee",
       token: createRandomToken(),
       emailReminders: true,
+      registered,
     };
 
     const member4 = {
@@ -257,6 +267,7 @@ const seedDB = async () => {
       role: "employee",
       token: createRandomToken(),
       emailReminders: true,
+      registered,
       status: "suspended",
     };
 
@@ -268,6 +279,7 @@ const seedDB = async () => {
       role: "employee",
       token: createRandomToken(),
       emailReminders: true,
+      registered,
       status: "suspended",
     };
 
@@ -279,6 +291,7 @@ const seedDB = async () => {
       role: "employee",
       token: createRandomToken(),
       emailReminders: true,
+      registered,
       status: "active",
     };
 
@@ -290,6 +303,7 @@ const seedDB = async () => {
       role: "employee",
       token: createRandomToken(),
       emailReminders: true,
+      registered,
       status: "active",
     };
 
@@ -301,6 +315,7 @@ const seedDB = async () => {
       role: "employee",
       token: createRandomToken(),
       emailReminders: true,
+      registered,
       status: "active",
     };
 
@@ -312,6 +327,7 @@ const seedDB = async () => {
       role: "employee",
       token: createRandomToken(),
       emailReminders: true,
+      registered,
       status: "active",
     };
 
@@ -323,6 +339,7 @@ const seedDB = async () => {
       role: "employee",
       token: createRandomToken(),
       emailReminders: true,
+      registered,
       status: "active",
     };
 
@@ -334,6 +351,7 @@ const seedDB = async () => {
       role: "employee",
       token: createRandomToken(),
       emailReminders: true,
+      registered,
       status: "active",
     };
 
@@ -345,6 +363,7 @@ const seedDB = async () => {
       role: "employee",
       token: createRandomToken(),
       emailReminders: true,
+      registered,
       status: "active",
     };
 
@@ -356,6 +375,7 @@ const seedDB = async () => {
       role: "employee",
       token: createRandomToken(),
       emailReminders: true,
+      registered,
       status: "suspended",
     };
 
@@ -367,6 +387,7 @@ const seedDB = async () => {
       role: "employee",
       token: createRandomToken(),
       emailReminders: true,
+      registered,
       status: "active",
     };
 
@@ -378,6 +399,7 @@ const seedDB = async () => {
       role: "employee",
       token: createRandomToken(),
       emailReminders: false,
+      registered,
       status: "active",
     };
 

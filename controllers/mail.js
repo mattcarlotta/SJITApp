@@ -54,7 +54,7 @@ const contactUs = async (req, res) => {
     await Mail.create({
       sendTo: mailingAddresses,
       sendFrom: `${firstName} ${lastName} <${email}>`,
-      sendDate: createDate().format(),
+      sendDate: createDate().toDate(),
       subject,
       message: `<span>${message}</span>`,
     });

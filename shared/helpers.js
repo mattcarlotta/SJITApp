@@ -170,7 +170,7 @@ const createColumnSchedule = ({ event, members }) => [
  * @function
  * @returns {Date}
  */
-const createDate = date => moment(date || Date.now());
+const createDate = date => moment(date || Date.now()).tz("America/Los_Angeles");
 
 /**
  * Helper function to generate a user event count based upon their scheduled events.
