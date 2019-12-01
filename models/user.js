@@ -17,7 +17,7 @@ const userSchema = new Schema({
   password: { type: String, required: true },
   registered: {
     type: Date,
-    default: moment.tz("America/Los_Angeles").toDate(),
+    default: moment().tz("America/Los_Angeles").toDate(),
   },
   token: { type: String, unique: true },
   emailReminders: { type: Boolean, default: true },
