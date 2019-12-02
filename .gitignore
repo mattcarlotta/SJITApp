@@ -8,6 +8,7 @@
 *.DS_Store
 
 #Client files and folders
+build/
 client/build
 client/coverage
 client/node_modules

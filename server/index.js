@@ -3,9 +3,7 @@ import { resolve } from "path";
 import express from "express";
 import openBrowser from "react-dev-utils/openBrowser";
 
-const {
-  APIPORT, HOST, NODE_ENV, CLIENT,
-} = process.env;
+const { APIPORT, HOST, NODE_ENV, CLIENT } = process.env;
 
 //= ===========================================================//
 // CREATE EXPRESS SERVER                                       //
@@ -20,10 +18,12 @@ export default app => {
   //= ===========================================================//
   if (inProduction) {
     /* express will serve up production assets */
-    app.use(express.static("client/dist"));
+    app.use(express.static(resolve(`${currentDirectory}/client/dist`)));
 
     /* serve up the front-end index.html file if express doesn't recognize the route */
-    app.get("*", (req, res) => res.sendFile(resolve(`${currentDirectory}/client/dist/index.html`)));
+    app.get("*", (req, res) =>
+      res.sendFile(resolve(`${currentDirectory}/client/dist/index.html`)),
+    );
   }
 
   app.listen(APIPORT, err => {
