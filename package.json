@@ -1,6 +1,6 @@
 {
   "name": "sjsitapp",
-  "version": "0.12.1",
+  "version": "0.12.2",
   "main": "app.js",
   "description": "An application for the San Jose Sharks Ice Team.",
   "repository": "https://github.com/mattcarlotta/SJITApp",
@@ -12,7 +12,7 @@
     "npm": ">=3"
   },
   "scripts": {
-    "compile": "babel ./ -d build --no-comments --ignore node_modules,client,**/__tests__,coverage,setupTests.js,**/__mocks__",
+    "compile": "rimraf build && babel ./ -d build --no-comments --ignore node_modules,client,**/__tests__,coverage,setupTests.js,**/__mocks__",
     "dev": "better-npm-run dev",
     "db:drop": "better-npm-run db:drop",
     "db:droptestdb": "better-npm-run db:droptestdb",
@@ -204,6 +204,7 @@
     "husky": "^3.1.0",
     "jest": "^24.9.0",
     "lint-staged": "^9.5.0",
-    "prettier": "^1.19.1"
+    "prettier": "^1.19.1",
+    "rimraf": "^3.0.0"
   }
 }
