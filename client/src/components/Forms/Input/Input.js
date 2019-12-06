@@ -39,6 +39,7 @@ const Input = ({
 					<div style={{ display: "flex", alignItems: "center" }}>
 						{icon && <Icon type={icon} />}
 						<input
+							aria-label={name}
 							tabIndex={0}
 							type={type}
 							name={name}

@@ -44,6 +44,7 @@ const Selection = ({
 				{isSearchable && !value ? (
 					<Input
 						type="text"
+						aria-label="text search box"
 						placeholder={placeholder}
 						onChange={handleInputChange}
 						value={searchText}

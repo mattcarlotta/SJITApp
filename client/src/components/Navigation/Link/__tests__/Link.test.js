@@ -32,7 +32,7 @@ describe("Styled Link", () => {
 		wrapper.setProps({ blue: true });
 		StyledLink = wrapper.find("Link");
 
-		expect(StyledLink).toHaveStyleRule("color", "#1890ff");
+		expect(StyledLink).toHaveStyleRule("color", "#0075e0");
 		expect(StyledLink).toHaveStyleRule("color", "#40a9ff", {
 			modifier: ":hover",
 		});

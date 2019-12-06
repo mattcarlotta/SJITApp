@@ -63,19 +63,19 @@ const optimization = {
 		minSize: 0,
 		/* group chunks by vendor to reduce large chunking */
 		cacheGroups: {
-			antdVendor: {
-				test: /[\\/]node_modules[\\/](antd|@ant-design|rc-calendar|rc-select|rc-trigger|rc-time-picker|rc-drawer|rc-tabs|rc-pagination|rc-table|rc-animate|rc-resize-observer|rc-tooltip|rc-form|rc-checkbox|rc-dropdown|rc-menu|rc-align|rc-collpase|rc-util)[\\/]/,
-				name: "antd",
-			},
-			reactVendor: {
-				test: /[\\/]node_modules[\\/](react|react-dom|connected-react-router|react-router-dom|react-helmet|react-redux|redux|@redux-saga|redux-state-sync|react-router)[\\/]/,
-				name: "react",
-			},
-			lodash: {
-				test: /[\\/]node_modules[\\/](lodash)[\\/]/,
-				name: "lodash",
-			},
-			froalaVendor: {
+			// antdVendor: {
+			// 	test: /[\\/]node_modules[\\/](antd|@ant-design|rc-calendar|rc-select|rc-trigger|rc-time-picker|rc-drawer|rc-tabs|rc-pagination|rc-table|rc-animate|rc-resize-observer|rc-tooltip|rc-form|rc-checkbox|rc-dropdown|rc-menu|rc-align|rc-collpase|rc-util)[\\/]/,
+			// 	name: "antd",
+			// },
+			// reactVendor: {
+			// 	test: /[\\/]node_modules[\\/](react|react-dom|connected-react-router|react-router-dom|react-helmet|react-redux|redux|@redux-saga|redux-state-sync|react-router)[\\/]/,
+			// 	name: "react",
+			// },
+			// lodash: {
+			// 	test: /[\\/]node_modules[\\/](lodash)[\\/]/,
+			// 	name: "lodash",
+			// },
+			quillVendor: {
 				test: /[\\/]node_modules[\\/](react-quill)[\\/]/,
 				name: "quill",
 			},

@@ -91,6 +91,7 @@ const FieldGenerator = ({ fields, onChange }) =>
 					<Form.Item key={props.name} style={{ height: 70 }}>
 						<Label {...props} style={{ marginBottom: 5 }} />
 						<Switch
+							aria-label="toggle switch"
 							checked={props.value}
 							checkedChildren={<FaCheck style={switchIconStyle} />}
 							unCheckedChildren={<FaTimes style={switchIconStyle} />}
@@ -107,6 +108,7 @@ const FieldGenerator = ({ fields, onChange }) =>
 						<Label {...props} />
 						<DatePicker
 							{...props}
+							aria-label="date picker"
 							className={props.errors ? "has-error date-picker" : "date-picker"}
 							suffixIcon={
 								<FaCalendarPlus
@@ -170,12 +172,18 @@ const FieldGenerator = ({ fields, onChange }) =>
 						{props.notes && <Notes className="ap-form-note" {...props} />}
 						<RadioGroup
 							{...props}
+							aria-label="radio group"
 							onChange={onChange}
 							className="ap-form-radio"
 						>
 							{!isEmpty(props.selectOptions) &&
 								props.selectOptions.map(value => (
-									<Radio.Button style={radioStyle} key={value} value={value}>
+									<Radio.Button
+										aria-label={value}
+										style={radioStyle}
+										key={value}
+										value={value}
+									>
 										<span className="radio-value">{value}</span>
 									</Radio.Button>
 								))}
@@ -192,6 +200,7 @@ const FieldGenerator = ({ fields, onChange }) =>
 						<Label {...props} />
 						<RangePicker
 							{...props}
+							aria-label="date range picker"
 							className={props.errors ? "has-error" : ""}
 							suffixIcon={
 								<FaCalendarPlus
@@ -218,6 +227,7 @@ const FieldGenerator = ({ fields, onChange }) =>
 						{props.label && <Label {...props} />}
 						<TextArea
 							name={props.name}
+							aria-label={props.name}
 							className={props.errors ? "has-error" : ""}
 							disabled={props.disabled}
 							maxLength={props.maxLength}
@@ -250,6 +260,7 @@ const FieldGenerator = ({ fields, onChange }) =>
 						)}
 						<TimePicker
 							{...props}
+							aria-label="time picker"
 							use12Hours
 							minuteStep={5}
 							format="h:mm a"
@@ -274,6 +285,7 @@ const FieldGenerator = ({ fields, onChange }) =>
 					<Form.Item key={props.name} style={{ height: 350 }}>
 						{props.label && <Label {...props} />}
 						<Transfer
+							aria-label="transfer users box"
 							{...props}
 							className={
 								props.errors && isEmpty(props.value) ? "has-error" : ""

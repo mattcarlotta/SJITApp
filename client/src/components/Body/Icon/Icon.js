@@ -74,7 +74,8 @@ const icons = type => {
 
 const Icon = ({ className, onClick, style, type }) => (
 	<i
-		role="button"
+		role="presentation"
+		aria-hidden="true"
 		className={className}
 		onClick={onClick}
 		style={style}

@@ -28,6 +28,7 @@ export const Modal = ({
 							<FlexEnd>
 								<CloseModalButton
 									id="close-modal"
+									aria-label="close modal"
 									onClick={() => (onClick ? onClick() : history.push("/"))}
 								>
 									<FaTimes />

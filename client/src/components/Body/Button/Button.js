@@ -17,6 +17,7 @@ const StyledButton = ({
 	type,
 }) => (
 	<button
+		aria-label="button"
 		className={className}
 		disabled={disabled}
 		onBlur={onBlur}

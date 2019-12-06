@@ -6,6 +6,7 @@ import MenuButton from "components/Body/MenuButton";
 const LeftMenu = ({ toggleSideMenu }) => (
 	<MenuButton
 		hoverable
+		aria-label="collapse navigation button"
 		style={{ padding: "0 20px", height: 64 }}
 		onClick={toggleSideMenu}
 	>

@@ -2,7 +2,7 @@ import styled from "styled-components";
 import Link from "./Link";
 
 export default styled(Link)`
-	color: ${({ blue }) => (blue ? "#1890ff" : "#fff")};
+	color: ${({ blue }) => (blue ? "#0075e0" : "#fff")};
 	white-space: nowrap;
 	text-decoration: none;
 	margin-right: 20px;
