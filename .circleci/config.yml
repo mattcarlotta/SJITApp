@@ -17,4 +17,4 @@ jobs:
       - checkout
       - run:
           name: Redeploy Application
-          command: ssh -o "StrictHostKeyChecking no" -v $DROPLET_USER@$DROPLET_IP "cd /var/www/sjsiceteam.com/app; git pull origin master; yarn initialize; yarn compile; yarn build; pm2 restart 0"
+          command: ssh -o "StrictHostKeyChecking no" -v $DROPLET_USER@$DROPLET_IP "cd /var/www/sjsiceteam.com/app; git pull origin master; yarn initialize; yarn compile; yarn build; pm2 reload 0"
