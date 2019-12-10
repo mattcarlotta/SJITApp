@@ -1,4 +1,8 @@
-export default (CLIENT, token, expiration) => `<h1 style="margin: 0; text-align: center; font-size: 26px; color: #025f6d;">
+export default (
+  CLIENT,
+  token,
+  expiration,
+) => `<h1 style="margin: 0; text-align: center; font-size: 26px; color: #025f6d;">
     Congratulations!
   </h1>
   <h2 style="margin-bottom: 30px; font-size: 20px; text-align: center; color: #025f6d;">
@@ -7,7 +11,7 @@ export default (CLIENT, token, expiration) => `<h1 style="margin: 0; text-align:
   <p style="font-size: 16px; color: #000000;">
     To register, please click the <strong>button below</strong>, or you may visit <a href="${CLIENT}/employee/signup" target="_blank" rel="noopener noreferrer">San Jose Sharks Ice Team Registration</a> and sign up with this Authorization Key:
   </p>
-  <p style="font-size:16px; margin-bottom:30px; color:#000000; padding:5px; border: 1px solid #9E9E9E; background: #ebebeb; text-align: center;">
+  <p style="font-size:16px; margin-bottom:30px; color:#000000; padding:5px; border: 1px solid #9E9E9E; background: #ebebeb; text-align: center;word-break: break-word;">
     <strong>
       ${token}
     </strong>
