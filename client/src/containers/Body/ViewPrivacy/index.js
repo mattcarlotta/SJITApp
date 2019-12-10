@@ -36,7 +36,7 @@ const ViewPrivacyPage = () => (
 				<Line style={{ marginBottom: 10 }} />
 				<InfoText>
 					This Privacy Policy explains how the San Jose Sharks Ice
-					Team(collectively, the &#34;SJS Ice Team,&#34, &#34;Sharks Ice
+					Team(collectively, the &#34;SJS Ice Team,&#34; &#34;Sharks Ice
 					Team,&#34; the &#34;Ice Team&#34;, &#34;we,&#34; &#34;our,&#34;
 					&#34;us&#34;) and its affiliates use information in operating this
 					website and any other online service that displays or provides an

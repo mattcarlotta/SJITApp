@@ -29,9 +29,10 @@ const RenderMessage = ({ message }) => (
 							/>
 						</p>
 					</div>
-					<div css="background-color: #FFFFFF; border: 1px solid #f0f0f0;">
+					<div css="background-color: #FFFFFF; border: 1px solid #f0f0f0;word-break: break-word;word-wrap: break-word;">
 						<div css="font-size: 16px; padding: 30px; vertical-align: top; display: block;">
 							<div
+								className="ql-editor email-preview"
 								dangerouslySetInnerHTML={{
 									__html:
 										message ||

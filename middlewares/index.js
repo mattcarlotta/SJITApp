@@ -14,6 +14,7 @@ moment.tz.setDefault("America/Los_Angeles");
 
 const { CLIENT, NODE_ENV } = process.env;
 const inTesting = NODE_ENV === "testing";
+const inProduction = NODE_ENV === "production";
 
 const RedisStore = connectRedis(session);
 const client = redis.createClient({
@@ -32,23 +33,31 @@ const shouldCompress = (req, res) => {
 //= ===========================================================//
 export default app => {
   morgan.token("date", () => moment().format("MMMM Do YYYY, h:mm:ss a"));
-  if (!inTesting)
-    app.use(
-      morgan(
-        ":remote-addr [:date] :referrer :method :url HTTP/:http-version :status :res[content-length]",
-      ),
-    ); // logging framework
-  app.set("trust proxy", true);
+  if (!inTesting) {
+    morgan.token(
+      "remote-addr",
+      req => req.headers["x-real-ip"]
+        || req.headers["x-forwarded-for"]
+        || req.connection.remoteAddress,
+    );
+  } // logs real ip address
+  app.use(
+    morgan(
+      ":remote-addr [:date] :referrer :method :url HTTP/:http-version :status :res[content-length]",
+    ),
+  ); // logging framework
+  if (inProduction) app.set("trust proxy", 1);
   app.use(
     session({
       secret: config[NODE_ENV].cookieKey,
       name: "SJSITApp",
       saveUninitialized: false, // don't create session until something stored
       resave: false, // don't save session if unmodified
+      sameSite: inProduction, // specifies same-site cookie attribute enforcement
       cookie: {
         path: "/",
         httpOnly: true,
-        secure: NODE_ENV === "production",
+        secure: inProduction,
         maxAge: 30 * 24 * 60 * 60 * 1000, // 30 * 24 * 60 * 60 * 1000 expire after 30 days, 30days/24hr/60m/60s/1000ms
       },
       store: new RedisStore({
