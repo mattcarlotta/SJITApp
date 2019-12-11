@@ -1,8 +1,7 @@
 /* eslint-disable no-console */
 import express from "express";
 import openBrowser from "react-dev-utils/openBrowser";
-
-const fs = require("fs");
+import fs from "fs";
 
 const {
   APIPORT, HOST, NODE_ENV, CLIENT,
@@ -26,16 +25,13 @@ export default app => {
     app.use(express.static(clientFolder), express.static(fallbackFolder));
 
     app.get("*", async (req, res) => {
-      let serveFolder;
       try {
         await fs.promises.access(clientFolder, fs.constants.R_OK);
-        serveFolder = clientFolder;
+        return res.sendFile(`${clientFolder}/index.html`);
       } catch (e) {
-        serveFolder = fallbackFolder;
-      } finally {
-        serveFolder !== clientFolder && req.url !== "/"
+        return req.url !== "/"
           ? res.redirect("/")
-          : res.sendFile(`${serveFolder}/index.html`);
+          : res.sendFile(`${fallbackFolder}/index.html`);
       }
     });
   }
