@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import Helmet from "react-helmet";
 
-import NotFound from "pages/NotFound";
+// import NotFound from "pages/NotFound";
 // import { About, Contact, Home, NotFound } from "pages";
 import ScrollHandler from "components/Body/ScrollHandler";
 import ProtectedRoutes from "containers/Auth/ProtectedRoutes";
@@ -30,9 +30,9 @@ const MainRoutes = () => (
 				{/* <Route exact path="/" component={Home} /> */}
 				{/* <Route exact path="/about" component={About} /> */}
 				{/* <Route exact path="/contact" component={Contact} /> */}
-				<Redirect exact from="/" to="/employee" />
 				<Route path="/employee" component={ProtectedRoutes} />
-				<Route component={NotFound} />
+				<Redirect from="*" to="/employee" />
+				{/* <Route component={NotFound} /> */}
 			</Switch>
 		</ScrollHandler>
 		<ServerMessages />

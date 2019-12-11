@@ -1,9 +1,12 @@
 /* eslint-disable no-console */
-import { resolve } from "path";
 import express from "express";
 import openBrowser from "react-dev-utils/openBrowser";
 
-const { APIPORT, HOST, NODE_ENV, CLIENT } = process.env;
+const fs = require("fs");
+
+const {
+  APIPORT, HOST, NODE_ENV, CLIENT,
+} = process.env;
 
 //= ===========================================================//
 // CREATE EXPRESS SERVER                                       //
@@ -17,13 +20,24 @@ export default app => {
   // PRODUCTION CONFIG                                           //
   //= ===========================================================//
   if (inProduction) {
-    /* express will serve up production assets */
-    app.use(express.static(resolve(`${currentDirectory}/client/dist`)));
+    const clientFolder = `${currentDirectory}/client/dist`;
+    const fallbackFolder = `${currentDirectory}/public`;
 
-    /* serve up the front-end index.html file if express doesn't recognize the route */
-    app.get("*", (req, res) =>
-      res.sendFile(resolve(`${currentDirectory}/client/dist/index.html`)),
-    );
+    app.use(express.static(clientFolder), express.static(fallbackFolder));
+
+    app.get("*", async (req, res) => {
+      let serveFolder;
+      try {
+        await fs.promises.access(clientFolder, fs.constants.R_OK);
+        serveFolder = clientFolder;
+      } catch (e) {
+        serveFolder = fallbackFolder;
+      } finally {
+        serveFolder !== clientFolder && req.url !== "/"
+          ? res.redirect("/")
+          : res.sendFile(`${serveFolder}/index.html`);
+      }
+    });
   }
 
   app.listen(APIPORT, err => {

@@ -9,8 +9,8 @@ import NavTitle from "components/Navigation/NavTitle";
 
 const navitems = [
 	{ to: "/", text: "Home" },
-	{ to: "/about", text: "About" },
-	{ to: "/contact", text: "Contact" },
+	// { to: "/about", text: "About" },
+	// { to: "/contact", text: "Contact" },
 	{ to: "/employee/login", text: "Employee Portal" },
 ];
 
