@@ -11,13 +11,14 @@ export default [
 		title: "Team",
 		dataIndex: "team",
 		key: "team",
-		render: team => <DisplayTeam folder="lowres" team={team} />,
+		render: team => <DisplayTeam opacity="1" folder="lowres" team={team} />,
 	},
 	{
 		title: "Opponent",
 		dataIndex: "opponent",
 		key: "opponent",
-		render: team => (team ? <DisplayTeam folder="lowres" team={team} /> : "-"),
+		render: team =>
+			team ? <DisplayTeam opacity="1" folder="lowres" team={team} /> : "-",
 	},
 	{ title: "Event Type", dataIndex: "eventType", key: "eventType" },
 	{ title: "Location", dataIndex: "location", key: "location" },

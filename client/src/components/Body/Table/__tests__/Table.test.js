@@ -168,8 +168,14 @@ describe("Custom Table", () => {
 
 		it("handles invalid pages", () => {
 			wrapper.setProps({
+				isLoading: true,
+			});
+
+			wrapper.setProps({
 				data: [],
+				totalDocs: 10,
 				queryString: "?page=500",
+				isLoading: false,
 			});
 
 			expect(updateQuery).toHaveBeenCalledWith({ page: 1 });

@@ -60,6 +60,7 @@ const ScheduleList = ({
 								folder={folder || "calendar"}
 								height={height}
 								width={width}
+								size={height || width}
 								team={item.team}
 							/>
 							{item.opponent && (
@@ -72,9 +73,10 @@ const ScheduleList = ({
 										vs.
 									</span>
 									<DisplayTeam
-										height={height}
-										width={width}
 										folder={folder || "calendar"}
+										height={height}
+										size={height || width}
+										width={width}
 										team={item.opponent}
 									/>
 								</Fragment>

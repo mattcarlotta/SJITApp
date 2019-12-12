@@ -118,8 +118,6 @@ export class Events extends Component {
 													btnStyle={{ maxWidth: 585, minWidth: 225 }}
 													spacing={20}
 													padding="0"
-													height="45px"
-													width="45px"
 													folder="lowres"
 													handleShowModal={this.handleShowModal}
 													loggedinUserId={this.props.loggedinUserId}

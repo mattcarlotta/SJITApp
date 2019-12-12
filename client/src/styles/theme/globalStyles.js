@@ -18,6 +18,24 @@ const GlobalStyle = createGlobalStyle`
     font-family: "Karla Regular", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif !important;
   }
 
+  @-webkit-keyframes wave {
+    0% {
+      left: -60%;
+    }
+    100% {
+      left: 125%;
+    }
+  }
+
+  @keyframes wave {
+    0% {
+      left: -60%;
+    }
+    100% {
+      left: 125%;
+    }
+  }
+
 
   @-webkit-keyframes pulse {
     0% {

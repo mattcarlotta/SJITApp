@@ -30,7 +30,12 @@ class CustomTable extends Component {
 
 		if (queryString !== prevProps.queryString) this.props.fetchData();
 
-		if (isEmpty(data) && totalDocs > 0 && !isLoading)
+		if (
+			isEmpty(data) &&
+			totalDocs > 0 &&
+			prevProps.isLoading !== isLoading &&
+			!isLoading
+		)
 			this.props.updateQuery({ page: Math.ceil(totalDocs / 10) });
 	};
 

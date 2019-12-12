@@ -2,10 +2,47 @@
 import styled from "styled-components";
 
 export default styled.div`
-	height: ${({ height }) => height || "40px"};
-	width: ${({ width }) => width || "40px"};
-	display: -webkit-inline-box;
-	display: -ms-inline-flexbox;
-	display: inline-flex;
+	display: inline-block;
+	height: ${({ size }) => (size ? `${size}px` : "50px")};
+	width: ${({ size }) => (size ? `${size}px` : "50px")};
+	margin: 0 auto;
+	position: relative;
+	overflow: hidden;
 	vertical-align: middle;
+	background-color: ${({ bgColor }) => bgColor || "#eee"};
+	opacity: ${({ opacity }) => opacity || 0.25};
+
+	&:before {
+		content: "";
+		position: absolute;
+		width: ${({ size }) => (size ? `${size * 0.125}px` : "6.25px")};
+		height: ${({ size }) => (size ? `${size * 2}px` : "100px")};
+		top: -50%;
+		left: -50%;
+		z-index: 1;
+		background-image: -o-linear-gradient(
+			left,
+			transparent 0%,
+			#fff 50%,
+			transparent 100%
+		);
+		background-image: linear-gradient(
+			90deg,
+			transparent 0px,
+			#fff 50%,
+			transparent 100%
+		);
+		-webkit-animation: wave ${({ duration }) => duration || "2.5s"} infinite
+			ease-in-out;
+		animation: wave ${({ duration }) => duration || "2.5s"} infinite ease-in-out;
+		-webkit-transform: rotate(25deg);
+		transform: rotate(25deg);
+	}
 `;
+
+/*
+display: inline-block;
+vertical-align: middle;
+-webkit-animation: pulse 1.2s infinite;
+animation: pulse 1.2s infinite;
+*/
