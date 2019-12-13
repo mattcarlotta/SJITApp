@@ -32,17 +32,8 @@ export default styled.div`
 			#fff 50%,
 			transparent 100%
 		);
-		-webkit-animation: wave ${({ duration }) => duration || "2.5s"} infinite
-			ease-in-out;
 		animation: wave ${({ duration }) => duration || "2.5s"} infinite ease-in-out;
-		-webkit-transform: rotate(25deg);
 		transform: rotate(25deg);
+		${({ duration }) => duration === "0s" && "display: none;"};
 	}
 `;
-
-/*
-display: inline-block;
-vertical-align: middle;
--webkit-animation: pulse 1.2s infinite;
-animation: pulse 1.2s infinite;
-*/
