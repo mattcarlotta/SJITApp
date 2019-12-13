@@ -8,8 +8,8 @@
   "license": "MIT",
   "private": true,
   "engines": {
-    "node": ">=8",
-    "npm": ">=3"
+    "node": ">=10",
+    "npm": ">=6"
   },
   "scripts": {
     "compile": "rimraf build && babel ./ -d build --no-comments --ignore node_modules,client,**/__tests__,coverage,setupTests.js,**/__mocks__",
