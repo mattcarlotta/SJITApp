@@ -32,6 +32,7 @@ class DisplayTeam extends Component {
 						src={`${IMAGEAPI}/${this.props.folder}/${this.props.team}.png`}
 						alt={`${this.props.team}.png`}
 						onLoad={this.handleLoaded}
+						onError={this.handleLoaded}
 					/>
 				</LoadingImage>
 			</Tooltip>

@@ -11,6 +11,7 @@ const {
 } = process.env;
 
 const inDevelopment = NODE_ENV === "development";
+const inProduction = NODE_ENV === "production";
 const inStaging = NODE_ENV_DEV === "staging";
 const baseURL =
 	inDevelopment || inStaging
@@ -30,6 +31,7 @@ module.exports = {
 	currentDirectory: process.cwd() /* current working directory */,
 	IMAGEAPI /* current IMAGEAPI URL */,
 	inDevelopment /* in development environment */,
+	inProduction /* in production environment */,
 	inStaging /* in development environment */,
 	localIdentName:
 		"[local]___[hash:base64:5]" /* how class names will be defined in the DOM */,
