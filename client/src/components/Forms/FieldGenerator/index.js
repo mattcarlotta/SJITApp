@@ -260,6 +260,7 @@ const FieldGenerator = ({ fields, onChange }) =>
 						)}
 						<TimePicker
 							{...props}
+							id={props.name}
 							aria-label="time picker"
 							use12Hours
 							minuteStep={5}
