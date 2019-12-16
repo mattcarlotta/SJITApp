@@ -47,7 +47,7 @@ export default [
 		label: "Send Email Notifications Date",
 		placeholder: "Select a start date and time...",
 		tooltip:
-			"Specify a date to send out email notifications. If left empty, emails will be sent out immediately.",
+			"Specify a date to send out email notifications. If left empty, emails will be sent out immediately. If email reminders were already sent and you don't change this date, then this will NOT send out another set of email reminders.",
 		value: null,
 		errors: "",
 		required: false,

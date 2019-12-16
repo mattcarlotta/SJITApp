@@ -13,7 +13,6 @@ import "database";
 moment.tz.setDefault("America/Los_Angeles");
 
 const { CLIENT, NODE_ENV } = process.env;
-const inTesting = NODE_ENV === "testing";
 const inProduction = NODE_ENV === "production";
 
 const RedisStore = connectRedis(session);
@@ -28,12 +27,16 @@ const shouldCompress = (req, res) => {
   return compression.filter(req, res);
 };
 
+const logging = inProduction
+  ? ":remote-addr [:date] :referrer :method :url HTTP/:http-version :status :res[content-length]"
+  : "tiny";
+
 //= ===========================================================//
 /* APP MIDDLEWARE */
 //= ===========================================================//
 export default app => {
   morgan.token("date", () => moment().format("MMMM Do YYYY, h:mm:ss a"));
-  if (!inTesting) {
+  if (inProduction) {
     morgan.token(
       "remote-addr",
       req => req.headers["x-real-ip"]
@@ -41,11 +44,7 @@ export default app => {
         || req.connection.remoteAddress,
     );
   } // logs real ip address
-  app.use(
-    morgan(
-      ":remote-addr [:date] :referrer :method :url HTTP/:http-version :status :res[content-length]",
-    ),
-  ); // logging framework
+  app.use(morgan(logging)); // logging framework
   if (inProduction) app.set("trust proxy", 1);
   app.use(
     session({

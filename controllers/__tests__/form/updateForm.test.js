@@ -3,8 +3,8 @@ import { Form } from "models";
 import { updateForm } from "controllers/form";
 import {
   formAlreadyExists,
-  invalidExpirationDate,
-  invalidSendDate,
+  // invalidExpirationDate,
+  // invalidSendDate,
   unableToLocateForm,
   unableToLocateSeason,
   unableToUpdateForm,
@@ -20,6 +20,7 @@ describe("Update Form Controller", () => {
 
   let db;
   let newForm;
+  let newForm2;
   beforeAll(async () => {
     db = connectDatabase();
     const form = await Form.create({
@@ -31,6 +32,16 @@ describe("Update Form Controller", () => {
       sendEmailNotificationsDate: currentDate,
     });
 
+    const form2 = await Form.create({
+      expirationDate: currentDate,
+      startMonth: new Date("2020-05-01T07:00:00.000Z"),
+      endMonth: new Date("2020-05-31T07:00:00.000Z"),
+      notes: "Form 888888",
+      seasonId: "20192020",
+      sendEmailNotificationsDate: currentDate,
+      sentEmails: true,
+    });
+
     newForm = {
       _id: form._id,
       expirationDate: form.expirationDate,
@@ -39,6 +50,17 @@ describe("Update Form Controller", () => {
       enrollMonth: [form.startMonth, form.endMonth],
       notes: form.notes,
       seasonId: form.seasonId,
+    };
+
+    newForm2 = {
+      _id: form2._id,
+      expirationDate: form2.expirationDate,
+      sendEmailNotificationsDate: form2.sendEmailNotificationsDate,
+      sendEmails: form2.sendEmails,
+      enrollMonth: [form2.startMonth, form2.endMonth],
+      notes: form2.notes,
+      seasonId: form2.seasonId,
+      sentEmails: form2.sentEmails,
     };
   });
 
@@ -132,45 +154,67 @@ describe("Update Form Controller", () => {
     });
   });
 
-  it("handles invalid expiration dates", async () => {
-    const oldExpDate = {
-      ...newForm,
-      expirationDate: "2000-04-10T02:30:31.834+00:00",
-    };
+  // it("handles invalid expiration dates", async () => {
+  //   const oldExpDate = {
+  //     ...newForm,
+  //     expirationDate: "2000-04-10T02:30:31.834+00:00",
+  //   };
+  //
+  //   const req = mockRequest(null, null, oldExpDate);
+  //
+  //   await updateForm(req, res);
+  //
+  //   expect(res.status).toHaveBeenCalledWith(400);
+  //   expect(res.json).toHaveBeenCalledWith({
+  //     err: invalidExpirationDate,
+  //   });
+  // });
 
-    const req = mockRequest(null, null, oldExpDate);
+  // it("handles invalid send email notification dates", async () => {
+  //   const oldSendDate = {
+  //     ...newForm,
+  //     sendEmailNotificationsDate: "2000-04-10T02:30:31.834+00:00",
+  //   };
+  //
+  //   const req = mockRequest(null, null, oldSendDate);
+  //
+  //   await updateForm(req, res);
+  //
+  //   expect(res.status).toHaveBeenCalledWith(400);
+  //   expect(res.json).toHaveBeenCalledWith({
+  //     err: invalidSendDate,
+  //   });
+  // });
 
-    await updateForm(req, res);
-
-    expect(res.status).toHaveBeenCalledWith(400);
-    expect(res.json).toHaveBeenCalledWith({
-      err: invalidExpirationDate,
-    });
-  });
-
-  it("handles invalid send email notification dates", async () => {
-    const oldSendDate = {
-      ...newForm,
-      sendEmailNotificationsDate: "2000-04-10T02:30:31.834+00:00",
-    };
-
-    const req = mockRequest(null, null, oldSendDate);
-
-    await updateForm(req, res);
-
-    expect(res.status).toHaveBeenCalledWith(400);
-    expect(res.json).toHaveBeenCalledWith({
-      err: invalidSendDate,
-    });
-  });
-
-  it("handles valid update form requests", async () => {
+  it("handles valid update form requests without resending an email", async () => {
     const updatedFormDetails = {
       ...newForm,
       enrollMonth: [
         "2021-08-01T07:00:00.000+00:00",
         "2021-08-31T07:00:00.000+00:00",
       ],
+    };
+
+    const req = mockRequest(null, null, updatedFormDetails);
+
+    await updateForm(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(201);
+    expect(res.json).toHaveBeenCalledWith({
+      message: "Successfully updated the form!",
+    });
+  });
+
+  it("handles valid update form requests with resending an email", async () => {
+    const updatedFormDetails = {
+      ...newForm2,
+      enrollMonth: [
+        "2022-08-01T07:00:00.000+00:00",
+        "2022-08-31T07:00:00.000+00:00",
+      ],
+      sendEmailNotificationsDate: moment()
+        .add(1, "day")
+        .format(),
     };
 
     const req = mockRequest(null, null, updatedFormDetails);

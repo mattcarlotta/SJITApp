@@ -75,10 +75,11 @@ const EditingEvents = () => (
 		&nbsp;
 		<InfoText>button to save your changes.</InfoText>
 		<WarningText>
-			Be advised that editing and updating an event overwrites any scheduled
-			employees. Therefore, if an event was edited after it was scheduled, the
-			event will need to be re-scheduled. In addition, editing an event resets
-			the Sent Email Reminders back to unsent.
+			Be advised that editing an event&#39;s call times will reset the
+			event&#39;s schedule! Therefore, if an event&#39;s call times are changed
+			after a schedule has been assigned, then the event will need to be
+			re-scheduled. If an event is updated, but the event&#39;s call times
+			remain unchanged, then the event will not need to be re-scheduled.
 		</WarningText>
 	</TextContainer>
 );

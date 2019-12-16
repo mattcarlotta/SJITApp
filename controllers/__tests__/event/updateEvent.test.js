@@ -1,4 +1,4 @@
-import { Event } from "models";
+import { Event, User } from "models";
 import { updateEvent } from "controllers/event";
 import {
   invalidUpdateEventRequest,
@@ -13,8 +13,10 @@ describe("Update Event Controller", () => {
   });
 
   let db;
-  beforeAll(() => {
+  let user;
+  beforeAll(async () => {
     db = connectDatabase();
+    user = await User.findOne({ email: "carlotta.matt@gmail.com" });
   });
 
   afterAll(async () => {
@@ -91,10 +93,10 @@ describe("Update Event Controller", () => {
     });
   });
 
-  it("handles valid update event requests", async () => {
+  it("handles valid update event requests and resets schedule", async () => {
     const seasonId = "20002001";
     const newEvent = {
-      callTimes: ["2019-08-09T19:00:38-07:00"],
+      callTimes: ["2019-08-09T19:00:00-07:00"],
       eventDate: "2019-08-11T02:30:30.036+00:00",
       eventType: "Promotional",
       team: "San Jose Sharks",
@@ -103,6 +105,8 @@ describe("Update Event Controller", () => {
       notes: "",
       seasonId,
       uniform: "Sharks Teal Jersey",
+      schedule: [{ employeeIds: [user._id], _id: "2019-08-09T19:00:38-07:00" }],
+      scheduledIds: [user._id],
     };
 
     const exisitingEvent = await Event.create(newEvent);
@@ -115,11 +119,70 @@ describe("Update Event Controller", () => {
       opponent: "San Deigo Gulls",
       location: "Solar4AmericeIce",
       uniform: "Barracuda Jacket",
+      callTimes: ["2019-08-09T18:00:00-07:00"],
     };
 
     const req = mockRequest(null, null, updatedEventDetails);
 
     await updateEvent(req, res);
+
+    const updatedEvent = await Event.findOne({ _id: exisitingEvent._id });
+
+    expect(updatedEvent.scheduleIds).toEqual(
+      expect.not.arrayContaining(newEvent.scheduledIds),
+    );
+    expect(updatedEvent.schedule).toEqual(
+      expect.not.arrayContaining(newEvent.schedule),
+    );
+
+    expect(res.status).toHaveBeenCalledWith(201);
+    expect(res.json).toHaveBeenCalledWith({
+      message: "Successfully updated the event.",
+    });
+  });
+
+  it("handles valid update event requests and retains schedule", async () => {
+    const seasonId = "20002001";
+    const newEvent = {
+      callTimes: ["2019-09-11T19:00:00-07:00"],
+      eventDate: "2019-09-11T02:30:30.036+00:00",
+      eventType: "Promotional",
+      team: "San Jose Sharks",
+      opponent: "Anaheim Ducks",
+      location: "SAP Center at San Jose",
+      notes: "",
+      seasonId,
+      uniform: "Sharks Teal Jersey",
+      schedule: [{ employeeIds: [user._id], _id: "2019-09-11T19:00:00-07:00" }],
+      scheduledIds: [user._id],
+    };
+
+    const existingEvent = await Event.create(newEvent);
+    await Event.updateOne(
+      { _id: existingEvent.id },
+      { schedule: newEvent.schedule },
+    );
+
+    const updatedEventDetails = {
+      ...newEvent,
+      _id: existingEvent._id,
+      eventType: "Game",
+      team: "San Jose Barracuda",
+      opponent: "San Diego Gulls",
+      location: "Solar4AmericeIce",
+      uniform: "Barracuda Jacket",
+    };
+
+    const req = mockRequest(null, null, updatedEventDetails);
+
+    await updateEvent(req, res);
+
+    const updatedEvent = await Event.findOne({
+      _id: existingEvent._id,
+    }).lean();
+
+    expect(updatedEvent.scheduledIds).toEqual(newEvent.scheduledIds);
+    expect(updatedEvent.schedule).toEqual(newEvent.schedule);
 
     expect(res.status).toHaveBeenCalledWith(201);
     expect(res.json).toHaveBeenCalledWith({

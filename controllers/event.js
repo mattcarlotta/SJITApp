@@ -1,6 +1,7 @@
 import moment from "moment-timezone";
 import get from "lodash/get";
 import isEmpty from "lodash/isEmpty";
+import isEqual from "lodash/isEqual";
 import { Event, Season } from "models";
 import {
   convertId,
@@ -358,6 +359,7 @@ const updateEvent = async (req, res) => {
     if (!existingEvent) throw unableToLocateEvent;
 
     const schedule = createSchedule(callTimes);
+    const scheduleUnchanged = isEqual(existingEvent.callTimes, callTimes);
 
     await existingEvent.updateOne({
       callTimes,
@@ -369,9 +371,8 @@ const updateEvent = async (req, res) => {
       seasonId,
       team,
       uniform,
-      schedule,
-      scheduledIds: [],
-      sentEmailReminders: false,
+      schedule: scheduleUnchanged ? existingEvent.schedule : schedule,
+      scheduledIds: scheduleUnchanged ? existingEvent.scheduledIds : [],
     });
 
     res.status(201).json({ message: "Successfully updated the event." });

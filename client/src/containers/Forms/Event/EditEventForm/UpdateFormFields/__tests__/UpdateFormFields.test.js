@@ -234,6 +234,8 @@ describe("UpdateFormFields", () => {
 			name: "callTime",
 			label: "Scheduling Call Times",
 			placeholder: "Select a call time...",
+			tooltip:
+				"WARNING - Changing any of the call times below will reset the schedule for this event.",
 			value: null,
 			errors: "",
 			required: true,
