@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Layout } from "antd";
 import AppRoutes from "routes/AppRoutes";
-import BuildVersion from "components/Body/BuildVersion";
+// import BuildVersion from "components/Body/BuildVersion";
 import LeftMenu from "components/Navigation/LeftMenu";
 import RightMenu from "components/Navigation/RightMenu";
 import SideMenu from "components/Navigation/SideMenu";
@@ -126,7 +126,7 @@ class App extends Component {
 					</Header>
 					<Content>
 						<AppRoutes {...this.props} />
-						<BuildVersion />
+						{/* <BuildVersion /> */}
 					</Content>
 				</Layout>
 			</Layout>

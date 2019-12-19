@@ -69,7 +69,7 @@ const MemberEventCountChart = ({ height, members, style }) =>
 					<p css="margin: 0;padding: 0;">
 						<FaChartBar style={{ fontSize: 70 }} />
 					</p>
-					<p css="margin: 0;padding: 0;">No Event Data</p>
+					<p css="margin: 0;padding: 0;">No event data</p>
 				</FlexCenter>
 			</CalendarContainer>
 		</FadeIn>
