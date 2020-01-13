@@ -129,7 +129,12 @@ describe("Name of the group", () => {
 			calendarDate: value,
 			name: "selectedYear",
 			updateCalendarDate: onChange,
-			value: 2014,
+			value: parseInt(
+				moment()
+					.subtract(5, "years")
+					.format("YYYY"),
+				10,
+			),
 		});
 	});
 });

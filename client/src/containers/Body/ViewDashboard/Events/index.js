@@ -10,6 +10,9 @@ import CalendarContainer from "components/Body/CalendarContainer";
 import LoadingPanel from "components/Body/LoadingPanel";
 import ScheduleModal from "components/Body/ScheduleModal";
 import ScheduleList from "components/Body/ScheduleList";
+import Flex from "components/Body/Flex";
+import FlexEnd from "components/Body/FlexEnd";
+import FlexStart from "components/Body/FlexStart";
 import { fetchEvents } from "actions/Dashboard";
 import CalendarDate from "./CalendarDate";
 import NoEvents from "./NoEvents";
@@ -91,7 +94,18 @@ export class Events extends Component {
 						}
 					>
 						<CalendarContainer>
-							<CalendarDate>{moment(eventDate).format("MMM DD")}</CalendarDate>
+							<Flex>
+								<FlexStart>
+									<CalendarDate style={{ textAlign: "left" }}>
+										{moment(eventDate).format("dddd")}
+									</CalendarDate>
+								</FlexStart>
+								<FlexEnd>
+									<CalendarDate>
+										{moment(eventDate).format("MMM DD")}
+									</CalendarDate>
+								</FlexEnd>
+							</Flex>
 							{isLoading ? (
 								<LoadingPanel
 									style={{

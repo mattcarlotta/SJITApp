@@ -50,7 +50,19 @@ const initState = {
 	selectedYear: 2019,
 	validRange: setValidRange("2019-09-01T00:00:00-07:00"),
 	value: moment("2019-09-01T00:00:00-07:00"),
-	years: [2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024],
+	years: [
+		...Array(11)
+			.fill()
+			.map(
+				(_, key) =>
+					parseInt(
+						moment()
+							.subtract(5, "year")
+							.format("YYYY"),
+						10,
+					) + key,
+			),
+	],
 };
 
 const initProps = {

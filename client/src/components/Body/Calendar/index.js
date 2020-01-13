@@ -118,6 +118,7 @@ class CustomCalendar extends Component {
 
 		return (
 			<ScheduleList
+				date={moment(calanderDate, "l").format("ddd")}
 				loggedinUserId={this.props.loggedinUserId}
 				content={content}
 				handleShowModal={this.handleShowModal}

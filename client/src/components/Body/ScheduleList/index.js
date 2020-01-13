@@ -6,6 +6,7 @@ import Button from "components/Body/Button";
 import DisplayTeam from "components/Body/DisplayTeam";
 import FadeIn from "components/Body/FadeIn";
 import FlexSpaceAround from "components/Body/FlexSpaceAround";
+import CalendarWeek from "components/Body/CalendarWeek";
 
 const iconStyle = {
 	position: "relative",
@@ -23,6 +24,7 @@ const initBtnStyle = {
 const ScheduleList = ({
 	btnStyle,
 	content,
+	date,
 	folder,
 	handleShowModal,
 	height,
@@ -34,6 +36,7 @@ const ScheduleList = ({
 	width,
 }) => (
 	<Fragment>
+		<CalendarWeek>{date}</CalendarWeek>
 		{!isEmpty(content) &&
 			content.map(item => (
 				<FadeIn key={item._id} timing="0.4s">
@@ -117,6 +120,7 @@ ScheduleList.propTypes = {
 			),
 		}),
 	),
+	date: PropTypes.string,
 	folder: PropTypes.string,
 	handleShowModal: PropTypes.func.isRequired,
 	height: PropTypes.string,
