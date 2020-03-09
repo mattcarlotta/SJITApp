@@ -35,6 +35,7 @@ const gameSchedule = [
 				],
 			},
 		],
+		uniform: "Sharks Teal Jersey",
 	},
 ];
 
@@ -63,6 +64,7 @@ const barracudaGame = [
 				],
 			},
 		],
+		uniform: "Barracuda Jacket",
 	},
 ];
 
@@ -93,6 +95,7 @@ const unscheduledGame = [
 				employeeIds: [],
 			},
 		],
+		uniform: "Sharks Black Jersey",
 	},
 ];
 
@@ -110,6 +113,7 @@ const employeeEventResponse = [
 		response: "",
 		team: "San Jose Sharks",
 		schedule: [],
+		uniform: "Sharks Teal Jersey",
 	},
 ];
 
@@ -126,20 +130,20 @@ describe("Schedule Modal", () => {
 	it("renders a List of ListItems for a scheduled game", () => {
 		wrapper.setProps({ isVisible: true, modalChildren: gameSchedule });
 		expect(wrapper.find("List").exists()).toBeTruthy();
-		expect(wrapper.find("ListItem")).toHaveLength(7);
+		expect(wrapper.find("ListItem")).toHaveLength(8);
 	});
 
 	it("renders a List of ListItems for an unscheduled game", () => {
 		wrapper.setProps({ isVisible: true, modalChildren: unscheduledGame });
 		expect(wrapper.find("List").exists()).toBeTruthy();
-		expect(wrapper.find("ListItem")).toHaveLength(9);
+		expect(wrapper.find("ListItem")).toHaveLength(10);
 		expect(wrapper.find(".none-scheduled")).toHaveLength(3);
 	});
 
 	it("renders a List of ListItems for an employee response to an upcoming event", () => {
 		wrapper.setProps({ isVisible: true, modalChildren: employeeEventResponse });
 		expect(wrapper.find("List").exists()).toBeTruthy();
-		expect(wrapper.find("ListItem")).toHaveLength(6);
+		expect(wrapper.find("ListItem")).toHaveLength(7);
 	});
 
 	it("highlights a member's name if an 'id' prop is present", () => {

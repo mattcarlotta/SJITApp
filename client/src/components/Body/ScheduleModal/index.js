@@ -11,7 +11,7 @@ import ListItem from "components/Body/ListItem";
 import Modal from "components/Body/Modal";
 
 const listStyle = {
-	paddingLeft: 10,
+	padding: "0 10px",
 };
 
 const ScheduleModal = ({
@@ -34,6 +34,7 @@ const ScheduleModal = ({
 					team,
 					opponent,
 					schedule,
+					uniform,
 				}) => (
 					<List
 						key="modal-content"
@@ -61,13 +62,7 @@ const ScheduleModal = ({
 								{team}
 								{opponent && (
 									<Fragment>
-										<span
-											css={`
-												margin: 0 5px;
-											`}
-										>
-											vs.
-										</span>
+										<span css="margin: 0 5px;word-wrap: break-word;">vs.</span>
 										{opponent}
 									</Fragment>
 								)}
@@ -88,6 +83,11 @@ const ScheduleModal = ({
 						<ListItem style={listStyle}>
 							<Bold>Location: </Bold> {location}
 						</ListItem>
+						{uniform && (
+							<ListItem style={listStyle}>
+								<Bold>Uniform: </Bold> {uniform}
+							</ListItem>
+						)}
 						{employeeResponse && (
 							<ListItem style={listStyle}>
 								<Bold>Employee Response:</Bold>
@@ -209,6 +209,7 @@ ScheduleModal.propTypes = {
 					),
 				}),
 			),
+			uniform: PropTypes.string,
 		}),
 	),
 };

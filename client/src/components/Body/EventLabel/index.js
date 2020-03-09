@@ -20,7 +20,7 @@ const EventLabel = ({ eventType, eventDate, opponent, style, team }) => (
 		<div css="display: inline-block;">
 			<FormatDate
 				style={{ display: "inline" }}
-				format="MMMM Do @ h:mm a"
+				format="ddd, MMMM Do @ h:mm a"
 				date={eventDate}
 			/>
 		</div>
