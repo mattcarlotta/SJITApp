@@ -2,7 +2,7 @@ import { goBack, push } from "connected-react-router";
 import { all, put, call, select, takeLatest } from "redux-saga/effects";
 import { app } from "utils";
 import { hideServerMessage, setServerMessage } from "actions/Messages";
-import { signoutUser } from "actions/Auth";
+import { signoutUser, updateUser } from "actions/Auth";
 import * as actions from "actions/Members";
 import { parseData, parseMessage } from "utils/parseResponse";
 import { selectQuery } from "utils/selectors";
@@ -334,6 +334,15 @@ export function* fetchSettings() {
 
 		res = yield call(app.get, "member/settings/availability");
 		const memberAvailability = yield call(parseData, res);
+
+		const { member } = basicMemberInfo;
+
+		yield put(
+			updateUser({
+				firstName: member.firstName,
+				lastName: member.lastName,
+			}),
+		);
 
 		yield put(
 			actions.setMemberToReview({

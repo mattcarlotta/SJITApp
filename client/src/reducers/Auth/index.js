@@ -16,6 +16,7 @@ export const initialState = {
  */
 const authReducer = (state = initialState, { payload, type }) => {
 	switch (type) {
+		case types.USER_UPDATE:
 		case types.USER_SIGNIN: {
 			return { ...state, ...payload };
 		}

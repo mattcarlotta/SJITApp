@@ -9,6 +9,14 @@ describe("Auth Reducer", () => {
 		);
 	});
 
+	it("updates a signed in user", () => {
+		const state = authReducer(undefined, {
+			type: types.USER_UPDATE,
+			payload: { ...mocks.userSession, firstName: "Alan" },
+		});
+		expect(state).toEqual({ ...mocks.userSession, firstName: "Alan" });
+	});
+
 	it("stores a signed in user", () => {
 		const state = authReducer(undefined, {
 			type: types.USER_SIGNIN,
