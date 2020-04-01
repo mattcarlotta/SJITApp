@@ -43,7 +43,8 @@ const createForm = async (req, res) => {
       seasonId,
     } = req.body;
 
-    if (!seasonId || !expirationDate || !enrollMonth) throw unableToCreateNewForm;
+    if (!seasonId || !expirationDate || !enrollMonth)
+      throw unableToCreateNewForm;
 
     const seasonExists = await Season.findOne({ seasonId });
     if (!seasonExists) throw unableToLocateSeason;
@@ -219,7 +220,8 @@ const updateForm = async (req, res) => {
       sendEmailNotificationsDate,
     } = req.body;
 
-    if (!_id || !seasonId || !expirationDate || !enrollMonth) throw unableToUpdateForm;
+    if (!_id || !seasonId || !expirationDate || !enrollMonth)
+      throw unableToUpdateForm;
 
     const seasonExists = await Season.findOne({ seasonId });
     if (!seasonExists) throw unableToLocateSeason;
@@ -235,17 +237,22 @@ const updateForm = async (req, res) => {
     });
     if (!isEmpty(existingForms)) throw formAlreadyExists;
 
-    // const currentDay = getStartOfDay();
-    const sendEmailsDate = createDate(sendEmailNotificationsDate).format();
-    // const expiration = createDate(expirationDate).format();
+    const format = "MM/DD/YY";
+    const { sentEmails } = formExists;
 
-    // if (expiration < currentDay) throw invalidExpirationDate;
-    // if (sendEmailsDate < currentDay) throw invalidSendDate;
+    // incoming email notification date
+    const incomingSendEmailsDate = createDate(
+      sendEmailNotificationsDate,
+    ).format(format);
 
-    const resendEmails = createDate(sendEmailsDate).isSame(
-      createDate(formExists.sendEmailNotificationsDate),
-      "day",
-    );
+    // current form email date
+    const currentSendEmailsDate = createDate(
+      formExists.sendEmailNotificationsDate,
+    ).format(format);
+
+    // resend emails if the dates don't match and they were already sent
+    const emailNotificationStatus =
+      incomingSendEmailsDate === currentSendEmailsDate && sentEmails;
 
     await formExists.updateOne({
       seasonId,
@@ -253,8 +260,8 @@ const updateForm = async (req, res) => {
       endMonth,
       expirationDate,
       notes,
-      sendEmailNotificationsDate: sendEmailsDate,
-      sentEmails: resendEmails,
+      sendEmailNotificationsDate: incomingSendEmailsDate,
+      sentEmails: emailNotificationStatus,
     });
 
     res.status(201).json({ message: "Successfully updated the form!" });
@@ -282,35 +289,33 @@ const updateApForm = async (req, res) => {
 
     await Event.bulkWrite(
       responses.map(response => {
-        const {
-          id: eventId, value, notes, updateEvent,
-        } = response;
+        const { id: eventId, value, notes, updateEvent } = response;
 
         const filter = updateEvent
           ? {
-            _id: eventId,
-            "employeeResponses._id": userId,
-          }
+              _id: eventId,
+              "employeeResponses._id": userId,
+            }
           : {
-            _id: eventId,
-          };
+              _id: eventId,
+            };
 
         const update = updateEvent
           ? {
-            $set: {
-              "employeeResponses.$.response": value,
-              "employeeResponses.$.notes": notes,
-            },
-          }
-          : {
-            $push: {
-              employeeResponses: {
-                _id: userId,
-                response: value,
-                notes,
+              $set: {
+                "employeeResponses.$.response": value,
+                "employeeResponses.$.notes": notes,
               },
-            },
-          };
+            }
+          : {
+              $push: {
+                employeeResponses: {
+                  _id: userId,
+                  response: value,
+                  notes,
+                },
+              },
+            };
 
         return {
           updateOne: {
@@ -386,7 +391,8 @@ const viewApForm = async (req, res) => {
       },
     ]);
 
-    if (isEmpty(events)) throw unableToLocateEvents(startMonth.format("L"), endMonth.format("L"));
+    if (isEmpty(events))
+      throw unableToLocateEvents(startMonth.format("L"), endMonth.format("L"));
 
     res.status(200).json({
       form: existingForm,
